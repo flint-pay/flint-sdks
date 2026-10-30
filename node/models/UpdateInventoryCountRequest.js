@@ -1,11 +1,11 @@
-import { d4277 as c0 } from '../descriptors/data/188.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4259 as c1, d4260 as c2, d4261 as c3, d4262 as c4, d4258 as c5, d4255 as c6, d4256 as c7, d4257 as c8 } from '../descriptors/data/187.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d2596 as c9 } from '../descriptors/data/108.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d2596 as d2596 } from '../descriptors/data/108.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d680 as c0 } from '../descriptors/data/34.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5420 as c1, d5421 as c2, d5422 as c3, d5423 as c4, d5419 as c5, d5416 as c6, d5417 as c7, d5418 as c8 } from '../descriptors/data/243.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4161 as c9 } from '../descriptors/data/172.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4161 as d4161 } from '../descriptors/data/172.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2596;
+const read = d4161;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InventoryCountObservationRequest"]:c0(),["InventorySourceSystemRequest"]:c1(),["SharedCodec166"]:c2(),["SharedCodec167"]:c3(),["SharedCodec168"]:c4(),["SharedCodec169"]:c5(),["SharedCodec875"]:c6(),["SharedCodec876"]:c7(),["SharedCodec877"]:c8(),["UpdateInventoryCountRequest"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InventoryCountObservationRequest"]:c0(),["InventorySourceSystemRequest"]:c1(),["SharedCodec228"]:c2(),["SharedCodec229"]:c3(),["SharedCodec230"]:c4(),["SharedCodec231"]:c5(),["SharedCodec626"]:c6(),["SharedCodec627"]:c7(),["SharedCodec628"]:c8(),["UpdateInventoryCountRequest"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateInventoryCountRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

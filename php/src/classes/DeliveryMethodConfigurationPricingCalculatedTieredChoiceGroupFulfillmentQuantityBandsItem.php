@@ -3,25 +3,25 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read array<array-key, DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue> $currency_options
- * @property-read string $from
- * @property-read ?string $to
+ * @property-read int $from
+ * @property-read ?int $to
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItem extends Model {
-    /** @param array{'currency_options': \stdClass, 'from': string, 'to'?: string, ...}|object $values */
+    /** @param array{'currency_options': \stdClass, 'from': int, 'to'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItem')); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue} and {@see MoneyValue}). Shape $.* (Value): {@see DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /**  * (Value): {@see DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, DeliveryMethodConfigurationPricingCalculatedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue>
      */
     public function getCurrencyOptions(): array { return $this->get('currency_options'); }
     public function hasCurrencyOptions(): bool { return $this->has('currency_options'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * @return string
+    /** Format: int64.
+     * @return int
      */
-    public function getFrom(): string { return $this->get('from'); }
+    public function getFrom(): int { return $this->get('from'); }
     public function hasFrom(): bool { return $this->has('from'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * @return ?string
+    /** Format: int64.
+     * @return ?int
      */
-    public function getTo(): ?string { return $this->get('to'); }
+    public function getTo(): ?int { return $this->get('to'); }
     public function hasTo(): bool { return $this->has('to'); }
 }

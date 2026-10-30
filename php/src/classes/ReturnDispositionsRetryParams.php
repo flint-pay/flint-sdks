@@ -1,0 +1,30 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read int $expected_version
+ * @property-read string $reason
+ * @property-read string $reason_message
+ * Presence-aware input; omitted fields throw when accessed. */
+final class ReturnDispositionsRetryParams extends Model {
+    /** @param array{'expected_version'?: int, 'reason': string, 'reason_message'?: string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionsRetryParams')); }
+    /** Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT. Format: int64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** Value enum: "dependency_recovered", "mapping_corrected", "operator_retry", "other".
+     * @return string
+     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     */
+    public function getReason(): string { return $this->get('reason'); }
+    public function hasReason(): bool { return $this->has('reason'); }
+    /** minLength: 1.
+     * @return string
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
+     */
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
+}

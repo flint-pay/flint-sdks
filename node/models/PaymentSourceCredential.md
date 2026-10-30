@@ -17,7 +17,7 @@ The credential you provide to pay an order: a payment source token, a saved paym
 
 ### PaymentSourceCredential variant 1: `credential_type` = `"token"`
 
-oneOf variant 1: The `token` variant of `PaymentSourceCredential`..
+oneOf with credential_type: "token": The `token` variant of `PaymentSourceCredential`..
 
 - Required: `token`.
 - Undeclared: `payment_method_id`, `stripe`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `token` variant of `PaymentSourceCredential`..
 
 ### PaymentSourceCredential variant 2: `credential_type` = `"payment_method"`
 
-oneOf variant 2: The `payment_method` variant of `PaymentSourceCredential`..
+oneOf with credential_type: "payment_method": The `payment_method` variant of `PaymentSourceCredential`..
 
 - Required: `payment_method_id`.
 - Undeclared: `token`, `stripe`.
@@ -33,7 +33,7 @@ oneOf variant 2: The `payment_method` variant of `PaymentSourceCredential`..
 
 ### PaymentSourceCredential variant 3: `credential_type` = `"stripe_confirmation_token"`
 
-oneOf variant 3: The `stripe_confirmation_token` variant of `PaymentSourceCredential`..
+oneOf with credential_type: "stripe_confirmation_token": The `stripe_confirmation_token` variant of `PaymentSourceCredential`..
 
 - Required: `stripe`.
 - Undeclared: `token`, `payment_method_id`.

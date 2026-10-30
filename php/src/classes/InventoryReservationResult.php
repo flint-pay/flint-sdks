@@ -8,12 +8,12 @@ namespace Flint;
 final class InventoryReservationResult extends Model {
     /** @param array{'inventory_levels': list<mixed>, 'inventory_reservation': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationResult')); }
-    /** Shape $ (Value): Array of {@see InventoryLevel}. Post-commit state of every level this command touched, so no follow-up read is needed. A replay returns the levels the original command produced. Shape $[] (Value): {@see InventoryLevel}. The quantity state of one inventory item at one Location.
+    /** Post-commit state of every level this command touched, so no follow-up read is needed. A replay returns the levels the original command produced. [] (Value): {@see InventoryLevel}. The quantity state of one inventory item at one Location.
      * @return list<InventoryLevel>
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
     public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
-    /** Shape $ (Value): {@see InventoryReservation}. A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
+    /** A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
      * @return InventoryReservation
      */
     public function getInventoryReservation(): InventoryReservation { return $this->get('inventory_reservation'); }

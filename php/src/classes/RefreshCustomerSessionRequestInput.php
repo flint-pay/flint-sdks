@@ -7,7 +7,7 @@ namespace Flint;
 final class RefreshCustomerSessionRequestInput extends Model {
     /** @param array{'refresh_token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefreshCustomerSessionRequestInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When refresh_token is omitted; use hasRefreshToken() or valueOrDefault().
      */

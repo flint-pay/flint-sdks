@@ -2,49 +2,47 @@
 
 # customerDeletionRequests
 
-### customerDeletionRequests.list
+### customerDeletionRequests.create
 
-Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests. Default order: requested_at descending, then customer_deletion_request_id descending.
+Creates a deletion request for merchant review, or returns the customer's open request unchanged. No deletion work starts until approval.
 
-`GET /v1/customer-deletion-requests`
+`POST /v1/customer-deletion-requests`
 
-Signature:
-
-```typescript
-list(params?: {
-  "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
-  "customer_id"?: InputValue<string>;
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `create(params: CustomerDeletionRequestsCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
-| `customer_id` | Optional | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `body` | Required | [CreateCustomerDeletionRequestInput](../models/CreateCustomerDeletionRequest.md#createcustomerdeletionrequest) | The request body for: Request customer account deletion. |
+
+Body model: [CreateCustomerDeletionRequestInput](../models/CreateCustomerDeletionRequest.md#createcustomerdeletionrequest).
+
+#### customerDeletionRequests.create body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string | Flint customer ID of the customer to delete. minLength: `1`. |
 
 #### Response
 
-Returned payload: [CustomerDeletionRequestListResponse](../models/CustomerDeletionRequestListResponse.md#customerdeletionrequestlistresponse).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest) | [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -52,11 +50,123 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.customerDeletionRequests.create({customer_id: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/customerDeletionRequests-create.mjs)
+
+### customerDeletionRequests.get
+
+Returns the current status of a tracked deletion request.
+
+`GET /v1/customer-deletion-requests/{customer_deletion_request_id}`
+
+Signature:
+
+```typescript
+get(customer_deletion_request_id: InputValue<string>,
+ params?: CustomerDeletionRequestsGetParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. |
+
+#### Response
+
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.customerDeletionRequests.get("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+```
+
+[Complete runnable example](../examples/customerDeletionRequests-get.mjs)
+
+### customerDeletionRequests.list
+
+Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests. Default order: requested_at descending, then customer_deletion_request_id descending.
+
+`GET /v1/customer-deletion-requests`
+
+Signature: `list(params?: CustomerDeletionRequestsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
+| `customer_id` | Optional | string | Only return requests for this Flint customer ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+
+#### Response
+
+Returned payload: [CustomerDeletionRequestListResponse](../models/CustomerDeletionRequestListResponse.md#customerdeletionrequestlistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -76,9 +186,7 @@ Signature:
 
 ```typescript
 resolve(customer_deletion_request_id: InputValue<string>,
- params: (InputValue<ResolveCustomerDeletionRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params: CustomerDeletionRequestsResolveParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -86,8 +194,7 @@ resolve(customer_deletion_request_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_deletion_request_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. |
 | `body` | Required | [ResolveCustomerDeletionRequestInput](../models/ResolveCustomerDeletionRequest.md#resolvecustomerdeletionrequest) | The request body for: Resolve a customer deletion request. |
 
 Body model: [ResolveCustomerDeletionRequestInput](../models/ResolveCustomerDeletionRequest.md#resolvecustomerdeletionrequest).
@@ -104,19 +211,19 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -124,9 +231,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `resolveWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -136,7 +243,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customerDeletionRequests.resolve("example", {decision: "approve"}, { idempotencyKey: idempotencyKey });
+const result = await client.customerDeletionRequests.resolve("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV", {decision: "approve"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customerDeletionRequests-resolve.mjs)

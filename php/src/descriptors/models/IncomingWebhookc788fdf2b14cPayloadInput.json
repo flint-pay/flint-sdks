@@ -1,1 +1,0 @@
-{"shared":"Webhook_tax_connection_updated_merchant","dependencies":["Address","MerchantWebhookEnvelope","SharedCodec1242","SharedCodec413","SharedCodec414","SharedCodec762","TaxConnection","TaxConnectionDisclosure","TaxConnectionSellerAttestation","TaxDisclosureStatement","Webhook_tax_connection_updated_merchant"]}

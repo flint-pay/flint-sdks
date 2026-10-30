@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $reason_message
+ * Presence-aware input; omitted fields throw when accessed. */
+final class InvoicesWaiveLateFeeParams extends Model {
+    /** @param array{'reason_message': string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesWaiveLateFeeParams')); }
+    /** Your note explaining this action. minLength: 1. maxLength: 4096.
+     * @return string
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
+     */
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
+}

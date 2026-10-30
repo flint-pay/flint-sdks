@@ -10,25 +10,25 @@ namespace Flint;
 final class ReturnReasonSummaryInput extends Model {
     /** @param array{'handle': string, 'is_note_required': bool, 'name': string, 'return_reason_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReasonSummaryInput')); }
-    /** Shape $ (Value): string.
+    /** handle
      * @return string
      * @throws SdkError When handle is omitted; use hasHandle() or valueOrDefault().
      */
     public function getHandle(): string { return $this->get('handle'); }
     public function hasHandle(): bool { return $this->has('handle'); }
-    /** Shape $ (Value): boolean.
+    /** is_note_required
      * @return bool
      * @throws SdkError When is_note_required is omitted; use hasIsNoteRequired() or valueOrDefault().
      */
     public function getIsNoteRequired(): bool { return $this->get('is_note_required'); }
     public function hasIsNoteRequired(): bool { return $this->has('is_note_required'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string.
+    /** return_reason_id
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

@@ -12,5 +12,5 @@ Request input.
 | `created_by` | Required | [ResourceReferenceInput](../models/ResourceReferenceInput.md#resourcereferenceinput) or null | The credential that created this list item. Null when Flint created it. The reference may name an API key in the other mode. |
 | `risk_list_id` | Required | string |  |
 | `risk_list_item_id` | Required | string |  |
-| `value` | Required | string |  |
+| `value` | Required | string | The value as stored after item_type normalization, which is what payments are matched against. |
 

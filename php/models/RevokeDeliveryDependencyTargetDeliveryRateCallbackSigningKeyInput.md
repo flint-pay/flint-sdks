@@ -13,7 +13,7 @@ Request input.
 | `delivery_rate_callback_id` | Optional | string | minLength: `1`. |
 | `delivery_rate_callback_revision_id` | Optional | string | minLength: `1`. |
 | `delivery_rate_callback_signing_key_id` | Required | string | minLength: `1`. |
-| `location_geography_version` | Optional | integer string | Exact version of the Location geography to revoke. Required for location_geography targets. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `location_geography_version` | Optional | integer | Exact version of the Location geography to revoke. Required for location_geography targets. Format: `int64`. minimum: `1`. |
 | `location_id` | Optional | string | minLength: `1`. |
 | `target_type` | Required | string | Values: `"delivery_rate_callback_signing_key"`. |
 

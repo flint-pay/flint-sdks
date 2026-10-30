@@ -8,12 +8,12 @@ namespace Flint;
 final class BuyerPauseCapability extends Model {
     /** @param array{'enabled'?: bool, 'max_cycles'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPauseCapability')); }
-    /** Shape $ (Value): boolean. Whether buyers may pause. When false, a buyer's pause returns PAUSE_NOT_ALLOWED. Default: true.
+    /** Whether buyers may pause. When false, a buyer's pause returns 409 ACTION_NOT_ALLOWED with reason not_offered. Default: true.
      * @return ?bool
      */
     public function getEnabled(): ?bool { return $this->get('enabled'); }
     public function hasEnabled(): bool { return $this->has('enabled'); }
-    /** Shape $ (Value): integer. The longest pause a buyer may choose, in billing periods. When set, a buyer's pause must send pause_duration_cycles from 1 to this value. Omit it for no limit, which also lets a buyer pause until they resume. Format: int32. minimum: 1. maximum: 12.
+    /** The longest pause a buyer may choose, in billing periods. When set, a buyer's pause must send pause_duration_cycles from 1 to this value. Omit it for no limit, which also lets a buyer pause until they resume. Format: int32. minimum: 1. maximum: 12.
      * @return ?int
      */
     public function getMaxCycles(): ?int { return $this->get('max_cycles'); }

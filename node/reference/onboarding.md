@@ -8,20 +8,12 @@ Submits whatever the caller currently knows, re-evaluates onboarding, reconciles
 
 `POST /v1/onboarding/advance`
 
-Signature:
-
-```typescript
-advance(params: (InputValue<OnboardingAdvanceRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "onboarding">)
-```
+Signature: `advance(params: OnboardingAdvanceParams, options?: RequestOptions<"merchant" | "onboarding">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [OnboardingAdvanceRequestInput](../models/OnboardingAdvanceRequest.md#onboardingadvancerequest) | The request body for: Advance onboarding flow. |
 
 Body model: [OnboardingAdvanceRequestInput](../models/OnboardingAdvanceRequest.md#onboardingadvancerequest).
@@ -40,20 +32,20 @@ Returned payload: [OnboardingState](../models/OnboardingState.md#onboardingstate
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -61,9 +53,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `advanceWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -73,7 +65,7 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.onboarding.advance({}, { idempotencyKey: idempotencyKey });
+const result = await client.onboarding.advance({country: "US", profile: {support_email: "help@example.com", website_url: "https://withflintpay.com"}, requested_capabilities: ["accept_card_payments", "receive_payouts"]}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/onboarding-advance.mjs)
@@ -84,20 +76,12 @@ Creates the first long-lived sandbox API key. The credential selects the environ
 
 `POST /v1/onboarding/api-key`
 
-Signature:
-
-```typescript
-createAPIKey(params: (InputValue<DeveloperInitialAPIKeyRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"onboarding">)
-```
+Signature: `createAPIKey(params: OnboardingCreateAPIKeyParams, options?: RequestOptions<"onboarding">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKeyRequest.md#developerinitialapikeyrequest) | The request body for: Create onboarding API key. |
 
 Body model: [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKeyRequest.md#developerinitialapikeyrequest).
@@ -115,18 +99,18 @@ Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsec
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -134,9 +118,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createAPIKeyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -146,7 +130,7 @@ Authentication modes: `onboarding`. [Credential setup](../RUNTIME.md#authenticat
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.onboarding.createAPIKey({name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.onboarding.createAPIKey({name: "First backend integration", scopes: ["commerce.orders.read", "commerce.orders.write", "customers.read", "customers.write"]}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/onboarding-createAPIKey.mjs)
@@ -157,7 +141,7 @@ Returns the consolidated onboarding state machine, including the primary next st
 
 `GET /v1/onboarding/state`
 
-Signature: `getState(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)`
+Signature: `getState(params?: OnboardingGetStateParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)`
 
 #### Request fields
 
@@ -169,17 +153,17 @@ Returned payload: [OnboardingState](../models/OnboardingState.md#onboardingstate
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -187,7 +171,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getStateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -199,24 +183,23 @@ const result = await client.onboarding.getState({}, {  });
 
 [Complete runnable example](../examples/onboarding-getState.mjs)
 
-### onboarding.startFlow
+### onboarding.start
 
 Starts the consolidated onboarding flow by emailing a short-lived verification code and returning a temporary verification token.
 
 `POST /v1/onboarding/start`
 
-Signature: `startFlow(params: (InputValue<OnboardingStartRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<never>)`
+Signature: `start(params: OnboardingStartParams, options?: RequestOptions<never>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [OnboardingStartRequestInput](../models/OnboardingStartRequest.md#onboardingstartrequest) | The request body for: Start onboarding flow. |
 
 Body model: [OnboardingStartRequestInput](../models/OnboardingStartRequest.md#onboardingstartrequest).
 
-#### onboarding.startFlow body fields
+#### onboarding.start body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -230,17 +213,17 @@ Returned payload: [OnboardingStartResult](../models/OnboardingStartResult.md#onb
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -248,9 +231,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `startFlowWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -260,36 +243,28 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.onboarding.startFlow({email: "example", first_name: "example", last_name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.onboarding.start({email: "owner@example.com", first_name: "Jane", last_name: "Doe"}, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/onboarding-startFlow.mjs)
+[Complete runnable example](../examples/onboarding-start.mjs)
 
-### onboarding.verifyEmailCode
+### onboarding.verifyEmail
 
 Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one. Read GET /v1/onboarding/state next.
 
 `POST /v1/onboarding/verify-email`
 
-Signature:
-
-```typescript
-verifyEmailCode(params: (InputValue<OnboardingVerifyEmailRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<never>)
-```
+Signature: `verifyEmail(params: OnboardingVerifyEmailParams, options?: RequestOptions<never>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [OnboardingVerifyEmailRequestInput](../models/OnboardingVerifyEmailRequest.md#onboardingverifyemailrequest) | The request body for: Verify onboarding email. |
 
 Body model: [OnboardingVerifyEmailRequestInput](../models/OnboardingVerifyEmailRequest.md#onboardingverifyemailrequest).
 
-#### onboarding.verifyEmailCode body fields
+#### onboarding.verifyEmail body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -303,17 +278,17 @@ Returned payload: [OnboardingVerifyEmailResult](../models/OnboardingVerifyEmailR
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -321,9 +296,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `verifyEmailCodeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -333,8 +308,8 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.onboarding.verifyEmailCode({verification_code: "example", verification_token: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.onboarding.verifyEmail({verification_code: "482193", verification_token: "example"}, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/onboarding-verifyEmailCode.mjs)
+[Complete runnable example](../examples/onboarding-verifyEmail.mjs)
 

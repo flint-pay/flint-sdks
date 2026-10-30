@@ -9,19 +9,19 @@ namespace Flint;
 final class DiscountPreviewInput extends Model {
     /** @param array{'applied': list<PromotionCandidateInput|array<array-key, mixed>|\stdClass>, 'available': list<PromotionCandidateInput|array<array-key, mixed>|\stdClass>, 'skipped': list<PromotionCandidateInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DiscountPreviewInput')); }
-    /** Shape $ (Value): Array of {@see PromotionCandidateInput}. Shape $[] (Value): {@see PromotionCandidateInput}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
+    /**  [] (Value): {@see PromotionCandidateInput}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
      * @return list<PromotionCandidateInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When applied is omitted; use hasApplied() or valueOrDefault().
      */
     public function getApplied(): array { return $this->get('applied'); }
     public function hasApplied(): bool { return $this->has('applied'); }
-    /** Shape $ (Value): Array of {@see PromotionCandidateInput}. Shape $[] (Value): {@see PromotionCandidateInput}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
+    /**  [] (Value): {@see PromotionCandidateInput}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
      * @return list<PromotionCandidateInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When available is omitted; use hasAvailable() or valueOrDefault().
      */
     public function getAvailable(): array { return $this->get('available'); }
     public function hasAvailable(): bool { return $this->has('available'); }
-    /** Shape $ (Value): Array of {@see PromotionCandidateInput}. Shape $[] (Value): {@see PromotionCandidateInput}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
+    /**  [] (Value): {@see PromotionCandidateInput}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
      * @return list<PromotionCandidateInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When skipped is omitted; use hasSkipped() or valueOrDefault().
      */

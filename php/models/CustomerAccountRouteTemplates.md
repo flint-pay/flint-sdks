@@ -6,5 +6,5 @@ Route templates for a merchant-hosted customer account: email preferences, invoi
 
 Response model.
 
-Fields, types, descriptions and enum values: [CustomerAccountRouteTemplatesRequestRequestInput](../models/CustomerAccountRouteTemplatesRequestRequestInput.md#customeraccountroutetemplatesrequestrequestinput).
+Fields, types, descriptions and enum values: [CustomerAccountRouteTemplatesRequestInput](../models/CustomerAccountRouteTemplatesRequestInput.md#customeraccountroutetemplatesrequestinput).
 

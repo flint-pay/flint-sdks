@@ -2,7 +2,7 @@
 
 ## Device
 
-A registered device used to accept payments.
+A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't change how payments are accepted.
 
 
 
@@ -19,7 +19,7 @@ A registered device used to accept payments.
 | `name` | Required | string |  |
 | `status` | Required | string | Values: `"active"`, `"archived"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Persisted device configuration version. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Persisted device configuration version. Format: `uint64`. minimum: `1`. |
 
 ### Device.metadata
 

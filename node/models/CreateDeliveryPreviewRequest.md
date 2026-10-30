@@ -24,7 +24,7 @@ The request body for: Create delivery preview.
 
 ### CreateDeliveryPreviewRequest variant 1: `mode` = `"delivery_options"`
 
-oneOf variant 1: The `delivery_options` variant of `CreateDeliveryPreviewRequest`..
+oneOf with mode: "delivery_options": The `delivery_options` variant of `CreateDeliveryPreviewRequest`..
 
 - Required: `currency`, `line_items`.
 - Optional: `delivery_method_ids`, `destination_address`, `inventory_routing_source`, `pickup_location_id`, `pricing_context`.
@@ -33,7 +33,7 @@ oneOf variant 1: The `delivery_options` variant of `CreateDeliveryPreviewRequest
 
 ### CreateDeliveryPreviewRequest variant 2: `mode` = `"pickup_locations"`
 
-oneOf variant 2: The `pickup_locations` variant of `CreateDeliveryPreviewRequest`..
+oneOf with mode: "pickup_locations": The `pickup_locations` variant of `CreateDeliveryPreviewRequest`..
 
 - Required: `checkout_session_id`.
 - Optional: `maximum_distance`.

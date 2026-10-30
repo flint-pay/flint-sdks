@@ -11,27 +11,27 @@ namespace Flint;
 final class SubscriptionRenewalEstimateLineItem extends Model {
     /** @param array{'discount_money': mixed, 'name': string, 'quantity': int, 'subscription_line_item_id': string|null, 'subtotal_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionRenewalEstimateLineItem')); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Shape $ (Value): string or null. The saved subscription line ID; null when previewing replacement plan lines.
+    /** The saved subscription line ID; null when previewing replacement plan lines.
      * @return string|null
      */
     public function getSubscriptionLineItemId(): string|null { return $this->get('subscription_line_item_id'); }
     public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }

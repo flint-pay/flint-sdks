@@ -17,5 +17,5 @@ Request input.
 | `name` | Required | string | Merchant-facing zone name. |
 | `status` | Required | string | Current zone lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the zone last changed. Format: `date-time`. |
-| `version` | Required | integer string | Optimistic-concurrency version for zone writes. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Optimistic-concurrency version for zone writes. Format: `uint64`. minimum: `1`. |
 

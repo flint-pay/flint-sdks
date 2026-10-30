@@ -8,13 +8,13 @@ namespace Flint;
 final class CheckoutPromotionConfigInput extends Model {
     /** @param array{'automatic_enabled'?: bool, 'codes_enabled'?: bool|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPromotionConfigInput')); }
-    /** Shape $ (Value): boolean.
+    /** automatic_enabled
      * @return bool
      * @throws SdkError When automatic_enabled is omitted; use hasAutomaticEnabled() or valueOrDefault().
      */
     public function getAutomaticEnabled(): bool { return $this->get('automatic_enabled'); }
     public function hasAutomaticEnabled(): bool { return $this->has('automatic_enabled'); }
-    /** Shape $ (Value): boolean or null. Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Hosted checkout shows or hides code entry to match. Omit to inherit checkout.promotion_codes_enabled. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout.
+    /** Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Hosted checkout shows or hides code entry to match. Omit to inherit checkout.promotion_codes_enabled. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout.
      * @return bool|null
      * @throws SdkError When codes_enabled is omitted; use hasCodesEnabled() or valueOrDefault().
      */

@@ -18,5 +18,5 @@ Request input.
 | `status` | Required | string | Values: `"draft"`, `"applied"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Actions that can change this count now. A draft can be canceled, and applied once every line has an observation. Empty after the count is applied or canceled. Items values: `"apply"`, `"cancel"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 

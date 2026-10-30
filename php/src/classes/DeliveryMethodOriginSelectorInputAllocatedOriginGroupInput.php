@@ -10,25 +10,25 @@ namespace Flint;
 final class DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput extends Model {
     /** @param array{'delivery_location_set_id': string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}|object|array{'delivery_location_set_id'?: string, 'location_id'?: string, 'location_ids': list<string>, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput')); }
-    /** Shape $ (Value): string. Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
+    /** Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): Array of string. Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: 1. maxItems: 25. uniqueItems: true. Shape $[] (Value): string. minLength: 1.
+    /** Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */
     public function getLocationIds(): array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Shape $ (Value): string.  Value enum: "allocated_origin_group".
+    /** Value enum: "allocated_origin_group".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

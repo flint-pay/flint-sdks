@@ -1,0 +1,1 @@
+{"shared":"DeliveryLocationSetArchivedMerchantEvent","dependencies":["DeliveryLocationSet","DeliveryLocationSetArchivedMerchantEvent","DeliveryLocationSetConfiguration","MetadataMap","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec394"]}

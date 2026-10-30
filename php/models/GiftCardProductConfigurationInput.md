@@ -16,5 +16,5 @@ Request input.
 
 Gift card value issued for one unit of this variant, in the same currency as its unit price.
 
-Field definitions: [shared fields](GiftCardProductConfigurationFaceValueMoney.md#giftcardproductconfigurationfacevaluemoney).
+Field definitions: [shared fields](DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney).
 

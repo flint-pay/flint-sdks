@@ -2,71 +2,73 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $customer_id
  * @property-read int $page_size
  * @property-read string $page_token
- * @property-read list<string> $type
- * @property-read list<string> $status
- * @property-read list<string> $usage
+ * @property-read list<string>|string $type
+ * @property-read list<string>|string $status
+ * @property-read list<string>|string $usage
  * @property-read string|\DateTimeInterface $created_after
  * @property-read string|\DateTimeInterface $created_before
- * @property-read list<string> $expand
+ * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsListInput extends Model {
-    /** @param array{'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'type'?: list<string>, 'status'?: list<string>, 'usage'?: list<string>, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'expand'?: list<string>}|object $values */
+    /** @param array{'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'type'?: list<string>|string, 'status'?: list<string>|string, 'usage'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodsListInput')); }
-    /** Shape $ (Value): string.
+    /** Optional Flint customer ID filter. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+    /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Shape $ (Value): string.
+    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "card". Shape $[] (Value): string.  Value enum: "card".
-     * @return list<string>
+    /** Filter by payment method type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card". Value enum: "card". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card". anyOf[1][] (Value): string.  Value enum: "card". anyOf[2] (Value): string.  Value enum: "card".
+     * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
-    public function getType(): array { return $this->get('type'); }
+    public function getType(): mixed { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "pending", "expired", "archived", "failed". Shape $[] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed".
-     * @return list<string>
+    /** Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "pending", "expired", "archived", "failed". Value enum: "active", "pending", "expired", "archived", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "pending", "expired", "archived", "failed". anyOf[1][] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed". anyOf[2] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed".
+     * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
-    public function getStatus(): array { return $this->get('status'); }
+    public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "on_session", "off_session". Shape $[] (Value): string.  Value enum: "on_session", "off_session".
-     * @return list<string>
+    /** Filter by usage: off_session payment methods can be charged without the buyer; on_session ones were saved by buyers for faster checkout. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "on_session", "off_session". Value enum: "on_session", "off_session". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "on_session", "off_session". anyOf[1][] (Value): string.  Value enum: "on_session", "off_session". anyOf[2] (Value): string.  Value enum: "on_session", "off_session".
+     * @return list<string>|string
      * @throws SdkError When usage is omitted; use hasUsage() or valueOrDefault().
      */
-    public function getUsage(): array { return $this->get('usage'); }
+    public function getUsage(): mixed { return $this->get('usage'); }
     public function hasUsage(): bool { return $this->has('usage'); }
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_after is omitted; use hasCreatedAfter() or valueOrDefault().
      */
     public function getCreatedAfter(): string|\DateTimeInterface { return $this->get('created_after'); }
     public function hasCreatedAfter(): bool { return $this->has('created_after'); }
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_before is omitted; use hasCreatedBefore() or valueOrDefault().
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Shape $ (Value): Array of string.  [] enum: "customer". Shape $[] (Value): string.  Value enum: "customer".
-     * @return list<string>
+    /** Supported expansions: customer. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=customer. [] enum: "customer". Value enum: "customer". anyOf[1] (Value): Array of string.  [] enum: "customer". anyOf[1][] (Value): string.  Value enum: "customer". anyOf[2] (Value): string.  Value enum: "customer".
+     * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
-    public function getExpand(): array { return $this->get('expand'); }
+    public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
 }

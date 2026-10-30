@@ -1,1 +1,1 @@
-{"shared":"UpdateShipmentRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","UpdateShipmentRequest"]}
+{"shared":"UpdateShipmentRequest","dependencies":["SharedCodec1350","SharedCodec1353","UpdateShipmentRequest"]}

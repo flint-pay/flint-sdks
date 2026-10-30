@@ -9,19 +9,19 @@ namespace Flint;
 final class PaymentSourceCardSummaryInput extends Model {
     /** @param array{'brand'?: string, 'last4'?: string, 'payment_method_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCardSummaryInput')); }
-    /** Shape $ (Value): string.  Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
+    /** Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
      * @return string
      * @throws SdkError When brand is omitted; use hasBrand() or valueOrDefault().
      */
     public function getBrand(): string { return $this->get('brand'); }
     public function hasBrand(): bool { return $this->has('brand'); }
-    /** Shape $ (Value): string.
+    /** last4
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Shape $ (Value): string.
+    /** payment_method_id
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

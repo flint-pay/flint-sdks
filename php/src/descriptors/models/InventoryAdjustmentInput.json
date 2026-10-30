@@ -1,1 +1,1 @@
-{"shared":"InventoryAdjustment","dependencies":["InventoryAdjustment","InventoryAdjustmentLine","InventorySourceSystem","SharedCodec169","SharedCodec874","SharedCodec875","SharedCodec876","SharedCodec877"]}
+{"shared":"InventoryAdjustment","dependencies":["InventoryAdjustment","InventoryAdjustmentLine","SharedCodec231","SharedCodec624","SharedCodec625","SharedCodec626","SharedCodec627","SharedCodec628"]}

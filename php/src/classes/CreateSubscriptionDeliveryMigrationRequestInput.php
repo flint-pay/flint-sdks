@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateSubscriptionDeliveryMigrationRequestInput extends Model {
     /** @param array{'from_delivery_method_id': string, 'subscription_plan_id'?: string, 'to_delivery_method_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionDeliveryMigrationRequestInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When from_delivery_method_id is omitted; use hasFromDeliveryMethodId() or valueOrDefault().
      */
     public function getFromDeliveryMethodId(): string { return $this->get('from_delivery_method_id'); }
     public function hasFromDeliveryMethodId(): bool { return $this->has('from_delivery_method_id'); }
-    /** Shape $ (Value): string. Limit the migration to this plan's live subscriptions. minLength: 1.
+    /** Limit the migration to this plan's live subscriptions. minLength: 1.
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When to_delivery_method_id is omitted; use hasToDeliveryMethodId() or valueOrDefault().
      */

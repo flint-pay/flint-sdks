@@ -1,1 +1,0 @@
-{"shared":"Webhook_inventory_level_updated_installed_merchants","dependencies":["InventoryItem","InventoryLevel","MetadataMap","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec657","WebhookEventSourceInstalledMerchants","Webhook_inventory_level_updated_installed_merchants"]}

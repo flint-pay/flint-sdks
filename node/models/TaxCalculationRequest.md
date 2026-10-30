@@ -27,7 +27,7 @@ No additional constraints.
 
 ### TaxCalculationRequest variant 3
 
-anyOf variant 3: Declared schema TaxCalculationRequestRequest. Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components..
+anyOf variant 3: Declared schema TaxCalculationRequestModel. Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components..
 
 No additional constraints.
 

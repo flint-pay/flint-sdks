@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionExecutionLegsItem extends Model {
     /** @param array{'delivery_execution_leg_id': string, 'origin_location_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionExecutionLegsItem')); }
-    /** Shape $ (Value): string.
+    /** delivery_execution_leg_id
      * @return string
      */
     public function getDeliveryExecutionLegId(): string { return $this->get('delivery_execution_leg_id'); }
     public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
-    /** Shape $ (Value): string.
+    /** origin_location_id
      * @return string
      */
     public function getOriginLocationId(): string { return $this->get('origin_location_id'); }

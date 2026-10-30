@@ -21,7 +21,7 @@ Full detail for one logged API request visible to the calling credential: header
 | `expand` | Optional | Array of string | Normalized expand paths Flint applied. Absent when the request did not use expand. |
 | `http_method` | Required | string |  |
 | `ip_address` | Optional | string | The integration caller's IP address. Absent for buyer-side callers. |
-| `latency_milliseconds` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `latency_milliseconds` | Required | integer | Format: `int64`. |
 | `path` | Required | string |  |
 | `query_params` | Required | Array of [APIRequestLogQueryParam](../models/APIRequestLogQueryParam.md#apirequestlogqueryparam) |  |
 | `recommended_action` | Optional | string | The next step to resolve this failure. |
@@ -33,7 +33,7 @@ Full detail for one logged API request visible to the calling credential: header
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Optional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 | `response_body` | Optional | Alternative shapes (see declared variants) | The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. `response_body`: [declared alternatives](../models/APIRequestLogDetail.md#apirequestlogdetailrequest_body). |
 | `response_content_type` | Optional | string |  |
 | `retry` | Optional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
@@ -50,19 +50,19 @@ Field definitions: [APIRequestLog.caller](../models/APIRequestLog.md#apirequestl
 
 ### APIRequestLogDetail.request_body variant 1
 
-anyOf variant 1.
+oneOf variant 1.
 
 - Value shape: object. The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. 
 
 ### APIRequestLogDetail.request_body variant 2
 
-anyOf variant 2.
+oneOf variant 2.
 
 - Value shape: Array of any. The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. 
 
 ### APIRequestLogDetail.request_body variant 3
 
-anyOf variant 3.
+oneOf variant 3.
 
 - Value shape: string. The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. 
 

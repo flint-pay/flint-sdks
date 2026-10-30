@@ -41,7 +41,7 @@ The tax calculated for one jurisdiction on an order, line item, or charge, with 
 
 ### OrderTax.tax_breakdowns[] variant 1: `calculation_type` = `"percentage"`
 
-oneOf variant 1: The `percentage` variant of `TaxBreakdown`..
+oneOf with calculation_type: "percentage": The `percentage` variant of `TaxBreakdown`..
 
 - Condition: not (present(`flat_money`)).
 - Required: `percent`.
@@ -50,7 +50,7 @@ oneOf variant 1: The `percentage` variant of `TaxBreakdown`..
 
 ### OrderTax.tax_breakdowns[] variant 2: `calculation_type` = `"flat_amount"`
 
-oneOf variant 2: The `flat_amount` variant of `TaxBreakdown`..
+oneOf with calculation_type: "flat_amount": The `flat_amount` variant of `TaxBreakdown`..
 
 - Condition: not (present(`percent`)).
 - Required: `flat_money`.

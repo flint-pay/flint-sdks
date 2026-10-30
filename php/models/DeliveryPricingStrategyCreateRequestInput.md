@@ -18,7 +18,7 @@ Request input.
 
 ### DeliveryPricingStrategyCreateRequestInput variant 1: `type` = `"calculated"`
 
-oneOf variant 1: The `calculated` variant of `DeliveryPricingStrategyCreateInput`..
+oneOf with type: "calculated": The `calculated` variant of `DeliveryPricingStrategyCreateInput`..
 
 - Condition: not (at least one(present(`callback`); present(`caller_supplied`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `calculated`.
@@ -27,7 +27,7 @@ oneOf variant 1: The `calculated` variant of `DeliveryPricingStrategyCreateInput
 
 ### DeliveryPricingStrategyCreateRequestInput variant 2: `type` = `"callback"`
 
-oneOf variant 2: The `callback` variant of `DeliveryPricingStrategyCreateInput`..
+oneOf with type: "callback": The `callback` variant of `DeliveryPricingStrategyCreateInput`..
 
 - Condition: not (at least one(present(`calculated`); present(`caller_supplied`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `callback`.
@@ -36,7 +36,7 @@ oneOf variant 2: The `callback` variant of `DeliveryPricingStrategyCreateInput`.
 
 ### DeliveryPricingStrategyCreateRequestInput variant 3: `type` = `"caller_supplied"`
 
-oneOf variant 3: The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`..
+oneOf with type: "caller_supplied": The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `caller_supplied`.
@@ -45,7 +45,7 @@ oneOf variant 3: The `caller_supplied` variant of `DeliveryPricingStrategyCreate
 
 ### DeliveryPricingStrategyCreateRequestInput variant 4: `type` = `"fixed"`
 
-oneOf variant 4: The `fixed` variant of `DeliveryPricingStrategyCreateInput`..
+oneOf with type: "fixed": The `fixed` variant of `DeliveryPricingStrategyCreateInput`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`rate_table`); present(`tiered`))).
 - Required: `fixed`.
@@ -54,7 +54,7 @@ oneOf variant 4: The `fixed` variant of `DeliveryPricingStrategyCreateInput`..
 
 ### DeliveryPricingStrategyCreateRequestInput variant 5: `type` = `"rate_table"`
 
-oneOf variant 5: The `rate_table` variant of `DeliveryPricingStrategyCreateInput`..
+oneOf with type: "rate_table": The `rate_table` variant of `DeliveryPricingStrategyCreateInput`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`fixed`); present(`tiered`))).
 - Required: `rate_table`.
@@ -63,7 +63,7 @@ oneOf variant 5: The `rate_table` variant of `DeliveryPricingStrategyCreateInput
 
 ### DeliveryPricingStrategyCreateRequestInput variant 6: `type` = `"tiered"`
 
-oneOf variant 6: The `tiered` variant of `DeliveryPricingStrategyCreateInput`..
+oneOf with type: "tiered": The `tiered` variant of `DeliveryPricingStrategyCreateInput`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`fixed`); present(`rate_table`))).
 - Required: `tiered`.

@@ -1,606 +1,140 @@
-import type { PartnerWebhookEnvelope } from './types-37.js';
-import type { Subscription } from './types-47.js';
-import type { MerchantWebhookEnvelope } from './types-32.js';
-import type { TaxConnection } from './types-50.js';
-import type { InputValue, CredentialProvider, Model } from '../runtime.js';
-import type { CreateWorkloadIdentityRequestInput } from './types-11.js';
-import type { UpdateWorkloadIdentityRequestInput } from './types-53.js';
-import type { ResourceReference, ResponseMeta } from './types-42.js';
+import type { InputValue, Model } from '../runtime.js';
 import type {
-    AddLineItemsRequestInput,
-    AddOrderChargeRequestInput,
-    AddReturnLineItemRequestInput,
-    AddRiskListItemsRequestInput,
-    AddressRequestInput,
-    AdjustGiftCardBalanceRequestInput,
-    ApplyDiscountRequestInput,
-    ApplyDiscountRequestManualInput,
-    ApplyDiscountRequestPromotionInput,
-    ApplyOrderGiftCardRequestInput,
-    AssessInvoiceLateFeeRequestInput,
-    AssignToUnconfiguredDeliveryProfileRequestInput,
-    BrandingSettingsRequestInput
-} from './types-0.js';
+    CreateReturnDispositionRequestInput,
+    CreateReturnDispositionRequestInspectionLineInput,
+    CreateReturnDispositionRequestReceiptLineInput,
+    CreateReturnEligibilityPreviewRequestInput,
+    CreateReturnInspectionRequestInput,
+    CreateReturnPolicyRequestInput,
+    CreateReturnPreviewRequestInput,
+    CreateReturnPreviewRequestEligibilityInput,
+    CreateReturnPreviewRequestResolutionInput,
+    CreateReturnReasonRequestInput,
+    CreateReturnReceiptRequestInput,
+    CreateReturnRequestInput,
+    CreateReturnResolutionPreviewRequestInput,
+    CreateReturnResolutionPreviewRequestCorrectionInput,
+    CreateReturnResolutionPreviewRequestStandardInput,
+    CreateReturnResolutionRequestInput,
+    CreateReturnResolutionRequestCorrectionInput
+} from './types-10.js';
 import type {
-    BuyerCapabilitiesInput,
-    BuyerCreateReturnPreviewRequestInput,
-    BuyerCreateReturnPreviewRequestEligibilityInput,
-    BuyerCreateReturnPreviewRequestResolutionInput,
-    BuyerCreateReturnRequestInput,
-    BuyerCreateReturnResolutionPreviewRequestInput,
-    BuyerInstructionsConfigRequestRequestInput
-} from './types-1.js';
+    CreateReturnResolutionRequestStandardInput,
+    CreateRiskListRequestInput,
+    CreateRiskPreviewRequestInput,
+    CreateRiskPreviewRequestInlineInput,
+    CreateRiskPreviewRequestStoredRuleInput,
+    CreateRiskRuleRequestInput,
+    CreateSandboxRequestInput,
+    CreateServiceFulfillmentDetailsInput,
+    CreateShipmentRequestInput,
+    CreateShipmentRequestOutboundInput,
+    CreateShipmentRequestReturnInput,
+    CreateSubscriptionAccessLinkRequestInput,
+    CreateSubscriptionDeliveryMigrationRequestInput,
+    CreateSubscriptionLineItemRequestInput,
+    CreateSubscriptionLineItemRequestBundleInput,
+    CreateSubscriptionLineItemRequestVariantInput,
+    CreateSubscriptionOfferRequestInput,
+    CreateSubscriptionPlanRequestInput,
+    CreateSubscriptionPreviewRequestInput,
+    CreateSubscriptionPreviewRequestCreateInput,
+    CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput,
+    CreateSubscriptionPreviewRequestDeliveryOptionsInput,
+    CreateSubscriptionPreviewRequestNextRenewalInput,
+    CreateSubscriptionPreviewRequestPlanChangeInput,
+    CreateSubscriptionRequestInput,
+    CreateTaxRegistrationRequestInput,
+    CreateTestClockRequestInput,
+    CreateWebhookDeliveryRequestInput,
+    CreateWebhookEndpointRequestInput,
+    CreateWebhookTestEventRequestInput,
+    CreateWorkloadIdentityRequestInput
+} from './types-11.js';
 import type {
-    BuyerPauseCapabilityInput,
-    BuyerRetentionOfferInput,
-    BuyerReturnReplacementLineItemInputBundleInput,
-    BuyerReturnReplacementLineItemInputVariantInput,
-    BuyerReturnReplacementLineItemRequestInput
-} from './types-2.js';
+    CreditNoteCorrectionRequestInput,
+    CreditNoteCorrectionRequestAmountInput,
+    CreditNoteCorrectionRequestQuantityInput,
+    CreditNoteIssueAllocationRequestInput,
+    CreditNoteLineItemRequestInput,
+    CreditNoteRefundRequestInput
+} from './types-12.js';
 import type {
-    BuyerSkipCapabilityInput,
-    CallerSuppliedDeliveryMethodResultRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestAvailableInput,
-    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
-    CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
-    CancelGiftCardNotificationRequestInput,
-    CancelOrderPaymentAttemptRequestInput,
-    CancelPaymentIntentRequestInput,
-    CancelPayoutRequestInput,
-    CancelReturnDispositionRequestInput,
-    CancelReturnLineItemRequestInput,
-    CancelReturnRequestInput,
-    CancelReturnResolutionRequestInput
-} from './types-3.js';
-/**
- * Shape $ (Value): {@link Webhook_subscription_renewal_upcoming_installed_merchants}. The
- * `subscription.renewal_upcoming` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_subscription_renewal_upcoming_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.renewal_upcoming". */
-    "event_type"?: "subscription.renewal_upcoming" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_renewal_upcoming_merchant}. The
- * `subscription.renewal_upcoming` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_subscription_renewal_upcoming_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.renewal_upcoming". */
-    "event_type"?: "subscription.renewal_upcoming" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_resumed_installed_merchants}. The
- * `subscription.resumed` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type Webhook_subscription_resumed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.resumed". */
-    "event_type"?: "subscription.resumed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_resumed_merchant}. The `subscription.resumed`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_subscription_resumed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.resumed". */
-    "event_type"?: "subscription.resumed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_trial_ending_installed_merchants}. The
- * `subscription.trial_ending` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_subscription_trial_ending_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.trial_ending". */
-    "event_type"?: "subscription.trial_ending" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_trial_ending_merchant}. The
- * `subscription.trial_ending` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_subscription_trial_ending_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.trial_ending". */
-    "event_type"?: "subscription.trial_ending" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_updated_installed_merchants}. The
- * `subscription.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type Webhook_subscription_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.updated". */
-    "event_type"?: "subscription.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_subscription_updated_merchant}. The `subscription.updated`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_subscription_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
-     * recurring purchase.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Shape $ (Value): string.  Value enum: "subscription.updated". */
-    "event_type"?: "subscription.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_tax_connection_updated_merchant}. The `tax_connection.updated`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_tax_connection_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link TaxConnection}. The environment's
-     * automatic sales tax connection. Before a record exists, identity, version and timestamps are
-     * omitted. Read-time business-detail changes and provider pauses do not advance version or
-     * send webhooks. Status_reason and supported_actions can also change with the clock as
-     * registrations end, without a version change or webhook.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link TaxConnection}. The environment's automatic sales tax
-         * connection. Before a record exists, identity, version and timestamps are omitted.
-         * Read-time business-detail changes and provider pauses do not advance version or send
-         * webhooks. Status_reason and supported_actions can also change with the clock as
-         * registrations end, without a version change or webhook.
-         */
-        "object": TaxConnection;
-    };
-    /** Shape $ (Value): string.  Value enum: "tax_connection.updated". */
-    "event_type"?: "tax_connection.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used in
- * delivery profile configuration.
- */
-export type Weight = {
-    /**
-     * Shape $ (Value): string. Weight unit. Use gram, kilogram, ounce, or pound. Value enum:
-     * "gram", "kilogram", "ounce", "pound".
-     */
-    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
-    /**
-     * Shape $ (Value): number. Weight measured in the specified unit. maximum: 1000000.
-     * exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "value": number;
-};
-/**
- * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
- * used in delivery profile configuration.
- */
-export type WeightInput = {
-    /**
-     * Shape $ (Value): string. Weight unit. Use gram, kilogram, ounce, or pound. Value enum:
-     * "gram", "kilogram", "ounce", "pound".
-     */
-    "unit": "gram" | "kilogram" | "ounce" | "pound";
-    /**
-     * Shape $ (Value): number. Weight measured in the specified unit. maximum: 1000000.
-     * exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "value": number;
-};
-export type WorkloadIdentitiesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateWorkloadIdentityRequestInput}. The request body for: Create a
-     * workload identity.
-     */
-    "body": InputValue<CreateWorkloadIdentityRequestInput>;
-};
-export type WorkloadIdentitiesGetInput = {
-    /** Shape $ (Value): string. */
-    "workload_identity_id": InputValue<string>;
-};
-export type WorkloadIdentitiesListInput = {
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
-     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): string. Default: "created_at". Value enum: "created_at", "last_used_at",
-     * "name".
-     */
-    "sort_by"?: InputValue<"created_at" | "last_used_at" | "name">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-};
-export type WorkloadIdentitiesRemoveInput = {
-    /** Shape $ (Value): string. */
-    "workload_identity_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type WorkloadIdentitiesUpdateInput = {
-    /** Shape $ (Value): string. */
-    "workload_identity_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateWorkloadIdentityRequestInput}. The request body for: Update a
-     * workload identity.
-     */
-    "body": InputValue<UpdateWorkloadIdentityRequestInput>;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentity}. A policy that grants API access to a workload
- * authenticated by an external identity provider.
- */
-export type WorkloadIdentity = {
-    /**
-     * Shape $ (Value): string. Time the identity was archived. Omitted before archival. Format:
-     * date-time.
-     */
-    "archived_at"?: string;
-    /** Shape $ (Value): string. */
-    "audience": string;
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentityClaimCondition}. Bounded value array of
-     * top-level scalar claim conditions. Replaced as a whole on PATCH; [] clears it when the
-     * remaining policy is valid. Shape $[] (Value): {@link WorkloadIdentityClaimCondition}. A
-     * condition matching one top-level scalar claim in the workload's identity token.
-     */
-    "claim_conditions": Array<WorkloadIdentityClaimCondition>;
-    /** Shape $ (Value): string. Time the identity was created. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): {@link ResourceReference}. The user or credential that created a workload
-     * identity, identified by resource type and ID.
-     */
-    "created_by": ResourceReference;
-    /** Shape $ (Value): string. */
-    "issuer": string;
-    /**
-     * Shape $ (Value): string. Most recent use. Omitted before the first use. Format: date-time.
-     */
-    "last_used_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): string. Computed from the issuer. New platform values may be added. Value
-     * enum: "generic", "github_actions", "gitlab_ci", "google_cloud", "aws", "azure",
-     * "kubernetes", "circleci", "buildkite", "vercel", "fly_io".
-     */
-    "platform": "generic"
-        | "github_actions"
-        | "gitlab_ci"
-        | "google_cloud"
-        | "aws"
-        | "azure"
-        | "kubernetes"
-        | "circleci"
-        | "buildkite"
-        | "vercel"
-        | "fly_io"
-        | (string & {});
-    /** Shape $ (Value): string. The sandbox containing this identity. Present only in test mode. */
-    "sandbox_id"?: string;
-    /**
-     * Shape $ (Value): Array of string. Complete scope set granted to this identity. Replaced as a
-     * whole on PATCH. Shape $[] (Value): string.
-     */
-    "scopes": Array<string>;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Shape $ (Value): string. */
-    "subject": string;
-    /** Shape $ (Value): string.  Value enum: "exact", "glob". */
-    "subject_match": "exact" | "glob" | (string & {});
-    /** Shape $ (Value): string. Time the identity last changed. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Positive concurrency version. Increases on policy and
-     * lifecycle changes. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1.
-     */
-    "version": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "workload_identity_id": string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityClaimCondition}. A condition matching one top-level
- * scalar claim in the workload's identity token.
- */
-export type WorkloadIdentityClaimCondition = {
-    /**
-     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
-     * reserved.
-     */
-    "claim": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "match": "exact" | "glob" | (string & {});
-    /** Shape $ (Value): string. */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to match one
- * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequest = {
-    /**
-     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
-     * reserved. minLength: 1.
-     */
-    "claim": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "match"?: "exact" | "glob" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequestInput}. A condition to match one
- * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequestInput = {
-    /**
-     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
-     * reserved. minLength: 1.
-     */
-    "claim": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "match"?: "exact" | "glob";
-    /** Shape $ (Value): string. minLength: 1. */
-    "value": string;
-};
-/** Shape $ (Value): {@link WorkloadIdentityListResponse}. A page of `WorkloadIdentity` objects. */
-export type WorkloadIdentityListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentity}. Shape $[] (Value): {@link
-     * WorkloadIdentity}. A policy that grants API access to a workload authenticated by an
-     * external identity provider.
-     */
-    "data": Array<WorkloadIdentity>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityResponse}. A response containing `WorkloadIdentity`
- * data.
- */
-export type WorkloadIdentityResponse = {
-    /**
-     * Shape $ (Value): {@link WorkloadIdentity}. A policy that grants API access to a workload
-     * authenticated by an external identity provider.
-     */
-    "data": WorkloadIdentity;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type _SdkRequiredIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey: string;
-} : never;
-export type _SdkWithoutIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey?: never;
-} : never;
-export declare function defaultCredentials(): CredentialProvider;
-export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRequestInput>): Model<AddLineItemsRequestInput>;
-export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
-export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
-export declare function makeAddRiskListItemsRequest(value: InputValue<AddRiskListItemsRequestInput>): Model<AddRiskListItemsRequestInput>;
-export declare function makeAddressRequest(value: InputValue<AddressRequestInput>): Model<AddressRequestInput>;
-export declare function makeAdjustGiftCardBalanceRequest(value: InputValue<AdjustGiftCardBalanceRequestInput>): Model<AdjustGiftCardBalanceRequestInput>;
-export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
-export declare function makeApplyDiscountRequestManual(value: InputValue<ApplyDiscountRequestManualInput>): Model<ApplyDiscountRequestManualInput>;
-export declare function makeApplyDiscountRequestPromotion(value: InputValue<ApplyDiscountRequestPromotionInput>): Model<ApplyDiscountRequestPromotionInput>;
-export declare function makeApplyOrderGiftCardRequest(value: InputValue<ApplyOrderGiftCardRequestInput>): Model<ApplyOrderGiftCardRequestInput>;
-export declare function makeAssessInvoiceLateFeeRequest(value: InputValue<AssessInvoiceLateFeeRequestInput>): Model<AssessInvoiceLateFeeRequestInput>;
-export declare function makeAssignToUnconfiguredDeliveryProfileRequest(value: InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>): Model<AssignToUnconfiguredDeliveryProfileRequestInput>;
-export declare function makeBrandingSettingsRequest(value: InputValue<BrandingSettingsRequestInput>): Model<BrandingSettingsRequestInput>;
-export declare function makeBuyerCapabilities(value: InputValue<BuyerCapabilitiesInput>): Model<BuyerCapabilitiesInput>;
-export declare function makeBuyerCreateReturnPreviewRequest(value: InputValue<BuyerCreateReturnPreviewRequestInput>): Model<BuyerCreateReturnPreviewRequestInput>;
-export declare function makeBuyerCreateReturnPreviewRequestEligibility(value: InputValue<BuyerCreateReturnPreviewRequestEligibilityInput>): Model<BuyerCreateReturnPreviewRequestEligibilityInput>;
-export declare function makeBuyerCreateReturnPreviewRequestResolution(value: InputValue<BuyerCreateReturnPreviewRequestResolutionInput>): Model<BuyerCreateReturnPreviewRequestResolutionInput>;
-export declare function makeBuyerCreateReturnRequest(value: InputValue<BuyerCreateReturnRequestInput>): Model<BuyerCreateReturnRequestInput>;
-export declare function makeBuyerCreateReturnResolutionPreviewRequest(value: InputValue<BuyerCreateReturnResolutionPreviewRequestInput>): Model<BuyerCreateReturnResolutionPreviewRequestInput>;
-export declare function makeBuyerInstructionsConfigRequestRequest(value: InputValue<BuyerInstructionsConfigRequestRequestInput>): Model<BuyerInstructionsConfigRequestRequestInput>;
-export declare function makeBuyerPauseCapability(value: InputValue<BuyerPauseCapabilityInput>): Model<BuyerPauseCapabilityInput>;
-export declare function makeBuyerRetentionOffer(value: InputValue<BuyerRetentionOfferInput>): Model<BuyerRetentionOfferInput>;
-export declare function makeBuyerReturnReplacementLineItemInputBundle(value: InputValue<BuyerReturnReplacementLineItemInputBundleInput>): Model<BuyerReturnReplacementLineItemInputBundleInput>;
-export declare function makeBuyerReturnReplacementLineItemInputVariant(value: InputValue<BuyerReturnReplacementLineItemInputVariantInput>): Model<BuyerReturnReplacementLineItemInputVariantInput>;
-export declare function makeBuyerReturnReplacementLineItemRequest(value: InputValue<BuyerReturnReplacementLineItemRequestInput>): Model<BuyerReturnReplacementLineItemRequestInput>;
-export declare function makeBuyerSkipCapability(value: InputValue<BuyerSkipCapabilityInput>): Model<BuyerSkipCapabilityInput>;
-export declare function makeCallerSuppliedDeliveryMethodResultRequest(value: InputValue<CallerSuppliedDeliveryMethodResultRequestInput>): Model<CallerSuppliedDeliveryMethodResultRequestInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequest(value: InputValue<CallerSuppliedDeliveryOutcomeRequestInput>): Model<CallerSuppliedDeliveryOutcomeRequestInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestAvailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestAvailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestAvailableInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate(value: InputValue<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>): Model<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
-export declare function makeCancelGiftCardNotificationRequest(value: InputValue<CancelGiftCardNotificationRequestInput>): Model<CancelGiftCardNotificationRequestInput>;
-export declare function makeCancelOrderPaymentAttemptRequest(value: InputValue<CancelOrderPaymentAttemptRequestInput>): Model<CancelOrderPaymentAttemptRequestInput>;
-export declare function makeCancelPaymentIntentRequest(value: InputValue<CancelPaymentIntentRequestInput>): Model<CancelPaymentIntentRequestInput>;
-export declare function makeCancelPayoutRequest(value: InputValue<CancelPayoutRequestInput>): Model<CancelPayoutRequestInput>;
-export declare function makeCancelReturnDispositionRequest(value: InputValue<CancelReturnDispositionRequestInput>): Model<CancelReturnDispositionRequestInput>;
-export declare function makeCancelReturnLineItemRequest(value: InputValue<CancelReturnLineItemRequestInput>): Model<CancelReturnLineItemRequestInput>;
-export declare function makeCancelReturnRequest(value: InputValue<CancelReturnRequestInput>): Model<CancelReturnRequestInput>;
-export declare function makeCancelReturnResolutionRequest(value: InputValue<CancelReturnResolutionRequestInput>): Model<CancelReturnResolutionRequestInput>;
+    CustomerAccountPresentationRequestInput,
+    CustomerAccountRouteTemplatesRequestInput,
+    CustomerAccountSettingsRequestInput,
+    CustomerEmailDeliverySettingsRequestInput
+} from './types-13.js';
+import type {
+    DecideReturnInspectionLineItemRequestInput,
+    DecideReturnRequestInput,
+    DeclinePaymentReviewRequestInput,
+    DeliveryAddressRequestInput,
+    DeliveryAvailabilityRequestInput,
+    DeliveryBlackoutIntervalRequestInput
+} from './types-14.js';
+export declare function makeCreateReturnDispositionRequest(value: InputValue<CreateReturnDispositionRequestInput>): Model<CreateReturnDispositionRequestInput>;
+export declare function makeCreateReturnDispositionRequestInspectionLine(value: InputValue<CreateReturnDispositionRequestInspectionLineInput>): Model<CreateReturnDispositionRequestInspectionLineInput>;
+export declare function makeCreateReturnDispositionRequestReceiptLine(value: InputValue<CreateReturnDispositionRequestReceiptLineInput>): Model<CreateReturnDispositionRequestReceiptLineInput>;
+export declare function makeCreateReturnEligibilityPreviewRequest(value: InputValue<CreateReturnEligibilityPreviewRequestInput>): Model<CreateReturnEligibilityPreviewRequestInput>;
+export declare function makeCreateReturnInspectionRequest(value: InputValue<CreateReturnInspectionRequestInput>): Model<CreateReturnInspectionRequestInput>;
+export declare function makeCreateReturnPolicyRequest(value: InputValue<CreateReturnPolicyRequestInput>): Model<CreateReturnPolicyRequestInput>;
+export declare function makeCreateReturnPreviewRequest(value: InputValue<CreateReturnPreviewRequestInput>): Model<CreateReturnPreviewRequestInput>;
+export declare function makeCreateReturnPreviewRequestEligibility(value: InputValue<CreateReturnPreviewRequestEligibilityInput>): Model<CreateReturnPreviewRequestEligibilityInput>;
+export declare function makeCreateReturnPreviewRequestResolution(value: InputValue<CreateReturnPreviewRequestResolutionInput>): Model<CreateReturnPreviewRequestResolutionInput>;
+export declare function makeCreateReturnReasonRequest(value: InputValue<CreateReturnReasonRequestInput>): Model<CreateReturnReasonRequestInput>;
+export declare function makeCreateReturnReceiptRequest(value: InputValue<CreateReturnReceiptRequestInput>): Model<CreateReturnReceiptRequestInput>;
+export declare function makeCreateReturnRequest(value: InputValue<CreateReturnRequestInput>): Model<CreateReturnRequestInput>;
+export declare function makeCreateReturnResolutionPreviewRequest(value: InputValue<CreateReturnResolutionPreviewRequestInput>): Model<CreateReturnResolutionPreviewRequestInput>;
+export declare function makeCreateReturnResolutionPreviewRequestCorrection(value: InputValue<CreateReturnResolutionPreviewRequestCorrectionInput>): Model<CreateReturnResolutionPreviewRequestCorrectionInput>;
+export declare function makeCreateReturnResolutionPreviewRequestStandard(value: InputValue<CreateReturnResolutionPreviewRequestStandardInput>): Model<CreateReturnResolutionPreviewRequestStandardInput>;
+export declare function makeCreateReturnResolutionRequest(value: InputValue<CreateReturnResolutionRequestInput>): Model<CreateReturnResolutionRequestInput>;
+export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
+export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
+export declare function makeCreateRiskListRequest(value: InputValue<CreateRiskListRequestInput>): Model<CreateRiskListRequestInput>;
+export declare function makeCreateRiskPreviewRequest(value: InputValue<CreateRiskPreviewRequestInput>): Model<CreateRiskPreviewRequestInput>;
+export declare function makeCreateRiskPreviewRequestInline(value: InputValue<CreateRiskPreviewRequestInlineInput>): Model<CreateRiskPreviewRequestInlineInput>;
+export declare function makeCreateRiskPreviewRequestStoredRule(value: InputValue<CreateRiskPreviewRequestStoredRuleInput>): Model<CreateRiskPreviewRequestStoredRuleInput>;
+export declare function makeCreateRiskRuleRequest(value: InputValue<CreateRiskRuleRequestInput>): Model<CreateRiskRuleRequestInput>;
+export declare function makeCreateSandboxRequest(value: InputValue<CreateSandboxRequestInput>): Model<CreateSandboxRequestInput>;
+export declare function makeCreateServiceFulfillmentDetails(value: InputValue<CreateServiceFulfillmentDetailsInput>): Model<CreateServiceFulfillmentDetailsInput>;
+export declare function makeCreateShipmentRequest(value: InputValue<CreateShipmentRequestInput>): Model<CreateShipmentRequestInput>;
+export declare function makeCreateShipmentRequestOutbound(value: InputValue<CreateShipmentRequestOutboundInput>): Model<CreateShipmentRequestOutboundInput>;
+export declare function makeCreateShipmentRequestReturn(value: InputValue<CreateShipmentRequestReturnInput>): Model<CreateShipmentRequestReturnInput>;
+export declare function makeCreateSubscriptionAccessLinkRequest(value: InputValue<CreateSubscriptionAccessLinkRequestInput>): Model<CreateSubscriptionAccessLinkRequestInput>;
+export declare function makeCreateSubscriptionDeliveryMigrationRequest(value: InputValue<CreateSubscriptionDeliveryMigrationRequestInput>): Model<CreateSubscriptionDeliveryMigrationRequestInput>;
+export declare function makeCreateSubscriptionLineItemRequest(value: InputValue<CreateSubscriptionLineItemRequestInput>): Model<CreateSubscriptionLineItemRequestInput>;
+export declare function makeCreateSubscriptionLineItemRequestBundle(value: InputValue<CreateSubscriptionLineItemRequestBundleInput>): Model<CreateSubscriptionLineItemRequestBundleInput>;
+export declare function makeCreateSubscriptionLineItemRequestVariant(value: InputValue<CreateSubscriptionLineItemRequestVariantInput>): Model<CreateSubscriptionLineItemRequestVariantInput>;
+export declare function makeCreateSubscriptionOfferRequest(value: InputValue<CreateSubscriptionOfferRequestInput>): Model<CreateSubscriptionOfferRequestInput>;
+export declare function makeCreateSubscriptionPlanRequest(value: InputValue<CreateSubscriptionPlanRequestInput>): Model<CreateSubscriptionPlanRequestInput>;
+export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<CreateSubscriptionPreviewRequestInput>): Model<CreateSubscriptionPreviewRequestInput>;
+export declare function makeCreateSubscriptionPreviewRequestCreate(value: InputValue<CreateSubscriptionPreviewRequestCreateInput>): Model<CreateSubscriptionPreviewRequestCreateInput>;
+export declare function makeCreateSubscriptionPreviewRequestDeliveryMethodUpdate(value: InputValue<CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput>): Model<CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput>;
+export declare function makeCreateSubscriptionPreviewRequestDeliveryOptions(value: InputValue<CreateSubscriptionPreviewRequestDeliveryOptionsInput>): Model<CreateSubscriptionPreviewRequestDeliveryOptionsInput>;
+export declare function makeCreateSubscriptionPreviewRequestNextRenewal(value: InputValue<CreateSubscriptionPreviewRequestNextRenewalInput>): Model<CreateSubscriptionPreviewRequestNextRenewalInput>;
+export declare function makeCreateSubscriptionPreviewRequestPlanChange(value: InputValue<CreateSubscriptionPreviewRequestPlanChangeInput>): Model<CreateSubscriptionPreviewRequestPlanChangeInput>;
+export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;
+export declare function makeCreateTaxRegistrationRequest(value: InputValue<CreateTaxRegistrationRequestInput>): Model<CreateTaxRegistrationRequestInput>;
+export declare function makeCreateTestClockRequest(value: InputValue<CreateTestClockRequestInput>): Model<CreateTestClockRequestInput>;
+export declare function makeCreateWebhookDeliveryRequest(value: InputValue<CreateWebhookDeliveryRequestInput>): Model<CreateWebhookDeliveryRequestInput>;
+export declare function makeCreateWebhookEndpointRequest(value: InputValue<CreateWebhookEndpointRequestInput>): Model<CreateWebhookEndpointRequestInput>;
+export declare function makeCreateWebhookTestEventRequest(value: InputValue<CreateWebhookTestEventRequestInput>): Model<CreateWebhookTestEventRequestInput>;
+export declare function makeCreateWorkloadIdentityRequest(value: InputValue<CreateWorkloadIdentityRequestInput>): Model<CreateWorkloadIdentityRequestInput>;
+export declare function makeCreditNoteCorrectionRequest(value: InputValue<CreditNoteCorrectionRequestInput>): Model<CreditNoteCorrectionRequestInput>;
+export declare function makeCreditNoteCorrectionRequestAmount(value: InputValue<CreditNoteCorrectionRequestAmountInput>): Model<CreditNoteCorrectionRequestAmountInput>;
+export declare function makeCreditNoteCorrectionRequestQuantity(value: InputValue<CreditNoteCorrectionRequestQuantityInput>): Model<CreditNoteCorrectionRequestQuantityInput>;
+export declare function makeCreditNoteIssueAllocationRequest(value: InputValue<CreditNoteIssueAllocationRequestInput>): Model<CreditNoteIssueAllocationRequestInput>;
+export declare function makeCreditNoteLineItemRequest(value: InputValue<CreditNoteLineItemRequestInput>): Model<CreditNoteLineItemRequestInput>;
+export declare function makeCreditNoteRefundRequest(value: InputValue<CreditNoteRefundRequestInput>): Model<CreditNoteRefundRequestInput>;
+export declare function makeCustomerAccountPresentationRequest(value: InputValue<CustomerAccountPresentationRequestInput>): Model<CustomerAccountPresentationRequestInput>;
+export declare function makeCustomerAccountRouteTemplatesRequest(value: InputValue<CustomerAccountRouteTemplatesRequestInput>): Model<CustomerAccountRouteTemplatesRequestInput>;
+export declare function makeCustomerAccountSettingsRequest(value: InputValue<CustomerAccountSettingsRequestInput>): Model<CustomerAccountSettingsRequestInput>;
+export declare function makeCustomerEmailDeliverySettingsRequest(value: InputValue<CustomerEmailDeliverySettingsRequestInput>): Model<CustomerEmailDeliverySettingsRequestInput>;
+export declare function makeDecideReturnInspectionLineItemRequest(value: InputValue<DecideReturnInspectionLineItemRequestInput>): Model<DecideReturnInspectionLineItemRequestInput>;
+export declare function makeDecideReturnRequest(value: InputValue<DecideReturnRequestInput>): Model<DecideReturnRequestInput>;
+export declare function makeDeclinePaymentReviewRequest(value: InputValue<DeclinePaymentReviewRequestInput>): Model<DeclinePaymentReviewRequestInput>;
+export declare function makeDeliveryAddressRequest(value: InputValue<DeliveryAddressRequestInput>): Model<DeliveryAddressRequestInput>;
+export declare function makeDeliveryAvailabilityRequest(value: InputValue<DeliveryAvailabilityRequestInput>): Model<DeliveryAvailabilityRequestInput>;
+export declare function makeDeliveryBlackoutIntervalRequest(value: InputValue<DeliveryBlackoutIntervalRequestInput>): Model<DeliveryBlackoutIntervalRequestInput>;

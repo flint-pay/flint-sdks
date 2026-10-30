@@ -9,10 +9,10 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allow_quantities` | Optional | boolean |  |
-| `max_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `max_selected` | Optional | integer | Format: `int32`. |
-| `max_total_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `min_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `max_total_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `min_selected` | Optional | integer | Format: `int32`. |
 | `modifier_group_id` | Required | string |  |
 | `modifier_group_type` | Required | string | Values: `"list"`, `"text"`. |

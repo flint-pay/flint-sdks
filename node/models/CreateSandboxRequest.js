@@ -1,12 +1,12 @@
-import { d266 as c0 } from '../descriptors/data/16.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4020 as c1, d4021 as c4, d4022 as c5 } from '../descriptors/data/173.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3226 as c2, d3227 as c3, d3228 as c7 } from '../descriptors/data/130.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3190 as c6 } from '../descriptors/data/128.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d266 as d266 } from '../descriptors/data/16.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d309 as c0 } from '../descriptors/data/18.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4351 as c1, d4352 as c4, d4353 as c5 } from '../descriptors/data/184.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4300 as c2 } from '../descriptors/data/181.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6790 as c3, d6791 as c6, d6792 as c7 } from '../descriptors/data/323.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d309 as d309 } from '../descriptors/data/18.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d266;
+const read = d309;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateSandboxRequest"]:c0(),["SharedCodec252"]:c1(),["SharedCodec253"]:c2(),["SharedCodec254"]:c3(),["SharedCodec255"]:c4(),["SharedCodec256"]:c5(),["SharedCodec3"]:c6(),["SharedCodec71"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateSandboxRequest"]:c0(),["SharedCodec128"]:c1(),["SharedCodec3"]:c2(),["SharedCodec317"]:c3(),["SharedCodec318"]:c4(),["SharedCodec319"]:c5(),["SharedCodec320"]:c6(),["SharedCodec321"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateSandboxRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

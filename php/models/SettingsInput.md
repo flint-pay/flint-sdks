@@ -28,5 +28,5 @@ Request input.
 | `tax_identity` | Required | [TaxIdentityInput](../models/TaxIdentityInput.md#taxidentityinput) or null |  |
 | `tipping` | Optional | [TippingSettingsInput](../models/TippingSettingsInput.md#tippingsettingsinput) | Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips are allowed. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 

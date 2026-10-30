@@ -15,13 +15,13 @@
 
 ### SubscriptionServiceLocationInputAddress variant 1: `type` = `"address"`
 
-anyOf variant 1: Declared schema SubscriptionDeliveryDestinationInputAddress. The `address` variant of `SubscriptionDeliveryDestinationInput`..
+anyOf SubscriptionDeliveryDestinationInputAddress: Declared schema SubscriptionDeliveryDestinationInputAddress. The `address` variant of `SubscriptionDeliveryDestinationInput`..
 
 No additional constraints.
 
 ### SubscriptionServiceLocationInputAddress variant 2: `type` = `"address"`
 
-anyOf variant 2: Declared schema SubscriptionServiceLocationInputAddress. The `address` variant of `SubscriptionServiceLocationInput`..
+anyOf SubscriptionServiceLocationInputAddress: Declared schema SubscriptionServiceLocationInputAddress. The `address` variant of `SubscriptionServiceLocationInput`..
 
 No additional constraints.
 

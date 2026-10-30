@@ -7,7 +7,7 @@ namespace Flint;
 final class CreateEmailChangeRequestInput extends Model {
     /** @param array{'new_email': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateEmailChangeRequestInput')); }
-    /** Shape $ (Value): string. Format: email. minLength: 1. maxLength: 320.
+    /** Format: email. minLength: 1. maxLength: 320.
      * @return string
      * @throws SdkError When new_email is omitted; use hasNewEmail() or valueOrDefault().
      */

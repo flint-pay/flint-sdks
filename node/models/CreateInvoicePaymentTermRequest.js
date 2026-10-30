@@ -1,12 +1,12 @@
-import { d195 as c0 } from '../descriptors/data/10.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3528 as c1, d3529 as c2, d3531 as c4, d3532 as c5, d3533 as c6, d3534 as c7, d3535 as c8, d3536 as c9 } from '../descriptors/data/147.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3168 as c3 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3537 as c10, d3538 as c11, d3539 as c12, d3540 as c13, d3541 as c14, d3542 as c15, d3543 as c16, d3544 as c17, d3545 as c18 } from '../descriptors/data/148.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d195 as d195 } from '../descriptors/data/10.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d235 as c0 } from '../descriptors/data/12.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4703 as c1, d4704 as c2, d4707 as c4, d4708 as c5, d4709 as c6, d4710 as c7, d4711 as c8, d4712 as c9, d4713 as c10 } from '../descriptors/data/205.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4281 as c3 } from '../descriptors/data/180.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4714 as c11, d4715 as c12, d4716 as c13, d4717 as c14, d4718 as c15, d4719 as c16, d4720 as c17, d4721 as c18 } from '../descriptors/data/206.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d235 as d235 } from '../descriptors/data/12.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d195;
+const read = d235;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateInvoicePaymentTermRequest"]:c0(),["InvoiceLateFeePolicy"]:c1(),["InvoicePaymentTermCalculation"]:c2(),["MoneyValue"]:c3(),["SharedCodec25"]:c4(),["SharedCodec26"]:c5(),["SharedCodec27"]:c6(),["SharedCodec28"]:c7(),["SharedCodec953"]:c8(),["SharedCodec954"]:c9(),["SharedCodec955"]:c10(),["SharedCodec956"]:c11(),["SharedCodec957"]:c12(),["SharedCodec958"]:c13(),["SharedCodec959"]:c14(),["SharedCodec960"]:c15(),["SharedCodec961"]:c16(),["SharedCodec962"]:c17(),["SharedCodec963"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateInvoicePaymentTermRequest"]:c0(),["InvoiceLateFeePolicy"]:c1(),["InvoicePaymentTermCalculation"]:c2(),["MoneyValue"]:c3(),["SharedCodec46"]:c4(),["SharedCodec47"]:c5(),["SharedCodec48"]:c6(),["SharedCodec49"]:c7(),["SharedCodec788"]:c8(),["SharedCodec789"]:c9(),["SharedCodec790"]:c10(),["SharedCodec791"]:c11(),["SharedCodec792"]:c12(),["SharedCodec793"]:c13(),["SharedCodec794"]:c14(),["SharedCodec795"]:c15(),["SharedCodec796"]:c16(),["SharedCodec797"]:c17(),["SharedCodec798"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateInvoicePaymentTermRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

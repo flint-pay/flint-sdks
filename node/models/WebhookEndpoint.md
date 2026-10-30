@@ -25,6 +25,6 @@ A merchant webhook endpoint belongs to the live mode or sandbox of the credentia
 | `status` | Required | string | Availability of this endpoint. Deleted is returned only by DELETE. Values: `"active"`, `"inactive"`, `"deleted"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Required | string |  |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 | `webhook_endpoint_id` | Required | string |  |
 

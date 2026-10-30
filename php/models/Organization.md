@@ -9,16 +9,16 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata). |
 | `name` | Required | string |  |
 | `organization_id` | Required | string |  |
-| `parent_organization` | Optional | [ExpandedOrganizationSummary](../models/ExpandedOrganizationSummary.md#expandedorganizationsummary) or null |  |
+| `parent_organization` | Optional | [ExpandedOrganizationSummary](../models/ExpandedOrganizationSummary.md#expandedorganizationsummary) or null | Present only when `expand` includes `parent_organization`; `null` when expanded and there is no related organization. |
 | `parent_organization_id` | Optional | string |  |
 | `status` | Required | string | Current status. Archived: deleted. API keys can no longer read or list the organization. Values: `"active"`, `"archived"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Persisted organization configuration and membership version. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Persisted organization configuration and membership version. Format: `uint64`. minimum: `1`. |
 
 ### Organization.metadata
 
-Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
+Field definitions: [CancelReturnResponse.data.metadata](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata).
 

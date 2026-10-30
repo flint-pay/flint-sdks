@@ -24,7 +24,7 @@ No additional constraints.
 
 ### DocumentTaxID variant 2
 
-anyOf variant 2: Declared schema DocumentTaxIDRequestRequest. A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value..
+anyOf variant 2: Declared schema DocumentTaxIDRequest. A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value..
 
 No additional constraints.
 

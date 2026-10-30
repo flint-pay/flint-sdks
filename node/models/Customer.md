@@ -14,7 +14,7 @@ A merchant's customer profile.
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `customer_id` | Required | string |  |
 | `default_invoice_payment_term_id` | Optional | string |  |
-| `default_payment_method` | Optional | [ExpandedPaymentMethodSummary](../models/ExpandedPaymentMethodSummary.md#expandedpaymentmethodsummary) or null |  |
+| `default_payment_method` | Optional | [ExpandedPaymentMethodSummary](../models/ExpandedPaymentMethodSummary.md#expandedpaymentmethodsummary) or null | Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. |
 | `default_payment_method_id` | Required | string or null |  |
 | `email` | Required | string or null | Customer email, or null when the customer has none. Unique among the environment's customers. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this customer in an external system, or null when none. Not returned to customer sessions. minLength: `1`. maxLength: `255`. |
@@ -30,8 +30,9 @@ A merchant's customer profile.
 | `status` | Required | string | Values: `"active"`, `"deletion_processing"`, `"deleted"`. |
 | `tax_exempt` | Optional | boolean |  |
 | `tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null |  |
+| `test_clock_id` | Optional | string | ID of the test clock the customer was created on. The customer and its subscriptions read the clock's `frozen_at` as the current time. Present only for customers created on a test clock. Not returned to customer sessions. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 
 ### Customer.metadata
 

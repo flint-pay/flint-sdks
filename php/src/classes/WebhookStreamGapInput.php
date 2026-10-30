@@ -9,19 +9,19 @@ namespace Flint;
 final class WebhookStreamGapInput extends Model {
     /** @param array{'reason': string, 'requested_cursor'?: string, 'resume_cursor'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookStreamGapInput')); }
-    /** Shape $ (Value): string.  Value enum: "cursor_unavailable", "payload_expired".
+    /** Value enum: "cursor_unavailable", "payload_expired".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): string.
+    /** requested_cursor
      * @return string
      * @throws SdkError When requested_cursor is omitted; use hasRequestedCursor() or valueOrDefault().
      */
     public function getRequestedCursor(): string { return $this->get('requested_cursor'); }
     public function hasRequestedCursor(): bool { return $this->has('requested_cursor'); }
-    /** Shape $ (Value): string.
+    /** resume_cursor
      * @return string
      * @throws SdkError When resume_cursor is omitted; use hasResumeCursor() or valueOrDefault().
      */

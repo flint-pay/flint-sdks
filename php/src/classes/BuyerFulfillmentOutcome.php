@@ -9,17 +9,17 @@ namespace Flint;
 final class BuyerFulfillmentOutcome extends Model {
     /** @param array{'occurred_at': string, 'outcome_type': string, 'reason': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentOutcome')); }
-    /** Shape $ (Value): string. Time the terminal outcome occurred. Format: date-time.
+    /** Time the terminal outcome occurred. Format: date-time.
      * @return string
      */
     public function getOccurredAt(): string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Shape $ (Value): string. Recorded fulfillment outcome, such as a missed service appointment. Value enum: "no_show".
+    /** Recorded fulfillment outcome, such as a missed service appointment. Value enum: "no_show".
      * @return string
      */
     public function getOutcomeType(): string { return $this->get('outcome_type'); }
     public function hasOutcomeType(): bool { return $this->has('outcome_type'); }
-    /** Shape $ (Value): string. Machine-readable reason for the recorded outcome. Value enum: "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
+    /** Machine-readable reason for the recorded outcome. Value enum: "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }

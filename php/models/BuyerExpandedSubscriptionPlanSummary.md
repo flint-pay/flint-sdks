@@ -14,7 +14,7 @@ Response model.
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `description` | Optional | string |  |
-| `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/MeCancelSubscriptionResponse200.md#mecancelsubscriptionresponse200datasubscription_plan-variant-1line_items). |
+| `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedatasubscription_plan-variant-1line_items). |
 | `name` | Required | string |  |
 | `quantity_options` | Optional | Array of integer | maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `setup_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -25,5 +25,5 @@ Response model.
 
 ### BuyerExpandedSubscriptionPlanSummary.line_items[]
 
-Declared alternatives: [MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[]](../models/MeCancelSubscriptionResponse200.md#mecancelsubscriptionresponse200datasubscription_plan-variant-1line_items).
+Declared alternatives: [BuyerSubscriptionResponse.data.subscription_plan variant 1.line_items[]](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedatasubscription_plan-variant-1line_items).
 

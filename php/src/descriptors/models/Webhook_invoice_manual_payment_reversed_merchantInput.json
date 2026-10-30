@@ -1,1 +1,0 @@
-{"shared":"Webhook_invoice_manual_payment_reversed_merchant","dependencies":["InvoiceManualPayment","MerchantWebhookEnvelope","MoneyValue","SharedCodec413","SharedCodec414","SharedCodec792","Webhook_invoice_manual_payment_reversed_merchant"]}

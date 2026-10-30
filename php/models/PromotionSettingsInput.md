@@ -6,5 +6,5 @@ Merchant promotion settings: whether automatic promotions and codes are enabled,
 
 Request input.
 
-Fields, types, descriptions and enum values: [PromotionSettingsRequestRequestInput](../models/PromotionSettingsRequestRequestInput.md#promotionsettingsrequestrequestinput).
+Fields, types, descriptions and enum values: [PromotionSettingsRequestInput](../models/PromotionSettingsRequestInput.md#promotionsettingsrequestinput).
 

@@ -16,13 +16,13 @@
 
 ### CreateSubscriptionPreviewRequestDeliveryOptions variant 1: `mode` = `"delivery_options"`
 
-anyOf variant 1: Declared schema CreateMeSubscriptionPreviewRequestDeliveryOptions. The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
+anyOf CreateMeSubscriptionPreviewRequestDeliveryOptions: Declared schema CreateMeSubscriptionPreviewRequestDeliveryOptions. The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
 
 No additional constraints.
 
 ### CreateSubscriptionPreviewRequestDeliveryOptions variant 2: `mode` = `"delivery_options"`
 
-anyOf variant 2: Declared schema CreateSubscriptionPreviewRequestDeliveryOptions. The `delivery_options` variant of `CreateSubscriptionPreviewRequest`..
+anyOf CreateSubscriptionPreviewRequestDeliveryOptions: Declared schema CreateSubscriptionPreviewRequestDeliveryOptions. The `delivery_options` variant of `CreateSubscriptionPreviewRequest`..
 
 No additional constraints.
 

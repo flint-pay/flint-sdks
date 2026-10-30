@@ -1,0 +1,1 @@
+{"shared":"GiftCardNotificationUpdatedMerchantEvent","dependencies":["GiftCardNotification","GiftCardNotificationDelivery","GiftCardNotificationDeliveryAttempt","GiftCardNotificationDeliveryEvent","GiftCardNotificationRecipient","GiftCardNotificationUpdatedMerchantEvent","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec612"]}

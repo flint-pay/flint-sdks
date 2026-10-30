@@ -12,5 +12,5 @@ Request input.
 | `original_gift_card_id` | Required | string |  |
 | `original_gift_card_load_id` | Required | string |  |
 | `purchase_refund_allocation_id` | Required | string |  |
-| `unit_ordinal` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `unit_ordinal` | Required | integer | Format: `int64`. |
 

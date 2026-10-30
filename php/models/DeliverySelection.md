@@ -15,10 +15,10 @@ Response model.
 | `choices` | Required | Array of [DeliverySelectionChoiceResource](../models/DeliverySelectionChoiceResource.md#deliveryselectionchoiceresource) | One chosen option for each required choice group. `choices[]`: [field definitions](../models/DeliverySelection.md#deliveryselectionchoices). |
 | `created_at` | Optional | string | Time the selection was created. Always present with an API key or dashboard credential. Format: `date-time`. |
 | `delivery_quote_id` | Required | string | Quote from which this selection was made. |
-| `delivery_quote_version` | Optional | integer string | Quote version from which this selection was created. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_quote_version` | Optional | integer | Quote version from which this selection was created. Always present with an API key or dashboard credential. Format: `uint64`. minimum: `0`. |
 | `delivery_selection_id` | Required | string | Stable delivery selection ID. |
 | `destination_address` | Optional | [Address](../models/Address.md#address) | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/DeliverySelection.md#deliveryselectiondestination_address). |
-| `eligibility_context_version` | Optional | integer string | Checkout eligibility context version evaluated by this selection. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `eligibility_context_version` | Optional | integer | Checkout eligibility context version evaluated by this selection. Always present with an API key or dashboard credential. Format: `uint64`. minimum: `0`. |
 | `expires_at` | Required | string | Deadline after which this provisional selection can no longer be committed. Format: `date-time`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |
 | `instructions` | Optional | string | Buyer-provided delivery instructions. Returned with an API key or dashboard credential. |
@@ -44,11 +44,11 @@ Response model.
 
 Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or dashboard credential. The normalized buyer address or coordinate used for this quote.
 
-Field definitions: [shared fields](DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_location).
+Field definitions: [shared fields](DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_location).
 
 ### DeliverySelection.buyer_location variant 1: `type` = `"address"`
 
-oneOf variant 1: The normalized buyer address or coordinate used for this quote..
+oneOf with type: "address": The normalized buyer address or coordinate used for this quote..
 
 - Condition: not (present(`coordinate`)).
 - Required: `address`.
@@ -57,7 +57,7 @@ oneOf variant 1: The normalized buyer address or coordinate used for this quote.
 
 ### DeliverySelection.buyer_location variant 2: `type` = `"coordinate"`
 
-oneOf variant 2: The normalized buyer address or coordinate used for this quote..
+oneOf with type: "coordinate": The normalized buyer address or coordinate used for this quote..
 
 - Condition: not (present(`address`)).
 - Required: `coordinate`.
@@ -66,11 +66,11 @@ oneOf variant 2: The normalized buyer address or coordinate used for this quote.
 
 ### DeliverySelection.buyer_location.address
 
-Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.address](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress).
+Field definitions: [DeliveryPreviewResponse.data variant 1.buyer_location.address](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_locationaddress).
 
 ### DeliverySelection.buyer_location.coordinate
 
-Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.coordinate](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationcoordinate).
+Field definitions: [DeliveryPreviewResponse.data variant 1.buyer_location.coordinate](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_locationcoordinate).
 
 ### DeliverySelection.choices[]
 

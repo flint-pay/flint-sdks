@@ -1,10 +1,7 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { RotateWebhookSecretRequestInput, SdkResponse } from '../declarations/types-46.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-47.js';
 import type {
-    UpdateWebhookEndpointRequestInput,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
     WebhookEndpoint,
@@ -12,20 +9,20 @@ import type {
     WebhookEndpointResponse,
     WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
-    WebhookEndpointsCreateInput,
-    WebhookEndpointsCreateWebhookTestEventInput,
-    WebhookEndpointsGetInput,
-    WebhookEndpointsListInput,
-    WebhookEndpointsRemoveInput,
-    WebhookEndpointsRotateWebhookSecretInput,
-    WebhookEndpointsUpdateInput
-} from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    WebhookEndpointsCreateParams,
+    WebhookEndpointsCreateTestEventParams,
+    WebhookEndpointsDeleteParams,
+    WebhookEndpointsGetParams,
+    WebhookEndpointsListParams,
+    WebhookEndpointsRotateSecretParams,
+    WebhookEndpointsUpdateParams,
+    _SdkWithoutIdempotency
+} from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -35,219 +32,148 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-10.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    WebhookEndpointsCreateParams,
     WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
+    WebhookEndpointsCreateTestEventParams,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
+    WebhookEndpointsDeleteParams,
     WebhookEndpoint,
     WebhookEndpointResponse,
+    WebhookEndpointsGetParams,
+    _SdkWithoutIdempotency,
+    WebhookEndpointsListParams,
     WebhookEndpointListResponse,
-    UpdateWebhookEndpointRequestInput,
-    WebhookEndpointsCreateInput,
-    WebhookEndpointsCreateWebhookTestEventInput,
-    WebhookEndpointsRemoveInput,
-    WebhookEndpointsGetInput,
-    WebhookEndpointsListInput,
-    WebhookEndpointsRotateWebhookSecretInput,
-    WebhookEndpointsUpdateInput
-} from '../declarations/types-53.js';
-export type { SdkResponse, RotateWebhookSecretRequestInput } from '../declarations/types-46.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { WebhookSigningMethodInput } from '../declarations/types-57.js';
+    WebhookEndpointsRotateSecretParams,
+    WebhookEndpointsUpdateParams,
+    WebhookSigningMethodInput
+} from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeRotateWebhookSecretRequest } from '../declarations/types-76.js';
-export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-78.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { RotateWebhookSecretRequestInput } from '../declarations/types-52.js';
+export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-60.js';
+export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeRotateWebhookSecretRequest } from '../declarations/types-72.js';
+export { makeUpdateWebhookEndpointRequest } from '../declarations/types-74.js';
+export { makeWebhookSigningMethod } from '../declarations/types-75.js';
 export interface WebhookEndpointsResource {
     /**
  * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and
  * returned once only when hmac is included.
- * @see reference/webhookEndpoints.md#webhookendpointscreate
- * POST /v1/webhook-endpoints
+ *
+ * `POST /v1/webhook-endpoints`
+ * @see https://developers.withflintpay.com/docs/api/webhooks#createWebhookEndpoint
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookEndpoints.create({url: "example", enabled_events: ["example"]}, { idempotencyKey:
- * idempotencyKey })
+ * client.webhookEndpoints.create({description: "Primary production endpoint", enabled_events:
+ * ["order.paid", "payment_intent.succeeded"], event_sources: ["merchant"], status: "active", url:
+ * "https://example.com/webhooks/flint"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateWebhookEndpointRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpointWithSecret>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointscreate
-     */
-    createWithResponse(params: (InputValue<CreateWebhookEndpointRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointWithSecretResponse>>;
+    create(params: WebhookEndpointsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookEndpointWithSecret, WebhookEndpointWithSecretResponse>>;
     /**
  * Creates and delivers a synthetic test webhook event to one active webhook endpoint. Safe to
  * retry with the same Idempotency-Key.
- * @see reference/webhookEndpoints.md#webhookendpointscreatewebhooktestevent
- * POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events
+ *
+ * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events`
+ * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#createWebhookTestEvent
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookEndpoints.createWebhookTestEvent("example", {event_type: "balance.updated"}, {
- * idempotencyKey: idempotencyKey })
+ * client.webhookEndpoints.createTestEvent("whep_01ARZ3NDEKTSV4RRFFQ69G5FAV", {event_type:
+ * "payment_intent.succeeded"}, { idempotencyKey: idempotencyKey })
  */
-    createWebhookTestEvent(webhook_endpoint_id: InputValue<string>, params: (InputValue<CreateWebhookTestEventRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookDeliveryAction>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointscreatewebhooktestevent
-     */
-    createWebhookTestEventWithResponse(webhook_endpoint_id: InputValue<string>, params: (InputValue<CreateWebhookTestEventRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookDeliveryActionResponse>>;
+    createTestEvent(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsCreateTestEventParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookDeliveryAction, WebhookDeliveryActionResponse>>;
     /**
  * Permanently deletes the webhook endpoint and returns it with status deleted. Its pending
  * deliveries are suppressed. The endpoint cannot be retrieved afterward, and its past deliveries
  * keep its webhook_endpoint_id.
- * @see reference/webhookEndpoints.md#webhookendpointsremove
- * DELETE /v1/webhook-endpoints/{webhook_endpoint_id}
+ *
+ * `DELETE /v1/webhook-endpoints/{webhook_endpoint_id}`
+ * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#deleteWebhookEndpoint
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookEndpoints.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.webhookEndpoints.delete("whep_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    remove(webhook_endpoint_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpoint>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointsremove
-     */
-    removeWithResponse(webhook_endpoint_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointResponse>>;
+    delete(webhook_endpoint_id: InputValue<string>, params?: WebhookEndpointsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookEndpoint, WebhookEndpointResponse>>;
     /**
  * Returns a single webhook endpoint by ID. The signing secret is omitted after creation.
- * @see reference/webhookEndpoints.md#webhookendpointsget
- * GET /v1/webhook-endpoints/{webhook_endpoint_id}
+ *
+ * `GET /v1/webhook-endpoints/{webhook_endpoint_id}`
+ * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#getWebhookEndpoint
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.webhookEndpoints.get("example")
+ * client.webhookEndpoints.get("whep_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookEndpoint>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointsget
-     */
-    getWithResponse(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEndpointResponse>>;
+    get(webhook_endpoint_id: InputValue<string>, params?: WebhookEndpointsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<WebhookEndpoint, WebhookEndpointResponse>>;
     /**
  * Returns a page of webhook endpoints for the authenticated merchant. Default order: created_at
  * descending, then webhook_endpoint_id descending.
- * @see reference/webhookEndpoints.md#webhookendpointslist
- * GET /v1/webhook-endpoints
+ *
+ * `GET /v1/webhook-endpoints`
+ * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookEndpoints
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.webhookEndpoints.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
-        "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookEndpointListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
-        "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEndpointListResponse>>;
+    list(params?: WebhookEndpointsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<WebhookEndpointListResponse, WebhookEndpointListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/webhookEndpoints.md#webhookendpointslist
+     * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookEndpoints
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
-        "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEndpointListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/webhookEndpoints.md#webhookendpointslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
-        "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<WebhookEndpointListResponse>>;
+    listPages(params?: WebhookEndpointsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<WebhookEndpointListResponse, WebhookEndpointListResponse>>;
     /** Iterate items lazily.
-     * @see reference/webhookEndpoints.md#webhookendpointslist
+     * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookEndpoints
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
-        "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEndpoint>;
+    listItems(params?: WebhookEndpointsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEndpoint>;
     /**
  * Issues a first shared secret and adds hmac, or rotates an existing shared secret. The secret is
  * returned once. The replaced secret keeps signing deliveries until previous_secret_expires_at: 24
  * hours by default, or expire_previous_secret_at, up to 7 days. Send a time at or before now to
  * stop the replaced secret immediately, for example when it leaked. Rotating again during an
  * overlap ends the older secret at once.
- * @see reference/webhookEndpoints.md#webhookendpointsrotatewebhooksecret
- * POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret
+ *
+ * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret`
+ * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#rotateWebhookEndpointSecret
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookEndpoints.rotateWebhookSecret("example", undefined, { idempotencyKey:
- * idempotencyKey })
+ * client.webhookEndpoints.rotateSecret("whep_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * idempotencyKey: idempotencyKey })
  */
-    rotateWebhookSecret(webhook_endpoint_id: InputValue<string>, params?: (InputValue<RotateWebhookSecretRequestInput>
-        | {
-        "expected_version"?: never;
-        "expire_previous_secret_at"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpointWithSecret>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointsrotatewebhooksecret
-     */
-    rotateWebhookSecretWithResponse(webhook_endpoint_id: InputValue<string>, params?: (InputValue<RotateWebhookSecretRequestInput>
-        | {
-        "expected_version"?: never;
-        "expire_previous_secret_at"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointWithSecretResponse>>;
+    rotateSecret(webhook_endpoint_id: InputValue<string>, params?: WebhookEndpointsRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookEndpointWithSecret, WebhookEndpointWithSecretResponse>>;
     /**
  * Updates the mutable fields on a webhook endpoint.
- * @see reference/webhookEndpoints.md#webhookendpointsupdate
- * PATCH /v1/webhook-endpoints/{webhook_endpoint_id}
+ *
+ * `PATCH /v1/webhook-endpoints/{webhook_endpoint_id}`
+ * @param webhook_endpoint_id Flint webhook endpoint ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#updateWebhookEndpoint
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookEndpoints.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.webhookEndpoints.update("whep_01ARZ3NDEKTSV4RRFFQ69G5FAV", {description: "Example
+ * endpoint"}, { idempotencyKey: idempotencyKey })
  */
-    update(webhook_endpoint_id: InputValue<string>, params: (InputValue<UpdateWebhookEndpointRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpoint>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookEndpoints.md#webhookendpointsupdate
-     */
-    updateWithResponse(webhook_endpoint_id: InputValue<string>, params: (InputValue<UpdateWebhookEndpointRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointResponse>>;
+    update(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookEndpoint, WebhookEndpointResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

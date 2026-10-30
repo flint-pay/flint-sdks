@@ -11,16 +11,16 @@ The request body for: Update payment link.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. `buyer_fields`: [field definitions](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionorderbuyer_fields). |
-| `checkout_session_expires_in_seconds` | Optional | integer string | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
+| `checkout_session_expires_in_seconds` | Optional | integer | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](../models/PaymentLinkCustomFieldPatchRequest.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. maxItems: `20`. |
 | `custom_text` | Optional | [PaymentLinkCustomTextPatchRequest](../models/PaymentLinkCustomTextPatchRequest.md#paymentlinkcustomtextpatchrequest) | Changes to a payment link's custom checkout text. Send null to clear a field. |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
 | `description` | Optional | string or null | Send null to clear. minLength: `1`. maxLength: `2048`. |
 | `donation_max_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Maximum donation amount. Send null to clear the maximum. Send null to clear. `donation_max_amount_money`: [declared alternatives](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequestdonation_max_amount_money). |
 | `donation_min_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Minimum donation amount. Send null to clear the minimum. Send null to clear. `donation_min_amount_money`: [declared alternatives](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequestdonation_min_amount_money). |
-| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Suggested donation amounts. Send an empty array to clear suggested amounts. `donation_suggested_amount_money_options[]`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Suggested donation amounts. Send an empty array to clear suggested amounts. `donation_suggested_amount_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `event_config` | Optional | [PaymentLinkEventConfigPatchRequest](../models/PaymentLinkEventConfigPatchRequest.md#paymentlinkeventconfigpatchrequest) | Event configuration patch. Omit to leave unchanged. The whole configuration cannot be cleared; null is not accepted. Changes to an event payment link's settings. Send null on a nullable field to clear it. |
-| `expected_version` | Optional | integer string | Payment link version last read by the caller. Required when line_items, custom_fields, or delivery_method_ids is present. Required when any of these fields is present: line_items, custom_fields, delivery_method_ids. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Payment link version last read by the caller. Required when line_items, custom_fields, or delivery_method_ids is present. Required when any of these fields is present: line_items, custom_fields, delivery_method_ids. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear. minLength: `1`. maxLength: `255`. |
 | `image` | Optional | [ImageRequest](../models/ImageRequest.md#imagerequest) or null | Send null to clear. |
 | `inactive_message` | Optional | string or null | Send null to clear. minLength: `1`. maxLength: `500`. |
@@ -51,7 +51,7 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### UpdatePaymentLinkRequest.donation_max_amount_money variant 1
 
-anyOf variant 1: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 
@@ -70,7 +70,7 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### UpdatePaymentLinkRequest.donation_min_amount_money variant 1
 
-anyOf variant 1: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 
@@ -83,7 +83,7 @@ anyOf variant 2.
 
 ### UpdatePaymentLinkRequest.donation_suggested_amount_money_options[]
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### UpdatePaymentLinkRequest.legal
 

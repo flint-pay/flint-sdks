@@ -8,12 +8,12 @@ namespace Flint;
 final class RiskListItemAddition extends Model {
     /** @param array{'outcome': string, 'risk_list_item': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskListItemAddition')); }
-    /** Shape $ (Value): string.  Value enum: "created", "existing".
+    /** Value enum: "created", "existing".
      * @return string
      */
     public function getOutcome(): string { return $this->get('outcome'); }
     public function hasOutcome(): bool { return $this->has('outcome'); }
-    /** Shape $ (Value): {@see RiskListItem}. One value in a payment risk list.
+    /** One value in a payment risk list.
      * @return RiskListItem
      */
     public function getRiskListItem(): RiskListItem { return $this->get('risk_list_item'); }

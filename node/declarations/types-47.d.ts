@@ -1,2109 +1,1534 @@
-import type { MoneyValue } from './types-33.js';
-import type { PaymentCollection, PaymentErrorSummary, PaymentLimitSettings } from './types-37.js';
-import type { BrandingSettings } from './types-0.js';
-import type { CheckoutSettings } from './types-4.js';
-import type { CustomerAccountSettings, CustomerEmailDeliverySettings, CustomDomainsRemoveInput } from './types-11.js';
-import type { FulfillmentSettings } from './types-19.js';
-import type { InventorySettings } from './types-27.js';
-import type { InvoiceSettings } from './types-29.js';
-import type { LegalSettings } from './types-30.js';
-import type { MetadataMap, MetadataRequestInput } from './types-32.js';
-import type { PromotionSettings, ReceiptSettings } from './types-41.js';
-import type {
-    SubscriptionSettings,
-    SubscriptionPromotion,
-    SubscriptionServiceLocation,
-    SubscriptionUpcomingDeliveryHold,
-    SubscriptionSnapshotMetrics,
-    SubscriptionWindowMetrics
-} from './types-49.js';
-import type { TaxIdentity, TaxSettings, TippingSettings } from './types-50.js';
-import type { ResponseMeta } from './types-42.js';
-import type { InputValue } from '../runtime.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-52.js';
-import type {
-    ExpandedOrderSummary,
-    ExpandedPackageSummary,
-    ExpandedCustomerSummary,
-    ExpandedPaymentMethodSummary,
-    ExpandedSubscriptionPlanSummary
-} from './types-18.js';
-import type { ReturnResolutionLineItemRequest } from './types-44.js';
-import type { PackageCreateRequestInput } from './types-36.js';
-import type { VoidShipmentRequestInput } from './types-53.js';
-import type { Dimensions, DimensionsInput } from './types-17.js';
-import type { Weight, WeightInput } from './types-65.js';
-import type { ConfigurationVersionRequestInput } from './types-5.js';
-import type { BuyerAction } from './types-1.js';
-import type {
-    SubscriptionCancellationDetails,
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold,
-    SubscriptionIntervalOption,
-    SubscriptionInventoryWait,
-    SubscriptionLineItem
-} from './types-48.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { Refund, PublicDownload } from './types-46.js';
+import type { MerchantWebhookEnvelope } from './types-34.js';
+import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type { OrderGiftCardAllocation } from './types-36.js';
+import type { CreateRefundRequestInput, CreateReportRequestInput } from './types-10.js';
+import type { InputValue, RequestOptions as RuntimeRequestOptions, CredentialProvider } from '../runtime.js';
+import type { UpdateRefundRequestInput } from './types-59.js';
+import type { GetReturnResolutionResponse, GetReturnResponse } from './types-23.js';
+import type { ConfigurationVersionRequestInput, CheckoutSessionWithSecret } from './types-5.js';
+import type { ResponseMeta, ResourceType } from './types-48.js';
+import type { AuthMode } from './types-0.js';
+import type { Credentials } from './types-12.js';
+import type { CreateDemoSessionRequestInput } from './types-7.js';
+import type { TextModifierRequest } from './types-57.js';
 /**
- * Shape $ (Value): {@link SelectableErrorResource}. A resource the caller can select for a request
- * field.
+ * The `refund.succeeded` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
  */
-export type SelectableErrorResource = {
+export type RefundSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
+    "data"?: {
+        /** Money returned against a collected payment. */
+        "object": Refund;
+    };
+    /** Value enum: "refund.succeeded". */
+    "event_type"?: "refund.succeeded";
     /**
-     * Shape $ (Value): {@link MoneyValue}. Amount for this choice when available. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "amount_money"?: MoneyValue;
-    /** Shape $ (Value): string. Resource display name when available. */
-    "display_name"?: string;
-    /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. Most recent payment failure when available. A
-     * summary of why a payment attempt failed, with a normalized error code, a message, the
-     * failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Shape $ (Value): {@link PaymentCollection}. Payment collection details when available.
-     * Client-side details for collecting payment from the buyer, such as the Stripe settings to
-     * initialize Stripe.js.
-     */
-    "payment_collection"?: PaymentCollection;
-    /** Shape $ (Value): string. Public Flint ID to submit in the refused request field. */
-    "resource_id": string;
-    /**
-     * Shape $ (Value): string. Stable public resource name for this choice. Value enum: "api_key",
-     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
-     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
-     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
-     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
-     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
-     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
-     * "inventory_adjustment", "inventory_allocation_policy",
-     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
-     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
-     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
-     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
-     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
-     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
-     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
-     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
-     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_verification"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "feedback_report"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "organization"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_connection"
-        | "tax_registration"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-    /** Shape $ (Value): string. Current public status when available. */
-    "status"?: string;
-    /**
-     * Shape $ (Value): Array of string. Actions offered for this resource when the request was
-     * refused. An empty array means no action is offered; an omitted field means actions were not
-     * reported. Shape $[] (Value): string.
-     */
-    "supported_actions"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Tip for this choice when available. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `refund.succeeded` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type RefundSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
+    "data"?: {
+        /** Money returned against a collected payment. */
+        "object": Refund;
+    };
+    /** Value enum: "refund.succeeded". */
+    "event_type"?: "refund.succeeded";
+});
+/** The tax refunded for one tax breakdown on an order. */
+export type RefundTaxBreakdownRefund = {
+    "order_charge_id"?: string;
+    "tax_breakdown_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "tax_money": MoneyValue;
 };
 /**
- * Shape $ (Value): {@link SelectableOrderPaymentIntent}. A payment intent on an order the caller
- * can pick, with its amount, status, and last payment error.
+ * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+ * refunds explicitly.
  */
-export type SelectableOrderPaymentIntent = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
+export type RefundTaxBreakdownRefundIn = {
+    /** minLength: 1. */
+    "tax_breakdown_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "tax_money"?: MoneyValue;
+};
+/**
+ * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+ * refunds explicitly.
+ */
+export type RefundTaxBreakdownRefundInInput = {
+    /** minLength: 1. */
+    "tax_breakdown_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "tax_money"?: MoneyValueInput;
+};
+/** One tender's share of a refund, listed in the refund's tender allocations. */
+export type RefundTenderAllocation = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
     "amount_money": MoneyValue;
     /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. Most recent payment failure, when one is
-     * recorded. A summary of why a payment attempt failed, with a normalized error code, a
-     * message, the failure time, and remediation.
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
      */
-    "last_payment_error"?: PaymentErrorSummary;
+    "destination"?: "original" | "new_gift_card" | (string & {});
     /**
-     * Shape $ (Value): {@link PaymentCollection}. Client setup details for collecting this
-     * payment. Client-side details for collecting payment from the buyer, such as the Stripe
-     * settings to initialize Stripe.js.
+     *  [] (Value): {@link OrderGiftCardAllocation}. A gift card that received part of a refund,
+     * with the amount credited.
      */
-    "payment_collection"?: PaymentCollection;
-    /** Shape $ (Value): string. Flint payment intent ID. */
+    "destination_cards"?: Array<OrderGiftCardAllocation>;
+    /**
+     * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
+     * refundable again. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+     */
+    "failure_reason"?: "expired_or_canceled_card"
+        | "lost_or_stolen_card"
+        | "insufficient_funds"
+        | "insufficient_available_balance"
+        | "declined"
+        | "merchant_request"
+        | "payment_disputed"
+        | "payment_refund_failed"
+        | "payment_refund_not_attempted"
+        | "refund_failed"
+        | (string & {});
+    "gift_card_id"?: string;
+    "gift_card_redemption_id"?: string;
+    "payment_intent_id"?: string;
+    "refund_allocation_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "refunded_tip_money": MoneyValue;
+    /**
+     * Status of this payment refund or tender allocation. A succeeded refund can still fail after
+     * a bank rejection. Parent status transitions send refund.succeeded,
+     * refund.partially_succeeded, or refund.failed; other public changes send refund.updated.
+     * Value enum: "pending", "requires_action", "succeeded", "failed", "canceled".
+     */
+    "status": "pending" | "requires_action" | "succeeded" | "failed" | "canceled" | (string & {});
+    /** Value enum: "payment_intent", "gift_card_redemption". */
+    "tender_type": "payment_intent" | "gift_card_redemption" | (string & {});
+};
+/** The `gift_card_redemption` variant of `RefundTenderAllocationInput`. */
+export type RefundTenderAllocationInputGiftCardRedemption = ({
+    /**
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id": string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "payment_intent_id"?: string;
+    /** Value enum: "gift_card_redemption". */
+    "tender_type": "gift_card_redemption" | (string & {});
+})
+    & (({
+    /**  currency (Optional): any.  Value enum: "USD". */
+    "amount_money"?: null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "USD". */
+        "currency"?: unknown;
+    });
+    /** Value enum: "gift_card_redemption". */
+    "tender_type"?: unknown;
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id": string;
+}));
+/** The `gift_card_redemption` variant of `RefundTenderAllocationInput`. */
+export type RefundTenderAllocationInputGiftCardRedemptionInput = ({
+    /**
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card";
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id": string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "payment_intent_id"?: string;
+    /** Value enum: "gift_card_redemption". */
+    "tender_type": "gift_card_redemption";
+})
+    & (({
+    /**  currency (Optional): any.  Value enum: "USD". */
+    "amount_money"?: null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "USD". */
+        "currency"?: ("USD") & ("USD");
+    });
+    /** Value enum: "gift_card_redemption". */
+    "tender_type"?: ("gift_card_redemption") & ("gift_card_redemption");
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id": string;
+})
+    & ({
+    "payment_intent_id"?: never;
+}));
+/** The `payment_intent` variant of `RefundTenderAllocationInput`. */
+export type RefundTenderAllocationInputPaymentIntent = ({
+    /**
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id"?: string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
     "payment_intent_id": string;
+    /** Value enum: "payment_intent". */
+    "tender_type": "payment_intent" | (string & {});
+})
+    & (({
+    /** Value enum: "payment_intent". */
+    "tender_type"?: unknown;
     /**
-     * Shape $ (Value): string. Lifecycle status. requires_payment_method covers both a new payment
-     * intent and one whose last attempt failed, so read last_payment_error with it. succeeded,
-     * canceled, and expired are final. Refunds and disputes never change status. Value enum:
-     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-     * "requires_capture", "canceled", "succeeded", "expired".
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "status": "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
+    "payment_intent_id": string;
+}));
+/** The `payment_intent` variant of `RefundTenderAllocationInput`. */
+export type RefundTenderAllocationInputPaymentIntentInput = ({
     /**
-     * Shape $ (Value): {@link MoneyValue}. Portion of this payment's amount allocated to a tip.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
-    "tip_money": MoneyValue;
-};
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card";
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id"?: string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "payment_intent_id": string;
+    /** Value enum: "payment_intent". */
+    "tender_type": "payment_intent";
+})
+    & (({
+    /** Value enum: "payment_intent". */
+    "tender_type"?: ("payment_intent") & ("payment_intent");
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "payment_intent_id": string;
+})
+    & ({
+    "gift_card_redemption_id"?: never;
+}));
 /**
- * Shape $ (Value): {@link SelectedProductOption}. An option and value chosen for a product
- * variant, such as size Large.
+ * Where part of a refund goes: back to a payment intent or to a gift card redemption, with the
+ * amount.
  */
-export type SelectedProductOption = {
-    /** Shape $ (Value): string. Identifier of the selected product option. */
-    "option_id": string;
-    /** Shape $ (Value): string. Name of the selected product option. */
-    "option_name": string;
-    /** Shape $ (Value): string. Identifier of the selected option value. */
-    "option_value_id": string;
-    /** Shape $ (Value): string. Selected value of the product option. */
-    "value": string;
-};
+export type RefundTenderAllocationRequest = ({
+    /**
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id"?: string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "payment_intent_id"?: string;
+    /** Value enum: "payment_intent", "gift_card_redemption". */
+    "tender_type": "payment_intent" | "gift_card_redemption" | (string & {});
+})
+    & ((Exclude<RefundTenderAllocationInputPaymentIntent & object, readonly unknown[]>)
+    | (Exclude<RefundTenderAllocationInputGiftCardRedemption & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link SellerTaxAttestationRequest}. The seller's agreement to the current
- * automatic sales tax disclosure, recorded when connect succeeds.
+ * Where part of a refund goes: back to a payment intent or to a gift card redemption, with the
+ * amount.
  */
-export type SellerTaxAttestationRequest = {
+export type RefundTenderAllocationRequestInput = ({
     /**
-     * Shape $ (Value): string. Current disclosure version from GET /v1/tax-connection. Send only
-     * after the seller agrees to every rendered statement. minLength: 1.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
-    "disclosure_version": string;
-};
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Where this allocation is refunded. original returns value to the tender that paid;
+     * new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded
+     * USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open
+     * chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without
+     * an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the
+     * existing dispute refusal. Gift card redemption destinations are unaffected by the payment
+     * restrictions. Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card";
+    /**
+     * The captured redemption to refund. Required for tender_type gift_card_redemption. minLength:
+     * 1. pattern: ^gcr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_redemption_id"?: string;
+    /**
+     * The succeeded payment intent to refund. Required for tender_type payment_intent. minLength:
+     * 1. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "payment_intent_id"?: string;
+    /** Value enum: "payment_intent", "gift_card_redemption". */
+    "tender_type": "payment_intent" | "gift_card_redemption";
+})
+    & ((Exclude<RefundTenderAllocationInputPaymentIntentInput & object, readonly unknown[]>)
+    | (Exclude<RefundTenderAllocationInputGiftCardRedemptionInput & object, readonly unknown[]>));
 /**
- * Shape $ (Value): {@link SellerTaxAttestationRequestInput}. The seller's agreement to the current
- * automatic sales tax disclosure, recorded when connect succeeds.
+ * Details of a gift card purchase refunded before the card was issued, including the amounts
+ * recovered.
  */
-export type SellerTaxAttestationRequestInput = SellerTaxAttestationRequest;
-/**
- * Shape $ (Value): {@link SendOrderReceiptRequest}. The request body for: Send an order receipt.
- */
-export type SendOrderReceiptRequest = {
-    /**
-     * Shape $ (Value): string. Receipt email, limited to 254 characters (Unicode code points)
-     * after trimming surrounding whitespace. Format: email. minLength: 1. maxLength: 254.
-     */
-    "email"?: string;
-};
-/**
- * Shape $ (Value): {@link SendOrderReceiptRequestInput}. The request body for: Send an order
- * receipt.
- */
-export type SendOrderReceiptRequestInput = SendOrderReceiptRequest;
-/**
- * Shape $ (Value): {@link SendPaymentIntentReceiptRequestInput}. The request body for: Send a
- * payment receipt.
- */
-export type SendPaymentIntentReceiptRequestInput = {
-    /**
-     * Shape $ (Value): string. Email address that receives the receipt. Omit to use the order's
-     * receipt address for an order-owned intent, or receipt_email then the customer's email for a
-     * standalone intent. Format: email. minLength: 1. maxLength: 254.
-     */
-    "email"?: string;
-};
-/**
- * Shape $ (Value): {@link ServiceFulfillmentDetails}. Details of a service fulfillment: the
- * scheduled start and end, timezone, completion time, and notes.
- */
-export type ServiceFulfillmentDetails = {
-    /**
-     * Shape $ (Value): string. When the service was completed, in RFC3339 format. Format:
-     * date-time.
-     */
-    "completed_at"?: string;
-    /** Shape $ (Value): string. Additional instructions or notes for performing the service. */
-    "notes"?: string;
-    /**
-     * Shape $ (Value): string. Scheduled end of the service, in RFC3339 format. Format: date-time.
-     */
-    "scheduled_end_at"?: string;
-    /**
-     * Shape $ (Value): string. Scheduled start of the service, in RFC3339 format. Format:
-     * date-time.
-     */
-    "scheduled_start_at"?: string;
-    /** Shape $ (Value): string. Timezone used to display the service appointment. */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link Settings}. The settings for one scope (organization, merchant, location,
- * or device), grouped by area such as checkout, tax, receipts, and tipping.
- */
-export type Settings = {
-    /**
-     * Shape $ (Value): {@link BrandingSettings}. A merchant's branding settings: colors, corner
-     * radius, and font family. Checkout uses them as its default theme.
-     */
-    "branding"?: BrandingSettings;
-    /**
-     * Shape $ (Value): {@link CheckoutSettings}. Merchant defaults for checkout: custom domain,
-     * delivery methods, expiration, payment options, required contact fields, promotion codes,
-     * recovery email, and saved payment details.
-     */
-    "checkout"?: CheckoutSettings;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Shape $ (Value): {@link CustomerAccountSettings}. Customer account settings: hosted mode,
-     * merchant account URL, presentation, route templates, and what buyers may do to their own
-     * subscriptions.
-     */
-    "customer_account"?: CustomerAccountSettings;
-    /**
-     * Shape $ (Value): {@link CustomerEmailDeliverySettings}. For each kind of customer email,
-     * whether Flint sends it or the merchant sends it.
-     */
-    "customer_email_delivery"?: CustomerEmailDeliverySettings;
-    /**
-     * Shape $ (Value): {@link FulfillmentSettings}. Merchant fulfillment settings, including
-     * whether fulfillments require approval (`approval_required`).
-     */
-    "fulfillment"?: FulfillmentSettings;
-    /**
-     * Shape $ (Value): {@link InventorySettings}. Inventory settings: the `low_stock_threshold`
-     * and how inventory failures are handled for each order source.
-     */
-    "inventory"?: InventorySettings;
-    /**
-     * Shape $ (Value): {@link InvoiceSettings}. Merchant defaults for invoices, including
-     * numbering prefixes, default memo and footer, collection mode, reminders, and autopay
-     * retries.
-     */
-    "invoices"?: InvoiceSettings;
-    /**
-     * Shape $ (Value): {@link LegalSettings}. Merchant legal links and terms settings: contract,
-     * refund policy, shipping policy, and terms of service URLs, and whether buyers must accept
-     * the terms.
-     */
-    "legal"?: LegalSettings;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link PaymentLimitSettings}. Optional merchant limits that can lower
-     * Flint's payment-option and surface policy limits.
-     */
-    "payment_limits"?: PaymentLimitSettings;
-    /**
-     * Shape $ (Value): {@link PromotionSettings}. Merchant promotion settings: whether automatic
-     * promotions and codes are enabled, and how many promotions can apply to one order.
-     */
-    "promotions"?: PromotionSettings;
-    /**
-     * Shape $ (Value): {@link ReceiptSettings}. Receipt settings: whether receipts are emailed
-     * automatically, whether they are itemized, and the header and footer text.
-     */
-    "receipts"?: ReceiptSettings;
-    /** Shape $ (Value): string. */
-    "settings_id": string;
-    /**
-     * Shape $ (Value): {@link SubscriptionSettings}. Subscription settings: the default billing
-     * schedule owner, dunning retry days and end action, and the backorder email.
-     */
-    "subscriptions"?: SubscriptionSettings;
-    /**
-     * Shape $ (Value): {@link TaxSettings}. Tax settings: whether tax is calculated by default and
-     * the default tax categories for line items and delivery charges.
-     */
-    "tax"?: TaxSettings;
-    /**
-     * Shape $ (Value): {@link TaxIdentity} or null. Shape $.anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs
-     * or change tax treatment. Tax IDs are an owned collection in display order; replacing the
-     * array requires the parent's expected_version. Existing entries retain their document_tax_id;
-     * omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
-     */
-    "tax_identity": ((TaxIdentity) | (null));
-    /**
-     * Shape $ (Value): {@link TippingSettings}. Tipping settings: percent and fixed tip options,
-     * the preselected tip, and whether custom tips are allowed.
-     */
-    "tipping"?: TippingSettings;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
-};
-export type SettingsGetEffectiveInput = {};
-export type SettingsGetInput = {};
-/** Shape $ (Value): {@link SettingsResponse}. A response containing `Settings` data. */
-export type SettingsResponse = {
-    /**
-     * Shape $ (Value): {@link Settings}. The settings for one scope (organization, merchant,
-     * location, or device), grouped by area such as checkout, tax, receipts, and tipping.
-     */
-    "data": Settings;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type SettingsUpdateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateSettingsRequestInput}. The request body for: Update merchant
-     * settings.
-     */
-    "body": InputValue<UpdateSettingsRequestInput>;
-};
-export type SettingsValidateCustomDomainInput = CustomDomainsRemoveInput;
-/**
- * Shape $ (Value): {@link SettlementAmounts}. How much of an order has been paid, refunded,
- * credited, written off, and settled as tips, and what balance and outstanding amount remain.
- */
-export type SettlementAmounts = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. outstanding_money minus credit_money. Negative when the
-     * order holds money beyond its total that has not been returned. Signed monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "balance_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Money collected beyond the order total and not yet
-     * refunded. Write-offs do not create credit. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "credit_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Payments collected for the order minus money refunded
-     * to the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "net_collected_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What is still left to collect: the order total minus
-     * paid_money and written_off_money, never below zero. Refunds return money already collected
-     * and do not add to it. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Settled payments and applied return credit. Excludes
-     * written-off invoice balances. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "paid_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Money returned to the buyer from what this order
-     * collected. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Portion of the collected money settled as tips.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "settled_tip_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Invoice debt no longer owed. Reduces outstanding_money
-     * without increasing paid_money, net_collected_money, or credit_money. Cannot be refunded or
-     * used to fund an exchange. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "written_off_money": MoneyValue;
-};
-/** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
-export type Shipment = {
-    /** Shape $ (Value): string. Creation timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Shape $ (Value): string. When the shipment was delivered, in RFC3339 format. Format:
-     * date-time.
-     */
-    "delivered_at"?: string;
-    /**
-     * Shape $ (Value): string. Whether the shipment sends items to the buyer or returns items to
-     * the merchant. Value enum: "outbound", "return".
-     */
-    "direction": "outbound" | "return" | (string & {});
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries.
-     */
-    "external_system"?: string;
-    /** Shape $ (Value): string. Fulfillment associated with this shipment. */
-    "fulfillment_id": string;
-    /**
-     * Shape $ (Value): string. Carrier handoff timestamp for outbound and return shipments, using
-     * the recorded shipped_at when no separate handoff timestamp exists. For return shipments,
-     * this can satisfy an after_handoff execution gate for the declared return_line_items. Format:
-     * date-time.
-     */
-    "handed_off_at"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-     * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-     * relationship is expanded. Shape $.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. Order whose items are transported by the shipment. */
+export type RefundUnissuedGiftCardRecovery = {
     "order_id": string;
-    /**
-     * Shape $ (Value): integer. Total number of packages attached to the shipment, including
-     * voided packages. Format: int32. minimum: 0.
-     */
-    "package_count": number;
-    /**
-     * Shape $ (Value): Array of {@link ExpandedPackageSummary}. Summaries of the shipment's
-     * packages in creation order, returned when the packages relationship is expanded or when the
-     * shipment is created with packages. Shape $[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded.
-     */
-    "packages"?: Array<ExpandedPackageSummary>;
-    /**
-     * Shape $ (Value): string. Return associated with this shipment, when its direction is return.
-     */
-    "return_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Return lines and
-     * quantities allocated to this return shipment. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Shape $ (Value): string. Stable identifier of the shipment. */
-    "shipment_id": string;
-    /**
-     * Shape $ (Value): string. When the shipment was shipped, in RFC3339 format. Format:
-     * date-time.
-     */
-    "shipped_at"?: string;
-    /**
-     * Shape $ (Value): string. Read-only shipment state derived from the shipment's package
-     * states. An empty shipment remains a created draft. - `created`: The shipment leg exists but
-     * has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-     * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`:
-     * The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
-     * is on its final delivery route. - `delivered`: The carrier reported successful delivery. -
-     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
-     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
-     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
-     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
-     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     */
-    "status": "created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /** Shape $ (Value): string. Last update timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Monotonic shipment version for expected_version checks. Use
-     * an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
+    "order_line_item_id": string;
+    "payment_intent_id": string;
+    "purchase_refund_allocation_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "returned_amount_money": MoneyValue;
+    "settlement_allocation_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "source_pending_amount_money": MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "source_remaining_amount_money": MoneyValue;
 };
+export type RefundUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Refund;
+    };
+    "event_type"?: "refund.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Refund;
+    };
+    "event_type"?: "refund.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "refund.updated";
+});
 /**
- * Shape $ (Value): {@link ShipmentFulfillmentDetails}. Details of a shipment fulfillment: the
- * shipping window, timezone, and when the shipment was handed to the carrier.
+ * The `refund.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
  */
-export type ShipmentFulfillmentDetails = {
-    /** Shape $ (Value): string. When the shipment was handed to the carrier. Format: date-time. */
-    "shipped_at"?: string;
+export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
+    "data"?: {
+        /** Money returned against a collected payment. */
+        "object": Refund;
+    };
+    /** Value enum: "refund.updated". */
+    "event_type"?: "refund.updated";
     /**
-     * Shape $ (Value): string. IANA zone the shipping window was entered in, used for display.
-     * window_start_at and window_end_at are absolute timestamps, so this does not change the
-     * window. maxLength: 255.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "timezone"?: string;
-    /** Shape $ (Value): string. End of the scheduled shipping window. Format: date-time. */
-    "window_end_at"?: string;
-    /** Shape $ (Value): string. Start of the scheduled shipping window. Format: date-time. */
-    "window_start_at"?: string;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `refund.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
+    "data"?: {
+        /** Money returned against a collected payment. */
+        "object": Refund;
+    };
+    /** Value enum: "refund.updated". */
+    "event_type"?: "refund.updated";
+});
+export type RefundsCreateParams = (CreateRefundRequestInput);
+export type RefundsGetParams = {
+    /**
+     * Supported expansions: customer, order, payment_intent, payment_refunds.payment_intent.
+     * Expansion requires commerce.refunds.read plus the read scope for each expanded resource.
+     * Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20
+     * related objects per path. Repeat expand, for example expand=customer&expand=order, or pass
+     * one comma-separated value. [] enum: "customer", "order", "payment_intent",
+     * "payment_refunds.payment_intent". Value enum: "customer", "order", "payment_intent",
+     * "payment_refunds.payment_intent". anyOf[1] (Value): Array of string. [] enum: "customer",
+     * "order", "payment_intent", "payment_refunds.payment_intent". anyOf[1][] (Value): string.
+     * Value enum: "customer", "order", "payment_intent", "payment_refunds.payment_intent".
+     * anyOf[2] (Value): string. Value enum: "customer", "order", "payment_intent",
+     * "payment_refunds.payment_intent".
+     */
+    "expand"?: InputValue<("customer" | "order" | "payment_intent" | "payment_refunds.payment_intent")
+        | readonly ("customer" | "order" | "payment_intent" | "payment_refunds.payment_intent")[]>;
 };
-/** Shape $ (Value): {@link ShipmentListResponse}. A page of `Shipment` objects. */
-export type ShipmentListResponse = {
+export type RefundsListParams = {
     /**
-     * Shape $ (Value): Array of {@link Shipment}. Shape $[] (Value): {@link Shipment}. A shipment
-     * carrying fulfilled order items.
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255.
      */
-    "data": Array<Shipment>;
+    "idempotency_key"?: InputValue<string>;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ShipmentResponse}. A response containing `Shipment` data. */
-export type ShipmentResponse = {
-    /** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
-    "data": Shipment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ShipmentsCreatePackageInput = {
-    /** Shape $ (Value): string. */
-    "shipment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link PackageCreateRequestInput}. The request body for: Create package. */
-    "body": InputValue<PackageCreateRequestInput>;
-};
-export type ShipmentsGetInput = {
-    /** Shape $ (Value): string. */
-    "shipment_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order", "packages". Shape $[] (Value): string.
-     * Value enum: "order", "packages".
-     */
-    "expand"?: InputValue<Array<"order" | "packages">>;
-};
-export type ShipmentsListInput = {
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "fulfillment_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
     "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "external_system"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    /** Filter by order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /** Filter by payment intent ID. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "payment_intent_id"?: InputValue<string>;
+    /** Filter by customer ID. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Filter by refund status. Accepts repeated keys, comma-separated values, or mixtures. Values
+     * are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected.
+     * Values within this filter are ORed; separate filters are ANDed. [] enum: "pending",
+     * "succeeded", "partially_succeeded", "failed". Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][] (Value): string. Value
+     * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): string.
+     * Value enum: "pending", "succeeded", "partially_succeeded", "failed".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "partially_succeeded" | "failed")
+        | readonly ("pending" | "succeeded" | "partially_succeeded" | "failed")[]>;
+    /**
+     * Filter by refund reasons. Accepts comma-separated values or repeated parameters; empty
+     * entries are rejected. Accepts repeated keys, comma-separated values, or mixtures. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other". Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other". anyOf[1][] (Value): string. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other". anyOf[2] (Value): string. Value enum:
+     * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: InputValue<("duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other")
+        | readonly ("duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other")[]>;
+    /**
+     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "min_amount"?: InputValue<number>;
+    /**
+     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "max_amount"?: InputValue<number>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
     "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-    /** Shape $ (Value): string. */
+    /** Filter by linked Return ID. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
     "return_id"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "handed_off_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "handed_off_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    /** Filter by linked ReturnResolution ID. Example: "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "return_resolution_id"?: InputValue<string>;
+    /**
+     * Search across refund_id, external_reference_id, and reason_message. Text fields match any
+     * part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as ord_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by refund_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". Shape $[] (Value): string. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided".
-     */
-    "status"?: InputValue<Array<"created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "outbound", "return". Shape $[]
-     * (Value): string. Value enum: "outbound", "return".
-     */
-    "direction"?: InputValue<Array<"outbound" | "return">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
+     * Supported expansions: customer, order, payment_intent. Include the requested related
+     * resources using scoped batch reads for this page. Each relationship requires its existing
+     * target read scopes. Expansion changes the representation without changing pagination tokens.
+     * Limits: at most 10 unique expand paths per request. Repeat expand, for example
+     * expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer",
+     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
+     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
+     * string. Value enum: "customer", "order", "payment_intent".
      */
-    "expand"?: InputValue<Array<"order">>;
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
 };
-export type ShipmentsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "shipment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+export type RefundsUpdateParams = (InputValue<UpdateRefundRequestInput>);
+/** The request body for: Release return resolution. */
+export type ReleaseReturnResolutionRequest = {
+    /** Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /** Value enum: "merchant_approved", "exception_resolved", "other". */
+    "reason": "merchant_approved" | "exception_resolved" | "other" | (string & {});
+    /** minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Release return resolution. */
+export type ReleaseReturnResolutionRequestInput = {
+    /** Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /** Value enum: "merchant_approved", "exception_resolved", "other". */
+    "reason": "merchant_approved" | "exception_resolved" | "other";
+    /** minLength: 1. */
+    "reason_message"?: string;
+};
+export type ReleaseReturnResolutionResponse = GetReturnResolutionResponse;
+/** The request body for: Remove discounts. */
+export type RemoveDiscountsRequest = {
     /**
-     * Shape $ (Value): {@link UpdateShipmentRequestInput}. The request body for: Update shipment.
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
      */
-    "body": InputValue<UpdateShipmentRequestInput>;
+    "expected_version"?: number;
+    /**  [] (Value): string. minLength: 1. */
+    "order_discount_ids": Array<string>;
 };
-export type ShipmentsVoidResourceInput = {
-    /** Shape $ (Value): string. */
-    "shipment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link VoidShipmentRequestInput}. The request body for: Void shipment. */
-    "body"?: InputValue<VoidShipmentRequestInput>;
-};
-/**
- * Shape $ (Value): {@link SignedMoneyRequestRequestInput}. Signed monetary amount represented as
- * integer minor units plus an ISO 4217 currency code.
- */
-export type SignedMoneyRequestRequestInput = {
+/** The request body for: Remove discounts. */
+export type RemoveDiscountsRequestInput = RemoveDiscountsRequest;
+/** The request body for: Renew subscription now. */
+export type RenewSubscriptionRequestInput = ConfigurationVersionRequestInput;
+/** The request body for: Reopen return. */
+export type ReopenReturnRequest = {
+    /** Format: int64. minimum: 1. */
+    "expected_version"?: number;
     /**
-     * Shape $ (Value): integer string. Signed amount in the currency's minor unit, such as cents
-     * for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * Value enum: "linked_effect_changed", "correction_required",
+     * "additional_merchandise_received", "merchant_request", "other".
      */
-    "amount": `${bigint}` | bigint;
+    "reason": "linked_effect_changed"
+        | "correction_required"
+        | "additional_merchandise_received"
+        | "merchant_request"
+        | "other"
+        | (string & {});
+    /** minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Reopen return. */
+export type ReopenReturnRequestInput = {
+    /** Format: int64. minimum: 1. */
+    "expected_version"?: number;
     /**
-     * Shape $ (Value): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
+     * Value enum: "linked_effect_changed", "correction_required",
+     * "additional_merchandise_received", "merchant_request", "other".
+     */
+    "reason": "linked_effect_changed"
+        | "correction_required"
+        | "additional_merchandise_received"
+        | "merchant_request"
+        | "other";
+    /** minLength: 1. */
+    "reason_message"?: string;
+};
+export type ReopenReturnResponse = GetReturnResponse;
+/** A report generated from the merchant's activity. */
+export type Report = ({
+    /** When the report was requested. Format: date-time. */
+    "created_at": string;
+    /**
+     * Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3.
      * pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
-};
-/**
- * Shape $ (Value): {@link SinglePackageCreateInputCreated}. The single package created with a
- * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
- * created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreated = ({
     /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
-     * `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "created". */
-    "status": "created" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * Shape $ (Value): {@link SinglePackageCreateInputCreatedInput}. The single package created with a
- * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
- * created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreatedInput = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
-     */
-    "dimensions"?: DimensionsInput;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "created". */
-    "status": "created";
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
-     * used in delivery profile configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & (({
-    "shipped_at"?: never;
-}))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
-/**
- * Shape $ (Value): {@link SinglePackageCreateInputShipped}. The single package created with a
- * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
- * created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShipped = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
-     * `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "shipped". */
-    "status": "shipped" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * Shape $ (Value): {@link SinglePackageCreateInputShippedInput}. The single package created with a
- * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
- * created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShippedInput = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
-     */
-    "dimensions"?: DimensionsInput;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "shipped". */
-    "status": "shipped";
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
-     * used in delivery profile configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * Shape $ (Value): {@link SinglePackageCreateRequest}. The single package created with a shipment
- * fulfillment. It receives the submitted fulfillment line quantities. Set status to created or
- * shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequest = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
-     * `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "created", "shipped". */
-    "status": "created" | "shipped" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SinglePackageCreateRequestInput}. The single package created with a
- * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
- * created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequestInput = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
-     */
-    "dimensions"?: DimensionsInput;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "created", "shipped". */
-    "status": "created" | "shipped";
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
-     * used in delivery profile configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link SkipMeSubscriptionCycleRequestInput}. The request body for: Skip
- * subscription cycle.
- */
-export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
-/**
- * Shape $ (Value): {@link SkipSubscriptionCycleRequest}. The request body for: Skip subscription
- * cycle.
- */
-export type SkipSubscriptionCycleRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Who asked for the skip: buyer, merchant, or integration. Defaults
-     * to merchant. Flint's skip email to the buyer says the buyer skipped for buyer, and that the
-     * store skipped otherwise. Default: "merchant". Value enum: "buyer", "merchant",
-     * "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SkipSubscriptionCycleRequestInput}. The request body for: Skip
- * subscription cycle.
- */
-export type SkipSubscriptionCycleRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Who asked for the skip: buyer, merchant, or integration. Defaults
-     * to merchant. Flint's skip email to the buyer says the buyer skipped for buyer, and that the
-     * store skipped otherwise. Default: "merchant". Value enum: "buyer", "merchant",
-     * "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
-};
-export type SpecificationGetInput = {
-    /** Shape $ (Value): string. */
-    "version"?: InputValue<string>;
-};
-export type SpecificationGetResponse = {
-    [key: string]: unknown;
-};
-/**
- * Shape $ (Value): {@link StripeClientAuthority}. One-time client authority for the named Stripe
- * object. This payload always names the Stripe.js call and carries its client secret.
- */
-export type StripeClientAuthority = {
-    /** Shape $ (Value): string. Stripe client secret for the named PaymentIntent or SetupIntent. */
-    "client_secret": string;
-    /**
-     * Shape $ (Value): string. Stripe.js operation to perform now. confirm_setup applies to
-     * client_setup. Standalone PaymentIntents use payment_collection plus server confirmation
-     * instead of initial confirm_payment authority. Value enum: "confirm_payment",
-     * "confirm_setup".
-     */
-    "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
-};
-/**
- * Shape $ (Value): {@link StripeClientSetup}. Stripe.js setup authority returned while saving a
- * payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never
- * carries a secret.
- */
-export type StripeClientSetup = {
-    /**
-     * Shape $ (Value): {@link StripeClientSetupStripe}. Stripe.js initialization context and
-     * SetupIntent setup authority.
-     */
-    "stripe"?: StripeClientSetupStripe;
-};
-/**
- * Shape $ (Value): {@link StripeClientSetupStripe}. Stripe.js initialization context and
- * SetupIntent setup authority.
- */
-export type StripeClientSetupStripe = {
-    /**
-     * Shape $ (Value): string. Stripe connected account ID to pass as stripeAccount when
-     * initializing Stripe.js.
-     */
-    "account_id"?: string;
-    /**
-     * Shape $ (Value): string. Stripe publishable key for the active Flint payment mode; use this
-     * with account_id when loading Stripe.js.
-     */
-    "publishable_key"?: string;
-    /**
-     * Shape $ (Value): {@link StripeClientAuthority}. One-time client authority for the named
-     * Stripe object. This payload always names the Stripe.js call and carries its client secret.
-     */
-    "setup_intent"?: StripeClientAuthority;
-};
-/**
- * Shape $ (Value): {@link StripePaymentClientAction}. Stripe.js initialization context plus one
- * flow-specific authority object. Exactly one of payment_intent or setup_intent is present.
- */
-export type StripePaymentClientAction = {
-    /**
-     * Shape $ (Value): string. Stripe connected account ID to pass as stripeAccount when
-     * initializing Stripe.js.
-     */
-    "account_id": string;
-    /**
-     * Shape $ (Value): {@link StripeSetupIntentClientAction}. PaymentIntent authority for an order
-     * payment authentication action. The client action for a Stripe payment intent: the client
-     * secret to pass to Stripe.js `handleNextAction`.
-     */
-    "payment_intent"?: StripeSetupIntentClientAction;
-    /**
-     * Shape $ (Value): string. Stripe publishable key for the active Flint payment mode; use this
-     * with account_id when loading Stripe.js.
-     */
-    "publishable_key": string;
-    /**
-     * Shape $ (Value): {@link StripeSetupIntentClientAction}. SetupIntent authority for a
-     * saved-payment-method authentication action. The client action for a Stripe setup intent: the
-     * client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "setup_intent"?: StripeSetupIntentClientAction;
-};
-/**
- * Shape $ (Value): {@link StripeSetupIntentClientAction}. The client action for a Stripe setup
- * intent: the client secret to pass to Stripe.js `handleNextAction`.
- */
-export type StripeSetupIntentClientAction = {
-    /** Shape $ (Value): string. SetupIntent client secret to pass to Stripe.js handleNextAction. */
-    "client_secret": string;
-    /**
-     * Shape $ (Value): string. Stripe.js operation to perform. Today this is handle_next_action.
-     * Value enum: "handle_next_action".
-     */
-    "stripe_js_call": "handle_next_action" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscribedLine}. The subscription offer and billing interval an order
- * line was bought under, with the recurring amount.
- */
-export type SubscribedLine = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Line amount for the first renewal, including modifiers
-     * and recurring discounts, before shipping and tax. Signup-only discounts are excluded.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "recurring_amount_money"?: MoneyValue;
-    /** Shape $ (Value): string. */
-    "subscription_offer_id": string;
-};
-/**
- * Shape $ (Value): {@link SubscribedLineRequest}. Makes an order line a subscription purchase,
- * with the subscription offer and billing interval.
- */
-export type SubscribedLineRequest = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): string. Active subscription offer for this catalog variant. minLength: 1.
-     */
-    "subscription_offer_id": string;
-};
-/**
- * Shape $ (Value): {@link SubscribedLineRequestInput}. Makes an order line a subscription
- * purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequestInput = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
-    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): string. Active subscription offer for this catalog variant. minLength: 1.
-     */
-    "subscription_offer_id": string;
-};
-/** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-export type Subscription = {
-    /**
-     * Shape $ (Value): boolean. True while an active or trialing subscription on an external
-     * billing schedule has no next billing date.
-     */
-    "awaiting_billing_schedule"?: boolean;
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing. Applies
-     * only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): string. How often the subscription bills now. Read with
-     * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from the
-     * next renewal that has not been paid; next_billing_at does not move. Value enum: "daily",
-     * "weekly", "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Shape $ (Value): integer. Number of billing_interval units between charges. Changes with
-     * billing_interval. Format: int32.
-     */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. maxItems: 12. uniqueItems:
-     * true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as
-     * every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Shape $ (Value): string. Who supplies billing dates: flint advances the schedule after each
-     * paid renewal; external uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     */
-    "billing_schedule_owner": "flint" | "external" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "billing_schedule_waiting_started_at"?: string;
-    /**
-     * Shape $ (Value): Array of {@link BuyerAction}. What the buyer can do with the subscription,
-     * in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, then renew,
-     * under the store's buyer policy. The available cancel and pause actions carry the choices
-     * they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's
-     * buyer account, lists all twelve every time; a merchant read gets an empty list.
-     * update_payment_method is required while a payment is past due, due by next_retry_at when a
-     * retry is scheduled, and when the card expires before next_billing_at, due by then. Example:
-     * []. Shape $[] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
-     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
-     * as what needs the buyer's attention, and the first available action as the primary action on
-     * the resource's page in your account.
-     */
-    "buyer_actions": Array<BuyerAction>;
-    /**
-     * Shape $ (Value): boolean. True when the subscription is scheduled to cancel at
-     * scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo
-     * with PATCH and cancel_at_period_end false.
-     */
-    "cancel_at_period_end": boolean;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "canceled_at"?: string;
-    /**
-     * Shape $ (Value): {@link SubscriptionCancellationDetails}. Who asked to cancel, when, and
-     * why. Present once a cancellation is requested, whether it takes effect at the end of the
-     * billing period or right away. Omitted when no one asked, and removed when a scheduled
-     * cancellation is undone. See cancellation_reason for voluntary and payment-related
-     * cancellations. The cancellation request behind a scheduled or completed cancellation.
-     */
-    "cancellation_details"?: SubscriptionCancellationDetails;
-    /**
-     * Shape $ (Value): string. Why the subscription is canceled or scheduled to cancel. Uses
-     * cancellation_details.requested_by when recorded, payment_failed for a canceled subscription
-     * without a requester, and other for a scheduled cancellation without a requester. Omitted
-     * otherwise. Value enum: "buyer", "merchant", "payment_failed", "other".
-     */
-    "cancellation_reason"?: "buyer" | "merchant" | "payment_failed" | "other" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 0.
-     */
-    "completed_cycles": `${bigint}`;
-    /**
-     * Shape $ (Value): string. When the recorded contract term ends. Does not move when the
-     * subscription pauses or changes plan. Flint does not stop the buyer from canceling earlier.
-     * Format: date-time.
-     */
-    "contract_end_at"?: string;
-    /**
-     * Shape $ (Value): string. When the recorded contract term started. Does not move when the
-     * subscription pauses or changes plan. Format: date-time.
-     */
-    "contract_start_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "current_period_end_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "current_period_start_at"?: string;
-    /**
-     * Shape $ (Value): {@link ExpandedCustomerSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
-     * when the customer is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** Shape $ (Value): string. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it.
-     */
-    "delivery"?: SubscriptionDelivery;
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryHold}. Current delivery issue that blocks
-     * collection. Mutually exclusive with upcoming_delivery_hold. A hold on a subscription's
-     * deliveries because its delivery method or destination no longer works, and who can fix it.
-     */
-    "delivery_hold"?: SubscriptionDeliveryHold;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The fee in the recorded contract terms. Present
-     * whenever those terms include a fee. It applies only to a cancellation before
-     * contract_end_at. Flint never charges it. Later plan changes do not change this fee. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Included only
-     * in merchant responses and omitted from buyer responses. Shows that a subscription renewal is
-     * waiting for inventory, with the order and invoice involved and when the wait started.
-     */
-    "inventory_wait"?: SubscriptionInventoryWait;
-    /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. Latest renewal payment failure, present only
-     * while status is past_due and the latest payment failed. Buyer responses omit merchant
-     * remediation and sensitive decline signals. A summary of why a payment attempt failed, with a
-     * normalized error code, a message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionLineItem}. What each renewal bills. Plan edits
-     * do not change it. Adding, changing or swapping a line takes that variant's current catalog
-     * price, which then stays until the line changes again. Shape $[] (Value): {@link
-     * SubscriptionLineItem}. An item included in a customer's recurring purchase.
-     */
-    "line_items": Array<SubscriptionLineItem>;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. The billing date whose payment failed, as an RFC3339 timestamp.
-     * Present only while status is past_due. Format: date-time.
-     */
-    "missed_billing_at"?: string;
-    /**
-     * Shape $ (Value): string. When Flint next starts a scheduled renewal charge, as an RFC3339
-     * timestamp. Present only while a trialing or active subscription has a billing date and isn't
-     * set to cancel at the end of its period. Absent when no renewal is scheduled: a paused
-     * subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date
-     * in missed_billing_at and retries at next_retry_at, an incomplete one retries at
-     * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
-     * scheduled_cancel_at, and an external schedule awaiting a date reports
-     * awaiting_billing_schedule. Format: date-time.
-     */
-    "next_billing_at"?: string;
-    /**
-     * Shape $ (Value): string or null. Recorded automatic payment retry time. Null when no retry
-     * time is available. Format: date-time.
-     */
-    "next_retry_at": string | null;
-    /**
-     * Shape $ (Value): string. ID of the paid renewal order whose shipment has not been
-     * dispatched. It keeps its committed delivery destination after preference changes and
-     * cancellation. Absent when no such renewal order exists. Only renewal orders count; the
-     * signup order is not included.
-     */
-    "open_renewal_order_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Unpaid balance of the failed renewal order, including
-     * tax, shipping and discounts, after payments and credits. Present only while status is
-     * past_due and a positive balance remains. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "outstanding_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Why the subscription is paused: merchant for a pause made with your
-     * API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-     * during or after a delivery hold, and payment_failed when renewal payment retries ran out and
-     * your dunning settings pause the subscription. Omitted when the subscription is not paused.
-     * Value enum: "buyer", "delivery_action_required", "merchant", "payment_failed".
-     */
-    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "paused_at"?: string;
-    /**
-     * Shape $ (Value): {@link ExpandedPaymentMethodSummary} or null. Shape $.anyOf[1] (Value):
-     * {@link ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-     * status, and card details, returned when the payment method is expanded. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-    /** Shape $ (Value): string. The saved payment method renewals charge. Change it with PATCH. */
-    "payment_method_id": string;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPromotion}. Recurring promotions applying to
-     * the next charged cycle. Empty when none apply; signup-only and exhausted promotions are
-     * excluded. Shape $[] (Value): {@link SubscriptionPromotion}. A recurring promotion applied to
-     * a subscription, including its recurrence and remaining discounted cycles.
-     */
-    "promotions": Array<SubscriptionPromotion>;
-    /**
-     * Shape $ (Value): integer. How many of each line the subscription bills each period, as a
-     * whole number; fractional quantities are not supported. A change applies from the next
-     * renewal that has not been paid. Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): Array of integer. maxItems: 10. uniqueItems: true. Shape $[] (Value):
-     * integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValue} or null. What one billing period's items cost before
-     * discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes
-     * when items, quantity, or the plan change; editing the plan doesn't change it. For the next
-     * charge, use a subscription preview in next_renewal mode. Shape $.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. Shape $.anyOf[2] (Value): null.
-     */
-    "recurring_subtotal_money": ((MoneyValue) | (null));
-    /**
-     * Shape $ (Value): string or null. When Flint accepted a pending resume request. Set only
-     * while paused with a resume Flint has not applied yet. Clears when Flint resumes the
-     * subscription or refuses the request. Format: date-time.
-     */
-    "resume_requested_at": string | null;
-    /**
-     * Shape $ (Value): string or null. When the scheduled cancellation takes effect: trial_end_at
-     * while trialing, current_period_end_at while active, or next_retry_at while past_due. Null
-     * when cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-     */
-    "scheduled_cancel_at": string | null;
-    /**
-     * Shape $ (Value): string or null. When a pause with a length (pause_duration_cycles) resumes
-     * on its own: that many billing intervals after paused_at. Null when the subscription is not
-     * paused or the pause has no length, such as a pause until you resume it or the pause Flint
-     * starts when a delivery hold runs out. Format: date-time.
-     */
-    "scheduled_resume_at": string | null;
-    /**
-     * Shape $ (Value): {@link SubscriptionServiceLocation}. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. The address where a
-     * subscription's service is delivered, with the saved customer address it came from.
-     */
-    "service_location"?: SubscriptionServiceLocation;
-    /**
-     * Shape $ (Value): string. When a scheduled start's first billing period begins. Present only
-     * until that first payment succeeds. Format: date-time.
-     */
-    "starts_at"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "trialing", "active", "paused", "past_due", "canceled",
-     * "incomplete", "scheduled".
-     */
-    "status": "trialing"
-        | "active"
-        | "paused"
-        | "past_due"
-        | "canceled"
-        | "incomplete"
-        | "scheduled"
+     * Link to download the generated report. Present only when status is succeeded. A temporary
+     * link for downloading a generated report.
+     */
+    "download"?: PublicDownload;
+    /**
+     * Why the report failed. Present only when status is failed: limit_exceeded when the report
+     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
+     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
+     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
+     */
+    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+    /**
+     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
+     * date-time.
+     */
+    "interval_end_at": string;
+    /**
+     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
+     * date-time.
+     */
+    "interval_start_at": string;
+    /** Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "report_id": string;
+    /**
+     * The report's type and column version. See the Reports guide for its columns. Value enum:
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
         | (string & {});
-    /** Shape $ (Value): string. */
-    "subscription_id": string;
     /**
-     * Shape $ (Value): {@link ExpandedSubscriptionPlanSummary} or null. Shape $.anyOf[1] (Value):
-     * {@link ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-     * name, billing interval, currency, and status, returned when the plan is expanded. Shape
-     * $.anyOf[2] (Value): null.
+     * pending while Flint generates the report, then succeeded with a download or failed with a
+     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
+     * "pending", "succeeded", "failed".
      */
-    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    "status": "pending" | "succeeded" | "failed" | (string & {});
     /**
-     * Shape $ (Value): string. Subscription plan ID. Omitted when terms_type is
-     * subscription_offer.
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone.
      */
-    "subscription_plan_id"?: string;
-    /**
-     * Shape $ (Value): Array of string. Merchant actions allowed by the subscription's state. A
-     * route can still refuse a listed action for a transient reason, such as a renewal already in
-     * progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-     * "retry_payment", "change_plan". Shape $[] (Value): string. Value enum: "cancel", "pause",
-     * "resume", "skip_cycle", "renew", "retry_payment", "change_plan".
-     */
-    "supported_actions": Array<"cancel"
-        | "pause"
-        | "resume"
-        | "skip_cycle"
-        | "renew"
-        | "retry_payment"
-        | "change_plan"
-        | (string & {})>;
-    /**
-     * Shape $ (Value): string. Terms come from the subscription plan in subscription_plan_id, or
-     * from subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer".
-     */
-    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "trial_end_at"?: string;
-    /**
-     * Shape $ (Value): {@link SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the
-     * next renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem
-     * detected for an upcoming renewal that will hold the subscription's delivery, and who can fix
-     * it.
-     */
-    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 0.
-     */
-    "version": `${bigint}`;
+    "timezone": string;
+})
+    & ((Exclude<ReportPending & object, readonly unknown[]>)
+    | (Exclude<ReportSucceeded & object, readonly unknown[]>)
+    | (Exclude<ReportFailed & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+export type ReportDownloadsGetParams = {};
+export type ReportDownloadsGetResponse = {
+    location?: string;
 };
-/**
- * Shape $ (Value): {@link SubscriptionAddressVerification}. The verification state of a
- * subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
- */
-export type SubscriptionAddressVerification = {
+/** A report generated from the merchant's activity. */
+export type ReportFailed = ({
+    /** When the report was requested. Format: date-time. */
+    "created_at": string;
     /**
-     * Shape $ (Value): string. Value enum: "verified", "unverified", "needs_review",
-     * "unverifiable".
-     */
-    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionAnalytics}. The half-open period [period_start_at,
- * period_end_at) includes its start and excludes its end. Amounts and payments_count use currency;
- * customer and subscription counts span currencies.
- */
-export type SubscriptionAnalytics = {
-    /**
-     * Shape $ (Value): Array of string. Currencies of subscription payments selected by succeeded
-     * activity created_at in the period, plus current active and past_due billing snapshots,
-     * regardless of the currency filter. The half-open period [period_start_at, period_end_at)
-     * includes its start and excludes its end. Amounts and payments_count use currency; customer
-     * and subscription counts span currencies. Shape $[] (Value): string.
-     */
-    "currencies": Array<string>;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency for amounts and payment counts. Defaults to the
-     * merchant's default currency. The half-open period [period_start_at, period_end_at) includes
-     * its start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
+     * Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
-     * Shape $ (Value): string. Exclusive resolved end instant. Omitted or future request ends
-     * resolve to the request time truncated to the second. The half-open period [period_start_at,
-     * period_end_at) includes its start and excludes its end. Amounts and payments_count use
-     * currency; customer and subscription counts span currencies. Format: date-time.
+     * Link to download the generated report. Present only when status is succeeded. A temporary
+     * link for downloading a generated report.
      */
-    "period_end_at": string;
+    "download"?: PublicDownload;
     /**
-     * Shape $ (Value): string. Inclusive start instant. The half-open period [period_start_at,
-     * period_end_at) includes its start and excludes its end. Amounts and payments_count use
-     * currency; customer and subscription counts span currencies. Format: date-time.
+     * Why the report failed. Present only when status is failed: limit_exceeded when the report
+     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
+     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
+     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
      */
-    "period_start_at": string;
+    "failure_reason": "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
     /**
-     * Shape $ (Value): {@link SubscriptionSnapshotMetrics}. Current persisted subscription state
-     * at computation time, cached briefly. Independent of the requested period end. The half-open
-     * period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies. The half-open
-     * period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies.
+     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
+     * date-time.
      */
-    "snapshot_metrics": SubscriptionSnapshotMetrics;
+    "interval_end_at": string;
     /**
-     * Shape $ (Value): {@link SubscriptionWindowMetrics}. Subscription creation, cancellation, and
-     * payment success metrics selected within the requested period. The half-open period
-     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies. The half-open
-     * period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies.
+     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
+     * date-time.
      */
-    "window_metrics": SubscriptionWindowMetrics;
-};
+    "interval_start_at": string;
+    /** Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "report_id": string;
+    /**
+     * The report's type and column version. See the Reports guide for its columns. Value enum:
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | (string & {});
+    /**
+     * pending while Flint generates the report, then succeeded with a download or failed with a
+     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
+     * "failed".
+     */
+    "status": "failed" | (string & {});
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone.
+     */
+    "timezone": string;
+})
+    & (({
+    /** Value enum: "failed". */
+    "status"?: "failed" | (string & {});
+    /**
+     * Why the report failed. Present only when status is failed: limit_exceeded when the report
+     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
+     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
+     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
+     */
+    "failure_reason": "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+}));
+export type ReportFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Report;
+    };
+    "event_type"?: "report.failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Report;
+    };
+    "event_type"?: "report.failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "report.failed";
+});
 /**
- * Shape $ (Value): {@link SubscriptionAnalyticsResponse}. A response containing
- * `SubscriptionAnalytics` data.
+ * The `report.failed` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
  */
-export type SubscriptionAnalyticsResponse = {
+export type ReportFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Report}. A report generated from the merchant's activity. */
+    "data"?: {
+        /** A report generated from the merchant's activity. */
+        "object": Report;
+    };
+    /** Value enum: "report.failed". */
+    "event_type"?: "report.failed";
     /**
-     * Shape $ (Value): {@link SubscriptionAnalytics}. The half-open period [period_start_at,
-     * period_end_at) includes its start and excludes its end. Amounts and payments_count use
-     * currency; customer and subscription counts span currencies.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "data": SubscriptionAnalytics;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `report.failed` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type ReportFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Report}. A report generated from the merchant's activity. */
+    "data"?: {
+        /** A report generated from the merchant's activity. */
+        "object": Report;
+    };
+    /** Value enum: "report.failed". */
+    "event_type"?: "report.failed";
+});
+/** A page of `Report` objects. */
+export type ReportListResponse = {
+    /**  [] (Value): {@link Report}. A report generated from the merchant's activity. */
+    "data": Array<Report>;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
+    "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputExternal}. The `external` variant of
- * `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputExternal = {
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputExternalInput}. The `external` variant
- * of `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputExternalInput = {
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputFlint}. The `flint` variant of
- * `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputFlint = {
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputFlintInput}. The `flint` variant of
- * `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputFlintInput = {
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleRequest}. Who owns the billing schedule when
- * creating a subscription: Flint or an external system.
- */
-export type SubscriptionBillingScheduleRequest = ({
-    /** Shape $ (Value): string.  Value enum: "flint", "external". */
-    "owner": "flint" | "external" | (string & {});
+/** A report generated from the merchant's activity. */
+export type ReportPending = ({
+    /** When the report was requested. Format: date-time. */
+    "created_at": string;
+    /**
+     * Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Link to download the generated report. Present only when status is succeeded. A temporary
+     * link for downloading a generated report.
+     */
+    "download"?: PublicDownload;
+    /**
+     * Why the report failed. Present only when status is failed: limit_exceeded when the report
+     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
+     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
+     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
+     */
+    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+    /**
+     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
+     * date-time.
+     */
+    "interval_end_at": string;
+    /**
+     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
+     * date-time.
+     */
+    "interval_start_at": string;
+    /** Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "report_id": string;
+    /**
+     * The report's type and column version. See the Reports guide for its columns. Value enum:
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | (string & {});
+    /**
+     * pending while Flint generates the report, then succeeded with a download or failed with a
+     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
+     * "pending".
+     */
+    "status": "pending" | (string & {});
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone.
+     */
+    "timezone": string;
 })
-    & ((Exclude<SubscriptionBillingScheduleInputFlint & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleRequestInput}. Who owns the billing schedule
- * when creating a subscription: Flint or an external system.
- */
-export type SubscriptionBillingScheduleRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "flint", "external". */
-    "owner": "flint" | "external";
+    & (({
+    /** Value enum: "pending". */
+    "status"?: "pending" | (string & {});
+}));
+/** A response containing `Report` data. */
+export type ReportResponse = {
+    /** A report generated from the merchant's activity. */
+    "data": Report;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A report generated from the merchant's activity. */
+export type ReportSucceeded = ({
+    /** When the report was requested. Format: date-time. */
+    "created_at": string;
+    /**
+     * Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Link to download the generated report. Present only when status is succeeded. A temporary
+     * link for downloading a generated report.
+     */
+    "download": PublicDownload;
+    /**
+     * Why the report failed. Present only when status is failed: limit_exceeded when the report
+     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
+     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
+     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
+     */
+    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+    /**
+     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
+     * date-time.
+     */
+    "interval_end_at": string;
+    /**
+     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
+     * date-time.
+     */
+    "interval_start_at": string;
+    /** Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "report_id": string;
+    /**
+     * The report's type and column version. See the Reports guide for its columns. Value enum:
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | (string & {});
+    /**
+     * pending while Flint generates the report, then succeeded with a download or failed with a
+     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
+     * "succeeded".
+     */
+    "status": "succeeded" | (string & {});
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone.
+     */
+    "timezone": string;
 })
-    & ((Exclude<SubscriptionBillingScheduleInputFlintInput & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternalInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputExternal}. The `external` variant
- * of `SubscriptionBillingScheduleUpdateInput`.
- */
-export type SubscriptionBillingScheduleUpdateInputExternal = {
+    & (({
+    /** Value enum: "succeeded". */
+    "status"?: "succeeded" | (string & {});
     /**
-     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
-     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
+     * Link to download the generated report. Present only when status is succeeded. A temporary
+     * link for downloading a generated report.
      */
-    "next_billing_at"?: string | null;
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external" | (string & {});
+    "download": PublicDownload;
+}));
+export type ReportSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Report;
+    };
+    "event_type"?: "report.succeeded";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Report;
+    };
+    "event_type"?: "report.succeeded";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "report.succeeded";
+});
+/**
+ * The `report.succeeded` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ReportSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Report}. A report generated from the merchant's activity. */
+    "data"?: {
+        /** A report generated from the merchant's activity. */
+        "object": Report;
+    };
+    /** Value enum: "report.succeeded". */
+    "event_type"?: "report.succeeded";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `report.succeeded` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ReportSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Report}. A report generated from the merchant's activity. */
+    "data"?: {
+        /** A report generated from the merchant's activity. */
+        "object": Report;
+    };
+    /** Value enum: "report.succeeded". */
+    "event_type"?: "report.succeeded";
+});
+export type ReportsCreateParams = (InputValue<CreateReportRequestInput>);
+export type ReportsGetParams = {};
+export type ReportsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Return reports with any of these report types. Accepts repeated keys, comma-separated
+     * values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1". Value enum: "gift_card_liability_v1", "orders_itemized_v1",
+     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
+     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
+     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "gift_card_liability_v1", "orders_itemized_v1",
+     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
+     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
+     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1". anyOf[1][] (Value): string.
+     * Value enum: "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1". anyOf[2] (Value): string. Value enum:
+     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1".
+     */
+    "report_type"?: InputValue<("gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1")
+        | readonly ("gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1")[]>;
+    /**
+     * Return reports in any of these statuses. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "pending", "succeeded", "failed". Value enum: "pending", "succeeded", "failed". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "failed". anyOf[1][]
+     * (Value): string. Value enum: "pending", "succeeded", "failed". anyOf[2] (Value): string.
+     * Value enum: "pending", "succeeded", "failed".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "failed") | readonly ("pending" | "succeeded" | "failed")[]>;
+};
+/** The request body for: Reprice discounts. */
+export type RepriceDiscountsRequestInput = {
+    /**
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** Per-call authentication and request overrides. See RUNTIME.md#requestoptions. */
+export type RequestOptions<M extends AuthMode = AuthMode> = Omit<RuntimeRequestOptions, 'authMode' | 'credentials'>
+    & {
+    "apiKey"?: "merchant" extends M ? (string | CredentialProvider) : never;
+    "checkoutToken"?: "checkout" extends M ? (string | CredentialProvider) : never;
+    "customerToken"?: "customer" extends M ? (string | CredentialProvider) : never;
+    "invoiceToken"?: "invoice" extends M ? (string | CredentialProvider) : never;
+    "onboardingToken"?: "onboarding" extends M ? (string | CredentialProvider) : never;
+    "token"?: "merchant" extends M ? (string | CredentialProvider) : never;
+}
+    & ({
+    authMode?: undefined;
+    credentials?: Credentials[M];
+}
+    | {
+    [K in M]: {
+        authMode: K;
+        credentials?: Credentials[K];
+    };
+}[M]);
+/** The request body for: Resend webhook delivery. */
+export type ResendWebhookDeliveryRequest = {
+    /** Your note explaining this action. minLength: 1. maxLength: 500. */
+    "reason_message"?: string;
+};
+/** The request body for: Resend webhook delivery. */
+export type ResendWebhookDeliveryRequestInput = ResendWebhookDeliveryRequest;
+/** The request body for: Reset demo session. */
+export type ResetDemoSessionRequest = {
+    /**
+     * Omit to use quickstart. An explicit empty or unsupported template is invalid. Default:
+     * "quickstart". Value enum: "quickstart".
+     */
+    "template"?: "quickstart" | (string & {});
+};
+/** The request body for: Reset demo session. */
+export type ResetDemoSessionRequestInput = CreateDemoSessionRequestInput;
+/** The request body for: Resolve a customer deletion request. */
+export type ResolveCustomerDeletionRequest = {
+    /** Value enum: "approve", "reject". */
+    "decision": "approve" | "reject" | (string & {});
+};
+/** The request body for: Resolve a customer deletion request. */
+export type ResolveCustomerDeletionRequestInput = {
+    /** Value enum: "approve", "reject". */
+    "decision": "approve" | "reject";
+};
+/** The request body for: Resolve order inventory exception. */
+export type ResolveOrderInventoryExceptionRequestInput = {
+    /**
+     * Your note explaining this action. Leading and trailing whitespace is removed; the remaining
+     * note can contain at most 500 characters. minLength: 1.
+     */
+    "reason_message"?: string;
 };
 /**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputExternalInput}. The `external`
- * variant of `SubscriptionBillingScheduleUpdateInput`.
+ * A modifier selection for a payment link line item: a modifier option with a quantity, or a text
+ * value.
  */
-export type SubscriptionBillingScheduleUpdateInputExternalInput = {
-    /**
-     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
-     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external";
+export type ResolvePaymentLinkLineItemModifierRequest = {
+    /** minLength: 1. */
+    "modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /** The text a buyer entered for a text modifier group on a payment link line item. */
+    "text"?: TextModifierRequest;
 };
 /**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputFlint}. The `flint` variant of
- * `SubscriptionBillingScheduleUpdateInput`.
+ * A modifier selection for a payment link line item: a modifier option with a quantity, or a text
+ * value.
  */
-export type SubscriptionBillingScheduleUpdateInputFlint = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
-     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
-     * 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
-     * date-time. minLength: 1.
-     */
-    "next_billing_at": string;
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint" | (string & {});
+export type ResolvePaymentLinkLineItemModifierRequestInput = {
+    /** minLength: 1. */
+    "modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /** The text a buyer entered for a text modifier group on a payment link line item. */
+    "text"?: ResolvePaymentLinkTextModifierRequestInput;
 };
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputFlintInput}. The `flint` variant
- * of `SubscriptionBillingScheduleUpdateInput`.
- */
-export type SubscriptionBillingScheduleUpdateInputFlintInput = {
+/** The modifier selections for one payment link line item when resolving a payment link. */
+export type ResolvePaymentLinkLineItemModifiers = {
     /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
-     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
-     * 31.
+     *  [] (Value): {@link ResolvePaymentLinkLineItemModifierRequest}. A modifier selection for a
+     * payment link line item: a modifier option with a quantity, or a text value.
      */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
-     * date-time. minLength: 1.
-     */
-    "next_billing_at": string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint";
+    "modifiers"?: Array<ResolvePaymentLinkLineItemModifierRequest>;
 };
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequest}. A closed owner-specific
- * billing schedule update.
- */
-export type SubscriptionBillingScheduleUpdateRequest = ((SubscriptionBillingScheduleUpdateInputFlint)
-    | (SubscriptionBillingScheduleUpdateInputExternal)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequestInput}. A closed owner-specific
- * billing schedule update.
- */
-export type SubscriptionBillingScheduleUpdateRequestInput = ((SubscriptionBillingScheduleUpdateInputFlintInput)
-    | (SubscriptionBillingScheduleUpdateInputExternalInput));
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImmediate}. The `immediate` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImmediate = {
-    /** Shape $ (Value): string.  Value enum: "immediate". */
-    "type": "immediate" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImmediateInput}. The `immediate` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImmediateInput = {
-    /** Shape $ (Value): string.  Value enum: "immediate". */
-    "type": "immediate";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImported}. The `imported` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImported = {
+/** The modifier selections for one payment link line item when resolving a payment link. */
+export type ResolvePaymentLinkLineItemModifiersInput = {
     /**
-     * Shape $ (Value): integer. Number of billing cycles already charged on the previous billing
-     * system, including the current imported period. The subscription's completed_cycles starts
-     * here, and the next renewal's subscription_cycle is this number plus one. minimum: 0.
-     * Default: 0.
+     *  [] (Value): {@link ResolvePaymentLinkLineItemModifierRequestInput}. A modifier selection
+     * for a payment link line item: a modifier option with a quantity, or a text value.
      */
-    "completed_cycles"?: number;
+    "modifiers"?: Array<ResolvePaymentLinkLineItemModifierRequestInput>;
+};
+/** The request body for: Resolve payment link. */
+export type ResolvePaymentLinkRequest = {
     /**
-     * Shape $ (Value): string. Start of the already-running billing period being imported. Format:
-     * date-time. minLength: 1.
+     * Buyer answers keyed by custom field key. Checkbox answers must be exactly true or false as
+     * strings. A required checkbox must be true. * (Value): string. minLength: 1.
      */
-    "period_started_at": string;
-    /** Shape $ (Value): string.  Value enum: "imported". */
-    "type": "imported" | (string & {});
+    "custom_field_values"?: Record<string, string>;
+    /**
+     * Modifier choices keyed by line item key, for catalog items. * (Value): {@link
+     * ResolvePaymentLinkLineItemModifiers}. The modifier selections for one payment link line item
+     * when resolving a payment link.
+     */
+    "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiers>;
+    /**
+     * Quantities keyed by line item key (line_items[].key), each within that item's min_quantity
+     * and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are
+     * not supported. * (Value): integer. Whole-number quantity value; fractional quantities are
+     * not supported. Format: int32.
+     */
+    "quantity_overrides"?: Record<string, number>;
+    /** minLength: 1. */
+    "resolution_context": string;
+    /**
+     * Prices keyed by line item key, for items with allow_unit_price_adjustment, between
+     * min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed
+     * donation. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "unit_price_overrides"?: Record<string, MoneyValue>;
+    /**
+     * Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each
+     * selection must be offered by that line and priced in its current currency. Omit a key to use
+     * default_variant_id; a line without a default requires a selection. Null is not accepted. *
+     * (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "variant_selections"?: Record<string, string>;
+};
+/** The request body for: Resolve payment link. */
+export type ResolvePaymentLinkRequestInput = {
+    /**
+     * Buyer answers keyed by custom field key. Checkbox answers must be exactly true or false as
+     * strings. A required checkbox must be true. * (Value): string. minLength: 1.
+     */
+    "custom_field_values"?: Record<string, string>;
+    /**
+     * Modifier choices keyed by line item key, for catalog items. * (Value): {@link
+     * ResolvePaymentLinkLineItemModifiersInput}. The modifier selections for one payment link line
+     * item when resolving a payment link.
+     */
+    "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>;
+    /**
+     * Quantities keyed by line item key (line_items[].key), each within that item's min_quantity
+     * and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are
+     * not supported. * (Value): integer. Whole-number quantity value; fractional quantities are
+     * not supported. Format: int32.
+     */
+    "quantity_overrides"?: Record<string, number>;
+    /** minLength: 1. */
+    "resolution_context": string;
+    /**
+     * Prices keyed by line item key, for items with allow_unit_price_adjustment, between
+     * min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed
+     * donation. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "unit_price_overrides"?: Record<string, MoneyValueInput>;
+    /**
+     * Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each
+     * selection must be offered by that line and priced in its current currency. Omit a key to use
+     * default_variant_id; a line without a default requires a selection. Null is not accepted. *
+     * (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "variant_selections"?: Record<string, string>;
+};
+/** A response containing `CheckoutSessionWithSecret` data. */
+export type ResolvePaymentLinkResponse = {
+    /**
+     * The checkout session with its checkout credential. For hosted checkout, send the buyer to
+     * url. For embedded checkout, pass checkout_auth_token to your checkout client. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data": CheckoutSessionWithSecret;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The text a buyer entered for a text modifier group on a payment link line item. */
+export type ResolvePaymentLinkTextModifierRequestInput = {
+    /** minLength: 1. */
+    "modifier_group_id": string;
+    /** minLength: 1. */
+    "value": string;
+};
+/** A reference to another resource by `resource_type` and `resource_id`. */
+export type ResourceReference = {
+    /** Public Flint ID of the referenced resource. */
+    "resource_id": string;
+    /**
+     * Public resource type: the resource's ID field name without `_id`. Clients must accept values
+     * added in future releases. Value enum: "api_key", "api_request_log", "balance",
+     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
+     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
+     * "customer_email_preferences", "customer_session", "customer_verification",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
+     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
+     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
+     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
+     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
+     * "partner_app_credential", "partner_app_install", "payment_intent", "payment_link",
+     * "payment_link_custom_field", "payment_link_line_item", "payment_method",
+     * "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
+     * "tax_connection", "tax_registration", "test_clock", "user", "webhook_delivery",
+     * "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type": ResourceType;
 };

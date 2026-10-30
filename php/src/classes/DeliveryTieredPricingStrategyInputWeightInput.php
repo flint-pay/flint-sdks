@@ -9,19 +9,19 @@ namespace Flint;
 final class DeliveryTieredPricingStrategyInputWeightInput extends Model {
     /** @param array{'bands': list<DeliveryPricingTierBandRequestInput|array<array-key, mixed>|\stdClass>, 'basis': string, 'unit': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryTieredPricingStrategyInputWeightInput')); }
-    /** Shape $ (Value): Array of {@see DeliveryPricingTierBandRequestInput}. Shape $[] (Value): {@see DeliveryPricingTierBandRequestInput}. One band of a tiered pricing strategy you supply, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+    /**  [] (Value): {@see DeliveryPricingTierBandRequestInput}. One band of a tiered pricing strategy you supply, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
      * @return list<DeliveryPricingTierBandRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bands is omitted; use hasBands() or valueOrDefault().
      */
     public function getBands(): array { return $this->get('bands'); }
     public function hasBands(): bool { return $this->has('bands'); }
-    /** Shape $ (Value): string. Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value enum: "choice_group.total_weight".
+    /** Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value enum: "choice_group.total_weight".
      * @return string
      * @throws SdkError When basis is omitted; use hasBasis() or valueOrDefault().
      */
     public function getBasis(): string { return $this->get('basis'); }
     public function hasBasis(): bool { return $this->has('basis'); }
-    /** Shape $ (Value): string. Required only for choice_group.total_weight and forbidden for every other basis. Value enum: "gram", "kilogram", "ounce", "pound".
+    /** Required only for choice_group.total_weight and forbidden for every other basis. Value enum: "gram", "kilogram", "ounce", "pound".
      * @return string
      * @throws SdkError When unit is omitted; use hasUnit() or valueOrDefault().
      */

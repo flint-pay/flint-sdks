@@ -21,7 +21,7 @@ No additional constraints.
 
 ### InventoryOriginPolicy variant 2
 
-anyOf variant 2: Declared schema InventoryOriginPolicyRequestRequest. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription..
+anyOf variant 2: Declared schema InventoryOriginPolicyRequest. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription..
 
 No additional constraints.
 

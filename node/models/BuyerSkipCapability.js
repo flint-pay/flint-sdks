@@ -1,7 +1,7 @@
-import { d5389 as c0 } from '../descriptors/data/253.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d5389 as d5389 } from '../descriptors/data/253.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d6843 as c0 } from '../descriptors/data/325.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6843 as d6843 } from '../descriptors/data/325.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5389;
+const read = d6843;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BuyerSkipCapability"]:c0()}); }
 export { codec as _validate };

@@ -8,12 +8,12 @@ namespace Flint;
 final class ReturnActor extends Model {
     /** @param array{'actor_id'?: string, 'actor_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnActor')); }
-    /** Shape $ (Value): string.
+    /** actor_id
      * @return ?string
      */
     public function getActorId(): ?string { return $this->get('actor_id'); }
     public function hasActorId(): bool { return $this->has('actor_id'); }
-    /** Shape $ (Value): string.  Value enum: "buyer", "merchant", "integration", "system".
+    /** Value enum: "buyer", "merchant", "integration", "system".
      * @return string
      */
     public function getActorType(): string { return $this->get('actor_type'); }

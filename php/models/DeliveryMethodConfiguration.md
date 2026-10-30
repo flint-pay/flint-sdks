@@ -12,13 +12,13 @@ Response model.
 | `charge_tax_category` | Required | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | object and Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `eligibility`: [declared alternatives](../models/DeliveryMethodConfiguration.md#deliverymethodconfigurationeligibility). |
 | `estimate` | Required | [DeliveryEstimateRule](../models/DeliveryEstimateRule.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. How a delivery method estimates timing, chosen by `type`: no estimate, a transit time, or a schedule window. |
-| `minimum_option_lifetime_seconds` | Required | integer string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
+| `minimum_option_lifetime_seconds` | Required | integer | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Format: `int64`. minimum: `0`. maximum: `899`. |
 | `origin` | Required | object and Alternative shapes (see declared variants) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Where a delivery method starts, chosen by `type`: a fixed location, an allocated group of locations, or a collection of pickup locations. `origin`: [declared alternatives](../models/DeliveryMethodConfiguration.md#deliverymethodconfigurationorigin). |
 | `pricing` | Required | object and Alternative shapes (see declared variants) | How Flint calculates the delivery charge. How a delivery method sets its price, selected by `type`. Only the matching property (`fixed`, `rate_table`, `tiered`, `calculated`, `callback`, or `caller_supplied`) is set. `pricing`: [declared alternatives](../models/DeliveryMethodConfiguration.md#deliverymethodconfigurationpricing). |
 | `public_details` | Optional | [DeliveryMethodConfigurationPublicDetails](../models/DeliveryMethodConfigurationPublicDetails.md#deliverymethodconfigurationpublicdetails) | Buyer-visible structured details supplied by the merchant. |
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. uniqueItems: `true`. Items values: [15 declared values](CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-1configuration-quote_input_fields--values). |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
-| `selection_guarantee_seconds` | Required | integer string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `selection_guarantee_seconds` | Required | integer | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Format: `int64`. minimum: `0`. |
 | `taxable` | Required | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 ### DeliveryMethodConfiguration.eligibility
@@ -189,7 +189,7 @@ Field definitions: [shared fields](DeliveryMethodOriginSelectorInput.md#delivery
 
 ### DeliveryMethodConfiguration.origin variant 1: `type` = `"fixed_location"`
 
-oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelector`..
+oneOf with type: "fixed_location": The `fixed_location` variant of `DeliveryMethodOriginSelector`..
 
 - Condition: not (at least one(present(`delivery_location_set_id`); present(`delivery_location_set_revision_id`); present(`location_ids`))).
 - Required: `location_id`.
@@ -198,7 +198,7 @@ oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelector`.
 
 ### DeliveryMethodConfiguration.origin variant 2: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
+oneOf with type: "allocated_origin_group": The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
 
 - Condition: not (present(`location_id`)).
 - Required: `delivery_location_set_id`.
@@ -208,7 +208,7 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodConfiguration.origin variant 3: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
+oneOf with type: "allocated_origin_group": The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
 
 - Condition: not (present(`location_id`)).
 - Required: `location_ids`.
@@ -218,7 +218,7 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodConfiguration.origin variant 4: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
+oneOf with type: "pickup_location_collection": The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
 
 - Condition: not (present(`location_id`)).
 - Required: `delivery_location_set_id`.
@@ -228,7 +228,7 @@ oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOrig
 
 ### DeliveryMethodConfiguration.origin variant 5: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
+oneOf with type: "pickup_location_collection": The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
 
 - Condition: not (present(`location_id`)).
 - Required: `location_ids`.
@@ -252,7 +252,7 @@ How Flint calculates the delivery charge. How a delivery method sets its price, 
 
 ### DeliveryMethodConfiguration.pricing variant 1: `type` = `"calculated"`
 
-oneOf variant 1: The `calculated` variant of `DeliveryPricingStrategy`..
+oneOf with type: "calculated": The `calculated` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`callback`); present(`caller_supplied`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `calculated`.
@@ -261,7 +261,7 @@ oneOf variant 1: The `calculated` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryMethodConfiguration.pricing variant 2: `type` = `"callback"`
 
-oneOf variant 2: The `callback` variant of `DeliveryPricingStrategy`..
+oneOf with type: "callback": The `callback` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`caller_supplied`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `callback`.
@@ -270,7 +270,7 @@ oneOf variant 2: The `callback` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryMethodConfiguration.pricing variant 3: `type` = `"caller_supplied"`
 
-oneOf variant 3: The `caller_supplied` variant of `DeliveryPricingStrategy`..
+oneOf with type: "caller_supplied": The `caller_supplied` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `caller_supplied`.
@@ -279,7 +279,7 @@ oneOf variant 3: The `caller_supplied` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryMethodConfiguration.pricing variant 4: `type` = `"fixed"`
 
-oneOf variant 4: The `fixed` variant of `DeliveryPricingStrategy`..
+oneOf with type: "fixed": The `fixed` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`rate_table`); present(`tiered`))).
 - Required: `fixed`.
@@ -288,7 +288,7 @@ oneOf variant 4: The `fixed` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryMethodConfiguration.pricing variant 5: `type` = `"rate_table"`
 
-oneOf variant 5: The `rate_table` variant of `DeliveryPricingStrategy`..
+oneOf with type: "rate_table": The `rate_table` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`fixed`); present(`tiered`))).
 - Required: `rate_table`.
@@ -297,7 +297,7 @@ oneOf variant 5: The `rate_table` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryMethodConfiguration.pricing variant 6: `type` = `"tiered"`
 
-oneOf variant 6: The `tiered` variant of `DeliveryPricingStrategy`..
+oneOf with type: "tiered": The `tiered` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`fixed`); present(`rate_table`))).
 - Required: `tiered`.
@@ -354,14 +354,14 @@ Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculated.
 
 ### DeliveryMethodConfiguration.pricing.tiered fields 1 variant 1: `basis` = `"choice_group.total_weight"`
 
-oneOf variant 1: The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
+oneOf with basis: "choice_group.total_weight": The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
 
 - Required: `unit`.
 - Constraints for `basis`: Values: `"choice_group.total_weight"`.
 
 ### DeliveryMethodConfiguration.pricing.tiered fields 1 variant 2
 
-oneOf variant 2: The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`..
+oneOf with basis: "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "choice_group.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts": The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`..
 
 - Condition: not (present(`unit`)).
 - Optional: `unit`.

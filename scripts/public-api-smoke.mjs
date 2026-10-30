@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { Client, SdkError } from "../node/index.js";
+import { Client, SdkError, errors } from "../node/index.js";
 
 const root = resolve(import.meta.dirname, "..");
 const baseUrl = "https://api.staging.withflintpay.com";
@@ -12,8 +12,8 @@ const client = new Client({
 });
 const results = [];
 try {
-  const response = await client.specification.get({ version: "2026-09-07" });
-  assert.equal(response.meta.status, 200);
+  const response = await client.openapi.getSpec({ version: "2026-09-07" });
+  assert.equal(response.lastResponse.status, 200);
   assert.ok(response.data.openapi.startsWith("3."));
   const ids = (spec) =>
     Object.values(spec.paths)
@@ -48,7 +48,7 @@ try {
   await assert.rejects(
     client.customers.list({ page_size: 1 }),
     (e) =>
-      e instanceof SdkError && e.status === 401 && e.kind === "authentication",
+      e instanceof SdkError && e.status === 401 && e instanceof errors.AuthenticationError,
   );
   results.push({
     name: "invalid API key returns a typed authentication error",
@@ -58,7 +58,7 @@ try {
   results.push({
     name: "public API smoke",
     status: "FAIL",
-    kind: error instanceof SdkError ? error.kind : error.name,
+    errorName: error.name,
     httpStatus: error instanceof SdkError ? error.status : undefined,
     code: error instanceof SdkError ? error.code : undefined,
   });

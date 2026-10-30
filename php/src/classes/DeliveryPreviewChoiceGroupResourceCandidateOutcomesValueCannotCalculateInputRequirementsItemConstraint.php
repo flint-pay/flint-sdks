@@ -15,47 +15,47 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateInputRequirementsItemConstraint extends Model {
     /** @param array{'allowed_values'?: list<string>, 'earliest_at'?: string, 'format'?: string, 'latest_at'?: string, 'maximum_length'?: int, 'minimum_length'?: int, 'offered_windows'?: list<mixed>, 'supported_countries'?: list<string>, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateInputRequirementsItemConstraint')); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return ?list<string>
      */
     public function getAllowedValues(): ?array { return $this->get('allowed_values'); }
     public function hasAllowedValues(): bool { return $this->has('allowed_values'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getEarliestAt(): ?string { return $this->get('earliest_at'); }
     public function hasEarliestAt(): bool { return $this->has('earliest_at'); }
-    /** Shape $ (Value): string.
+    /** format
      * @return ?string
      */
     public function getFormat(): ?string { return $this->get('format'); }
     public function hasFormat(): bool { return $this->has('format'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getLatestAt(): ?string { return $this->get('latest_at'); }
     public function hasLatestAt(): bool { return $this->has('latest_at'); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return ?int
      */
     public function getMaximumLength(): ?int { return $this->get('maximum_length'); }
     public function hasMaximumLength(): bool { return $this->has('maximum_length'); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return ?int
      */
     public function getMinimumLength(): ?int { return $this->get('minimum_length'); }
     public function hasMinimumLength(): bool { return $this->has('minimum_length'); }
-    /** Shape $ (Value): Array of ({@see DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateInputRequirementsItemConstraintOfferedWindowsItem} and {@see DeliveryWindowResource}). Shape $[] (Value): {@see DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateInputRequirementsItemConstraintOfferedWindowsItem}. A time window a buyer can choose for a delivery, with its start, end, price, and the last moment it can be chosen.
+    /**  [] (Value): {@see DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateInputRequirementsItemConstraintOfferedWindowsItem}. A time window a buyer can choose for a delivery, with its start, end, price, and the last moment it can be chosen.
      * @return ?list<DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateInputRequirementsItemConstraintOfferedWindowsItem>
      */
     public function getOfferedWindows(): ?array { return $this->get('offered_windows'); }
     public function hasOfferedWindows(): bool { return $this->has('offered_windows'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return ?list<string>
      */
     public function getSupportedCountries(): ?array { return $this->get('supported_countries'); }
     public function hasSupportedCountries(): bool { return $this->has('supported_countries'); }
-    /** Shape $ (Value): string.  Value enum: "string", "address_field", "email", "phone", "time_window", "coordinate", "caller_supplied_rate".
+    /** Value enum: "string", "address_field", "email", "phone", "time_window", "coordinate", "caller_supplied_rate".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

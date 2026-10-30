@@ -7,7 +7,7 @@ namespace Flint;
 final class PendingPaymentActionPaymentIntentSubjectInput extends Model {
     /** @param array{'payment_intent_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionPaymentIntentSubjectInput')); }
-    /** Shape $ (Value): string.
+    /** payment_intent_id
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

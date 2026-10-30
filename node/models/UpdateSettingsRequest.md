@@ -14,7 +14,7 @@ The request body for: Update merchant settings.
 | `checkout` | Optional | [CheckoutSettings](../models/CheckoutSettings.md#checkoutsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. `checkout`: [declared alternatives](../models/UpdateSettingsRequest.md#updatesettingsrequestcheckout). |
 | `customer_account` | Optional | [CustomerAccountSettings](../models/CustomerAccountSettings.md#customeraccountsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Flint then serves the default Flint-hosted account, and GET /v1/settings omits customer_account. `customer_account`: [declared alternatives](../models/UpdateSettingsRequest.md#updatesettingsrequestcustomer_account). |
 | `customer_email_delivery` | Optional | [CustomerEmailDeliverySettings](../models/CustomerEmailDeliverySettings.md#customeremaildeliverysettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. `customer_email_delivery`: [declared alternatives](../models/UpdateSettingsRequest.md#updatesettingsrequestcustomer_email_delivery). |
-| `expected_version` | Optional | integer string | The Settings.version last read by the caller. Required when tax_identity is present, including null. Stale versions return VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | The Settings.version last read by the caller. Required when tax_identity is present, including null. Stale versions return VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `fulfillment` | Optional | [FulfillmentSettings](../models/FulfillmentSettings.md#fulfillmentsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. `fulfillment`: [declared alternatives](../models/UpdateSettingsRequest.md#updatesettingsrequestfulfillment). |
 | `inventory` | Optional | [InventorySettings](../models/InventorySettings.md#inventorysettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. `inventory`: [declared alternatives](../models/UpdateSettingsRequest.md#updatesettingsrequestinventory). |
 | `invoices` | Optional | [InvoiceSettingsPatch](../models/InvoiceSettingsPatch.md#invoicesettingspatch) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
@@ -35,8 +35,8 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `default_delivery_method_ids` | Conditional | Array of string | Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. Items: minLength: `1`. |
-| `default_expires_in_seconds` | Conditional | integer string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
-| `enabled_payment_options` | Conditional | Array of string | Items: minLength: `1`. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `default_expires_in_seconds` | Conditional | integer | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Format: `int64`. minimum: `60`. maximum: `86400`. |
+| `enabled_payment_options` | Conditional | Array of string | Payment options checkout offers by default. Adding ach_debit in merchant settings requests ACH Direct Debit for your payment account; Flint refuses it before the account is set up, for a payment account outside the US, and in location or device settings. Each option shows only when it is available for the payment account and order. Items: minLength: `1`. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
 | `promotion_codes_enabled` | Conditional | boolean | Merchant default for whether a checkout session's buyer can apply promotion codes, hosted or headless; hosted checkout shows or hides code entry to match. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
 | `recovery_email` | Conditional | [CheckoutRecoveryEmailSettings](../models/CheckoutRecoveryEmailSettings.md#checkoutrecoveryemailsettings) | Patch object: fields you send are applied, fields you omit are unchanged. Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 3600 second delay. Checkout reminder email settings. On update, an omitted field keeps its value. `recovery_email`: [field definitions](../models/CheckoutSettings.md#checkoutsettings-variant-2recovery_email). |
 | `require_billing_address` | Conditional | boolean |  |
@@ -46,7 +46,7 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 ### UpdateSettingsRequest.checkout variant 1
 
-anyOf variant 1: Merchant defaults for checkout: custom domain, delivery methods, expiration, payment options, required contact fields, promotion codes, recovery email, and saved payment details..
+anyOf CheckoutSettingsRequest: Merchant defaults for checkout: custom domain, delivery methods, expiration, payment options, required contact fields, promotion codes, recovery email, and saved payment details..
 
 - Optional: `default_delivery_method_ids`, `default_expires_in_seconds`, `enabled_payment_options`, `promotion_codes_enabled`, `recovery_email`, `require_billing_address`, `require_email`, `require_phone`, `saved_payment_details`.
 
@@ -74,12 +74,12 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 | `buyer_capabilities` | Conditional | [BuyerCapabilities](../models/BuyerCapabilities.md#buyercapabilities) | Replaced as a whole: send every field you want to keep. What buyers may do to their own subscriptions in Flint's buyer account or through a customer session, in either mode. Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an update that includes buyer_capabilities replaces the stored value, and each field it omits takes its default. Effective settings include every default. What a store lets buyers do to their own subscriptions. Send at least one field; each field you omit takes its default. minProperties: `1`. |
 | `merchant_account_url` | Conditional | string or null | Send null to clear it. minLength: `1`. |
 | `mode` | Conditional | string | Values: `"flint_hosted"`, `"merchant_hosted"`. |
-| `presentation` | Conditional | [CustomerAccountPresentation](../models/CustomerAccountPresentation.md#customeraccountpresentation) | Patch object: fields you send are applied, fields you omit are unchanged. How a customer account is presented: its account name and custom domain. Send null to clear a value. `presentation`: [field definitions](../models/CustomerAccountSettings.md#customeraccountsettings-variant-2presentation). |
+| `presentation` | Conditional | [CustomerAccountPresentation](../models/CustomerAccountPresentation.md#customeraccountpresentation) | Patch object: fields you send are applied, fields you omit are unchanged. How the Flint-hosted customer account is presented. The account's hostname is a custom domain; manage it with /v1/custom-domains. Send null to clear a value. `presentation`: [field definitions](../models/CustomerAccountSettings.md#customeraccountsettings-variant-2presentation). |
 | `route_templates` | Conditional | [CustomerAccountRouteTemplates](../models/CustomerAccountRouteTemplates.md#customeraccountroutetemplates) | Patch object: fields you send are applied, fields you omit are unchanged. Route templates for a merchant-hosted customer account: email preferences, invoice, order, return, and subscription pages. Send null to clear one. `route_templates`: [field definitions](../models/CustomerAccountSettings.md#customeraccountsettings-variant-2route_templates). |
 
 ### UpdateSettingsRequest.customer_account variant 1
 
-anyOf variant 1: Customer account settings: hosted mode, merchant account URL, presentation, route templates, and what buyers may do to their own subscriptions..
+anyOf CustomerAccountSettingsRequest: Customer account settings: hosted mode, merchant account URL, presentation, route templates, and what buyers may do to their own subscriptions..
 
 - Optional: `buyer_capabilities`, `merchant_account_url`, `mode`, `presentation`, `route_templates`.
 
@@ -113,7 +113,7 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 ### UpdateSettingsRequest.customer_email_delivery variant 1
 
-anyOf variant 1: For each kind of customer email, whether Flint sends it or the merchant sends it..
+anyOf CustomerEmailDeliverySettingsRequest: For each kind of customer email, whether Flint sends it or the merchant sends it..
 
 - Optional: `dunning`, `fulfillment_updates`, `invoices`, `order_receipts`, `returns`, `subscription_lifecycle`.
 
@@ -134,7 +134,7 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 ### UpdateSettingsRequest.fulfillment variant 1
 
-anyOf variant 1: Merchant fulfillment settings, including whether fulfillments require approval (`approval_required`)..
+anyOf FulfillmentSettingsRequest: Merchant fulfillment settings, including whether fulfillments require approval (`approval_required`)..
 
 - Optional: `approval_required`.
 
@@ -151,12 +151,12 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `low_stock_threshold` | Conditional | integer | Format: `int32`. |
+| `low_stock_threshold` | Conditional | integer | Available quantity your team treats as low stock, zero or greater. The Dashboard shows this setting. It does not change allocation, filter API results, or send events. Format: `int32`. |
 | `origin_policies` | Conditional | Map of [InventoryOriginPolicy](../models/InventoryOriginPolicy.md#inventoryoriginpolicy) | Map replaced as a whole: the keys you send become the full map. Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. `origin_policies{}`: [field definitions](../models/InventorySettings.md#inventorysettings-variant-2origin_policies). |
 
 ### UpdateSettingsRequest.inventory variant 1
 
-anyOf variant 1: Inventory settings: the `low_stock_threshold` and how inventory failures are handled for each order source..
+anyOf InventorySettingsRequest: Inventory settings: the `low_stock_threshold` and how inventory failures are handled for each order source..
 
 - Optional: `low_stock_threshold`, `origin_policies`.
 
@@ -185,7 +185,7 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 ### UpdateSettingsRequest.legal variant 1
 
-anyOf variant 1: Changes to a merchant's legal settings. Send null on a URL to clear it..
+anyOf LegalSettingsRequest: Changes to a merchant's legal settings. Send null on a URL to clear it..
 
 - Optional: `contract_url`, `refund_policy_url`, `require_terms_of_service`, `shipping_policy_url`, `terms_of_service_url`.
 
@@ -208,7 +208,7 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 ### UpdateSettingsRequest.promotions variant 1
 
-anyOf variant 1: Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order..
+anyOf PromotionSettingsRequest: Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order..
 
 - Optional: `automatic_enabled`, `codes_enabled`, `max_promotions_per_order`.
 
@@ -233,7 +233,7 @@ Patch object: fields you send are applied, fields you omit are unchanged. Send n
 
 ### UpdateSettingsRequest.subscriptions variant 1
 
-anyOf variant 1: Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email..
+anyOf SubscriptionSettingsRequest: Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email..
 
 - Optional: `default_billing_schedule_owner`, `dunning_end_action`, `dunning_retry_days`, `external_dunning_end_action`, `send_backordered_email`.
 

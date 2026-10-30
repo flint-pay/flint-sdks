@@ -11,27 +11,27 @@ namespace Flint;
 final class CustomerAccountRouteTemplates extends Model {
     /** @param array{'email_preferences'?: string|null, 'invoice'?: string|null, 'order'?: string|null, 'return'?: string|null, 'subscription'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountRouteTemplates')); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getEmailPreferences(): string|null { return $this->get('email_preferences'); }
     public function hasEmailPreferences(): bool { return $this->has('email_preferences'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getInvoice(): string|null { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getOrder(): string|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getReturn(): string|null { return $this->get('return'); }
     public function hasReturn(): bool { return $this->has('return'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getSubscription(): string|null { return $this->get('subscription'); }

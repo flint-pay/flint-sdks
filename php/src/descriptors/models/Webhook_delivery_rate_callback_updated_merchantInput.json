@@ -1,1 +1,0 @@
-{"shared":"Webhook_delivery_rate_callback_updated_merchant","dependencies":["DeliveryRateCallback","DeliveryRateCallbackConfiguration","MerchantWebhookEnvelope","SharedCodec413","SharedCodec414","SharedCodec606","Webhook_delivery_rate_callback_updated_merchant"]}

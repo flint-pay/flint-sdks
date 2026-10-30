@@ -10,25 +10,25 @@ namespace Flint;
 final class DeliveryWeeklyIntervalInput extends Model {
     /** @param array{'end_minute': int, 'end_weekday': int, 'start_minute': int, 'start_weekday': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryWeeklyIntervalInput')); }
-    /** Shape $ (Value): integer.
+    /** end_minute
      * @return int
      * @throws SdkError When end_minute is omitted; use hasEndMinute() or valueOrDefault().
      */
     public function getEndMinute(): int { return $this->get('end_minute'); }
     public function hasEndMinute(): bool { return $this->has('end_minute'); }
-    /** Shape $ (Value): integer.
+    /** end_weekday
      * @return int
      * @throws SdkError When end_weekday is omitted; use hasEndWeekday() or valueOrDefault().
      */
     public function getEndWeekday(): int { return $this->get('end_weekday'); }
     public function hasEndWeekday(): bool { return $this->has('end_weekday'); }
-    /** Shape $ (Value): integer.
+    /** start_minute
      * @return int
      * @throws SdkError When start_minute is omitted; use hasStartMinute() or valueOrDefault().
      */
     public function getStartMinute(): int { return $this->get('start_minute'); }
     public function hasStartMinute(): bool { return $this->has('start_minute'); }
-    /** Shape $ (Value): integer.
+    /** start_weekday
      * @return int
      * @throws SdkError When start_weekday is omitted; use hasStartWeekday() or valueOrDefault().
      */

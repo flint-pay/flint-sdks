@@ -22,7 +22,7 @@ Response model.
 | `status` | Required | string | active while any held or committed quantity remains; closed once none does. Values: `"active"`, `"closed"`. |
 | `supported_actions` | Required | Array of string | Actions that can change this reservation now. Empty for a closed reservation and for one Flint holds for an order. Resending targets already applied succeeds in any status. Computed when Flint produced this response or event, so replays and webhooks keep their original value. Items values: `"commit"`, `"consume"`, `"release"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | The reservation version. Send it as expected_version to reject a write if the reservation changed. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | The reservation version. Send it as expected_version to reject a write if the reservation changed. Format: `uint64`. minimum: `1`. |
 
 ### InventoryReservation.owner
 
@@ -32,7 +32,7 @@ Field definitions: [shared fields](InventoryReservationOwnerInput.md#inventoryre
 
 ### InventoryReservation.owner variant 1: `type` = `"merchant"`
 
-oneOf variant 1: The `merchant` variant of `InventoryReservationOwner`..
+oneOf with type: "merchant": The `merchant` variant of `InventoryReservationOwner`..
 
 - Required: `key`.
 - Undeclared: `order_id`.
@@ -40,7 +40,7 @@ oneOf variant 1: The `merchant` variant of `InventoryReservationOwner`..
 
 ### InventoryReservation.owner variant 2: `type` = `"order"`
 
-oneOf variant 2: The `order` variant of `InventoryReservationOwner`..
+oneOf with type: "order": The `order` variant of `InventoryReservationOwner`..
 
 - Optional: `order_id`.
 - Undeclared: `key`.

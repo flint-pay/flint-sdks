@@ -1,0 +1,1 @@
+{"shared":"InvoiceDeliveryAttemptFailedInstalledMerchantsEvent","dependencies":["InvoiceDeliveryAttempt","InvoiceDeliveryAttemptFailedInstalledMerchantsEvent","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec732","SharedCodec733","SharedCodec734","SharedCodec949","SharedCodec950"]}

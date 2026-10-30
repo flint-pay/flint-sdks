@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryBusinessDayRange extends Model {
     /** @param array{'maximum': int, 'minimum': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryBusinessDayRange')); }
-    /** Shape $ (Value): integer.
+    /** maximum
      * @return int
      */
     public function getMaximum(): int { return $this->get('maximum'); }
     public function hasMaximum(): bool { return $this->has('maximum'); }
-    /** Shape $ (Value): integer.
+    /** minimum
      * @return int
      */
     public function getMinimum(): int { return $this->get('minimum'); }

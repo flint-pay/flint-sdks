@@ -11,27 +11,27 @@ namespace Flint;
 final class PublicResolvedBundleVariantSummary extends Model {
     /** @param array{'available_for_sale': bool, 'name'?: string, 'selected_options'?: list<mixed>, 'sku'?: string, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedBundleVariantSummary')); }
-    /** Shape $ (Value): boolean.
+    /** available_for_sale
      * @return bool
      */
     public function getAvailableForSale(): bool { return $this->get('available_for_sale'); }
     public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): Array of {@see SelectedProductOption}. Shape $[] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
+    /**  [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
      * @return ?list<SelectedProductOption>
      */
     public function getSelectedOptions(): ?array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** Shape $ (Value): string.
+    /** sku
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Shape $ (Value): string.
+    /** variant_id
      * @return string
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

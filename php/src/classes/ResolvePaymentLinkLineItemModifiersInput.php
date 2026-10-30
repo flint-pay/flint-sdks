@@ -7,7 +7,7 @@ namespace Flint;
 final class ResolvePaymentLinkLineItemModifiersInput extends Model {
     /** @param array{'modifiers'?: list<ResolvePaymentLinkLineItemModifierRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkLineItemModifiersInput')); }
-    /** Shape $ (Value): Array of {@see ResolvePaymentLinkLineItemModifierRequestInput}. Shape $[] (Value): {@see ResolvePaymentLinkLineItemModifierRequestInput}. A modifier selection for a payment link line item: a modifier option with a quantity, or a text value.
+    /**  [] (Value): {@see ResolvePaymentLinkLineItemModifierRequestInput}. A modifier selection for a payment link line item: a modifier option with a quantity, or a text value.
      * @return list<ResolvePaymentLinkLineItemModifierRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */

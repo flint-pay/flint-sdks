@@ -1,1 +1,1 @@
-{"shared":"BuyerCustomer","dependencies":["Address","BuyerCustomer","SharedCodec19"]}
+{"shared":"BuyerCustomer","dependencies":["BuyerCustomer","SharedCodec40","SharedCodec41"]}

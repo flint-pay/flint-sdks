@@ -2,10 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { Client, makeUpdateSettingsRequest } from "../node/index.js";
+import { Client, errors, makeUpdateSettingsRequest } from "../node/index.js";
 
 const exec = promisify(execFile);
-const expected = { customer_account: null, expected_version: "1" };
+const expected = { customer_account: null, expected_version: 1 };
 const response =
   '{"data":{"settings_id":"set_clear_test","tax_identity":null,"version":1},"request_id":"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"}';
 
@@ -26,17 +26,17 @@ test("Node settings clear factory retains null and sends one request", async (t)
   });
   t.after(() => client.close());
   const settings = await client.settings.update(model.toJSON());
-  assert.equal(settings.version, "1");
+  assert.equal(settings.version, 1);
   assert.equal(Object.hasOwn(settings, "customer_account"), false);
   assert.deepEqual(requests, [{ customer_account: null, expected_version: 1 }]);
   for (const invalid of [false, 0, "invalid", []]) {
     assert.throws(
       () => makeUpdateSettingsRequest({ customer_account: invalid }),
-      (error) => error.kind === "validation",
+      (error) => error instanceof errors.InvalidInputError && error.code === "INVALID_REQUEST",
     );
     await assert.rejects(
       client.settings.update({ customer_account: invalid }),
-      (error) => error.kind === "validation",
+      (error) => error instanceof errors.InvalidInputError && error.code === "INVALID_REQUEST",
     );
   }
   assert.equal(requests.length, 1);
@@ -46,9 +46,9 @@ test("PHP settings clear input retains null and sends one request", async () => 
   const php = String.raw`
 require 'php/src/Runtime.php';
 require 'php/src/Client.php';
-$input = new \Flint\SettingsUpdateInput(['body' => ['customer_account' => null, 'expected_version' => '1']]);
+$input = new \Flint\SettingsUpdateInput(['body' => ['customer_account' => null, 'expected_version' => 1]]);
 $serialized = json_decode(json_encode($input, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
-if ($serialized !== ['body' => ['customer_account' => null, 'expected_version' => '1']]) throw new \RuntimeException('Input lost explicit null');
+if ($serialized !== ['body' => ['customer_account' => null, 'expected_version' => 1]]) throw new \RuntimeException('Input lost explicit null');
 $requests = [];
 $transport = function (array $request) use (&$requests): array {
   $requests[] = json_decode($request['body'], true, 512, JSON_THROW_ON_ERROR);
@@ -56,13 +56,13 @@ $transport = function (array $request) use (&$requests): array {
 };
 $client = new \Flint\Client(new \Flint\ClientOptions(baseUrl: 'https://api.example.invalid', apiKey: 'settings-clear-test', transport: $transport));
 try {
-  $settings = $client->settings->update(['customer_account' => null, 'expected_version' => '1']);
-  if ($settings->getVersion() !== '1' || $settings->hasCustomerAccount()) throw new \RuntimeException('Clear response was not preserved');
+  $settings = $client->settings->update(['customer_account' => null, 'expected_version' => 1]);
+  if ($settings->getVersion() !== 1 || $settings->hasCustomerAccount()) throw new \RuntimeException('Clear response was not preserved');
   if ($requests !== [['customer_account' => null, 'expected_version' => 1]]) throw new \RuntimeException('Clear did not reach transport exactly once');
   foreach ([false, 0, 'invalid', []] as $invalid) {
     $rejected = false;
     try { $client->settings->update(['customer_account' => $invalid]); }
-    catch (\Flint\SdkError $error) { $rejected = $error->kind === 'validation'; }
+    catch (\Flint\SdkError $error) { $rejected = $error instanceof \Flint\Errors\InvalidInputError && $error->code === 'INVALID_REQUEST'; }
     if (!$rejected) throw new \RuntimeException('Invalid account reached transport');
   }
   if (count($requests) !== 1) throw new \RuntimeException('Invalid inputs reached transport');

@@ -7,7 +7,7 @@ namespace Flint;
 final class CreateInvoiceIssueRequestInput extends Model {
     /** @param array{'delivery_mode'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoiceIssueRequestInput')); }
-    /** Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
+    /** How the invoice reaches its recipient. Omit it to use merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
      * @return string
      * @throws SdkError When delivery_mode is omitted; use hasDeliveryMode() or valueOrDefault().
      */

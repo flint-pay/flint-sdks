@@ -14,5 +14,5 @@ Card details on a payment method: brand, expiration month and year, last four di
 | `exp_month` | Required | integer | Format: `int32`. |
 | `exp_year` | Required | integer | Format: `int32`. |
 | `last4` | Required | string |  |
-| `wallet` | Optional | string |  |
+| `wallet` | Optional | string | The wallet the card came from. Absent for a card entered directly. |
 

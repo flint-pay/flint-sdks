@@ -6,5 +6,5 @@ Promotion settings for a checkout: whether automatic promotions apply and whethe
 
 Request input.
 
-Fields, types, descriptions and enum values: [CheckoutPromotionConfigRequestRequestInput](../models/CheckoutPromotionConfigRequestRequestInput.md#checkoutpromotionconfigrequestrequestinput).
+Fields, types, descriptions and enum values: [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfigRequestInput.md#checkoutpromotionconfigrequestinput).
 

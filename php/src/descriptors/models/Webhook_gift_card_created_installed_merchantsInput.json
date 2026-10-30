@@ -1,1 +1,0 @@
-{"shared":"Webhook_gift_card_created_installed_merchants","dependencies":["GiftCard","GiftCardRestriction","MoneyValue","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec561","WebhookEventSourceInstalledMerchants","Webhook_gift_card_created_installed_merchants"]}

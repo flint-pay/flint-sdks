@@ -1,20 +1,20 @@
-import { d4772 as c0 } from '../descriptors/data/216.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3251 as c1, d3250 as c2 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3168 as c3 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3453 as c4 } from '../descriptors/data/142.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3853 as c5, d3856 as c13, d3857 as c14, d3852 as c19 } from '../descriptors/data/164.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3348 as c6, d3341 as c20, d3342 as c21, d3343 as c22 } from '../descriptors/data/137.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4808 as c7, d4809 as c8, d4810 as c9, d4811 as c10, d4812 as c12 } from '../descriptors/data/218.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4731 as c11 } from '../descriptors/data/214.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3858 as c15, d3859 as c16, d3860 as c17 } from '../descriptors/data/165.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3384 as c18 } from '../descriptors/data/139.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3210 as c23 } from '../descriptors/data/129.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d2603 as c24 } from '../descriptors/data/108.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d2603 as d2603 } from '../descriptors/data/108.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4398 as c0, d4399 as c4 } from '../descriptors/data/187.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4281 as c1 } from '../descriptors/data/180.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4618 as c2 } from '../descriptors/data/199.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d945 as c3 } from '../descriptors/data/44.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4511 as c5, d4505 as c20, d4506 as c21, d4507 as c22 } from '../descriptors/data/193.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6028 as c6, d6029 as c7, d6030 as c8, d6031 as c9, d6032 as c10, d6033 as c11, d6034 as c13 } from '../descriptors/data/278.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5967 as c12 } from '../descriptors/data/274.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5031 as c14, d5032 as c16 } from '../descriptors/data/222.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5051 as c15, d5052 as c17, d5053 as c18 } from '../descriptors/data/223.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4547 as c19 } from '../descriptors/data/195.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4330 as c23 } from '../descriptors/data/183.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4168 as c24 } from '../descriptors/data/172.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4168 as d4168 } from '../descriptors/data/172.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2603;
+const read = d4168;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardPurchaseRecipientPatchRequest"]:c0(),["MetadataPatchRequest"]:c1(),["MetadataRequest"]:c2(),["MoneyValue"]:c3(),["OrderCalculatedLineItemTax"]:c4(),["OrderLineItemModifierRequest"]:c5(),["SharedCodec1256"]:c6(),["SharedCodec1279"]:c7(),["SharedCodec1280"]:c8(),["SharedCodec1281"]:c9(),["SharedCodec1282"]:c10(),["SharedCodec1283"]:c11(),["SharedCodec1284"]:c12(),["SharedCodec190"]:c13(),["SharedCodec191"]:c14(),["SharedCodec192"]:c15(),["SharedCodec193"]:c16(),["SharedCodec194"]:c17(),["SharedCodec409"]:c18(),["SubscribedLineRequest"]:c19(),["TaxCalculationRequest"]:c20(),["TaxComponentRequest"]:c21(),["TaxJurisdiction"]:c22(),["TextModifierRequest"]:c23(),["UpdateLineItemRequest"]:c24()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MetadataRequest"]:c0(),["MoneyValue"]:c1(),["OrderCalculatedLineItemTax"]:c2(),["OrderLineItemModifierRequest"]:c3(),["SharedCodec1350"]:c4(),["SharedCodec1353"]:c5(),["SharedCodec1382"]:c6(),["SharedCodec1383"]:c7(),["SharedCodec1384"]:c8(),["SharedCodec1385"]:c9(),["SharedCodec1386"]:c10(),["SharedCodec1387"]:c11(),["SharedCodec1388"]:c12(),["SharedCodec1389"]:c13(),["SharedCodec253"]:c14(),["SharedCodec254"]:c15(),["SharedCodec255"]:c16(),["SharedCodec256"]:c17(),["SharedCodec257"]:c18(),["SharedCodec602"]:c19(),["TaxCalculationRequest"]:c20(),["TaxComponentRequest"]:c21(),["TaxJurisdiction"]:c22(),["TextModifierRequest"]:c23(),["UpdateLineItemRequest"]:c24()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

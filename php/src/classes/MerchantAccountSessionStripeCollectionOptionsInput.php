@@ -9,19 +9,19 @@ namespace Flint;
 final class MerchantAccountSessionStripeCollectionOptionsInput extends Model {
     /** @param array{'fields': string, 'future_requirements': string, 'requirements'?: MerchantAccountSessionStripeRequirementsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionStripeCollectionOptionsInput')); }
-    /** Shape $ (Value): string. Requirement collection breadth to pass as fields to setCollectionOptions. Value enum: "currently_due", "eventually_due".
+    /** Requirement collection breadth to pass as fields to setCollectionOptions. Value enum: "currently_due", "eventually_due".
      * @return string
      * @throws SdkError When fields is omitted; use hasFields() or valueOrDefault().
      */
     public function getFields(): string { return $this->get('fields'); }
     public function hasFields(): bool { return $this->has('fields'); }
-    /** Shape $ (Value): string. Whether to collect future requirements. Pass this value as futureRequirements to setCollectionOptions. Value enum: "omit", "include".
+    /** Whether to collect future requirements. Pass this value as futureRequirements to setCollectionOptions. Value enum: "omit", "include".
      * @return string
      * @throws SdkError When future_requirements is omitted; use hasFutureRequirements() or valueOrDefault().
      */
     public function getFutureRequirements(): string { return $this->get('future_requirements'); }
     public function hasFutureRequirements(): bool { return $this->has('future_requirements'); }
-    /** Shape $ (Value): {@see MerchantAccountSessionStripeRequirementsInput}. Targeted requirement collection restriction to pass as requirements to setCollectionOptions. Omitted when collection is not targeted. The Stripe requirement paths to collect exclusively when a session's targeting is `targeted`.
+    /** Targeted requirement collection restriction to pass as requirements to setCollectionOptions. Omitted when collection is not targeted. The Stripe requirement paths to collect exclusively when a session's targeting is `targeted`.
      * @return MerchantAccountSessionStripeRequirementsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When requirements is omitted; use hasRequirements() or valueOrDefault().
      */

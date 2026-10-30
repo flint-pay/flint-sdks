@@ -16,7 +16,7 @@ How an invoice due date is calculated from payment terms, such as on receipt, ne
 
 ### InvoicePaymentTermCalculation variant 1: `type` = `"on_receipt"`
 
-oneOf variant 1: The `on_receipt` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "on_receipt": The `on_receipt` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (at least one(present(`days`); present(`day`))).
 - Optional: `day`, `days`.
@@ -24,7 +24,7 @@ oneOf variant 1: The `on_receipt` variant of `InvoicePaymentTermCalculation`..
 
 ### InvoicePaymentTermCalculation variant 2: `type` = `"net_days"`
 
-oneOf variant 2: The `net_days` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "net_days": The `net_days` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`day`)).
 - Required: `days`.
@@ -33,7 +33,7 @@ oneOf variant 2: The `net_days` variant of `InvoicePaymentTermCalculation`..
 
 ### InvoicePaymentTermCalculation variant 3: `type` = `"days_after_month_end"`
 
-oneOf variant 3: The `days_after_month_end` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "days_after_month_end": The `days_after_month_end` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`day`)).
 - Required: `days`.
@@ -42,7 +42,7 @@ oneOf variant 3: The `days_after_month_end` variant of `InvoicePaymentTermCalcul
 
 ### InvoicePaymentTermCalculation variant 4: `type` = `"day_of_month"`
 
-oneOf variant 4: The `day_of_month` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "day_of_month": The `day_of_month` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`days`)).
 - Required: `day`.
@@ -51,7 +51,7 @@ oneOf variant 4: The `day_of_month` variant of `InvoicePaymentTermCalculation`..
 
 ### InvoicePaymentTermCalculation variant 5: `type` = `"day_of_next_month"`
 
-oneOf variant 5: The `day_of_next_month` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "day_of_next_month": The `day_of_next_month` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`days`)).
 - Required: `day`.

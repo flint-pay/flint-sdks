@@ -98,7 +98,11 @@ final class AmbientCredentialProvider implements CredentialProvider
                 'not_sent',
                 false,
                 null,
-                $reason,
+                $reason === 'ambiguous_credentials'
+                    ? 'credential_conflict'
+                    : ($reason === 'no_credentials'
+                        ? 'credential_missing'
+                        : 'workload_identity_failed'),
                 $details,
             );
         };
@@ -489,12 +493,14 @@ final class AmbientCredentialProvider implements CredentialProvider
                         'not_sent',
                         false,
                         null,
-                        'exchange_unavailable',
+                        'workload_identity_failed',
+                        ['reason' => 'exchange_unavailable'],
                     );
             if (
                 $cached &&
                 $cached['expiresAt'] - microtime(true) > 30 &&
-                $error->errorCode === 'exchange_unavailable'
+                $error instanceof Errors\ConfigurationError &&
+                ($error->workloadIdentity['reason'] ?? null) === 'exchange_unavailable'
             ) {
                 $flight->result = $cached;
                 return $credential($cached);

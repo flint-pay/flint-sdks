@@ -1,0 +1,23 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $invoice_schedule_entry_id
+ * @property-read string $payment_method_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class InvoicesCollectParams extends Model {
+    /** @param array{'invoice_schedule_entry_id'?: string, 'payment_method_id'?: string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesCollectParams')); }
+    /** Optional. The schedule entry to collect. Only the earliest entry that is due and still has an outstanding balance can be collected; omit it to collect that entry. Not allowed on an invoice without a schedule. minLength: 1.
+     * @return string
+     * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
+     */
+    public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
+    public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
+    /** minLength: 1. Example: "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * @return string
+     * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
+     */
+    public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
+    public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+}

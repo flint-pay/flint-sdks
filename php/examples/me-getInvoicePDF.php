@@ -8,19 +8,18 @@ while (!is_file($autoload . '/vendor/autoload.php') && !is_file($autoload . '/au
 }
 require_once is_file($autoload . '/vendor/autoload.php') ? $autoload . '/vendor/autoload.php' : $autoload . '/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
-$baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
+$baseUrl = getenv('FLINT_BASE_URL') ?: null;
 $customerToken = getenv('CUSTOMER_TOKEN');
 if ($customerToken === false || $customerToken === '') throw new \RuntimeException('Set CUSTOMER_TOKEN: this call requires a credential');
 $client = new Client(new ClientOptions(
-  baseUrl: $baseUrl,
-  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
   customerToken: $customerToken,
+  baseUrl: $baseUrl,
+  allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->me->getInvoicePDF('example');
+$result = $client->me->getInvoicePDF('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV');
 // Choose a destination path; PHP strings preserve every PDF byte.
 $resultPath = getenv('API_DOWNLOAD_PATH') ?: 'download.pdf';
 if (file_put_contents($resultPath, $result->data) === false) throw new \RuntimeException('Could not save PDF');
 echo 'Saved ' . strlen($result->data) . ' bytes to ' . $resultPath . PHP_EOL;
-echo ($result->meta['requestId'] ?? '') . PHP_EOL;
+echo ($result->lastResponse()->requestId ?? '') . PHP_EOL;
 $client->close();

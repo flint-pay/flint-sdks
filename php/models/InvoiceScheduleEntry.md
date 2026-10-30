@@ -31,7 +31,7 @@ How the entry's amount is set: a fixed amount, a percent of the invoice total, o
 
 ### InvoiceScheduleEntry.amount_specification variant 1: `type` = `"fixed"`
 
-oneOf variant 1: The `fixed` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`.
@@ -40,7 +40,7 @@ oneOf variant 1: The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 ### InvoiceScheduleEntry.amount_specification variant 2: `type` = `"percentage"`
 
-oneOf variant 2: The `percentage` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `percent`.
@@ -49,7 +49,7 @@ oneOf variant 2: The `percentage` variant of `InvoiceScheduleAmountSpecification
 
 ### InvoiceScheduleEntry.amount_specification variant 3: `type` = `"remaining_balance"`
 
-oneOf variant 3: The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (at least one(present(`amount_money`); present(`percent`))).
 - Optional: `amount_money`, `percent`.
@@ -63,21 +63,21 @@ Field definitions: [shared fields](InvoiceScheduleDueInput.md#invoicescheduledue
 
 ### InvoiceScheduleEntry.due variant 1: `type` = `"at_issue"`
 
-oneOf variant 1: The `at_issue` variant of `InvoiceScheduleDue`..
+oneOf with type: "at_issue": The `at_issue` variant of `InvoiceScheduleDue`..
 
 - Optional: `due_at`.
 - Constraints for `type`: Values: `"at_issue"`.
 
 ### InvoiceScheduleEntry.due variant 2: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoiceScheduleDue`..
+oneOf with type: "date": The `date` variant of `InvoiceScheduleDue`..
 
 - Required: `due_at`.
 - Constraints for `type`: Values: `"date"`.
 
 ### InvoiceScheduleEntry.due variant 3: `type` = `"invoice_due_date"`
 
-oneOf variant 3: The `invoice_due_date` variant of `InvoiceScheduleDue`..
+oneOf with type: "invoice_due_date": The `invoice_due_date` variant of `InvoiceScheduleDue`..
 
 - Optional: `due_at`.
 - Constraints for `type`: Values: `"invoice_due_date"`.

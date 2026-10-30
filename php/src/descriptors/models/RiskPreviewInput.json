@@ -1,1 +1,1 @@
-{"shared":"RiskPreview","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseWarning","RiskPreview","RiskRuleAnalysis","RiskRuleIssue","SharedCodec1005","SharedCodec1205","SharedCodec2","SharedCodec3"]}
+{"shared":"RiskPreview","dependencies":["MoneyValue","NextAction","ReadinessMerchantAccountSession","ResourceType","ResponseWarning","RiskPreview","RiskRuleIssue","SharedCodec1242","SharedCodec1243","SharedCodec2","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876"]}

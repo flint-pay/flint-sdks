@@ -19,7 +19,7 @@ Request input.
 | `name` | Required | string |  |
 | `order_line_item_id` | Required | string |  |
 | `product_id` | Optional | string |  |
-| `requested_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `requested_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `selected_options` | Required | Array of [SelectedProductOptionInput](../models/SelectedProductOptionInput.md#selectedproductoptioninput) |  |
 | `sku` | Optional | string |  |
 | `suggested_return_reasons` | Required | Array of [ReturnReasonSummaryInput](../models/ReturnReasonSummaryInput.md#returnreasonsummaryinput) | Active reasons that apply to this item, up to 20. Category-scoped reasons come first, then reasons that apply to every item. Each group sorts by handle ascending, with return_reason_id ascending as the tiebreak. maxItems: `20`. |

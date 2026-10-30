@@ -9,19 +9,19 @@ namespace Flint;
 final class DeliveryWindowTimeConditionInput extends Model {
     /** @param array{'end_minute'?: int, 'start_minute'?: int, 'weekdays'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryWindowTimeConditionInput')); }
-    /** Shape $ (Value): integer.
+    /** end_minute
      * @return int
      * @throws SdkError When end_minute is omitted; use hasEndMinute() or valueOrDefault().
      */
     public function getEndMinute(): int { return $this->get('end_minute'); }
     public function hasEndMinute(): bool { return $this->has('end_minute'); }
-    /** Shape $ (Value): integer.
+    /** start_minute
      * @return int
      * @throws SdkError When start_minute is omitted; use hasStartMinute() or valueOrDefault().
      */
     public function getStartMinute(): int { return $this->get('start_minute'); }
     public function hasStartMinute(): bool { return $this->has('start_minute'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When weekdays is omitted; use hasWeekdays() or valueOrDefault().
      */

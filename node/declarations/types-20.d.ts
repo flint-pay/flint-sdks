@@ -1,1904 +1,1323 @@
+import type { DeliveryZone } from './types-19.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
+import type { ResponseMeta } from './types-48.js';
 import type { InputValue } from '../runtime.js';
-import type { UpdateFulfillmentRequestInput } from './types-51.js';
-import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-4.js';
-import type { ResponseMeta } from './types-42.js';
-import type { ReturnDisposition, ReturnInspection, ReturnLineItem, ReturnPolicy, ReturnPolicyRevision } from './types-43.js';
-import type { ReturnReason, ReturnReceipt, ReturnResolution, ReturnResource } from './types-44.js';
-import type {
-    GiftCardRestriction,
-    GiftCardPurchaseRefundAllocation,
-    GiftCardPurchaseRefundValueHold,
-    GiftCardPurchaseRestoration,
-    GiftCardRefundProvenance,
-    GiftCardPurchaseRecipient,
-    GiftCardPurchaseRecipientRequestInput
-} from './types-21.js';
-import type { MoneyValue } from './types-33.js';
-import type { AdjustGiftCardBalanceRequestInput } from './types-0.js';
-import type { CashOutGiftCardRequestInput, CancelGiftCardNotificationRequestInput } from './types-3.js';
-import type {
-    CreateGiftCardFundingDispositionRequestInput,
-    CreateGiftCardLoadRequestInput,
-    CreateGiftCardNotificationRequestInput
-} from './types-7.js';
-export type FulfillmentsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order", "packages", "shipments". Shape $[]
-     * (Value): string. Value enum: "order", "packages", "shipments".
-     */
-    "expand"?: InputValue<Array<"order" | "packages" | "shipments">>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateFulfillmentRequestInput}. Provide at most one fulfillment
-     * details object: pickup_details, local_delivery_details, digital_details, or service_details.
-     * Shipment execution details belong to shipments and packages. A supplied detail field must
-     * match the stored fulfillment type. Omit details for metadata-only updates. Even null detail
-     * fields count toward exclusivity.
-     */
-    "body": InputValue<UpdateFulfillmentRequestInput>;
-};
+import type { CreateDeliveryZoneRequestInput, CreateDemoSessionRequestInput, CreateDeviceRequestInput } from './types-7.js';
+import type { DeliveryLocationSetsDeleteParams } from './types-15.js';
+import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-58.js';
+import type { ResetDemoSessionRequestInput } from './types-47.js';
+import type { Settings, SimulateDisputeRequestInput } from './types-53.js';
+import type { TaxConnection } from './types-57.js';
+import type { PromotionCandidate } from './types-45.js';
+import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-9.js';
+import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-21.js';
+import type { MoneyValue } from './types-35.js';
 /**
- * Shape $ (Value): {@link GetOrCreateReturnResolutionCheckoutSessionRequest}. The request body
- * for: Create a Return resolution checkout session for the current buyer; Get or create return
- * resolution checkout session.
+ * The `delivery_zone.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type GetOrCreateReturnResolutionCheckoutSessionRequest = ({
+export type DeliveryZoneCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.created". */
+    "event_type"?: "delivery_zone.created";
     /**
-     * Shape $ (Value): string. Origin of the page where you render this embedded checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "page_origin"?: string;
-    /**
-     * Shape $ (Value): string. Embedded sessions only. Absolute HTTPS URL on your site where Flint
-     * sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the
-     * session there to show the result. Required when the session offers affirm. It can't contain
-     * credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to
-     * 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Shape $ (Value): {@link CheckoutRedirects}. Where hosted checkout sends the buyer. Not
-     * allowed when surface is embedded; use payment_return_url.
-     */
-    "redirects"?: CheckoutRedirects;
-    /**
-     * Shape $ (Value): string. Where the checkout sends the buyer after paying, such as the
-     * Return's page in the customer account. Limited to 2048 characters (Unicode code points)
-     * before trimming surrounding whitespace. It must be an HTTPS address of the merchant's
-     * customer account: /{merchant_id} on Flint's account host, the merchant's active custom
-     * account domain, or the host of customer_account.merchant_account_url when the merchant hosts
-     * the account. HTTP is accepted only for localhost in test mode. Anything else fails with
-     * INVALID_RETURN_URL. An alias for redirects.success_url on hosted checkout or
-     * payment_return_url on embedded checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048.
-     */
-    "return_url"?: string;
-    /**
-     * Shape $ (Value): string. Defaults to hosted. The same surface reuses the open checkout. A
-     * different surface replaces it only while no payment is in progress; otherwise the request
-     * returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Default: "hosted". Value enum: "hosted",
-     * "embedded".
-     */
-    "surface"?: "hosted" | "embedded" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
 });
 /**
- * Shape $ (Value): {@link GetOrCreateReturnResolutionCheckoutSessionRequestInput}. The request
- * body for: Create a Return resolution checkout session for the current buyer; Get or create
- * return resolution checkout session.
+ * The `delivery_zone.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
  */
-export type GetOrCreateReturnResolutionCheckoutSessionRequestInput = ({
-    /**
-     * Shape $ (Value): string. Origin of the page where you render this embedded checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Shape $ (Value): string. Embedded sessions only. Absolute HTTPS URL on your site where Flint
-     * sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the
-     * session there to show the result. Required when the session offers affirm. It can't contain
-     * credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to
-     * 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Shape $ (Value): {@link CheckoutRedirectsRequestInput}. Where hosted checkout sends the
-     * buyer. Not allowed when surface is embedded; use payment_return_url.
-     */
-    "redirects"?: CheckoutRedirectsRequestInput;
-    /**
-     * Shape $ (Value): string. Where the checkout sends the buyer after paying, such as the
-     * Return's page in the customer account. Limited to 2048 characters (Unicode code points)
-     * before trimming surrounding whitespace. It must be an HTTPS address of the merchant's
-     * customer account: /{merchant_id} on Flint's account host, the merchant's active custom
-     * account domain, or the host of customer_account.merchant_account_url when the merchant hosts
-     * the account. HTTP is accepted only for localhost in test mode. Anything else fails with
-     * INVALID_RETURN_URL. An alias for redirects.success_url on hosted checkout or
-     * payment_return_url on embedded checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048.
-     */
-    "return_url"?: string;
-    /**
-     * Shape $ (Value): string. Defaults to hosted. The same surface reuses the open checkout. A
-     * different surface replaces it only while no payment is in progress; otherwise the request
-     * returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Default: "hosted". Value enum: "hosted",
-     * "embedded".
-     */
-    "surface"?: "hosted" | "embedded";
+export type DeliveryZoneCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.created". */
+    "event_type"?: "delivery_zone.created";
+});
+export type DeliveryZoneDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.deactivated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.deactivated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.deactivated";
 });
 /**
- * Shape $ (Value): {@link GetReturnDispositionResponse}. A response containing `ReturnDisposition`
- * data.
+ * The `delivery_zone.deactivated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type GetReturnDispositionResponse = {
-    /**
-     * Shape $ (Value): {@link ReturnDisposition}. A decision about how returned merchandise will
-     * be handled.
-     */
-    "data": ReturnDisposition;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GetReturnInspectionResponse}. A response containing `ReturnInspection`
- * data.
- */
-export type GetReturnInspectionResponse = {
-    /**
-     * Shape $ (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
-     */
-    "data": ReturnInspection;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GetReturnLineItemResponse}. A response containing `ReturnLineItem` data.
- */
-export type GetReturnLineItemResponse = {
-    /** Shape $ (Value): {@link ReturnLineItem}. An item included in a return request. */
-    "data": ReturnLineItem;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link GetReturnPolicyResponse}. A response containing `ReturnPolicy` data. */
-export type GetReturnPolicyResponse = {
-    /**
-     * Shape $ (Value): {@link ReturnPolicy}. Rules governing whether and how purchased items can
-     * be returned.
-     */
-    "data": ReturnPolicy;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GetReturnPolicyRevisionResponse}. A response containing
- * `ReturnPolicyRevision` data.
- */
-export type GetReturnPolicyRevisionResponse = {
-    /** Shape $ (Value): {@link ReturnPolicyRevision}. A saved revision of a return policy. */
-    "data": ReturnPolicyRevision;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link GetReturnReasonResponse}. A response containing `ReturnReason` data. */
-export type GetReturnReasonResponse = {
-    /**
-     * Shape $ (Value): {@link ReturnReason}. A reason customers can select when requesting a
-     * return.
-     */
-    "data": ReturnReason;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GetReturnReceiptResponse}. A response containing `ReturnReceipt` data.
- */
-export type GetReturnReceiptResponse = {
-    /**
-     * Shape $ (Value): {@link ReturnReceipt}. A record of returned items arriving at a location.
-     */
-    "data": ReturnReceipt;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GetReturnResolutionResponse}. A response containing `ReturnResolution`
- * data.
- */
-export type GetReturnResolutionResponse = {
-    /**
-     * Shape $ (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a
-     * return.
-     */
-    "data": ReturnResolution;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link GetReturnResponse}. A response containing `Return` data. */
-export type GetReturnResponse = {
-    /** Shape $ (Value): {@link ReturnResource}. A request to send purchased items back. */
-    "data": ReturnResource;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GiftCard}. Merchant-issued purchased gift card. Posted balance includes
- * reserved value; available value is balance minus reservations. Frozen value remains part of
- * outstanding liability. Gift cards are independent resources and cannot be transferred across
- * merchants or currencies.
- */
-export type GiftCard = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "available_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "balance_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD". Value enum: "USD".
-     */
-    "currency": "USD" | (string & {});
-    /** Shape $ (Value): string or null. */
-    "customer_id": string | null;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-    /** Shape $ (Value): string. */
-    "gift_card_id": string;
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time. */
-    "last_loaded_at": string | null;
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time. */
-    "last_redeemed_at": string | null;
-    /**
-     * Shape $ (Value): string. Last four characters of the card's current code. minLength: 4.
-     * maxLength: 4.
-     */
-    "last4": string;
-    /** Shape $ (Value): string. */
-    "merchant_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "reserved_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link GiftCardRestriction}. The restrictions that keep the card
-     * frozen. unfreeze is supported only when every restriction is merchant_freeze. A
-     * funding_dispute with dispute_status lost needs a gift card funding disposition. Shape $[]
-     * (Value): {@link GiftCardRestriction}. A restriction on a gift card, either a merchant freeze
-     * or a funding dispute, with its reason or dispute details.
-     */
-    "restrictions": Array<GiftCardRestriction>;
-    /** Shape $ (Value): string.  Value enum: "pending", "active", "frozen", "closed". */
-    "status": "pending" | "active" | "frozen" | "closed" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. [] enum: "freeze", "unfreeze", "close". Shape $[] (Value):
-     * string. Value enum: "freeze", "unfreeze", "close".
-     */
-    "supported_actions": Array<"freeze" | "unfreeze" | "close" | (string & {})>;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "version": `${bigint}`;
-};
-export type GiftCardAdjustmentsCreateInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link AdjustGiftCardBalanceRequestInput}. The request body for: Adjust
-     * gift card value.
-     */
-    "body": InputValue<AdjustGiftCardBalanceRequestInput>;
-};
-export type GiftCardCashOutsCreateInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CashOutGiftCardRequestInput}. The request body for: Record a
-     * cash-out.
-     */
-    "body": InputValue<CashOutGiftCardRequestInput>;
-};
-/**
- * Shape $ (Value): {@link GiftCardCustomAmountBounds}. The minimum and maximum amounts a buyer can
- * choose when buying a gift card with a custom amount.
- */
-export type GiftCardCustomAmountBounds = {
-    /**
-     * Shape $ (Value): object. Largest gift card value buyers can choose, in the face value
-     * currency. Shape $.amount (Required): integer string. Amount in the currency's smallest unit,
-     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. maximum: 200000. Shape $.currency (Required): string.
-     * Three-letter ISO 4217 currency code. Value enum: "USD".
-     */
-    "maximum_money": {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}`;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD" | (string & {});
+export type DeliveryZoneDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
     };
+    /** Value enum: "delivery_zone.deactivated". */
+    "event_type"?: "delivery_zone.deactivated";
     /**
-     * Shape $ (Value): object. Smallest gift card value buyers can choose, in the face value
-     * currency. Shape $.amount (Required): integer string. Amount in the currency's smallest unit,
-     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. maximum: 200000. Shape $.currency (Required): string.
-     * Three-letter ISO 4217 currency code. Value enum: "USD".
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "minimum_money": {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}`;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_zone.deactivated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type DeliveryZoneDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
     };
+    /** Value enum: "delivery_zone.deactivated". */
+    "event_type"?: "delivery_zone.deactivated";
+});
+/** A page of `DeliveryZone` objects. */
+export type DeliveryZoneListResponse = {
+    /**  [] (Value): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data": Array<DeliveryZone>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `DeliveryZone` data. */
+export type DeliveryZoneResponse = {
+    /** A geographic area served by a delivery method. */
+    "data": DeliveryZone;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type DeliveryZoneUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.updated";
+});
+/**
+ * The `delivery_zone.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type DeliveryZoneUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.updated". */
+    "event_type"?: "delivery_zone.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_zone.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.updated". */
+    "event_type"?: "delivery_zone.updated";
+});
+export type DeliveryZonesCreateParams = (InputValue<CreateDeliveryZoneRequestInput>);
+export type DeliveryZonesDeleteParams = DeliveryLocationSetsDeleteParams;
+export type DeliveryZonesGetParams = {};
+export type DeliveryZonesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Search across delivery_zone_id, name, and external_reference_id. Text fields match any part
+     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as dzone_01. maxLength: 255.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "archived". Value enum: "active", "archived".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "archived". anyOf[1][]
+     * (Value): string. Value enum: "active", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Filter by an active current method that references this resource. Example:
+     * "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     */
+    "delivery_method_id"?: InputValue<string>;
+};
+export type DeliveryZonesUpdateParams = (UpdateDeliveryZoneRequestInput);
+/**
+ * A demo session with its sandbox, API key, and expiry, returned when you create or reset a demo
+ * session.
+ */
+export type DemoSession = {
+    /** The API key issued for a demo session, with its `secret_key` and the scopes it grants. */
+    "api_key": DemoSessionAPIKey;
+    "demo_session_id": string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "expires_at": string;
+    "sandbox_id": string;
+};
+/** The API key issued for a demo session, with its `secret_key` and the scopes it grants. */
+export type DemoSessionAPIKey = {
+    /**
+     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
+     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
+     * "developer.feedback_reports.write", "developer.partner_apps.read",
+     * "developer.partner_apps.write", "developer.request_logs.read",
+     * "developer.request_logs.self.read", "developer.resource_timelines.read",
+     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
+     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
+     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
+     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.organizations.read", "accounts.organizations.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
+     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
+     * "developer.feedback_reports.write", "developer.partner_apps.read",
+     * "developer.partner_apps.write", "developer.request_logs.read",
+     * "developer.request_logs.self.read", "developer.resource_timelines.read",
+     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
+     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
+     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
+     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.organizations.read"
+        | "accounts.organizations.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+    "secret_key": string;
+};
+/** A response containing `DemoSession` data. */
+export type DemoSessionResponse = {
+    /**
+     * A demo session with its sandbox, API key, and expiry, returned when you create or reset a
+     * demo session.
+     */
+    "data": DemoSession;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type DemoSessionsCreateParams = (InputValue<CreateDemoSessionRequestInput>)
+    & {
+    /**
+     * Challenge token from Flint's hosted bot check on the page that offers the demo. Flint
+     * identifies the demo client by its IP address.
+     */
+    "Flint-Challenge-Token": InputValue<string>;
+};
+export type DemoSessionsResetParams = (InputValue<ResetDemoSessionRequestInput>)
+    & {
+    /**
+     * Challenge token from Flint's hosted bot check on the page that offers the demo. Flint
+     * identifies the demo client by its IP address.
+     */
+    "Flint-Challenge-Token": InputValue<string>;
+};
+/** The request body for: Create onboarding API key. */
+export type DeveloperInitialAPIKeyRequest = {
+    /** minLength: 1. maxLength: 100. */
+    "name": string;
+    /**  [] (Value): string. minLength: 1. */
+    "scopes"?: Array<string>;
+};
+/** The request body for: Create onboarding API key. */
+export type DeveloperInitialAPIKeyRequestInput = DeveloperInitialAPIKeyRequest;
+/**
+ * A device registered to the merchant account by hardware fingerprint, optionally assigned to a
+ * location. Registering a device doesn't change how payments are accepted.
+ */
+export type Device = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    "device_id": string;
+    "hardware_fingerprint"?: string;
+    "location_id"?: string;
+    "merchant_id"?: string;
+    /**
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    "name": string;
+    /** Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /** Persisted device configuration version. Format: uint64. minimum: 1. */
+    "version": number;
+};
+/** A page of `Device` objects. */
+export type DeviceListResponse = {
+    /**
+     *  [] (Value): {@link Device}. A device registered to the merchant account by hardware
+     * fingerprint, optionally assigned to a location. Registering a device doesn't change how
+     * payments are accepted.
+     */
+    "data": Array<Device>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Device` data. */
+export type DeviceResponse = {
+    /**
+     * A device registered to the merchant account by hardware fingerprint, optionally assigned to
+     * a location. Registering a device doesn't change how payments are accepted.
+     */
+    "data": Device;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type DevicesCreateParams = (InputValue<CreateDeviceRequestInput>);
+export type DevicesDeleteParams = {
+    /** Optional device version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: InputValue<number>;
+};
+export type DevicesGetParams = {};
+export type DevicesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "archived". Value enum: "active", "archived".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "archived". anyOf[1][]
+     * (Value): string. Value enum: "active", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /** Filter by assigned Flint location ID. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "location_id"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive match. Archived devices release their fingerprint, so this finds at
+     * most the one active device that holds it. minLength: 1. maxLength: 255.
+     */
+    "hardware_fingerprint"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by device_id. Default:
+     * "created_at". Value enum: "name", "created_at", "updated_at".
+     */
+    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+};
+export type DevicesUpdateParams = (InputValue<UpdateDeviceRequestInput>);
+/**
+ * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+ */
+export type DigitalFulfillmentDetails = {
+    /** When the digital goods were delivered, in RFC3339 format. Format: date-time. */
+    "delivered_at"?: string;
+    /** URL where the recipient can access the delivered digital goods. */
+    "delivery_url"?: string;
+};
+/** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+export type Dimensions = {
+    /**
+     * Distance along this dimension, in the specified unit. maximum: 100000. exclusiveMinimum: 0.
+     * multipleOf: 0.001.
+     */
+    "height": number;
+    /**
+     * Distance along this dimension, in the specified unit. maximum: 100000. exclusiveMinimum: 0.
+     * multipleOf: 0.001.
+     */
+    "length": number;
+    /**
+     * Length unit for length, width, and height. Use millimeter, centimeter, or inch. Value enum:
+     * "millimeter", "centimeter", "inch".
+     */
+    "unit": "millimeter" | "centimeter" | "inch" | (string & {});
+    /**
+     * Distance along this dimension, in the specified unit. maximum: 100000. exclusiveMinimum: 0.
+     * multipleOf: 0.001.
+     */
+    "width": number;
+};
+/** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+export type DimensionsInput = {
+    /**
+     * Distance along this dimension, in the specified unit. maximum: 100000. exclusiveMinimum: 0.
+     * multipleOf: 0.001.
+     */
+    "height": number;
+    /**
+     * Distance along this dimension, in the specified unit. maximum: 100000. exclusiveMinimum: 0.
+     * multipleOf: 0.001.
+     */
+    "length": number;
+    /**
+     * Length unit for length, width, and height. Use millimeter, centimeter, or inch. Value enum:
+     * "millimeter", "centimeter", "inch".
+     */
+    "unit": "millimeter" | "centimeter" | "inch";
+    /**
+     * Distance along this dimension, in the specified unit. maximum: 100000. exclusiveMinimum: 0.
+     * multipleOf: 0.001.
+     */
+    "width": number;
+};
+/** The request body for: Disconnect automatic tax. */
+export type DisconnectTaxConnectionRequest = {
+    /**
+     * Resource version last read by the caller. Omit to apply the change to the current resource.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Choose turn_off to stop adding tax to new orders that inherit the default, or keep to leave
+     * the default unchanged. Keep refuses those orders and holds subscription renewals until
+     * automatic tax is reconnected or the default is turned off. Neither choice turns tax on.
+     * Value enum: "turn_off", "keep".
+     */
+    "tax_default_behavior": "turn_off" | "keep" | (string & {});
+};
+/** The request body for: Disconnect automatic tax. */
+export type DisconnectTaxConnectionRequestInput = {
+    /**
+     * Resource version last read by the caller. Omit to apply the change to the current resource.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Choose turn_off to stop adding tax to new orders that inherit the default, or keep to leave
+     * the default unchanged. Keep refuses those orders and holds subscription renewals until
+     * automatic tax is reconnected or the default is turned off. Neither choice turns tax on.
+     * Value enum: "turn_off", "keep".
+     */
+    "tax_default_behavior": "turn_off" | "keep";
+};
+/** A response containing `DisconnectTaxConnectionResult` data. */
+export type DisconnectTaxConnectionResponse = {
+    /**
+     * The disconnected automatic tax connection and merchant settings after the requested
+     * default-tax change.
+     */
+    "data": DisconnectTaxConnectionResult;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link GiftCardCustomAmountBoundsRequestRequestInput}. The minimum and maximum
- * amounts a buyer can choose when buying a gift card with a custom amount.
+ * The disconnected automatic tax connection and merchant settings after the requested default-tax
+ * change.
  */
-export type GiftCardCustomAmountBoundsRequestRequestInput = {
+export type DisconnectTaxConnectionResult = {
     /**
-     * Shape $ (Value): object. Largest gift card value buyers can choose, in the face value
-     * currency. Shape $.amount (Required): integer string. Amount in the currency's smallest unit,
-     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. maximum: 200000. Shape $.currency (Required): string.
-     * Three-letter ISO 4217 currency code. Value enum: "USD".
+     * Merchant settings, as returned by GET /v1/settings. The settings for one scope
+     * (organization, merchant, location, or device), grouped by area such as checkout, tax,
+     * receipts, and tipping.
      */
-    "maximum_money": {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}` | bigint;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD";
-    };
+    "settings": Settings;
     /**
-     * Shape $ (Value): object. Smallest gift card value buyers can choose, in the face value
-     * currency. Shape $.amount (Required): integer string. Amount in the currency's smallest unit,
-     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. maximum: 200000. Shape $.currency (Required): string.
-     * Three-letter ISO 4217 currency code. Value enum: "USD".
+     * The connection changed by this operation. Its version is the expected_version target. The
+     * environment's automatic sales tax connection. Before a record exists, identity, version and
+     * timestamps are omitted. Read-time business-detail changes and provider pauses do not advance
+     * version or send webhooks. Status_reason and supported_actions can also change with the clock
+     * as registrations end, without a version change or webhook.
      */
-    "minimum_money": {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}` | bigint;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD";
-    };
+    "tax_connection": TaxConnection;
 };
 /**
- * Shape $ (Value): {@link GiftCardFundingDisposition}. A merchant decision to honor gift card
- * value after its funding payment lost a dispute.
+ * Promotions evaluated for an order, grouped into those that were applied, those that are
+ * available, and those that were skipped.
  */
-export type GiftCardFundingDisposition = {
-    /** Shape $ (Value): string. When the disposition was created. Format: date-time. */
-    "created_at": string;
+export type DiscountPreview = {
     /**
-     * Shape $ (Value): string. How Flint handles the lost funding. honor_value keeps the affected
-     * cards' unspent value spendable and removes the freeze this dispute placed on them. Value
-     * enum: "honor_value".
+     *  [] (Value): {@link PromotionCandidate}. A promotion considered for an order, with its
+     * discount amounts, its stacking rules, and why it was or was not applied.
      */
-    "disposition": "honor_value" | (string & {});
+    "applied": Array<PromotionCandidate>;
     /**
-     * Shape $ (Value): {@link MoneyValue}. The whole disputed payment amount, which can include
-     * consideration for other purchases. It is separate from the original gift card consideration
-     * and honored face value. Monetary amount represented as integer minor units plus an ISO 4217
+     *  [] (Value): {@link PromotionCandidate}. A promotion considered for an order, with its
+     * discount amounts, its stacking rules, and why it was or was not applied.
+     */
+    "available": Array<PromotionCandidate>;
+    /**
+     *  [] (Value): {@link PromotionCandidate}. A promotion considered for an order, with its
+     * discount amounts, its stacking rules, and why it was or was not applied.
+     */
+    "skipped": Array<PromotionCandidate>;
+};
+/** The request body for: Create discount preview. */
+export type DiscountPreviewRequest = {
+    /**
+     * A discount to apply when creating an order: either a manual discount or a reference to a
+     * promotion.
+     */
+    "discount"?: CreateOrderDiscount;
+    /**
+     * The order to evaluate. Checkout session credentials can use only their own order. minLength:
+     * 1.
+     */
+    "order_id": string;
+};
+/** The request body for: Create discount preview. */
+export type DiscountPreviewRequestInput = {
+    /**
+     * A discount to apply when creating an order: either a manual discount or a reference to a
+     * promotion.
+     */
+    "discount"?: CreateOrderDiscountInput;
+    /**
+     * The order to evaluate. Checkout session credentials can use only their own order. minLength:
+     * 1.
+     */
+    "order_id": string;
+};
+/** A response containing `DiscountPreview` data. */
+export type DiscountPreviewResponse = {
+    /**
+     * Promotions evaluated for an order, grouped into those that were applied, those that are
+     * available, and those that were skipped.
+     */
+    "data": DiscountPreview;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type DiscountPreviewsCreateParams = (InputValue<DiscountPreviewRequestInput>);
+/** A challenge to a collected payment. */
+export type Dispute = {
+    /**
+     * Amount in dispute. For a chargeback, this amount left your balance when the case opened; an
+     * inquiry moves no money. Monetary amount represented as integer minor units plus an ISO 4217
      * currency code.
      */
-    "dispute_amount_money": MoneyValue;
-    /** Shape $ (Value): string. The lost dispute this disposition resolves. */
-    "dispute_id": string;
-    /** Shape $ (Value): string. Stable identifier of the disposition. */
-    "gift_card_funding_disposition_id": string;
+    "amount_money": MoneyValue;
     /**
-     * Shape $ (Value): Array of string. Gift cards whose value this disposition honors, including
-     * replacement cards that received value from the disputed funding. Shape $[] (Value): string.
+     * Whether this dispute has an evidence response window. It stays true after the window closes
+     * or a decision is made. Use is_action_required to know whether a response is needed now.
      */
-    "gift_card_ids": Array<string>;
+    "can_respond_with_evidence": boolean;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Unspent value that stays spendable under this
-     * disposition, summed across the affected cards, including replacement cards that received
-     * value from the disputed funding. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
+     * Value enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
+     * "bank_return".
      */
-    "honored_value_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. The Idempotency-Key sent with the request that created this
-     * disposition.
-     */
-    "idempotency_key": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What the buyer paid for the gift card value the
-     * disputed payment funded, summed across its funding loads. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "original_gift_card_consideration_money": MoneyValue;
-    /** Shape $ (Value): string. The disputed payment that funded the gift card value. */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Part of honored_value_money that pending redemptions
-     * held when the disposition was created. It stays reserved for them. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "preserved_reserved_value_money": MoneyValue;
-    /** Shape $ (Value): string. Your reason for honoring the value, from the create request. */
-    "reason_message": string;
-};
-/**
- * Shape $ (Value): {@link GiftCardFundingDispositionListResponse}. A page of
- * `GiftCardFundingDisposition` objects.
- */
-export type GiftCardFundingDispositionListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link GiftCardFundingDisposition}. Shape $[] (Value): {@link
-     * GiftCardFundingDisposition}. A merchant decision to honor gift card value after its funding
-     * payment lost a dispute.
-     */
-    "data": Array<GiftCardFundingDisposition>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GiftCardFundingDispositionResponse}. A response containing
- * `GiftCardFundingDisposition` data.
- */
-export type GiftCardFundingDispositionResponse = {
-    /**
-     * Shape $ (Value): {@link GiftCardFundingDisposition}. A merchant decision to honor gift card
-     * value after its funding payment lost a dispute.
-     */
-    "data": GiftCardFundingDisposition;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type GiftCardFundingDispositionsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateGiftCardFundingDispositionRequestInput}. The request body for:
-     * Create a gift card funding disposition.
-     */
-    "body": InputValue<CreateGiftCardFundingDispositionRequestInput>;
-};
-export type GiftCardFundingDispositionsGetInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_funding_disposition_id": InputValue<string>;
-};
-export type GiftCardFundingDispositionsListInput = {
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "dispute_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "idempotency_key"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-};
-/**
- * Shape $ (Value): {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift
- * card load, with its status and any loss resolution.
- */
-export type GiftCardFundingDispute = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string. */
-    "dispute_id": string;
-    /** Shape $ (Value): boolean. */
-    "requires_resolution": boolean;
-    /**
-     * Shape $ (Value): {@link GiftCardFundingLossResolution} or null. Shape $.anyOf[1] (Value):
-     * {@link GiftCardFundingLossResolution}. How a lost funding dispute was resolved for a gift
-     * card load, such as honoring the card's value, with a reason message. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "resolution": ((GiftCardFundingLossResolution) | (null));
-    /** Shape $ (Value): string.  Value enum: "open", "won", "lost". */
-    "status": "open" | "won" | "lost" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "version": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link GiftCardFundingLossResolution}. How a lost funding dispute was resolved
- * for a gift card load, such as honoring the card's value, with a reason message.
- */
-export type GiftCardFundingLossResolution = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string.  Value enum: "honor_value". */
-    "disposition": "honor_value" | (string & {});
-    /** Shape $ (Value): string. */
-    "gift_card_funding_disposition_id": string;
-    /** Shape $ (Value): string. */
-    "reason_message": string;
-};
-/**
- * Shape $ (Value): {@link GiftCardFundingSource}. Where the value of a gift card load came from,
- * such as an external payment, a Flint payment, an import, or an adjustment, with your reference
- * for it.
- */
-export type GiftCardFundingSource = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /**
-     * Shape $ (Value): string. Value enum: "external_payment", "flint_payment",
-     * "flint_manual_payment", "import", "adjustment", "gift_card_refund",
-     * "gift_card_purchase_refund_recovery", "store_credit".
-     */
-    "funding_source_type": "external_payment"
-        | "flint_payment"
-        | "flint_manual_payment"
-        | "import"
-        | "adjustment"
-        | "gift_card_refund"
-        | "gift_card_purchase_refund_recovery"
-        | "store_credit"
+    "case_type": "inquiry"
+        | "chargeback"
+        | "compliance"
+        | "resolution"
+        | "block"
+        | "other"
+        | "bank_return"
         | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & ((Exclude<GiftCardFundingSourceExternalPayment & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceFlintPayment & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceFlintManualPayment & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceImport & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceAdjustment & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceGiftCardRefund & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecovery & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceStoreCredit & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceAdjustment}. The `adjustment` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceAdjustment = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "adjustment". */
-    "funding_source_type": "adjustment" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & ({
-    /** Shape $ (Value): any.  Value enum: "adjustment". */
-    "funding_source_type"?: unknown;
-});
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceAdjustmentInput}. The `adjustment` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceAdjustmentInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "adjustment". */
-    "funding_source_type": "adjustment";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & ({
-    /** Shape $ (Value): any.  Value enum: "adjustment". */
-    "funding_source_type"?: ("adjustment") & ("adjustment");
-});
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceExternalPayment}. The `external_payment` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceExternalPayment = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "external_payment". */
-    "funding_source_type": "external_payment" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "external_payment". */
-    "funding_source_type"?: unknown;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceExternalPaymentInput}. The `external_payment`
- * variant of `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceExternalPaymentInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "external_payment". */
-    "funding_source_type": "external_payment";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "external_payment". */
-    "funding_source_type"?: ("external_payment") & ("external_payment");
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-})
-    & (({
-    "payment_intent_id"?: never;
-}) & ({
-    "order_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceFlintManualPayment}. The `flint_manual_payment`
- * variant of `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceFlintManualPayment = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "flint_manual_payment". */
-    "funding_source_type": "flint_manual_payment" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id": string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "flint_manual_payment". */
-    "funding_source_type"?: unknown;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceFlintManualPaymentInput}. The
- * `flint_manual_payment` variant of `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceFlintManualPaymentInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "flint_manual_payment". */
-    "funding_source_type": "flint_manual_payment";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "flint_manual_payment". */
-    "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment");
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id": string;
-})
-    & ({
-    "payment_intent_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceFlintPayment}. The `flint_payment` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceFlintPayment = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "flint_payment". */
-    "funding_source_type": "flint_payment" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "flint_payment". */
-    "funding_source_type"?: unknown;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceFlintPaymentInput}. The `flint_payment` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceFlintPaymentInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "flint_payment". */
-    "funding_source_type": "flint_payment";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "flint_payment". */
-    "funding_source_type"?: ("flint_payment") & ("flint_payment");
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-})
-    & ({
-    "order_manual_payment_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceGiftCardPurchaseRefundRecovery}. The
- * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceGiftCardPurchaseRefundRecovery = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "gift_card_purchase_refund_recovery". */
-    "funding_source_type": "gift_card_purchase_refund_recovery" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "gift_card_purchase_refund_recovery". */
-    "funding_source_type"?: unknown;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput}. The
- * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "gift_card_purchase_refund_recovery". */
-    "funding_source_type": "gift_card_purchase_refund_recovery";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "gift_card_purchase_refund_recovery". */
-    "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery");
-})
-    & (({
-    "payment_intent_id"?: never;
-}) & ({
-    "order_manual_payment_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceGiftCardRefund}. The `gift_card_refund` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceGiftCardRefund = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "gift_card_refund". */
-    "funding_source_type": "gift_card_refund" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "gift_card_refund". */
-    "funding_source_type"?: unknown;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceGiftCardRefundInput}. The `gift_card_refund`
- * variant of `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceGiftCardRefundInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "gift_card_refund". */
-    "funding_source_type": "gift_card_refund";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "gift_card_refund". */
-    "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund");
-})
-    & ({
-    "payment_intent_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceImport}. The `import` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceImport = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "import". */
-    "funding_source_type": "import" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "import". */
-    "funding_source_type"?: unknown;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceImportInput}. The `import` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceImportInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "import". */
-    "funding_source_type": "import";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "import". */
-    "funding_source_type"?: ("import") & ("import");
-})
-    & (({
-    "payment_intent_id"?: never;
-}) & ({
-    "order_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceInput}. Where the value of a gift card load came
- * from, such as an external payment, a Flint payment, an import, or an adjustment, with your
- * reference for it.
- */
-export type GiftCardFundingSourceInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /**
-     * Shape $ (Value): string. Value enum: "external_payment", "flint_payment",
-     * "flint_manual_payment", "import", "adjustment", "gift_card_refund",
-     * "gift_card_purchase_refund_recovery", "store_credit".
-     */
-    "funding_source_type": "external_payment"
-        | "flint_payment"
-        | "flint_manual_payment"
-        | "import"
-        | "adjustment"
-        | "gift_card_refund"
-        | "gift_card_purchase_refund_recovery"
-        | "store_credit";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & ((Exclude<GiftCardFundingSourceExternalPaymentInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceFlintPaymentInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceFlintManualPaymentInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceImportInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceAdjustmentInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceGiftCardRefundInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput & object, readonly unknown[]>)
-    | (Exclude<GiftCardFundingSourceStoreCreditInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceStoreCredit}. The `store_credit` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceStoreCredit = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "store_credit". */
-    "funding_source_type": "store_credit" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id": string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "store_credit". */
-    "funding_source_type"?: unknown;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id": string;
-}));
-/**
- * Shape $ (Value): {@link GiftCardFundingSourceStoreCreditInput}. The `store_credit` variant of
- * `GiftCardFundingSource`.
- */
-export type GiftCardFundingSourceStoreCreditInput = ({
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Your reference for the payment or import record that funded this
-     * value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string;
-    /** Shape $ (Value): string.  Value enum: "store_credit". */
-    "funding_source_type": "store_credit";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_manual_payment_id"?: never;
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Refund that issued this value. Present only when
-     * funding_source_type is store_credit. minLength: 1.
-     */
-    "refund_id"?: never;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "store_credit". */
-    "funding_source_type"?: ("store_credit") & ("store_credit");
-    /**
-     * Shape $ (Value): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_intent_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "order_id": string;
-})
-    & ({
-    "order_manual_payment_id"?: never;
-}));
-/** Shape $ (Value): {@link GiftCardListResponse}. A page of `GiftCard` objects. */
-export type GiftCardListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link GiftCard}. Shape $[] (Value): {@link GiftCard}.
-     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
-     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
-     * cards are independent resources and cannot be transferred across merchants or currencies.
-     */
-    "data": Array<GiftCard>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration are
- * separate. External funding and import provenance are merchant-attested; no payment is collected
- * by recording them. Replacement refund lots retain original funding provenance and do not
- * represent new paid funding.
- */
-export type GiftCardLoad = {
-    /**
-     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "consideration_money": ((MoneyValue) | (null));
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** RFC3339 timestamp. Format: date-time. */
     "created_at": string;
     /**
-     * Shape $ (Value): Array of {@link GiftCardFundingDispute}. Restrictions tied to original
-     * funding, including value restored to replacement cards. A win clears only its own
-     * restriction. A loss keeps spending restricted until you create a gift card funding
-     * disposition. Shape $[] (Value): {@link GiftCardFundingDispute}. A dispute on the payment
-     * that funded a gift card load, with its status and any loss resolution.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
      */
-    "funding_disputes": Array<GiftCardFundingDispute>;
-    /** Shape $ (Value): string. */
-    "gift_card_id": string;
-    /** Shape $ (Value): string. */
-    "gift_card_load_id": string;
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** The customer on the disputed payment. Absent when the payment has none. */
+    "customer_id"?: string;
+    /** Stable identifier of the dispute. */
+    "dispute_id": string;
     /**
-     * Shape $ (Value): string or null. Your Idempotency-Key for the command that created this
-     * record. null when Flint created it or no key was sent.
+     * Deadline for submitting evidence. Respond before it when is_action_required is true. `null`
+     * when the dispute has no response window, such as a bank return or a case your processor gave
+     * no deadline for. Format: date-time.
      */
-    "idempotency_key": string | null;
+    "evidence_due_at": string | null;
     /**
-     * Shape $ (Value): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash
-     * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
-     * retain these holds. Shape $[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift card
-     * value held back by a purchase refund, with the refund, the root gift card and load, and the
-     * amount held.
+     * How many times evidence was submitted for this dispute. 0 until you submit. Format: int32.
      */
-    "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+    "evidence_submission_count": number;
     /**
-     * Shape $ (Value): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
-     * payment reversals against this original funding load. Pending refunds reserve their value;
-     * confirmed success removes it, and confirmed failure releases the hold. Shape $[] (Value):
-     * {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * The fraud warning the card network sent for this payment before the dispute. Absent when
+     * there was none.
      */
-    "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+    "fraud_warning_id"?: string;
     /**
-     * Shape $ (Value): {@link GiftCardPurchaseRestoration}. Links a gift card load to the original
-     * card and load it restores value to after a purchase refund, for one unit of an order line
-     * item.
+     * Whether evidence is saved for this dispute, submitted or not. evidence_submission_count says
+     * whether it was submitted.
      */
-    "purchase_restoration"?: GiftCardPurchaseRestoration;
+    "has_evidence": boolean;
     /**
-     * Shape $ (Value): {@link GiftCardRefundProvenance}. Traces a gift card load made by a refund
-     * back to its original funding source, root gift card and load, and source refund.
+     * Whether you need to respond now: true while status is needs_response or
+     * inquiry_needs_response, can_respond_with_evidence is true, and evidence_due_at hasn't
+     * passed. Flint evaluates it each time you read the dispute, so it turns false when the
+     * deadline passes without a webhook.
      */
-    "refund_provenance"?: GiftCardRefundProvenance;
+    "is_action_required": boolean;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Whether evidence_due_at has passed on a dispute with a response window. Flint evaluates it
+     * each time you read the dispute. Always false when can_respond_with_evidence is false.
      */
-    "refund_transferred_money"?: MoneyValue;
+    "is_evidence_deadline_passed": boolean;
+    "merchant_id": string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+     * status, payment and refund status, and pricing and settlement amounts, returned when the
+     * order is expanded. anyOf[2] (Value): null.
      */
-    "remaining_money": MoneyValue;
+    "order"?: ((ExpandedOrderSummary) | (null));
+    "order_id"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Present only when `expand` includes `payment_intent`; `null` when expanded and there is no
+     * related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
+     * intent's summary fields, including amount, status, and capture method, returned when the
+     * payment intent is expanded. anyOf[2] (Value): null.
      */
-    "reversed_money": MoneyValue;
+    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+    "payment_intent_id"?: string;
+    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. */
+    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null;
     /**
-     * Shape $ (Value): {@link GiftCardFundingSource}. Where the value of a gift card load came
-     * from, such as an external payment, a Flint payment, an import, or an adjustment, with your
-     * reference for it.
+     * Value enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
      */
-    "source": GiftCardFundingSource;
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time. */
-    "source_created_at": string | null;
+    "reason": "fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other"
+        | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Why a response is unavailable when can_respond_with_evidence is false. Absent when no reason
+     * is reported. Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable".
      */
-    "value_money": MoneyValue;
+    "response_unavailable_reason"?: "bank_return_not_contestable" | "response_window_unavailable" | (string & {});
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
+     * Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
      */
-    "version": `${bigint}`;
+    "status": "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {});
+    /**
+     * Recorded time of the current status. On first observation this is the dispute creation time.
+     * Later status changes use the provider event time when available, or the time Flint observed
+     * the change. This may not be the exact decision or submission time. Format: date-time.
+     */
+    "status_changed_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
 };
-/** Shape $ (Value): {@link GiftCardLoadListResponse}. A page of `GiftCardLoad` objects. */
-export type GiftCardLoadListResponse = {
+export type DisputeCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.created";
+})
+    & {
+    "event_type": "dispute.created";
+});
+export type DisputeInquiryClosedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.inquiry_closed";
+})
+    & {
+    "event_type": "dispute.inquiry_closed";
+});
+/** A page of `Dispute` objects. */
+export type DisputeListResponse = {
+    /**  [] (Value): {@link Dispute}. A challenge to a collected payment. */
+    "data": Array<Dispute>;
     /**
-     * Shape $ (Value): Array of {@link GiftCardLoad}. Shape $[] (Value): {@link GiftCardLoad}.
-     * Independent funding resource. Value and consideration are separate. External funding and
-     * import provenance are merchant-attested; no payment is collected by recording them.
-     * Replacement refund lots retain original funding provenance and do not represent new paid
-     * funding.
-     */
-    "data": Array<GiftCardLoad>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
     "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** Shape $ (Value): {@link GiftCardLoadResponse}. A response containing `GiftCardLoad` data. */
-export type GiftCardLoadResponse = {
+export type DisputeLostEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.lost";
+})
+    & {
+    "event_type": "dispute.lost";
+});
+export type DisputeNeedsResponseEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.needs_response";
+})
+    & {
+    "event_type": "dispute.needs_response";
+});
+export type DisputePreventedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.prevented";
+})
+    & {
+    "event_type": "dispute.prevented";
+});
+/** A response containing `Dispute` data. */
+export type DisputeResponse = {
+    /** A challenge to a collected payment. */
+    "data": Dispute;
     /**
-     * Shape $ (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration
-     * are separate. External funding and import provenance are merchant-attested; no payment is
-     * collected by recording them. Replacement refund lots retain original funding provenance and
-     * do not represent new paid funding.
-     */
-    "data": GiftCardLoad;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type GiftCardLoadsCreateInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+/**
+ * A session for responding to a dispute in the browser, with the `dispute_id` and a short-lived
+ * `client_session` for the embedded response component.
+ */
+export type DisputeResponseSession = {
     /**
-     * Shape $ (Value): {@link CreateGiftCardLoadRequestInput}. The request body for: Load a gift
-     * card.
+     * Browser session for responding to a dispute, with its expiry and the Stripe details needed
+     * to load the embedded response component.
      */
-    "body": InputValue<CreateGiftCardLoadRequestInput>;
+    "client_session": DisputeResponseSessionClientSession;
+    "dispute_id": string;
 };
-export type GiftCardLoadsGetInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_load_id": InputValue<string>;
-};
-export type GiftCardLoadsListInput = {
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
+/**
+ * Browser session for responding to a dispute, with its expiry and the Stripe details needed to
+ * load the embedded response component.
+ */
+export type DisputeResponseSessionClientSession = {
+    /** Time the browser session expires. Format: date-time. */
+    "expires_at": string;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "adjustment", "external_payment",
-     * "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery",
-     * "gift_card_refund", "import", "store_credit". Shape $[] (Value): string. maxLength: 255.
-     * Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment",
-     * "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit".
+     * Stripe details for the embedded dispute response component: the publishable key, an account
+     * session, and the components to render.
      */
-    "funding_source_type"?: InputValue<Array<"adjustment"
-        | "external_payment"
-        | "flint_manual_payment"
-        | "flint_payment"
-        | "gift_card_purchase_refund_recovery"
-        | "gift_card_refund"
-        | "import"
-        | "store_credit">>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "gift_card_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "idempotency_key"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
+    "stripe": DisputeResponseSessionStripe;
+};
+/** A response containing `DisputeResponseSession` data. */
+export type DisputeResponseSessionResponse = {
+    /**
+     * A session for responding to a dispute in the browser, with the `dispute_id` and a
+     * short-lived `client_session` for the embedded response component.
+     */
+    "data": DisputeResponseSession;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Stripe details for the embedded dispute response component: the publishable key, an account
+ * session, and the components to render.
+ */
+export type DisputeResponseSessionStripe = {
+    /**
+     * Single-use account session secret and the Stripe.js call that uses it to load the embedded
+     * dispute response component.
+     */
+    "account_session": DisputeResponseSessionStripeAccountSession;
+    /**
+     * minItems: 1. maxItems: 1. [] (Value): {@link DisputeResponseSessionStripeComponent}. An
+     * embedded Stripe component to render for the dispute response session, with the payment
+     * reference to pass to it.
+     */
+    "components": Array<DisputeResponseSessionStripeComponent>;
+    "publishable_key": string;
+};
+/**
+ * Single-use account session secret and the Stripe.js call that uses it to load the embedded
+ * dispute response component.
+ */
+export type DisputeResponseSessionStripeAccountSession = {
+    /**
+     * Single-use account session secret for fetchClientSecret. Create another response session
+     * when a fresh secret is needed.
+     */
+    "client_secret": string;
+    /**
+     * Call loadConnectAndInitialize with publishableKey and fetchClientSecret. Value enum:
+     * "load_connect_and_initialize".
+     */
+    "stripe_js_call": "load_connect_and_initialize" | (string & {});
+};
+/**
+ * An embedded Stripe component to render for the dispute response session, with the payment
+ * reference to pass to it.
+ */
+export type DisputeResponseSessionStripeComponent = {
+    /** Value enum: "payment_disputes". */
+    "component": "payment_disputes" | (string & {});
+    /** Stripe payment reference to pass to setPayment or the React payment prop. */
+    "payment": string;
+};
+export type DisputeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.updated";
+})
+    & {
+    "event_type": "dispute.updated";
+});
+export type DisputeWonEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.won";
+})
+    & {
+    "event_type": "dispute.won";
+});
+export type DisputesAcceptParams = {};
+export type DisputesCreateResponseSessionParams = {};
+export type DisputesGetParams = {
+    /**
+     * Supported expansions: customer, order, payment_intent. Expansion requires
+     * payments.disputes.read plus the read scope for each expanded resource. Limits: at most 10
+     * unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or
+     * pass one comma-separated value. [] enum: "customer", "order", "payment_intent". Value enum:
+     * "customer", "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum:
+     * "customer", "order", "payment_intent". anyOf[1][] (Value): string. Value enum: "customer",
+     * "order", "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
+};
+export type DisputesListParams = {
+    /** Inclusive lower bound on updated_at. Format: date-time. */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /** Optional Flint payment intent ID filter. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "payment_intent_id"?: InputValue<string>;
+    /** Optional Flint order ID filter. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
     "order_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "source_external_reference_id"?: InputValue<string>;
-};
-/** Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient. */
-export type GiftCardNotification = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
+    /** Optional Flint customer ID filter. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "customer_id"?: InputValue<string>;
     /**
-     * Shape $ (Value): {@link GiftCardNotificationDelivery}. Included on notification retrieval.
-     * Contains the most recent sending attempts and delivery events, newest first. A failed
-     * attempt describes the send call; use notification.status to determine whether acceptance
-     * remains unconfirmed. Delivery history of a gift card notification email: its send attempts
-     * and delivery events, and whether more of each exist.
+     * Optional dispute status filter. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". Value enum: "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[1][] (Value): string. Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value): string. Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other".
      */
-    "delivery"?: GiftCardNotificationDelivery;
-    /** Shape $ (Value): string. */
-    "gift_card_id": string;
-    /** Shape $ (Value): string. */
-    "gift_card_notification_id": string;
+    "status"?: InputValue<("inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")
+        | readonly ("inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")[]>;
     /**
-     * Shape $ (Value): {@link GiftCardPurchaseRecipient}. Who receives a gift card notification:
-     * their `email`, optional `name` and `message`, and an optional `send_at` time.
+     * Optional normalized dispute reason filter. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". Value enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "fraudulent", "unrecognized", "duplicate",
+     * "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". anyOf[1][] (Value): string. Value enum: "fraudulent",
+     * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+     * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
+     * "debit_not_authorized", "bank_account_not_found", "other". anyOf[2] (Value): string. Value
+     * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
      */
-    "recipient": GiftCardPurchaseRecipient;
-    /** Shape $ (Value): string. */
-    "resend_of_notification_id"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "sent_at"?: string;
+    "reason"?: InputValue<("fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other")
+        | readonly ("fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other")[]>;
     /**
-     * Shape $ (Value): string. Value enum: "scheduled", "queued", "sending", "sent", "failed",
-     * "unconfirmed", "bounced", "canceled".
+     * Optional dispute case type filter. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return". Value
+     * enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "inquiry", "chargeback",
+     * "compliance", "resolution", "block", "other", "bank_return". anyOf[1][] (Value): string.
+     * Value enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
+     * "bank_return". anyOf[2] (Value): string. Value enum: "inquiry", "chargeback", "compliance",
+     * "resolution", "block", "other", "bank_return".
      */
-    "status": "scheduled"
-        | "queued"
-        | "sending"
-        | "sent"
-        | "failed"
-        | "unconfirmed"
-        | "bounced"
-        | "canceled"
-        | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
+    "case_type"?: InputValue<("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")
+        | readonly ("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")[]>;
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
+     * Filter by whether a merchant response is needed now. True includes needs_response and
+     * inquiry_needs_response disputes that allow evidence and whose evidence deadline has not
+     * passed; false includes the remaining disputes.
      */
-    "version": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link GiftCardNotificationDelivery}. Delivery history of a gift card
- * notification email: its send attempts and delivery events, and whether more of each exist.
- */
-export type GiftCardNotificationDelivery = {
+    "is_action_required"?: InputValue<boolean>;
     /**
-     * Shape $ (Value): Array of {@link GiftCardNotificationDeliveryAttempt}. maxItems: 20. Shape
-     * $[] (Value): {@link GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card
-     * notification email, with its attempt number, status, and start and completion times.
+     * Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default:
+     * "created_at". Value enum: "created_at", "evidence_due_at", "amount_money".
      */
-    "attempts": Array<GiftCardNotificationDeliveryAttempt>;
-    /**
-     * Shape $ (Value): Array of {@link GiftCardNotificationDeliveryEvent}. maxItems: 50. Shape $[]
-     * (Value): {@link GiftCardNotificationDeliveryEvent}. A delivery event for a gift card
-     * notification email, such as accepted, delivered, bounced, or dropped, with when it occurred
-     * and was received.
-     */
-    "events": Array<GiftCardNotificationDeliveryEvent>;
-    /** Shape $ (Value): boolean. */
-    "has_more_attempts": boolean;
-    /** Shape $ (Value): boolean. */
-    "has_more_events": boolean;
-};
-/**
- * Shape $ (Value): {@link GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card
- * notification email, with its attempt number, status, and start and completion times.
- */
-export type GiftCardNotificationDeliveryAttempt = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "attempt_number": `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "completed_at"?: string;
-    /** Shape $ (Value): string. */
-    "delivery_attempt_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "started_at": string;
-    /** Shape $ (Value): string.  Value enum: "started", "sent", "failed", "abandoned". */
-    "status": "started" | "sent" | "failed" | "abandoned" | (string & {});
-};
-/**
- * Shape $ (Value): {@link GiftCardNotificationDeliveryEvent}. A delivery event for a gift card
- * notification email, such as accepted, delivered, bounced, or dropped, with when it occurred and
- * was received.
- */
-export type GiftCardNotificationDeliveryEvent = {
-    /** Shape $ (Value): string. */
-    "delivery_attempt_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "occurred_at": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "received_at": string;
-    /**
-     * Shape $ (Value): string. accepted means Flint's email service accepted the message for
-     * delivery; delivered means it reached the recipient's mail server; bounced means delivery
-     * failed; dropped means the message was not sent. Value enum: "accepted", "delivered",
-     * "bounced", "dropped".
-     */
-    "type": "accepted" | "delivered" | "bounced" | "dropped" | (string & {});
-};
-/**
- * Shape $ (Value): {@link GiftCardNotificationListResponse}. A page of `GiftCardNotification`
- * objects.
- */
-export type GiftCardNotificationListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link GiftCardNotification}. Shape $[] (Value): {@link
-     * GiftCardNotification}. A message sent to a gift card recipient.
-     */
-    "data": Array<GiftCardNotification>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link GiftCardNotificationRecipientInput}. Who receives a gift card
- * notification: their `email`, optional `name` and `message`, and an optional `send_at` time.
- */
-export type GiftCardNotificationRecipientInput = {
-    /** Shape $ (Value): string. Format: email. minLength: 1. maxLength: 254. */
-    "email": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 200. */
-    "message"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): string. Optional whole-second send time between now and 90 days from now.
-     * Format: date-time. minLength: 1.
-     */
-    "send_at"?: string | globalThis.Date;
-};
-/**
- * Shape $ (Value): {@link GiftCardNotificationResponse}. A response containing
- * `GiftCardNotification` data.
- */
-export type GiftCardNotificationResponse = {
-    /** Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient. */
-    "data": GiftCardNotification;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type GiftCardNotificationsCancelInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_notification_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CancelGiftCardNotificationRequestInput}. The request body for:
-     * Cancel a gift card notification.
-     */
-    "body"?: InputValue<CancelGiftCardNotificationRequestInput>;
-};
-export type GiftCardNotificationsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateGiftCardNotificationRequestInput}. The request body for: Send
-     * a gift card notification.
-     */
-    "body": InputValue<CreateGiftCardNotificationRequestInput>;
-};
-export type GiftCardNotificationsGetInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_notification_id": InputValue<string>;
-};
-export type GiftCardNotificationsListInput = {
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "gift_card_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    /**
+     * Inclusive lower bound on evidence_due_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "evidence_due_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on evidence_due_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "evidence_due_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
     "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
     "page_token"?: InputValue<string>;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "bounced", "canceled", "failed",
-     * "queued", "scheduled", "sending", "sent", "unconfirmed". Shape $[] (Value): string.
-     * maxLength: 255. Value enum: "bounced", "canceled", "failed", "queued", "scheduled",
-     * "sending", "sent", "unconfirmed".
+     * Supported expansions: customer, order, payment_intent. Include the requested related
+     * resources using scoped batch reads for this page. Each relationship requires its existing
+     * target read scopes. Expansion changes the representation without changing pagination tokens.
+     * Limits: at most 10 unique expand paths per request. Repeat expand, for example
+     * expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer",
+     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
+     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
+     * string. Value enum: "customer", "order", "payment_intent".
      */
-    "status"?: InputValue<Array<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">>;
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
 };
+export type DisputesSimulateParams = (InputValue<SimulateDisputeRequestInput>);
 /**
- * Shape $ (Value): {@link GiftCardProductConfiguration}. Gift card settings on a product variant:
- * its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
+ * A tax identifier printed on documents, with its country, optional region, identifier type, and
+ * value. Flint does not verify the value.
  */
-export type GiftCardProductConfiguration = {
+export type DocumentTaxID = {
     /**
-     * Shape $ (Value): {@link GiftCardCustomAmountBounds}. Minimum and maximum gift card values
-     * buyers can choose. Omit for a fixed denomination. The minimum and maximum amounts a buyer
-     * can choose when buying a gift card with a custom amount.
+     * Two-letter ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
+     * Example: "US".
      */
-    "custom_amount_bounds"?: GiftCardCustomAmountBounds;
+    "country": string;
     /**
-     * Shape $ (Value): object. Gift card value issued for one unit of this variant, in the same
-     * currency as its unit price. Shape $.amount (Required): integer string. Amount in the
-     * currency's smallest unit, such as cents for USD. Use an integer string (decimal digits), not
-     * a floating-point number. Format: int64. minimum: 1. maximum: 200000. Shape $.currency
-     * (Required): string. Three-letter ISO 4217 currency code. Value enum: "USD".
+     * Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1.
+     * pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "face_value_money": {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}`;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD" | (string & {});
-    };
+    "document_tax_id"?: string;
     /**
-     * Shape $ (Value): string. Whether the gift card is sold at its face value or at a discounted
-     * price. Value enum: "face_value", "discounted".
+     * Provider-independent identifier type, for example vat, gst, or ein. This is an open
+     * vocabulary. minLength: 1. maxLength: 64. pattern: ^[a-z][a-z0-9_]*$.
      */
-    "price_mode": "face_value" | "discounted" | (string & {});
-};
-/**
- * Shape $ (Value): {@link GiftCardProductConfigurationRequestRequestInput}. Gift card settings on
- * a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for
- * custom amounts.
- */
-export type GiftCardProductConfigurationRequestRequestInput = {
+    "identifier_type": string;
+    /** minLength: 1. maxLength: 64. */
+    "region"?: string;
     /**
-     * Shape $ (Value): {@link GiftCardCustomAmountBoundsRequestRequestInput}. Minimum and maximum
-     * gift card values buyers can choose. Omit for a fixed denomination. The minimum and maximum
-     * amounts a buyer can choose when buying a gift card with a custom amount.
+     * Full identifier printed on documents. Not verified by Flint. minLength: 1. maxLength: 255.
      */
-    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestRequestInput;
-    /**
-     * Shape $ (Value): object. Gift card value issued for one unit of this variant, in the same
-     * currency as its unit price. Shape $.amount (Required): integer string. Amount in the
-     * currency's smallest unit, such as cents for USD. Use an integer string (decimal digits), not
-     * a floating-point number. Format: int64. minimum: 1. maximum: 200000. Shape $.currency
-     * (Required): string. Three-letter ISO 4217 currency code. Value enum: "USD".
-     */
-    "face_value_money": {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}` | bigint;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD";
-    };
-    /**
-     * Shape $ (Value): string. Whether the gift card is sold at its face value or at a discounted
-     * price. Value enum: "face_value", "discounted".
-     */
-    "price_mode": "face_value" | "discounted";
-};
-/**
- * Shape $ (Value): {@link GiftCardPurchaseDetailsRequestInput}. Gift card details you supply for
- * an order line item: the `face_value_money` and the `recipient` who receives the card.
- */
-export type GiftCardPurchaseDetailsRequestInput = {
-    /**
-     * Shape $ (Value): object. Shape $.amount (Required): integer string. Amount in the currency's
-     * smallest unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. maximum: 200000. Shape $.currency
-     * (Required): string. Three-letter ISO 4217 currency code. Value enum: "USD".
-     */
-    "face_value_money"?: {
-        /**
-         * Shape $ (Value): integer string. Amount in the currency's smallest unit, such as cents
-         * for USD. Use an integer string (decimal digits), not a floating-point number. Format:
-         * int64. minimum: 1. maximum: 200000.
-         */
-        "amount": `${bigint}` | bigint;
-        /** Shape $ (Value): string. Three-letter ISO 4217 currency code. Value enum: "USD". */
-        "currency": "USD";
-    };
-    /**
-     * Shape $ (Value): {@link GiftCardPurchaseRecipientRequestInput}. Recipient of a gift card
-     * purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at`
-     * time.
-     */
-    "recipient"?: GiftCardPurchaseRecipientRequestInput;
+    "value": string;
 };

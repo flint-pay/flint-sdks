@@ -1,4096 +1,3235 @@
-import type { CreatePaymentMethodDomainRequest } from './types-8.js';
-import type { MetadataMap, MetadataRequestInput } from './types-32.js';
-import type { MoneyValue, MoneyValueInput } from './types-33.js';
-import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { ImageRequest, ImageRequestInput } from './types-21.js';
+import type { CreateInlineModifierGroupRequestInput, CreateModifierGroupRequest } from './types-8.js';
+import type { MetadataMap, MetadataRequestInput } from './types-34.js';
+import type { MoneyValue, MoneyValueInput, ModifierOverride, ModifierOverrideInput } from './types-35.js';
+import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-33.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-45.js';
+import type { Dimensions, DimensionsInput } from './types-20.js';
+import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-24.js';
+import type { ImageReferenceRequest, ImageReferenceRequestInput, ImageRequest, ImageRequestInput } from './types-25.js';
+import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestInput, LegalSettings } from './types-32.js';
 import type {
-    ProductVariantRequest,
-    ProductVariantRequestInput,
-    PromotionApplicationMethodRequest,
-    PromotionCombinesWithPatch,
-    PromotionExclusivityRequest,
-    PromotionApplicationMethodRequestInput,
-    PromotionCombinesWithRequestInput,
-    PromotionExclusivityRequestInput
-} from './types-40.js';
+    OrderCalculatedLineItemTax,
+    OrderDraftLineItemInventoryDemandRequest,
+    OrderDraftLineItemInventoryDemandRequestInput,
+    OrderDraftLineItemTaxRequestInput,
+    OrderDeliveryDestinationRequest,
+    OrderDeliveryDestinationRequestInput,
+    OrderInventoryRoutingSourceRequestInput
+} from './types-36.js';
 import type {
-    PromotionRuleGroupRequest,
-    PromotionSchedule,
-    PromotionRuleGroupRequestInput,
-    PromotionScheduleRequestRequestInput,
-    RefundCharge,
-    RefundDestinations,
-    RefundLineItem,
-    RefundChargeInput,
-    RefundDestinationsInput,
-    RefundLineItemInput,
-    Refund,
-    RefundGiftCardCode,
-    RefundLineItemAllocation
+    OrderLineItemModifierRequest,
+    OrderLineItemModifierRequestInput,
+    OrderPaymentSourceSelection,
+    OrderPaymentSourceSelectionInput
+} from './types-37.js';
+import type { SubscribedLineRequest, SubscribedLineRequestInput } from './types-53.js';
+import type { Weight, WeightInput } from './types-61.js';
+import type { InventoryRoutingSource, InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-27.js';
+import type { OrderTaxRequest, OrderTaxRequestInput } from './types-38.js';
+import type {
+    CheckoutGiftCardChallenge,
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPromotionConfig,
+    CheckoutRedirects,
+    CheckoutBuyerFieldsRequestInput,
+    CheckoutPromotionConfigRequestInput,
+    CheckoutRedirectsRequestInput
+} from './types-4.js';
+import type {
+    PartnerAppCredentialJWKSURLRequestInput,
+    PartnerAppCredentialPublicKeyRequest,
+    PartnerAppCredentialPublicKeyRequestInput,
+    PartnerAppCredentialWorkloadIdentityRequest,
+    PartnerAppCredentialWorkloadIdentityRequestInput,
+    PartnerAppPermissionManifestEntry,
+    PartnerAppPermissionManifestEntryRequestInput
+} from './types-39.js';
+import type {
+    CheckoutTaxConfig,
+    CheckoutTipConfig,
+    CheckoutTaxConfigRequestInput,
+    CheckoutTipConfigRequestInput
+} from './types-5.js';
+import type {
+    PaymentLinkCustomFieldRequest,
+    PaymentLinkEventConfig,
+    PaymentLinkCustomFieldRequestInput,
+    PaymentLinkCustomTextConfigInput,
+    PaymentLinkEventConfigRequestInput,
+    PaymentLinkLegalConfigInput
 } from './types-41.js';
 import type {
-    RefundTaxBreakdownRefundIn,
-    RefundTenderAllocationRequest,
-    RefundTaxBreakdownRefundInInput,
-    RefundTenderAllocationRequestInput,
-    ResponseMeta,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery
+    PaymentLinkLineItemRequest,
+    PaymentLinkLineItemRequestInput,
+    PaymentLinkPaymentConfigInput,
+    PaymentLinkThemeConfigInput
 } from './types-42.js';
-import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-18.js';
-import type { PaymentRefund } from './types-39.js';
-import type {
-    ReturnEligibilitySelection,
-    ReturnEligibilitySelectionInput,
-    ReturnInspectionLineItemRequest,
-    ReturnInspectionLineItemRequestInput,
-    ReturnPolicyRevisionRequest,
-    ReturnPolicyRevisionRequestInput,
-    ReturnEligibilityPreview,
-    ReturnLineItemRequest,
-    ReturnLineItemRequestInput
-} from './types-43.js';
-import type { ReturnSourceSystem, ReturnSourceSystemInput } from './types-45.js';
-import type {
-    ReturnResolutionPreview,
-    ReturnReceiptLineItemRequest,
-    ReturnReceiptLineItemRequestInput,
-    ReturnReplacementLineItemRequest,
-    ReturnResolutionAdjustmentRequest,
-    ReturnResolutionLineItemRequest,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnResolutionLineItemRequestInput
-} from './types-44.js';
-import type { CreateReturnResolutionPreviewRequestStandardInput } from './types-10.js';
+import type { ThemeConfig } from './types-57.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { CreateProductRequestOptioned, CreateProductRequestSimple } from './types-10.js';
+import type { ProductVariantRequest } from './types-44.js';
+/** The request body for: Create modifier group. */
+export type CreateModifierGroupRequestInput = CreateInlineModifierGroupRequestInput;
 /**
- * Shape $ (Value): {@link CreatePaymentMethodDomainRequestInput}. The request body for: Register
- * payment method domain.
+ * A modifier to create in a modifier group, with its name, price change, tax category, and default
+ * selection.
  */
-export type CreatePaymentMethodDomainRequestInput = CreatePaymentMethodDomainRequest;
-/** Shape $ (Value): {@link CreatePayoutRequest}. The request body for: Create a payout. */
-export type CreatePayoutRequest = {
+export type CreateModifierRequest = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Amount to send, above zero. It can't exceed what one
-     * balance source has in available_by_source_type. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. Format: int64.
      */
-    "amount_money": MoneyValue;
+    "default_quantity"?: number;
     /**
-     * Shape $ (Value): string. Balance source this payout draws from. Flint chooses the source
-     * when omitted. Value enum: "card", "bank_account".
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
      */
-    "balance_source_type"?: "card" | "bank_account" | (string & {});
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
     /**
-     * Shape $ (Value): string. Your description of the payout, returned on the payout. minLength:
-     * 1.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Payout method. Only standard is accepted; omitted defaults to
-     * standard. Value enum: "standard".
-     */
-    "method"?: "standard" | (string & {});
-    /**
-     * Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency.
-     * Omit it to pay the currency's default destination. minLength: 1.
-     */
-    "payout_destination_id"?: string;
-    /**
-     * Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters
-     * or fewer. minLength: 1.
-     */
-    "statement_descriptor"?: string;
-};
-/** Shape $ (Value): {@link CreatePayoutRequestInput}. The request body for: Create a payout. */
-export type CreatePayoutRequestInput = {
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Amount to send, above zero. It can't exceed what
-     * one balance source has in available_by_source_type. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Balance source this payout draws from. Flint chooses the source
-     * when omitted. Value enum: "card", "bank_account".
-     */
-    "balance_source_type"?: "card" | "bank_account";
-    /**
-     * Shape $ (Value): string. Your description of the payout, returned on the payout. minLength:
-     * 1.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Payout method. Only standard is accepted; omitted defaults to
-     * standard. Value enum: "standard".
-     */
-    "method"?: "standard";
-    /**
-     * Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency.
-     * Omit it to pay the currency's default destination. minLength: 1.
-     */
-    "payout_destination_id"?: string;
-    /**
-     * Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters
-     * or fewer. minLength: 1.
-     */
-    "statement_descriptor"?: string;
-};
-/**
- * Shape $ (Value): {@link CreatePickupFulfillmentDetails}. Pickup details you supply when creating
- * a fulfillment: the pickup address, location, window, instructions, and curbside details.
- */
-export type CreatePickupFulfillmentDetails = {
-    /**
-     * Shape $ (Value): {@link AddressRequest}. Address where the buyer collects the order. A
-     * complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "address"?: AddressRequest;
-    /**
-     * Shape $ (Value): string. Instructions specific to curbside handoff. minLength: 1. maxLength:
-     * 2048.
-     */
-    "curbside_instructions"?: string;
-    /**
-     * Shape $ (Value): string. Buyer-reported arrival time for curbside or counter pickup. Format:
-     * date-time. minLength: 1.
-     */
-    "customer_arrived_at"?: string;
-    /**
-     * Shape $ (Value): string. Deadline after which an uncollected pickup should enter merchant
-     * review. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string;
-    /**
-     * Shape $ (Value): string. Pickup instructions for the buyer, such as where to go on arrival.
-     * minLength: 1.
-     */
-    "instructions"?: string;
-    /**
-     * Shape $ (Value): string. Name of the store or place where the buyer collects the order.
-     * minLength: 1.
-     */
-    "location_name"?: string;
-    /**
-     * Shape $ (Value): integer string. Width of the promised pickup window, from 0 to 86400
-     * seconds. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Expected preparation time for restaurant and made-to-order
-     * pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "ready_at"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): string. Buyer vehicle description used for curbside handoff. minLength: 1.
-     * maxLength: 500.
-     */
-    "vehicle_description"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_end_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_start_at"?: string;
-};
-/**
- * Shape $ (Value): {@link CreatePickupFulfillmentDetailsInput}. Pickup details you supply when
- * creating a fulfillment: the pickup address, location, window, instructions, and curbside
- * details.
- */
-export type CreatePickupFulfillmentDetailsInput = {
-    /**
-     * Shape $ (Value): {@link AddressRequestInput}. Address where the buyer collects the order. A
-     * complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "address"?: AddressRequestInput;
-    /**
-     * Shape $ (Value): string. Instructions specific to curbside handoff. minLength: 1. maxLength:
-     * 2048.
-     */
-    "curbside_instructions"?: string;
-    /**
-     * Shape $ (Value): string. Buyer-reported arrival time for curbside or counter pickup. Format:
-     * date-time. minLength: 1.
-     */
-    "customer_arrived_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Deadline after which an uncollected pickup should enter merchant
-     * review. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Pickup instructions for the buyer, such as where to go on arrival.
-     * minLength: 1.
-     */
-    "instructions"?: string;
-    /**
-     * Shape $ (Value): string. Name of the store or place where the buyer collects the order.
-     * minLength: 1.
-     */
-    "location_name"?: string;
-    /**
-     * Shape $ (Value): integer string. Width of the promised pickup window, from 0 to 86400
-     * seconds. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer string. Expected preparation time for restaurant and made-to-order
-     * pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "ready_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): string. Buyer vehicle description used for curbside handoff. minLength: 1.
-     * maxLength: 500.
-     */
-    "vehicle_description"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_end_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_start_at"?: string | globalThis.Date;
-};
-/**
- * Shape $ (Value): {@link CreateProductOptionRequest}. A product option to create with a product,
- * such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequest = {
-    /**
-     * Shape $ (Value): string. Value of this option given to every active variant that has no
-     * active value for it after this request, such as when you add an option to a product that
-     * already has active variants. It must match one of this option's active `values`, ignoring
-     * case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1.
-     * maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Option name, such as Size or Color. minLength: 1. maxLength: 255.
-     */
+    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
     "name": string;
     /**
-     * Shape $ (Value): integer. Display order among the product's options, starting at zero.
-     * Format: int32. minimum: 0.
+     * Display position of the choice within its group; lower values appear first. Format: int32.
      */
     "position"?: number;
     /**
-     * Shape $ (Value): string. Whether the option is active or inactive. Active variants must
-     * select an active value for every active option. Default: "active". Value enum: "active",
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     * Default: false.
+     */
+    "selected_by_default"?: boolean;
+    /** Whether this modifier appears in fulfillment details. */
+    "show_on_fulfillment"?: boolean;
+    /** Whether this modifier appears on buyer receipts. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Default:
+     * "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Whether this modifier's price is taxable. A modifier set can override this value. */
+    "taxable"?: boolean;
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_delta_money"?: MoneyValue;
+};
+/**
+ * A modifier to create in a modifier group, with its name, price change, tax category, and default
+ * selection.
+ */
+export type CreateModifierRequestInput = {
+    /**
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Display position of the choice within its group; lower values appear first. Format: int32.
+     */
+    "position"?: number;
+    /**
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     * Default: false.
+     */
+    "selected_by_default"?: boolean;
+    /** Whether this modifier appears in fulfillment details. */
+    "show_on_fulfillment"?: boolean;
+    /** Whether this modifier appears on buyer receipts. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Default:
+     * "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Whether this modifier's price is taxable. A modifier set can override this value. */
+    "taxable"?: boolean;
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_delta_money"?: MoneyValueInput;
+};
+/** The `existing` variant of `CreateModifierSetGroupInput`. */
+export type CreateModifierSetGroupInputExisting = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group"?: CreateModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing" | (string & {});
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing" | (string & {});
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id": string;
+}));
+/** The `existing` variant of `CreateModifierSetGroupInput`. */
+export type CreateModifierSetGroupInputExistingInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group"?: CreateInlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideInput}. Settings for one modifier that apply only within a modifier set
+     * group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideInput>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing";
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing";
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id": string;
+})
+    & ({
+    "modifier_group"?: never;
+}));
+/** The `inline` variant of `CreateModifierSetGroupInput`. */
+export type CreateModifierSetGroupInputInline = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group": CreateModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "inline".
+     */
+    "source": "inline" | (string & {});
+})
+    & (({
+    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
+    "source": "inline" | (string & {});
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group": CreateModifierGroupRequest;
+}));
+/** The `inline` variant of `CreateModifierSetGroupInput`. */
+export type CreateModifierSetGroupInputInlineInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group": CreateInlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideInput}. Settings for one modifier that apply only within a modifier set
+     * group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideInput>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "inline".
+     */
+    "source": "inline";
+})
+    & (({
+    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
+    "source": "inline";
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group": CreateInlineModifierGroupRequestInput;
+})
+    & ({
+    "modifier_group_id"?: never;
+}));
+/**
+ * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
+ * chosen by `source`.
+ */
+export type CreateModifierSetGroupRequest = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group"?: CreateModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline" | (string & {});
+})
+    & ((Exclude<CreateModifierSetGroupInputExisting & object, readonly unknown[]>)
+    | (Exclude<CreateModifierSetGroupInputInline & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
+ * chosen by `source`.
+ */
+export type CreateModifierSetGroupRequestInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group"?: CreateInlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1.
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideInput}. Settings for one modifier that apply only within a modifier set
+     * group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideInput>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline";
+})
+    & ((Exclude<CreateModifierSetGroupInputExistingInput & object, readonly unknown[]>)
+    | (Exclude<CreateModifierSetGroupInputInlineInput & object, readonly unknown[]>));
+/** The request body for: Create modifier set. */
+export type CreateModifierSetRequest = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Ordered group entries in this set, including references to reusable groups and groups owned
+     * by the set. [] (Value): {@link CreateModifierSetGroupRequest}. A modifier group to add to a
+     * modifier set, either an existing group by ID or one defined inline, chosen by `source`.
+     */
+    "modifier_groups"?: Array<CreateModifierSetGroupRequest>;
+    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
      * "inactive".
      */
     "status"?: "active" | "inactive" | (string & {});
+};
+/** The request body for: Create modifier set. */
+export type CreateModifierSetRequestInput = {
     /**
-     * Shape $ (Value): Array of {@link CreateProductOptionValueRequest}. Values offered for this
-     * option, such as Small, Medium, and Large for Size. Shape $[] (Value): {@link
-     * CreateProductOptionValueRequest}. One value of a product option to create, such as a
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Ordered group entries in this set, including references to reusable groups and groups owned
+     * by the set. [] (Value): {@link CreateModifierSetGroupRequestInput}. A modifier group to add
+     * to a modifier set, either an existing group by ID or one defined inline, chosen by `source`.
+     */
+    "modifier_groups"?: Array<CreateModifierSetGroupRequestInput>;
+    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
+     * "inactive".
+     */
+    "status"?: "active" | "inactive";
+};
+/**
+ * A discount to apply when creating an order: either a manual discount or a reference to a
+ * promotion.
+ */
+export type CreateOrderDiscount = ({
+    /**
+     * A discount you apply by hand to an order, with a name, an amount, and the order, line items,
+     * or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequest;
+    /** Identifies the promotion to apply, by promotion code or by promotion ID. */
+    "promotion"?: PromotionRefRequest;
+})
+    & ((Exclude<CreateOrderDiscountPromotion & object, readonly unknown[]>)
+    | (Exclude<CreateOrderDiscountManual & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A discount to apply when creating an order: either a manual discount or a reference to a
+ * promotion.
+ */
+export type CreateOrderDiscountInput = ({
+    /**
+     * A discount you apply by hand to an order, with a name, an amount, and the order, line items,
+     * or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequestInput;
+    /** Identifies the promotion to apply, by promotion code or by promotion ID. */
+    "promotion"?: PromotionRefRequestInput;
+})
+    & ((Exclude<CreateOrderDiscountPromotionInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderDiscountManualInput & object, readonly unknown[]>));
+/** The `Manual` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountManual = ({
+    /**
+     * A discount you apply by hand to an order, with a name, an amount, and the order, line items,
+     * or charges it applies to.
+     */
+    "manual": ManualDiscountRequest;
+    /** Identifies the promotion to apply, by promotion code or by promotion ID. */
+    "promotion"?: PromotionRefRequest;
+});
+/** The `Manual` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountManualInput = ({
+    /**
+     * A discount you apply by hand to an order, with a name, an amount, and the order, line items,
+     * or charges it applies to.
+     */
+    "manual": ManualDiscountRequestInput;
+    /** Identifies the promotion to apply, by promotion code or by promotion ID. */
+    "promotion"?: PromotionRefRequestInput;
+})
+    & (({
+    "promotion"?: never;
+}));
+/** The `Promotion` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountPromotion = ({
+    /**
+     * A discount you apply by hand to an order, with a name, an amount, and the order, line items,
+     * or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequest;
+    /** Identifies the promotion to apply, by promotion code or by promotion ID. */
+    "promotion": PromotionRefRequest;
+});
+/** The `Promotion` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountPromotionInput = ({
+    /**
+     * A discount you apply by hand to an order, with a name, an amount, and the order, line items,
+     * or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequestInput;
+    /** Identifies the promotion to apply, by promotion code or by promotion ID. */
+    "promotion": PromotionRefRequestInput;
+})
+    & (({
+    "manual"?: never;
+}));
+/**
+ * A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and
+ * unit price.
+ */
+export type CreateOrderLineItem = ({
+    "bundle_id"?: string;
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details for an order line item: the `face_value_money` and
+     * the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseRequest;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequest;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory
+     * item that each unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
+     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
+     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
+     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
+     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     * [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
+     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * [].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
+     * group on an order line item. [].type (Required): string. Selects the type branch. Value
+     * enum: "catalog", "text". [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The
+     * `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
+    "name"?: string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequest;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /** Selects the type branch. Value enum: "variant", "bundle", "custom". */
+    "type": "variant" | "bundle" | "custom" | (string & {});
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    "variant_id"?: string;
+})
+    & ((Exclude<CreateOrderLineItemVariant & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemBundle & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemCustom & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `bundle` variant of `CreateOrderLineItem`. */
+export type CreateOrderLineItemBundle = ({
+    "bundle_id": string;
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details for an order line item: the `face_value_money` and
+     * the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseRequest;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequest;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory
+     * item that each unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
+     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
+     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
+     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
+     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     * [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
+     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * [].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
+     * group on an order line item. [].type (Required): string. Selects the type branch. Value
+     * enum: "catalog", "text". [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The
+     * `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
+    "name"?: string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequest;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /** Selects the type branch. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    "variant_id"?: string;
+})
+    & (({
+    "tax"?: unknown;
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    "bundle_id": string;
+}));
+/** The `custom` variant of `CreateOrderLineItem`. */
+export type CreateOrderLineItemCustom = ({
+    "bundle_id"?: string;
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequest;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details for an order line item: the `face_value_money` and
+     * the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseRequest;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequest;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory
+     * item that each unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
+     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
+     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
+     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
+     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     * [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
+     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * [].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
+     * group on an order line item. [].type (Required): string. Selects the type branch. Value
+     * enum: "catalog", "text". [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The
+     * `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
+    "name": string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequest;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /** Selects the type branch. Value enum: "custom". */
+    "type": "custom" | (string & {});
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    "variant_id"?: string;
+})
+    & (({
+    /** Value enum: "custom". */
+    "type": "custom" | (string & {});
+    "name": string;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequest;
+}));
+/** The `bundle` variant of `CreateOrderLineItemInput`. */
+export type CreateOrderLineItemInputBundleInput = ({
+    /** minLength: 1. */
+    "bundle_id": string;
+    /** minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one
+     * inventory item that each unit of a draft order line item uses, supplied when creating the
+     * line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a
+     * line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
+     * (Optional): {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced
+     * map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
+     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
+     * UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for
+     * Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier.
+     * Treated as an opaque resource reference; accepted spellings follow resource ID validation.
+     * Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The
+     * amount and every computed order amount must not exceed 99999999 minor units ($999,999.99
+     * USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and
+     * detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+     * minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to
+     * retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
+     * modifier group on an order line item. [].type (Required): string. Selects the type branch.
+     * Value enum: "catalog", "text". [].oneOf[1] (Value): {@link
+     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
+     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /** minLength: 1. */
+    "name"?: string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestInput;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestInput;
+    /** Selects the type branch. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightInput;
+    /** minLength: 1. */
+    "variant_id"?: string;
+})
+    & (({
+    "tax"?: (({
+        "taxable"?: never;
+    }) & ({
+        "line_item_tax_category"?: never;
+    }));
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /** minLength: 1. */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "unit_weight"?: never;
+})
+    & ({
+    "unit_dimensions"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "image"?: never;
+})
+    & ({
+    "inventory_demands"?: never;
+})
+    & ({
+    "fulfillment"?: never;
+})
+    & ({
+    "gift_card_purchase"?: never;
+})));
+/** The `custom` variant of `CreateOrderLineItemInput`. */
+export type CreateOrderLineItemInputCustomInput = ({
+    /** minLength: 1. */
+    "bundle_id"?: string;
+    /** minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequestInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one
+     * inventory item that each unit of a draft order line item uses, supplied when creating the
+     * line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a
+     * line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
+     * (Optional): {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced
+     * map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
+     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
+     * UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for
+     * Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier.
+     * Treated as an opaque resource reference; accepted spellings follow resource ID validation.
+     * Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The
+     * amount and every computed order amount must not exceed 99999999 minor units ($999,999.99
+     * USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and
+     * detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+     * minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to
+     * retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
+     * modifier group on an order line item. [].type (Required): string. Selects the type branch.
+     * Value enum: "catalog", "text". [].oneOf[1] (Value): {@link
+     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
+     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /** minLength: 1. */
+    "name": string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestInput;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestInput;
+    /** Selects the type branch. Value enum: "custom". */
+    "type": "custom";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightInput;
+    /** minLength: 1. */
+    "variant_id"?: string;
+})
+    & (({
+    /** Value enum: "custom". */
+    "type": ("custom") & ("custom");
+    /** minLength: 1. */
+    "name": string;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequestInput;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})
+    & ({
+    "gift_card_purchase"?: never;
+})));
+/** The `variant` variant of `CreateOrderLineItemInput`. */
+export type CreateOrderLineItemInputVariantInput = ({
+    /** minLength: 1. */
+    "bundle_id"?: string;
+    /** minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one
+     * inventory item that each unit of a draft order line item uses, supplied when creating the
+     * line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a
+     * line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
+     * (Optional): {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced
+     * map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
+     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
+     * UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for
+     * Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier.
+     * Treated as an opaque resource reference; accepted spellings follow resource ID validation.
+     * Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The
+     * amount and every computed order amount must not exceed 99999999 minor units ($999,999.99
+     * USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and
+     * detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+     * minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to
+     * retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
+     * modifier group on an order line item. [].type (Required): string. Selects the type branch.
+     * Value enum: "catalog", "text". [].oneOf[1] (Value): {@link
+     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
+     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /** minLength: 1. */
+    "name"?: string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestInput;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestInput;
+    /** Selects the type branch. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightInput;
+    /** minLength: 1. */
+    "variant_id": string;
+})
+    & (({
+    "tax"?: (({
+        "taxable"?: never;
+    }) & ({
+        "line_item_tax_category"?: never;
+    }));
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+    /** minLength: 1. */
+    "variant_id": string;
+})
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "unit_weight"?: never;
+})
+    & ({
+    "unit_dimensions"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "image"?: never;
+})
+    & ({
+    "inventory_demands"?: never;
+})
+    & ({
+    "fulfillment"?: never;
+})));
+/**
+ * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
+ * unit price.
+ */
+export type CreateOrderLineItemRequestInput = ({
+    /** minLength: 1. */
+    "bundle_id"?: string;
+    /** minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one
+     * inventory item that each unit of a draft order line item uses, supplied when creating the
+     * line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a
+     * line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
+     * (Optional): {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced
+     * map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
+     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
+     * UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for
+     * Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier.
+     * Treated as an opaque resource reference; accepted spellings follow resource ID validation.
+     * Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The
+     * amount and every computed order amount must not exceed 99999999 minor units ($999,999.99
+     * USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and
+     * detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+     * minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to
+     * retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
+     * modifier group on an order line item. [].type (Required): string. Selects the type branch.
+     * Value enum: "catalog", "text". [].oneOf[1] (Value): {@link
+     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
+     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /** minLength: 1. */
+    "name"?: string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestInput;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestInput;
+    /** Selects the type branch. Value enum: "variant", "bundle", "custom". */
+    "type": "variant" | "bundle" | "custom";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightInput;
+    /** minLength: 1. */
+    "variant_id"?: string;
+})
+    & ((Exclude<CreateOrderLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderLineItemInputCustomInput & object, readonly unknown[]>));
+/** The `variant` variant of `CreateOrderLineItem`. */
+export type CreateOrderLineItemVariant = ({
+    "bundle_id"?: string;
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} for services, digital
+     * goods, and items handed over at the point of sale. Fulfillment requirements you supply for
+     * an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details for an order line item: the `face_value_money` and
+     * the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseRequest;
+    /** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
+    "image"?: ImageReferenceRequest;
+    /**
+     *  [] (Value): {@link OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory
+     * item that each unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
+     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
+     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
+     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
+     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     * [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
+     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * [].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
+     * group on an order line item. [].type (Required): string. Selects the type branch. Value
+     * enum: "catalog", "text". [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The
+     * `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
+    "name"?: string;
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequest;
+    /**
+     * Tax settings you supply for a draft order line item: its tax category, whether it is
+     * taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /** Selects the type branch. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    "variant_id": string;
+})
+    & (({
+    "tax"?: unknown;
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+    "variant_id": string;
+}));
+/** The request body for: Create order payment intent. */
+export type CreateOrderPaymentIntentRequest = {
+    /**
+     * Amount to collect toward the order, in the order currency. The amount and every computed
+     * order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input
+     * or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * automatic collects the payment when it is confirmed. manual places a hold at confirmation
+     * that you capture or cancel later. Defaults to automatic. Value enum: "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /**
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm. Required when payment_options includes affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /** The payment source options you choose when creating an order payment intent. */
+    "payment_source_selection"?: OrderPaymentSourceSelection;
+};
+/** The request body for: Create order payment intent. */
+export type CreateOrderPaymentIntentRequestInput = {
+    /**
+     * Amount to collect toward the order, in the order currency. The amount and every computed
+     * order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input
+     * or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * automatic collects the payment when it is confirmed. manual places a hold at confirmation
+     * that you capture or cancel later. Defaults to automatic. Value enum: "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual";
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /**
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm. Required when payment_options includes affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /** The payment source options you choose when creating an order payment intent. */
+    "payment_source_selection"?: OrderPaymentSourceSelectionInput;
+};
+/** The request body for: Create order. */
+export type CreateOrderRequest = {
+    /** minLength: 1. maxLength: 1000. */
+    "buyer_note"?: string;
+    /** minLength: 1. */
+    "customer_id"?: string;
+    /**
+     * Shipment or local-delivery destination for an order created without a delivery selection.
+     * The delivery destination you set when creating or updating an order, with an address and an
+     * optional recipient.
+     */
+    "delivery_destination"?: OrderDeliveryDestinationRequest;
+    /**
+     *  [] (Value): {@link CreateOrderDiscount}. A discount to apply when creating an order: either
+     * a manual discount or a reference to a promotion.
+     */
+    "discounts"?: Array<CreateOrderDiscount>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /** minLength: 1. maxLength: 1000. */
+    "internal_note"?: string;
+    /**
+     * Where inventory for an order is allocated from: a fixed location, an allocation policy, or a
+     * specific policy revision.
+     */
+    "inventory_routing_source"?: InventoryRoutingSource;
+    /**
+     * minItems: 1. [] (Value): {@link CreateOrderLineItem}. A line item to add to an order: a
+     * catalog variant, a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItem>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit.
+     * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+     * amount_money or percent.
+     */
+    "requested_tip"?: CreateOrderTip;
+    /**
+     * Tax settings you supply when creating an order: whether tax is enabled, how it is
+     * calculated, and the tax location.
+     */
+    "tax"?: OrderTaxRequest;
+};
+/** The request body for: Create order. */
+export type CreateOrderRequestInput = {
+    /** minLength: 1. maxLength: 1000. */
+    "buyer_note"?: string;
+    /** minLength: 1. */
+    "customer_id"?: string;
+    /**
+     * Shipment or local-delivery destination for an order created without a delivery selection.
+     * The delivery destination you set when creating or updating an order, with an address and an
+     * optional recipient.
+     */
+    "delivery_destination"?: OrderDeliveryDestinationRequestInput;
+    /**
+     *  [] (Value): {@link CreateOrderDiscountInput}. A discount to apply when creating an order:
+     * either a manual discount or a reference to a promotion.
+     */
+    "discounts"?: Array<CreateOrderDiscountInput>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /** minLength: 1. maxLength: 1000. */
+    "internal_note"?: string;
+    /**
+     * Where inventory for an order is allocated from: a fixed location, an allocation policy, or a
+     * specific policy revision.
+     */
+    "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput;
+    /**
+     * minItems: 1. [] (Value): {@link CreateOrderLineItemRequestInput}. A line item to add to an
+     * order: a catalog variant, a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItemRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit.
+     * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+     * amount_money or percent.
+     */
+    "requested_tip"?: CreateOrderTipInput;
+    /**
+     * Tax settings you supply when creating an order: whether tax is enabled, how it is
+     * calculated, and the tax location.
+     */
+    "tax"?: OrderTaxRequestInput;
+};
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTip = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount", "percent". */
+    "calculation_type": "amount" | "percent" | (string & {});
+    /** minLength: 1. maxLength: 255. */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & ((Exclude<CreateOrderTipAmount & object, readonly unknown[]>)
+    | (Exclude<CreateOrderTipPercent & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipAmount = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount". */
+    "calculation_type": "amount" | (string & {});
+    /** minLength: 1. maxLength: 255. */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & (({
+    /** Value enum: "amount". */
+    "calculation_type": "amount" | (string & {});
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+}));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipAmountInput = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount". */
+    "calculation_type": "amount";
+    /** minLength: 1. maxLength: 255. */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & (({
+    /** Value enum: "amount". */
+    "calculation_type": ("amount") & ("amount");
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+})
+    & (({
+    "percent"?: never;
+})));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipInput = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "amount", "percent". */
+    "calculation_type": "amount" | "percent";
+    /** minLength: 1. maxLength: 255. */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+})
+    & ((Exclude<CreateOrderTipAmountInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderTipPercentInput & object, readonly unknown[]>));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipPercent = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "percent". */
+    "calculation_type": "percent" | (string & {});
+    /** minLength: 1. maxLength: 255. */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    /** Value enum: "percent". */
+    "calculation_type": "percent" | (string & {});
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+}));
+/**
+ * Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+ * amount_money or percent.
+ */
+export type CreateOrderTipPercentInput = ({
+    /**
+     * Flat requested tip in the order currency. The amount must be at least 1 minor unit;
+     * otherwise, Flint returns INVALID_REQUEST with param requested_tip.amount_money.amount. For
+     * USD orders, the tip also cannot exceed the larger of $1,000 or the post-discount merchandise
+     * subtotal. The amount and every computed order amount must not exceed 99999999 minor units
+     * ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /** Selects the calculation type branch. Value enum: "percent". */
+    "calculation_type": "percent";
+    /** minLength: 1. maxLength: 255. */
+    "description"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    /** Value enum: "percent". */
+    "calculation_type": ("percent") & ("percent");
+    /**
+     * Requested tip percentage from 1 through 100, calculated from the post-discount merchandise
+     * subtotal. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    "amount_money"?: never;
+})));
+/** The request body for: Create organization. */
+export type CreateOrganizationRequest = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. */
+    "name": string;
+    /**
+     * The organization to create this one under. It must be an active organization you can manage.
+     * minLength: 1.
+     */
+    "parent_organization_id": string;
+};
+/** The request body for: Create organization. */
+export type CreateOrganizationRequestInput = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. */
+    "name": string;
+    /**
+     * The organization to create this one under. It must be an active organization you can manage.
+     * minLength: 1.
+     */
+    "parent_organization_id": string;
+};
+/** The request body for: Create package item. */
+export type CreatePackageItemRequest = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. */
+    "order_line_item_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+};
+/** The request body for: Create package item. */
+export type CreatePackageItemRequestInput = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. */
+    "order_line_item_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+};
+/** The `jwks_url` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialJWKSURLRequest = {
+    /**
+     * A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the
+     * credential.
+     */
+    "jwks_url": CheckoutGiftCardChallenge;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "jwks_url". */
+    "type": "jwks_url" | (string & {});
+};
+/** The `jwks_url` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialJWKSURLRequestInput = {
+    /**
+     * A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the
+     * credential.
+     */
+    "jwks_url": PartnerAppCredentialJWKSURLRequestInput;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "jwks_url". */
+    "type": "jwks_url";
+};
+/** The `public_key` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialPublicKeyRequest = {
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** The public JSON Web Key to register for client authentication. */
+    "public_key": PartnerAppCredentialPublicKeyRequest;
+    /** Credential type. Value enum: "public_key". */
+    "type": "public_key" | (string & {});
+};
+/** The `public_key` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialPublicKeyRequestInput = {
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** The public JSON Web Key to register for client authentication. */
+    "public_key": PartnerAppCredentialPublicKeyRequestInput;
+    /** Credential type. Value enum: "public_key". */
+    "type": "public_key";
+};
+/**
+ * An immutable public key, JWKS URL, or workload identity credential for partner app client
+ * authentication.
+ */
+export type CreatePartnerAppCredentialRequest = ((CreatePartnerAppCredentialPublicKeyRequest)
+    | (CreatePartnerAppCredentialJWKSURLRequest)
+    | (CreatePartnerAppCredentialWorkloadIdentityRequest)
+    | (Record<string, unknown>));
+/**
+ * An immutable public key, JWKS URL, or workload identity credential for partner app client
+ * authentication.
+ */
+export type CreatePartnerAppCredentialRequestInput = ((CreatePartnerAppCredentialPublicKeyRequestInput)
+    | (CreatePartnerAppCredentialJWKSURLRequestInput)
+    | (CreatePartnerAppCredentialWorkloadIdentityRequestInput));
+/** The `workload_identity` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialWorkloadIdentityRequest = {
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "workload_identity". */
+    "type": "workload_identity" | (string & {});
+    /**
+     * An external OIDC identity whose subject and claim conditions must match exactly the
+     * registered policy.
+     */
+    "workload_identity": PartnerAppCredentialWorkloadIdentityRequest;
+};
+/** The `workload_identity` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialWorkloadIdentityRequestInput = {
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "workload_identity". */
+    "type": "workload_identity";
+    /**
+     * An external OIDC identity whose subject and claim conditions must match exactly the
+     * registered policy.
+     */
+    "workload_identity": PartnerAppCredentialWorkloadIdentityRequestInput;
+};
+/** The request body for: Create partner app. */
+export type CreatePartnerAppRequest = {
+    /**
+     * API version for requests the app makes with its install tokens that send no Flint-Version
+     * header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Defaults to false: no client secret is generated. Register a public key, JWKS URL, or
+     * workload identity to authenticate with a client assertion. Set true explicitly to issue a
+     * client secret at creation. Default: false.
+     */
+    "client_secret_enabled"?: boolean;
+    /**
+     * IDs of the permissions requested when an authorization request sends no scope. Each must be
+     * in permission_manifest. Defaults to every permission that isn't optional. [] (Value):
+     * string. minLength: 1.
+     */
+    "default_requested_permissions"?: Array<string>;
+    /** The app's name, shown to merchants on the consent screen. minLength: 1. */
+    "name": string;
+    /**
+     * Permissions the app can request from merchants. At least one is required. Each lists the
+     * Flint scopes it grants. [] (Value): {@link PartnerAppPermissionManifestEntry}. One
+     * permission a partner app can request, with a title, a description, and the Flint scopes it
+     * grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
+    /**
+     * Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or
+     * HTTP on localhost or a loopback address, with no fragment. At least one is required. []
+     * (Value): string. minLength: 1.
+     */
+    "redirect_uris": Array<string>;
+};
+/** The request body for: Create partner app. */
+export type CreatePartnerAppRequestInput = {
+    /**
+     * API version for requests the app makes with its install tokens that send no Flint-Version
+     * header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Defaults to false: no client secret is generated. Register a public key, JWKS URL, or
+     * workload identity to authenticate with a client assertion. Set true explicitly to issue a
+     * client secret at creation. Default: false.
+     */
+    "client_secret_enabled"?: boolean;
+    /**
+     * IDs of the permissions requested when an authorization request sends no scope. Each must be
+     * in permission_manifest. Defaults to every permission that isn't optional. [] (Value):
+     * string. minLength: 1.
+     */
+    "default_requested_permissions"?: Array<string>;
+    /** The app's name, shown to merchants on the consent screen. minLength: 1. */
+    "name": string;
+    /**
+     * Permissions the app can request from merchants. At least one is required. Each lists the
+     * Flint scopes it grants. [] (Value): {@link PartnerAppPermissionManifestEntryRequestInput}.
+     * One permission a partner app can request, with a title, a description, and the Flint scopes
+     * it grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntryRequestInput>;
+    /**
+     * Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or
+     * HTTP on localhost or a loopback address, with no fragment. At least one is required. []
+     * (Value): string. minLength: 1.
+     */
+    "redirect_uris": Array<string>;
+};
+/** The request body for: Create standalone payment intent. */
+export type CreatePaymentIntentRequest = ({
+    /**
+     * Amount to request from the buyer, including any tip_money. With capture_method manual, this
+     * is the hold amount, and you can capture less of it later. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * automatic collects the payment when it is confirmed. manual places a hold at confirmation
+     * that you capture or cancel later. Defaults to automatic. Default: "automatic". Value enum:
+     * "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual" | (string & {});
+    /** Customer to link to this payment intent. minLength: 1. */
+    "customer_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Payment options the buyer can use. Name at least one. minItems: 1. [] enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /**
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm. Required when payment_options includes affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /**
+     * Email address for this payment's receipt. When omitted, Flint uses the customer's email.
+     * Format: email. minLength: 1. maxLength: 255.
+     */
+    "receipt_email"?: string;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. Not accepted on order-linked payment intents. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+    /**
+     * Why the bank debit is taken. Required when payment_options includes ach_debit, and rejected
+     * with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose otherwise. Value enum: "goods",
+     * "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
+});
+/** The request body for: Create standalone payment intent. */
+export type CreatePaymentIntentRequestInput = ({
+    /**
+     * Amount to request from the buyer, including any tip_money. With capture_method manual, this
+     * is the hold amount, and you can capture less of it later. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * automatic collects the payment when it is confirmed. manual places a hold at confirmation
+     * that you capture or cancel later. Defaults to automatic. Default: "automatic". Value enum:
+     * "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual";
+    /** Customer to link to this payment intent. minLength: 1. */
+    "customer_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Payment options the buyer can use. Name at least one. minItems: 1. [] enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /**
+     * Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as
+     * Affirm. Required when payment_options includes affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /**
+     * Email address for this payment's receipt. When omitted, Flint uses the customer's email.
+     * Format: email. minLength: 1. maxLength: 255.
+     */
+    "receipt_email"?: string;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. Not accepted on order-linked payment intents. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValueInput;
+    /**
+     * Why the bank debit is taken. Required when payment_options includes ach_debit, and rejected
+     * with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose otherwise. Value enum: "goods",
+     * "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other";
+});
+/** The request body for: Create payment link. */
+export type CreatePaymentLinkRequest = {
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /**
+     * maxItems: 20. [] (Value): {@link PaymentLinkCustomFieldRequest}. A custom field you add to a
+     * payment link when creating it.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomFieldRequest>;
+    /**
+     * Custom text shown on a payment link's checkout, such as the order summary message and
+     * shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * Complete delivery method selection for the link. A link without delivery methods offers
+     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
+     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
+     * and duplicate IDs are not accepted. maxItems: 25. uniqueItems: true. [] (Value): string.
+     * minLength: 1.
+     */
+    "delivery_method_ids"?: Array<string>;
+    /** minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "donation_max_amount_money"?: MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "donation_min_amount_money"?: MoneyValue;
+    /**
+     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+    /** Event settings you supply when creating an event payment link. */
+    "event_config"?: PaymentLinkEventConfig;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /** An image you supply by `source_url`, with optional `alt` text and external reference. */
+    "image"?: ImageRequest;
+    /** minLength: 1. maxLength: 500. */
+    "inactive_message"?: string;
+    /**
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * Legal links on a payment link: contract, refund policy, shipping policy, and terms of
+     * service URLs, and whether buyers must accept the terms.
+     */
+    "legal"?: LegalSettings;
+    /**
+     *  [] (Value): {@link PaymentLinkLineItemRequest}. A line item you add to a payment link when
+     * creating it, from a catalog variant, a bundle, or an ad hoc name and price.
+     */
+    "line_items"?: Array<PaymentLinkLineItemRequest>;
+    /** Format: int32. */
+    "max_completions"?: number;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Metadata pairs
+     * plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint.
+     * Metadata keys and values, custom_field_ keys and largest possible answers, and Flint
+     * metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four
+     * bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at
+     * five bytes (the length of false). If the combined budget is exceeded, lower max_length on
+     * some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and
+     * plan links and are checked against the merged configuration on update. maxProperties: 44.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. * (Value): string.
+     * minLength: 1. maxLength: 4096.
+     */
+    "metadata"?: (Exclude<MetadataMap & object, readonly unknown[]>);
+    /** minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Payment link type. Omit to use standard. Explicit values must be standard, donation, or
+     * event; empty or padded values are invalid. Default: "standard". Value enum: "standard",
+     * "donation", "event".
+     */
+    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+    /**
+     * Payment settings on a payment link: the enabled payment options and a note shown with
+     * payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer
+     * can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface
+     * is embedded; use payment_return_url.
+     */
+    "redirects"?: CheckoutRedirects;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve returns
+     * PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event
+     * link without sales_end_at stops selling at event_config.event_at. A checkout opened before
+     * the end can still start payment for up to 15 minutes after it. Format: date-time. minLength:
+     * 1.
+     */
+    "sales_end_at"?: string;
+    /** minLength: 1. */
+    "subscription_plan_id"?: string;
+    /** Whether tax is collected for a checkout session or payment link. */
+    "tax"?: CheckoutTaxConfig;
+    /** Theme settings for a payment link's checkout: accent color, primary color, and title. */
+    "theme"?: ThemeConfig;
+    /**
+     * Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options,
+     * the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+};
+/** The request body for: Create payment link. */
+export type CreatePaymentLinkRequestInput = {
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /**
+     * maxItems: 20. [] (Value): {@link PaymentLinkCustomFieldRequestInput}. A custom field you add
+     * to a payment link when creating it.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>;
+    /**
+     * Custom text shown on a payment link's checkout, such as the order summary message and
+     * shipping address label.
+     */
+    "custom_text"?: PaymentLinkCustomTextConfigInput;
+    /**
+     * Complete delivery method selection for the link. A link without delivery methods offers
+     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
+     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
+     * and duplicate IDs are not accepted. maxItems: 25. uniqueItems: true. [] (Value): string.
+     * minLength: 1.
+     */
+    "delivery_method_ids"?: Array<string>;
+    /** minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "donation_max_amount_money"?: MoneyValueInput;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "donation_min_amount_money"?: MoneyValueInput;
+    /**
+     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "donation_suggested_amount_money_options"?: Array<MoneyValueInput>;
+    /** Event settings you supply when creating an event payment link. */
+    "event_config"?: PaymentLinkEventConfigRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /** An image you supply by `source_url`, with optional `alt` text and external reference. */
+    "image"?: ImageRequestInput;
+    /** minLength: 1. maxLength: 500. */
+    "inactive_message"?: string;
+    /**
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * Legal links on a payment link: contract, refund policy, shipping policy, and terms of
+     * service URLs, and whether buyers must accept the terms.
+     */
+    "legal"?: PaymentLinkLegalConfigInput;
+    /**
+     *  [] (Value): {@link PaymentLinkLineItemRequestInput}. A line item you add to a payment link
+     * when creating it, from a catalog variant, a bundle, or an ad hoc name and price.
+     */
+    "line_items"?: Array<PaymentLinkLineItemRequestInput>;
+    /** Format: int32. */
+    "max_completions"?: number;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Metadata pairs
+     * plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint.
+     * Metadata keys and values, custom_field_ keys and largest possible answers, and Flint
+     * metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four
+     * bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at
+     * five bytes (the length of false). If the combined budget is exceeded, lower max_length on
+     * some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and
+     * plan links and are checked against the merged configuration on update. maxProperties: 44.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. * (Value): string.
+     * minLength: 1. maxLength: 4096.
+     */
+    "metadata"?: (Exclude<MetadataRequestInput & object, readonly unknown[]>);
+    /** minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Payment link type. Omit to use standard. Explicit values must be standard, donation, or
+     * event; empty or padded values are invalid. Default: "standard". Value enum: "standard",
+     * "donation", "event".
+     */
+    "payment_link_type"?: "standard" | "donation" | "event";
+    /**
+     * Payment settings on a payment link: the enabled payment options and a note shown with
+     * payment.
+     */
+    "payments"?: PaymentLinkPaymentConfigInput;
+    /**
+     * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer
+     * can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfigRequestInput;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface
+     * is embedded; use payment_return_url.
+     */
+    "redirects"?: CheckoutRedirectsRequestInput;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve returns
+     * PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event
+     * link without sales_end_at stops selling at event_config.event_at. A checkout opened before
+     * the end can still start payment for up to 15 minutes after it. Format: date-time. minLength:
+     * 1.
+     */
+    "sales_end_at"?: string | globalThis.Date;
+    /** minLength: 1. */
+    "subscription_plan_id"?: string;
+    /** Whether tax is collected for a checkout session or payment link. */
+    "tax"?: CheckoutTaxConfigRequestInput;
+    /** Theme settings for a payment link's checkout: accent color, primary color, and title. */
+    "theme"?: PaymentLinkThemeConfigInput;
+    /**
+     * Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options,
+     * the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfigRequestInput;
+};
+/** The request body for: Register payment method domain. */
+export type CreatePaymentMethodDomainRequest = {
+    /**
+     * Exact fully-qualified hostname to register. Limited to 253 characters (Unicode code points)
+     * before trimming whitespace and lowercasing. The resulting hostname uses ASCII characters
+     * only. Do not include a scheme, path, port, IP address, or wildcard. minLength: 1. maxLength:
+     * 253.
+     */
+    "domain_name": (string);
+};
+/** The request body for: Register payment method domain. */
+export type CreatePaymentMethodDomainRequestInput = CreatePaymentMethodDomainRequest;
+/** The request body for: Create a payout. */
+export type CreatePayoutRequest = {
+    /**
+     * Amount to send, above zero. It can't exceed what one balance source has in
+     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account" | (string & {});
+    /** Your description of the payout, returned on the payout. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Payout method. Only standard is accepted; omitted defaults to standard. Value enum:
+     * "standard".
+     */
+    "method"?: "standard" | (string & {});
+    /**
+     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
+     * currency's default destination. minLength: 1.
+     */
+    "payout_destination_id"?: string;
+    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
+    "statement_descriptor"?: string;
+};
+/** The request body for: Create a payout. */
+export type CreatePayoutRequestInput = {
+    /**
+     * Amount to send, above zero. It can't exceed what one balance source has in
+     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account";
+    /** Your description of the payout, returned on the payout. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Payout method. Only standard is accepted; omitted defaults to standard. Value enum:
+     * "standard".
+     */
+    "method"?: "standard";
+    /**
+     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
+     * currency's default destination. minLength: 1.
+     */
+    "payout_destination_id"?: string;
+    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
+    "statement_descriptor"?: string;
+};
+/**
+ * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
+ * instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetails = {
+    /**
+     * Address where the buyer collects the order. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address"?: AddressRequest;
+    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
+     */
+    "customer_arrived_at"?: string;
+    /**
+     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
+     * minLength: 1.
+     */
+    "expires_at"?: string;
+    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. minLength: 1. */
+    "location_name"?: string;
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "ready_at"?: string;
+    /** minLength: 1. */
+    "timezone"?: string;
+    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
+    "vehicle_description"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string;
+};
+/**
+ * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
+ * instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetailsInput = {
+    /**
+     * Address where the buyer collects the order. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address"?: AddressRequestInput;
+    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
+     */
+    "customer_arrived_at"?: string | globalThis.Date;
+    /**
+     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
+     * minLength: 1.
+     */
+    "expires_at"?: string | globalThis.Date;
+    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. minLength: 1. */
+    "location_name"?: string;
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "ready_at"?: string | globalThis.Date;
+    /** minLength: 1. */
+    "timezone"?: string;
+    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
+    "vehicle_description"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string | globalThis.Date;
+};
+/**
+ * A product option to create with a product, such as size, with its values, position, and status.
+ */
+export type CreateProductOptionRequest = {
+    /**
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link CreateProductOptionValueRequest}. One value of a product option to create, such as a
      * specific size, with its position and status.
      */
     "values"?: Array<CreateProductOptionValueRequest>;
 };
 /**
- * Shape $ (Value): {@link CreateProductOptionRequestInput}. A product option to create with a
- * product, such as size, with its values, position, and status.
+ * A product option to create with a product, such as size, with its values, position, and status.
  */
 export type CreateProductOptionRequestInput = {
     /**
-     * Shape $ (Value): string. Value of this option given to every active variant that has no
-     * active value for it after this request, such as when you add an option to a product that
-     * already has active variants. It must match one of this option's active `values`, ignoring
-     * case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1.
-     * maxLength: 255.
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
      */
     "existing_variant_value"?: string;
     /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Option name, such as Size or Color. minLength: 1. maxLength: 255.
-     */
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
     "name": string;
     /**
-     * Shape $ (Value): integer. Display order among the product's options, starting at zero.
-     * Format: int32. minimum: 0.
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
      */
     "position"?: number;
     /**
-     * Shape $ (Value): string. Whether the option is active or inactive. Active variants must
-     * select an active value for every active option. Default: "active". Value enum: "active",
-     * "inactive".
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Default: "active". Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive";
     /**
-     * Shape $ (Value): Array of {@link CreateProductOptionValueRequestInput}. Values offered for
-     * this option, such as Small, Medium, and Large for Size. Shape $[] (Value): {@link
-     * CreateProductOptionValueRequestInput}. One value of a product option to create, such as a
-     * specific size, with its position and status.
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link CreateProductOptionValueRequestInput}. One value of a product option to create, such
+     * as a specific size, with its position and status.
      */
     "values"?: Array<CreateProductOptionValueRequestInput>;
 };
 /**
- * Shape $ (Value): {@link CreateProductOptionValueRequest}. One value of a product option to
- * create, such as a specific size, with its position and status.
+ * One value of a product option to create, such as a specific size, with its position and status.
  */
 export type CreateProductOptionValueRequest = {
     /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
     /**
-     * Shape $ (Value): integer. Display order among the option's values, starting at zero. Format:
-     * int32. minimum: 0.
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
      */
     "position"?: number;
     /**
-     * Shape $ (Value): string. Whether the value is active or inactive. Active variants cannot
-     * newly select an inactive value. Default: "active". Value enum: "active", "inactive".
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Default: "active". Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): string. Option value shown to buyers, such as Medium. minLength: 1.
-     * maxLength: 255.
-     */
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
     "value": string;
 };
 /**
- * Shape $ (Value): {@link CreateProductOptionValueRequestInput}. One value of a product option to
- * create, such as a specific size, with its position and status.
+ * One value of a product option to create, such as a specific size, with its position and status.
  */
 export type CreateProductOptionValueRequestInput = {
     /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
     /**
-     * Shape $ (Value): integer. Display order among the option's values, starting at zero. Format:
-     * int32. minimum: 0.
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
      */
     "position"?: number;
     /**
-     * Shape $ (Value): string. Whether the value is active or inactive. Active variants cannot
-     * newly select an inactive value. Default: "active". Value enum: "active", "inactive".
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Default: "active". Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): string. Option value shown to buyers, such as Medium. minLength: 1.
-     * maxLength: 255.
-     */
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
     "value": string;
 };
-/** Shape $ (Value): {@link CreateProductRequest}. The request body for: Create product. */
+/** The request body for: Create product. */
 export type CreateProductRequest = ({
     /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
      */
     "category_handles"?: Array<string>;
     /**
-     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
+     * The single variant to create as the product's default. Send either default_variant or both
+     * options and variants. The request body for: Create product variant.
      */
     "default_variant"?: ProductVariantRequest;
-    /**
-     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
-     * maxLength: 2048.
-     */
+    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
     "description"?: string;
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
      */
     "external_reference_id"?: string;
     /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
+     * by `source_url`, with optional `alt` text and external reference.
      */
     "images"?: Array<ImageRequest>;
     /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
+    /** Attached modifier set. Send null on update to remove it. minLength: 1. */
     "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
     "name": string;
     /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
-     * create with a product, such as size, with its values, position, and status.
+     * Options and values that distinguish this product's variants. Send with variants instead of
+     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequest}. A product
+     * option to create with a product, such as size, with its values, position, and status.
      */
     "options"?: Array<CreateProductOptionRequest>;
     /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
      */
     "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
     /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Default: "active". Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple", "optioned".
-     */
+    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
     "variant_mode": "simple" | "optioned" | (string & {});
     /**
-     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
-     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
-     * body for: Create product variant.
+     * Independent variants to create with this product, at most 100. Add more with `POST
+     * /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. [] (Value): {@link
+     * ProductVariantRequest}. The request body for: Create product variant.
      */
     "variants"?: Array<ProductVariantRequest>;
 })
     & ((Exclude<CreateProductRequestSimple & object, readonly unknown[]>)
     | (Exclude<CreateProductRequestOptioned & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** Shape $ (Value): {@link CreateProductRequestInput}. The request body for: Create product. */
-export type CreateProductRequestInput = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant"?: ProductVariantRequestInput;
-    /**
-     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
-     * maxLength: 2048.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options"?: Array<CreateProductOptionRequestInput>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple", "optioned".
-     */
-    "variant_mode": "simple" | "optioned";
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
-     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
-     * request body for: Create product variant.
-     */
-    "variants"?: Array<ProductVariantRequestInput>;
-})
-    & ((Exclude<CreateProductRequestSimpleInput & object, readonly unknown[]>)
-    | (Exclude<CreateProductRequestOptionedInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link CreateProductRequestOptioned}. The `optioned` variant of
- * `CreateProductRequest`.
- */
-export type CreateProductRequestOptioned = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant"?: ProductVariantRequest;
-    /**
-     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
-     * maxLength: 2048.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options": Array<CreateProductOptionRequest>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
-    "variant_mode": "optioned" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
-     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
-     * body for: Create product variant.
-     */
-    "variants": Array<ProductVariantRequest>;
-})
-    & (({
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
-    "variant_mode": "optioned" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options": Array<CreateProductOptionRequest>;
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
-     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
-     * body for: Create product variant.
-     */
-    "variants": Array<ProductVariantRequest>;
-}));
-/**
- * Shape $ (Value): {@link CreateProductRequestOptionedInput}. The `optioned` variant of
- * `CreateProductRequest`.
- */
-export type CreateProductRequestOptionedInput = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant"?: ProductVariantRequestInput;
-    /**
-     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
-     * maxLength: 2048.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options": Array<CreateProductOptionRequestInput>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
-    "variant_mode": "optioned";
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
-     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
-     * request body for: Create product variant.
-     */
-    "variants": Array<ProductVariantRequestInput>;
-})
-    & (({
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
-    "variant_mode": ("optioned") & ("optioned");
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options": Array<CreateProductOptionRequestInput>;
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
-     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
-     * request body for: Create product variant.
-     */
-    "variants": Array<ProductVariantRequestInput>;
-})
-    & (({
-    "default_variant"?: never;
-})));
-/**
- * Shape $ (Value): {@link CreateProductRequestSimple}. The `simple` variant of
- * `CreateProductRequest`.
- */
-export type CreateProductRequestSimple = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant": ProductVariantRequest;
-    /**
-     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
-     * maxLength: 2048.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options"?: Array<CreateProductOptionRequest>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
-    "variant_mode": "simple" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
-     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
-     * body for: Create product variant.
-     */
-    "variants"?: Array<ProductVariantRequest>;
-})
-    & (({
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
-    "variant_mode": "simple" | (string & {});
-    /**
-     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant": ProductVariantRequest;
-}));
-/**
- * Shape $ (Value): {@link CreateProductRequestSimpleInput}. The `simple` variant of
- * `CreateProductRequest`.
- */
-export type CreateProductRequestSimpleInput = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant": ProductVariantRequestInput;
-    /**
-     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
-     * maxLength: 2048.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
-     * distinguish this product's variants. Send with variants instead of default_variant.
-     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
-     * create with a product, such as size, with its values, position, and status.
-     */
-    "options"?: Array<CreateProductOptionRequestInput>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
-    "variant_mode": "simple";
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
-     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
-     * request body for: Create product variant.
-     */
-    "variants"?: Array<ProductVariantRequestInput>;
-})
-    & (({
-    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
-    "variant_mode": ("simple") & ("simple");
-    /**
-     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
-     * product's default. Send either default_variant or both options and variants. The request
-     * body for: Create product variant.
-     */
-    "default_variant": ProductVariantRequestInput;
-})
-    & (({
-    "options"?: never;
-}) & ({
-    "variants"?: never;
-})));
-/**
- * Shape $ (Value): {@link CreatePromotionCodeRequest}. The request body for: Create promotion
- * code.
- */
-export type CreatePromotionCodeRequest = {
-    /**
-     * Shape $ (Value): string. Code a buyer enters to redeem the promotion. minLength: 1.
-     * maxLength: 100.
-     */
-    "code": string;
-    /**
-     * Shape $ (Value): string. When the code stops being redeemable, as an absolute RFC3339
-     * timestamp. Omit for no expiry. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Maximum number of times this code can be redeemed. Omit for
-     * no redemption limit. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64.
-     */
-    "max_uses"?: `${bigint}`;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
-     * code that cannot be redeemed. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): string. IANA zone the code's times were entered in, used for display.
-     * expires_at is an absolute timestamp, so this does not change when the code expires.
-     * minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link CreatePromotionCodeRequestInput}. The request body for: Create promotion
- * code.
- */
-export type CreatePromotionCodeRequestInput = {
-    /**
-     * Shape $ (Value): string. Code a buyer enters to redeem the promotion. minLength: 1.
-     * maxLength: 100.
-     */
-    "code": string;
-    /**
-     * Shape $ (Value): string. When the code stops being redeemable, as an absolute RFC3339
-     * timestamp. Omit for no expiry. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): integer string. Maximum number of times this code can be redeemed. Omit for
-     * no redemption limit. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64.
-     */
-    "max_uses"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
-     * code that cannot be redeemed. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): string. IANA zone the code's times were entered in, used for display.
-     * expires_at is an absolute timestamp, so this does not change when the code expires.
-     * minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/** Shape $ (Value): {@link CreatePromotionRequest}. The request body for: Create promotion. */
-export type CreatePromotionRequest = {
-    /**
-     * Shape $ (Value): {@link PromotionApplicationMethodRequest}. Discount effect and how it
-     * applies to eligible items or charges. A flat application method whose type selects its
-     * effect fields.
-     */
-    "application_method": PromotionApplicationMethodRequest;
-    /**
-     * Shape $ (Value): Array of {@link CreatePromotionCodeRequest}. Codes to create with a
-     * code-gated promotion, at most 100. The create response returns them in `codes`. Add more
-     * later with `POST /v1/promotions/{promotion_id}/codes`, and manage each code through the
-     * `/v1/promotions/{promotion_id}/codes/{promotion_code_id}` routes. maxItems: 100. Shape $[]
-     * (Value): {@link CreatePromotionCodeRequest}. The request body for: Create promotion code.
-     */
-    "codes"?: Array<CreatePromotionCodeRequest>;
-    /**
-     * Shape $ (Value): {@link PromotionCombinesWithPatch}. Which discount classes this promotion
-     * can combine with. Omitted classes default to true. Which promotion discount classes this
-     * promotion can combine with. Omitted classes default to true.
-     */
-    "combines_with"?: PromotionCombinesWithPatch;
-    /**
-     * Shape $ (Value): string. Optional description of the promotion for your own records.
-     * minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Defaults to order when omitted. Default: "order". Value enum:
-     * "order", "line_item", "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**
-     * Shape $ (Value): string. Buyer-facing promotion name shown in checkout and order discount
-     * surfaces. Defaults to name when omitted. minLength: 1. maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Shape $ (Value): {@link PromotionRuleGroupRequest}. Conditions an order must satisfy for the
-     * promotion to apply. Omit to create a promotion with no eligibility conditions. A rule group
-     * is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
-     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
-     * send null where the field is clearable. Responses list rules before nested groups. Under
-     * any, a nested group containing only one rule reads back as that rule. Under all, nested
-     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
-     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
-     * matched by the line_item.* rules in the same all group, including its nested groups.
-     */
-    "eligibility_rules"?: PromotionRuleGroupRequest;
-    /**
-     * Shape $ (Value): {@link PromotionExclusivityRequest}. Optional group and priority used to
-     * choose one promotion from competing promotions in the same group. See Promotion for the
-     * evaluation order. Only one promotion in an exclusivity group continues. See Promotion for
-     * the evaluation order.
-     */
-    "exclusivity"?: PromotionExclusivityRequest;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Maximum number of redemptions across all codes and
-     * automatic applications. Omit for no redemption limit. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "max_uses"?: `${bigint}`;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting.
-     * This is not intended for buyer-facing checkout or receipt copy. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Shape $ (Value): string. Whether the promotion applies automatically when its rules match or
-     * requires a promotion code. Value enum: "automatic", "code".
-     */
-    "redemption_type"?: "automatic" | "code" | (string & {});
-    /**
-     * Shape $ (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
-     * promotion can apply. When a promotion is active, with a start time, an end time, and the
-     * time zone it was entered in.
-     */
-    "schedule"?: PromotionSchedule;
-    /**
-     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
-     * promotion that is switched off. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** Shape $ (Value): {@link CreatePromotionRequestInput}. The request body for: Create promotion. */
-export type CreatePromotionRequestInput = {
-    /**
-     * Shape $ (Value): {@link PromotionApplicationMethodRequestInput}. Discount effect and how it
-     * applies to eligible items or charges. A flat application method whose type selects its
-     * effect fields.
-     */
-    "application_method": PromotionApplicationMethodRequestInput;
-    /**
-     * Shape $ (Value): Array of {@link CreatePromotionCodeRequestInput}. Codes to create with a
-     * code-gated promotion, at most 100. The create response returns them in `codes`. Add more
-     * later with `POST /v1/promotions/{promotion_id}/codes`, and manage each code through the
-     * `/v1/promotions/{promotion_id}/codes/{promotion_code_id}` routes. maxItems: 100. Shape $[]
-     * (Value): {@link CreatePromotionCodeRequestInput}. The request body for: Create promotion
-     * code.
-     */
-    "codes"?: Array<CreatePromotionCodeRequestInput>;
-    /**
-     * Shape $ (Value): {@link PromotionCombinesWithRequestInput}. Which discount classes this
-     * promotion can combine with. Omitted classes default to true. Which promotion discount
-     * classes this promotion can combine with. Omitted classes default to true.
-     */
-    "combines_with"?: PromotionCombinesWithRequestInput;
-    /**
-     * Shape $ (Value): string. Optional description of the promotion for your own records.
-     * minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Defaults to order when omitted. Default: "order". Value enum:
-     * "order", "line_item", "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge";
-    /**
-     * Shape $ (Value): string. Buyer-facing promotion name shown in checkout and order discount
-     * surfaces. Defaults to name when omitted. minLength: 1. maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Shape $ (Value): {@link PromotionRuleGroupRequestInput}. Conditions an order must satisfy
-     * for the promotion to apply. Omit to create a promotion with no eligibility conditions. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "eligibility_rules"?: PromotionRuleGroupRequestInput;
-    /**
-     * Shape $ (Value): {@link PromotionExclusivityRequestInput}. Optional group and priority used
-     * to choose one promotion from competing promotions in the same group. See Promotion for the
-     * evaluation order. Only one promotion in an exclusivity group continues. See Promotion for
-     * the evaluation order.
-     */
-    "exclusivity"?: PromotionExclusivityRequestInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Maximum number of redemptions across all codes and
-     * automatic applications. Omit for no redemption limit. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "max_uses"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting.
-     * This is not intended for buyer-facing checkout or receipt copy. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Shape $ (Value): string. Whether the promotion applies automatically when its rules match or
-     * requires a promotion code. Value enum: "automatic", "code".
-     */
-    "redemption_type"?: "automatic" | "code";
-    /**
-     * Shape $ (Value): {@link PromotionScheduleRequestRequestInput}. Optional start and end times
-     * that limit when the promotion can apply. When a promotion is active, with a start time, an
-     * end time, and the time zone it was entered in.
-     */
-    "schedule"?: PromotionScheduleRequestRequestInput;
-    /**
-     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
-     * promotion that is switched off. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-/** Shape $ (Value): {@link CreateRefundRequest}. The request body for: Create refund. */
-export type CreateRefundRequest = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Required for refund_type amount and forbidden for full
-     * and targets. Total to refund, including named targets and any value Flint allocates to the
-     * remaining components. Tender allocations must sum to this amount. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link RefundCharge}. Named order charges to refund. Allowed with
-     * refund_type amount or targets. In amount mode their value must fit within amount_money;
-     * Flint allocates the rest. Shape $[] (Value): {@link RefundCharge}. An order charge to refund
-     * when creating a refund, with an optional amount to refund.
-     */
-    "charges"?: Array<RefundCharge>;
-    /**
-     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItem}. Named order line items to refund. Allowed
-     * with refund_type amount or targets. In amount mode their resolved value must fit within
-     * amount_money; Flint allocates the rest. Shape $[] (Value): {@link RefundLineItem}. An order
-     * line item to refund, with the quantity or amount, tax handling, and any adjustments such as
-     * a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItem>;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "full", "amount", "targets".
-     */
-    "refund_type": "full" | "amount" | "targets" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundIn}. Named order tax breakdowns to
-     * refund. Allowed with refund_type amount or targets. In amount mode their value must fit
-     * within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link RefundTaxBreakdownRefundIn}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
-     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
-     * or to a gift card redemption, with the amount.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocationRequest>;
-})
-    & ((Exclude<CreateRefundRequestFull & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestAmount & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestTargets & object, readonly unknown[]>)
-    | (Record<string, unknown>))
-    & (({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
-     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
-     * or to a gift card redemption, with the amount.
-     */
-    "tender_allocations": Array<RefundTenderAllocationRequest>;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id": string;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateRefundRequestAmount}. The `amount` variant of
- * `CreateRefundRequest`.
- */
-export type CreateRefundRequestAmount = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Required for refund_type amount and forbidden for full
-     * and targets. Total to refund, including named targets and any value Flint allocates to the
-     * remaining components. Tender allocations must sum to this amount. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link RefundCharge}. Named order charges to refund. Allowed with
-     * refund_type amount or targets. In amount mode their value must fit within amount_money;
-     * Flint allocates the rest. Shape $[] (Value): {@link RefundCharge}. An order charge to refund
-     * when creating a refund, with an optional amount to refund.
-     */
-    "charges"?: Array<RefundCharge>;
-    /**
-     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItem}. Named order line items to refund. Allowed
-     * with refund_type amount or targets. In amount mode their resolved value must fit within
-     * amount_money; Flint allocates the rest. Shape $[] (Value): {@link RefundLineItem}. An order
-     * line item to refund, with the quantity or amount, tax handling, and any adjustments such as
-     * a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItem>;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "amount".
-     */
-    "refund_type": "full" | "amount" | "targets" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundIn}. Named order tax breakdowns to
-     * refund. Allowed with refund_type amount or targets. In amount mode their value must fit
-     * within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link RefundTaxBreakdownRefundIn}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
-     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
-     * or to a gift card redemption, with the amount.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocationRequest>;
-})
-    & ((({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
-     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
-     * or to a gift card redemption, with the amount.
-     */
-    "tender_allocations": Array<RefundTenderAllocationRequest>;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id": string;
-})
-    | (Record<string, unknown>)));
-/**
- * Shape $ (Value): {@link CreateRefundRequestAmountInput}. The `amount` variant of
- * `CreateRefundRequest`.
- */
-export type CreateRefundRequestAmountInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Required for refund_type amount and forbidden for
-     * full and targets. Total to refund, including named targets and any value Flint allocates to
-     * the remaining components. Tender allocations must sum to this amount. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): Array of {@link RefundChargeInput}. Named order charges to refund. Allowed
-     * with refund_type amount or targets. In amount mode their value must fit within amount_money;
-     * Flint allocates the rest. Shape $[] (Value): {@link RefundChargeInput}. An order charge to
-     * refund when creating a refund, with an optional amount to refund.
-     */
-    "charges"?: Array<RefundChargeInput>;
-    /**
-     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItemInput}. Named order line items to refund.
-     * Allowed with refund_type amount or targets. In amount mode their resolved value must fit
-     * within amount_money; Flint allocates the rest. Shape $[] (Value): {@link
-     * RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItemInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "amount".
-     */
-    "refund_type": ("full" | "amount" | "targets") & ("amount");
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundInInput}. Named order tax
-     * breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value
-     * must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link
-     * RefundTaxBreakdownRefundInInput}. The tax to refund for one tax breakdown, identified by
-     * `tax_breakdown_id`, when setting tax refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
-     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
-     * intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
-})
-    & ((({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
-     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
-     * intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id": string;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link CreateRefundRequestFull}. The `full` variant of `CreateRefundRequest`.
- */
-export type CreateRefundRequestFull = ({
-    /**
-     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "full".
-     */
-    "refund_type": "full" | "amount" | "targets" | (string & {});
-})
-    & ((({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /** Shape $ (Value): any. */
-    "tender_allocations": unknown;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id": string;
-})
-    | (Record<string, unknown>)));
-/**
- * Shape $ (Value): {@link CreateRefundRequestFullInput}. The `full` variant of
- * `CreateRefundRequest`.
- */
-export type CreateRefundRequestFullInput = ({
-    /**
-     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "full".
-     */
-    "refund_type": ("full" | "amount" | "targets") & ("full");
-})
-    & ((({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /** Shape $ (Value): any. */
-    "tender_allocations": unknown;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id": string;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})))
-    & (({
-    "amount_money"?: never;
-})
-    & ({
-    "line_items"?: never;
-})
-    & ({
-    "charges"?: never;
-})
-    & ({
-    "tax_breakdown_refunds"?: never;
-})
-    & ({
-    "tender_allocations"?: never;
-}));
-/** Shape $ (Value): {@link CreateRefundRequestInput}. The request body for: Create refund. */
-export type CreateRefundRequestInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Required for refund_type amount and forbidden for
-     * full and targets. Total to refund, including named targets and any value Flint allocates to
-     * the remaining components. Tender allocations must sum to this amount. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): Array of {@link RefundChargeInput}. Named order charges to refund. Allowed
-     * with refund_type amount or targets. In amount mode their value must fit within amount_money;
-     * Flint allocates the rest. Shape $[] (Value): {@link RefundChargeInput}. An order charge to
-     * refund when creating a refund, with an optional amount to refund.
-     */
-    "charges"?: Array<RefundChargeInput>;
-    /**
-     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItemInput}. Named order line items to refund.
-     * Allowed with refund_type amount or targets. In amount mode their resolved value must fit
-     * within amount_money; Flint allocates the rest. Shape $[] (Value): {@link
-     * RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItemInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "full", "amount", "targets".
-     */
-    "refund_type": "full" | "amount" | "targets";
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundInInput}. Named order tax
-     * breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value
-     * must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link
-     * RefundTaxBreakdownRefundInInput}. The tax to refund for one tax breakdown, identified by
-     * `tax_breakdown_id`, when setting tax refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
-     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
-     * intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
-})
-    & (({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-}))
-    & ((Exclude<CreateRefundRequestFullInput & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestAmountInput & object, readonly unknown[]>)
-    | (Exclude<CreateRefundRequestTargetsInput & object, readonly unknown[]>))
-    & (({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
-     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
-     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
-     * original tenders. Additional untargeted value follows the default tender order. Destinations
-     * default to original. Select new_gift_card when the original card is closed or cannot accept
-     * the full credit within its balance cap. For gift card redemptions made outside a Flint
-     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
-     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
-     * intent or to a gift card redemption, with the amount.
-     */
-    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
-     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
-     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
-     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
-     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "gift_card_load_id": string;
-}));
-/**
- * Shape $ (Value): {@link CreateRefundRequestTargets}. The `targets` variant of
- * `CreateRefundRequest`.
- */
-export type CreateRefundRequestTargets = ({
-    /**
-     * Shape $ (Value): Array of {@link RefundCharge}. Named order charges to refund. Allowed with
-     * refund_type amount or targets. In amount mode their value must fit within amount_money;
-     * Flint allocates the rest. Shape $[] (Value): {@link RefundCharge}. An order charge to refund
-     * when creating a refund, with an optional amount to refund.
-     */
-    "charges"?: Array<RefundCharge>;
-    /**
-     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItem}. Named order line items to refund. Allowed
-     * with refund_type amount or targets. In amount mode their resolved value must fit within
-     * amount_money; Flint allocates the rest. Shape $[] (Value): {@link RefundLineItem}. An order
-     * line item to refund, with the quantity or amount, tax handling, and any adjustments such as
-     * a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItem>;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "targets".
-     */
-    "refund_type": "full" | "amount" | "targets" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundIn}. Named order tax breakdowns to
-     * refund. Allowed with refund_type amount or targets. In amount mode their value must fit
-     * within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link RefundTaxBreakdownRefundIn}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
-})
-    & ((({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /** Shape $ (Value): any. */
-    "tender_allocations": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. */
-    "gift_card_load_id": unknown;
-})
-    | (Record<string, unknown>)))
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "line_items": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "charges": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "tax_breakdown_refunds": unknown;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateRefundRequestTargetsInput}. The `targets` variant of
- * `CreateRefundRequest`.
- */
-export type CreateRefundRequestTargetsInput = ({
-    /**
-     * Shape $ (Value): Array of {@link RefundChargeInput}. Named order charges to refund. Allowed
-     * with refund_type amount or targets. In amount mode their value must fit within amount_money;
-     * Flint allocates the rest. Shape $[] (Value): {@link RefundChargeInput}. An order charge to
-     * refund when creating a refund, with an optional amount to refund.
-     */
-    "charges"?: Array<RefundChargeInput>;
-    /**
-     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
-     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
-     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
-     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
-     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
-     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
-     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
-     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
-     * The refund reports each result in tender_allocations, without echoing destinations. Default
-     * refund destinations for payment intent and gift card redemption allocations planned by
-     * Flint. Each tender type defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItemInput}. Named order line items to refund.
-     * Allowed with refund_type amount or targets. In amount mode their resolved value must fit
-     * within amount_money; Flint allocates the rest. Shape $[] (Value): {@link
-     * RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
-     * handling, and any adjustments such as a restocking fee.
-     */
-    "line_items"?: Array<RefundLineItemInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
-     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
-     * amount requires amount_money and permits named targets and tender_allocations within that
-     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
-     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
-     * full and amount only. Value enum: "targets".
-     */
-    "refund_type": ("full" | "amount" | "targets") & ("targets");
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundInInput}. Named order tax
-     * breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value
-     * must fit within amount_money; Flint allocates the rest. Requires
-     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link
-     * RefundTaxBreakdownRefundInInput}. The tax to refund for one tax breakdown, identified by
-     * `tax_breakdown_id`, when setting tax refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-})
-    & ((({
-    /**
-     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
-     * payment on that order. Required for named targets unless payment_intent_id belongs to an
-     * order. minLength: 1.
-     */
-    "order_id": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
-     * require a payment on an order. minLength: 1.
-     */
-    "payment_intent_id": string;
-})
-    | ({
-    /** Shape $ (Value): any. */
-    "tender_allocations": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. */
-    "gift_card_load_id": unknown;
-})))
-    & ((({
-    "destinations"?: never;
-} | {
-    "tender_allocations"?: never;
-}))
-    & (({
-    "destinations"?: never;
-} | {
-    "gift_card_load_id"?: never;
-})))
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "line_items": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "charges": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "tax_breakdown_refunds": unknown;
-}))
-    & (({
-    "amount_money"?: never;
-})
-    & ({
-    "tender_allocations"?: never;
-})
-    & ({
-    "gift_card_load_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreateRefundResponse}. A response containing `CreateRefundResult` data.
- */
-export type CreateRefundResponse = {
-    /**
-     * Shape $ (Value): {@link CreateRefundResult}. The refund created by a create refund call,
-     * with all the fields of a refund. Money returned against a collected payment.
-     */
-    "data": CreateRefundResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateRefundResult}. The refund created by a create refund call, with
- * all the fields of a refund. Money returned against a collected payment.
- */
-export type CreateRefundResult = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "credit_note_id"?: string;
-    /**
-     * Shape $ (Value): {@link ExpandedCustomerSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
-     * when the customer is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** Shape $ (Value): string. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Why a refund failed or a payment refund was canceled. Failed and
-     * canceled amounts become refundable again. Fix the cause, then create a new refund with a new
-     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
-     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
-     * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
-     */
-    "failure_reason"?: "expired_or_canceled_card"
-        | "lost_or_stolen_card"
-        | "insufficient_funds"
-        | "insufficient_available_balance"
-        | "declined"
-        | "merchant_request"
-        | "payment_disputed"
-        | "payment_refund_failed"
-        | "payment_refund_not_attempted"
-        | "refund_failed"
-        | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link RefundGiftCardCode}. New gift card codes recovered only
-     * within 24 hours of the original command and only while each code remains current. Omitted
-     * after the recovery window and never returned by ordinary refund reads or events. Shape $[]
-     * (Value): {@link RefundGiftCardCode}. The code of a gift card issued by a refund, returned
-     * once in the refund result with its `gift_card_id`.
-     */
-    "gift_card_codes"?: Array<RefundGiftCardCode>;
-    /**
-     * Shape $ (Value): string. Present only on refunds created through POST
-     * /v1/credit-notes/{credit_note_id}/refunds: the Idempotency-Key of that call. Use it with GET
-     * /v1/credit-notes/{credit_note_id}/refunds?idempotency_key= to recover a refund whose create
-     * response was lost.
-     */
-    "idempotency_key"?: string;
-    /** Shape $ (Value): string. */
-    "invoice_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link RefundLineItemAllocation}. Shape $[] (Value): {@link
-     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
-     * amount, tax, adjustments, and modifier allocations.
-     */
-    "line_item_allocations"?: Array<RefundLineItemAllocation>;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): {@link ExpandedPaymentIntentSummary} or null. Shape $.anyOf[1] (Value):
-     * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-     * status, and capture method, returned when the payment intent is expanded. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-    /** Shape $ (Value): string. */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link PaymentRefund}. Shape $[] (Value): {@link PaymentRefund}.
-     * The part of a refund returned through one payment, with the amount, tip, status, and any
-     * failure reason.
-     */
-    "payment_refunds"?: Array<PaymentRefund>;
-    /** Shape $ (Value): string. */
-    "payment_review_id"?: string;
-    /**
-     * Shape $ (Value): string or null. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", null.
-     */
-    "reason": "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | null
-        | (string & {})
-        | null;
-    /** Shape $ (Value): string. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. */
-    "refund_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "refunded_tip_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "return_id"?: string;
-    /** Shape $ (Value): string. */
-    "return_resolution_id"?: string;
-    /**
-     * Shape $ (Value): string. Summary of payment_refunds and tender_allocations. Only failed is
-     * final: succeeded and partially_succeeded can still change when a bank rejects a refund after
-     * accepting it. Follow refund.updated. Value enum: "pending", "succeeded",
-     * "partially_succeeded", "failed".
-     */
-    "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefund}. Shape $[] (Value): {@link
-     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-    /**
-     * Shape $ (Value): Array of {@link RefundTenderAllocation}. Shape $[] (Value): {@link
-     * RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender
-     * allocations.
-     */
-    "tender_allocations"?: Array<RefundTenderAllocation>;
-    /**
-     * Shape $ (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
-     * unissued gift card purchase refund failed. Return it through a new refund against
-     * payment_intent_id and order_line_item_id. It does not issue another card. Source remaining
-     * and pending amounts describe the entire original settlement allocation; repeated entries for
-     * that source are not additive. Shape $[] (Value): {@link RefundUnissuedGiftCardRecovery}.
-     * Details of a gift card purchase refunded before the card was issued, including the amounts
-     * recovered.
-     */
-    "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
-     * resources and external observations can change independently. Use an integer string (decimal
-     * digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
-})
-    & (Exclude<Refund & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): Array of {@link RefundGiftCardCode}. New gift card codes recovered only
-     * within 24 hours of the original command and only while each code remains current. Omitted
-     * after the recovery window and never returned by ordinary refund reads or events. Shape $[]
-     * (Value): {@link RefundGiftCardCode}. The code of a gift card issued by a refund, returned
-     * once in the refund result with its `gift_card_id`.
-     */
-    "gift_card_codes"?: Array<RefundGiftCardCode>;
-});
-/** Shape $ (Value): {@link CreateReportRequest}. The request body for: Create a report. */
-export type CreateReportRequest = {
-    /**
-     * Shape $ (Value): string. Three-letter ISO 4217 currency. Reports never combine currencies.
-     * gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on
-     * currency. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Shape $ (Value): string. Exclusive report interval end instant. Each report type matches its
-     * own occurrence time. At most the same local time 366 calendar days after interval_start_at
-     * in timezone. Must not be in the future. Format: date-time. minLength: 1.
-     */
-    "interval_end_at": string;
-    /**
-     * Shape $ (Value): string. Inclusive report interval start instant. Each report type matches
-     * its own occurrence time. Format: date-time. minLength: 1.
-     */
-    "interval_start_at": string;
-    /**
-     * Shape $ (Value): string. Which report to generate. The value names the row and the column
-     * version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval
-     * matching, and columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1",
-     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
-     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
-     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1".
-     */
-    "report_type": "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
-     * occurs at the start of its arrival_date in this timezone. Defaults to UTC. minLength: 1.
-     */
-    "timezone"?: string;
-};
-/** Shape $ (Value): {@link CreateReportRequestInput}. The request body for: Create a report. */
-export type CreateReportRequestInput = {
-    /**
-     * Shape $ (Value): string. Three-letter ISO 4217 currency. Reports never combine currencies.
-     * gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on
-     * currency. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Shape $ (Value): string. Exclusive report interval end instant. Each report type matches its
-     * own occurrence time. At most the same local time 366 calendar days after interval_start_at
-     * in timezone. Must not be in the future. Format: date-time. minLength: 1.
-     */
-    "interval_end_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Inclusive report interval start instant. Each report type matches
-     * its own occurrence time. Format: date-time. minLength: 1.
-     */
-    "interval_start_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Which report to generate. The value names the row and the column
-     * version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval
-     * matching, and columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1",
-     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
-     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
-     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1".
-     */
-    "report_type": "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1";
-    /**
-     * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
-     * occurs at the start of its arrival_date in this timezone. Defaults to UTC. minLength: 1.
-     */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnDispositionRequest}. The request body for: Create return
- * disposition.
- */
-export type CreateReturnDispositionRequest = ({
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "replaces_return_disposition_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_inspection_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_line_item_id"?: string;
-})
-    & ((Exclude<CreateReturnDispositionRequestReceiptLine & object, readonly unknown[]>)
-    | (Exclude<CreateReturnDispositionRequestInspectionLine & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateReturnDispositionRequestInput}. The request body for: Create
- * return disposition.
- */
-export type CreateReturnDispositionRequestInput = ({
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "replaces_return_disposition_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_inspection_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_line_item_id"?: string;
-})
-    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link CreateReturnDispositionRequestInspectionLine}. The `Inspection line`
- * variant of `CreateReturnDispositionRequest`.
- */
-export type CreateReturnDispositionRequestInspectionLine = ({
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "replaces_return_disposition_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_inspection_line_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_line_item_id"?: string;
-});
-/**
- * Shape $ (Value): {@link CreateReturnDispositionRequestInspectionLineInput}. The `Inspection
- * line` variant of `CreateReturnDispositionRequest`.
- */
-export type CreateReturnDispositionRequestInspectionLineInput = ({
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "replaces_return_disposition_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_inspection_line_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_line_item_id"?: string;
-})
-    & ({
-    "return_receipt_line_item_id"?: never;
-});
-/**
- * Shape $ (Value): {@link CreateReturnDispositionRequestReceiptLine}. The `Receipt line` variant
- * of `CreateReturnDispositionRequest`.
- */
-export type CreateReturnDispositionRequestReceiptLine = ({
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "replaces_return_disposition_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_inspection_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_line_item_id": string;
-});
-/**
- * Shape $ (Value): {@link CreateReturnDispositionRequestReceiptLineInput}. The `Receipt line`
- * variant of `CreateReturnDispositionRequest`.
- */
-export type CreateReturnDispositionRequestReceiptLineInput = ({
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "replaces_return_disposition_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_inspection_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_line_item_id": string;
-})
-    & ({
-    "return_inspection_line_item_id"?: never;
-});
-/**
- * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which items
- * of an order can be returned, given an order and a selection.
- */
-export type CreateReturnEligibilityPreviewRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "order_id": string;
-    /**
-     * Shape $ (Value): {@link ReturnEligibilitySelection}. Which order lines to check for return
-     * eligibility: all remaining fulfilled lines, or a specific list of lines.
-     */
-    "selection": ReturnEligibilitySelection;
-};
-/**
- * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview which
- * items of an order can be returned, given an order and a selection.
- */
-export type CreateReturnEligibilityPreviewRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "order_id": string;
-    /**
-     * Shape $ (Value): {@link ReturnEligibilitySelectionInput}. Which order lines to check for
-     * return eligibility: all remaining fulfilled lines, or a specific list of lines.
-     */
-    "selection": ReturnEligibilitySelectionInput;
-};
-/**
- * Shape $ (Value): {@link CreateReturnInspectionRequest}. The request body for: Create return
- * inspection.
- */
-export type CreateReturnInspectionRequest = {
-    /**
-     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
-     * date-time. minLength: 1.
-     */
-    "inspected_at": string;
-    /**
-     * Shape $ (Value): string. Location where the returned merchandise was inspected. Must match
-     * the receipt receiving_location_id. minLength: 1.
-     */
-    "inspection_location_id": string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnInspectionLineItemRequest}. minItems: 1. Shape $[]
-     * (Value): {@link ReturnInspectionLineItemRequest}. The inspection result for one received
-     * return line: acceptance status, condition, and findings.
-     */
-    "line_items": Array<ReturnInspectionLineItemRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_id": string;
-    /**
-     * Shape $ (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a
-     * point of sale or warehouse system, with its own identifier.
-     */
-    "source_system"?: ReturnSourceSystem;
-    /** Shape $ (Value): string. minLength: 1. */
-    "supersedes_return_inspection_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnInspectionRequestInput}. The request body for: Create return
- * inspection.
- */
-export type CreateReturnInspectionRequestInput = {
-    /**
-     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
-     * date-time. minLength: 1.
-     */
-    "inspected_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Location where the returned merchandise was inspected. Must match
-     * the receipt receiving_location_id. minLength: 1.
-     */
-    "inspection_location_id": string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnInspectionLineItemRequestInput}. minItems: 1. Shape
-     * $[] (Value): {@link ReturnInspectionLineItemRequestInput}. The inspection result for one
-     * received return line: acceptance status, condition, and findings.
-     */
-    "line_items": Array<ReturnInspectionLineItemRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_receipt_id": string;
-    /**
-     * Shape $ (Value): {@link ReturnSourceSystemInput}. The system a return event came from, such
-     * as a point of sale or warehouse system, with its own identifier.
-     */
-    "source_system"?: ReturnSourceSystemInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "supersedes_return_inspection_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnPolicyRequest}. The request body for: Create return policy.
- */
-export type CreateReturnPolicyRequest = {
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link ReturnPolicyRevisionRequest}. The rules for a return policy
-     * revision: scope, eligibility, return window, approval and resolution modes, shipping, and
-     * restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequest;
-};
-/**
- * Shape $ (Value): {@link CreateReturnPolicyRequestInput}. The request body for: Create return
- * policy.
- */
-export type CreateReturnPolicyRequestInput = {
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link ReturnPolicyRevisionRequestInput}. The rules for a return policy
-     * revision: scope, eligibility, return window, approval and resolution modes, shipping, and
-     * restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequestInput;
-};
-/**
- * Shape $ (Value): {@link CreateReturnPreviewData}. A return preview, selected by `mode`: either
- * the eligibility of the selected items or the amounts of a resolution.
- */
-export type CreateReturnPreviewData = ({
-    /**
-     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
-     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
-     */
-    "eligibility"?: ReturnEligibilityPreview;
-    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution" | (string & {});
-    /**
-     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
-     * is created: returned and replacement totals, adjustments, and amounts due to or from the
-     * buyer.
-     */
-    "resolution"?: ReturnResolutionPreview;
-})
-    & ((Exclude<CreateReturnPreviewDataEligibility & object, readonly unknown[]>)
-    | (Exclude<CreateReturnPreviewDataResolution & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewDataEligibility}. The `eligibility` variant of
- * `CreateReturnPreviewData`.
- */
-export type CreateReturnPreviewDataEligibility = ({
-    /**
-     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
-     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
-     */
-    "eligibility": ReturnEligibilityPreview;
-    /** Shape $ (Value): string.  Value enum: "eligibility". */
-    "mode": "eligibility" | (string & {});
-    /**
-     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
-     * is created: returned and replacement totals, adjustments, and amounts due to or from the
-     * buyer.
-     */
-    "resolution"?: ReturnResolutionPreview;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "eligibility". */
-    "mode": unknown;
-    /**
-     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
-     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
-     */
-    "eligibility": ReturnEligibilityPreview;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewDataResolution}. The `resolution` variant of
- * `CreateReturnPreviewData`.
- */
-export type CreateReturnPreviewDataResolution = ({
-    /**
-     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
-     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
-     */
-    "eligibility"?: ReturnEligibilityPreview;
-    /** Shape $ (Value): string.  Value enum: "resolution". */
-    "mode": "resolution" | (string & {});
-    /**
-     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
-     * is created: returned and replacement totals, adjustments, and amounts due to or from the
-     * buyer.
-     */
-    "resolution": ReturnResolutionPreview;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "resolution". */
-    "mode": unknown;
-    /**
-     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
-     * is created: returned and replacement totals, adjustments, and amounts due to or from the
-     * buyer.
-     */
-    "resolution": ReturnResolutionPreview;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewRequest}. The request body for: Create return
- * preview.
- */
-export type CreateReturnPreviewRequest = ({
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution" | (string & {});
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequest;
-})
-    & ((Exclude<CreateReturnPreviewRequestEligibility & object, readonly unknown[]>)
-    | (Exclude<CreateReturnPreviewRequestResolution & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewRequestEligibility}. The `eligibility` variant of
- * `CreateReturnPreviewRequest`.
- */
-export type CreateReturnPreviewRequestEligibility = ({
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequest;
-    /** Shape $ (Value): string.  Value enum: "eligibility". */
-    "mode": "eligibility" | (string & {});
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequest;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "eligibility". */
-    "mode": unknown;
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequest;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewRequestEligibilityInput}. The `eligibility` variant
- * of `CreateReturnPreviewRequest`.
- */
-export type CreateReturnPreviewRequestEligibilityInput = ({
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
-     * which items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequestInput;
-    /** Shape $ (Value): string.  Value enum: "eligibility". */
-    "mode": "eligibility";
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequestInput;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "eligibility". */
-    "mode": "eligibility";
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
-     * which items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequestInput;
-})
-    & ({
-    "resolution"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewRequestInput}. The request body for: Create return
- * preview.
- */
-export type CreateReturnPreviewRequestInput = ({
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
-     * which items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
-    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution";
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequestInput;
-})
-    & ((Exclude<CreateReturnPreviewRequestEligibilityInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnPreviewRequestResolutionInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewRequestResolution}. The `resolution` variant of
- * `CreateReturnPreviewRequest`.
- */
-export type CreateReturnPreviewRequestResolution = ({
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Shape $ (Value): string.  Value enum: "resolution". */
-    "mode": "resolution" | (string & {});
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequest;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "resolution". */
-    "mode": unknown;
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequest;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewRequestResolutionInput}. The `resolution` variant of
- * `CreateReturnPreviewRequest`.
- */
-export type CreateReturnPreviewRequestResolutionInput = ({
-    /**
-     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
-     * which items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
-    /** Shape $ (Value): string.  Value enum: "resolution". */
-    "mode": "resolution";
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequestInput;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "resolution". */
-    "mode": "resolution";
-    /**
-     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
-     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
-     * exchange, replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequestInput;
-})
-    & ({
-    "eligibility"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnPreviewResponse}. A response containing
- * `CreateReturnPreviewData` data.
- */
-export type CreateReturnPreviewResponse = {
-    /**
-     * Shape $ (Value): {@link CreateReturnPreviewData}. A return preview, selected by `mode`:
-     * either the eligibility of the selected items or the amounts of a resolution.
-     */
-    "data": CreateReturnPreviewData;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnReasonRequest}. The request body for: Create return reason.
- */
-export type CreateReturnReasonRequest = {
-    /**
-     * Shape $ (Value): Array of string. Catalog category handles this reason applies to. A reason
-     * with categories is suggested, and accepted from a customer session, only for order lines
-     * whose product is in one of them. A reason with no categories applies to every line. Not
-     * product types or tags: use handles from GET /v1/categories. Shape $[] (Value): string.
-     * minLength: 1.
-     */
-    "category_handles"?: Array<string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "handle": string;
-    /** Shape $ (Value): boolean. Default: false. */
-    "is_note_required"?: boolean;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnReasonRequestInput}. The request body for: Create return
- * reason.
- */
-export type CreateReturnReasonRequestInput = CreateReturnReasonRequest;
-/**
- * Shape $ (Value): {@link CreateReturnReceiptRequest}. The request body for: Create return
- * receipt.
- */
-export type CreateReturnReceiptRequest = {
-    /**
-     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnReceiptLineItemRequest}. minItems: 1. Shape $[]
-     * (Value): {@link ReturnReceiptLineItemRequest}. One line of received merchandise: a matched
-     * return line, excess quantity, or an unverified item.
-     */
-    "line_items": Array<ReturnReceiptLineItemRequest>;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
-     * date-time. minLength: 1.
-     */
-    "received_at": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "receiving_location_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "shipment_id"?: string;
-    /**
-     * Shape $ (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a
-     * point of sale or warehouse system, with its own identifier.
-     */
-    "source_system"?: ReturnSourceSystem;
-    /** Shape $ (Value): string. minLength: 1. */
-    "supersedes_return_receipt_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnReceiptRequestInput}. The request body for: Create return
- * receipt.
- */
-export type CreateReturnReceiptRequestInput = {
-    /**
-     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnReceiptLineItemRequestInput}. minItems: 1. Shape $[]
-     * (Value): {@link ReturnReceiptLineItemRequestInput}. One line of received merchandise: a
-     * matched return line, excess quantity, or an unverified item.
-     */
-    "line_items": Array<ReturnReceiptLineItemRequestInput>;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
-     * date-time. minLength: 1.
-     */
-    "received_at": string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
-    "receiving_location_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "shipment_id"?: string;
-    /**
-     * Shape $ (Value): {@link ReturnSourceSystemInput}. The system a return event came from, such
-     * as a point of sale or warehouse system, with its own identifier.
-     */
-    "source_system"?: ReturnSourceSystemInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "supersedes_return_receipt_id"?: string;
-};
-/** Shape $ (Value): {@link CreateReturnRequest}. The request body for: Create return. */
-export type CreateReturnRequest = {
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnLineItemRequest}. minItems: 1. Shape $[] (Value):
-     * {@link ReturnLineItemRequest}. An order line item to return, with the quantity, return
-     * reason, and optionally a note and the resolution the buyer wants.
-     */
-    "line_items": Array<ReturnLineItemRequest>;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. minLength: 1. */
-    "order_id": string;
-};
-/** Shape $ (Value): {@link CreateReturnRequestInput}. The request body for: Create return. */
-export type CreateReturnRequestInput = {
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnLineItemRequestInput}. minItems: 1. Shape $[]
-     * (Value): {@link ReturnLineItemRequestInput}. An order line item to return, with the
-     * quantity, return reason, and optionally a note and the resolution the buyer wants.
-     */
-    "line_items": Array<ReturnLineItemRequestInput>;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
-     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
-     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
-     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
-     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
-     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "order_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the amounts
- * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
- * replacement, no monetary action, or correction.
- */
-export type CreateReturnResolutionPreviewRequest = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequest}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution,
-     * with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
-     * resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequest}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /**
-     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
-     * "no_monetary_action", "correction".
-     */
-    "resolution_type": "refund"
-        | "exchange"
-        | "replacement"
-        | "store_credit"
-        | "no_monetary_action"
-        | "correction"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-})
-    & ((Exclude<CreateReturnResolutionPreviewRequestStandard & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionPreviewRequestCorrection & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestCorrection}. The `correction`
- * variant of `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestCorrection = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequest}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution,
-     * with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
-     * resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequest}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /** Shape $ (Value): string.  Value enum: "correction". */
-    "resolution_type": "correction" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "adjustments": unknown;
-    /** Shape $ (Value): any.  Value enum: "correction". */
-    "resolution_type"?: unknown;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id": string;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestCorrectionInput}. The `correction`
- * variant of `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestCorrectionInput = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /** Shape $ (Value): string.  Value enum: "correction". */
-    "resolution_type": "correction";
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "adjustments": unknown;
-    /** Shape $ (Value): any.  Value enum: "correction". */
-    "resolution_type"?: "correction";
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id": string;
-})
-    & (({
-    "line_items"?: never;
-})
-    & ({
-    "replacement_line_items"?: never;
-})
-    & ({
-    "pricing_basis"?: never;
-})));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
- * amounts of a return resolution for a return, selected by `resolution_type`: refund, exchange,
- * replacement, no monetary action, or correction.
- */
-export type CreateReturnResolutionPreviewRequestInput = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
-     * "no_monetary_action", "correction".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-})
-    & ((Exclude<CreateReturnResolutionPreviewRequestStandardInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionPreviewRequestCorrectionInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestStandard}. The `exchange` variant of
- * `CreateReturnResolutionPreviewRequest`. The `no_monetary_action` variant of
- * `CreateReturnResolutionPreviewRequest`. The `refund` variant of
- * `CreateReturnResolutionPreviewRequest`. The `replacement` variant of
- * `CreateReturnResolutionPreviewRequest`. The `store_credit` variant of
- * `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestStandard = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequest}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution,
-     * with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
-     * resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequest}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /**
-     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement",
-     * "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "line_items": unknown;
-    /**
-     * Shape $ (Value): any. Value enum: "refund", "exchange", "replacement", "no_monetary_action",
-     * "store_credit".
-     */
-    "resolution_type"?: unknown;
-}));

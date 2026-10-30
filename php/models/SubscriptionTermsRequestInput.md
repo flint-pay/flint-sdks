@@ -17,7 +17,7 @@ Request input.
 
 ### SubscriptionTermsRequestInput variant 1: `type` = `"subscription_plan"`
 
-oneOf variant 1: The `subscription_plan` variant of `SubscriptionTermsInput`..
+oneOf with type: "subscription_plan": The `subscription_plan` variant of `SubscriptionTermsInput`..
 
 - Required: `subscription_plan_id`.
 - Optional: `billing_interval`, `billing_interval_count`, `quantity`.
@@ -26,7 +26,7 @@ oneOf variant 1: The `subscription_plan` variant of `SubscriptionTermsInput`..
 
 ### SubscriptionTermsRequestInput variant 2: `type` = `"subscription_offer"`
 
-oneOf variant 2: The `subscription_offer` variant of `SubscriptionTermsInput`..
+oneOf with type: "subscription_offer": The `subscription_offer` variant of `SubscriptionTermsInput`..
 
 - Required: `billing_interval`, `billing_interval_count`, `line_items`.
 - Undeclared: `quantity`, `subscription_plan_id`.

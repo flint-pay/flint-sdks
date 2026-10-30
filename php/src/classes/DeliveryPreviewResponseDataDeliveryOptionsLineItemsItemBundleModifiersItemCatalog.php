@@ -1,0 +1,45 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read ?array<array-key, string> $metadata
+ * @property-read string $modifier_id
+ * @property-read ?string $order_line_item_modifier_id
+ * @property-read ?int $quantity
+ * @property-read ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalogText $text
+ * @property-read string $type
+ * Presence-aware response; omitted optional fields return null. */
+final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalog extends Model {
+    /** @param array{'metadata'?: mixed, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text'?: mixed, 'type': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalog')); }
+    /** Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
+     * @return ?array<array-key, string>
+     */
+    public function getMetadata(): ?array { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1.
+     * @return string
+     */
+    public function getModifierId(): string { return $this->get('modifier_id'); }
+    public function hasModifierId(): bool { return $this->has('modifier_id'); }
+    /** Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return ?string
+     */
+    public function getOrderLineItemModifierId(): ?string { return $this->get('order_line_item_modifier_id'); }
+    public function hasOrderLineItemModifierId(): bool { return $this->has('order_line_item_modifier_id'); }
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * @return ?int
+     */
+    public function getQuantity(): ?int { return $this->get('quantity'); }
+    public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Text a buyer entered for a text modifier group on an order line item.
+     * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalogText
+     */
+    public function getText(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalogText { return $this->get('text'); }
+    public function hasText(): bool { return $this->has('text'); }
+    /** Selects the type branch. Value enum: "catalog".
+     * @return string
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
+}

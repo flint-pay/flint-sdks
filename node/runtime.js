@@ -1,64 +1,111 @@
 import { certifies } from './type-certificate.js';
 import { DescriptorSource } from './descriptor-source.js';
-import { compileRuntimePlan, assertRuntimePlan, isBaseUrlSyntax, } from './runtime-plan.js';
+import { errorMapping, VALIDATION_MESSAGES, compileRuntimePlan, assertRuntimePlan, isBaseUrlSyntax, } from './runtime-plan.js';
 import { compileCodec, ANY_CODEC, exactValue, wireKind } from './codec-plan.js';
 export { directionalSchema } from './codec-plan.js';
 const inspectCustom = Symbol.for('nodejs.util.inspect.custom');
+const resultMetadata = new WeakMap();
+function metadata(result) {
+    return resultMetadata.get(result) ?? result.lastResponse;
+}
+function responseResult(data, meta, raw) {
+    const result = { data, raw };
+    const { url: _, ...info } = meta;
+    Object.defineProperty(result, 'lastResponse', {
+        value: { ...info, requestIds: meta.requestIds ?? [], body: data },
+    });
+    resultMetadata.set(result, meta);
+    return result;
+}
+function isErrorObject(value) {
+    return (value !== null &&
+        typeof value === 'object' &&
+        !Array.isArray(value) &&
+        !(value instanceof ParsedNumber));
+}
 const errorCauses = new WeakMap();
-const publicErrorDetailsCertificate = {"type":{"kind":"union","members":[{"kind":"reference","name":"ErrorObject"},{"kind":"union","members":[{"kind":"record","fields":{"transportCode":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false}}},{"kind":"record","fields":{"eventId":{"type":{"kind":"string"},"optional":false},"position":{"type":{"kind":"number"},"optional":false}}},{"kind":"record","fields":{"reason":{"type":{"kind":"string"},"optional":false},"source":{"type":{"kind":"string"},"optional":false},"workloadIdentityId":{"type":{"kind":"string"},"optional":false},"iss":{"type":{"kind":"string"},"optional":false},"sub":{"type":{"kind":"string"},"optional":false},"aud":{"type":{"kind":"string"},"optional":false},"error_description":{"type":{"kind":"string"},"optional":false}}}]}]},"definitions":{"ErrorObject":{"kind":"record","fields":{"code":{"type":{"kind":"string"},"optional":false},"details":{"type":{"kind":"array","element":{"kind":"reference","name":"ErrorDetail"}},"optional":true},"doc_url":{"type":{"kind":"string"},"optional":false},"error_source":{"type":{"kind":"string"},"optional":false},"message":{"type":{"kind":"string"},"optional":false},"param":{"type":{"kind":"string"},"optional":true},"remediation":{"type":{"kind":"union","members":[{"kind":"reference","name":"ErrorRemediation"},{"kind":"null"}]},"optional":false},"request_id":{"type":{"kind":"string"},"optional":false},"request_log_url":{"type":{"kind":"string"},"optional":true},"type":{"type":{"kind":"string"},"optional":false}}},"ErrorDetail":{"kind":"record","fields":{"allowed_key_modes":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"available_by_source_type":{"type":{"kind":"record","fields":{},"extra":{"kind":"reference","name":"MoneyValue"}},"optional":true},"available_quantity":{"type":{"kind":"integer-string"},"optional":true},"blocking_resource_count":{"type":{"kind":"integer-string"},"optional":true},"blocking_resources":{"type":{"kind":"array","element":{"kind":"reference","name":"ErrorResourceReference"}},"optional":true},"capability":{"type":{"kind":"string"},"optional":true},"captured_physical_version":{"type":{"kind":"integer-string"},"optional":true},"closed_reason":{"type":{"kind":"string"},"optional":true},"code":{"type":{"kind":"string"},"optional":false},"conflict_type":{"type":{"kind":"string"},"optional":true},"conflicting_fields":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"current_api_version":{"type":{"kind":"string"},"optional":true},"current_delivery_selection_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":true},"current_disclosure_version":{"type":{"kind":"string"},"optional":true},"current_interval":{"type":{"kind":"string"},"optional":true},"current_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"current_physical_version":{"type":{"kind":"integer-string"},"optional":true},"current_resource":{"type":{"kind":"union","members":[{"kind":"intersection","members":[{"kind":"record","fields":{"resource_type":{"type":{"kind":"string"},"optional":false},"resource_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"ErrorResourceReference"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"fulfillment_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"Fulfillment"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"shipment_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"Shipment"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"package_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"Package"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"custom_domain_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"CustomDomain"},{"kind":"object"}]}}]},{"kind":"record","fields":{},"extra":{"kind":"unknown"}}]},"optional":true},"current_selection_id":{"type":{"kind":"string"},"optional":true},"current_source_observation_sequence":{"type":{"kind":"integer-string"},"optional":true},"current_status":{"type":{"kind":"string"},"optional":true},"current_version":{"type":{"kind":"integer-string"},"optional":true},"delivery_method_id":{"type":{"kind":"string"},"optional":true},"demand_key":{"type":{"kind":"string"},"optional":true},"eligibility_reason":{"type":{"kind":"string"},"optional":true},"expected_attempt_outstanding_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"failure_category":{"type":{"kind":"string"},"optional":true},"failure_code":{"type":{"kind":"string"},"optional":true},"inactive_message":{"type":{"kind":"string"},"optional":true},"inventory_count_line_id":{"type":{"kind":"string"},"optional":true},"inventory_item_id":{"type":{"kind":"string"},"optional":true},"limit":{"type":{"kind":"integer-string"},"optional":true},"location_id":{"type":{"kind":"string"},"optional":true},"location_outcome":{"type":{"kind":"string"},"optional":true},"maximum_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"message":{"type":{"kind":"string"},"optional":false},"minimum_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"minimum_quantity":{"type":{"kind":"integer-string"},"optional":true},"missing_scopes":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"param":{"type":{"kind":"string"},"optional":true},"payment_option":{"type":{"kind":"string"},"optional":true},"payout_terms_expires_at":{"type":{"kind":"string"},"optional":true},"previous_key_expires_at":{"type":{"kind":"string"},"optional":true},"quota":{"type":{"kind":"reference","name":"QuotaDetails"},"optional":true},"reason":{"type":{"kind":"string"},"optional":true},"remediation":{"type":{"kind":"reference","name":"ErrorRemediation"},"optional":true},"requested_quantity":{"type":{"kind":"integer-string"},"optional":true},"requoted_shipping_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"requoted_tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"resource_id":{"type":{"kind":"string"},"optional":true},"resource_type":{"type":{"kind":"string"},"optional":true},"scope":{"type":{"kind":"string"},"optional":true},"scope_requirement":{"type":{"kind":"reference","name":"ScopeRequirement"},"optional":true},"selectable_resources":{"type":{"kind":"array","element":{"kind":"reference","name":"SelectableErrorResource"}},"optional":true},"shipping_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"shortage_quantity":{"type":{"kind":"integer-string"},"optional":true},"submitted_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"submitted_source_observation_sequence":{"type":{"kind":"integer-string"},"optional":true},"suggestions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"supported_api_versions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"unavailable_reason":{"type":{"kind":"string"},"optional":true}}},"MoneyValue":{"kind":"record","fields":{"amount":{"type":{"kind":"integer-string"},"optional":false},"currency":{"type":{"kind":"string"},"optional":false}}},"ErrorResourceReference":{"kind":"record","fields":{"resource_id":{"type":{"kind":"string"},"optional":false},"resource_type":{"type":{"kind":"string"},"optional":false},"status":{"type":{"kind":"string"},"optional":true}}},"Fulfillment":{"kind":"record","fields":{"active_hold":{"type":{"kind":"reference","name":"FulfillmentHold"},"optional":true},"charges":{"type":{"kind":"array","element":{"kind":"reference","name":"FulfillmentChargeLink"}},"optional":true},"completed_at":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"customer_id":{"type":{"kind":"string"},"optional":true},"delivery_choice_group_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"delivery_execution_leg_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"delivery_method_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"delivery_selection_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"device_id":{"type":{"kind":"string"},"optional":true},"digital_details":{"type":{"kind":"reference","name":"DigitalFulfillmentDetails"},"optional":true},"dispatched_at":{"type":{"kind":"string"},"optional":true},"external_reference_id":{"type":{"kind":"string"},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"line_items":{"type":{"kind":"array","element":{"kind":"reference","name":"FulfillmentLineItem"}},"optional":false},"local_delivery_details":{"type":{"kind":"reference","name":"DeliveryFulfillmentDetails"},"optional":true},"location_id":{"type":{"kind":"string"},"optional":true},"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"order":{"type":{"kind":"union","members":[{"kind":"reference","name":"ExpandedOrderSummary"},{"kind":"null"}]},"optional":true},"order_id":{"type":{"kind":"string"},"optional":false},"order_number":{"type":{"kind":"string"},"optional":true},"outcome":{"type":{"kind":"reference","name":"FulfillmentOutcome"},"optional":true},"packages":{"type":{"kind":"array","element":{"kind":"reference","name":"ExpandedPackageSummary"}},"optional":true},"packed_at":{"type":{"kind":"string"},"optional":true},"picked_at":{"type":{"kind":"string"},"optional":true},"pickup_details":{"type":{"kind":"reference","name":"PickupFulfillmentDetails"},"optional":true},"recipient":{"type":{"kind":"reference","name":"FulfillmentRecipient"},"optional":true},"scheduled_start_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"service_details":{"type":{"kind":"reference","name":"ServiceFulfillmentDetails"},"optional":true},"shipment_details":{"type":{"kind":"reference","name":"ShipmentFulfillmentDetails"},"optional":true},"shipments":{"type":{"kind":"array","element":{"kind":"reference","name":"ExpandedShipmentSummary"}},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"terminal_at":{"type":{"kind":"string"},"optional":true},"type":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"integer-string"},"optional":false}}},"FulfillmentHold":{"kind":"record","fields":{"created_at":{"type":{"kind":"string"},"optional":false},"display_reason":{"type":{"kind":"string"},"optional":true},"held_by":{"type":{"kind":"string"},"optional":true},"previous_status":{"type":{"kind":"string"},"optional":false},"reason":{"type":{"kind":"string"},"optional":false},"reason_notes":{"type":{"kind":"string"},"optional":true}}},"FulfillmentChargeLink":{"kind":"record","fields":{"order_charge_id":{"type":{"kind":"string"},"optional":false}}},"DigitalFulfillmentDetails":{"kind":"record","fields":{"delivered_at":{"type":{"kind":"string"},"optional":true},"delivery_url":{"type":{"kind":"string"},"optional":true}}},"FulfillmentLineItem":{"kind":"record","fields":{"modifiers":{"type":{"kind":"array","element":{"kind":"reference","name":"OrderLineItemModifier"}},"optional":true},"order_line_item_id":{"type":{"kind":"string"},"optional":false},"quantity":{"type":{"kind":"integer-string"},"optional":false}}},"OrderLineItemModifier":{"kind":"record","fields":{"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"modifier_group_name":{"type":{"kind":"string"},"optional":false},"modifier_id":{"type":{"kind":"string"},"optional":true},"name":{"type":{"kind":"string"},"optional":false},"order_line_item_modifier_id":{"type":{"kind":"string"},"optional":false},"quantity":{"type":{"kind":"integer-string"},"optional":false},"show_on_fulfillment":{"type":{"kind":"boolean"},"optional":false},"show_on_receipt":{"type":{"kind":"boolean"},"optional":false},"source_type":{"type":{"kind":"string"},"optional":false},"text":{"type":{"kind":"reference","name":"TextModifierRequest"},"optional":true},"text_value":{"type":{"kind":"string"},"optional":true},"total_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"unit_price_delta_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}},"MetadataMap":{"kind":"record","fields":{},"extra":{"kind":"string"}},"TextModifierRequest":{"kind":"record","fields":{"modifier_group_id":{"type":{"kind":"string"},"optional":false},"value":{"type":{"kind":"string"},"optional":false}}},"DeliveryFulfillmentDetails":{"kind":"record","fields":{"carrier":{"type":{"kind":"string"},"optional":true},"courier_pickup_at":{"type":{"kind":"string"},"optional":true},"courier_pickup_window_duration_seconds":{"type":{"kind":"integer-string"},"optional":true},"courier_provider_name":{"type":{"kind":"string"},"optional":true},"courier_support_phone":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"dispatched_at":{"type":{"kind":"string"},"optional":true},"dropoff_notes":{"type":{"kind":"string"},"optional":true},"expires_at":{"type":{"kind":"string"},"optional":true},"external_delivery_id":{"type":{"kind":"string"},"optional":true},"instructions":{"type":{"kind":"string"},"optional":true},"no_contact":{"type":{"kind":"boolean"},"optional":true},"prep_time_duration_seconds":{"type":{"kind":"integer-string"},"optional":true},"ready_at":{"type":{"kind":"string"},"optional":true},"service_area_id":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true},"tracking_url":{"type":{"kind":"string"},"optional":true},"window_end_at":{"type":{"kind":"string"},"optional":true},"window_start_at":{"type":{"kind":"string"},"optional":true}}},"ExpandedOrderSummary":{"kind":"record","fields":{"buyer_contact":{"type":{"kind":"reference","name":"CheckoutBuyerContact"},"optional":true},"closed_at":{"type":{"kind":"string"},"optional":true},"closed_reason":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"customer_id":{"type":{"kind":"string"},"optional":true},"fulfillment_status":{"type":{"kind":"string"},"optional":true},"governing_delivery_selection_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"order_id":{"type":{"kind":"string"},"optional":false},"order_number":{"type":{"kind":"string"},"optional":true},"payment_intent_ids":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"payment_status":{"type":{"kind":"string"},"optional":false},"pricing_amounts":{"type":{"kind":"reference","name":"PricingAmounts"},"optional":false},"refund_status":{"type":{"kind":"string"},"optional":false},"settlement_amounts":{"type":{"kind":"reference","name":"SettlementAmounts"},"optional":false},"status":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true}}},"CheckoutBuyerContact":{"kind":"record","fields":{"email":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"is_email_cleared":{"type":{"kind":"boolean"},"optional":false},"is_phone_cleared":{"type":{"kind":"boolean"},"optional":false},"phone":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true}}},"PricingAmounts":{"kind":"record","fields":{"additive_tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"charge_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"discount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"inclusive_tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"requested_tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"subtotal_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"total_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}},"SettlementAmounts":{"kind":"record","fields":{"balance_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"credit_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"net_collected_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"outstanding_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"paid_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"refunded_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"settled_tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"written_off_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}},"FulfillmentOutcome":{"kind":"record","fields":{"notes":{"type":{"kind":"string"},"optional":true},"occurred_at":{"type":{"kind":"string"},"optional":false},"outcome_type":{"type":{"kind":"string"},"optional":false},"reason":{"type":{"kind":"string"},"optional":false}}},"ExpandedPackageSummary":{"kind":"record","fields":{"carrier":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"expected_delivery_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"package_id":{"type":{"kind":"string"},"optional":false},"service_code":{"type":{"kind":"string"},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"tracking_number":{"type":{"kind":"string"},"optional":true},"tracking_url":{"type":{"kind":"string"},"optional":true},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"integer-string"},"optional":false}}},"PickupFulfillmentDetails":{"kind":"record","fields":{"address":{"type":{"kind":"reference","name":"Address"},"optional":true},"curbside_instructions":{"type":{"kind":"string"},"optional":true},"customer_arrived_at":{"type":{"kind":"string"},"optional":true},"expires_at":{"type":{"kind":"string"},"optional":true},"instructions":{"type":{"kind":"string"},"optional":true},"location_name":{"type":{"kind":"string"},"optional":true},"picked_up_at":{"type":{"kind":"string"},"optional":true},"pickup_mode":{"type":{"kind":"string"},"optional":true},"pickup_window_duration_seconds":{"type":{"kind":"integer-string"},"optional":true},"prep_time_duration_seconds":{"type":{"kind":"integer-string"},"optional":true},"ready_at":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true},"vehicle_description":{"type":{"kind":"string"},"optional":true},"window_end_at":{"type":{"kind":"string"},"optional":true},"window_start_at":{"type":{"kind":"string"},"optional":true}}},"Address":{"kind":"record","fields":{"city":{"type":{"kind":"string"},"optional":true},"country":{"type":{"kind":"string"},"optional":false},"line1":{"type":{"kind":"string"},"optional":true},"line2":{"type":{"kind":"string"},"optional":true},"postal_code":{"type":{"kind":"string"},"optional":true},"state":{"type":{"kind":"string"},"optional":true}}},"FulfillmentRecipient":{"kind":"record","fields":{"address":{"type":{"kind":"reference","name":"Address"},"optional":true},"email":{"type":{"kind":"string"},"optional":true},"instructions":{"type":{"kind":"string"},"optional":true},"name":{"type":{"kind":"string"},"optional":true},"phone":{"type":{"kind":"string"},"optional":true}}},"ServiceFulfillmentDetails":{"kind":"record","fields":{"completed_at":{"type":{"kind":"string"},"optional":true},"notes":{"type":{"kind":"string"},"optional":true},"scheduled_end_at":{"type":{"kind":"string"},"optional":true},"scheduled_start_at":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true}}},"ShipmentFulfillmentDetails":{"kind":"record","fields":{"shipped_at":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true},"window_end_at":{"type":{"kind":"string"},"optional":true},"window_start_at":{"type":{"kind":"string"},"optional":true}}},"ExpandedShipmentSummary":{"kind":"record","fields":{"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"direction":{"type":{"kind":"string"},"optional":false},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"handed_off_at":{"type":{"kind":"string"},"optional":true},"package_count":{"type":{"kind":"number"},"optional":false},"return_id":{"type":{"kind":"string"},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true}}},"Shipment":{"kind":"record","fields":{"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"direction":{"type":{"kind":"string"},"optional":false},"external_reference_id":{"type":{"kind":"string"},"optional":true},"external_system":{"type":{"kind":"string"},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"handed_off_at":{"type":{"kind":"string"},"optional":true},"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"order":{"type":{"kind":"union","members":[{"kind":"reference","name":"ExpandedOrderSummary"},{"kind":"null"}]},"optional":true},"order_id":{"type":{"kind":"string"},"optional":false},"package_count":{"type":{"kind":"number"},"optional":false},"packages":{"type":{"kind":"array","element":{"kind":"reference","name":"ExpandedPackageSummary"}},"optional":true},"return_id":{"type":{"kind":"string"},"optional":true},"return_line_items":{"type":{"kind":"array","element":{"kind":"reference","name":"ReturnResolutionLineItemRequest"}},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"integer-string"},"optional":false}}},"ReturnResolutionLineItemRequest":{"kind":"record","fields":{"quantity":{"type":{"kind":"integer-string"},"optional":false},"return_line_item_id":{"type":{"kind":"string"},"optional":false}}},"Package":{"kind":"record","fields":{"carrier":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"dimensions":{"type":{"kind":"reference","name":"Dimensions"},"optional":true},"expected_delivery_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":true},"external_reference_id":{"type":{"kind":"string"},"optional":true},"external_system":{"type":{"kind":"string"},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"label_url":{"type":{"kind":"string"},"optional":true},"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"order":{"type":{"kind":"union","members":[{"kind":"reference","name":"ExpandedOrderSummary"},{"kind":"null"}]},"optional":true},"order_id":{"type":{"kind":"string"},"optional":false},"package_id":{"type":{"kind":"string"},"optional":false},"return_id":{"type":{"kind":"string"},"optional":true},"return_line_items":{"type":{"kind":"array","element":{"kind":"reference","name":"ReturnResolutionLineItemRequest"}},"optional":true},"service_code":{"type":{"kind":"string"},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"status_reason":{"type":{"kind":"string"},"optional":true},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"tracking_number":{"type":{"kind":"string"},"optional":true},"tracking_url":{"type":{"kind":"string"},"optional":true},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"integer-string"},"optional":false},"weight":{"type":{"kind":"reference","name":"Weight"},"optional":true}}},"Dimensions":{"kind":"record","fields":{"height":{"type":{"kind":"number"},"optional":false},"length":{"type":{"kind":"number"},"optional":false},"unit":{"type":{"kind":"string"},"optional":false},"width":{"type":{"kind":"number"},"optional":false}}},"Weight":{"kind":"record","fields":{"unit":{"type":{"kind":"string"},"optional":false},"value":{"type":{"kind":"number"},"optional":false}}},"CustomDomain":{"kind":"record","fields":{"active_payment_attempt_count":{"type":{"kind":"union","members":[{"kind":"integer-string"},{"kind":"null"}]},"optional":false},"created_at":{"type":{"kind":"string"},"optional":false},"custom_domain_id":{"type":{"kind":"string"},"optional":false},"dns_records":{"type":{"kind":"array","element":{"kind":"reference","name":"CustomDomainDNSRecord"}},"optional":false},"hostname":{"type":{"kind":"string"},"optional":false},"last_checked_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"payment_method_domain_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"redirect_expires_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"status":{"type":{"kind":"string"},"optional":false},"status_reason":{"type":{"kind":"union","members":[{"kind":"literal","value":"dns_record_missing"},{"kind":"literal","value":"dns_record_mismatch"},{"kind":"literal","value":"ownership_record_missing"},{"kind":"literal","value":"ownership_record_mismatch"},{"kind":"literal","value":"caa_record_blocks_certificate"},{"kind":"literal","value":"proxied_by_another_provider"},{"kind":"literal","value":"certificate_pending"},{"kind":"literal","value":"custom_domains_inactive"},{"kind":"literal","value":"other"},{"kind":"null"},{"kind":"string"},{"kind":"null"}]},"optional":false},"type":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":false}}},"CustomDomainDNSRecord":{"kind":"record","fields":{"name":{"type":{"kind":"string"},"optional":false},"type":{"type":{"kind":"string"},"optional":false},"value":{"type":{"kind":"string"},"optional":false}}},"QuotaDetails":{"kind":"record","fields":{"limit_bytes":{"type":{"kind":"integer-string"},"optional":false},"next_expiration_at":{"type":{"kind":"string"},"optional":true},"ready_unattached_bytes":{"type":{"kind":"integer-string"},"optional":false},"reserved_bytes":{"type":{"kind":"integer-string"},"optional":false},"resource":{"type":{"kind":"string"},"optional":false},"used_bytes":{"type":{"kind":"integer-string"},"optional":false}}},"ErrorRemediation":{"kind":"record","fields":{"next_actions":{"type":{"kind":"array","element":{"kind":"reference","name":"NextAction"}},"optional":true},"next_steps":{"type":{"kind":"string"},"optional":true},"retry":{"type":{"kind":"string"},"optional":false}}},"NextAction":{"kind":"record","fields":{"action_type":{"type":{"kind":"string"},"optional":false},"expires_at":{"type":{"kind":"string"},"optional":true},"merchant_account_session":{"type":{"kind":"reference","name":"NextActionMerchantAccountSession"},"optional":true},"reason_code":{"type":{"kind":"string"},"optional":true},"reason_message":{"type":{"kind":"string"},"optional":true},"required_fields":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"required_scope":{"type":{"kind":"string"},"optional":true},"requires_human_confirmation":{"type":{"kind":"boolean"},"optional":true},"suggested_delay_milliseconds":{"type":{"kind":"number"},"optional":true},"url":{"type":{"kind":"string"},"optional":true}}},"NextActionMerchantAccountSession":{"kind":"record","fields":{"collection_strategy":{"type":{"kind":"string"},"optional":true},"component":{"type":{"kind":"string"},"optional":false},"future_requirements":{"type":{"kind":"string"},"optional":true}}},"ScopeRequirement":{"kind":"record","fields":{"mode":{"type":{"kind":"string"},"optional":false},"scopes":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false}}},"SelectableErrorResource":{"kind":"record","fields":{"amount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"display_name":{"type":{"kind":"string"},"optional":true},"last_payment_error":{"type":{"kind":"reference","name":"PaymentErrorSummary"},"optional":true},"payment_collection":{"type":{"kind":"reference","name":"PaymentCollection"},"optional":true},"resource_id":{"type":{"kind":"string"},"optional":false},"resource_type":{"type":{"kind":"string"},"optional":false},"status":{"type":{"kind":"string"},"optional":true},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true}}},"PaymentErrorSummary":{"kind":"record","fields":{"code":{"type":{"kind":"string"},"optional":false},"failed_at":{"type":{"kind":"string"},"optional":false},"message":{"type":{"kind":"string"},"optional":false},"remediation":{"type":{"kind":"union","members":[{"kind":"reference","name":"ErrorRemediation"},{"kind":"null"}]},"optional":false}}},"PaymentCollection":{"kind":"record","fields":{"stripe":{"type":{"kind":"reference","name":"PaymentCollectionStripe"},"optional":true}}},"PaymentCollectionStripe":{"kind":"record","fields":{"account_id":{"type":{"kind":"string"},"optional":true},"elements":{"type":{"kind":"reference","name":"PaymentCollectionStripeElements"},"optional":true},"publishable_key":{"type":{"kind":"string"},"optional":true},"return_url":{"type":{"kind":"string"},"optional":true}}},"PaymentCollectionStripeElements":{"kind":"record","fields":{"amount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"digital_wallets":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"mode":{"type":{"kind":"string"},"optional":false},"next_step":{"type":{"kind":"string"},"optional":false},"payment_method_creation":{"type":{"kind":"string"},"optional":false},"payment_method_options":{"type":{"kind":"record","fields":{},"extra":{"kind":"unknown"}},"optional":true},"payment_method_types":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"selectable_payment_intents":{"type":{"kind":"array","element":{"kind":"reference","name":"SelectableOrderPaymentIntent"}},"optional":true},"submit_to":{"type":{"kind":"string"},"optional":false}}},"SelectableOrderPaymentIntent":{"kind":"record","fields":{"amount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"last_payment_error":{"type":{"kind":"reference","name":"PaymentErrorSummary"},"optional":true},"payment_collection":{"type":{"kind":"reference","name":"PaymentCollection"},"optional":true},"payment_intent_id":{"type":{"kind":"string"},"optional":false},"status":{"type":{"kind":"string"},"optional":false},"tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}}}};
-/** SDK failure with outcome and recovery metadata. See RUNTIME.md#error-reference. */
+const publicErrorDetailsCertificate = {"type":{"kind":"array","element":{"kind":"reference","name":"ErrorDetail"}},"definitions":{"ErrorDetail":{"kind":"record","fields":{"allowed_key_modes":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"available_by_source_type":{"type":{"kind":"record","fields":{},"extra":{"kind":"reference","name":"MoneyValue"}},"optional":true},"available_quantity":{"type":{"kind":"number"},"optional":true},"blocking_resource_count":{"type":{"kind":"number"},"optional":true},"blocking_resources":{"type":{"kind":"array","element":{"kind":"reference","name":"ErrorResourceReference"}},"optional":true},"capability":{"type":{"kind":"string"},"optional":true},"captured_physical_version":{"type":{"kind":"number"},"optional":true},"closed_reason":{"type":{"kind":"string"},"optional":true},"code":{"type":{"kind":"string"},"optional":false},"conflict_type":{"type":{"kind":"string"},"optional":true},"conflicting_fields":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"current_api_version":{"type":{"kind":"string"},"optional":true},"current_delivery_selection_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":true},"current_disclosure_version":{"type":{"kind":"string"},"optional":true},"current_interval":{"type":{"kind":"string"},"optional":true},"current_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"current_physical_version":{"type":{"kind":"number"},"optional":true},"current_resource":{"type":{"kind":"union","members":[{"kind":"intersection","members":[{"kind":"record","fields":{"resource_type":{"type":{"kind":"string"},"optional":false},"resource_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"ErrorResourceReference"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"fulfillment_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"Fulfillment"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"shipment_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"Shipment"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"package_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"Package"},{"kind":"object"}]}}]},{"kind":"intersection","members":[{"kind":"record","fields":{"custom_domain_id":{"type":{"kind":"string"},"optional":false}}},{"kind":"nonarray","value":{"kind":"intersection","members":[{"kind":"reference","name":"CustomDomain"},{"kind":"object"}]}}]},{"kind":"record","fields":{},"extra":{"kind":"unknown"}}]},"optional":true},"current_selection_id":{"type":{"kind":"string"},"optional":true},"current_source_observation_sequence":{"type":{"kind":"number"},"optional":true},"current_status":{"type":{"kind":"string"},"optional":true},"current_version":{"type":{"kind":"number"},"optional":true},"delivery_method_id":{"type":{"kind":"string"},"optional":true},"demand_key":{"type":{"kind":"string"},"optional":true},"eligibility_reason":{"type":{"kind":"string"},"optional":true},"expected_attempt_outstanding_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"failure_category":{"type":{"kind":"string"},"optional":true},"failure_code":{"type":{"kind":"string"},"optional":true},"inactive_message":{"type":{"kind":"string"},"optional":true},"inventory_count_line_id":{"type":{"kind":"string"},"optional":true},"inventory_item_id":{"type":{"kind":"string"},"optional":true},"limit":{"type":{"kind":"number"},"optional":true},"location_id":{"type":{"kind":"string"},"optional":true},"location_outcome":{"type":{"kind":"string"},"optional":true},"maximum_frozen_at":{"type":{"kind":"string"},"optional":true},"maximum_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"message":{"type":{"kind":"string"},"optional":false},"minimum_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"minimum_quantity":{"type":{"kind":"number"},"optional":true},"missing_scopes":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"param":{"type":{"kind":"string"},"optional":true},"payment_option":{"type":{"kind":"string"},"optional":true},"payout_terms_expires_at":{"type":{"kind":"string"},"optional":true},"previous_key_expires_at":{"type":{"kind":"string"},"optional":true},"quota":{"type":{"kind":"reference","name":"QuotaDetails"},"optional":true},"reason":{"type":{"kind":"string"},"optional":true},"remediation":{"type":{"kind":"reference","name":"ErrorRemediation"},"optional":true},"requested_quantity":{"type":{"kind":"number"},"optional":true},"requoted_shipping_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"requoted_tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"resource_id":{"type":{"kind":"string"},"optional":true},"resource_type":{"type":{"kind":"string"},"optional":true},"scope":{"type":{"kind":"string"},"optional":true},"scope_requirement":{"type":{"kind":"reference","name":"ScopeRequirement"},"optional":true},"selectable_resources":{"type":{"kind":"array","element":{"kind":"reference","name":"SelectableErrorResource"}},"optional":true},"shipping_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"shortage_quantity":{"type":{"kind":"number"},"optional":true},"submitted_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"submitted_source_observation_sequence":{"type":{"kind":"number"},"optional":true},"suggestions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"supported_api_versions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"unavailable_reason":{"type":{"kind":"string"},"optional":true}}},"MoneyValue":{"kind":"record","fields":{"amount":{"type":{"kind":"integer-string"},"optional":false},"currency":{"type":{"kind":"string"},"optional":false}}},"ErrorResourceReference":{"kind":"record","fields":{"resource_id":{"type":{"kind":"string"},"optional":false},"resource_type":{"type":{"kind":"string"},"optional":false},"status":{"type":{"kind":"string"},"optional":true}}},"Fulfillment":{"kind":"record","fields":{"active_hold":{"type":{"kind":"reference","name":"FulfillmentHold"},"optional":true},"charges":{"type":{"kind":"array","element":{"kind":"reference","name":"FulfillmentChargeLink"}},"optional":true},"completed_at":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"customer_id":{"type":{"kind":"string"},"optional":true},"delivery_choice_group_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"delivery_execution_leg_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"delivery_method_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"delivery_selection_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"device_id":{"type":{"kind":"string"},"optional":true},"digital_details":{"type":{"kind":"reference","name":"DigitalFulfillmentDetails"},"optional":true},"dispatched_at":{"type":{"kind":"string"},"optional":true},"external_reference_id":{"type":{"kind":"string"},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"line_items":{"type":{"kind":"array","element":{"kind":"reference","name":"FulfillmentLineItem"}},"optional":false},"local_delivery_details":{"type":{"kind":"reference","name":"DeliveryFulfillmentDetails"},"optional":true},"location_id":{"type":{"kind":"string"},"optional":true},"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"order":{"type":{"kind":"union","members":[{"kind":"reference","name":"ExpandedOrderSummary"},{"kind":"null"}]},"optional":true},"order_id":{"type":{"kind":"string"},"optional":false},"order_number":{"type":{"kind":"string"},"optional":true},"outcome":{"type":{"kind":"reference","name":"FulfillmentOutcome"},"optional":true},"packages":{"type":{"kind":"array","element":{"kind":"reference","name":"ExpandedPackageSummary"}},"optional":true},"packed_at":{"type":{"kind":"string"},"optional":true},"picked_at":{"type":{"kind":"string"},"optional":true},"pickup_details":{"type":{"kind":"reference","name":"PickupFulfillmentDetails"},"optional":true},"recipient":{"type":{"kind":"reference","name":"FulfillmentRecipient"},"optional":true},"scheduled_start_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"service_details":{"type":{"kind":"reference","name":"ServiceFulfillmentDetails"},"optional":true},"shipment_details":{"type":{"kind":"reference","name":"ShipmentFulfillmentDetails"},"optional":true},"shipments":{"type":{"kind":"array","element":{"kind":"reference","name":"ExpandedShipmentSummary"}},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"terminal_at":{"type":{"kind":"string"},"optional":true},"type":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"number"},"optional":false}}},"FulfillmentHold":{"kind":"record","fields":{"created_at":{"type":{"kind":"string"},"optional":false},"display_reason":{"type":{"kind":"string"},"optional":true},"held_by":{"type":{"kind":"string"},"optional":true},"previous_status":{"type":{"kind":"string"},"optional":false},"reason":{"type":{"kind":"string"},"optional":false},"reason_notes":{"type":{"kind":"string"},"optional":true}}},"FulfillmentChargeLink":{"kind":"record","fields":{"order_charge_id":{"type":{"kind":"string"},"optional":false}}},"DigitalFulfillmentDetails":{"kind":"record","fields":{"delivered_at":{"type":{"kind":"string"},"optional":true},"delivery_url":{"type":{"kind":"string"},"optional":true}}},"FulfillmentLineItem":{"kind":"record","fields":{"modifiers":{"type":{"kind":"array","element":{"kind":"reference","name":"OrderLineItemModifier"}},"optional":true},"order_line_item_id":{"type":{"kind":"string"},"optional":false},"quantity":{"type":{"kind":"number"},"optional":false}}},"OrderLineItemModifier":{"kind":"record","fields":{"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"modifier_group_name":{"type":{"kind":"string"},"optional":false},"modifier_id":{"type":{"kind":"string"},"optional":true},"name":{"type":{"kind":"string"},"optional":false},"order_line_item_modifier_id":{"type":{"kind":"string"},"optional":false},"quantity":{"type":{"kind":"number"},"optional":false},"show_on_fulfillment":{"type":{"kind":"boolean"},"optional":false},"show_on_receipt":{"type":{"kind":"boolean"},"optional":false},"source_type":{"type":{"kind":"string"},"optional":false},"text":{"type":{"kind":"reference","name":"TextModifierRequest"},"optional":true},"text_value":{"type":{"kind":"string"},"optional":true},"total_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"unit_price_delta_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}},"MetadataMap":{"kind":"record","fields":{},"extra":{"kind":"string"}},"TextModifierRequest":{"kind":"record","fields":{"modifier_group_id":{"type":{"kind":"string"},"optional":false},"value":{"type":{"kind":"string"},"optional":false}}},"DeliveryFulfillmentDetails":{"kind":"record","fields":{"carrier":{"type":{"kind":"string"},"optional":true},"courier_pickup_at":{"type":{"kind":"string"},"optional":true},"courier_pickup_window_duration_seconds":{"type":{"kind":"number"},"optional":true},"courier_provider_name":{"type":{"kind":"string"},"optional":true},"courier_support_phone":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"dispatched_at":{"type":{"kind":"string"},"optional":true},"dropoff_notes":{"type":{"kind":"string"},"optional":true},"expires_at":{"type":{"kind":"string"},"optional":true},"external_delivery_id":{"type":{"kind":"string"},"optional":true},"instructions":{"type":{"kind":"string"},"optional":true},"no_contact":{"type":{"kind":"boolean"},"optional":true},"prep_time_duration_seconds":{"type":{"kind":"number"},"optional":true},"ready_at":{"type":{"kind":"string"},"optional":true},"service_area_id":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true},"tracking_url":{"type":{"kind":"string"},"optional":true},"window_end_at":{"type":{"kind":"string"},"optional":true},"window_start_at":{"type":{"kind":"string"},"optional":true}}},"ExpandedOrderSummary":{"kind":"record","fields":{"buyer_contact":{"type":{"kind":"reference","name":"CheckoutBuyerContact"},"optional":true},"closed_at":{"type":{"kind":"string"},"optional":true},"closed_reason":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"customer_id":{"type":{"kind":"string"},"optional":true},"fulfillment_status":{"type":{"kind":"string"},"optional":true},"governing_delivery_selection_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"order_id":{"type":{"kind":"string"},"optional":false},"order_number":{"type":{"kind":"string"},"optional":true},"payment_intent_ids":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"payment_status":{"type":{"kind":"string"},"optional":false},"pricing_amounts":{"type":{"kind":"reference","name":"PricingAmounts"},"optional":false},"refund_status":{"type":{"kind":"string"},"optional":false},"settlement_amounts":{"type":{"kind":"reference","name":"SettlementAmounts"},"optional":false},"status":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true}}},"CheckoutBuyerContact":{"kind":"record","fields":{"email":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"is_email_cleared":{"type":{"kind":"boolean"},"optional":false},"is_phone_cleared":{"type":{"kind":"boolean"},"optional":false},"phone":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true}}},"PricingAmounts":{"kind":"record","fields":{"additive_tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"charge_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"discount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"inclusive_tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"requested_tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"subtotal_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"tax_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"total_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}},"SettlementAmounts":{"kind":"record","fields":{"balance_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"credit_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"net_collected_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"outstanding_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"paid_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"refunded_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"settled_tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"written_off_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}},"FulfillmentOutcome":{"kind":"record","fields":{"notes":{"type":{"kind":"string"},"optional":true},"occurred_at":{"type":{"kind":"string"},"optional":false},"outcome_type":{"type":{"kind":"string"},"optional":false},"reason":{"type":{"kind":"string"},"optional":false}}},"ExpandedPackageSummary":{"kind":"record","fields":{"carrier":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"expected_delivery_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"package_id":{"type":{"kind":"string"},"optional":false},"service_code":{"type":{"kind":"string"},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"tracking_number":{"type":{"kind":"string"},"optional":true},"tracking_url":{"type":{"kind":"string"},"optional":true},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"number"},"optional":false}}},"PickupFulfillmentDetails":{"kind":"record","fields":{"address":{"type":{"kind":"reference","name":"Address"},"optional":true},"curbside_instructions":{"type":{"kind":"string"},"optional":true},"customer_arrived_at":{"type":{"kind":"string"},"optional":true},"expires_at":{"type":{"kind":"string"},"optional":true},"instructions":{"type":{"kind":"string"},"optional":true},"location_name":{"type":{"kind":"string"},"optional":true},"picked_up_at":{"type":{"kind":"string"},"optional":true},"pickup_mode":{"type":{"kind":"string"},"optional":true},"pickup_window_duration_seconds":{"type":{"kind":"number"},"optional":true},"prep_time_duration_seconds":{"type":{"kind":"number"},"optional":true},"ready_at":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true},"vehicle_description":{"type":{"kind":"string"},"optional":true},"window_end_at":{"type":{"kind":"string"},"optional":true},"window_start_at":{"type":{"kind":"string"},"optional":true}}},"Address":{"kind":"record","fields":{"city":{"type":{"kind":"string"},"optional":true},"country":{"type":{"kind":"string"},"optional":false},"line1":{"type":{"kind":"string"},"optional":true},"line2":{"type":{"kind":"string"},"optional":true},"postal_code":{"type":{"kind":"string"},"optional":true},"state":{"type":{"kind":"string"},"optional":true}}},"FulfillmentRecipient":{"kind":"record","fields":{"address":{"type":{"kind":"reference","name":"Address"},"optional":true},"email":{"type":{"kind":"string"},"optional":true},"instructions":{"type":{"kind":"string"},"optional":true},"name":{"type":{"kind":"string"},"optional":true},"phone":{"type":{"kind":"string"},"optional":true}}},"ServiceFulfillmentDetails":{"kind":"record","fields":{"completed_at":{"type":{"kind":"string"},"optional":true},"notes":{"type":{"kind":"string"},"optional":true},"scheduled_end_at":{"type":{"kind":"string"},"optional":true},"scheduled_start_at":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true}}},"ShipmentFulfillmentDetails":{"kind":"record","fields":{"shipped_at":{"type":{"kind":"string"},"optional":true},"timezone":{"type":{"kind":"string"},"optional":true},"window_end_at":{"type":{"kind":"string"},"optional":true},"window_start_at":{"type":{"kind":"string"},"optional":true}}},"ExpandedShipmentSummary":{"kind":"record","fields":{"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"direction":{"type":{"kind":"string"},"optional":false},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"handed_off_at":{"type":{"kind":"string"},"optional":true},"package_count":{"type":{"kind":"number"},"optional":false},"return_id":{"type":{"kind":"string"},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true}}},"Shipment":{"kind":"record","fields":{"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"direction":{"type":{"kind":"string"},"optional":false},"external_reference_id":{"type":{"kind":"string"},"optional":true},"external_system":{"type":{"kind":"string"},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"handed_off_at":{"type":{"kind":"string"},"optional":true},"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"order":{"type":{"kind":"union","members":[{"kind":"reference","name":"ExpandedOrderSummary"},{"kind":"null"}]},"optional":true},"order_id":{"type":{"kind":"string"},"optional":false},"package_count":{"type":{"kind":"number"},"optional":false},"packages":{"type":{"kind":"array","element":{"kind":"reference","name":"ExpandedPackageSummary"}},"optional":true},"return_id":{"type":{"kind":"string"},"optional":true},"return_line_items":{"type":{"kind":"array","element":{"kind":"reference","name":"ReturnResolutionLineItemRequest"}},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"number"},"optional":false}}},"ReturnResolutionLineItemRequest":{"kind":"record","fields":{"quantity":{"type":{"kind":"number"},"optional":false},"return_line_item_id":{"type":{"kind":"string"},"optional":false}}},"Package":{"kind":"record","fields":{"carrier":{"type":{"kind":"string"},"optional":true},"created_at":{"type":{"kind":"string"},"optional":true},"delivered_at":{"type":{"kind":"string"},"optional":true},"dimensions":{"type":{"kind":"reference","name":"Dimensions"},"optional":true},"expected_delivery_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":true},"external_reference_id":{"type":{"kind":"string"},"optional":true},"external_system":{"type":{"kind":"string"},"optional":true},"fulfillment_id":{"type":{"kind":"string"},"optional":false},"label_url":{"type":{"kind":"string"},"optional":true},"metadata":{"type":{"kind":"reference","name":"MetadataMap"},"optional":true},"order":{"type":{"kind":"union","members":[{"kind":"reference","name":"ExpandedOrderSummary"},{"kind":"null"}]},"optional":true},"order_id":{"type":{"kind":"string"},"optional":false},"package_id":{"type":{"kind":"string"},"optional":false},"return_id":{"type":{"kind":"string"},"optional":true},"return_line_items":{"type":{"kind":"array","element":{"kind":"reference","name":"ReturnResolutionLineItemRequest"}},"optional":true},"service_code":{"type":{"kind":"string"},"optional":true},"shipment_id":{"type":{"kind":"string"},"optional":false},"shipped_at":{"type":{"kind":"string"},"optional":true},"status":{"type":{"kind":"string"},"optional":false},"status_reason":{"type":{"kind":"string"},"optional":true},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"tracking_number":{"type":{"kind":"string"},"optional":true},"tracking_url":{"type":{"kind":"string"},"optional":true},"updated_at":{"type":{"kind":"string"},"optional":true},"version":{"type":{"kind":"number"},"optional":false},"weight":{"type":{"kind":"reference","name":"Weight"},"optional":true}}},"Dimensions":{"kind":"record","fields":{"height":{"type":{"kind":"number"},"optional":false},"length":{"type":{"kind":"number"},"optional":false},"unit":{"type":{"kind":"string"},"optional":false},"width":{"type":{"kind":"number"},"optional":false}}},"Weight":{"kind":"record","fields":{"unit":{"type":{"kind":"string"},"optional":false},"value":{"type":{"kind":"number"},"optional":false}}},"CustomDomain":{"kind":"record","fields":{"active_payment_attempt_count":{"type":{"kind":"union","members":[{"kind":"number"},{"kind":"null"}]},"optional":false},"created_at":{"type":{"kind":"string"},"optional":false},"custom_domain_id":{"type":{"kind":"string"},"optional":false},"dns_records":{"type":{"kind":"array","element":{"kind":"reference","name":"CustomDomainDNSRecord"}},"optional":false},"hostname":{"type":{"kind":"string"},"optional":false},"last_checked_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"payment_method_domain_id":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"redirect_expires_at":{"type":{"kind":"union","members":[{"kind":"string"},{"kind":"null"}]},"optional":false},"status":{"type":{"kind":"string"},"optional":false},"status_reason":{"type":{"kind":"union","members":[{"kind":"literal","value":"dns_record_missing"},{"kind":"literal","value":"dns_record_mismatch"},{"kind":"literal","value":"ownership_record_missing"},{"kind":"literal","value":"ownership_record_mismatch"},{"kind":"literal","value":"caa_record_blocks_certificate"},{"kind":"literal","value":"proxied_by_another_provider"},{"kind":"literal","value":"certificate_pending"},{"kind":"literal","value":"custom_domains_inactive"},{"kind":"literal","value":"other"},{"kind":"null"},{"kind":"string"},{"kind":"null"}]},"optional":false},"type":{"type":{"kind":"string"},"optional":false},"updated_at":{"type":{"kind":"string"},"optional":false}}},"CustomDomainDNSRecord":{"kind":"record","fields":{"name":{"type":{"kind":"string"},"optional":false},"type":{"type":{"kind":"string"},"optional":false},"value":{"type":{"kind":"string"},"optional":false}}},"QuotaDetails":{"kind":"record","fields":{"limit_bytes":{"type":{"kind":"number"},"optional":false},"next_expiration_at":{"type":{"kind":"string"},"optional":true},"ready_unattached_bytes":{"type":{"kind":"number"},"optional":false},"reserved_bytes":{"type":{"kind":"number"},"optional":false},"resource":{"type":{"kind":"string"},"optional":false},"used_bytes":{"type":{"kind":"number"},"optional":false}}},"ErrorRemediation":{"kind":"record","fields":{"next_actions":{"type":{"kind":"array","element":{"kind":"reference","name":"NextAction"}},"optional":true},"next_steps":{"type":{"kind":"string"},"optional":true},"retry":{"type":{"kind":"string"},"optional":false}}},"NextAction":{"kind":"record","fields":{"action_type":{"type":{"kind":"string"},"optional":false},"expires_at":{"type":{"kind":"string"},"optional":true},"merchant_account_session":{"type":{"kind":"reference","name":"ReadinessMerchantAccountSession"},"optional":true},"reason_code":{"type":{"kind":"string"},"optional":true},"reason_message":{"type":{"kind":"string"},"optional":true},"required_fields":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"required_scope":{"type":{"kind":"string"},"optional":true},"requires_human_confirmation":{"type":{"kind":"boolean"},"optional":true},"suggested_delay_milliseconds":{"type":{"kind":"number"},"optional":true},"url":{"type":{"kind":"string"},"optional":true}}},"ReadinessMerchantAccountSession":{"kind":"record","fields":{"collection_strategy":{"type":{"kind":"string"},"optional":false},"components":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"future_requirements":{"type":{"kind":"string"},"optional":false},"targeted_requirements":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true}}},"ScopeRequirement":{"kind":"record","fields":{"mode":{"type":{"kind":"string"},"optional":false},"scopes":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false}}},"SelectableErrorResource":{"kind":"record","fields":{"amount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"display_name":{"type":{"kind":"string"},"optional":true},"last_payment_error":{"type":{"kind":"reference","name":"PaymentErrorSummary"},"optional":true},"payment_collection":{"type":{"kind":"reference","name":"PaymentCollection"},"optional":true},"resource_id":{"type":{"kind":"string"},"optional":false},"resource_type":{"type":{"kind":"string"},"optional":false},"status":{"type":{"kind":"string"},"optional":true},"supported_actions":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true}}},"PaymentErrorSummary":{"kind":"record","fields":{"code":{"type":{"kind":"string"},"optional":false},"failed_at":{"type":{"kind":"string"},"optional":false},"message":{"type":{"kind":"string"},"optional":false},"remediation":{"type":{"kind":"union","members":[{"kind":"reference","name":"ErrorRemediation"},{"kind":"null"}]},"optional":false}}},"PaymentCollection":{"kind":"record","fields":{"stripe":{"type":{"kind":"reference","name":"PaymentCollectionStripe"},"optional":true}}},"PaymentCollectionStripe":{"kind":"record","fields":{"account_id":{"type":{"kind":"string"},"optional":true},"elements":{"type":{"kind":"reference","name":"PaymentCollectionStripeElements"},"optional":true},"publishable_key":{"type":{"kind":"string"},"optional":true},"return_url":{"type":{"kind":"string"},"optional":true}}},"PaymentCollectionStripeElements":{"kind":"record","fields":{"amount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":true},"digital_wallets":{"type":{"kind":"array","element":{"kind":"string"}},"optional":true},"mode":{"type":{"kind":"string"},"optional":false},"next_step":{"type":{"kind":"string"},"optional":false},"payment_method_creation":{"type":{"kind":"string"},"optional":false},"payment_method_options":{"type":{"kind":"record","fields":{},"extra":{"kind":"unknown"}},"optional":true},"payment_method_types":{"type":{"kind":"array","element":{"kind":"string"}},"optional":false},"selectable_payment_intents":{"type":{"kind":"array","element":{"kind":"reference","name":"SelectableOrderPaymentIntent"}},"optional":true},"submit_to":{"type":{"kind":"string"},"optional":false}}},"SelectableOrderPaymentIntent":{"kind":"record","fields":{"amount_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false},"last_payment_error":{"type":{"kind":"reference","name":"PaymentErrorSummary"},"optional":true},"payment_collection":{"type":{"kind":"reference","name":"PaymentCollection"},"optional":true},"payment_intent_id":{"type":{"kind":"string"},"optional":false},"status":{"type":{"kind":"string"},"optional":false},"tip_money":{"type":{"kind":"reference","name":"MoneyValue"},"optional":false}}}}};
+/** SDK failure with flattened call context. */
 export class SdkError extends Error {
-    kind;
+    code;
+    param;
+    operation;
     outcome;
     retryAllowed;
-    meta;
-    code;
-    details;
-    raw;
+    status;
+    requestId;
+    requestIds;
     idempotencyKey;
+    attempts;
+    durationMs;
     retryAfterMs;
-    constructor(kind, message, outcome = 'not_sent', retryAllowed = false, meta, code, details, options, raw) {
+    headers;
+    raw;
+    constructor(message, init = {}) {
         super(message);
-        this.kind = kind;
-        this.outcome = outcome;
-        this.retryAllowed = retryAllowed;
-        this.meta = meta;
-        this.code = code;
-        this.details = details;
-        this.raw = raw;
-        if (publicErrorDetailsCertificate && !certifies(details, publicErrorDetailsCertificate))
-            this.details = undefined;
-        // Native error formatting bypasses custom inspection. An own accessor keeps recovery
-        // access without evaluating the private cause during rendering, including Node 22.
-        if (options && 'cause' in options)
-            errorCauses.set(this, options.cause);
+        this.code = init.code ?? '';
+        this.outcome = init.outcome ?? 'not_sent';
+        this.retryAllowed = init.retryAllowed ?? false;
+        this.requestIds = [...(init.requestIds ?? (init.requestId ? [init.requestId] : []))];
+        this.attempts = init.attempts ?? 0;
+        this.headers = init.headers ?? {};
+        for (const key of [
+            'param',
+            'operation',
+            'status',
+            'requestId',
+            'idempotencyKey',
+            'durationMs',
+            'retryAfterMs',
+            'raw',
+        ])
+            if (init[key] !== undefined)
+                Object.defineProperty(this, key, {
+                    value: init[key],
+                    writable: true,
+                    configurable: true,
+                    enumerable: key !== 'raw',
+                });
+        if ('cause' in init)
+            errorCauses.set(this, init.cause);
         Object.defineProperty(this, 'cause', {
             configurable: true,
             get: () => errorCauses.get(this),
             set: (value) => errorCauses.set(this, value),
         });
-        Object.defineProperty(this, 'meta', { enumerable: false });
+        Object.defineProperty(this, 'headers', { enumerable: false });
         Object.defineProperty(this, 'raw', { enumerable: false });
         this.name = errorNames.get(new.target) ?? new.target.name;
-        if (meta?.idempotencyKey !== undefined)
-            this.idempotencyKey = meta.idempotencyKey;
-    }
-    get status() {
-        return this.meta?.status;
     }
     toJSON() {
         return {
             name: this.name,
-            kind: this.kind,
             message: this.message,
+            code: this.code,
+            ...(this.param !== undefined ? { param: this.param } : {}),
+            operation: this.operation ?? null,
             outcome: this.outcome,
             retryAllowed: this.retryAllowed,
-            requestId: this.meta?.requestId,
-            status: this.status,
-            code: this.code,
-            details: this.details,
-            idempotencyKey: this.idempotencyKey,
-            retryAfterMs: this.retryAfterMs,
+            status: this.status ?? null,
+            requestId: this.requestId ?? null,
+            requestIds: this.requestIds,
+            idempotencyKey: this.idempotencyKey ?? null,
+            attempts: this.attempts,
+            retryAfterMs: this.retryAfterMs ?? null,
+            ...(this instanceof errors.ApiError
+                ? {
+                    type: this.type ?? null,
+                    param: this.param ?? null,
+                    errorSource: this.errorSource ?? null,
+                    docUrl: this.docUrl ?? null,
+                    remediation: this.remediation ?? null,
+                    details: this.details,
+                }
+                : {}),
+            ...(this instanceof errors.InvalidInputError ? { details: this.details } : {}),
+            ...(this instanceof errors.PaginationLimitError
+                ? { nextPageToken: this.nextPageToken, pages: this.pages }
+                : {}),
             cause: this.cause instanceof Error
                 ? {
                     name: this.cause instanceof TypeError
@@ -66,102 +113,203 @@ export class SdkError extends Error {
                         : this.cause instanceof SyntaxError
                             ? 'SyntaxError'
                             : 'Error',
-                    code: transportCode(this.cause),
+                    code: transportCode(this.cause) ?? null,
                 }
-                : undefined,
-            stack: this.stack,
+                : null,
+            stack: this.stack ?? null,
         };
     }
     [inspectCustom]() {
         return this.toJSON();
     }
 }
-// Preserve the root class identity while providing both namespace values and types.
 const BaseSdkError = SdkError;
 export var errors;
 (function (errors) {
     errors.SdkError = BaseSdkError;
+    class ApiError extends BaseSdkError {
+        details;
+        type;
+        errorSource;
+        docUrl;
+        requestLogUrl;
+        remediation;
+        body;
+        constructor(message, init = {}) {
+            super(message, init);
+            this.details =
+                Array.isArray(init.details) &&
+                    (!publicErrorDetailsCertificate || certifies(init.details, publicErrorDetailsCertificate))
+                    ? init.details
+                    : [];
+            for (const key of ['type', 'errorSource', 'docUrl', 'requestLogUrl', 'remediation'])
+                if (init[key] !== undefined)
+                    Object.defineProperty(this, key, { value: init[key], writable: true, enumerable: true });
+            Object.defineProperty(this, 'body', { value: init.body, writable: true, enumerable: false });
+        }
+    }
+    errors.ApiError = ApiError;
+    class InvalidRequestError extends ApiError {
+    }
+    errors.InvalidRequestError = InvalidRequestError;
+    class AuthenticationError extends ApiError {
+    }
+    errors.AuthenticationError = AuthenticationError;
+    class PermissionError extends ApiError {
+    }
+    errors.PermissionError = PermissionError;
+    class NotFoundError extends ApiError {
+    }
+    errors.NotFoundError = NotFoundError;
+    class ConflictError extends ApiError {
+    }
+    errors.ConflictError = ConflictError;
+    class RateLimitError extends ApiError {
+    }
+    errors.RateLimitError = RateLimitError;
+    class ServerError extends ApiError {
+    }
+    errors.ServerError = ServerError;
     class ConnectionError extends BaseSdkError {
     }
     errors.ConnectionError = ConnectionError;
-    class TimeoutError extends BaseSdkError {
+    class TimeoutError extends ConnectionError {
     }
     errors.TimeoutError = TimeoutError;
-    class AuthenticationError extends BaseSdkError {
+    class InvalidInputError extends BaseSdkError {
+        details;
+        constructor(message, init = {}) {
+            super(message, { code: 'INVALID_REQUEST', ...init });
+            this.details = Array.isArray(init.details)
+                ? init.details.filter((detail) => detail &&
+                    typeof detail === 'object' &&
+                    ['REQUIRED', 'INVALID_VALUE', 'UNKNOWN_FIELD', 'NOT_ALLOWED'].includes(detail.code) &&
+                    typeof detail.param === 'string')
+                : [];
+        }
     }
-    errors.AuthenticationError = AuthenticationError;
-    class ValidationError extends BaseSdkError {
+    errors.InvalidInputError = InvalidInputError;
+    class ConfigurationError extends BaseSdkError {
+        workloadIdentity;
+        constructor(message, init = {}) {
+            super(message, init);
+            delete this.param;
+        }
     }
-    errors.ValidationError = ValidationError;
-    class RateLimitError extends BaseSdkError {
-    }
-    errors.RateLimitError = RateLimitError;
-    class NotFoundError extends BaseSdkError {
-    }
-    errors.NotFoundError = NotFoundError;
-    class ConflictError extends BaseSdkError {
-    }
-    errors.ConflictError = ConflictError;
-    class ServerError extends BaseSdkError {
-    }
-    errors.ServerError = ServerError;
-    class ApiError extends BaseSdkError {
-    }
-    errors.ApiError = ApiError;
-    class ProtocolError extends BaseSdkError {
-    }
-    errors.ProtocolError = ProtocolError;
+    errors.ConfigurationError = ConfigurationError;
     class CancelledError extends BaseSdkError {
     }
     errors.CancelledError = CancelledError;
-    class DeadlineError extends BaseSdkError {
+    class UnexpectedResponseError extends BaseSdkError {
+        event;
     }
-    errors.DeadlineError = DeadlineError;
-    class DestinationError extends BaseSdkError {
+    errors.UnexpectedResponseError = UnexpectedResponseError;
+    class WebhookVerificationError extends BaseSdkError {
     }
-    errors.DestinationError = DestinationError;
+    errors.WebhookVerificationError = WebhookVerificationError;
+    class PaginationLimitError extends BaseSdkError {
+        nextPageToken;
+        pages;
+        constructor(message, init = {}) {
+            super(message, { code: 'pagination_limit_exceeded', ...init });
+            this.nextPageToken = init.nextPageToken;
+            this.pages = init.pages ?? 0;
+        }
+    }
+    errors.PaginationLimitError = PaginationLimitError;
 })(errors || (errors = {}));
-// Built-in identities survive minification; consumer subclasses retain their own names.
 const errorNames = new Map([
     [SdkError, 'SdkError'],
-    [errors.ConnectionError, 'ConnectionError'],
-    [errors.TimeoutError, 'TimeoutError'],
-    [errors.AuthenticationError, 'AuthenticationError'],
-    [errors.ValidationError, 'ValidationError'],
-    [errors.RateLimitError, 'RateLimitError'],
-    [errors.NotFoundError, 'NotFoundError'],
-    [errors.ConflictError, 'ConflictError'],
-    [errors.ServerError, 'ServerError'],
-    [errors.ApiError, 'ApiError'],
-    [errors.ProtocolError, 'ProtocolError'],
-    [errors.CancelledError, 'CancelledError'],
-    [errors.DeadlineError, 'DeadlineError'],
-    [errors.DestinationError, 'DestinationError'],
+    ...Object.entries(errors).map(([name, value]) => [value, name]),
 ]);
-const errorClasses = {
-    transport: errors.ConnectionError,
-    timeout: errors.TimeoutError,
-    authentication: errors.AuthenticationError,
-    validation: errors.ValidationError,
-    rate_limit: errors.RateLimitError,
-    not_found: errors.NotFoundError,
-    conflict: errors.ConflictError,
-    server: errors.ServerError,
-    api: errors.ApiError,
-    protocol: errors.ProtocolError,
-    cancelled: errors.CancelledError,
-    deadline: errors.DeadlineError,
-    destination: errors.DestinationError,
-};
-/** Internal construction boundary; public constructors keep their existing arguments. */
-export function createSdkError(...args) {
-    const error = new errorClasses[args[0]](...args);
+const errorKinds = new WeakMap();
+const internalKind = (error) => errorKinds.get(error) ?? (error instanceof errors.InvalidInputError ? 'validation' : undefined);
+function apiErrorClass(status) {
+    if (status === 400 || status === 422)
+        return errors.InvalidRequestError;
+    if (status === 401)
+        return errors.AuthenticationError;
+    if (status === 403)
+        return errors.PermissionError;
+    if (status === 404)
+        return errors.NotFoundError;
+    if (status === 409 || status === 412)
+        return errors.ConflictError;
+    if (status === 429)
+        return errors.RateLimitError;
+    if (status >= 500 && status < 600)
+        return errors.ServerError;
+    return errors.ApiError;
+}
+/** Internal migration adapter. Remove kind routing when the call sites migrate. */
+export function createSdkError(kind, message, outcome = 'not_sent', retryAllowed = false, meta, code, details, options, raw) {
+    const Class = meta &&
+        meta.status >= 400 &&
+        meta.status < 600 &&
+        !['transport', 'timeout', 'deadline', 'cancelled'].includes(kind)
+        ? apiErrorClass(meta.status)
+        : kind === 'webhook'
+            ? errors.WebhookVerificationError
+            : kind === 'transport'
+                ? errors.ConnectionError
+                : kind === 'timeout' || kind === 'deadline'
+                    ? errors.TimeoutError
+                    : kind === 'cancelled'
+                        ? errors.CancelledError
+                        : kind === 'protocol' ||
+                            kind === 'api' ||
+                            (kind === 'destination' && meta !== undefined)
+                            ? errors.UnexpectedResponseError
+                            : kind === 'authentication' || kind === 'destination'
+                                ? errors.ConfigurationError
+                                : errors.InvalidInputError;
+    if (Class === errors.InvalidInputError && !Array.isArray(details))
+        details = [{ code: 'INVALID_VALUE', param: 'body' }];
+    const error = new Class(message, {
+        ...meta,
+        outcome,
+        retryAllowed,
+        code: code ??
+            (kind === 'destination'
+                ? 'invalid_destination'
+                : kind === 'authentication'
+                    ? 'credential_invalid'
+                    : Class === errors.InvalidInputError
+                        ? 'INVALID_REQUEST'
+                        : ''),
+        ...(Class === errors.InvalidInputError && Array.isArray(details)
+            ? { param: details[0]?.param }
+            : {}),
+        ...(raw !== undefined ? { raw } : {}),
+        ...options,
+        ...(Class.prototype instanceof errors.ApiError ||
+            Class === errors.ApiError ||
+            Class === errors.InvalidInputError
+            ? { details }
+            : {}),
+    });
+    if (error instanceof errors.ConfigurationError &&
+        details &&
+        typeof details === 'object' &&
+        'error_description' in details) {
+        const { error_description, ...identity } = details;
+        error.workloadIdentity = { ...identity, errorDescription: error_description };
+    }
+    if (error instanceof errors.UnexpectedResponseError &&
+        details &&
+        typeof details === 'object' &&
+        'eventId' in details &&
+        typeof details.eventId === 'string' &&
+        'position' in details &&
+        typeof details.position === 'number')
+        error.event = { id: details.eventId, position: details.position };
+    errorKinds.set(error, kind);
     if (typeof Error.captureStackTrace === 'function')
         Error.captureStackTrace(error, createSdkError);
     return error;
 }
 const webhookError = (kind, code, message) => {
-    throw createSdkError(kind, message, 'not_sent', false, undefined, 'webhook_' + code);
+    throw createSdkError('webhook', message, 'not_sent', false, undefined, 'webhook_' + code);
 };
 function webhookHeaderValues(headers, name, optional = false) {
     if (!headers || typeof headers !== 'object' || Array.isArray(headers))
@@ -258,7 +406,11 @@ class AmbientCredentialProvider {
                 aud: clean(claims.aud),
                 error_description: clean(description),
             };
-            throw createSdkError('authentication', clean(JSON.stringify(details)), 'not_sent', false, undefined, reason, details);
+            throw createSdkError('authentication', clean(JSON.stringify(details)), 'not_sent', false, undefined, reason === 'ambiguous_credentials'
+                ? 'credential_conflict'
+                : reason === 'no_credentials'
+                    ? 'credential_missing'
+                    : 'workload_identity_failed', details);
         };
         if (!this.identity) {
             const apiKey = process.env[env.apiKey], token = process.env[env.token];
@@ -520,8 +672,9 @@ class AmbientCredentialProvider {
             .catch((error) => {
             if (cached &&
                 cached.expiresAt.getTime() - Date.now() > 30000 &&
-                error instanceof SdkError &&
-                error.code === 'exchange_unavailable')
+                error instanceof errors.ConfigurationError &&
+                isErrorObject(error.workloadIdentity) &&
+                error.workloadIdentity.reason === 'exchange_unavailable')
                 return cached;
             throw error;
         })
@@ -561,12 +714,59 @@ async function resolveCredential(input, message, rejectNewlines = true, context,
             if (input instanceof AmbientCredentialProvider && error instanceof SdkError)
                 throw error;
             // Provider exceptions may contain credentials, including in their causes.
-            throw createSdkError('authentication', 'Credential provider failed');
+            throw configuration('credential_provider_failed', 'Credential provider failed');
         }
     }
-    if (typeof value !== 'string' || !value || (rejectNewlines && /[\r\n]/.test(value)))
-        throw createSdkError('authentication', message);
+    if (typeof value !== 'string' || !value || (rejectNewlines && /[\x00-\x1f\x7f]/.test(value)))
+        throw configuration(input === undefined || input === null ? 'credential_missing' : 'credential_invalid', message);
     return value;
+}
+/** Validate explicit sources without resolving providers or reading the environment. */
+function credentialOptionsPassed(options, shortcuts, client) {
+    const values = options;
+    const validate = (value, param) => {
+        if (value === undefined ||
+            value === null ||
+            (typeof value === 'string' && /^[\s\u0085]*$/u.test(value))) {
+            const state = value === undefined ? 'undefined' : value === null ? 'null' : 'empty or blank';
+            const kind = param === 'apiKey' ? 'API key' : 'credential';
+            throw new errors.ConfigurationError(`${param} was passed but is ${state}. Pass a nonempty ${kind}; default credentials are used only when no credential option is passed.`, { code: 'credential_missing', param });
+        }
+    };
+    let passed = false;
+    for (const key of new Set(['token', ...shortcuts])) {
+        if (!Object.hasOwn(options, key))
+            continue;
+        passed = true;
+        validate(values[key], key);
+    }
+    if (Object.hasOwn(options, 'credentials')) {
+        passed = true;
+        validate(values.credentials, 'credentials');
+        for (const [key, value] of Object.entries(values.credentials)) {
+            const param = `credentials.${key}`;
+            validate(value, param);
+            if (client && typeof value === 'object' && value !== null)
+                for (const [scheme, source] of Object.entries(value))
+                    validate(source, `${param}.${scheme}`);
+        }
+    }
+    return passed;
+}
+/** Preserve own credential keys, including non-enumerable ones, across option copies. */
+function copyCredentialOptions(options, shortcuts, client) {
+    credentialOptionsPassed(options, shortcuts, client);
+    const copy = { ...options };
+    for (const key of new Set(['token', 'authMode', 'credentials', ...shortcuts])) {
+        if (Object.hasOwn(options, key))
+            Object.defineProperty(copy, key, {
+                value: Reflect.get(options, key),
+                enumerable: true,
+                writable: true,
+                configurable: true,
+            });
+    }
+    return copy;
 }
 // Node truncates delays above 2^31-1 to one millisecond. Keep the actual
 // monotonic deadline and schedule bounded chunks, including for retry waits.
@@ -659,27 +859,27 @@ async function streamFetch(url, init) {
 /** A single-consumer stream. Breaking iteration releases the response connection. */
 export class EventStream {
     reader;
-    meta;
     settings;
     decodeEvent;
     released;
+    #meta;
     closed = false;
     started = false;
     failure;
     lifetime;
     unconsumed;
     abort = () => {
-        this.failure = createSdkError('cancelled', 'Stream cancelled', 'response', false, this.meta);
+        this.failure = createSdkError('cancelled', 'Stream cancelled', 'response', false, this.#meta);
         void this.close();
     };
     constructor(reader, meta, settings, decodeEvent = (_event, data) => data, released = () => { }) {
         this.reader = reader;
-        this.meta = meta;
         this.settings = settings;
         this.decodeEvent = decodeEvent;
         this.released = released;
+        this.#meta = meta;
         this.unconsumed = schedule(() => {
-            this.failure = createSdkError('deadline', 'Unconsumed stream idle timeout exceeded', 'response', false, this.meta);
+            this.failure = createSdkError('deadline', 'Unconsumed stream idle timeout exceeded', 'response', false, this.#meta);
             void this.close();
         }, settings.idleTimeoutMs, true);
         settings.signal?.addEventListener('abort', this.abort, { once: true });
@@ -687,7 +887,7 @@ export class EventStream {
             this.abort();
         if (settings.lifetimeMs)
             this.lifetime = schedule(() => {
-                this.failure = createSdkError('deadline', 'Stream lifetime exceeded', 'response', false, this.meta);
+                this.failure = createSdkError('deadline', 'Stream lifetime exceeded', 'response', false, this.#meta);
                 void this.close();
             }, settings.lifetimeMs, true);
     }
@@ -701,8 +901,12 @@ export class EventStream {
         this.released();
         await this.reader.cancel().catch(() => { });
     }
+    get lastResponse() {
+        const { url: _, ...info } = this.#meta;
+        return { ...info, requestIds: this.#meta.requestIds ?? [], body: this };
+    }
     [inspectCustom]() {
-        return { meta: inspectedMetadata(this.meta), closed: this.closed };
+        return { lastResponse: inspectedMetadata(this.#meta), closed: this.closed };
     }
     async *[Symbol.asyncIterator]() {
         if (this.started)
@@ -724,7 +928,7 @@ export class EventStream {
                         decoded = this.decodeEvent(event || 'message', data.slice(0, -1));
                     }
                     catch (cause) {
-                        throw createSdkError('protocol', `Invalid SSE event payload at event ${position}; inspect details.eventId and details.position`, 'response', false, this.meta, 'sse_invalid_event', { eventId: id, position }, { cause });
+                        throw createSdkError('protocol', `Invalid SSE event payload at event ${position}; inspect details.eventId and details.position`, 'response', false, this.#meta, 'invalid_event', { eventId: id, position }, { cause });
                     }
                 }
                 const frame = data === ''
@@ -769,7 +973,7 @@ export class EventStream {
                 const next = await Promise.race([
                     this.reader.read(),
                     new Promise((_resolve, reject) => {
-                        timer = schedule(() => reject(createSdkError('deadline', 'Stream idle timeout exceeded', 'response', false, this.meta)), this.settings.idleTimeoutMs);
+                        timer = schedule(() => reject(createSdkError('deadline', 'Stream idle timeout exceeded', 'response', false, this.#meta)), this.settings.idleTimeoutMs);
                     }),
                 ]).finally(() => timer?.cancel());
                 if (this.failure)
@@ -787,7 +991,7 @@ export class EventStream {
                         if (character === '\ufeff') {
                             bytes = 3;
                             if (bytes > this.settings.maxEventBytes)
-                                throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response');
+                                throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, undefined, 'invalid_event');
                             continue;
                         }
                     }
@@ -798,7 +1002,7 @@ export class EventStream {
                     }
                     if (character === '\r' || character === '\n') {
                         if (++bytes > this.settings.maxEventBytes)
-                            throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.meta);
+                            throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.#meta, 'invalid_event');
                         skipLF = character === '\r';
                         const frame = consumeLine();
                         if (frame)
@@ -807,7 +1011,7 @@ export class EventStream {
                     else {
                         bytes += Buffer.byteLength(character);
                         if (bytes > this.settings.maxEventBytes)
-                            throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.meta);
+                            throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.#meta, 'invalid_event');
                         line += character;
                     }
                 }
@@ -816,9 +1020,9 @@ export class EventStream {
                 throw this.failure;
         }
         catch (cause) {
-            if (cause instanceof SdkError && cause.kind !== 'validation')
+            if (cause instanceof SdkError && !validationFailures.has(cause))
                 throw cause;
-            throw createSdkError('protocol', 'Invalid or interrupted SSE stream', 'response', false, this.meta, undefined, undefined, { cause });
+            throw createSdkError('protocol', 'Invalid or interrupted SSE stream', 'response', false, this.#meta, 'invalid_event', undefined, { cause });
         }
         finally {
             await this.close();
@@ -826,11 +1030,91 @@ export class EventStream {
     }
 }
 const validationFailures = new WeakMap();
-const bad = (path, reason) => {
-    const message = `${path}: ${reason}`;
-    const error = createSdkError('validation', message);
+const publicParam = (path) => path.replace(/^input(?:\.|(?=\[)|$)/, '') || 'body';
+const pathKey = (path, key) => /^[A-Za-z0-9_-]+$/.test(key) ? `${path}.${key}` : `${path}[${JSON.stringify(key)}]`;
+function suggestion(value, allowed) {
+    if (typeof value !== 'string')
+        return '';
+    const matches = allowed.filter((candidate) => {
+        if (typeof candidate !== 'string')
+            return false;
+        const a = [...value], b = [...candidate];
+        if (Math.abs(a.length - b.length) > 2 || a.length > 256 || b.length > 256)
+            return false;
+        let row = b.map((_, i) => i + 1);
+        row.unshift(0);
+        for (let i = 0; i < a.length; i++) {
+            const next = [i + 1];
+            for (let j = 0; j < b.length; j++)
+                next.push(Math.min(next[j] + 1, row[j + 1] + 1, row[j] + (a[i] === b[j] ? 0 : 1)));
+            row = next;
+        }
+        return row[b.length] <= 2;
+    });
+    return matches.length === 1 ? ` (did you mean ${JSON.stringify(matches[0])}?)` : '';
+}
+const allowedValues = (values) => values
+    .slice(0, 20)
+    .map((value) => JSON.stringify(value))
+    .join(', ') + (values.length > 20 ? ` and ${values.length - 20} more` : '');
+function issue(path, category, args = {}) {
+    const param = publicParam(path);
+    const values = { param, ...args };
+    const message = VALIDATION_MESSAGES[category].replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? ''));
+    const code = category === 'required' || category === 'discriminator'
+        ? 'REQUIRED'
+        : category === 'unknown'
+            ? 'UNKNOWN_FIELD'
+            : category === 'notAllowed'
+                ? 'NOT_ALLOWED'
+                : 'INVALID_VALUE';
+    const error = createSdkError('validation', message, 'not_sent', false, undefined, 'INVALID_REQUEST', [{ code, param }]);
+    error.param = param;
     validationFailures.set(error, message);
     throw error;
+}
+function sensitivePath(path, fields = []) {
+    return (/authorization|token|secret|password|api.?key/i.test(path) ||
+        fields.some((key) => path.includes(`[${JSON.stringify(key)}]`) || path.split(/[.\[\]]/).includes(key)));
+}
+function enumError(path, value, allowed, sensitive = false) {
+    sensitive ||= sensitivePath(path);
+    const encoded = value instanceof ParsedNumber
+        ? value.value
+        : typeof value === 'bigint'
+            ? String(value)
+            : (JSON.stringify(value) ?? 'undefined');
+    const chars = [...encoded];
+    return issue(path, 'enum', {
+        allowed: allowedValues(allowed),
+        value: sensitive ? 'a value' : chars.length > 40 ? chars.slice(0, 39).join('') + '…' : encoded,
+        suggestion: sensitive ? '' : suggestion(value, allowed),
+    });
+}
+function typeError(path, expectation, value) {
+    const type = value === null
+        ? 'null'
+        : Array.isArray(value)
+            ? 'an array'
+            : typeof value === 'object' && !(value instanceof ParsedNumber)
+                ? 'an object'
+                : typeof value === 'number' || value instanceof ParsedNumber
+                    ? 'a number'
+                    : typeof value === 'boolean'
+                        ? 'a boolean'
+                        : typeof value === 'string'
+                            ? 'a string'
+                            : 'undefined';
+    return bad(path, `expected ${expectation}; received ${type}`);
+}
+const bad = (path, reason, _code) => {
+    if (/^required .+ is missing$/.test(reason))
+        return issue(path, 'required');
+    if (reason === 'null is not permitted')
+        return issue(path, 'invalid', { expectation: 'a non-null value' });
+    if (reason === 'readOnly fields cannot be sent')
+        return issue(path, 'notAllowed', { reason: 'it is read-only' });
+    return issue(path, 'invalid', { expectation: reason.replace(/^expected /, '') });
 };
 // Unlike $, the lookahead requires the true end, including after line terminators.
 const exactInteger = /^-?(?:0|[1-9]\d*)(?![\s\S])/;
@@ -1141,7 +1425,7 @@ function numericConstraints(token, s, path, full = true) {
         return;
     if (s.checks.multipleOf !== undefined &&
         !decimalMultiple(token, String(s.checks.multipleOf), path))
-        bad(path, 'value violates multipleOf');
+        issue(path, 'multipleOf', { limit: s.checks.multipleOf });
     for (const keyword of ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum']) {
         if (s.checks[keyword] === undefined)
             continue;
@@ -1150,7 +1434,7 @@ function numericConstraints(token, s, path, full = true) {
             (keyword === 'maximum' && order > 0) ||
             (keyword === 'exclusiveMinimum' && order <= 0) ||
             (keyword === 'exclusiveMaximum' && order >= 0))
-            bad(path, 'value violates ' + keyword);
+            issue(path, keyword, { limit: s.checks[keyword] });
     }
 }
 export function normalize(value, s, path = 'input', response = false, redactFields = [], matching = false, definitions = {}, depth = 0, validateConstraints = true, allowUnknownResponseFields = false) {
@@ -1183,7 +1467,7 @@ function selectAlternatives(value, branches, oneOf, tag, nullableAlternative, co
     const failures = new Map();
     const match = (branch, allowUnknownFields) => {
         const result = matches(branch, allowUnknownFields);
-        if (typeof result === 'string')
+        if (result instanceof SdkError)
             failures.set(branch, result);
         return result === true;
     };
@@ -1194,12 +1478,17 @@ function selectAlternatives(value, branches, oneOf, tag, nullableAlternative, co
         return { selected: [branch], tolerateUnknownFields: true };
     }
     if (oneOf && tag) {
-        if (!value ||
-            typeof value !== 'object' ||
-            Array.isArray(value) ||
-            !Object.hasOwn(value, tag) ||
-            typeof value[tag] !== 'string')
-            bad(path, 'expected a string discriminator');
+        const allowed = [
+            ...new Set(branches.flatMap((branch) => branch.tagValues ?? branch.fields?.[tag]?.members ?? [])),
+        ];
+        const tagPath = pathKey(path, tag);
+        if (!value || typeof value !== 'object' || Array.isArray(value) || !Object.hasOwn(value, tag))
+            issue(tagPath, 'discriminator', { allowed: allowedValues(allowed) });
+        const tagValue = value[tag];
+        if (typeof tagValue !== 'string' || ((!response || matching) && !allowed.includes(tagValue)))
+            enumError(tagPath, tagValue, allowed, context.sensitive ||
+                branches.some((branch) => branch.fields?.[tag]?.sensitive) ||
+                context.redactFields?.includes(tag));
         selected = branches.filter((branch) => (branch.tagValues ?? branch.fields?.[tag]?.members)?.some((member) => member === value[tag]));
     }
     else {
@@ -1225,15 +1514,18 @@ function selectAlternatives(value, branches, oneOf, tag, nullableAlternative, co
             bad(path, 'expected an object response alternative');
     }
     else if (!selected.length || (oneOf && selected.length !== 1)) {
-        bad(path, oneOf
-            ? 'value must match exactly one alternative' +
-                ': ' +
-                branches
-                    .slice(0, 8)
-                    .map((branch, index) => `alternative ${index + 1}: ${selected.includes(branch) ? 'matched' : (failures.get(branch) ?? 'discriminator did not match').slice(0, 180)}`)
-                    .join('; ') +
-                (branches.length > 8 ? '; additional alternatives omitted' : '')
-            : 'value must match at least one alternative');
+        if (!selected.length) {
+            const closest = [...failures.entries()].sort((a, b) => (b[1].param ?? '').split(/\.|\[/).length - (a[1].param ?? '').split(/\.|\[/).length)[0];
+            const index = closest ? branches.indexOf(closest[0]) : 0;
+            const branch = branches[index];
+            issue(closest?.[1].param ?? path, 'union', {
+                param: publicParam(path),
+                count: branches.length,
+                shape: branch?.label ?? branch?.reference ?? `shape ${index + 1}`,
+                failure: closest?.[1].message ?? 'no shape matched',
+            });
+        }
+        bad(path, 'match exactly one of its shapes');
     }
     return { selected, tolerateUnknownFields };
 }
@@ -1251,7 +1543,7 @@ function conditionalBranch(value, { codec, definitions }, context) {
         });
     }
     catch (error) {
-        if (!(error instanceof SdkError) || error.kind !== 'validation')
+        if (!(error instanceof SdkError) || !validationFailures.has(error))
             throw error;
         matched = false;
     }
@@ -1300,7 +1592,7 @@ function jointNumericView(value, unions, context) {
             return true;
         }
         catch (error) {
-            if (error instanceof SdkError && error.kind === 'validation')
+            if (error instanceof SdkError && validationFailures.has(error))
                 return false;
             throw error;
         }
@@ -1352,8 +1644,8 @@ function jointNumericView(value, unions, context) {
                         return true;
                     }
                     catch (error) {
-                        if (error instanceof SdkError && error.kind === 'validation')
-                            return error.message;
+                        if (error instanceof SdkError && validationFailures.has(error))
+                            return error;
                         throw error;
                     }
                 });
@@ -1367,7 +1659,7 @@ function jointNumericView(value, unions, context) {
         catch (error) {
             if (context.search.exhausted)
                 throw error;
-            if (error instanceof SdkError && error.kind === 'validation')
+            if (error instanceof SdkError && validationFailures.has(error))
                 return undefined;
             throw error;
         }
@@ -1466,8 +1758,8 @@ function assertNumericSources(source, value, scopes, context) {
                         return true;
                     }
                     catch (error) {
-                        if (error instanceof SdkError && error.kind === 'validation')
-                            return error.message;
+                        if (error instanceof SdkError && validationFailures.has(error))
+                            return error;
                         throw error;
                     }
                 }).selected;
@@ -1496,7 +1788,7 @@ function assertNumericSources(source, value, scopes, context) {
         });
         assertNumericSources(original[key], child, children, {
             ...context,
-            path: Array.isArray(value) ? `${path}[${key}]` : `${path}.${key}`,
+            path: Array.isArray(value) ? `${path}[${key}]` : pathKey(path, key),
             depth: depth + 1,
         });
     }
@@ -1525,6 +1817,12 @@ function numericView(value, scopes, context, previous) {
     if (value instanceof CompiledModel)
         value = modelInputs.get(value) ?? value.toJSON();
     const shapes = codecShapes(scopes, path, depth);
+    context = {
+        ...context,
+        sensitive: context.sensitive ||
+            shapes.some(({ codec }) => codec.sensitive) ||
+            sensitivePath(path, context.redactFields),
+    };
     if (typeof value === 'bigint' &&
         (context.direction ?? context.mode) !== 'response' &&
         shapes.some(({ codec }) => codec.value.kind === 'exact-integer'))
@@ -1601,8 +1899,8 @@ function numericView(value, scopes, context, previous) {
                         return true;
                     }
                     catch (error) {
-                        if (error instanceof SdkError && error.kind === 'validation')
-                            return error.message;
+                        if (error instanceof SdkError && validationFailures.has(error))
+                            return error;
                         throw error;
                     }
                 });
@@ -1644,7 +1942,7 @@ function numericView(value, scopes, context, previous) {
                 }
             }
             catch (error) {
-                if (!(error instanceof SdkError) || error.kind !== 'validation')
+                if (!(error instanceof SdkError) || !validationFailures.has(error))
                     throw error;
                 failure ??= error;
                 deferred.push(scope);
@@ -1696,6 +1994,7 @@ export function executeCodec(value, s, context) {
 }
 function executeNode(value, s, context) {
     const { path = 'input', redactFields = [], depth = 0, allowUnknownResponseFields = false, } = context;
+    const sensitive = context.sensitive || s.sensitive || sensitivePath(path, redactFields);
     const response = (context.direction ?? context.mode) === 'response';
     const matching = context.mode === 'match';
     let validateConstraints = s.constraints ?? context.validateConstraints ?? true;
@@ -1703,7 +2002,7 @@ function executeNode(value, s, context) {
     if ((!response || matching) &&
         s.literal !== undefined &&
         jsonIdentity(value) !== jsonIdentity(parseJson(s.literal, true)))
-        bad(path, 'value is outside the declared const');
+        enumError(path, value, [parseJson(s.literal, true)], sensitive);
     if (depth > 256)
         bad(path, 'value exceeds the supported nesting depth (256) or contains a cycle');
     if (s.reference) {
@@ -1712,6 +2011,7 @@ function executeNode(value, s, context) {
             return bad(path, 'unresolved recursive model ' + s.reference);
         return executeNode(value, target, {
             ...codecMode(response, matching),
+            sensitive,
             path: path,
             redactFields: redactFields,
             definitions: definitions,
@@ -1727,6 +2027,7 @@ function executeNode(value, s, context) {
         const { every: allOf, some: anyOf, exactlyOne: oneOf, exclude: not, tag: discriminator, when, ...base } = s;
         let result = executeNode(value, base, {
             ...codecMode(response, matching),
+            sensitive,
             path: path,
             redactFields: redactFields,
             definitions: definitions,
@@ -1743,6 +2044,7 @@ function executeNode(value, s, context) {
             try {
                 const result = executeNode(value, branch, {
                     ...codecMode(response, true),
+                    sensitive,
                     path: path,
                     redactFields: redactFields,
                     definitions: definitions,
@@ -1756,8 +2058,8 @@ function executeNode(value, s, context) {
                 return true;
             }
             catch (error) {
-                if (error instanceof SdkError && error.kind === 'validation')
-                    return error.message;
+                if (error instanceof SdkError && validationFailures.has(error))
+                    return error;
                 throw error;
             }
         };
@@ -1767,6 +2069,7 @@ function executeNode(value, s, context) {
         for (const branch of [...(allOf ?? []), ...(conditional ? [conditional] : [])])
             result = combine(result, executeNode(value, branch, {
                 ...codecMode(response, matching),
+                sensitive,
                 path: path,
                 redactFields: redactFields,
                 definitions: definitions,
@@ -1780,13 +2083,14 @@ function executeNode(value, s, context) {
         ]) {
             if (!branches)
                 continue;
-            const { selected, tolerateUnknownFields } = selectAlternatives(value, branches, keyword === 'oneOf', discriminator, s.nullableAlternative, context, matches);
+            const { selected, tolerateUnknownFields } = selectAlternatives(value, branches, keyword === 'oneOf', discriminator, s.nullableAlternative, { ...context, sensitive }, matches);
             for (const branch of selected) {
                 const results = matched.get(branch);
                 result = combine(result, matching && results?.has(tolerateUnknownFields)
                     ? results.get(tolerateUnknownFields)
                     : executeNode(value, branch, {
                         ...codecMode(response, matching),
+                        sensitive,
                         path: path,
                         redactFields: redactFields,
                         definitions: definitions,
@@ -1811,7 +2115,7 @@ function executeNode(value, s, context) {
     }
     if (value === null) {
         if ((!response || matching) && s.members && !s.members.includes(null))
-            bad(path, 'null is outside the declared enum');
+            enumError(path, value, s.members, sensitive);
         if (s.nullable)
             return null;
         return bad(path, 'null is not permitted');
@@ -1836,7 +2140,7 @@ function executeNode(value, s, context) {
             if ((!response || matching) &&
                 s.members &&
                 !s.members.some((v) => typeof v === 'number' && compareDecimal(token, String(v)) === 0))
-                bad(path, 'value is outside the declared enum');
+                enumError(path, value, s.members, sensitive);
             if (!response || matching)
                 numericConstraints(value.value, s, path, validateConstraints || matching);
             return response ? value : new RawNumber(value.value);
@@ -1859,7 +2163,7 @@ function executeNode(value, s, context) {
                 s.members.some((member) => typeof member === 'number' &&
                     compareDecimal(numberToken ?? String(value), String(member)) === 0)
             : s.members.some((member) => member === value)))
-        bad(path, 'value is outside the declared enum');
+        enumError(path, value, s.members, sensitive);
     if (type === 'integer' || type === 'number') {
         const exact = exactValue(s.value);
         if (exact) {
@@ -1873,27 +2177,27 @@ function executeNode(value, s, context) {
         }
         if (s.value.kind === 'native-number') {
             if (typeof value !== 'number' || !Number.isFinite(value))
-                return bad(path, 'expected a finite number');
+                return typeError(path, 'a finite number', value);
             if (!response || matching)
                 numericConstraints(numberToken ?? String(value), s, path, validateConstraints || matching);
             return value;
         }
         if (typeof value !== 'number' || !Number.isSafeInteger(value))
-            return bad(path, 'expected a safe integer; declare int64 for larger values');
+            return bad(path, 'expected a safe integer in ±(2^53 − 1)', 'invalid_value');
         if (!response || matching)
             numericConstraints(String(value), s, path, validateConstraints || matching);
         return value;
     }
     if (type === 'null')
-        return bad(path, 'expected null');
+        return typeError(path, 'null', value);
     if (type === 'object' ||
         (type === undefined && value && typeof value === 'object' && !Array.isArray(value))) {
         if (!value || typeof value !== 'object' || Array.isArray(value))
-            return bad(path, 'expected an object');
+            return typeError(path, 'an object', value);
         const entries = value;
         for (const k of response ? s.requiredOutput : s.requiredInput)
             if (!Object.hasOwn(entries, k) || entries[k] === undefined)
-                bad(`${path}.${k}`, 'required field is missing');
+                bad(pathKey(path, k), 'required field is missing');
         const out = Object.create(null);
         for (const [k, v] of Object.entries(entries)) {
             if (v === undefined && !response)
@@ -1909,11 +2213,12 @@ function executeNode(value, s, context) {
                 });
             const child = Object.hasOwn(s.fields ?? {}, k) ? s.fields[k] : undefined;
             if (!response && child?.rejectInput)
-                bad(`${path}.${k}`, 'readOnly fields cannot be sent');
+                bad(pathKey(path, k), 'readOnly fields cannot be sent');
             if (child)
                 out[k] = executeNode(v, child, {
                     ...codecMode(response, matching),
-                    path: `${path}.${k}`,
+                    sensitive,
+                    path: pathKey(path, k),
                     redactFields: redactFields,
                     definitions: definitions,
                     depth: depth + 1,
@@ -1921,11 +2226,23 @@ function executeNode(value, s, context) {
                     allowUnknownResponseFields: allowUnknownResponseFields,
                 });
             else if ((!response || (matching && !allowUnknownResponseFields)) && s.extra === false)
-                bad(`${path}.${k}`, 'unknown request field');
+                issue(pathKey(path, k), 'unknown', {
+                    where: publicParam(path) === 'body'
+                        ? 'this input'
+                        : 'this ' +
+                            publicParam(path)
+                                .replace(/\[\d+\]$/, '')
+                                .split('.')
+                                .at(-1)
+                                .replaceAll('_', ' ')
+                                .replace(/s$/, ''),
+                    suggestion: suggestion(k, Object.keys(s.fields ?? {})),
+                });
             else if (typeof s.extra === 'object')
                 out[k] = executeNode(v, s.extra, {
                     ...codecMode(response, matching),
-                    path: `${path}.${k}`,
+                    sensitive,
+                    path: pathKey(path, k),
                     redactFields: redactFields,
                     definitions: definitions,
                     depth: depth + 1,
@@ -1938,9 +2255,9 @@ function executeNode(value, s, context) {
         if ((!response || matching) && (validateConstraints || matching)) {
             const count = Object.keys(out).length;
             if (s.checks.minProperties !== undefined && count < s.checks.minProperties)
-                bad(path, 'object violates minProperties');
+                issue(path, 'minProperties', { limit: s.checks.minProperties, length: count });
             if (s.checks.maxProperties !== undefined && count > s.checks.maxProperties)
-                bad(path, 'object violates maxProperties');
+                issue(path, 'maxProperties', { limit: s.checks.maxProperties, length: count });
         }
         if (response)
             Object.defineProperty(out, inspectCustom, {
@@ -1951,21 +2268,22 @@ function executeNode(value, s, context) {
     }
     if (type === 'array' || (type === undefined && Array.isArray(value))) {
         if (!Array.isArray(value))
-            return bad(path, 'expected an array');
+            return typeError(path, 'an array', value);
         denseArray(value, path);
         if ((!response || matching) && (validateConstraints || matching)) {
             if (s.checks.minItems !== undefined && value.length < s.checks.minItems)
-                bad(path, 'array violates minItems');
+                issue(path, 'minItems', { limit: s.checks.minItems, length: value.length });
             if (s.checks.maxItems !== undefined && value.length > s.checks.maxItems)
-                bad(path, 'array violates maxItems');
+                issue(path, 'maxItems', { limit: s.checks.maxItems, length: value.length });
             if (s.checks.uniqueItems &&
                 new Set(value.map((child) => jsonIdentity(child, depth + 1))).size !== value.length)
-                bad(path, 'array violates uniqueItems');
+                issue(path, 'uniqueItems', {});
             if (s.includes &&
                 !value.some((child, index) => {
                     try {
                         executeNode(child, s.includes, {
                             ...codecMode(response, true),
+                            sensitive,
                             path: `${path}[${index}]`,
                             definitions,
                             depth: depth + 1,
@@ -1974,15 +2292,16 @@ function executeNode(value, s, context) {
                         return true;
                     }
                     catch (error) {
-                        if (error instanceof SdkError && error.kind === 'validation')
+                        if (error instanceof SdkError && validationFailures.has(error))
                             return false;
                         throw error;
                     }
                 }))
-                bad(path, 'array violates contains');
+                issue(path, 'contains', {});
         }
         return value.map((v, i) => executeNode(v, s.element ?? ANY_CODEC, {
             ...codecMode(response, matching),
+            sensitive,
             path: `${path}[${i}]`,
             redactFields: redactFields,
             definitions: definitions,
@@ -1992,24 +2311,24 @@ function executeNode(value, s, context) {
         }));
     }
     if (type === 'string' && typeof value !== 'string')
-        return bad(path, 'expected a string');
+        return typeError(path, 'a string', value);
     if (typeof value === 'string' && (!response || matching)) {
         if (/[\uD800-\uDFFF]/u.test(value))
             bad(path, 'expected well-formed Unicode');
         if (validateConstraints || matching) {
             const length = [...value].length;
             if (s.checks.minLength !== undefined && length < s.checks.minLength)
-                bad(path, 'string violates minLength');
+                issue(path, 'minLength', { limit: s.checks.minLength, length: length });
             if (s.checks.maxLength !== undefined && length > s.checks.maxLength)
-                bad(path, 'string violates maxLength');
+                issue(path, 'maxLength', { limit: s.checks.maxLength, length: length });
             if (s.checks.pattern !== undefined && !new RegExp(s.checks.pattern, 'u').test(value))
-                bad(path, 'string violates pattern');
+                issue(path, 'pattern', {});
         }
     }
     if (type === undefined && typeof value === 'number' && (!response || matching))
         numericConstraints(String(value), s, path, validateConstraints || matching);
     if (type === 'boolean' && typeof value !== 'boolean')
-        return bad(path, 'expected a boolean');
+        return typeError(path, 'a boolean', value);
     return value;
 }
 export function serialize(value, schema) {
@@ -2053,7 +2372,7 @@ export function isKnownCodec(value, codec, certificate) {
         return true;
     }
     catch (error) {
-        if (error instanceof SdkError && error.kind === 'validation')
+        if (error instanceof SdkError && validationFailures.has(error))
             return false;
         throw error;
     }
@@ -2188,10 +2507,73 @@ const encoded = (s) => encodeURIComponent(s).replace(/[!'()*]/g, (c) => '%' + c.
 function scalar(v) {
     return v instanceof RawNumber ? v.value : String(v);
 }
+function userAgent(base, app) {
+    let suffix = '';
+    if (app !== undefined) {
+        if (!isErrorObject(app) ||
+            Object.keys(app).some((key) => !['name', 'version', 'url'].includes(key)) ||
+            typeof app.name !== 'string' ||
+            !/^[A-Za-z0-9._-]{1,64}$/.test(app.name) ||
+            (app.version !== undefined &&
+                (typeof app.version !== 'string' || !/^[A-Za-z0-9._-]{1,64}$/.test(app.version))))
+            invalidOption('appInfo', 'expected name and optional version containing 1 to 64 letters, digits, dots, underscores or hyphens');
+        if (app.url !== undefined) {
+            try {
+                if (typeof app.url !== 'string' ||
+                    Array.from(app.url).length > 256 ||
+                    /[\s\x00-\x20\x7f\\]/u.test(app.url) ||
+                    !/^https:\/\//i.test(app.url) ||
+                    new URL(app.url).protocol !== 'https:' ||
+                    !new URL(app.url).hostname)
+                    throw new Error();
+                encodeURI(app.url); // Reject malformed Unicode before building an HTTP header.
+            }
+            catch {
+                invalidOption('appInfo.url', 'expected an absolute HTTPS URL of at most 256 characters');
+            }
+        }
+        suffix = ` ${app.name}${app.version ? '/' + app.version : ''}${app.url ? ' (+' + app.url.replace(/[^\x00-\x7f]/gu, encodeURIComponent) + ')' : ''}`;
+    }
+    return `${base} (Node.js ${process.versions.node}; ${process.platform} ${process.arch})${suffix}`;
+}
+function configuration(code, message) {
+    return new errors.ConfigurationError(message, { code });
+}
+function invalidOption(label, message) {
+    throw configuration('invalid_option', `${label}: ${message}`);
+}
+function notAllowed(param, reason) {
+    return issue(param, 'notAllowed', { reason });
+}
 function positive(v, label) {
     if (!Number.isFinite(v) || v <= 0)
-        bad(label, 'must be a positive finite number');
+        invalidOption(label, 'must be a positive finite number');
     return v;
+}
+function settleCallError(error, context) {
+    const last = context.observations.at(-1);
+    if (error instanceof errors.ApiError && last?.state === 'answered') {
+        error.outcome = last.inProgress || last.uncertainWrite ? 'unknown' : 'response';
+        error.retryAllowed =
+            Boolean(context.replaySafe) &&
+                error.status !== 401 &&
+                error.status !== 412 &&
+                (error.outcome === 'unknown' || last.retryAllowed);
+    }
+    else if (error instanceof errors.ConnectionError ||
+        error instanceof errors.CancelledError ||
+        (last && last.state !== 'answered')) {
+        error.outcome = context.observations.some((attempt) => attempt.state === 'no_answer' ||
+            (attempt.state === 'answered' &&
+                ((attempt.status >= 500 && attempt.status < 600) || attempt.inProgress)))
+            ? 'unknown'
+            : 'not_sent';
+        error.retryAllowed =
+            (error instanceof errors.ConnectionError || error instanceof errors.CancelledError) &&
+                Boolean(context.replaySafe) &&
+                error.status !== 401 &&
+                error.status !== 412;
+    }
 }
 function stopped(signal, outcome = 'unknown') {
     if (signal?.aborted)
@@ -2277,14 +2659,14 @@ function parseRetryAfter(instruction) {
 }
 function clientBaseUrl(baseUrl) {
     if (baseUrl === undefined)
-        return bad('baseUrl', 'required: pass baseUrl because this SDK has no default server');
+        throw configuration('invalid_destination', 'baseUrl: required: pass baseUrl because this SDK has no default server');
     if (!isBaseUrlSyntax(baseUrl))
-        return bad('baseUrl', 'expected an absolute URL without credentials, whitespace, backslash, query or fragment');
+        throw configuration('invalid_destination', 'baseUrl: expected an absolute URL without credentials, whitespace, backslash, query or fragment');
     try {
         return new URL(baseUrl.endsWith('/') ? baseUrl : baseUrl + '/');
     }
     catch {
-        return bad('baseUrl', 'expected a valid absolute URL');
+        throw configuration('invalid_destination', 'baseUrl: expected a valid absolute URL');
     }
 }
 function destinationUrl(value, base) {
@@ -2304,7 +2686,7 @@ const webhookKeyAttempts = new Map();
 const webhookKeyRetryAfter = new Map();
 const webhookRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const webhookKeysUnavailable = () => {
-    throw createSdkError('transport', 'Webhook JWKS unavailable; respond with 5xx so delivery can retry', 'not_sent', false, undefined, 'webhook_jwks_unavailable');
+    throw createSdkError('webhook', 'Webhook JWKS unavailable; respond with 5xx so delivery can retry', 'not_sent', false, undefined, 'webhook_jwks_unavailable');
 };
 function webhookBase64url(value) {
     if (typeof value !== 'string' || !/^[A-Za-z0-9_-]+$/.test(value))
@@ -2537,7 +2919,7 @@ async function webhookJwtKey(url, kid, options) {
 export async function verifyWebhookAsyncFromPlan(source, rawBody, headers, options, redactFields = []) {
     const w = source instanceof DescriptorSource ? source.webhook() : source.webhook;
     if (!w)
-        return bad('webhook', 'capability is not declared');
+        throw configuration('operation_unavailable', 'webhook capability is not declared');
     if (!webhookRecord(options) ||
         Object.keys(options).some((key) => !['endpointIds', 'secrets', 'jwks', 'baseUrl', 'fetch', 'nowSeconds'].includes(key)))
         return webhookError('validation', 'invalid_input', 'Supply webhook verification options');
@@ -2671,7 +3053,7 @@ export async function verifyWebhookAsyncFromPlan(source, rawBody, headers, optio
 export function verifyWebhookFromPlan(source, rawBody, headers, secrets, nowSeconds = Date.now() / 1000, redactFields = []) {
     const w = source instanceof DescriptorSource ? source.webhook() : source.webhook;
     if (!w || w.algorithm !== 'hmac-sha256' || !w.header || w.toleranceSeconds === undefined)
-        return bad('webhook', 'HMAC capability is not declared');
+        throw configuration('operation_unavailable', 'webhook HMAC capability is not declared');
     if (rawBody instanceof ArrayBuffer)
         rawBody = new Uint8Array(rawBody);
     if (!(rawBody instanceof Uint8Array))
@@ -2763,13 +3145,13 @@ function decodeWebhookFromPlan(source, rawBody, redactFields) {
     });
     const w = source instanceof DescriptorSource ? source.webhook() : source.webhook;
     if (!w)
-        return bad('webhook', 'capability is not declared');
+        throw configuration('operation_unavailable', 'webhook capability is not declared');
     let event;
     try {
         event = parseJson(new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(Buffer.from(rawBody)), true);
     }
     catch (cause) {
-        throw createSdkError('protocol', 'Invalid webhook JSON', 'response', false, undefined, 'webhook_invalid_json', undefined, { cause });
+        throw createSdkError('webhook', 'Invalid webhook JSON', 'response', false, undefined, 'webhook_invalid_json', undefined, { cause });
     }
     const eventType = field(event, w.typeField);
     const schema = typeof eventType === 'string' && Object.hasOwn(w.events, eventType)
@@ -2787,9 +3169,9 @@ function decodeWebhookFromPlan(source, rawBody, redactFields) {
             });
         }
         catch (cause) {
-            if (!(cause instanceof SdkError) || cause.kind !== 'validation')
+            if (!(cause instanceof SdkError) || !validationFailures.has(cause))
                 throw cause;
-            throw createSdkError('protocol', 'Invalid webhook payload' +
+            throw createSdkError('webhook', 'Invalid webhook payload' +
                 (validationFailures.has(cause) ? ': ' + validationFailures.get(cause) : ''), 'response', false, undefined, undefined, undefined, { cause });
         }
     }
@@ -2805,7 +3187,7 @@ function decodeWebhookFromPlan(source, rawBody, redactFields) {
             known = !w.certificate || certifies(plainNumbers(structuredClone(decoded)), w.certificate);
         }
         catch (error) {
-            if (!(error instanceof SdkError) || error.kind !== 'validation')
+            if (!(error instanceof SdkError) || !validationFailures.has(error))
                 throw error;
         }
     }
@@ -2848,8 +3230,9 @@ class CompiledRuntime {
         if (!this.descriptors)
             assertRuntimePlan(this.compiledContract);
         if (!options || typeof options !== 'object' || Array.isArray(options))
-            bad('options', 'expected a client options object');
+            invalidOption('options', 'expected a client options object');
         const allowedOptions = new Set([
+            'appInfo',
             'ambientCredentials',
             'baseUrl',
             'token',
@@ -2867,27 +3250,35 @@ class CompiledRuntime {
         ]);
         for (const key of Object.keys(options))
             if (!allowedOptions.has(key))
-                bad(`options.${key}`, `unknown client option${key === 'maxRetries' ? '; use maxAttempts (total attempts, including the first)' : '; see ClientOptions for supported keys'}`);
-        this.options = { ...options };
+                invalidOption(`options.${key}`, `unknown client option${key === 'maxRetries' ? '; use maxAttempts (total attempts, including the first)' : '; see ClientOptions for supported keys'}`);
+        userAgent('', options.appInfo);
+        this.options = copyCredentialOptions(options, Object.keys(this.compiledContract.authShortcuts ?? {}), true);
         this.base = clientBaseUrl(options.baseUrl === undefined ? this.compiledContract.defaultBaseUrl : options.baseUrl);
         if (!this.base.hostname || this.base.username || this.base.password)
-            bad('baseUrl', 'expected an absolute URL without embedded credentials');
+            throw configuration('invalid_destination', 'baseUrl: expected an absolute URL without embedded credentials');
         if (this.compiledContract.authentication &&
             options.token !== undefined &&
             !this.compiledContract.authShortcuts?.token)
             throw createSdkError('authentication', `token is not configured for this SDK; use ${Object.keys(this.compiledContract.authShortcuts ?? {})
                 .sort()
-                .join(', ') || 'authMode and credentials'}`);
+                .join(', ') || 'authMode and credentials'}`, 'not_sent', false, undefined, 'auth_mode_not_permitted');
         this.allowed = new Set(options.allowedOrigins ?? [this.base.origin]);
         this.checkUrl(this.base);
         positive(options.timeoutMs ?? 10000, 'timeoutMs');
         positive(options.deadlineMs ?? 30000, 'deadlineMs');
+        if (options.maxAttempts !== undefined &&
+            (!Number.isSafeInteger(options.maxAttempts) || options.maxAttempts < 1))
+            invalidOption('maxAttempts', 'must be a positive safe integer');
     }
     [inspectCustom]() {
         return { baseUrl: this.base.origin, credentials: '[REDACTED]' };
     }
     decode(value, codec, context) {
-        return executeCodec(value, codec, { ...context, definitions: this.definitions() });
+        return executeCodec(value, codec, {
+            redactFields: this.options.redactFields ?? [],
+            ...context,
+            definitions: this.definitions(),
+        });
     }
     decodeProjection(value, codecs, path) {
         let failure;
@@ -2901,7 +3292,7 @@ class CompiledRuntime {
                 return plainNumbers(decoded);
             }
             catch (cause) {
-                if (!(cause instanceof SdkError && cause.kind === 'validation'))
+                if (!(cause instanceof SdkError && validationFailures.has(cause)))
                     throw cause;
                 failure ??= cause;
             }
@@ -2925,9 +3316,9 @@ class CompiledRuntime {
             return decoded;
         }
         catch (cause) {
-            if (!(cause instanceof SdkError && cause.kind === 'validation'))
+            if (!(cause instanceof SdkError && validationFailures.has(cause)))
                 throw cause;
-            throw createSdkError('protocol', 'Response payload does not match a declared alternative', 'response', false, result.meta, undefined, undefined, { cause }, typeof result.raw === 'string' ? result.raw : undefined);
+            throw createSdkError('protocol', 'Response payload does not match a declared alternative', 'response', false, metadata(result), 'schema_mismatch', undefined, { cause }, typeof result.raw === 'string' ? result.raw : undefined);
         }
     }
     validateHeaderValue(value, codec, path) {
@@ -2947,7 +3338,7 @@ class CompiledRuntime {
                 return;
             }
             catch (error) {
-                if (!(error instanceof SdkError) || error.kind !== 'validation')
+                if (!(error instanceof SdkError) || !validationFailures.has(error))
                     throw error;
                 failure ??= error;
             }
@@ -2971,35 +3362,85 @@ class CompiledRuntime {
         const header = op?.idempotency?.header.toLowerCase();
         const key = header
             ? (options?.idempotencyKey ??
-                Object.entries(input ?? {}).find(([name]) => name.toLowerCase() === header)?.[1] ??
-                Object.entries(options?.headers ?? {}).find(([name]) => name.toLowerCase() === header)?.[1] ??
                 (op?.idempotency?.auto
                     ? (op.idempotency.autoKeyPrefix ?? '') + process.getBuiltinModule('crypto').randomUUID()
                     : undefined))
             : undefined;
+        const context = {
+            attempts: 0,
+            requestIds: [],
+            observations: [],
+            start: performance.now(),
+        };
         try {
             return await this.executeRequest(id, input, typeof key === 'string' && options && typeof options === 'object' && !Array.isArray(options)
-                ? { ...options, idempotencyKey: key }
-                : options, continuation);
+                ? {
+                    ...copyCredentialOptions(options, Object.keys(this.contract.authShortcuts ?? {}), false),
+                    idempotencyKey: key,
+                }
+                : options, continuation, context);
         }
         catch (error) {
-            if (error instanceof SdkError && typeof key === 'string')
-                error.idempotencyKey = key;
+            if (error instanceof SdkError) {
+                error.attempts = context.attempts;
+                error.requestIds = [...context.requestIds];
+                error.durationMs = performance.now() - context.start;
+                if (context.lastResponse) {
+                    error.status = context.lastResponse.status;
+                    error.headers = context.lastResponse.headers;
+                    if (context.lastResponse.requestId !== undefined)
+                        error.requestId = context.lastResponse.requestId;
+                    if (context.retryAfterMs !== undefined)
+                        error.retryAfterMs = context.retryAfterMs;
+                }
+                settleCallError(error, context);
+                error.operation = op ? op.resource + '.' + op.method : id;
+                if (typeof key === 'string')
+                    error.idempotencyKey = key;
+            }
             throw error;
         }
     }
-    async executeRequest(id, input = {}, options = {}, continuation) {
+    async executeRequest(id, input = {}, options = {}, continuation, context = {
+        attempts: 0,
+        requestIds: [],
+        observations: [],
+        start: performance.now(),
+    }) {
         if (!input || typeof input !== 'object' || Array.isArray(input))
             bad('input', 'expected an object');
         if (!options || typeof options !== 'object' || Array.isArray(options))
-            bad('options', 'expected an object');
-        const { apiVersion } = this.contract;
+            invalidOption('options', 'expected an object');
         const op = this.operation(id);
         if (!op)
-            return bad('operation', 'operation is not included in this SDK');
+            throw configuration('operation_unavailable', 'operation is not included in this SDK');
+        const allowedOptions = new Set([
+            ...op.parameters.flatMap((p) => (p.requestOption ? [p.requestOption.node] : [])),
+            'headers',
+            'timeoutMs',
+            'deadlineMs',
+            'maxAttempts',
+            'signal',
+            'idempotencyKey',
+            'ifMatch',
+            'maxPages',
+            'maxItems',
+            'streamIdleTimeoutMs',
+            'streamLifetimeMs',
+            'authMode',
+            'credentials',
+            ...Object.keys(this.contract.authShortcuts ?? {}),
+        ]);
+        for (const key of Object.keys(options))
+            if (!allowedOptions.has(key))
+                invalidOption(`options.${key}`, 'unknown request option');
+        const requestCredentialsPassed = credentialOptionsPassed(options, Object.keys(this.contract.authShortcuts ?? {}), false);
+        const clientCredentialsPassed = credentialOptionsPassed(this.options, Object.keys(this.contract.authShortcuts ?? {}), true);
+        const { apiVersion } = this.contract;
         const start = performance.now();
-        const deadline = start + positive(options.deadlineMs ?? this.options.deadlineMs ?? 30000, 'deadlineMs');
-        const timeout = positive(options.timeoutMs ?? this.options.timeoutMs ?? 10000, 'timeoutMs');
+        const deadline = start +
+            positive(options.deadlineMs ?? this.options.deadlineMs ?? op.defaults?.deadlineMs ?? 30000, 'deadlineMs');
+        const timeout = positive(options.timeoutMs ?? this.options.timeoutMs ?? op.defaults?.timeoutMs ?? 10000, 'timeoutMs');
         if (options.streamIdleTimeoutMs !== undefined)
             positive(options.streamIdleTimeoutMs, 'streamIdleTimeoutMs');
         if (options.streamLifetimeMs !== undefined)
@@ -3007,7 +3448,7 @@ class CompiledRuntime {
         const policy = op.retry;
         const budget = options.maxAttempts ?? this.options.maxAttempts ?? policy.maxAttempts;
         if (!Number.isSafeInteger(budget) || budget < 1)
-            bad('maxAttempts', 'must be a positive safe integer');
+            invalidOption('maxAttempts', 'must be a positive safe integer');
         let attempts = Math.min(budget, policy.maxAttempts);
         const headers = Object.assign(Object.create(null), {
             accept: [
@@ -3016,42 +3457,39 @@ class CompiledRuntime {
                     .map((response) => response.mediaType)
                     .filter(Boolean)),
             ].join(', ') || 'application/json',
-            'user-agent': this.contract.userAgent ?? 'PublicSDK (Node.js)',
+            'user-agent': userAgent(this.contract.userAgent ?? 'PublicSDK', this.options.appInfo),
         });
         const setHeader = (name, value) => {
             if (!/^[!#$%&'*+.^_`|~0-9A-Za-z-]+$/.test(name) || /[\r\n]/.test(value))
-                bad('headers', 'invalid HTTP header');
-            const existing = headers[name.toLowerCase()];
-            if (op.idempotency?.header.toLowerCase() === name.toLowerCase() &&
-                existing !== undefined &&
-                existing !== value)
-                bad('idempotencyKey', 'conflicting keys were supplied through input headers or request options');
+                invalidOption('headers', 'invalid HTTP header');
             headers[name.toLowerCase()] = value;
         };
         const basePath = this.base.pathname.replace(/\/$/, '');
         if (!continuation && basePath && (op.path === basePath || op.path.startsWith(basePath + '/')))
-            bad('baseUrl', 'already includes the operation base path; remove that path from baseUrl');
+            throw configuration('invalid_destination', 'baseUrl: already includes the operation base path; remove that path from baseUrl');
         let path = op.path;
         const query = [];
         for (const p of op.parameters) {
             if (p.source === 'authentication') {
                 if (Object.hasOwn(input, p.name))
-                    bad(p.name, 'supply this header through authentication options');
+                    notAllowed(p.name, 'supply this header through authentication options');
                 continue;
             }
             if (p.source === 'request-option') {
                 if (Object.hasOwn(input, p.name))
-                    bad(p.name, 'supply this header through request options');
+                    notAllowed(p.name, 'supply this header through request options');
                 continue;
             }
             let value = Object.hasOwn(input, p.name) ? input[p.name] : undefined;
-            if (value === undefined &&
-                p.in === 'header' &&
-                op.idempotency?.header.toLowerCase() === p.name.toLowerCase()) {
-                value =
-                    options.idempotencyKey ??
-                        Object.entries(options.headers ?? {}).find(([name]) => name.toLowerCase() === p.name.toLowerCase())?.[1];
+            if (p.in === 'header' && op.idempotency?.header.toLowerCase() === p.name.toLowerCase()) {
+                if (Object.hasOwn(input, p.name))
+                    notAllowed(p.name, 'supply this header through options.idempotencyKey');
+                value = options.idempotencyKey;
             }
+            if (p.in === 'header' &&
+                apiVersion?.header.toLowerCase() === p.name.toLowerCase() &&
+                Object.hasOwn(input, p.name))
+                notAllowed(p.name, 'API version is managed by the SDK');
             if (p.in === 'header' &&
                 [op.conditional?.header, apiVersion?.header].some((header) => header?.toLowerCase() === p.name.toLowerCase())) {
                 // Match the final header precedence before validating the wire value.
@@ -3065,13 +3503,30 @@ class CompiledRuntime {
                     value = options.ifMatch;
             }
             if (value === undefined) {
-                if (p.required)
-                    bad(p.name, op.idempotency?.header.toLowerCase() === p.name.toLowerCase()
-                        ? `${op.resource}.${op.method} requires idempotencyKey; save and reuse the key on retry`
-                        : 'required parameter is missing');
+                if (p.required) {
+                    throw new errors.InvalidInputError(op.idempotency?.header.toLowerCase() === p.name.toLowerCase()
+                        ? `${op.resource}.${op.method} requires idempotencyKey: save a key with the action before the first attempt and reuse it on every retry`
+                        : `${p.name} is required`, { param: p.name, details: [{ code: 'REQUIRED', param: p.name }] });
+                }
                 continue;
             }
-            const normalized = this.decode(value, p.codec, { mode: 'request', path: p.name });
+            if (p.scalarArray) {
+                if (isModel(value))
+                    value = modelInputValue(value);
+                if (!Array.isArray(value))
+                    value = [value];
+            }
+            let normalized;
+            try {
+                normalized = this.decode(value, p.codec, { mode: 'request', path: p.name });
+            }
+            catch (error) {
+                if (error instanceof errors.InvalidInputError && validationFailures.has(error)) {
+                    error.param = p.name;
+                    error.details = error.details.map((detail) => ({ ...detail, param: p.name }));
+                }
+                throw error;
+            }
             const values = Array.isArray(normalized) ? normalized.map(scalar) : [scalar(normalized)];
             if (p.in === 'path') {
                 if (values.some((v) => v === '.' || v === '..'))
@@ -3092,8 +3547,11 @@ class CompiledRuntime {
             ? destinationUrl(continuation, this.base)
             : destinationUrl(this.base.href.replace(/\/$/, '') + path + (query.length ? '?' + query.join('&') : ''));
         this.checkUrl(url);
-        for (const [k, v] of Object.entries(options.headers ?? {}))
+        for (const [k, v] of Object.entries(options.headers ?? {})) {
+            if (op.idempotency?.header.toLowerCase() === k.toLowerCase())
+                notAllowed(op.idempotency.header, 'supply this header through options.idempotencyKey');
             setHeader(k, v);
+        }
         for (const p of op.parameters) {
             if (p.source !== 'request-option' || !p.requestOption)
                 continue;
@@ -3101,19 +3559,22 @@ class CompiledRuntime {
             const value = options[p.requestOption.node];
             const supplied = headers[p.name.toLowerCase()];
             if (value !== undefined && supplied !== undefined && value !== supplied)
-                bad(p.requestOption.node, 'conflicting request option and header values');
+                notAllowed(p.name, 'conflicting request option and header values');
             const effective = value === undefined ? supplied : value;
             if (effective !== undefined) {
                 const normalized = this.decode(effective, p.codec, {
                     mode: 'request',
-                    path: p.requestOption.node,
+                    path: p.name,
                 });
                 setHeader(p.name, scalar(normalized));
             }
         }
         const suppliedHeaders = { ...headers };
         const ambient = this.contract.defaultCredentials;
-        const ambientProvider = ambient && this.options.ambientCredentials !== false
+        const ambientProvider = ambient &&
+            this.options.ambientCredentials !== false &&
+            !requestCredentialsPassed &&
+            !clientCredentialsPassed
             ? configuredDefaultCredentials(ambient, this.base.href)
             : undefined;
         const credentialContext = {
@@ -3128,11 +3589,10 @@ class CompiledRuntime {
             if (this.contract.authentication) {
                 const permitted = op.authModes ?? [];
                 const shortcutAuth = (value) => {
-                    const supplied = Object.entries(this.contract.authShortcuts ?? {}).filter(([key]) => Object.hasOwn(value, key) &&
-                        value[key] !== undefined);
+                    const supplied = Object.entries(this.contract.authShortcuts ?? {}).filter(([key]) => Object.hasOwn(value, key));
                     if (supplied.length > 1 ||
                         (supplied.length && (value.authMode !== undefined || value.credentials !== undefined)))
-                        throw createSdkError('authentication', 'Use one authentication shortcut or explicit authMode/credentials, not both');
+                        throw configuration('credential_conflict', 'Use one authentication shortcut or explicit authMode/credentials, not both');
                     const entry = supplied[0];
                     return entry
                         ? {
@@ -3164,10 +3624,10 @@ class CompiledRuntime {
                 if (modeName === undefined && op.authenticated && permitted.length === 1)
                     modeName = permitted[0];
                 if (modeName === undefined && op.authenticated)
-                    throw createSdkError('authentication', `Authentication is required; ${authHint(permitted)}`);
+                    throw configuration('credential_missing', `Authentication is required; ${authHint(permitted)}`);
                 const selected = modeName === undefined ? undefined : this.contract.authentication[modeName];
                 if (modeName !== undefined && (!selected || !permitted.includes(modeName)))
-                    throw createSdkError('authentication', `Authentication mode is not permitted; ${authHint(permitted)}`);
+                    throw configuration('auth_mode_not_permitted', `Authentication mode is not permitted; ${authHint(permitted)}`);
                 const expected = Object.create(null);
                 if (selected && modeName !== undefined) {
                     const credentials = requestShortcut?.credentials ??
@@ -3191,16 +3651,15 @@ class CompiledRuntime {
                     for (const scheme of mode.schemes) {
                         const name = scheme.header.toLowerCase();
                         if (suppliedHeaders[name] !== undefined && suppliedHeaders[name] !== expected[name])
-                            throw createSdkError('authentication', 'Request headers conflict with the selected authentication mode');
+                            throw configuration('credential_conflict', 'Request headers conflict with the selected authentication mode');
                     }
                 for (const [name, value] of Object.entries(expected))
                     setHeader(name, value);
             }
             else if (op.authenticated || (op.optionalAuthentication && this.options.token)) {
                 if (!this.options.token || !this.contract.auth)
-                    throw createSdkError('authentication', 'Explicit API credentials are required');
-                const credential = await resolveCredential(this.options.token, 'Explicit API credentials are required', false, // Legacy header validation owns newline rejection for strings and providers.
-                credentialContext, providers);
+                    throw configuration('credential_missing', 'Explicit API credentials are required');
+                const credential = await resolveCredential(this.options.token, 'Explicit API credentials are required', true, credentialContext, providers);
                 setHeader(this.contract.auth.header, this.contract.auth.type === 'bearer' ? `Bearer ${credential}` : credential);
             }
             if (apiVersion)
@@ -3211,9 +3670,7 @@ class CompiledRuntime {
                 const value = headers[p.name.toLowerCase()];
                 if (value === undefined) {
                     if (p.required)
-                        bad(p.name, op.idempotency?.header.toLowerCase() === p.name.toLowerCase()
-                            ? `${op.resource}.${op.method} requires idempotencyKey; save and reuse the key on retry`
-                            : 'required parameter is missing');
+                        issue(p.name, 'required');
                 }
                 else
                     this.validateHeaderValue(value, p.codec, p.name);
@@ -3221,40 +3678,51 @@ class CompiledRuntime {
         };
         if (options.ifMatch !== undefined) {
             if (!op.conditional)
-                bad('ifMatch', 'operation does not declare conditional requests');
+                notAllowed('If-Match', 'operation does not declare conditional requests');
             setHeader(op.conditional.header, options.ifMatch);
         }
-        const key = options.idempotencyKey ??
-            (op.idempotency ? headers[op.idempotency.header.toLowerCase()] : undefined);
+        const key = options.idempotencyKey;
         if (key !== undefined) {
             if (!op.idempotency || !key)
-                bad('idempotencyKey', 'a nonempty key and declared capability are required');
+                notAllowed(op.idempotency?.header ?? 'Idempotency-Key', 'a nonempty key and declared capability are required');
             if (/^[ \t]|[ \t]$/.test(key))
-                bad('idempotencyKey', 'leading or trailing HTTP whitespace would change the key on the wire');
+                throw new errors.InvalidInputError(`${op.idempotency?.header ?? 'Idempotency-Key'} must not contain leading or trailing HTTP whitespace`, {
+                    param: op.idempotency?.header ?? 'Idempotency-Key',
+                    details: [
+                        { code: 'INVALID_VALUE', param: op.idempotency?.header ?? 'Idempotency-Key' },
+                    ],
+                });
             setHeader(op.idempotency.header, key);
         }
         const safe = op.replay === 'safe' ||
             Boolean(op.idempotency && headers[op.idempotency.header.toLowerCase()]);
+        context.replaySafe = ['GET', 'HEAD'].includes(op.verb) || Boolean(op.idempotency && key);
         if (!safe)
             attempts = 1;
         let body;
         if (Object.hasOwn(input, 'body') && input.body !== undefined) {
             if (!op.body)
-                bad('body', 'operation does not accept a body');
+                notAllowed('body', 'operation does not accept a body');
             if (['GET', 'HEAD'].includes(op.verb))
                 bad('body', 'GET/HEAD request bodies are unsupported by the Node transport');
             body = encode(this.decode(input.body, op.body, { mode: 'request' }));
             setHeader('content-type', op.mediaType);
         }
         else if (op.bodyRequired)
-            bad('body', 'required body is missing');
+            issue('body', 'required');
         for (const key of Object.keys(input))
             if (key !== 'body' && !op.parameters.some((p) => p.name === key))
-                bad(key, 'unknown input parameter');
+                issue(key, 'unknown', {
+                    where: 'this input',
+                    suggestion: suggestion(key, [
+                        ...op.parameters.map((p) => p.name),
+                        ...(op.body ? ['body'] : []),
+                    ]),
+                });
         const transport = this.options.transport ??
             (Object.values(op.responses).some((r) => r.bodyKind === 'sse') ? streamFetch : fetch);
+        const requestIds = context.requestIds;
         let credentialRetries = 0;
-        let mayHaveBeenSent = false;
         for (let attempt = 1; attempt <= attempts; attempt++) {
             stopped(options.signal, attempt === 1 ? 'not_sent' : 'unknown');
             const remaining = deadline - performance.now();
@@ -3271,7 +3739,13 @@ class CompiledRuntime {
             let diagnosticMeta;
             let diagnosticError;
             try {
+                context.attempts = attempt;
+                context.observations.push({ state: 'not_sent' });
                 await abortable(authenticate(), controller.signal);
+                stopped(options.signal);
+                if (performance.now() >= deadline)
+                    throw createSdkError('deadline', 'Overall deadline exceeded');
+                context.observations[attempt - 1] = { state: 'no_answer' };
                 const response = await abortable(transport(url, {
                     method: op.verb,
                     headers: { ...headers },
@@ -3279,7 +3753,6 @@ class CompiledRuntime {
                     signal: controller.signal,
                     redirect: 'manual',
                 }), controller.signal);
-                mayHaveBeenSent = true;
                 const responseHeaders = Object.fromEntries(response.headers.entries());
                 const meta = {
                     ...(key !== undefined ? { idempotencyKey: key } : {}),
@@ -3294,24 +3767,40 @@ class CompiledRuntime {
                         }
                         : {}),
                 };
+                if (meta.requestId)
+                    requestIds.push(meta.requestId);
+                meta.requestIds = [...requestIds];
                 diagnosticMeta = meta;
                 const instruction = response.headers.get('retry-after');
                 if (instruction)
                     retryAfter = parseRetryAfter(instruction);
+                context.lastResponse = meta;
+                delete context.retryAfterMs;
+                if (retryAfter !== undefined)
+                    context.retryAfterMs = retryAfter;
+                // Bodyless responses are already complete even if credential refresh stops here.
+                if (op.verb === 'HEAD' || response.body === null)
+                    context.observations[attempt - 1] = {
+                        state: 'answered',
+                        status: response.status,
+                        inProgress: false,
+                        uncertainWrite: false,
+                        retryAllowed: false,
+                    };
                 if (response.status === 401 && safe && credentialRetries === 0 && providers.size > 0) {
                     diagnosticError = 'authentication';
                     try {
                         await response.body?.cancel();
                     }
                     catch {
-                        // The observed 401 remains authoritative if response cleanup fails.
+                        // Cleanup does not establish completion of an unread body.
                     }
                     try {
                         for (const invalidate of providers.values())
                             invalidate();
                     }
                     catch {
-                        throw createSdkError('authentication', 'Credential provider invalidation failed', 'response', false, meta);
+                        throw createSdkError('authentication', 'Credential provider invalidation failed', 'response', false, undefined, 'credential_provider_failed');
                     }
                     credentialRetries++;
                     attempts++;
@@ -3322,13 +3811,11 @@ class CompiledRuntime {
                     (response.ok && op.successJsonFallback
                         ? op.responses[op.successJsonFallback]
                         : undefined);
-                if (response.ok && declaredResponse?.bodyKind === 'sse') {
-                    if (response.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() !==
-                        'text/event-stream' ||
-                        !response.body) {
-                        await response.body?.cancel();
-                        throw createSdkError('protocol', 'Expected an SSE response stream', 'response', false, meta);
-                    }
+                const sse = response.ok && declaredResponse?.bodyKind === 'sse';
+                if (sse &&
+                    response.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() ===
+                        'text/event-stream' &&
+                    response.body) {
                     const idleTimeoutMs = options.streamIdleTimeoutMs ?? op.stream?.idleTimeoutMs ?? 30000;
                     positive(idleTimeoutMs, 'streamIdleTimeoutMs');
                     if (options.streamLifetimeMs !== undefined)
@@ -3355,13 +3842,23 @@ class CompiledRuntime {
                             : raw;
                     }, () => this.streams.delete(stream));
                     this.streams.add(stream);
-                    const result = { data: stream, meta, raw: '' };
+                    const result = responseResult(stream, meta, '');
                     Object.defineProperty(result, inspectCustom, {
-                        value: () => ({ data: '[Event stream]', meta: inspectedMetadata(meta) }),
+                        value: () => ({ data: '[Event stream]', lastResponse: inspectedMetadata(meta) }),
                     });
                     return result;
                 }
+                // Invalid stream handshakes also need a complete body before they settle the call.
                 const bytes = await abortable(response.arrayBuffer(), controller.signal);
+                context.observations[attempt - 1] = {
+                    state: 'answered',
+                    status: response.status,
+                    inProgress: false,
+                    uncertainWrite: false,
+                    retryAllowed: false,
+                };
+                if (sse)
+                    throw createSdkError('protocol', 'Expected an SSE response stream', 'response', false, meta, 'unexpected_media_type');
                 const redirect = op.responses[String(response.status)]?.classification === 'redirect';
                 if (response.ok && declaredResponse?.bodyKind === 'binary') {
                     const contentType = response.headers
@@ -3370,14 +3867,12 @@ class CompiledRuntime {
                         ?.trim()
                         .toLowerCase();
                     if (contentType !== declaredResponse.mediaType)
-                        throw createSdkError('protocol', 'Unexpected binary response media type', 'response', false, meta);
+                        throw createSdkError('protocol', 'Unexpected binary response media type', 'response', false, meta, 'unexpected_media_type');
                     meta.durationMs = performance.now() - start;
-                    if (performance.now() >= deadline)
-                        throw createSdkError('deadline', 'Response exceeded the overall deadline', 'response', false, meta);
                     const data = new Uint8Array(bytes);
-                    const result = { data, meta, raw: data };
+                    const result = responseResult(data, meta, data);
                     Object.defineProperty(result, inspectCustom, {
-                        value: () => ({ data: '[Binary response]', meta: inspectedMetadata(meta) }),
+                        value: () => ({ data: '[Binary response]', lastResponse: inspectedMetadata(meta) }),
                     });
                     return result;
                 }
@@ -3390,16 +3885,18 @@ class CompiledRuntime {
                 }
                 catch (cause) {
                     if (response.ok)
-                        throw createSdkError('protocol', 'Invalid JSON success response', 'response', false, meta, undefined, undefined, { cause }, raw);
+                        throw createSdkError('protocol', 'Invalid JSON success response', 'response', false, meta, 'invalid_json', undefined, { cause }, raw);
                 }
                 if (response.status >= 300 && response.status < 400 && response.status !== 304 && !redirect)
-                    throw createSdkError('destination', 'Redirects are not followed; explicitly configure an approved endpoint', 'response', false, meta);
+                    throw createSdkError('destination', 'Redirects are not followed; explicitly configure an approved endpoint', 'response', false, meta, 'unexpected_redirect');
                 if (response.ok || response.status === 304 || redirect) {
                     const declared = declaredResponse;
                     if (!declared)
-                        throw createSdkError('protocol', 'Undeclared success status', 'response', false, meta, undefined, undefined, undefined, raw);
+                        throw createSdkError('protocol', 'Undeclared success status', 'response', false, meta, 'undeclared_status', undefined, undefined, raw);
+                    let responseErrorCode = 'schema_mismatch';
                     try {
                         if (redirect) {
+                            responseErrorCode = 'unexpected_redirect';
                             const location = response.headers.get('location');
                             if (declared.locationRequired && !location)
                                 throw new Error('Missing Location header');
@@ -3408,8 +3905,10 @@ class CompiledRuntime {
                             data = location === null ? {} : { location };
                         }
                         else if (declared.codec) {
-                            if (data === undefined)
+                            if (data === undefined) {
+                                responseErrorCode = 'missing_payload';
                                 throw new Error('Missing body');
+                            }
                             data = plainNumbers(this.decode(data, declared.codec, {
                                 mode: 'response',
                                 path: 'response',
@@ -3425,18 +3924,20 @@ class CompiledRuntime {
                         throw createSdkError('protocol', 'Response cannot be represented by the declared schema' +
                             (cause instanceof Error && validationFailures.has(cause)
                                 ? ': ' + validationFailures.get(cause)
-                                : ''), 'response', false, meta, undefined, undefined, { cause }, raw);
+                                : ''), 'response', false, meta, responseErrorCode, undefined, { cause }, raw);
                     }
-                    // Synchronous decoding cannot yield to the abort timer. Check the
-                    // overall duration again before reporting a successful response.
                     meta.durationMs = performance.now() - start;
-                    if (performance.now() >= deadline)
-                        throw createSdkError('deadline', 'Response decoding exceeded the overall deadline', 'response', false, meta, undefined, undefined, undefined, raw);
-                    const result = { data: data, meta, raw };
+                    const bodyRequestId = field(data, errorMapping(this.contract.errors).fields.requestId);
+                    if (!meta.requestId && typeof bodyRequestId === 'string') {
+                        meta.requestId = bodyRequestId;
+                        requestIds.push(bodyRequestId);
+                        meta.requestIds = [...requestIds];
+                    }
+                    const result = responseResult(data, meta, raw);
                     Object.defineProperty(result, inspectCustom, {
                         value: () => ({
                             data: redactCodec(data, declared.codec, this.options.redactFields, this.definitions()),
-                            meta: inspectedMetadata(meta),
+                            lastResponse: inspectedMetadata(meta),
                         }),
                     });
                     return result;
@@ -3454,38 +3955,44 @@ class CompiledRuntime {
                                     : response.status >= 500 && response.status < 600
                                         ? 'server'
                                         : 'api';
-                const code = field(data, this.contract.errors?.codePath ?? 'code');
-                const originalMessage = field(data, this.contract.errors?.messagePath ?? 'message');
+                const mapping = errorMapping(this.contract.errors);
+                const object = (body) => mapping.objectPath ? field(body, mapping.objectPath) : body;
+                const envelope = object(data);
+                const oauth = !isErrorObject(envelope) && typeof field(data, 'error') === 'string';
+                const read = (body, key) => oauth
+                    ? field(body, key === 'code' ? 'error' : key === 'message' ? 'error_description' : '__absent__')
+                    : field(object(body), mapping.fields[key]);
+                const code = read(data, 'code');
+                const originalMessage = read(data, 'message');
                 const errorResponse = op.responses[String(response.status)] ?? op.responses.default;
                 const codec = errorResponse?.codec;
                 const safeBody = redactCodec(data, codec, this.options.redactFields, this.definitions());
-                const detailsValue = this.contract.errors?.detailsPath
-                    ? field(safeBody, this.contract.errors.detailsPath)
-                    : safeBody;
-                let details;
-                if (this.contract.errorDetailsCertificate) {
-                    try {
-                        const decodedBody = codec
-                            ? this.decode(safeBody, codec, { mode: 'response', path: 'error' })
-                            : safeBody;
-                        const decoded = plainNumbers(this.contract.errors?.detailsPath
-                            ? field(decodedBody, this.contract.errors.detailsPath)
-                            : decodedBody);
-                        if (certifies(decoded, this.contract.errorDetailsCertificate))
-                            details = structuredClone(decoded);
-                    }
-                    catch (cause) {
-                        if (!(cause instanceof SdkError && cause.kind === 'validation'))
-                            throw cause;
-                    }
+                let details = [];
+                try {
+                    const decodedBody = codec
+                        ? this.decode(safeBody, codec, { mode: 'response', path: 'error' })
+                        : safeBody;
+                    const detailsValue = plainNumbers(read(decodedBody, 'details'));
+                    if (Array.isArray(detailsValue) &&
+                        (!this.contract.errorDetailsCertificate ||
+                            certifies(detailsValue, this.contract.errorDetailsCertificate)))
+                        details = structuredClone(detailsValue);
                 }
-                else
-                    details = plainNumbers(detailsValue);
+                catch (cause) {
+                    if (!(cause instanceof SdkError && validationFailures.has(cause)))
+                        throw cause;
+                }
                 const redacted = plainNumbers(safeBody);
-                const publicCode = field(redacted, this.contract.errors?.codePath ?? 'code');
-                const message = field(redacted, this.contract.errors?.messagePath ?? 'message');
+                const publicCode = read(redacted, 'code');
+                const message = read(redacted, 'message');
+                const envelopeId = read(redacted, 'requestId');
+                if (!meta.requestId && typeof envelopeId === 'string') {
+                    meta.requestId = envelopeId;
+                    requestIds.push(envelopeId);
+                    meta.requestIds = [...requestIds];
+                }
                 const signal = this.contract.errors?.retry;
-                const retryValue = signal ? field(data, signal.path) : undefined;
+                const retryValue = signal ? field(envelope, signal.path) : undefined;
                 const eligible = safe &&
                     response.status !== 412 &&
                     (signal
@@ -3499,23 +4006,66 @@ class CompiledRuntime {
                     originalMessage.trim() &&
                     typeof message === 'string'
                     ? message
-                    : `API returned HTTP ${response.status}`, 'response', response.status !== 401 && eligible, meta, typeof code === 'string' && typeof publicCode === 'string' ? publicCode : undefined, details, undefined, raw);
+                    : `API returned HTTP ${response.status}`, 'response', response.status !== 401 && eligible, meta, typeof code === 'string' && code.trim() && typeof publicCode === 'string'
+                    ? publicCode
+                    : 'http_error', details, undefined, raw);
+                if (error instanceof errors.ApiError) {
+                    error.body = redacted;
+                    for (const key of ['type', 'param', 'errorSource', 'docUrl', 'requestLogUrl']) {
+                        const value = read(redacted, key);
+                        if (typeof value === 'string')
+                            error[key] = value;
+                    }
+                    const remediation = read(redacted, 'remediation');
+                    if (isErrorObject(remediation)) {
+                        const mapped = { ...remediation };
+                        if (mapped.retry !== undefined &&
+                            (typeof mapped.retry !== 'string' ||
+                                !['same_request', 'after_refresh', 'none'].includes(mapped.retry)))
+                            delete mapped.retry;
+                        error.remediation = mapped;
+                    }
+                }
+                const reasons = field(envelope, mapping.fields.details);
+                const inProgress = typeof code === 'string' && (this.contract.errors?.inProgressCodes ?? []).includes(code);
+                const uncertainWrite = !['GET', 'HEAD'].includes(op.verb) &&
+                    ((response.status >= 500 && response.status < 600) ||
+                        code === 'IDEMPOTENCY_RECOVERY_REQUIRED' ||
+                        field(envelope, 'reason') === 'outcome_unknown' ||
+                        (Array.isArray(reasons) &&
+                            reasons.some((detail) => field(detail, 'reason') === 'outcome_unknown')));
+                const hasEnvelope = isErrorObject(envelope);
+                const retryAllowed = signal
+                    ? (typeof retryValue === 'string' && signal.retryValues.includes(retryValue)) ||
+                        (!hasEnvelope && policy.statuses.includes(response.status))
+                    : eligible;
+                context.observations[attempt - 1] = {
+                    state: 'answered',
+                    status: response.status,
+                    inProgress,
+                    uncertainWrite,
+                    retryAllowed,
+                };
                 diagnosticError = kind;
                 if (retryAfter !== undefined)
                     error.retryAfterMs = retryAfter;
             }
             catch (cause) {
                 if (cause instanceof SdkError) {
-                    diagnosticError = cause.kind;
+                    diagnosticError = internalKind(cause);
+                    error = cause;
                     throw cause;
                 }
                 if (diagnosticMeta?.status === 401) {
                     diagnosticError = 'authentication';
-                    throw createSdkError('authentication', 'API returned HTTP 401', 'response', false, diagnosticMeta);
+                    error = createSdkError('authentication', 'API returned HTTP 401', 'response', false, diagnosticMeta);
+                    throw error;
                 }
-                if (options.signal?.aborted)
+                if (options.signal?.aborted) {
                     diagnosticError = 'cancelled';
-                stopped(options.signal);
+                    error = createSdkError('cancelled', 'Local request cancelled; this does not cancel the remote operation', 'unknown');
+                    throw error;
+                }
                 const code = transportCode(cause);
                 const expired = performance.now() >= deadline;
                 const timedOut = controller.signal.aborted ||
@@ -3525,10 +4075,11 @@ class CompiledRuntime {
                         'UND_ERR_HEADERS_TIMEOUT',
                         'UND_ERR_BODY_TIMEOUT',
                     ].includes(code ?? '');
-                const notSent = !mayHaveBeenSent &&
-                    diagnosticMeta === undefined &&
-                    ['ECONNREFUSED', 'ENOTFOUND', 'EAI_AGAIN'].includes(code ?? '');
-                mayHaveBeenSent ||= !notSent;
+                const notSent = context.observations[attempt - 1]?.state === 'not_sent' ||
+                    (diagnosticMeta === undefined &&
+                        ['ECONNREFUSED', 'ENOTFOUND', 'EAI_AGAIN'].includes(code ?? ''));
+                if (notSent)
+                    context.observations[attempt - 1] = { state: 'not_sent' };
                 diagnosticError = expired ? 'deadline' : timedOut ? 'timeout' : 'transport';
                 error = createSdkError(diagnosticError, expired
                     ? 'Overall request deadline exceeded; remote outcome is unknown'
@@ -3560,7 +4111,11 @@ class CompiledRuntime {
                                 ...(diagnosticMeta.requestId ? { requestId: diagnosticMeta.requestId } : {}),
                             }
                             : {}),
-                        ...(diagnosticError ? { errorKind: diagnosticError } : {}),
+                        ...(error
+                            ? { errorName: error.name, errorCode: error.code }
+                            : diagnosticError === 'authentication'
+                                ? { errorName: 'AuthenticationError', errorCode: 'http_error' }
+                                : {}),
                     });
                 }
                 catch {
@@ -3580,7 +4135,7 @@ class CompiledRuntime {
     async *pages(id, input = {}, options = {}) {
         const op = this.operation(id);
         if (!op?.pagination)
-            return bad('pagination', 'capability is not declared');
+            throw configuration('operation_unavailable', 'pagination capability is not declared');
         const p = op.pagination;
         let next;
         const request = { ...input };
@@ -3588,30 +4143,40 @@ class CompiledRuntime {
         const seen = new Set();
         let emptyPages = 0;
         if (!Number.isSafeInteger(limit) || limit < 1)
-            bad('maxPages', 'must be a positive safe integer');
+            invalidOption('maxPages', 'must be a positive safe integer');
         for (let page = 0; page < limit; page++) {
             stopped(options.signal);
             // Each page owns its request deadline; time spent consuming yields is unbounded.
             const result = await this.request(id, request, options, p.kind === 'link' && typeof next === 'string' ? next : undefined);
             yield result;
-            const sent = p.kind === 'link' ? (next ?? result.meta.url) : request[p.parameter];
+            if (options.maxPages !== undefined && page + 1 >= limit)
+                return;
+            const sent = p.kind === 'link' ? (next ?? metadata(result).url) : request[p.parameter];
             const previous = sent instanceof CompiledModel ? sent.toJSON() : sent;
             next = field(result.data, p.next);
             if (next === undefined || next === null || next === '')
                 return;
+            if (page + 1 >= limit)
+                throw new errors.PaginationLimitError('Pagination exceeded the implicit limit of 1000 pages', {
+                    ...metadata(result),
+                    operation: op.resource + '.' + op.method,
+                    outcome: 'response',
+                    nextPageToken: next,
+                    pages: page + 1,
+                });
             const values = field(result.data, p.items);
             emptyPages = Array.isArray(values) && values.length === 0 ? emptyPages + 1 : 0;
             if (emptyPages >= 2)
-                throw createSdkError('protocol', 'Pagination returned consecutive empty pages with continuations', 'response', false, result.meta, 'pagination_empty_pages');
+                throw createSdkError('protocol', 'Pagination returned consecutive empty pages with continuations', 'response', false, metadata(result), 'invalid_pagination');
             if (p.kind === 'link' && typeof next !== 'string')
-                throw createSdkError('protocol', 'Expected a pagination URL', 'response');
+                throw createSdkError('protocol', 'Expected a pagination URL', 'response', false, undefined, 'invalid_pagination');
             if (p.kind === 'link')
-                next = destinationUrl(next, result.meta.url ?? this.base).href;
+                next = destinationUrl(next, metadata(result).url ?? this.base).href;
             if (seen.has(String(next)) ||
                 next === previous ||
                 (p.kind === 'offset' && previous !== undefined && String(next) === String(previous)) ||
-                (p.kind === 'link' && next === result.meta.url))
-                throw createSdkError('protocol', 'Pagination returned a repeated continuation (cursor cycle)', 'response');
+                (p.kind === 'link' && next === metadata(result).url))
+                throw createSdkError('protocol', 'Pagination returned a repeated continuation (cursor cycle)', 'response', false, undefined, 'invalid_pagination');
             if (previous !== undefined)
                 seen.add(String(previous));
             seen.add(String(next));
@@ -3622,20 +4187,20 @@ class CompiledRuntime {
     async *items(id, input = {}, options = {}) {
         const p = this.operation(id)?.pagination;
         if (!p)
-            return bad('pagination', 'capability is not declared');
+            throw configuration('operation_unavailable', 'pagination capability is not declared');
         const limit = options.maxItems ?? Number.MAX_SAFE_INTEGER;
         if (!Number.isSafeInteger(limit) || limit < 1)
-            bad('maxItems', 'must be a positive safe integer');
+            invalidOption('maxItems', 'must be a positive safe integer');
         let count = 0;
         for await (const page of this.pages(id, input, options)) {
             const values = field(page.data, p.items);
             if (!Array.isArray(values))
-                throw createSdkError('protocol', 'Pagination items field is not an array', 'response');
+                throw createSdkError('protocol', 'Pagination items field is not an array', 'response', false, undefined, 'invalid_pagination');
             for (const value of values) {
                 stopped(options.signal);
                 const certificate = this.operation(id)?.itemCertificate;
                 if (certificate && !certifies(value, certificate))
-                    throw createSdkError('protocol', 'Pagination item does not fit its public type', 'response', false, page.meta, undefined, undefined, undefined, typeof page.raw === 'string' ? page.raw : undefined);
+                    throw createSdkError('protocol', 'Pagination item does not fit its public type', 'response', false, metadata(page), 'invalid_pagination', undefined, undefined, typeof page.raw === 'string' ? page.raw : undefined);
                 yield value;
                 if (++count >= limit)
                     return;
@@ -3643,22 +4208,26 @@ class CompiledRuntime {
         }
     }
     async wait(id, input, options = {}) {
-        const p = this.operation(id)?.polling;
+        const op = this.operation(id);
+        const p = op?.polling;
         if (!p)
-            return bad('polling', 'capability is not declared');
+            throw configuration('operation_unavailable', 'polling capability is not declared');
         const deadline = performance.now() +
-            positive(options.deadlineMs ?? this.options.deadlineMs ?? 30000, 'deadlineMs');
+            positive(options.deadlineMs ?? this.options.deadlineMs ?? op?.defaults?.deadlineMs ?? 30000, 'deadlineMs');
         let interval = p.intervalMs;
         for (;;) {
             const remaining = deadline - performance.now();
             if (remaining <= 0)
                 throw createSdkError('deadline', 'Polling deadline exceeded; remote operation may still be running', 'unknown');
-            const result = await this.request(id, input, { ...options, deadlineMs: remaining });
+            const result = await this.request(id, input, {
+                ...copyCredentialOptions(options, Object.keys(this.contract.authShortcuts ?? {}), false),
+                deadlineMs: remaining,
+            });
             const state = field(result.data, p.state);
             if (p.success.includes(state))
                 return result;
             if (p.failure.includes(state))
-                throw createSdkError('api', 'Operation reached a declared failure state', 'response', false, result.meta);
+                throw createSdkError('api', 'Operation reached a declared failure state', 'response', false, metadata(result));
             await delay(Math.min(interval, Math.max(0, deadline - performance.now())), options.signal);
             interval = Math.min(interval * 1.5, 10000);
         }

@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3620"},"dependencies":["CreateDeliveryLocationSetRequest","DeliveryLocationSetConfiguration","MetadataRequest","SharedCodec3620"]}

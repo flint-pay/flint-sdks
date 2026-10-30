@@ -19,5 +19,5 @@ Field definitions: [shared fields](DeliveryLocationSummaryResource.md#deliverylo
 
 ### DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionPickup.location fields 1.address
 
-Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.address](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress).
+Field definitions: [DeliveryPreviewResponse.data variant 1.buyer_location.address](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_locationaddress).
 

@@ -19,5 +19,8 @@ The buyer's proposed resolution type, returned quantities, and replacement items
 
 A return line and quantity to include in a return resolution.
 
-Field definitions: [shared fields](ReturnResolutionLineItemRequestInput.md#returnresolutionlineitemrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `return_line_item_id` | Required | string | minLength: `1`. |
 

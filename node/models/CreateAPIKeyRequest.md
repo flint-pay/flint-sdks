@@ -17,7 +17,7 @@ The request body for: Create an API key.
 
 ### CreateAPIKeyRequest variant 1: `access` = `"full"`
 
-oneOf variant 1: The `full` variant of `CreateAPIKeyRequest`..
+oneOf with access: "full": The `full` variant of `CreateAPIKeyRequest`..
 
 - Condition: not (present(`scopes`)).
 - Optional: `scopes`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `full` variant of `CreateAPIKeyRequest`..
 
 ### CreateAPIKeyRequest variant 2: `access` = `"read_only"`
 
-oneOf variant 2: The `read_only` variant of `CreateAPIKeyRequest`..
+oneOf with access: "read_only": The `read_only` variant of `CreateAPIKeyRequest`..
 
 - Condition: not (present(`scopes`)).
 - Optional: `scopes`.
@@ -33,7 +33,7 @@ oneOf variant 2: The `read_only` variant of `CreateAPIKeyRequest`..
 
 ### CreateAPIKeyRequest variant 3: `access` = `"restricted"`
 
-oneOf variant 3: The `restricted` variant of `CreateAPIKeyRequest`..
+oneOf with access: "restricted": The `restricted` variant of `CreateAPIKeyRequest`..
 
 - Required: `scopes`.
 - Constraints for `access`: Values: `"restricted"`.

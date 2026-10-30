@@ -2,75 +2,77 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $query
  * @property-read string $external_reference_id
- * @property-read list<string> $status
- * @property-read list<string> $type
+ * @property-read list<string>|string $status
+ * @property-read list<string>|string $type
  * @property-read string $delivery_zone_id
  * @property-read string $delivery_location_set_id
  * @property-read string $delivery_rate_callback_id
  * @property-read string $location_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: list<string>, 'type'?: list<string>, 'delivery_zone_id'?: string, 'delivery_location_set_id'?: string, 'delivery_rate_callback_id'?: string, 'location_id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: list<string>|string, 'type'?: list<string>|string, 'delivery_zone_id'?: string, 'delivery_location_set_id'?: string, 'delivery_rate_callback_id'?: string, 'location_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodsListInput')); }
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+    /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Shape $ (Value): string.
+    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Shape $ (Value): string. maxLength: 255.
+    /** Search across delivery_method_id, name, description, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as dmet_01. maxLength: 255.
      * @return string
      * @throws SdkError When query is omitted; use hasQuery() or valueOrDefault().
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived". Shape $[] (Value): string.  Value enum: "active", "inactive", "archived".
-     * @return list<string>
+    /** Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value): string.  Value enum: "active", "inactive", "archived". anyOf[2] (Value): string.  Value enum: "active", "inactive", "archived".
+     * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
-    public function getStatus(): array { return $this->get('status'); }
+    public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "shipment", "local_delivery", "pickup". Shape $[] (Value): string.  Value enum: "shipment", "local_delivery", "pickup".
-     * @return list<string>
+    /** Filter by method type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "shipment", "local_delivery", "pickup". Value enum: "shipment", "local_delivery", "pickup". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "local_delivery", "pickup". anyOf[1][] (Value): string.  Value enum: "shipment", "local_delivery", "pickup". anyOf[2] (Value): string.  Value enum: "shipment", "local_delivery", "pickup".
+     * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
-    public function getType(): array { return $this->get('type'); }
+    public function getType(): mixed { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Shape $ (Value): string.
+    /** Filter by referenced delivery zone. Example: "dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */
     public function getDeliveryZoneId(): string { return $this->get('delivery_zone_id'); }
     public function hasDeliveryZoneId(): bool { return $this->has('delivery_zone_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by referenced delivery location set. Example: "dls_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by referenced callback endpoint. Example: "dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by referenced Location. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

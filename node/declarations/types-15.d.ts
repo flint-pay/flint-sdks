@@ -1,2218 +1,3368 @@
 import type {
-    DeliveryCalculatedPricingStrategy,
-    DeliveryCallbackPricingStrategyRequest,
-    DeliveryCallerSuppliedPricingStrategyRequest,
-    DeliveryCalculatedPricingStrategyRequestInput,
-    DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput,
-    DeliveryBuyerLocationResource,
-    DeliveryAddressAdvisoryResource,
-    DeliveryCandidateOutcomeResource
-} from './types-12.js';
-import type {
-    DeliveryFixedPricingStrategy,
-    DeliveryFixedPricingStrategyRequestInput,
-    DeliveryExternalPricingStrategy,
-    DeliveryInputRequirement,
-    DeliveryMerchantDiagnostic,
-    DeliveryDistance,
-    DeliveryDistanceInput
-} from './types-13.js';
-import type {
-    DeliveryRateTablePricingStrategyRequest,
-    DeliveryTieredPricingStrategy,
-    DeliveryRateTablePricingStrategyRequestInput,
-    DeliveryTieredPricingStrategyRequestInput,
-    DeliveryRateTablePricingStrategy
-} from './types-16.js';
-import type {
-    DeliveryPricingStrategyInputCalculated,
-    DeliveryPricingStrategyInputCallback,
-    DeliveryPricingStrategyInputCallerSupplied,
-    DeliveryPricingStrategyInputFixed,
-    DeliveryPricingStrategyInputRateTable,
-    DeliveryPricingStrategyInputCalculatedInput,
-    DeliveryPricingStrategyInputCallbackInput,
-    DeliveryPricingStrategyInputCallerSuppliedInput,
-    DeliveryPricingStrategyInputFixedInput,
-    DeliveryPricingStrategyInputRateTableInput,
-    DeliveryPendingCallerRateRequest,
-    DeliveryOptionProjection
+    DeliveryCountryConditionInput,
+    DeliveryCustomerBooleanConditionInput,
+    DeliveryCustomerSegmentConditionInput,
+    DeliveryEligibilityExpression
 } from './types-14.js';
-import type { MoneyValue, MoneyValueInput } from './types-33.js';
-import type { MetadataMap } from './types-32.js';
-import type { ResponseMeta } from './types-42.js';
+import type {
+    DeliveryPostalCodeConditionInput,
+    DeliveryPricingStrategy,
+    DeliveryMethodOriginSelectorRequest,
+    DeliveryMethodOriginSelectorRequestInput,
+    DeliveryMethodOriginSelectorPickupLocationCollection
+} from './types-16.js';
+import type { DeliveryRadiusConditionInput, DeliveryRecipientRequirement, DeliveryRecipientRequirementInput } from './types-18.js';
+import type {
+    DeliveryStateConditionInput,
+    DeliveryWindowTimeConditionInput,
+    DeliveryZoneConditionInput,
+    DeliveryScheduleWindowRule,
+    DeliveryTransitTimeRule,
+    DeliveryScheduleWindowRuleRequestInput,
+    DeliveryTransitTimeRuleRequestInput,
+    DeliveryWindowRequest
+} from './types-19.js';
+import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { ResponseMeta } from './types-48.js';
 import type { InputValue } from '../runtime.js';
-import type { AssignToUnconfiguredDeliveryProfileRequestInput, Address } from './types-0.js';
-import type { CreateDeliveryProfileRequestInput } from './types-6.js';
-import type { UpdateDeliveryProfileRequestInput } from './types-51.js';
+import type { CreateDeliveryLocationSetRequestInput } from './types-7.js';
+import type { UpdateDeliveryLocationSetRequestInput } from './types-58.js';
+import type { Address } from './types-0.js';
+import type { SubscriptionCounts } from './types-54.js';
+import type { BuyerInstructionsConfig, BuyerInstructionsConfigRequestInput } from './types-2.js';
+import type {
+    DeliveryPricingStrategyCreateRequest,
+    DeliveryPricingStrategyCreateRequestInput,
+    DeliveryPricingStrategyRequest,
+    DeliveryPricingStrategyRequestInput
+} from './types-17.js';
 /**
- * Shape $ (Value): {@link DeliveryPricingStrategyInputTiered}. The `tiered` variant of
- * `DeliveryPricingStrategyInput`.
+ * A boolean expression containing exactly one operator or typed condition at each node.
+ * Expressions support at most 8 levels and 100 total nodes.
  */
-export type DeliveryPricingStrategyInputTiered = ({
+export type DeliveryEligibilityExpressionInput = {
     /**
-     * Shape $ (Value): {@link DeliveryCalculatedPricingStrategy}. Calculated delivery pricing you
-     * supply for a delivery method: base fee, distance and weight rates, per-item handling, and
-     * fee limits, by currency.
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
      */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
+    "all": Array<DeliveryEligibilityExpressionInput>;
     /**
-     * Shape $ (Value): {@link DeliveryCallbackPricingStrategyRequest}. Delivery pricing you supply
-     * that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum and
-     * maximum fees by currency.
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
      */
-    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
     /**
-     * Shape $ (Value): {@link DeliveryCallerSuppliedPricingStrategyRequest}. Delivery pricing
-     * where you supply the rate when creating a delivery quote, bounded by minimum and maximum
-     * fees by currency.
+     * A delivery eligibility condition that matches when the address country is one of `values`.
      */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    "country"?: DeliveryCountryConditionInput;
     /**
-     * Shape $ (Value): {@link DeliveryFixedPricingStrategy}. A fixed delivery price by currency,
-     * supplied for a delivery method.
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
      */
-    "fixed"?: DeliveryFixedPricingStrategy;
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
     /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategyRequest}. Rate table pricing
-     * strategy you supply when updating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
      */
-    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
     /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategy}. Tiered pricing strategy you supply
-     * for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the
-     * basis is total weight.
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
      */
-    "tiered": DeliveryTieredPricingStrategy;
-    /** Shape $ (Value): string.  Value enum: "tiered". */
-    "type": "tiered" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "tiered". */
-    "type": unknown;
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
     /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategy}. Tiered pricing strategy you supply
-     * for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the
-     * basis is total weight.
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
      */
-    "tiered": DeliveryTieredPricingStrategy;
-}));
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any": Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not": DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone": DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country": DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius": DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time": DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment": DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified": DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email": DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone": DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpressionInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanConditionInput;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: DeliveryCustomerSegmentConditionInput;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+    /**
+     * A delivery eligibility condition that tests a true or false fact about the customer against
+     * `value`.
+     */
+    "subscription_purchase": DeliveryCustomerBooleanConditionInput;
+    /**
+     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
+     * the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location falls inside the
+     * delivery zone `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneConditionInput;
+};
 /**
- * Shape $ (Value): {@link DeliveryPricingStrategyInputTieredInput}. The `tiered` variant of
- * `DeliveryPricingStrategyInput`.
+ * An eligibility condition that rejected a delivery method, with its condition type, its path in
+ * the expression, and the field tested.
  */
-export type DeliveryPricingStrategyInputTieredInput = ({
+export type DeliveryEligibilityMismatch = {
     /**
-     * Shape $ (Value): {@link DeliveryCalculatedPricingStrategyRequestInput}. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
+     * The configured eligibility condition family that did not match. Value enum: "zone",
+     * "country", "state", "postal_code", "radius", "window_time", "subscription_purchase",
+     * "customer_segment", "customer_merchant_verified", "customer_has_email",
+     * "customer_has_phone".
      */
-    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryCallbackPricingStrategyRequestInput}. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryCallerSuppliedPricingStrategyRequestInput}. Delivery pricing
-     * where you supply the rate when creating a delivery quote, bounded by minimum and maximum
-     * fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryFixedPricingStrategyRequestInput}. A fixed delivery price by
-     * currency, supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategyRequestInput}. Rate table pricing
-     * strategy you supply when updating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategyRequestInput}. Tiered pricing strategy
-     * you supply for a delivery method: a `basis`, a list of bands with prices, and a weight
-     * `unit` when the basis is total weight.
-     */
-    "tiered": DeliveryTieredPricingStrategyRequestInput;
-    /** Shape $ (Value): string.  Value enum: "tiered". */
-    "type": "tiered";
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "tiered". */
-    "type": ("tiered") & ("tiered");
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategyRequestInput}. Tiered pricing strategy
-     * you supply for a delivery method: a `basis`, a list of bands with prices, and a weight
-     * `unit` when the basis is total weight.
-     */
-    "tiered": DeliveryTieredPricingStrategyRequestInput;
-})
-    & (({
-    "calculated"?: never;
-})
-    & ({
-    "callback"?: never;
-})
-    & ({
-    "caller_supplied"?: never;
-})
-    & ({
-    "fixed"?: never;
-})
-    & ({
-    "rate_table"?: never;
-})));
+    "condition": "zone"
+        | "country"
+        | "state"
+        | "postal_code"
+        | "radius"
+        | "window_time"
+        | "subscription_purchase"
+        | "customer_segment"
+        | "customer_merchant_verified"
+        | "customer_has_email"
+        | "customer_has_phone"
+        | (string & {});
+    /** The condition's path in the configured eligibility expression, starting at $. */
+    "expression_path": string;
+    /** The eligibility fact evaluated by the condition. Buyer fact values are not included. */
+    "field"?: string;
+    /** Whether the condition matched inside a not expression and therefore rejected the method. */
+    "negated"?: boolean;
+};
 /**
- * Shape $ (Value): {@link DeliveryPricingStrategyRateTable}. The `rate_table` variant of
- * `DeliveryPricingStrategy`.
+ * How a delivery method estimates timing, chosen by `type`: no estimate, a transit time, or a
+ * schedule window.
  */
-export type DeliveryPricingStrategyRateTable = ({
+export type DeliveryEstimateRule = {
     /**
-     * Shape $ (Value): {@link DeliveryCalculatedPricingStrategy}. Delivery pricing calculated from
-     * a base fee, distance, weight, and per-item handling, with minimum and maximum fees, by
-     * currency.
+     * Estimate rule for a scheduled-window delivery method, defined by its `availability`
+     * schedule.
      */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
+    "schedule_window"?: DeliveryScheduleWindowRule;
     /**
-     * Shape $ (Value): {@link DeliveryExternalPricingStrategy}. Delivery pricing that comes from
-     * outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum
-     * fees by currency.
+     * Estimate rule giving a delivery method's handling time and transit time as ranges of
+     * business days.
      */
-    "callback"?: DeliveryExternalPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryExternalPricingStrategy}. Delivery pricing that comes from
-     * outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum
-     * fees by currency.
-     */
-    "caller_supplied"?: DeliveryExternalPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryFixedPricingStrategy}. A fixed delivery price, by currency.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategy}. Pricing strategy that charges the
-     * price of the first matching rate in a list of prioritized rates. `unmatched_behavior` says
-     * what happens when none match.
-     */
-    "rate_table": DeliveryRateTablePricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategy}. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /** Shape $ (Value): string.  Value enum: "rate_table". */
-    "type": "rate_table" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "rate_table". */
-    "type": unknown;
-    /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategy}. Pricing strategy that charges the
-     * price of the first matching rate in a list of prioritized rates. `unmatched_behavior` says
-     * what happens when none match.
-     */
-    "rate_table": DeliveryRateTablePricingStrategy;
-}));
+    "transit_time"?: DeliveryTransitTimeRule;
+    /** Value enum: "none", "transit_time", "schedule_window". */
+    "type": "none" | "transit_time" | "schedule_window" | (string & {});
+};
 /**
- * Shape $ (Value): {@link DeliveryPricingStrategyRequest}. The pricing strategy you supply when
- * updating a delivery method. Set `type` and the matching property.
+ * The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit
+ * time, or a schedule window.
  */
-export type DeliveryPricingStrategyRequest = ({
+export type DeliveryEstimateRuleRequestInput = {
     /**
-     * Shape $ (Value): {@link DeliveryCalculatedPricingStrategy}. Calculated delivery pricing you
-     * supply for a delivery method: base fee, distance and weight rates, per-item handling, and
-     * fee limits, by currency.
+     * Scheduled-window estimate rule you supply for a delivery method, defined by its
+     * `availability` schedule.
      */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
+    "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
     /**
-     * Shape $ (Value): {@link DeliveryCallbackPricingStrategyRequest}. Delivery pricing you supply
-     * that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum and
-     * maximum fees by currency.
+     * Estimate rule giving a delivery method's handling time and transit time as ranges of
+     * business days.
      */
-    "callback"?: DeliveryCallbackPricingStrategyRequest;
-    /**
-     * Shape $ (Value): {@link DeliveryCallerSuppliedPricingStrategyRequest}. Delivery pricing
-     * where you supply the rate when creating a delivery quote, bounded by minimum and maximum
-     * fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
-    /**
-     * Shape $ (Value): {@link DeliveryFixedPricingStrategy}. A fixed delivery price by currency,
-     * supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategyRequest}. Rate table pricing
-     * strategy you supply when updating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategy}. Tiered pricing strategy you supply
-     * for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the
-     * basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategy;
-    /**
-     * Shape $ (Value): string. Value enum: "fixed", "rate_table", "tiered", "calculated",
-     * "callback", "caller_supplied".
-     */
-    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
-})
-    & ((Exclude<DeliveryPricingStrategyInputCalculated & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputCallback & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputCallerSupplied & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputFixed & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputRateTable & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputTiered & object, readonly unknown[]>)
-    | (Record<string, unknown>));
+    "transit_time"?: DeliveryTransitTimeRuleRequestInput;
+    /** Value enum: "none", "transit_time", "schedule_window". */
+    "type": "none" | "transit_time" | "schedule_window";
+};
 /**
- * Shape $ (Value): {@link DeliveryPricingStrategyRequestInput}. The pricing strategy you supply
- * when updating a delivery method. Set `type` and the matching property.
+ * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+ * bounded by minimum and maximum fees by currency.
  */
-export type DeliveryPricingStrategyRequestInput = ({
+export type DeliveryExternalPricingStrategy = {
+    "delivery_rate_callback_id"?: string;
+    "delivery_rate_callback_revision_id"?: string;
     /**
-     * Shape $ (Value): {@link DeliveryCalculatedPricingStrategyRequestInput}. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
+     * Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency.
+     * * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
-    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    "maximum_fee_currency_options": Record<string, MoneyValue>;
     /**
-     * Shape $ (Value): {@link DeliveryCallbackPricingStrategyRequestInput}. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
+     * Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency.
+     * * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
-    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    "minimum_fee_currency_options": Record<string, MoneyValue>;
+    "preview_enabled"?: boolean;
+};
+/** A fixed delivery price, by currency. */
+export type DeliveryFixedPricingStrategy = {
     /**
-     * Shape $ (Value): {@link DeliveryCallerSuppliedPricingStrategyRequestInput}. Delivery pricing
-     * where you supply the rate when creating a delivery quote, bounded by minimum and maximum
-     * fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryFixedPricingStrategyRequestInput}. A fixed delivery price by
-     * currency, supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategyRequestInput}. Rate table pricing
-     * strategy you supply when updating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategyRequestInput}. Tiered pricing strategy
-     * you supply for a delivery method: a `basis`, a list of bands with prices, and a weight
-     * `unit` when the basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-    /**
-     * Shape $ (Value): string. Value enum: "fixed", "rate_table", "tiered", "calculated",
-     * "callback", "caller_supplied".
-     */
-    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied";
-})
-    & ((Exclude<DeliveryPricingStrategyInputCalculatedInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputCallbackInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputCallerSuppliedInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputFixedInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputRateTableInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryPricingStrategyInputTieredInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link DeliveryPricingStrategyTiered}. The `tiered` variant of
- * `DeliveryPricingStrategy`.
- */
-export type DeliveryPricingStrategyTiered = ({
-    /**
-     * Shape $ (Value): {@link DeliveryCalculatedPricingStrategy}. Delivery pricing calculated from
-     * a base fee, distance, weight, and per-item handling, with minimum and maximum fees, by
-     * currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryExternalPricingStrategy}. Delivery pricing that comes from
-     * outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum
-     * fees by currency.
-     */
-    "callback"?: DeliveryExternalPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryExternalPricingStrategy}. Delivery pricing that comes from
-     * outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum
-     * fees by currency.
-     */
-    "caller_supplied"?: DeliveryExternalPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryFixedPricingStrategy}. A fixed delivery price, by currency.
-     */
-    "fixed"?: DeliveryFixedPricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryRateTablePricingStrategy}. Pricing strategy that charges the
-     * price of the first matching rate in a list of prioritized rates. `unmatched_behavior` says
-     * what happens when none match.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategy;
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategy}. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered": DeliveryTieredPricingStrategy;
-    /** Shape $ (Value): string.  Value enum: "tiered". */
-    "type": "tiered" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "tiered". */
-    "type": unknown;
-    /**
-     * Shape $ (Value): {@link DeliveryTieredPricingStrategy}. Pricing strategy that charges by
-     * band. The `basis` value, such as total weight or subtotal, selects a band, and `unit`
-     * applies to weight bases.
-     */
-    "tiered": DeliveryTieredPricingStrategy;
-}));
-/**
- * Shape $ (Value): {@link DeliveryPricingTierBand}. One band of a tiered pricing strategy,
- * covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
- */
-export type DeliveryPricingTierBand = {
-    /**
-     * Shape $ (Value): Map of {@link MoneyValue}. Shape $.* (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
+     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "currency_options": Record<string, MoneyValue>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "from": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "to"?: `${bigint}`;
 };
-/**
- * Shape $ (Value): {@link DeliveryPricingTierBandRequestInput}. One band of a tiered pricing
- * strategy you supply, covering values of the strategy's `basis` from `from` to `to`, with a price
- * per currency.
- */
-export type DeliveryPricingTierBandRequestInput = {
+/** A fixed delivery price by currency, supplied for a delivery method. */
+export type DeliveryFixedPricingStrategyRequestInput = {
     /**
-     * Shape $ (Value): Map of {@link MoneyValueInput}. Shape $.* (Value): {@link MoneyValueInput}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     *  * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
     "currency_options": Record<string, MoneyValueInput>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "from": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "to"?: `${bigint}` | bigint;
 };
-/** Shape $ (Value): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog items. */
-export type DeliveryProfile = {
+/**
+ * Details of a local delivery fulfillment: courier, timing window, instructions, and tracking.
+ * Some fields are omitted for credentials that don't act for the verified customer.
+ */
+export type DeliveryFulfillmentDetails = {
+    /** Carrier responsible for the local delivery. */
+    "carrier"?: string;
+    /** Time at which the courier collected the order. Format: date-time. */
+    "courier_pickup_at"?: string;
     /**
-     * Shape $ (Value): {@link DeliveryProfileConfiguration}. Current delivery requirement and
-     * grouping policy. Whether delivery planning applies to items under a delivery profile, and if
-     * so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and
-     * dimensions.
+     * Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
      */
-    "configuration": DeliveryProfileConfiguration;
-    /** Shape $ (Value): string. Time the profile was created. Format: date-time. */
+    "courier_pickup_window_duration_seconds"?: number;
+    /** Delivery network or merchant fleet provider handling the job. maxLength: 255. */
+    "courier_provider_name"?: string;
+    /** Buyer-safe support number for the courier or merchant fleet. maxLength: 30. */
+    "courier_support_phone"?: string;
+    /** When the items were delivered, in RFC3339 format. Format: date-time. */
+    "delivered_at"?: string;
+    /** When the delivery was dispatched, in RFC3339 format. Format: date-time. */
+    "dispatched_at"?: string;
+    /**
+     * Driver-facing notes for the final handoff. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. maxLength: 2048.
+     */
+    "dropoff_notes"?: string;
+    /** Deadline after which an undelivered job should enter merchant review. Format: date-time. */
+    "expires_at"?: string;
+    /** Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255. */
+    "external_delivery_id"?: string;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified.
+     */
+    "instructions"?: string;
+    /**
+     * Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified.
+     */
+    "no_contact"?: boolean;
+    /**
+     * Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** Time at which the order became ready for courier pickup. Format: date-time. */
+    "ready_at"?: string;
+    /** Delivery service area assigned to this fulfillment. */
+    "service_area_id"?: string;
+    /** Timezone used to display the local delivery window. */
+    "timezone"?: string;
+    /**
+     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
+     * checkout session credential that doesn't act for the customer the buyer verified.
+     */
+    "tracking_url"?: string;
+    /** End of the promised delivery window, in RFC3339 format. Format: date-time. */
+    "window_end_at"?: string;
+    /** Start of the promised delivery window, in RFC3339 format. Format: date-time. */
+    "window_start_at"?: string;
+};
+/**
+ * The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length
+ * limits, supported countries, or offered time windows.
+ */
+export type DeliveryInputConstraint = {
+    /**  [] (Value): string. */
+    "allowed_values"?: Array<string>;
+    /** RFC3339 timestamp. Format: date-time. */
+    "earliest_at"?: string;
+    "format"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "latest_at"?: string;
+    /** Format: int32. */
+    "maximum_length"?: number;
+    /** Format: int32. */
+    "minimum_length"?: number;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequest}. A time window a buyer can choose for a delivery,
+     * with its start, end, price, and the last moment it can be chosen.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    /**  [] (Value): string. */
+    "supported_countries"?: Array<string>;
+    /**
+     * Value enum: "string", "address_field", "email", "phone", "time_window", "coordinate",
+     * "caller_supplied_rate".
+     */
+    "type": "string"
+        | "address_field"
+        | "email"
+        | "phone"
+        | "time_window"
+        | "coordinate"
+        | "caller_supplied_rate"
+        | (string & {});
+};
+/**
+ * An input a delivery method needs, such as an address field or time window, with its
+ * `field_path`, purpose, and constraint.
+ */
+export type DeliveryInputRequirement = {
+    /**
+     * The rules for an input a delivery method needs, chosen by `type`, such as allowed values,
+     * length limits, supported countries, or offered time windows.
+     */
+    "constraint": DeliveryInputConstraint;
+    /**  [] (Value): string. */
+    "delivery_choice_group_ids"?: Array<string>;
+    "delivery_input_requirement_id": string;
+    /**  [] (Value): string. */
+    "delivery_method_ids"?: Array<string>;
+    /**  [] (Value): string. */
+    "delivery_option_ids"?: Array<string>;
+    /**
+     * Value enum: "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.country", "destination_address.state",
+     * "destination_address.postal_code", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.country",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.coordinate",
+     * "recipient.name", "recipient.email", "recipient.phone",
+     * "choices[].input.delivery_window_id", "caller_supplied_rates".
+     */
+    "field_path": "destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.country"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.country"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.coordinate"
+        | "recipient.name"
+        | "recipient.email"
+        | "recipient.phone"
+        | "choices[].input.delivery_window_id"
+        | "caller_supplied_rates"
+        | (string & {});
+    /** Value enum: "quote", "selection", "pickup_availability". */
+    "purpose": "quote" | "selection" | "pickup_availability" | (string & {});
+};
+/**
+ * Assigns a quantity of an inventory item at a location to a demand when creating a delivery
+ * quote.
+ */
+export type DeliveryInventoryAssignmentRequest = {
+    /** minLength: 1. */
+    "demand_key": string;
+    /** minLength: 1. */
+    "inventory_item_id": string;
+    /** minLength: 1. */
+    "location_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+};
+/**
+ * Assigns a quantity of an inventory item at a location to a demand when creating a delivery
+ * quote.
+ */
+export type DeliveryInventoryAssignmentRequestInput = DeliveryInventoryAssignmentRequest;
+/**
+ * The inventory reservation held for a delivery selection: its owner, status, expiry, and the next
+ * action required.
+ */
+export type DeliveryInventoryReservationSummary = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "expires_at": string;
+    "inventory_reservation_id": string;
+    /** Value enum: "delivery_selection", "payment_attempt", "order_balance_hold". */
+    "owner_type": "delivery_selection" | "payment_attempt" | "order_balance_hold" | (string & {});
+    /** Value enum: "none", "retry_payment", "replace_selection", "contact_merchant". */
+    "required_next_action"?: "none" | "retry_payment" | "replace_selection" | "contact_merchant" | (string & {});
+    /** Value enum: "active", "closed". */
+    "status": "active" | "closed" | (string & {});
+};
+/** The locations available to a delivery method. */
+export type DeliveryLocationSet = {
+    /**
+     * Current member Locations and selection rules. The location IDs in a delivery location set.
+     */
+    "configuration": DeliveryLocationSetConfiguration;
+    /** Time the location set was created. Format: date-time. */
     "created_at": string;
-    /** Shape $ (Value): string. Immutable revision used for new line-item snapshots. */
-    "current_delivery_profile_revision_id": string;
-    /** Shape $ (Value): string. Stable delivery profile ID. */
-    "delivery_profile_id": string;
-    /**
-     * Shape $ (Value): {@link DeliveryProfileDiagnostics}. Read-only catalog and delivery-method
-     * compatibility diagnostics. Read-only coverage checks for a delivery profile, such as how
-     * many active Locations have no compatible delivery method and how many countries its zones
-     * name.
-     */
-    "diagnostics"?: DeliveryProfileDiagnostics;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
+    /** Immutable revision used for new quotes. */
+    "current_delivery_location_set_revision_id": string;
+    /** Stable delivery location set ID. */
+    "delivery_location_set_id": string;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
     "external_reference_id"?: string;
     /**
-     * Shape $ (Value): boolean. True only when this profile is the current physical catalog
-     * default.
-     */
-    "is_default": boolean;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them.
+     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      */
     "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. Merchant-facing profile name. */
+    /** Merchant-facing location set name. */
     "name": string;
-    /**
-     * Shape $ (Value): string. Current profile lifecycle status. Value enum: "active", "archived".
-     */
+    /** Current location set lifecycle status. Value enum: "active", "archived". */
     "status": "active" | "archived" | (string & {});
-    /** Shape $ (Value): string. Time the profile last changed. Format: date-time. */
+    /** Time the location set last changed. Format: date-time. */
     "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Optimistic-concurrency version for profile writes. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
+    /** Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1. */
+    "version": number;
 };
-/**
- * Shape $ (Value): {@link DeliveryProfileAssignment}. Result of assigning a delivery profile to
- * catalog items that had none, with counts of the product variants and bundle components updated.
- */
-export type DeliveryProfileAssignment = {
-    /**
-     * Shape $ (Value): integer string. Number of previously unconfigured catalog records updated.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
-     * 0.
-     */
-    "bundle_components_updated": `${bigint}`;
-    /** Shape $ (Value): string. Delivery profile assigned to each updated catalog item. */
-    "delivery_profile_id": string;
-    /**
-     * Shape $ (Value): integer string. Number of previously unconfigured catalog records updated.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
-     * 0.
-     */
-    "product_variants_updated": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link DeliveryProfileAssignmentResponse}. A response containing
- * `DeliveryProfileAssignment` data.
- */
-export type DeliveryProfileAssignmentResponse = {
-    /**
-     * Shape $ (Value): {@link DeliveryProfileAssignment}. Result of assigning a delivery profile
-     * to catalog items that had none, with counts of the product variants and bundle components
-     * updated.
-     */
-    "data": DeliveryProfileAssignment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryProfileConfiguration}. Whether delivery planning applies to
- * items under a delivery profile, and if so the allowed delivery types, resolution mode, origin
- * policy, packing rules, weight, and dimensions.
- */
-export type DeliveryProfileConfiguration = {
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". Shape $[]
-     * (Value): string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicy}. Required for quote resolution and
-     * forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Where items under a delivery profile ship or leave from: a fixed
-     * Location (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicy;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "none", "required".
-     */
-    "requirement": "none" | "required" | (string & {});
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual" | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-};
-/**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputManual}. The `manual` variant of
- * `DeliveryProfileConfigurationInputRequired`.
- */
-export type DeliveryProfileConfigurationInputManual = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Required for quote resolution
-     * and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "required".
-     */
-    "requirement": "required" | (string & {});
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "manual".
-     */
-    "resolution_mode": "manual" | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & (({
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "digital",
-     * "service". Shape $[] (Value): string. Value enum: "digital", "service".
-     */
-    "allowed_types": Array<"digital" | "service" | (string & {})>;
-    /** Shape $ (Value): any.  Value enum: "required". */
-    "requirement": unknown;
-    /** Shape $ (Value): any.  Value enum: "manual". */
-    "resolution_mode": unknown;
-}));
-/**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputManualInput}. The `manual` variant of
- * `DeliveryProfileConfigurationInputRequired`.
- */
-export type DeliveryProfileConfigurationInputManualInput = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Required for quote
-     * resolution and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "required".
-     */
-    "requirement": "required";
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "manual".
-     */
-    "resolution_mode": "manual";
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & (({
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "digital",
-     * "service". Shape $[] (Value): string. Value enum: "digital", "service".
-     */
-    "allowed_types": Array<"digital" | "service">;
-    /** Shape $ (Value): any.  Value enum: "required". */
-    "requirement": "required";
-    /** Shape $ (Value): any.  Value enum: "manual". */
-    "resolution_mode": "manual";
-})
-    & (({
-    "origin_policy"?: never;
-})
+export type DeliveryLocationSetActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    "combination_policy"?: never;
-})
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.activated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    "splitting_policy"?: never;
-})));
-/**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputNone}. The `none` variant of
- * `DeliveryProfileConfigurationInput`.
- */
-export type DeliveryProfileConfigurationInputNone = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Required for quote resolution
-     * and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "none".
-     */
-    "requirement": "none" | (string & {});
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual" | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "none". */
-    "requirement": unknown;
-}));
-/**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputNoneInput}. The `none` variant of
- * `DeliveryProfileConfigurationInput`.
- */
-export type DeliveryProfileConfigurationInputNoneInput = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Required for quote
-     * resolution and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "none".
-     */
-    "requirement": "none";
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual";
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "none". */
-    "requirement": "none";
-})
-    & (({
-    "resolution_mode"?: never;
-})
-    & ({
-    "allowed_types"?: never;
-})
-    & ({
-    "origin_policy"?: never;
-})
-    & ({
-    "combination_policy"?: never;
-})
-    & ({
-    "splitting_policy"?: never;
-})));
-/**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputQuote}. The `quote` variant of
- * `DeliveryProfileConfigurationInputRequired`.
- */
-export type DeliveryProfileConfigurationInputQuote = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy": "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Required for quote resolution
-     * and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy": DeliveryProfileOriginPolicyRequest;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "required".
-     */
-    "requirement": "required" | (string & {});
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote".
-     */
-    "resolution_mode": "quote" | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy": "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & ({
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "shipment",
-     * "pickup", "local_delivery". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery".
-     */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | (string & {})>;
-    /** Shape $ (Value): any.  Value enum: "required". */
-    "requirement": unknown;
-    /** Shape $ (Value): any.  Value enum: "quote". */
-    "resolution_mode": unknown;
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Required for quote resolution
-     * and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy": DeliveryProfileOriginPolicyRequest;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy": "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy": "whole_line_item" | "quantity_split_allowed" | (string & {});
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.activated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_location_set.activated";
 });
 /**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputQuoteInput}. The `quote` variant of
- * `DeliveryProfileConfigurationInputRequired`.
+ * The `delivery_location_set.activated` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
  */
-export type DeliveryProfileConfigurationInputQuoteInput = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy": "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Required for quote
-     * resolution and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy": DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "required".
-     */
-    "requirement": "required";
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote".
-     */
-    "resolution_mode": "quote";
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy": "whole_line_item" | "quantity_split_allowed";
-})
+export type DeliveryLocationSetActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "shipment",
-     * "pickup", "local_delivery". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery".
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
      */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery">;
-    /** Shape $ (Value): any.  Value enum: "required". */
-    "requirement": "required";
-    /** Shape $ (Value): any.  Value enum: "quote". */
-    "resolution_mode": "quote";
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.activated". */
+    "event_type"?: "delivery_location_set.activated";
     /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Required for quote
-     * resolution and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "origin_policy": DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy": "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy": "whole_line_item" | "quantity_split_allowed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
 });
 /**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputRequired}. The `required` variant of
- * `DeliveryProfileConfigurationInput`.
+ * The `delivery_location_set.activated` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
  */
-export type DeliveryProfileConfigurationInputRequired = ({
+export type DeliveryLocationSetActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
      */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Required for quote resolution
-     * and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "required".
-     */
-    "requirement": "required" | (string & {});
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode": "quote" | "manual" | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & ((Exclude<DeliveryProfileConfigurationInputQuote & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputManual & object, readonly unknown[]>)
-    | (Record<string, unknown>));
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.activated". */
+    "event_type"?: "delivery_location_set.activated";
+});
+export type DeliveryLocationSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_location_set.archived";
+});
 /**
- * Shape $ (Value): {@link DeliveryProfileConfigurationInputRequiredInput}. The `required` variant
- * of `DeliveryProfileConfigurationInput`.
+ * The `delivery_location_set.archived` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type DeliveryProfileConfigurationInputRequiredInput = ({
+export type DeliveryLocationSetArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
      */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.archived". */
+    "event_type"?: "delivery_location_set.archived";
     /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Required for quote
-     * resolution and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "required".
-     */
-    "requirement": "required";
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode": "quote" | "manual";
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & ((Exclude<DeliveryProfileConfigurationInputQuoteInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputManualInput & object, readonly unknown[]>));
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
- * Shape $ (Value): {@link DeliveryProfileConfigurationRequest}. Delivery planning settings you
- * supply when creating or updating a delivery profile. Which fields are allowed depends on
- * `requirement` and `resolution_mode`.
+ * The `delivery_location_set.archived` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
  */
-export type DeliveryProfileConfigurationRequest = ({
+export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
      */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Required for quote resolution
-     * and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "none", "required".
-     */
-    "requirement"?: "none" | "required" | (string & {});
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual" | (string & {});
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & ((Exclude<DeliveryProfileConfigurationInputNone & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputRequired & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link DeliveryProfileConfigurationRequestInput}. Delivery planning settings
- * you supply when creating or updating a delivery profile. Which fields are allowed depends on
- * `requirement` and `resolution_mode`.
- */
-export type DeliveryProfileConfigurationRequestInput = ({
-    /**
-     * Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is
-     * required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and
-     * service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls which delivery obligations can share a choice
-     * group. Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Required for quote
-     * resolution and forbidden for none or manual resolution. fixed_location requires location_id.
-     * inventory_routing forbids location_id and applies only to tracked inventory. method_origin
-     * forbids location_id. Origin policy you supply for a delivery profile: a fixed Location
-     * (`location_id`), inventory routing, or the origin set on the delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Shape $ (Value): string. Whether delivery planning applies. none forbids every other
-     * configuration field. required also requires resolution_mode and allowed_types, plus the
-     * fields required by that resolution mode. Value enum: "none", "required".
-     */
-    "requirement"?: "none" | "required";
-    /**
-     * Shape $ (Value): string. Required when requirement is required. quote plans physical
-     * delivery and requires origin_policy, combination_policy, and splitting_policy. manual
-     * supports digital and service items and forbids physical planning fields. Value enum:
-     * "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual";
-    /**
-     * Shape $ (Value): string. Required for quote resolution and forbidden when requirement is
-     * none or resolution_mode is manual. Controls whether a line item quantity can be split across
-     * delivery assignments. Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link DeliveryProfileDiagnostics}. Read-only coverage checks for a delivery
- * profile, such as how many active Locations have no compatible delivery method and how many
- * countries its zones name.
- */
-export type DeliveryProfileDiagnostics = {
-    /**
-     * Shape $ (Value): integer. Number of active delivery methods whose type is allowed by this
-     * profile. minimum: 0.
-     */
-    "active_method_definitions_count": number;
-    /**
-     * Shape $ (Value): boolean. True when this is the physical catalog default and every active
-     * physical catalog obligation uses it.
-     */
-    "covers_all_items": boolean;
-    /**
-     * Shape $ (Value): integer. Number of active Locations that no active delivery method
-     * compatible with this profile can use as an origin. minimum: 0.
-     */
-    "locations_without_rates_count": number;
-    /**
-     * Shape $ (Value): Array of string. Up to 20 active Location IDs that no compatible active
-     * delivery method can use as an origin. Use locations_without_rates_count for the complete
-     * count. Shape $[] (Value): string.
-     */
-    "unassigned_locations": Array<string>;
-    /**
-     * Shape $ (Value): boolean. True when more matching Locations exist than are returned in
-     * unassigned_locations.
-     */
-    "unassigned_locations_truncated": boolean;
-    /**
-     * Shape $ (Value): integer. Number of distinct countries explicitly named by zones referenced
-     * from compatible active delivery methods. minimum: 0.
-     */
-    "zone_country_count": number;
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.archived". */
+    "event_type"?: "delivery_location_set.archived";
+});
+/** The location IDs in a delivery location set. */
+export type DeliveryLocationSetConfiguration = {
+    /**  [] (Value): string. minLength: 1. */
+    "location_ids": Array<string>;
 };
-/** Shape $ (Value): {@link DeliveryProfileListResponse}. A page of `DeliveryProfile` objects. */
-export type DeliveryProfileListResponse = {
+/** The location IDs in a delivery location set. */
+export type DeliveryLocationSetConfigurationInput = DeliveryLocationSetConfiguration;
+export type DeliveryLocationSetCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_location_set.created";
+});
+/**
+ * The `delivery_location_set.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryLocationSetCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): Array of {@link DeliveryProfile}. Shape $[] (Value): {@link
-     * DeliveryProfile}. Reusable delivery rules assigned to catalog items.
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
      */
-    "data": Array<DeliveryProfile>;
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.created". */
+    "event_type"?: "delivery_location_set.created";
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_location_set.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type DeliveryLocationSetCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
+     */
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.created". */
+    "event_type"?: "delivery_location_set.created";
+});
+export type DeliveryLocationSetDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.deactivated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.deactivated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_location_set.deactivated";
+});
+/**
+ * The `delivery_location_set.deactivated` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type DeliveryLocationSetDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
+     */
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.deactivated". */
+    "event_type"?: "delivery_location_set.deactivated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_location_set.deactivated` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type DeliveryLocationSetDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
+     */
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.deactivated". */
+    "event_type"?: "delivery_location_set.deactivated";
+});
+/** A page of `DeliveryLocationSet` objects. */
+export type DeliveryLocationSetListResponse = {
+    /**  [] (Value): {@link DeliveryLocationSet}. The locations available to a delivery method. */
+    "data": Array<DeliveryLocationSet>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
     "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicy}. Where items under a delivery profile ship
- * or leave from: a fixed Location (`location_id`), inventory routing, or the origin set on the
- * delivery method.
- */
-export type DeliveryProfileOriginPolicy = {
-    /** Shape $ (Value): string. */
-    "location_id"?: string;
+/** A response containing `DeliveryLocationSet` data. */
+export type DeliveryLocationSetResponse = {
+    /** The locations available to a delivery method. */
+    "data": DeliveryLocationSet;
     /**
-     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
-     */
-    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
-};
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyInputFixedLocation}. The `fixed_location`
- * variant of `DeliveryProfileOriginPolicyInput`.
- */
-export type DeliveryProfileOriginPolicyInputFixedLocation = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-    /** Shape $ (Value): string.  Value enum: "fixed_location". */
-    "type": "fixed_location" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): any.  Value enum: "fixed_location". */
-    "type": unknown;
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-});
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyInputFixedLocationInput}. The
- * `fixed_location` variant of `DeliveryProfileOriginPolicyInput`.
- */
-export type DeliveryProfileOriginPolicyInputFixedLocationInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-    /** Shape $ (Value): string.  Value enum: "fixed_location". */
-    "type": "fixed_location";
-})
-    & ({
-    /** Shape $ (Value): any.  Value enum: "fixed_location". */
-    "type": "fixed_location";
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-});
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyInputInventoryRouting}. The
- * `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`.
- */
-export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "inventory_routing". */
-    "type": "inventory_routing" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "inventory_routing". */
-    "type": unknown;
-}));
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyInputInventoryRoutingInput}. The
- * `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`.
- */
-export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    "location_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyInputMethodOrigin}. The `method_origin`
- * variant of `DeliveryProfileOriginPolicyInput`.
- */
-export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "method_origin". */
-    "type": "method_origin" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "method_origin". */
-    "type": unknown;
-}));
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyInputMethodOriginInput}. The `method_origin`
- * variant of `DeliveryProfileOriginPolicyInput`.
- */
-export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    "location_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Origin policy you supply for a
- * delivery profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
- * delivery method.
- */
-export type DeliveryProfileOriginPolicyRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
-     */
-    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
-})
-    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocation & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRouting & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputMethodOrigin & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Origin policy you supply for a
- * delivery profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
- * delivery method.
- */
-export type DeliveryProfileOriginPolicyRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
-     */
-    "type": "fixed_location" | "inventory_routing" | "method_origin";
-})
-    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocationInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRoutingInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputMethodOriginInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link DeliveryProfileResponse}. A response containing `DeliveryProfile` data.
- */
-export type DeliveryProfileResponse = {
-    /**
-     * Shape $ (Value): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog items.
-     */
-    "data": DeliveryProfile;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type DeliveryProfilesAssignToUnconfiguredInput = {
-    /** Shape $ (Value): string. */
-    "delivery_profile_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+export type DeliveryLocationSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryLocationSet;
+    };
+    "event_type"?: "delivery_location_set.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_location_set.updated";
+});
+/**
+ * The `delivery_location_set.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryLocationSetUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link AssignToUnconfiguredDeliveryProfileRequestInput}. The request body
-     * for: Assign unconfigured catalog entries.
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
      */
-    "body": InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>;
-};
-export type DeliveryProfilesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.updated". */
+    "event_type"?: "delivery_location_set.updated";
     /**
-     * Shape $ (Value): {@link CreateDeliveryProfileRequestInput}. The request body for: Create
-     * delivery profile.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "body": InputValue<CreateDeliveryProfileRequestInput>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_location_set.updated` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type DeliveryLocationSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryLocationSet}. The locations available to a delivery
+     * method.
+     */
+    "data"?: {
+        /** The locations available to a delivery method. */
+        "object": DeliveryLocationSet;
+    };
+    /** Value enum: "delivery_location_set.updated". */
+    "event_type"?: "delivery_location_set.updated";
+});
+export type DeliveryLocationSetsCreateParams = (InputValue<CreateDeliveryLocationSetRequestInput>);
+export type DeliveryLocationSetsDeleteParams = {
+    /**
+     * Optional current resource version. The delete is rejected if the resource changed after this
+     * version was read. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: InputValue<number>;
 };
-export type DeliveryProfilesGetInput = {
-    /** Shape $ (Value): string. */
-    "delivery_profile_id": InputValue<string>;
-    /** Shape $ (Value): boolean. Default: false. */
-    "include_diagnostics"?: InputValue<boolean>;
-};
-export type DeliveryProfilesListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+export type DeliveryLocationSetsGetParams = {};
+export type DeliveryLocationSetsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
     "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
     "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
+    /**
+     * Search across delivery_location_set_id, name, and external_reference_id. Text fields match
+     * any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from
+     * the start and need the type prefix, such as dls_01. maxLength: 255.
+     */
     "query"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
     "external_reference_id"?: InputValue<string>;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "archived". Value enum: "active", "archived".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "archived". anyOf[1][]
+     * (Value): string. Value enum: "active", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "archived".
      */
-    "status"?: InputValue<Array<"active" | "archived">>;
-    /** Shape $ (Value): boolean. */
-    "is_default"?: InputValue<boolean>;
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "quote", "manual". Shape $[]
-     * (Value): string. Value enum: "quote", "manual".
+     * Filter by an active current method that references this resource. Example:
+     * "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      */
-    "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
-    /** Shape $ (Value): boolean. Default: false. */
-    "include_diagnostics"?: InputValue<boolean>;
+    "delivery_method_id"?: InputValue<string>;
 };
-export type DeliveryProfilesRemoveInput = {
-    /** Shape $ (Value): string. */
-    "delivery_profile_id": InputValue<string>;
+export type DeliveryLocationSetsUpdateParams = (UpdateDeliveryLocationSetRequestInput);
+/** A pickup location shown on a delivery option: its name, address, instructions, and timezone. */
+export type DeliveryLocationSummaryResource = {
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
+     * A postal address. Every address has country. Addresses Flint checked as complete (customer
+     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
      */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeliveryProfilesUpdateInput = {
-    /** Shape $ (Value): string. */
-    "delivery_profile_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateDeliveryProfileRequestInput}. The request body for: Update
-     * delivery profile.
-     */
-    "body": InputValue<UpdateDeliveryProfileRequestInput>;
-};
-/**
- * Shape $ (Value): {@link DeliveryQuote}. An estimate of available delivery options and their
- * prices.
- */
-export type DeliveryQuote = {
-    /** Shape $ (Value): string. */
-    "basis_delivery_quote_id"?: string;
-    /** Shape $ (Value): string. */
-    "basis_delivery_selection_id"?: string;
-    /**
-     * Shape $ (Value): {@link DeliveryBuyerLocationResource}. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. The normalized buyer
-     * address or coordinate used for this quote.
-     */
-    "buyer_location"?: DeliveryBuyerLocationResource;
-    /**
-     * Shape $ (Value): Array of string. Buyer-safe reasons no delivery option was available.
-     * Merchant configuration details are never included. [] enum: "address_required",
-     * "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby",
-     * "unavailable_for_these_items", "temporarily_unavailable". Shape $[] (Value): string. Value
-     * enum: "address_required", "address_incomplete", "outside_delivery_area",
-     * "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable".
-     */
-    "buyer_reasons": Array<"address_required"
-        | "address_incomplete"
-        | "outside_delivery_area"
-        | "no_pickup_location_nearby"
-        | "unavailable_for_these_items"
-        | "temporarily_unavailable"
-        | (string & {})>;
-    /** Shape $ (Value): string. Always present with an API key or dashboard credential. */
-    "checkout_session_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteChoiceGroupResource}. Shape $[] (Value):
-     * {@link DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with
-     * the delivery options the buyer can choose, its availability status, and any input still
-     * needed.
-     */
-    "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-    /** Shape $ (Value): string. When Flint created this quote. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string. */
-    "delivery_quote_id": string;
-    /**
-     * Shape $ (Value): integer string. Version of the order's delivery details evaluated by this
-     * quote. Always present with an API key or dashboard credential. Use an integer string
-     * (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
-     */
-    "delivery_quote_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. The delivery revocation that revoked this quote, or null
-     * when no revocation applies.
-     */
-    "delivery_revocation_id": string | null;
-    /**
-     * Shape $ (Value): {@link Address}. Omitted for a checkout session credential that doesn't act
-     * for the customer the buyer verified. A postal address. Every address has country. Addresses
-     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
-     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
-     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
-     * buyer locations and postal-code tax locations hold only what was provided, such as
-     * postal_code and country.
-     */
-    "destination_address"?: Address;
-    /**
-     * Shape $ (Value): integer string. Version of the checkout eligibility context evaluated by
-     * this quote. Always present with an API key or dashboard credential. Use an integer string
-     * (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
-     */
-    "eligibility_context_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "evaluated_at": string;
-    /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded". */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /**
-     * Shape $ (Value): string. Authoritative expiry for this quote: 24 hours when every method
-     * uses fixed, tiered, or rate_table pricing, and at most 15 minutes otherwise. A cart with
-     * tracked inventory shortens it to the 5 minutes its stock check stays valid. Read this value
-     * from every response. Format: date-time.
-     */
-    "expires_at": string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Inputs the delivery methods
-     * need. A quote requirement, such as the destination address, is input a method needs before
-     * Flint can price it. A selection requirement is input a delivery selection needs before
-     * payment, such as a recipient field or delivery window an option requires. A method that
-     * waits on the buyer's address or store, or on an address the buyer must correct, already
-     * lists the recipient fields it requires. Those requirements name the method's choice group
-     * and have no delivery_option_ids. Shape $[] (Value): {@link DeliveryInputRequirement}. An
-     * input a delivery method needs, such as an address field or time window, with its
-     * `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryMerchantDiagnostic}. Always present with an API key
-     * or dashboard credential. Shape $[] (Value): {@link DeliveryMerchantDiagnostic}. A
-     * merchant-only diagnostic explaining why a delivery method produced no option, with its
-     * outcome, recommended action, and eligibility mismatches.
-     */
-    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteMethodResource}. Shape $[] (Value): {@link
-     * DeliveryQuoteMethodResource}. A delivery method offered in a delivery quote, with its name,
-     * type, display position, and revision.
-     */
-    "methods"?: Array<DeliveryQuoteMethodResource>;
-    /** Shape $ (Value): string. Always present with an API key or dashboard credential. */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryPendingCallerRateRequest}. Shape $[] (Value):
-     * {@link DeliveryPendingCallerRateRequest}. A delivery method and choice group still waiting
-     * for a caller-supplied rate on a delivery quote.
-     */
-    "pending_caller_rate_requests"?: Array<DeliveryPendingCallerRateRequest>;
-    /**
-     * Shape $ (Value): string. Why the quote was revoked: the reason on the delivery revocation
-     * that fenced a dependency this quote used. Present when status is revoked. Value enum:
-     * "unsafe_configuration", "location_unavailable", "credential_compromise",
-     * "legal_requirement", "other".
-     */
-    "revocation_reason"?: "unsafe_configuration"
-        | "location_unavailable"
-        | "credential_compromise"
-        | "legal_requirement"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "revoked_at"?: string;
-    /** Shape $ (Value): boolean. */
-    "selection_required": boolean;
-    /**
-     * Shape $ (Value): string. Value enum: "checkout_changed", "selection_changed",
-     * "eligibility_changed", "inventory_changed", "authority_changed",
-     * "superseded_by_priced_quote".
-     */
-    "stale_reason"?: "checkout_changed"
-        | "selection_changed"
-        | "eligibility_changed"
-        | "inventory_changed"
-        | "authority_changed"
-        | "superseded_by_priced_quote"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Whether the quote can be selected now, derived from the current
-     * checkout or renewal order on every read. Value enum: "active", "consumed", "stale",
-     * "expired", "revoked".
-     */
-    "status": "active" | "consumed" | "stale" | "expired" | "revoked" | (string & {});
-    /**
-     * Shape $ (Value): string. The priced delivery quote that replaced this quote. Its
-     * basis_delivery_quote_id names this quote.
-     */
-    "superseded_by_delivery_quote_id"?: string;
-};
-/**
- * Shape $ (Value): {@link DeliveryQuoteChoiceGroupResource}. One group of order items in a
- * delivery quote, with the delivery options the buyer can choose, its availability status, and any
- * input still needed.
- */
-export type DeliveryQuoteChoiceGroupResource = {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryAddressAdvisoryResource}. Buyer-actionable address
-     * verification results that affected this choice group. A suggested_address is an explicit
-     * correction the buyer may confirm; Flint does not apply it silently. Shape $[] (Value):
-     * {@link DeliveryAddressAdvisoryResource}. An address verification result for a delivery
-     * address or buyer location. `suggested_address` may offer a correction.
-     */
-    "address_advisories"?: Array<DeliveryAddressAdvisoryResource>;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "allowed_types"?: Array<string>;
-    /**
-     * Shape $ (Value): string. Value enum: "ready", "needs_input", "needs_checkout_context",
-     * "unavailable".
-     */
-    "availability_status": "ready" | "needs_input" | "needs_checkout_context" | "unavailable" | (string & {});
-    /**
-     * Shape $ (Value): Map of {@link DeliveryCandidateOutcomeResource}. Shape $.* (Value): {@link
-     * DeliveryCandidateOutcomeResource}. The result of evaluating one delivery method for a choice
-     * group, selected by `type`: available with an option, unavailable, input required, cannot
-     * calculate, or requires checkout context.
-     */
-    "candidate_outcomes"?: Record<string, DeliveryCandidateOutcomeResource>;
-    /** Shape $ (Value): string. */
-    "delivery_choice_group_id": string;
-    /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded". */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteExecutionLegResource}. Where the group's items
-     * leave from, one leg per origin Location, when all of its methods leave from the same
-     * Locations. Omitted when the origin depends on the chosen method, such as shipping from a
-     * warehouse or picking up at a store. Each option then lists its own execution_legs. Shape $[]
-     * (Value): {@link DeliveryQuoteExecutionLegResource}. One leg of a delivery choice group,
-     * identifying the origin Location the group's items leave from.
-     */
-    "execution_legs"?: Array<DeliveryQuoteExecutionLegResource>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Shape $[] (Value): {@link
-     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
-     * time window, with its `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteLineItemResource}. Shape $[] (Value): {@link
-     * DeliveryQuoteLineItemResource}. An order line item, or one bundle component of it, and the
-     * quantity covered by a delivery choice group.
-     */
-    "line_items": Array<DeliveryQuoteLineItemResource>;
-    /**
-     * Shape $ (Value): Array of string. Types of the delivery methods that can serve this group's
-     * items, each listed once, in the order the methods display. A type is listed before its
-     * options are priced, such as a local delivery that waits for the buyer's address, and stays
-     * listed while its methods need more input or cannot serve the current input. options lists
-     * what the buyer can choose now. A method whose type these items do not allow is left out, and
-     * the list is empty when no method can serve them. [] enum: "shipment", "pickup",
-     * "local_delivery". Shape $[] (Value): string. Value enum: "shipment", "pickup",
-     * "local_delivery".
-     */
-    "method_types": Array<"shipment" | "pickup" | "local_delivery" | (string & {})>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryOptionProjection}. Shape $[] (Value): {@link
-     * DeliveryOptionProjection}. A delivery option in a quote or preview: its price, type, timing,
-     * delivery plan, execution legs, and shipment, pickup, or local delivery details.
-     */
-    "options": Array<DeliveryOptionProjection>;
-    /** Shape $ (Value): string. */
-    "previously_selected_delivery_method_id"?: string;
-    /** Shape $ (Value): string. */
-    "stable_key": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryQuoteExecutionLegResource}. One leg of a delivery choice group,
- * identifying the origin Location the group's items leave from.
- */
-export type DeliveryQuoteExecutionLegResource = {
-    /** Shape $ (Value): string. */
-    "delivery_execution_leg_id": string;
-    /** Shape $ (Value): string. */
-    "origin_location_id": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryQuoteLineItemResource}. An order line item, or one bundle
- * component of it, and the quantity covered by a delivery choice group.
- */
-export type DeliveryQuoteLineItemResource = {
-    /** Shape $ (Value): string. */
-    "bundle_component_id"?: string;
-    /** Shape $ (Value): string. */
-    "order_line_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-};
-/** Shape $ (Value): {@link DeliveryQuoteListResponse}. A page of `DeliveryQuote` objects. */
-export type DeliveryQuoteListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuote}. Shape $[] (Value): {@link DeliveryQuote}.
-     * An estimate of available delivery options and their prices.
-     */
-    "data": Array<DeliveryQuote>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryQuoteMethodResource}. A delivery method offered in a delivery
- * quote, with its name, type, display position, and revision.
- */
-export type DeliveryQuoteMethodResource = {
-    /** Shape $ (Value): string. */
-    "delivery_method_id": string;
-    /** Shape $ (Value): string. */
-    "delivery_method_revision_id": string;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "display_position": number;
-    /** Shape $ (Value): string. */
+    "address"?: Address;
+    "instructions"?: string;
+    "location_id": string;
     "name": string;
-    /**
-     * Shape $ (Value): integer. Marks this method as recommended. Within each choice group, the
-     * available method with the lowest value is recommended and listed first. Ties go to the lower
-     * display_position, then the method ID. Null never recommends the method. Format: int32.
-     */
-    "recommendation_priority"?: number;
-    /** Shape $ (Value): string.  Value enum: "shipment", "pickup", "local_delivery". */
-    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
-};
-/** Shape $ (Value): {@link DeliveryQuoteResponse}. A response containing `DeliveryQuote` data. */
-export type DeliveryQuoteResponse = {
-    /**
-     * Shape $ (Value): {@link DeliveryQuote}. An estimate of available delivery options and their
-     * prices.
-     */
-    "data": DeliveryQuote;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryQuotesGetInput = {
-    /** Shape $ (Value): string. */
-    "delivery_quote_id": InputValue<string>;
-};
-export type DeliveryQuotesListInput = {
-    /** Shape $ (Value): string. */
-    "checkout_session_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "consumed", "stale",
-     * "expired", "revoked". Shape $[] (Value): string. Value enum: "active", "consumed", "stale",
-     * "expired", "revoked".
-     */
-    "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "complete", "incomplete",
-     * "degraded". Shape $[] (Value): string. Value enum: "complete", "incomplete", "degraded".
-     */
-    "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
+    "timezone"?: string;
 };
 /**
- * Shape $ (Value): {@link DeliveryRadiusCondition}. Eligibility condition that matches when the
- * destination or buyer location is within `maximum_distance` of an origin, measured in a straight
- * line.
+ * A merchant-only diagnostic explaining why a delivery method produced no option, with its
+ * outcome, recommended action, and eligibility mismatches.
  */
-export type DeliveryRadiusCondition = {
+export type DeliveryMerchantDiagnostic = {
     /**
-     * Shape $ (Value): {@link DeliveryDistance}. A distance as a `value` in meters, kilometers, or
-     * miles.
+     * Stable reason the method did not produce an option. - `eligibility_no_match`: The configured
+     * eligibility expression excluded the method. - `method_unavailable`: The method was
+     * unavailable for this evaluation. - `input_required`: The buyer or caller must provide more
+     * information to evaluate the method. - `checkout_context_required`: A checkout session is
+     * required to evaluate the method. - `dependency_failure`: Flint could not check whether the
+     * method is available. Value enum: "eligibility_no_match", "method_unavailable",
+     * "input_required", "checkout_context_required", "dependency_failure".
      */
-    "maximum_distance": DeliveryDistance;
-    /** Shape $ (Value): string. Default: "straight_line". Value enum: "straight_line". */
-    "measurement"?: "straight_line" | (string & {});
+    "code": "eligibility_no_match"
+        | "method_unavailable"
+        | "input_required"
+        | "checkout_context_required"
+        | "dependency_failure"
+        | (string & {});
+    "delivery_method_id"?: string;
+    "delivery_method_revision_id"?: string;
+    "diagnostic_id": string;
     /**
-     * Shape $ (Value): {@link DeliveryRadiusOrigin}. The point a radius condition measures from: a
-     * specific Location (`location_id`) or the delivery method's own origin (`method_origin`).
+     * Configured eligibility predicates that conclusively rejected the method. Present only for
+     * eligibility_no_match. [] (Value): {@link DeliveryEligibilityMismatch}. An eligibility
+     * condition that rejected a delivery method, with its condition type, its path in the
+     * expression, and the field tested.
      */
-    "origin": DeliveryRadiusOrigin;
+    "eligibility_mismatches"?: Array<DeliveryEligibilityMismatch>;
+    /** RFC3339 timestamp. Format: date-time. */
+    "occurred_at": string;
     /**
-     * Shape $ (Value): string. Address facts tested by this condition. destination_address is the
-     * shipping destination. buyer_location is the buyer's current pickup or local-delivery
-     * location. Default: "destination_address". Value enum: "destination_address",
-     * "buyer_location".
+     * Value enum: "unavailable", "input_required", "cannot_calculate",
+     * "requires_checkout_context".
      */
-    "subject"?: "destination_address" | "buyer_location" | (string & {});
+    "outcome": "unavailable" | "input_required" | "cannot_calculate" | "requires_checkout_context" | (string & {});
+    /** Value enum: "review_configuration", "provide_input", "create_checkout", "retry". */
+    "recommended_action": "review_configuration" | "provide_input" | "create_checkout" | "retry" | (string & {});
+    "retryable": boolean;
+    /** Value enum: "method". */
+    "scope": "method" | (string & {});
+    "summary": string;
 };
-/**
- * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches when
- * the destination or buyer location is within `maximum_distance` of an origin, measured in a
- * straight line.
- */
-export type DeliveryRadiusConditionInput = {
+/** A configured shipping, pickup, local delivery, or service option. */
+export type DeliveryMethod = {
     /**
-     * Shape $ (Value): {@link DeliveryDistanceInput}. A distance as a `value` in meters,
-     * kilometers, or miles.
+     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
+     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
+     * requirements, and option lifetimes.
      */
-    "maximum_distance": DeliveryDistanceInput;
-    /** Shape $ (Value): string. Default: "straight_line". Value enum: "straight_line". */
-    "measurement"?: "straight_line";
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusOriginInput}. The point a radius condition measures
-     * from: a specific Location (`location_id`) or the delivery method's own origin
-     * (`method_origin`).
-     */
-    "origin": DeliveryRadiusOriginInput;
-    /**
-     * Shape $ (Value): string. Address facts tested by this condition. destination_address is the
-     * shipping destination. buyer_location is the buyer's current pickup or local-delivery
-     * location. Default: "destination_address". Value enum: "destination_address",
-     * "buyer_location".
-     */
-    "subject"?: "destination_address" | "buyer_location";
-};
-/**
- * Shape $ (Value): {@link DeliveryRadiusOrigin}. The point a radius condition measures from: a
- * specific Location (`location_id`) or the delivery method's own origin (`method_origin`).
- */
-export type DeliveryRadiusOrigin = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /** Shape $ (Value): boolean. */
-    "method_origin"?: boolean;
-};
-/**
- * Shape $ (Value): {@link DeliveryRadiusOriginInput}. The point a radius condition measures from:
- * a specific Location (`location_id`) or the delivery method's own origin (`method_origin`).
- */
-export type DeliveryRadiusOriginInput = DeliveryRadiusOrigin;
-/** Shape $ (Value): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates. */
-export type DeliveryRateCallback = {
-    /**
-     * Shape $ (Value): integer. Consecutive callback failures since the last successful response.
-     * minimum: 0.
-     */
-    "circuit_failure_count": number;
-    /** Shape $ (Value): string.  Value enum: "closed", "open", "half_open". */
-    "circuit_state": "closed" | "open" | "half_open" | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryRateCallbackConfiguration}. Settings for a delivery rate
-     * callback: the endpoint `url` Flint calls, request timeout, request and response size limits,
-     * redirect policy, and whether previews can use it.
-     */
-    "configuration": DeliveryRateCallbackConfiguration;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "configuration": DeliveryMethodConfiguration;
+    /** Time the method was created. Format: date-time. */
     "created_at": string;
-    /** Shape $ (Value): string. */
-    "current_delivery_rate_callback_revision_id": string;
-    /** Shape $ (Value): string. */
-    "delivery_rate_callback_id": string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
+    /** Immutable revision currently used for new quotes. */
+    "current_delivery_method_revision_id": string;
+    /** Stable delivery method ID. */
+    "delivery_method_id": string;
+    /** Optional buyer-facing description. */
+    "description"?: string;
+    /** Ascending display order among methods. Format: int32. */
+    "display_position": number;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
     "external_reference_id"?: string;
     /**
-     * Shape $ (Value): string. Initial HMAC signing key ID. Returned only by create when hmac is
-     * included.
+     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      */
-    "key_id"?: string;
-    /** Shape $ (Value): string. */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing method name. */
     "name": string;
     /**
-     * Shape $ (Value): string. Initial HMAC shared secret. Returned only by the create response
-     * when signing_methods includes hmac.
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
      */
-    "secret"?: string;
-    /**
-     * Shape $ (Value): Array of string. Signing methods enabled for callback HTTP requests. jwt
-     * sends Authorization: Bearer with a Flint-signed token whose aud is this
-     * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1.
-     * uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". Shape $[] (Value): string. jwt
-     * uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum:
-     * "jwt", "hmac".
-     */
-    "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive", "archived". */
+    "recommendation_priority"?: number;
+    /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
     "status": "active" | "inactive" | "archived" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Counts of subscriptions by status: active, past due, and paused. */
+    "subscription_counts": SubscriptionCounts;
+    /** Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup". */
+    "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+    /** Time the method last changed. Format: date-time. */
     "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
+    /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
+    "version": number;
 };
+export type DeliveryMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.activated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.activated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_method.activated";
+});
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackConfiguration}. Settings for a delivery rate
- * callback: the endpoint `url` Flint calls, request timeout, request and response size limits,
- * redirect policy, and whether previews can use it.
+ * The `delivery_method.activated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type DeliveryRateCallbackConfiguration = {
+export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
      */
-    "maximum_request_bytes"?: `${bigint}`;
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.activated". */
+    "event_type"?: "delivery_method.activated";
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "maximum_response_bytes"?: `${bigint}`;
-    /** Shape $ (Value): boolean. Default: false. */
-    "preview_enabled"?: boolean;
-    /** Shape $ (Value): string. Default: "reject". Value enum: "reject". */
-    "redirect_policy"?: "reject" | (string & {});
-    /** Shape $ (Value): number. minimum: 0.1. maximum: 10. Default: 2. */
-    "request_timeout_seconds"?: number;
-    /** Shape $ (Value): string. minLength: 1. */
-    "url": string;
-};
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackConfigurationInput}. Settings for a delivery rate
- * callback: the endpoint `url` Flint calls, request timeout, request and response size limits,
- * redirect policy, and whether previews can use it.
+ * The `delivery_method.activated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
  */
-export type DeliveryRateCallbackConfigurationInput = {
+export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
      */
-    "maximum_request_bytes"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     */
-    "maximum_response_bytes"?: `${bigint}` | bigint;
-    /** Shape $ (Value): boolean. Default: false. */
-    "preview_enabled"?: boolean;
-    /** Shape $ (Value): string. Default: "reject". Value enum: "reject". */
-    "redirect_policy"?: "reject";
-    /** Shape $ (Value): number. minimum: 0.1. maximum: 10. Default: 2. */
-    "request_timeout_seconds"?: number;
-    /** Shape $ (Value): string. minLength: 1. */
-    "url": string;
-};
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.activated". */
+    "event_type"?: "delivery_method.activated";
+});
+export type DeliveryMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_method.archived";
+});
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackConfigurationPatchRequest}. Only the keys you send
- * change; keys you leave out keep their current values. Null restores a key's default, as each
- * field describes. The result must be a configuration you could create. Requires expected_version.
- * An empty configuration is invalid. minProperties: 1.
+ * The `delivery_method.archived` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type DeliveryRateCallbackConfigurationPatchRequest = {
+export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): integer string or null. Null restores 262144 bytes. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1048576.
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
      */
-    "maximum_request_bytes"?: `${bigint}` | null;
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.archived". */
+    "event_type"?: "delivery_method.archived";
     /**
-     * Shape $ (Value): integer string or null. Null restores 262144 bytes. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1048576.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "maximum_response_bytes"?: `${bigint}` | null;
-    /** Shape $ (Value): boolean or null. Null restores false. */
-    "preview_enabled"?: boolean | null;
-    /** Shape $ (Value): string or null. Null restores reject. Value enum: "reject", null. */
-    "redirect_policy"?: "reject" | null | (string & {}) | null;
-    /** Shape $ (Value): number or null. Null restores 2 seconds. minimum: 0.1. maximum: 10. */
-    "request_timeout_seconds"?: number | null;
-    /** Shape $ (Value): string. Null is invalid. minLength: 1. */
-    "url"?: string;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_method.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
+     */
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.archived". */
+    "event_type"?: "delivery_method.archived";
+});
+/**
+ * How a delivery method works: its origin, pricing, eligibility, timing estimate, tax settings,
+ * recipient requirements, and option lifetimes.
+ */
+export type DeliveryMethodConfiguration = {
+    /**
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection.
+     */
+    "buyer_instructions"?: BuyerInstructionsConfig;
+    /**
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
+     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
+     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
+     * send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery
+     * categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "charge_tax_category": "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Conditions that decide where this method is offered. Omit this field to offer the method
+     * everywhere the merchant serves. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "eligibility"?: DeliveryEligibilityExpression;
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. How a delivery method estimates timing, chosen by `type`: no estimate, a
+     * transit time, or a schedule window.
+     */
+    "estimate": DeliveryEstimateRule;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds": number;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. Where a delivery method starts,
+     * chosen by `type`: a fixed location, an allocated group of locations, or a collection of
+     * pickup locations.
+     */
+    "origin": DeliveryMethodOriginSelector;
+    /**
+     * How Flint calculates the delivery charge. How a delivery method sets its price, selected by
+     * `type`. Only the matching property (`fixed`, `rate_table`, `tiered`, `calculated`,
+     * `callback`, or `caller_supplied`) is set.
+     */
+    "pricing": DeliveryPricingStrategy;
+    /**
+     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
+     * Buyer-visible instructions for this method. maxLength: 2048. pickup_mode (Optional): string.
+     * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+     * "curbside", "locker", "other". service_level (Optional): string. Buyer-visible service
+     * level. Shipment accepts economy, standard, expedited, express, overnight, same_day. Local
+     * delivery accepts on_demand, same_day, scheduled. Value enum: "economy", "standard",
+     * "expedited", "express", "overnight", "same_day", "on_demand", "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled"
+            | (string & {});
+    };
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate"
+        | (string & {})>;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirement>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds": number;
+    /**
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
+     */
+    "taxable": boolean | null;
 };
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackConfigurationPatchRequestInput}. Only the keys you
- * send change; keys you leave out keep their current values. Null restores a key's default, as
- * each field describes. The result must be a configuration you could create. Requires
+ * The configuration you supply when creating a delivery method. `origin` and `pricing` are
+ * required.
+ */
+export type DeliveryMethodConfigurationCreateRequest = ({
+    /**
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection.
+     */
+    "buyer_instructions"?: BuyerInstructionsConfig;
+    /**
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
+     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
+     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
+     * send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery
+     * categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Conditions that decide where this method is offered. Omit this field to offer the method
+     * everywhere the merchant serves. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "eligibility"?: DeliveryEligibilityExpression;
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`:
+     * none, a transit time, or a schedule window.
+     */
+    "estimate"?: DeliveryEstimateRule;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. The origin you supply for a
+     * delivery method, chosen by `type`: a fixed location, or locations from a delivery location
+     * set or an inline list.
+     */
+    "origin": DeliveryMethodOriginSelectorRequest;
+    /**
+     * The pricing strategy you supply when creating a delivery method. Set `type` and the matching
+     * property.
+     */
+    "pricing": DeliveryPricingStrategyCreateRequest;
+    /**
+     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
+     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
+     * (Optional): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled"
+            | (string & {});
+    };
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate"
+        | (string & {})>;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirement>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number;
+    /**
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
+     */
+    "taxable"?: boolean | null;
+});
+/**
+ * The configuration you supply when creating a delivery method. `origin` and `pricing` are
+ * required.
+ */
+export type DeliveryMethodConfigurationCreateRequestInput = ({
+    /**
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection.
+     */
+    "buyer_instructions"?: BuyerInstructionsConfigRequestInput;
+    /**
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
+     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
+     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
+     * send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery
+     * categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
+    /**
+     * Conditions that decide where this method is offered. Omit this field to offer the method
+     * everywhere the merchant serves. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "eligibility"?: DeliveryEligibilityExpressionInput;
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`:
+     * none, a transit time, or a schedule window.
+     */
+    "estimate"?: DeliveryEstimateRuleRequestInput;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. The origin you supply for a
+     * delivery method, chosen by `type`: a fixed location, or locations from a delivery location
+     * set or an inline list.
+     */
+    "origin": DeliveryMethodOriginSelectorRequestInput;
+    /**
+     * The pricing strategy you supply when creating a delivery method. Set `type` and the matching
+     * property.
+     */
+    "pricing": DeliveryPricingStrategyCreateRequestInput;
+    /**
+     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
+     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
+     * (Optional): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other";
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled";
+    };
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate">;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirementInput}. Says whether
+     * a recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number;
+    /**
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
+     */
+    "taxable"?: boolean | null;
+});
+/**
+ * Only the keys you send change; keys you leave out keep their current values. Each key you send
+ * replaces that part of the configuration whole. Null removes an optional key, as each field
+ * describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+ * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate,
+ * leave out the ID to create one, and leave out a rate to remove it. The result must be a
+ * configuration you could create, including pickup_mode for pickup methods. Requires
  * expected_version. An empty configuration is invalid. minProperties: 1.
  */
-export type DeliveryRateCallbackConfigurationPatchRequestInput = {
+export type DeliveryMethodConfigurationPatchRequest = {
     /**
-     * Shape $ (Value): integer string or null. Null restores 262144 bytes. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1048576.
+     * Controls whether checkout collects buyer instructions for this method. Null disables
+     * instruction collection. enabled (Required): boolean. Whether checkout collects buyer
+     * instructions. label (Optional): string. Checkout field label, without leading or trailing
+     * whitespace. Clients use a delivery-type default when omitted. minLength: 1. maxLength: 255.
+     * placeholder (Optional): string. Checkout field placeholder, without leading or trailing
+     * whitespace. Clients use a delivery-type default when omitted. minLength: 1. maxLength: 500.
+     * required (Required): boolean. Whether the buyer must enter instructions before selecting the
+     * option. Requires enabled=true.
      */
-    "maximum_request_bytes"?: `${bigint}` | bigint | null;
+    "buyer_instructions"?: {
+        /** Whether checkout collects buyer instructions. */
+        "enabled": boolean;
+        /**
+         * Checkout field label, without leading or trailing whitespace. Clients use a
+         * delivery-type default when omitted. minLength: 1. maxLength: 255.
+         */
+        "label"?: string;
+        /**
+         * Checkout field placeholder, without leading or trailing whitespace. Clients use a
+         * delivery-type default when omitted. minLength: 1. maxLength: 500.
+         */
+        "placeholder"?: string;
+        /**
+         * Whether the buyer must enter instructions before selecting the option. Requires
+         * enabled=true.
+         */
+        "required": boolean;
+    }
+        | null;
     /**
-     * Shape $ (Value): integer string or null. Null restores 262144 bytes. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1048576.
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Automatic tax calculates the shipping and delivery categories at the
+     * general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Null uses
+     * settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment,
+     * delivery for local_delivery, or service_fee for pickup. Value enum: "service_fee",
+     * "shipping", "delivery", "handling", "surcharge", null.
      */
-    "maximum_response_bytes"?: `${bigint}` | bigint | null;
-    /** Shape $ (Value): boolean or null. Null restores false. */
-    "preview_enabled"?: boolean | null;
-    /** Shape $ (Value): string or null. Null restores reject. Value enum: "reject", null. */
-    "redirect_policy"?: "reject" | null;
-    /** Shape $ (Value): number or null. Null restores 2 seconds. minimum: 0.1. maximum: 10. */
-    "request_timeout_seconds"?: number | null;
-    /** Shape $ (Value): string. Null is invalid. minLength: 1. */
-    "url"?: string;
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Conditions that decide where this method is offered. Null removes the conditions, so the
+     * method is offered everywhere the merchant serves. anyOf[1] (Value): {@link
+     * DeliveryEligibilityExpression}. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     * anyOf[2] (Value): null.
+     */
+    "eligibility"?: ((DeliveryEligibilityExpression) | (null) | (unknown));
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. Null restores type none, when the pricing type allows it. schedule_window
+     * (Optional): {@link DeliveryScheduleWindowRule}. Scheduled-window estimate rule you supply
+     * for a delivery method, defined by its `availability` schedule. transit_time (Optional):
+     * {@link DeliveryTransitTimeRule}. Estimate rule giving a delivery method's handling time and
+     * transit time as ranges of business days. type (Required): string. Value enum: "none",
+     * "transit_time", "schedule_window".
+     */
+    "estimate"?: {
+        /**
+         * Scheduled-window estimate rule you supply for a delivery method, defined by its
+         * `availability` schedule.
+         */
+        "schedule_window"?: DeliveryScheduleWindowRule;
+        /**
+         * Estimate rule giving a delivery method's handling time and transit time as ranges of
+         * business days.
+         */
+        "transit_time"?: DeliveryTransitTimeRule;
+        /** Value enum: "none", "transit_time", "schedule_window". */
+        "type": "none" | "transit_time" | "schedule_window" | (string & {});
+    }
+        | null;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table
+     * pricing. It is invalid for calculated, callback, or caller_supplied pricing. Format: int64.
+     * minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number | null;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. Null is invalid. The origin you
+     * supply for a delivery method, chosen by `type`: a fixed location, or locations from a
+     * delivery location set or an inline list.
+     */
+    "origin"?: DeliveryMethodOriginSelectorRequest;
+    /**
+     * How Flint calculates the delivery charge. Null is invalid. The pricing strategy you supply
+     * when updating a delivery method. Set `type` and the matching property.
+     */
+    "pricing"?: DeliveryPricingStrategyRequest;
+    /**
+     * Buyer-visible structured details supplied by the merchant. Null removes the public details;
+     * pickup methods still require pickup_mode. minProperties: 1. instructions (Optional): string.
+     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
+     * (Optional): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled"
+            | (string & {});
+    }
+        | null;
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive. Use []
+     * to clear it. Null is invalid. maxItems: 12. uniqueItems: true. [] enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate"
+        | (string & {})>;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. Use [] to clear it. Null is invalid. [] (Value): {@link
+     * DeliveryRecipientRequirement}. Says whether a recipient field (`name`, `email`, or `phone`)
+     * is required for a delivery method, and the format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirement>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Null restores 0, which uses the option expiry. Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number | null;
+    /**
+     * Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the
+     * merchant's settings.
+     */
+    "taxable"?: boolean | null;
 };
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackConnectionCheck}. Result of checking the connection
- * to a delivery rate callback endpoint, with its status, latency, HTTP status code, and failure
- * category if it failed.
+ * Only the keys you send change; keys you leave out keep their current values. Each key you send
+ * replaces that part of the configuration whole. Null removes an optional key, as each field
+ * describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+ * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate,
+ * leave out the ID to create one, and leave out a rate to remove it. The result must be a
+ * configuration you could create, including pickup_mode for pickup methods. Requires
+ * expected_version. An empty configuration is invalid. minProperties: 1.
  */
-export type DeliveryRateCallbackConnectionCheck = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "checked_at": string;
-    /** Shape $ (Value): string. */
-    "delivery_rate_callback_id": string;
-    /** Shape $ (Value): string. */
-    "delivery_rate_callback_revision_id": string;
+export type DeliveryMethodConfigurationPatchRequestInput = {
     /**
-     * Shape $ (Value): string. Why the callback connection check failed and the action that can
-     * make the next check succeed. - `authentication_or_http_error`: Return a 2xx status after
-     * verifying the enabled signing methods. For a 401, check JWT verification with Flint's JWKS,
-     * issuer, delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request
-     * bytes. For HMAC, check the shared secret and verify the raw body before parsing it. -
-     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
-     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
-     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
-     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
-     * For a test delivery, the body must also follow the callback response rules. Then test again.
-     * - `request_error`: Flint couldn't complete the request for another reason. Check the URL and
-     * your server logs, then test again. - `timeout`: Acknowledge the callback within its
-     * configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS
-     * configuration, then test again. Value enum: "authentication_or_http_error",
-     * "blocked_target", "connection_error", "dns_error", "invalid_response", "request_error",
-     * "timeout", "tls_error".
+     * Controls whether checkout collects buyer instructions for this method. Null disables
+     * instruction collection. enabled (Required): boolean. Whether checkout collects buyer
+     * instructions. label (Optional): string. Checkout field label, without leading or trailing
+     * whitespace. Clients use a delivery-type default when omitted. minLength: 1. maxLength: 255.
+     * placeholder (Optional): string. Checkout field placeholder, without leading or trailing
+     * whitespace. Clients use a delivery-type default when omitted. minLength: 1. maxLength: 500.
+     * required (Required): boolean. Whether the buyer must enter instructions before selecting the
+     * option. Requires enabled=true.
      */
-    "failure_category"?: "authentication_or_http_error"
-        | "blocked_target"
-        | "connection_error"
-        | "dns_error"
-        | "invalid_response"
-        | "request_error"
-        | "timeout"
-        | "tls_error"
-        | (string & {});
-    /** Shape $ (Value): integer. */
-    "http_status_code"?: number;
+    "buyer_instructions"?: {
+        /** Whether checkout collects buyer instructions. */
+        "enabled": boolean;
+        /**
+         * Checkout field label, without leading or trailing whitespace. Clients use a
+         * delivery-type default when omitted. minLength: 1. maxLength: 255.
+         */
+        "label"?: string;
+        /**
+         * Checkout field placeholder, without leading or trailing whitespace. Clients use a
+         * delivery-type default when omitted. minLength: 1. maxLength: 500.
+         */
+        "placeholder"?: string;
+        /**
+         * Whether the buyer must enter instructions before selecting the option. Requires
+         * enabled=true.
+         */
+        "required": boolean;
+    }
+        | null;
     /**
-     * Shape $ (Value): string. ID of the HMAC signing key that signed this request. Empty for a
-     * JWT-only callback, which has no shared secret.
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Automatic tax calculates the shipping and delivery categories at the
+     * general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Null uses
+     * settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment,
+     * delivery for local_delivery, or service_fee for pickup. Value enum: "service_fee",
+     * "shipping", "delivery", "handling", "surcharge", null.
      */
-    "key_id": string;
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
+     * Conditions that decide where this method is offered. Null removes the conditions, so the
+     * method is offered everywhere the merchant serves. anyOf[1] (Value): {@link
+     * DeliveryEligibilityExpressionInput}. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     * anyOf[2] (Value): null.
      */
-    "latency_milliseconds": `${bigint}`;
-    /** Shape $ (Value): string.  Value enum: "succeeded", "failed". */
-    "status": "succeeded" | "failed" | (string & {});
+    "eligibility"?: ((DeliveryEligibilityExpressionInput) | (null));
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. Null restores type none, when the pricing type allows it. schedule_window
+     * (Optional): {@link DeliveryScheduleWindowRuleRequestInput}. Scheduled-window estimate rule
+     * you supply for a delivery method, defined by its `availability` schedule. transit_time
+     * (Optional): {@link DeliveryTransitTimeRuleRequestInput}. Estimate rule giving a delivery
+     * method's handling time and transit time as ranges of business days. type (Required): string.
+     * Value enum: "none", "transit_time", "schedule_window".
+     */
+    "estimate"?: {
+        /**
+         * Scheduled-window estimate rule you supply for a delivery method, defined by its
+         * `availability` schedule.
+         */
+        "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
+        /**
+         * Estimate rule giving a delivery method's handling time and transit time as ranges of
+         * business days.
+         */
+        "transit_time"?: DeliveryTransitTimeRuleRequestInput;
+        /** Value enum: "none", "transit_time", "schedule_window". */
+        "type": "none" | "transit_time" | "schedule_window";
+    }
+        | null;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table
+     * pricing. It is invalid for calculated, callback, or caller_supplied pricing. Format: int64.
+     * minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number | null;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. Null is invalid. The origin you
+     * supply for a delivery method, chosen by `type`: a fixed location, or locations from a
+     * delivery location set or an inline list.
+     */
+    "origin"?: DeliveryMethodOriginSelectorRequestInput;
+    /**
+     * How Flint calculates the delivery charge. Null is invalid. The pricing strategy you supply
+     * when updating a delivery method. Set `type` and the matching property.
+     */
+    "pricing"?: DeliveryPricingStrategyRequestInput;
+    /**
+     * Buyer-visible structured details supplied by the merchant. Null removes the public details;
+     * pickup methods still require pickup_mode. minProperties: 1. instructions (Optional): string.
+     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
+     * (Optional): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other";
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled";
+    }
+        | null;
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive. Use []
+     * to clear it. Null is invalid. maxItems: 12. uniqueItems: true. [] enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate">;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. Use [] to clear it. Null is invalid. [] (Value): {@link
+     * DeliveryRecipientRequirementInput}. Says whether a recipient field (`name`, `email`, or
+     * `phone`) is required for a delivery method, and the format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Null restores 0, which uses the option expiry. Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number | null;
+    /**
+     * Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the
+     * merchant's settings.
+     */
+    "taxable"?: boolean | null;
 };
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackConnectionCheckResponse}. A response containing
- * `DeliveryRateCallbackConnectionCheck` data.
+ * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
+ * estimate, tax settings, and recipient requirements.
  */
-export type DeliveryRateCallbackConnectionCheckResponse = {
+export type DeliveryMethodConfigurationRequest = ({
     /**
-     * Shape $ (Value): {@link DeliveryRateCallbackConnectionCheck}. Result of checking the
-     * connection to a delivery rate callback endpoint, with its status, latency, HTTP status code,
-     * and failure category if it failed.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection.
      */
-    "data": DeliveryRateCallbackConnectionCheck;
+    "buyer_instructions"?: BuyerInstructionsConfig;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
+     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
+     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
+     * send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery
+     * categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Conditions that decide where this method is offered. Omit this field to offer the method
+     * everywhere the merchant serves. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "eligibility"?: DeliveryEligibilityExpression;
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`:
+     * none, a transit time, or a schedule window.
+     */
+    "estimate"?: DeliveryEstimateRule;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. The origin you supply for a
+     * delivery method, chosen by `type`: a fixed location, or locations from a delivery location
+     * set or an inline list.
+     */
+    "origin": DeliveryMethodOriginSelectorRequest;
+    /**
+     * How Flint calculates the delivery charge. The pricing strategy you supply when updating a
+     * delivery method. Set `type` and the matching property.
+     */
+    "pricing": DeliveryPricingStrategyRequest;
+    /**
+     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
+     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
+     * (Optional): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled"
+            | (string & {});
+    };
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate"
+        | (string & {})>;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirement>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number;
+    /**
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
+     */
+    "taxable"?: boolean | null;
+});
+/**
+ * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
+ * estimate, tax settings, and recipient requirements.
+ */
+export type DeliveryMethodConfigurationRequestInput = ({
+    /**
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection.
+     */
+    "buyer_instructions"?: BuyerInstructionsConfigRequestInput;
+    /**
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
+     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
+     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
+     * send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery
+     * categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
+    /**
+     * Conditions that decide where this method is offered. Omit this field to offer the method
+     * everywhere the merchant serves. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "eligibility"?: DeliveryEligibilityExpressionInput;
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`:
+     * none, a transit time, or a schedule window.
+     */
+    "estimate"?: DeliveryEstimateRuleRequestInput;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number;
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. The origin you supply for a
+     * delivery method, chosen by `type`: a fixed location, or locations from a delivery location
+     * set or an inline list.
+     */
+    "origin": DeliveryMethodOriginSelectorRequestInput;
+    /**
+     * How Flint calculates the delivery charge. The pricing strategy you supply when updating a
+     * delivery method. Set `type` and the matching property.
+     */
+    "pricing": DeliveryPricingStrategyRequestInput;
+    /**
+     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
+     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
+     * (Optional): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other";
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled";
+    };
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.line1",
+     * "buyer_location.line2", "buyer_location.city", "buyer_location.state",
+     * "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". []
+     * (Value): string. Value enum: "destination_address", "destination_address.line1",
+     * "destination_address.line2", "destination_address.city", "destination_address.state",
+     * "destination_address.postal_code", "destination_address.country", "buyer_location",
+     * "buyer_location.line1", "buyer_location.line2", "buyer_location.city",
+     * "buyer_location.state", "buyer_location.postal_code", "buyer_location.country",
+     * "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.line1"
+        | "buyer_location.line2"
+        | "buyer_location.city"
+        | "buyer_location.state"
+        | "buyer_location.postal_code"
+        | "buyer_location.country"
+        | "buyer_location.coordinate">;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirementInput}. Says whether
+     * a recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number;
+    /**
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
+     */
+    "taxable"?: boolean | null;
+});
+export type DeliveryMethodCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_method.created";
+});
+/**
+ * The `delivery_method.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type DeliveryMethodCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
+     */
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.created". */
+    "event_type"?: "delivery_method.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_method.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryMethodCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
+     */
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.created". */
+    "event_type"?: "delivery_method.created";
+});
+export type DeliveryMethodDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.deactivated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryMethod;
+    };
+    "event_type"?: "delivery_method.deactivated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_method.deactivated";
+});
+/**
+ * The `delivery_method.deactivated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
+     */
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.deactivated". */
+    "event_type"?: "delivery_method.deactivated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_method.deactivated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryMethod}. A configured shipping, pickup, local delivery,
+     * or service option.
+     */
+    "data"?: {
+        /** A configured shipping, pickup, local delivery, or service option. */
+        "object": DeliveryMethod;
+    };
+    /** Value enum: "delivery_method.deactivated". */
+    "event_type"?: "delivery_method.deactivated";
+});
+/** A page of `DeliveryMethod` objects. */
+export type DeliveryMethodListResponse = {
+    /**
+     *  [] (Value): {@link DeliveryMethod}. A configured shipping, pickup, local delivery, or
+     * service option.
+     */
+    "data": Array<DeliveryMethod>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryRateCallbackListResponse}. A page of `DeliveryRateCallback`
- * objects.
- */
-export type DeliveryRateCallbackListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryRateCallback}. Shape $[] (Value): {@link
-     * DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data": Array<DeliveryRateCallback>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
     "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
 /**
- * Shape $ (Value): {@link DeliveryRateCallbackResponse}. A response containing
- * `DeliveryRateCallback` data.
+ * Where a delivery method starts, chosen by `type`: a fixed location, an allocated group of
+ * locations, or a collection of pickup locations.
  */
-export type DeliveryRateCallbackResponse = {
-    /** Shape $ (Value): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates. */
-    "data": DeliveryRateCallback;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryRateCallbackSigningKeyRotation}. Result of rotating a delivery
- * rate callback's signing key, including the new `key_id` and the new `secret`, which is returned
- * only in this response.
- */
-export type DeliveryRateCallbackSigningKeyRotation = {
-    /** Shape $ (Value): string. */
-    "delivery_rate_callback_id": string;
-    /** Shape $ (Value): string. */
-    "key_id": string;
-    /** Shape $ (Value): string. New signing secret. Returned only by this rotation response. */
-    "secret": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryRateCallbackSigningKeyRotationResponse}. A response containing
- * `DeliveryRateCallbackSigningKeyRotation` data.
- */
-export type DeliveryRateCallbackSigningKeyRotationResponse = {
-    /**
-     * Shape $ (Value): {@link DeliveryRateCallbackSigningKeyRotation}. Result of rotating a
-     * delivery rate callback's signing key, including the new `key_id` and the new `secret`, which
-     * is returned only in this response.
-     */
-    "data": DeliveryRateCallbackSigningKeyRotation;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
+export type DeliveryMethodOriginSelector = ({
+    "delivery_location_set_id"?: string;
+    "delivery_location_set_revision_id"?: string;
+    "location_id"?: string;
+    /**  [] (Value): string. */
+    "location_ids"?: Array<string>;
+    /** Value enum: "fixed_location", "allocated_origin_group", "pickup_location_collection". */
+    "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection" | (string & {});
+})
+    & ((Exclude<DeliveryMethodOriginSelectorFixedLocation & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorAllocatedOriginGroup & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorPickupLocationCollection & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`. */
+export type DeliveryMethodOriginSelectorAllocatedOriginGroup = ({
+    "delivery_location_set_id"?: string;
+    "delivery_location_set_revision_id"?: string;
+    "location_id"?: string;
+    /**  [] (Value): string. */
+    "location_ids"?: Array<string>;
+    /** Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group" | (string & {});
+})
+    & (({
+    /** minItems: 1. maxItems: 25. uniqueItems: true. [] (Value): string. */
+    "location_ids"?: Array<string>;
+    /** Value enum: "allocated_origin_group". */
+    "type": unknown;
+})
+    & (({
+    "delivery_location_set_id": string;
+})
+    | ({
+    /** minItems: 1. maxItems: 25. uniqueItems: true. [] (Value): string. */
+    "location_ids": (Array<string>) & (Array<string>);
+})
+    | (Record<string, unknown>)));
+/** The `fixed_location` variant of `DeliveryMethodOriginSelector`. */
+export type DeliveryMethodOriginSelectorFixedLocation = ({
+    "delivery_location_set_id"?: string;
+    "delivery_location_set_revision_id"?: string;
+    "location_id": string;
+    /**  [] (Value): string. */
+    "location_ids"?: Array<string>;
+    /** Value enum: "fixed_location". */
+    "type": "fixed_location" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed_location". */
+    "type": unknown;
+    "location_id": string;
+}));

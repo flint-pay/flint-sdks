@@ -10,22 +10,22 @@ namespace Flint;
 final class GiftCardNotificationDelivery extends Model {
     /** @param array{'attempts': list<mixed>, 'events': list<mixed>, 'has_more_attempts': bool, 'has_more_events': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationDelivery')); }
-    /** Shape $ (Value): Array of {@see GiftCardNotificationDeliveryAttempt}. maxItems: 20. Shape $[] (Value): {@see GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card notification email, with its attempt number, status, and start and completion times.
+    /** maxItems: 20. [] (Value): {@see GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card notification email, with its attempt number, status, and start and completion times.
      * @return list<GiftCardNotificationDeliveryAttempt>
      */
     public function getAttempts(): array { return $this->get('attempts'); }
     public function hasAttempts(): bool { return $this->has('attempts'); }
-    /** Shape $ (Value): Array of {@see GiftCardNotificationDeliveryEvent}. maxItems: 50. Shape $[] (Value): {@see GiftCardNotificationDeliveryEvent}. A delivery event for a gift card notification email, such as accepted, delivered, bounced, or dropped, with when it occurred and was received.
+    /** maxItems: 50. [] (Value): {@see GiftCardNotificationDeliveryEvent}. A delivery event for a gift card notification email, such as accepted, delivered, bounced, or dropped, with when it occurred and was received.
      * @return list<GiftCardNotificationDeliveryEvent>
      */
     public function getEvents(): array { return $this->get('events'); }
     public function hasEvents(): bool { return $this->has('events'); }
-    /** Shape $ (Value): boolean.
+    /** has_more_attempts
      * @return bool
      */
     public function getHasMoreAttempts(): bool { return $this->get('has_more_attempts'); }
     public function hasHasMoreAttempts(): bool { return $this->has('has_more_attempts'); }
-    /** Shape $ (Value): boolean.
+    /** has_more_events
      * @return bool
      */
     public function getHasMoreEvents(): bool { return $this->get('has_more_events'); }

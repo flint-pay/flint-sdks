@@ -4,45 +4,45 @@ namespace Flint;
 /**
  * @property-read array{'amount': string, 'currency': string}|object $amount_money
  * @property-read string $capture_mode
- * @property-read string $expected_version
+ * @property-read int $expected_version
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $gift_card_id
  * @property-read string $sale_reference
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateGiftCardRedemptionRequestAutomaticInput extends Model {
-    /** @param array{'amount_money': array{'amount': string, 'currency': string}|object, 'capture_mode': string, 'expected_version'?: string, 'expires_at'?: string|\DateTimeInterface, 'gift_card_id': string, 'sale_reference': string}|object $values */
+    /** @param array{'amount_money': array{'amount': string, 'currency': string}|object, 'capture_mode': string, 'expected_version'?: int, 'expires_at'?: string|\DateTimeInterface, 'gift_card_id': string, 'sale_reference': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateGiftCardRedemptionRequestAutomaticInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $.currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): array|object { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.  Value enum: "automatic".
+    /** Value enum: "automatic".
      * @return string
      * @throws SdkError When capture_mode is omitted; use hasCaptureMode() or valueOrDefault().
      */
     public function getCaptureMode(): string { return $this->get('capture_mode'); }
     public function hasCaptureMode(): bool { return $this->has('capture_mode'); }
-    /** Shape $ (Value): integer string. The gift card version last read. The command changes this card only when its current version matches. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     * @return string
+    /** The gift card version last read. The command changes this card only when its current version matches. Format: int64. minimum: 1.
+     * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
-    public function getExpectedVersion(): string { return $this->get('expected_version'); }
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1.
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Shape $ (Value): string. Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The value is preserved exactly as sent. minLength: 1. maxLength: 255.
+    /** Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The value is preserved exactly as sent. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When sale_reference is omitted; use hasSaleReference() or valueOrDefault().
      */

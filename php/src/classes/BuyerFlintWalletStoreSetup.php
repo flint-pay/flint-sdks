@@ -10,22 +10,22 @@ namespace Flint;
 final class BuyerFlintWalletStoreSetup extends Model {
     /** @param array{'client_setup': mixed, 'payment_method_id': string, 'status': string, 'store_setup_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFlintWalletStoreSetup')); }
-    /** Shape $ (Value): {@see StripeClientSetup} or null. Shape $.anyOf[1] (Value): {@see StripeClientSetup}. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret. Shape $.anyOf[2] (Value): null.
+    /**  anyOf[1] (Value): {@see StripeClientSetup}. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret. anyOf[2] (Value): null.
      * @return StripeClientSetup|null
      */
     public function getClientSetup(): StripeClientSetup|null { return $this->get('client_setup'); }
     public function hasClientSetup(): bool { return $this->has('client_setup'); }
-    /** Shape $ (Value): string.
+    /** payment_method_id
      * @return string
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "active", "failed", "expired".
+    /** Value enum: "pending", "active", "failed", "expired".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string.
+    /** store_setup_id
      * @return string
      */
     public function getStoreSetupId(): string { return $this->get('store_setup_id'); }

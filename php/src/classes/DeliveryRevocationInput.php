@@ -12,37 +12,37 @@ namespace Flint;
 final class DeliveryRevocationInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'delivery_revocation_id': string, 'estimated_impact': DeliveryRevocationImpactInput|array<array-key, mixed>|\stdClass, 'merchant_note'?: string, 'reason': string, 'target': DeliveryRevocationTargetInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
+    /** delivery_revocation_id
      * @return string
      * @throws SdkError When delivery_revocation_id is omitted; use hasDeliveryRevocationId() or valueOrDefault().
      */
     public function getDeliveryRevocationId(): string { return $this->get('delivery_revocation_id'); }
     public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
-    /** Shape $ (Value): {@see DeliveryRevocationImpactInput}. Counts of active delivery quotes and current delivery selections affected by a delivery revocation.
+    /** Counts of active delivery quotes and current delivery selections affected by a delivery revocation.
      * @return DeliveryRevocationImpactInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When estimated_impact is omitted; use hasEstimatedImpact() or valueOrDefault().
      */
     public function getEstimatedImpact(): mixed { return $this->get('estimated_impact'); }
     public function hasEstimatedImpact(): bool { return $this->has('estimated_impact'); }
-    /** Shape $ (Value): string.
+    /** merchant_note
      * @return string
      * @throws SdkError When merchant_note is omitted; use hasMerchantNote() or valueOrDefault().
      */
     public function getMerchantNote(): string { return $this->get('merchant_note'); }
     public function hasMerchantNote(): bool { return $this->has('merchant_note'); }
-    /** Shape $ (Value): string.  Value enum: "unsafe_configuration", "location_unavailable", "credential_compromise", "legal_requirement", "other".
+    /** Value enum: "unsafe_configuration", "location_unavailable", "credential_compromise", "legal_requirement", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): {@see DeliveryRevocationTargetInput}. A typed revocation target. Each target_type accepts only its resource-specific fields.
+    /** A typed revocation target. Each target_type accepts only its resource-specific fields.
      * @return DeliveryRevocationTargetInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When target is omitted; use hasTarget() or valueOrDefault().
      */

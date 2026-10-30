@@ -1,3 +1,620 @@
+# SDK 8.0.0
+
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.1` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.1` or `flintpay/flint:8.0.0-beta.1`. The API date is `2026-09-07`; this beta pins Flint `main` at `6cd24dfcae461df982718effa88460b3c732c1e2`. Stable releases will pin the backend commit serving production.
+
+TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
+
+What changed, most common first:
+
+- [Names](#method-and-namespace-names): namespaces and methods follow API paths and operation IDs. 98 methods are renamed, and `developer` is split into five namespaces.
+- [Calling convention](#one-calling-convention): every method takes `(path IDs, params?, options?)`. Idempotency keys go only in `options`.
+- [Errors](#errors): classes follow the HTTP status, 403 is `PermissionError`, API error fields are first-class, and `kind` and `meta` are removed. PHP `getCode()` returns the error code.
+- [Integers and money](#integers-and-money): `version` and other counters are numbers. `Money.amount` stays an exact string.
+- [Outcomes and timeouts](#outcomes-retries-and-timeouts): `outcome: "unknown"` follows new rules, and money operations wait up to 150 seconds per attempt.
+- [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
+- [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
+- [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Method and namespace names
+
+The namespace is now the first path segment after `/v1`, in lowerCamelCase. The method is the operation ID without the namespace noun. Of 610 methods, 98 change: 45 move to another namespace and 53 keep their namespace under a new name. The `Pages` and `Items` helpers follow their method's new name. The generated `REFERENCE.md` lists every method.
+
+The changes most integrations hit:
+
+- `developer` is removed. Its methods move to `sandboxes`, `partnerApps`, `apiRequestLogs`, `resourceTimelines` and `authContext`.
+- `reviews` is now `paymentReviews`.
+- Payout destination methods move from `payoutSettings` to `payoutDestinations`.
+- `merchants` is now `merchant`, and `merchantSubscriptionInvoices` is now `merchantBillingInvoices`.
+- `remove` is now `delete` on every resource whose operation deletes it.
+- `voidResource` and `closeSession` are now `void` and `close`.
+
+```js
+// 7.x
+const context = await flint.developer.getAuthContext();
+const sandboxes = await flint.developer.listSandboxes();
+await flint.reviews.approve(paymentReviewId);
+await flint.products.remove(productId);
+await flint.invoices.voidResource(invoiceId);
+
+// 8.0.0
+const context = await flint.authContext.get();
+const sandboxes = await flint.sandboxes.list();
+await flint.paymentReviews.approve(paymentReviewId);
+await flint.products.delete(productId);
+await flint.invoices.void(invoiceId);
+```
+
+```php
+// 7.x
+$context = $flint->developer->getAuthContext();
+$flint->products->remove($productId);
+
+// 8.0.0
+$context = $flint->authContext->get();
+$flint->products->delete($productId);
+```
+
+What to do: rename each call using the tables below. Arguments don't change, except for the [13 methods](#one-calling-convention) that took `{ id, body }`.
+
+### Namespace moves (45)
+
+| 7.x | 8.0.0 | Route |
+| --- | --- | --- |
+| `customers.createDeletionRequest` | `customerDeletionRequests.create` | `POST /v1/customer-deletion-requests` |
+| `customers.getDeletionRequest` | `customerDeletionRequests.get` | `GET /v1/customer-deletion-requests/{customer_deletion_request_id}` |
+| `developer.getCurrentAPIKeyRequestLog` | `apiRequestLogs.get` | `GET /v1/api-request-logs/{api_request_log_id}` |
+| `developer.listCurrentAPIKeyRequestLogs` | `apiRequestLogs.list` | `GET /v1/api-request-logs` |
+| `developer.getAuthContext` | `authContext.get` | `GET /v1/auth-context` |
+| `developer.createPartnerApp` | `partnerApps.create` | `POST /v1/partner-apps` |
+| `developer.createPartnerAppCredential` | `partnerApps.createCredential` | `POST /v1/partner-apps/{partner_app_id}/credentials` |
+| `developer.deletePartnerApp` | `partnerApps.delete` | `DELETE /v1/partner-apps/{partner_app_id}` |
+| `developer.deletePartnerAppCredential` | `partnerApps.deleteCredential` | `DELETE /v1/partner-apps/{partner_app_id}/credentials/{partner_app_credential_id}` |
+| `developer.getPartnerApp` | `partnerApps.get` | `GET /v1/partner-apps/{partner_app_id}` |
+| `developer.getPartnerAppCredential` | `partnerApps.getCredential` | `GET /v1/partner-apps/{partner_app_id}/credentials/{partner_app_credential_id}` |
+| `developer.getPartnerAppInstall` | `partnerApps.getInstall` | `GET /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}` |
+| `developer.listPartnerApps` | `partnerApps.list` | `GET /v1/partner-apps` |
+| `developer.listPartnerAppCredentials` | `partnerApps.listCredentials` | `GET /v1/partner-apps/{partner_app_id}/credentials` |
+| `developer.listPartnerAppInstalls` | `partnerApps.listInstalls` | `GET /v1/partner-apps/{partner_app_id}/installs` |
+| `developer.revokePartnerEnvironmentGrant` | `partnerApps.revokeEnvironmentGrant` | `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke` |
+| `developer.revokePartnerAppInstall` | `partnerApps.revokeInstall` | `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/revoke` |
+| `developer.rotatePartnerAppSecret` | `partnerApps.rotateSecret` | `POST /v1/partner-apps/{partner_app_id}/rotate-secret` |
+| `developer.updatePartnerApp` | `partnerApps.update` | `PATCH /v1/partner-apps/{partner_app_id}` |
+| `developer.getResourceTimeline` | `resourceTimelines.get` | `GET /v1/resource-timelines/{resource_id}` |
+| `developer.createSandbox` | `sandboxes.create` | `POST /v1/sandboxes` |
+| `developer.createSandboxAPIKey` | `sandboxes.createAPIKey` | `POST /v1/sandboxes/{sandbox_id}/api-keys` |
+| `developer.deleteSandbox` | `sandboxes.delete` | `DELETE /v1/sandboxes/{sandbox_id}` |
+| `developer.getSandbox` | `sandboxes.get` | `GET /v1/sandboxes/{sandbox_id}` |
+| `developer.listSandboxes` | `sandboxes.list` | `GET /v1/sandboxes` |
+| `developer.resetSandbox` | `sandboxes.reset` | `POST /v1/sandboxes/{sandbox_id}/reset` |
+| `giftCardAdjustments.create` | `giftCards.adjustBalance` | `POST /v1/gift-cards/{gift_card_id}/adjust-balance` |
+| `giftCardCashOuts.create` | `giftCards.cashOut` | `POST /v1/gift-cards/{gift_card_id}/cash-out` |
+| `giftCardLoads.create` | `giftCards.createLoad` | `POST /v1/gift-cards/{gift_card_id}/loads` |
+| `merchantSubscriptionInvoices.get` | `merchantBillingInvoices.get` | `GET /v1/merchant-billing-invoices/{merchant_billing_invoice_id}` |
+| `merchantSubscriptionInvoices.list` | `merchantBillingInvoices.list` | `GET /v1/merchant-billing-invoices` |
+| `merchants.get` | `merchant.get` | `GET /v1/merchant` |
+| `merchants.update` | `merchant.update` | `PATCH /v1/merchant` |
+| `payoutSettings.deletePayoutDestination` | `payoutDestinations.delete` | `DELETE /v1/payout-destinations/{payout_destination_id}` |
+| `payoutSettings.getPayoutDestination` | `payoutDestinations.get` | `GET /v1/payout-destinations/{payout_destination_id}` |
+| `payoutSettings.listPayoutDestinations` | `payoutDestinations.list` | `GET /v1/payout-destinations` |
+| `payoutSettings.updatePayoutDestination` | `payoutDestinations.update` | `PATCH /v1/payout-destinations/{payout_destination_id}` |
+| `promotions.listCodes` | `promotionCodes.list` | `GET /v1/promotion-codes` |
+| `reviews.approve` | `paymentReviews.approve` | `POST /v1/payment-reviews/{payment_review_id}/approve` |
+| `reviews.decline` | `paymentReviews.decline` | `POST /v1/payment-reviews/{payment_review_id}/decline` |
+| `reviews.get` | `paymentReviews.get` | `GET /v1/payment-reviews/{payment_review_id}` |
+| `reviews.list` | `paymentReviews.list` | `GET /v1/payment-reviews` |
+| `settings.validateCustomDomain` | `customDomains.validate` | `POST /v1/custom-domains/{custom_domain_id}/validate` |
+| `specification.get` | `openapi.getSpec` | `GET /v1/openapi.json` |
+| `webhookEvents.listWebhookDeliveries` | `webhookDeliveries.list` | `GET /v1/webhook-deliveries` |
+
+### `remove` becomes `delete` (27)
+
+`remove` is now `delete` on these 27 namespaces, each calling `DELETE` on its resource: `bundles`, `categories`, `customDomains`, `deliveryLocationSets`, `deliveryMethods`, `deliveryProfiles`, `deliveryRateCallbacks`, `deliveryZones`, `devices`, `inventoryAllocationPolicies`, `inventoryItems`, `invoicePaymentTerms`, `locations`, `modifierGroups`, `modifierSets`, `organizations`, `paymentMethods`, `products`, `promotions`, `returnPolicies`, `returnReasons`, `riskLists`, `riskRules`, `subscriptionOffers`, `subscriptionPlans`, `webhookEndpoints`, `workloadIdentities`.
+
+### Other method renames (26)
+
+| 7.x | 8.0.0 | Route |
+| --- | --- | --- |
+| `checkoutSessions.closeSession` | `checkoutSessions.close` | `POST /v1/checkout-sessions/{checkout_session_id}/close` |
+| `creditNotes.voidResource` | `creditNotes.void` | `POST /v1/credit-notes/{credit_note_id}/void` |
+| `deliveryRateCallbacks.rotateSigningKey` | `deliveryRateCallbacks.rotateSecret` | `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret` |
+| `deliveryRevocations.revokeDeliveryDependency` | `deliveryRevocations.create` | `POST /v1/delivery-revocations` |
+| `invoices.assessLateFee` | `invoices.createLateFee` | `POST /v1/invoices/{invoice_id}/late-fees` |
+| `invoices.recordManualPayment` | `invoices.createManualPayment` | `POST /v1/invoices/{invoice_id}/manual-payments` |
+| `invoices.voidResource` | `invoices.void` | `POST /v1/invoices/{invoice_id}/void` |
+| `me.removePaymentMethod` | `me.deletePaymentMethod` | `DELETE /v1/me/payment-methods/{payment_method_id}` |
+| `me.savePaymentMethod` | `me.createPaymentMethod` | `POST /v1/me/payment-methods` |
+| `onboarding.startFlow` | `onboarding.start` | `POST /v1/onboarding/start` |
+| `onboarding.verifyEmailCode` | `onboarding.verifyEmail` | `POST /v1/onboarding/verify-email` |
+| `orders.addCharge` | `orders.createCharge` | `POST /v1/orders/{order_id}/charges` |
+| `orders.addLineItems` | `orders.createLineItems` | `POST /v1/orders/{order_id}/line-items` |
+| `orders.closeSession` | `orders.close` | `POST /v1/orders/{order_id}/close` |
+| `organizations.revokeMembership` | `organizations.removeMembership` | `DELETE /v1/organizations/{organization_id}/memberships/{user_id}` |
+| `packages.voidResource` | `packages.void` | `POST /v1/packages/{package_id}/void` |
+| `paymentMethods.save` | `paymentMethods.create` | `POST /v1/payment-methods` |
+| `returnPolicies.publishRevision` | `returnPolicies.createRevision` | `POST /v1/return-policies/{return_policy_id}/revisions` |
+| `returns.addLineItem` | `returns.createLineItem` | `POST /v1/returns/{return_id}/line-items` |
+| `returns.processExisting` | `returns.process` | `POST /v1/returns/{return_id}/process` |
+| `returns.waiveLineInspection` | `returns.waiveLineItemInspection` | `POST /v1/returns/{return_id}/line-items/{return_line_item_id}/waive-inspection` |
+| `riskLists.addItems` | `riskLists.createItems` | `POST /v1/risk-lists/{risk_list_id}/items` |
+| `riskRules.getAttributeRegistry` | `riskRules.getAttributes` | `GET /v1/risk-rules/attributes` |
+| `shipments.voidResource` | `shipments.void` | `POST /v1/shipments/{shipment_id}/void` |
+| `webhookEndpoints.createWebhookTestEvent` | `webhookEndpoints.createTestEvent` | `POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events` |
+| `webhookEndpoints.rotateWebhookSecret` | `webhookEndpoints.rotateSecret` | `POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret` |
+
+### Removed aliases
+
+The deprecated aliases from 7.0.0 are removed:
+
+| Removed | Use |
+| --- | --- |
+| `me.listPayments`, `me.getPayment` | `me.listPaymentIntents`, `me.getPaymentIntent` |
+| `me.listFlintWalletPaymentMethods` | `me.listFlintWalletCards` |
+| `invoices.getOrCreateCheckoutSession` | `invoices.createCheckoutSession` |
+| `returnResolutions.getOrCreateCheckoutSession` | `returnResolutions.createCheckoutSession` |
+| `checkoutSessions.getDeliverySelectionHistory` | `checkoutSessions.getDeliverySelection` |
+| `locations.publishGeography`, `locations.updateInventory` | `locations.update` |
+
+New methods include `testClocks.list`, `create`, `get`, `delete` and `advance`, and `disputes.simulate`.
+
+## One calling convention
+
+Every method now takes the same arguments in both languages:
+
+```
+namespace.method(<path IDs>..., params?, options?)
+```
+
+- Path IDs come first, as strings, in path order.
+- `params` is one flat object (PHP: an array or model) with the body fields, query parameters and operation headers such as `Flint-Challenge-Token`, under their API names. It's optional when the operation has no required field.
+- `options` holds SDK request options: `idempotencyKey`, `clientRequestId`, credentials, `timeoutMs`, `deadlineMs`, `maxAttempts` and the rest.
+
+In 7.x, 13 methods whose request body has alternatives took one object with path IDs and `body`. They now take the positional form, and TypeScript narrows `params` by its discriminator field:
+
+| Method | Discriminator |
+| --- | --- |
+| `paymentIntents.confirm` | `credential_type` |
+| `orders.pay` | `action` |
+| `fulfillments.transition`, `packages.transition`, `inventoryTransfers.transition`, `inventoryReservations.transition`, `inventoryCounts.transition` | `action` |
+| `inventoryAdjustments.create` | `reason` |
+| `deliveryPreviews.create`, `subscriptionPreviews.create`, `me.createSubscriptionPreview` | `mode` |
+| `checkoutSessions.createCustomerVerification` | `purpose` |
+| `partnerApps.createCredential` (was `developer.createPartnerAppCredential`) | `type` |
+
+The five `transition` methods in this table remain available and still take `action` in `params`.
+
+```js
+// 7.x
+await flint.orders.pay(
+  { order_id: orderId, body: { action: "pay", expected_version: order.version, payment_source: source } },
+  { idempotencyKey },
+);
+await flint.paymentIntents.confirm({
+  payment_intent_id: paymentIntentId,
+  body: { credential_type: "payment_method", payment_method_id: paymentMethodId },
+});
+
+// 8.0.0
+await flint.orders.pay(
+  orderId,
+  { action: "pay", expected_version: order.version, payment_source: source },
+  { idempotencyKey },
+);
+await flint.paymentIntents.confirm(paymentIntentId, {
+  credential_type: "payment_method",
+  payment_method_id: paymentMethodId,
+});
+```
+
+```php
+// 7.x
+$flint->orders->pay(
+    ['order_id' => $orderId, 'body' => ['action' => 'pay', 'payment_source' => $source]],
+    new RequestOptions(idempotencyKey: $key),
+);
+
+// 8.0.0
+$flint->orders->pay(
+    $orderId,
+    ['action' => 'pay', 'payment_source' => $source],
+    new RequestOptions(idempotencyKey: $key),
+);
+```
+
+### Idempotency keys and request IDs
+
+7.x also accepted `"Idempotency-Key"` inside `params`. 8.0.0 accepts a key only as `options.idempotencyKey`, so a key has one place to go. TypeScript no longer allows the header in `params`, and the SDK rejects it at runtime before sending.
+
+```js
+// 7.x
+await flint.refunds.create({ order_id: orderId, refund_type: "full", "Idempotency-Key": key });
+
+// 8.0.0
+await flint.refunds.create({ order_id: orderId, refund_type: "full" }, { idempotencyKey: key });
+```
+
+PHP renames the `client_request_id` request option to `clientRequestId`, matching Node:
+
+```php
+// 7.x
+new RequestOptions(client_request_id: $jobId);
+
+// 8.0.0
+new RequestOptions(clientRequestId: $jobId);
+```
+
+What to do: move path IDs out of `{ id, body }` objects, move `body` up to be `params`, and move every `Idempotency-Key` into `options`.
+
+Array query parameters also accept a single value now: `{ status: "open" }` sends the same request as `{ status: ["open"] }`. This doesn't break existing calls.
+
+## Errors
+
+### Classes
+
+Error classes follow the HTTP status only, never the error code, so a new code from Flint never changes which class you catch:
+
+| Class | Parent | Thrown when |
+| --- | --- | --- |
+| `SdkError` | `Error` / `\RuntimeException` | Root of every SDK error. Never thrown directly |
+| `ApiError` | `SdkError` | Flint answered with 400 to 599. Thrown as itself for 405, 410, 413, 415 and other 4xx statuses without a subclass |
+| `InvalidRequestError` | `ApiError` | 400, 422 |
+| `AuthenticationError` | `ApiError` | 401 |
+| `PermissionError` | `ApiError` | 403 |
+| `NotFoundError` | `ApiError` | 404 |
+| `ConflictError` | `ApiError` | 409, 412 |
+| `RateLimitError` | `ApiError` | 429 |
+| `ServerError` | `ApiError` | 500 to 599, including a proxy's HTML error page (`code: "http_error"`) |
+| `ConnectionError` | `SdkError` | No usable response: connection refused, DNS failure, reset, TLS failure |
+| `TimeoutError` | `ConnectionError` | An attempt timed out (`attempt_timeout`) or the call's deadline passed (`deadline_exceeded`) |
+| `CancelledError` | `SdkError` | Your `AbortSignal` (PHP `Cancellation`) fired |
+| `UnexpectedResponseError` | `SdkError` | Flint answered with a success the SDK can't read, such as invalid JSON or an undeclared status |
+| `InvalidInputError` | `SdkError` | The call's data failed a local check. Nothing was sent |
+| `ConfigurationError` | `SdkError` | Client or request options, credentials or the base URL are unusable. Nothing was sent |
+| `WebhookVerificationError` | `SdkError` | A webhook delivery failed verification |
+| `PaginationLimitError` | `SdkError` | Automatic pagination reached its page limit with pages left |
+
+Node exports the classes as `errors.X` and `SdkError` from the package root; PHP uses `Flint\SdkError` and `Flint\Errors\X`. `catch ApiError` now catches every error Flint answered with, and `catch ConnectionError` also catches timeouts.
+
+`kind` and `ErrorKind` are removed. Replace `error.kind === "..."` with `instanceof`. Catch what you used to catch:
+
+| 7.x `kind` | 7.x class | 8.0.0 |
+| --- | --- | --- |
+| `validation` | `ValidationError` | `InvalidRequestError` for API 400 and 422; `InvalidInputError` for local checks |
+| `authentication` | `AuthenticationError` | `AuthenticationError` for 401; `PermissionError` for 403; `ConfigurationError` for missing, conflicting or failed credentials and auth modes; `WebhookVerificationError` for webhook failures, with the same `webhook_*` codes |
+| `not_found` | `NotFoundError` | `NotFoundError` |
+| `conflict` | `ConflictError` | `ConflictError` |
+| `rate_limit` | `RateLimitError` | `RateLimitError` |
+| `server` | `ServerError` | `ServerError` |
+| `api` | `ApiError` (other statuses) | `ApiError`, now the parent of every API error. Catch it last |
+| `transport` | `ConnectionError` | `ConnectionError` |
+| `timeout` | `TimeoutError` | `TimeoutError` with `code: "attempt_timeout"` |
+| `deadline` | `DeadlineError` | `TimeoutError` with `code: "deadline_exceeded"` |
+| `protocol` | `ProtocolError` | `UnexpectedResponseError` |
+| `destination` | `DestinationError` | `ConfigurationError` with `code: "invalid_destination"`, or `UnexpectedResponseError` with `code: "unexpected_redirect"` |
+| `cancelled` | `CancelledError` | `CancelledError` |
+| | | `PaginationLimitError` (new) |
+
+Error constructors take a message and one init object (PHP: named arguments) instead of nine positional arguments, for building errors in tests:
+
+```js
+new errors.NotFoundError("Order not found", { status: 404, code: "RESOURCE_NOT_FOUND", requestId: "req_01K..." });
+```
+
+### Fields
+
+The API error object's fields are now properties of the error, and the request context moves from `meta` onto the error itself:
+
+| 7.x | 8.0.0 |
+| --- | --- |
+| `error.details.param`, `.type`, `.doc_url`, `.error_source`, `.request_log_url` | `error.param`, `error.type`, `error.docUrl`, `error.errorSource`, `error.requestLogUrl` |
+| `error.details.remediation` | `error.remediation` (`retry`, `next_steps`, `next_actions`) |
+| `error.details.details` | `error.details`, always an array (`[]` when absent) |
+| `error.details` (the whole error object) | `error.body`, the decoded and redacted response body |
+| `error.meta.requestId`, `.status`, `.headers`, `.attempts`, `.durationMs` | `error.requestId`, `error.status`, `error.headers`, `error.attempts`, `error.durationMs` |
+| | `error.requestIds` (one per attempt that got an answer) and `error.operation` (such as `orders.pay`), new |
+| `error.details.transportCode` (PHP `curlCode`, `curlError`) | `error.cause.code` (PHP `$e->getPrevious()->getCode()`) |
+| PHP `$e->errorCode` | `$e->code` |
+| PHP `$e->getCode()`, the HTTP status | `$e->getCode()` returns the error code, the same as `$e->code`. Read the status from `$e->status` |
+| PHP message ending in `[HTTP 404, code ..., requestId ...]` | The API's message alone. `__toString()` keeps the status, code and request ID for logs |
+
+`code` now means the same thing in Node and PHP: Flint's error code (`INSUFFICIENT_SCOPE`), `http_error` for a response without a Flint error body, or an SDK code (`credential_missing`). Uppercase codes come from Flint and lowercase codes from the SDK. `remediation.retry` is one of `same_request`, `after_refresh` or `none`. `type`, `errorSource` and `details[].reason` can gain new values, so keep a default branch.
+
+```js
+// 7.x
+try {
+  await flint.orders.applyGiftCard(orderId, { code }, { idempotencyKey });
+} catch (error) {
+  if (error instanceof SdkError && error.kind === "authentication" && error.status === 403) {
+    return askForScope(error.details?.details?.[0]?.missing_scopes);
+  }
+  if (error instanceof SdkError && error.code === "GIFT_CARD_CHALLENGE_REQUIRED") {
+    return startChallenge(error.details?.remediation?.next_actions);
+  }
+  log(error.meta?.requestId);
+  throw error;
+}
+
+// 8.0.0
+try {
+  await flint.orders.applyGiftCard(orderId, { code }, { idempotencyKey });
+} catch (error) {
+  if (error instanceof errors.PermissionError) {
+    return askForScope(error.details[0]?.missing_scopes);
+  }
+  if (error instanceof errors.ApiError && error.code === "GIFT_CARD_CHALLENGE_REQUIRED") {
+    return startChallenge(error.remediation?.next_actions);
+  }
+  log(error.requestId);
+  throw error;
+}
+```
+
+```php
+// 7.x
+} catch (SdkError $e) {
+    if ($e->getCode() === 403) { askForScope($e->details['details'][0]['missing_scopes'] ?? []); return; }
+    if ($e->errorCode === 'GIFT_CARD_CHALLENGE_REQUIRED') { startChallenge($e->details['remediation']['next_actions'] ?? []); return; }
+    error_log($e->meta['requestId'] ?? '');
+    throw $e;
+}
+
+// 8.0.0
+use Flint\Errors\{ApiError, PermissionError};
+
+} catch (SdkError $e) {
+    if ($e instanceof PermissionError) { askForScope($e->details[0]['missing_scopes'] ?? []); return; }
+    if ($e instanceof ApiError && $e->code === 'GIFT_CARD_CHALLENGE_REQUIRED') { startChallenge($e->remediation['next_actions'] ?? []); return; }
+    error_log($e->requestId ?? '');
+    throw $e;
+}
+```
+
+What to do: replace `kind` checks with classes, `meta.*` with the flat fields, and `details.*` with first-class fields. In PHP, replace `errorCode` with `code` and any `getCode()` status check with `status`. Check `outcome` first, then the class, then `code` or `remediation`.
+
+### Local validation errors
+
+A call whose data fails the SDK's own checks throws `InvalidInputError` before sending, with the same shape a server `400 INVALID_REQUEST` has: `code: "INVALID_REQUEST"`, a `details[]` array whose items carry `code` (`REQUIRED`, `INVALID_VALUE`, `UNKNOWN_FIELD` or `NOT_ALLOWED`) and `param`, and `outcome: "not_sent"`. `param` uses the API's path format (`line_items[0].type`, `metadata.k`, `Idempotency-Key`) instead of 7.x's `input.line_items[0].type`, so one handler can map local and server errors to the same form field:
+
+```js
+// 7.x
+if (error.kind === "validation") showFormError(error.message); // "input.line_items[0].type: ..."
+
+// 8.0.0
+if (error instanceof errors.InvalidInputError || error instanceof errors.InvalidRequestError) {
+  for (const detail of error.details) showFieldError(detail.param, detail.code, error.message);
+}
+```
+
+Messages name the field and the allowed values, such as `line_items[0].type is required: one of "variant", "bundle", "custom"`, and show the value you sent only for enum mismatches. Branch on `code` and `details`, not on message text. `ConfigurationError` keeps SDK codes such as `credential_missing`, `invalid_option` and `invalid_destination`.
+
+### Pagination limit
+
+Automatic pagination (`*Pages`, `*Items`) still stops at 1,000 pages. When page 1,000 still has a next page, 8.0.0 throws `PaginationLimitError` (`code: "pagination_limit_exceeded"`) with `nextPageToken` and `pages`, where 7.x stopped without saying so. A `maxPages` you set yourself still stops quietly.
+
+What to do: if you iterate collections that can exceed 1,000 pages, catch `PaginationLimitError` and continue from `nextPageToken`, or narrow the list with filters.
+
+## Integers and money
+
+Integer counters are now native numbers: `number` in Node and `int` in PHP. This covers `version` and `expected_version`, quantities, counts, sequences, seconds and bytes, which 7.x typed as integer strings (`` `${bigint}` `` in Node, `string` in PHP). Both runtimes check the safe integer range, up to 2^53 - 1 either side of zero, and never round: an out-of-range value you send throws `InvalidInputError`, and one Flint returns throws `UnexpectedResponseError`.
+
+Money is the exception. `amount` and every other integer inside a `Money` object stay exact integer strings, as on the wire and in the API docs. Don't convert amounts to floating-point numbers.
+
+```js
+// 7.x
+if (BigInt(order.version) >= BigInt(expected.version)) { ... }
+await flint.orders.update(orderId, { expected_version: String(order.version), ... });
+
+// 8.0.0
+if (order.version >= expected.version) { ... }
+await flint.orders.update(orderId, { expected_version: order.version, ... });
+
+// Money is unchanged: sum amounts as bigint, then send a string
+const refunded = refunds.reduce((sum, refund) => sum + BigInt(refund.amount_money.amount), 0n);
+const total = { amount: String(refunded), currency: "USD" };
+```
+
+```php
+// 8.0.0: counters are int
+if ($order->version >= $expected->version) { ... }
+
+// Money amounts are numeric strings; sum them exactly with bcmath
+$refunded = '0';
+foreach ($refunds as $refund) {
+    $refunded = bcadd($refunded, $refund->amount_money->amount);
+}
+```
+
+What to do: remove `BigInt(...)`, `String(...)` and `` `${bigint}` `` annotations around counters, and compare them as numbers. Keep exact handling for money.
+
+## Outcomes, retries and timeouts
+
+### `outcome`
+
+Every error still reports `outcome` as `not_sent`, `response` or `unknown`, and 8.0.0 changes when each applies:
+
+- `unknown` means the call may have run and the SDK has no final answer. It's reported when the retries end on `409 IDEMPOTENCY_KEY_IN_PROGRESS`, when they end with no answer after an attempt that may have run (a timeout or a dropped connection), and, for writes, when they end on a 5xx, on `IDEMPOTENCY_RECOVERY_REQUIRED` or on reason `outcome_unknown`. 7.x reported an in-progress key as a plain `response` conflict.
+- `not_sent` now also covers calls where every attempt that reached Flint was refused before it ran.
+- If a retry gets the replayed original answer, the SDK returns that result or error. A success the SDK read completely is returned even when it arrives after the deadline.
+- `retryAllowed` now tells you whether resending the identical call with the same `idempotencyKey` is safe and may succeed. It's `true` after `deadline_exceeded`, where 7.x set it to `false`.
+- Reads that end without an answer also report `unknown`, which for a read only means no answer. Reads can always be retried.
+
+For a replay-safe write that ends on `IDEMPOTENCY_RECOVERY_REQUIRED`, `outcome` is `unknown` and `retryAllowed` is `true`. Keep the original key and request unchanged.
+
+What to do on `unknown`: keep the action pending under its `idempotencyKey`. Never retry it with a new key. Then either resend the identical request with the same key later, which returns the original's result once it finishes, or read the resource to see whether the action happened:
+
+```js
+try {
+  await flint.refunds.create(params, { idempotencyKey: job.key });
+} catch (error) {
+  if (!(error instanceof SdkError)) throw error;
+  if (error.outcome === "unknown") {
+    // May have run. Retry later with job.key, or look it up:
+    const { data } = await flint.refunds.list({ idempotency_key: job.key });
+    return data.length > 0 ? job.complete(data[0]) : job.retryLater(job.key, error.retryAfterMs);
+  }
+  if (error.retryAllowed) return job.retryLater(job.key, error.retryAfterMs);
+  throw error;
+}
+```
+
+```php
+} catch (SdkError $e) {
+    if ($e->outcome === SdkError::OUTCOME_UNKNOWN) { $job->retryLater($job->key, $e->retryAfterMs); return; }
+    if ($e->retryAllowed) { $job->retryLater($job->key, $e->retryAfterMs); return; }
+    throw $e;
+}
+```
+
+Code that already reconciles on `outcome === "unknown"` now catches in-progress keys without changes.
+
+### Money operation timeouts
+
+Money operations now wait longer by default, because Flint may wait on the card network before answering:
+
+| Operations | `timeoutMs` (per attempt) | `deadlineMs` (whole call) |
+| --- | --- | --- |
+| The payment operations listed below | 150,000 (150 s) | 300,000 (300 s) |
+| Everything else | 10,000 (10 s), unchanged | 30,000 (30 s), unchanged |
+
+The 150-second defaults apply to `checkoutSessions.create`, `update` and `close`; `creditNotes.createRefund`; `invoices.createCheckoutSession`; `me.createInvoiceCheckoutSession`; `orders.create`, `update`, `createCharge`, `deleteCharge`, `updateCharge`, `close`, `applyDiscount`, `removeDiscounts`, `repriceDiscounts`, `createLineItems`, `deleteLineItem`, `updateLineItem`, `pay`, `cancelPaymentAttempt` and `createPaymentIntent`; `paymentIntents.create`, `update`, `cancel`, `capture` and `confirm`; and `refunds.create`.
+
+Options you pass still win: request options override client options, which override these defaults. These values are interim until Flint publishes a server-side execution limit.
+
+What to do: if you set `timeoutMs` or `deadlineMs` on the client to shorten every call, that setting now also applies to money operations, and a short attempt timeout on a payment is more likely to end in `unknown`. Set shorter budgets per request instead, and allow request handlers, queues and load balancers at least as long as the money deadline.
+
+## Results carry `lastResponse`
+
+Every result now has a `lastResponse` with `status`, `headers`, `requestId`, `requestIds`, `idempotencyKey`, `attempts`, `durationMs` and the complete decoded `body`. In Node it's a non-enumerable property, so `JSON.stringify`, spread and `util.inspect` ignore it; in PHP it's the `lastResponse()` method, which returns `null` on models you built or nested values. The `*WithResponse`, `*PagesWithResponse` and `*WaitWithResponse` methods and the `SdkResponse` type are removed. Each of those methods made its own request, so they couldn't give you the request ID of a call you'd already made.
+
+```js
+// 7.x
+const response = await flint.orders.getWithResponse(orderId);
+const order = response.body.data;
+log(response.meta.requestId);
+
+// 8.0.0
+const order = await flint.orders.get(orderId);
+log(order.lastResponse.requestId);
+order.lastResponse.body.meta; // the full envelope
+```
+
+```php
+// 7.x
+$response = $flint->orders->getWithResponse($orderId);
+error_log($response->meta['requestId'] ?? '');
+
+// 8.0.0
+$order = $flint->orders->get($orderId);
+error_log($order->lastResponse()?->requestId ?? '');
+```
+
+- Each page from `*Pages` has its own `lastResponse`; items from `*Items` don't. `*Wait` results carry the last poll's.
+- Binary, redirect and stream methods keep `{ data, raw }` and rename `meta` to `lastResponse` (PHP `lastResponse()` on `Result`). `EventStream.meta` is now `EventStream.lastResponse`.
+- The `diagnostics` callback's `errorKind` is now `errorName` (the class name), with a new `errorCode`.
+- New client option `appInfo: { name, version?, url? }` adds your integration to the `User-Agent`, which now also names the runtime version and OS: `flintpay-node/8.0.0-beta.1 (Node.js 22.11.0; linux x64) woocommerce-flint/1.4.0`.
+
+What to do: replace each `xWithResponse(...)` with `x(...)` and read `.lastResponse`.
+
+## Credentials
+
+A credential option that's present but empty now throws `ConfigurationError` with `code: "credential_missing"` before anything is sent. That includes `undefined`, `null`, `""` and blank strings, for every shortcut (`apiKey`, `checkoutToken`, `customerToken`, `invoiceToken`, `onboardingToken`, `token`) and every `credentials` entry. Client options fail in the constructor; request options fail when the call starts. In 7.x, `apiKey: undefined` fell back to `FLINT_API_KEY` and the other default credentials, so a tenant with no key could run as your app's own identity.
+
+Default credentials (`FLINT_API_KEY`, `FLINT_ACCESS_TOKEN`, workload identity) are used only when no credential option is passed on the client or the request. Setting both environment variables throws `ConfigurationError` with `code: "credential_conflict"`, replacing 7.x’s `ambiguous_credentials`.
+
+```js
+// 7.x: tenant.flintKey === undefined silently used FLINT_API_KEY
+const flint = new Client({ apiKey: tenant.flintKey });
+
+// 8.0.0: throws ConfigurationError credential_missing:
+// "apiKey was passed but is undefined. Pass a nonempty API key; default
+// credentials are used only when no credential option is passed."
+const flint = new Client({ apiKey: tenant.flintKey });
+```
+
+Apps that serve several merchants should also turn off default credentials, so no call can run under the app's own identity:
+
+```js
+const flint = new Client({ ambientCredentials: false });
+
+await flint.orders.list(undefined, { apiKey: tenant.flintKey });
+```
+
+```php
+$flint = new Client(new ClientOptions(ambientCredentials: false));
+
+$flint->orders->list(null, new RequestOptions(apiKey: $tenant->flintKey));
+```
+
+What to do: to use default credentials, leave the credential option out instead of passing an empty value. In multi-tenant apps, set `ambientCredentials: false` and pass each tenant's credential.
+
+## Type names
+
+Generated type names change. Code that only calls methods doesn't need changes; code that imports types does.
+
+| 7.x | 8.0.0 |
+| --- | --- |
+| Inline params object, or `{Namespace}{Method}Input` with path IDs and `body` | `{Namespace}{Method}Params`, such as `OrdersListParams` and `PaymentIntentsConfirmParams`. Node no longer exports the `*Input` wire types; PHP marks them `@internal` |
+| `*RequestRequestInput`, such as `CheckoutBuyerFieldsRequestRequestInput` | `CheckoutBuyerFieldsRequestInput` (PHP `CheckoutBuyerFieldsRequest`) |
+| `WebhookEventOrderPaid` | `OrderPaidEvent`; per audience, `OrderPaidMerchantEvent` |
+| `IncomingWebhook<hash>Payload` | Removed. Use the event types |
+| PHP per-operation classes, such as `DeveloperCreateSandboxInput` | Follow the method's new name: `SandboxesCreateInput` |
+| PHP response classes with a status suffix, such as `ApiKeysCreateResponse201` | The declared API component, such as `CreateAPIKeyResponse`; inline response schemas use the operation name without a status suffix |
+| `SdkResponse<T>` | Removed; see [`lastResponse`](#results-carry-lastresponse) |
+
+When a response schema uses `$ref`, both SDKs reuse that declared component instead of adding a per-operation wrapper. For example, the response envelope for `apiKeys.create` is `CreateAPIKeyResponse`; the envelope for `apiKeys.get` is `APIKeyResponse`. Calls still return the payload described in [Results](#results-carry-lastresponse).
+
+`event_type` on each event type is now its exact literal, such as `"order.paid"`, so `if (event.event_type === "order.paid")` narrows the event.
+
+## Examples and the default host
+
+Generated examples read an optional `FLINT_BASE_URL` and use the default host when it's unset; they no longer require `API_BASE_URL`. The SDK itself doesn't read `FLINT_BASE_URL`, so pass `baseUrl` yourself if you want it.
+
+The default host, `https://api.withflintpay.com`, serves sandbox and live mode: a `flint_test_` key runs in your sandbox and a `flint_live_` key in live mode. Remove `baseUrl: "https://api.staging.withflintpay.com"` from your configuration; the 5.1.0 notes that suggested it are out of date.
+
+```js
+// 8.0.0 examples
+const flint = new Client({ baseUrl: process.env.FLINT_BASE_URL || undefined });
+```
+
+## Packaging
+
+- `oauth.authorizePartnerInstall` is removed. `GET /v1/oauth/authorize` is a browser redirect to Flint's consent screen, so an API call can't complete it. Send the merchant's browser to `https://api.withflintpay.com/v1/oauth/authorize` with your query parameters; see [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs). `oauth.previewPartnerInstallAuthorization` stays.
+- The Composer package no longer ships the repository's internal agent and contributor files (`AGENTS.md`, `CLAUDE.md`, `claude/`, `CONTRIBUTING.md`). It now includes `MIGRATION.md` and `CHANGELOG.md`.
+- Release notes move from the root README to `CHANGELOG.md` and GitHub Releases.
+
+## API contract changes in 8.0.0
+
+This beta also updates the pinned API contract from Flint `0f83faf0` to `6cd24dfc`. The following breaking changes are recorded in the pinned Flint changelog after the 7.0.0 pin. They apply independently of the SDK package version.
+
+- **Merchant and partner credentials.** Test credentials previously wrote shared merchant profile fields; they now get `403 FORBIDDEN` with reason `live_mode_required`. Use a live credential for `merchant.update` and merchant branding files. Onboarding tokens no longer authenticate partner app or install routes; use a live API key or another supported live credential. See [shared merchant profiles](https://developers.withflintpay.com/changelog/2026-10-29-shared-merchant-profile-live-only) and [partner app credentials](https://developers.withflintpay.com/changelog/2026-10-30-partner-app-routes-require-live-credential).
+- **Bundle tax and availability.** Bundle requests and responses no longer have `taxable` or `line_item_tax_category`; remove those fields. All component variants must share both stored tax settings. A bundle that needs delivery configuration is no longer `available_for_sale`, and an empty bundle reports `delivery_configuration_status: "not_applicable"` instead of `"configured"`. Configure each component before offering it for sale. New digital product variants default to `digital_goods` when their tax category is omitted. See [bundle tax](https://developers.withflintpay.com/changelog/2026-10-30-bundle-tax-from-components) and [catalog readiness](https://developers.withflintpay.com/changelog/2026-10-30-catalog-readiness-and-positions).
+- **Catalog ordering and references.** Omitted positions in product arrays now follow array order instead of all defaulting to zero; new variants append. Send explicit positions to retain the old ordering. Category `targeting_reference_count` now includes ended or exhausted promotions and historical policy revisions. Usage no longer advances the category version. Check all reference counts before deleting a category. See [catalog positions](https://developers.withflintpay.com/changelog/2026-10-30-catalog-readiness-and-positions) and [category references](https://developers.withflintpay.com/changelog/2026-10-30-category-targeting-reference-count).
+- **Money inputs and the order ceiling.** Every money object requires both `amount` and `currency`; missing members now return `400 INVALID_REQUEST` instead of an internal error or an implicit zero. In these SDKs, send an explicit zero as `{ amount: "0", currency: "USD" }`. Order money inputs and computed amounts cannot exceed `99999999` minor units. Reduce an input or split the purchase when the ceiling would be exceeded. See [required money members](https://developers.withflintpay.com/changelog/2026-10-30-money-members-required) and [the order ceiling](https://developers.withflintpay.com/changelog/2026-10-30-order-money-ceiling).
+- **Dispute reconciliation.** Dispute balance rows now include processor fees in `fee_money` and subtract them from `net_money`, instead of reporting a zero fee. An additional `card_dispute` billing fee applies only when Flint paid the processor fee. Sum the actual `net_money`; do not assume winning a dispute returns its fee. See [dispute fees](https://developers.withflintpay.com/changelog/2026-10-30-dispute-fee-once).
+- **Onboarding and session actions.** Changing initial `country` or `requested_capabilities` after provisioning starts now returns `409 ACTION_NOT_ALLOWED` with reason `field_locked` instead of succeeding while ignoring the change. Omit them to preserve the initial intent. `NextAction.merchant_account_session` now uses the create request shape: replace singular `component` with `components`, and pass the recommended session body unchanged. See [onboarding intent](https://developers.withflintpay.com/changelog/2026-10-30-onboarding-frozen-intent) and [session next actions](https://developers.withflintpay.com/changelog/2026-10-30-session-next-action-request-body).
+- **Error statuses and webhook recovery.** `ACTION_NOT_ALLOWED`, `LIMIT_REACHED`, `PAYMENT_OPTION_UNAVAILABLE` and `PROMOTION_DECLINED` consistently return `409`. Expired report downloads use `409 ACTION_NOT_ALLOWED` with reason `terminal_status`, replacing `410`. Image ingestion restarts use `409` with reason `image_ingestion_restart_required`; start a new attempt with a new key. Expired webhook payloads use reason `payload_expired`, running resends use `409 OPERATION_IN_PROGRESS`, and payload rendering failures use category `webhook_payload_render`. Update status, code and reason branches. See [one status per error code](https://developers.withflintpay.com/changelog/2026-10-30-one-status-per-error-code) and [webhook recovery](https://developers.withflintpay.com/changelog/2026-10-30-webhook-refusal-remediation).
+- **Page tokens.** `page_size` can change between pages, but tokens issued before the pagination change may be rejected. On a `400` for an old token, restart without `page_token`; keep endpoint, filters, sort, merchant and environment the same. See [page token pagination](https://developers.withflintpay.com/changelog/2026-10-30-page-token-pagination).
+- **Partner app updates.** Null `name`, `redirect_uris`, `permission_manifest`, `default_requested_permissions` and `expected_version` now fail instead of behaving as omitted fields. Omit fields to preserve them. Manifest scope errors identify the exact array index and use `NOT_ALLOWED` for scopes unavailable to installs. See [partner app updates](https://developers.withflintpay.com/changelog/2026-10-30-partner-app-patch-null-and-scope-param).
+- **Subscription quantities.** Plan changes previously reset line quantities to target plan defaults. They now preserve paired line quantities, which changes charges and renewals. Send `line_items` with target plan line IDs and explicit quantities when quantities should change or a current line cannot be paired. See [subscription plan quantities](https://developers.withflintpay.com/changelog/2026-10-30-subscription-plan-change-carries-quantities).
+- **Payment intent events.** A status event now records a stored status transition once; repeated observations no longer create separate events. A failure event records each new failed attempt once. Delivery remains at least once, so continue deduplicating by `webhook_event_id`. See [payment intent events](https://developers.withflintpay.com/changelog/2026-10-30-payment-intent-status-events-once).
+- **Generated model constraints.** Structural variants omit fields they already forbid, response and input enums use their own supported values, and buyer invoice and fulfillment models omit unavailable expansions. Branding colors, return reason handles, reservation demands and refund adjustments publish existing validation constraints. Remove unsupported enum values and supply required refund adjustment `amount_money` and `reason`. See [schema shapes](https://developers.withflintpay.com/changelog/2026-10-30-schema-shapes-match-server).
+- **OpenAPI representation.** Captured log bodies use explicit object, array and string unions; boolean selectors use typed boolean enums. `Flint-Version` is a patterned string, and partner credential exclusions use object schemas. Regenerate custom clients and pass the API date as a string if your generator previously required a date object. These representation changes preserve accepted wire values. See [captured bodies](https://developers.withflintpay.com/changelog/2026-10-30-openapi-captured-body-unions-and-boolean-enums) and [version and credential schemas](https://developers.withflintpay.com/changelog/2026-10-30-openapi-generator-compatible-version-and-credential-schemas).
+
+## Finding call sites
+
+TypeScript reports renamed methods, moved arguments, removed types and string counters as compile errors. For PHP and plain JavaScript, search for these patterns:
+
+| Search for | Section |
+| --- | --- |
+| `developer\.`, `reviews\.`, `merchants\.`, `payoutSettings\.`, `\.remove\(`, `voidResource`, `closeSession`, `specification\.` | [Names](#method-and-namespace-names) |
+| `body:` or `'body' =>` next to a path ID, `Idempotency-Key`, `client_request_id` | [Calling convention](#one-calling-convention) |
+| `\.kind`, `ErrorKind`, `\.meta`, `errorCode`, `getCode\(\)`, `\.details\.`, `ValidationError`, `ProtocolError`, `DeadlineError`, `DestinationError` | [Errors](#errors) |
+| `BigInt\(`, `` `${bigint}` ``, `String\(.*version` | [Integers and money](#integers-and-money) |
+| `WithResponse\(`, `SdkResponse` | [Results](#results-carry-lastresponse) |
+| `apiKey:`, `token:` and other credential options whose value can be empty | [Credentials](#credentials) |
+| `WebhookEvent[A-Z]`, `IncomingWebhook`, `RequestRequest`, `Response[0-9]{3}` | [Type names](#type-names) |
+| `api.staging.withflintpay.com`, `API_BASE_URL` | [Examples](#examples-and-the-default-host) |
+| `authorizePartnerInstall` | [Packaging](#packaging) |
+
 # SDK 7.0.0
 
 This guide covers upgrading from `6.0.0`. The API date stays `2026-09-07`. Version 7.0.0 pins the Flint API contract on `main` at `0f83faf0` and generator `9f000b7` (one PHP validation fix after `808a1241`). Use it with an API build that serves this contract: the moved methods below call the renamed paths, which an older API build answers with `404 ROUTE_NOT_FOUND`. Flint keeps the old paths working only until its clients adopt the new ones, so 6.x methods that call moved paths stop working when Flint removes them. Retries, idempotency keys and webhook verification work as in 6.0.0.
@@ -65,7 +682,7 @@ Breaking changes:
 
 Flint can sign each webhook delivery with a short-lived ES256 JWT in `Authorization: Bearer`. The new verifiers check it against your webhook endpoint IDs (`whep_...`), not event IDs, using keys from the trusted API origin's `/.well-known/jwks.json`. The issuer comes from the base URL you configure, never from the token. Pass the original request bytes.
 
-JWT verification applies only once Flint sends JWT-signed deliveries, and Flint production doesn't send them yet. Until then, deliveries carry only the standard-webhooks HMAC headers. Pass your signing `secrets` to the new verifiers and they keep verifying those deliveries, with or without endpoint IDs.
+Flint signs deliveries with a JWT for endpoints whose `signing_methods` include `jwt`, the default for new endpoints. Endpoints that include `hmac` also carry the standard-webhooks headers; pass your `secrets` to verify those.
 
 ```js
 import { verifyWebhookAsync } from "@flintpay/node/webhooks";

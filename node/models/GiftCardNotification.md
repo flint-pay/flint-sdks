@@ -19,7 +19,7 @@ A message sent to a gift card recipient.
 | `sent_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `status` | Required | string | Values: `"scheduled"`, `"queued"`, `"sending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"bounced"`, `"canceled"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 
 ### GiftCardNotification.recipient
 

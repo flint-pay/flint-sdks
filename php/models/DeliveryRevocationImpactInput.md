@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_quote_count` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `current_selection_count` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `active_quote_count` | Required | integer | Format: `int64`. |
+| `current_selection_count` | Required | integer | Format: `int64`. |
 

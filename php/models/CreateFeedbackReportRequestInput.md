@@ -27,7 +27,7 @@ Request input.
 
 ### CreateFeedbackReportRequestInput variant 1: `kind` = `"rating"`
 
-oneOf variant 1: The `rating` variant of `CreateFeedbackReportRequest`..
+oneOf with kind: "rating": The `rating` variant of `CreateFeedbackReportRequest`..
 
 - Required: `sentiment`.
 - Optional: `summary`.
@@ -35,7 +35,7 @@ oneOf variant 1: The `rating` variant of `CreateFeedbackReportRequest`..
 
 ### CreateFeedbackReportRequestInput variant 2
 
-oneOf variant 2: The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of `CreateFeedbackReportRequest`. The `other` variant of `CreateFeedbackReportRequest`. The `papercut` variant of `CreateFeedbackReportRequest`. The `praise` variant of `CreateFeedbackReportRequest`..
+oneOf with kind: "bug" | "feature_request" | "other" | "papercut" | "praise": The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of `CreateFeedbackReportRequest`. The `other` variant of `CreateFeedbackReportRequest`. The `papercut` variant of `CreateFeedbackReportRequest`. The `praise` variant of `CreateFeedbackReportRequest`..
 
 - Required: `summary`.
 - Optional: `sentiment`.

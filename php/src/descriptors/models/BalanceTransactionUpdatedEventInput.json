@@ -1,0 +1,1 @@
+{"shared":"BalanceTransactionUpdatedEvent","dependencies":["BalanceTransaction","BalanceTransactionUpdatedEvent","CheckoutBuyerContact","MoneyValue","PricingAmounts","ResourceReference","ResourceType","SettlementAmounts","SharedCodec12","SharedCodec13","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec18","SignedMoney"]}

@@ -14,18 +14,18 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `type` | Optional | Array of string | minItems: `1`. Items values: [11 declared values](#merchantbillingentrieslist-input-type--values). |
+| `type` | Optional | Array of string or string | Filter by one or more merchant billing entry types. Repeat or comma-separate values. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [11 declared values](#merchantbillingentrieslist-input-type--values). Values: [11 declared values](#merchantbillingentrieslist-input-type-values). |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `occurred_after` | Optional | string | Format: `date-time`. |
-| `occurred_before` | Optional | string | Format: `date-time`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `payment_intent_id` | Optional | string |  |
-| `dispute_id` | Optional | string |  |
-| `merchant_billing_invoice_id` | Optional | string |  |
-| `balance_transaction_id` | Optional | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `occurred_after` | Optional | string | Inclusive lower bound on occurred_at. Format: `date-time`. |
+| `occurred_before` | Optional | string | Exclusive upper bound on occurred_at. Format: `date-time`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. |
+| `dispute_id` | Optional | string | Filter by Flint dispute ID. |
+| `merchant_billing_invoice_id` | Optional | string | Filter by Flint merchant billing invoice ID. |
+| `balance_transaction_id` | Optional | string | Filter by Flint balance transaction ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### merchantBillingEntries.list input type [] values
 
@@ -41,22 +41,36 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"collection_reversal"`
 - `"write_off"`
 
+#### merchantBillingEntries.list input type values
+
+- `"event_fee"`
+- `"invoice"`
+- `"custom_domain"`
+- `"custom_domain_collection"`
+- `"correction"`
+- `"credit_issued"`
+- `"credit_applied"`
+- `"credit_refunded"`
+- `"collection"`
+- `"collection_reversal"`
+- `"write_off"`
+
 #### Response
 
-Returned payload: [MerchantBillingEntriesListResponse200](../models/MerchantBillingEntriesListResponse200.md#merchantbillingentrieslistresponse200).
+Returned payload: [MerchantBillingEntryListResponse](../models/MerchantBillingEntryListResponse.md#merchantbillingentrylistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -64,11 +78,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 

@@ -10,7 +10,7 @@ The request body for: Add line items.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 | `line_items` | Required | Array of [CreateOrderLineItem](../models/CreateOrderLineItem.md#createorderlineitem) | minItems: `1`. `line_items[]`: [declared alternatives](../models/AddLineItemsRequest.md#addlineitemsrequestline_items). |
 
 ### AddLineItemsRequest.line_items[]
@@ -28,18 +28,18 @@ A line item to add to an order: a catalog variant, a bundle, or a custom item wi
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmodifiers). |
 | `name` | Conditional | string | minLength: `1`. |
-| `quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
+| `quantity` | Optional | integer | Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
 | `subscription` | Optional | [SubscribedLineRequest](../models/SubscribedLineRequest.md#subscribedlinerequest) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. Makes an order line a subscription purchase, with the subscription offer and billing interval. |
 | `tax` | Optional | [OrderCalculatedLineItemTax](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax) | Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. `tax`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1tax), [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-3tax). |
 | `type` | Required | string | Selects the type branch. Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) | Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. |
-| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsunit_price_money). |
 | `unit_weight` | Optional | [Weight](../models/Weight.md#weight) | Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. |
 | `variant_id` | Conditional | string | minLength: `1`. |
 
 ### AddLineItemsRequest.line_items[] variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `CreateOrderLineItemInput`..
+oneOf with type: "variant": The `variant` variant of `CreateOrderLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
 - Required: `variant_id`.
@@ -48,7 +48,7 @@ oneOf variant 1: The `variant` variant of `CreateOrderLineItemInput`..
 
 ### AddLineItemsRequest.line_items[] variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `CreateOrderLineItemInput`..
+oneOf with type: "bundle": The `bundle` variant of `CreateOrderLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
 - Required: `bundle_id`.
@@ -57,7 +57,7 @@ oneOf variant 2: The `bundle` variant of `CreateOrderLineItemInput`..
 
 ### AddLineItemsRequest.line_items[] variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `CreateOrderLineItemInput`..
+oneOf with type: "custom": The `custom` variant of `CreateOrderLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
 - Required: `fulfillment`, `name`, `unit_price_money`.
@@ -70,10 +70,12 @@ Buyer-selected face value and recipient for a gift_card variant. The server free
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `face_value_money` | Optional | object | `face_value_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money). |
+| `face_value_money` | Optional | object | Buyer-selected face value within the gift card offer's limits. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. `face_value_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money). |
 | `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at` time. `recipient`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaserecipient). |
 
 ### AddLineItemsRequest.line_items[].gift_card_purchase.face_value_money
+
+Buyer-selected face value within the gift card offer's limits. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -98,7 +100,7 @@ Field definitions: [shared fields](OrderLineItemModifierRequest.md#orderlineitem
 
 ### AddLineItemsRequest.line_items[].modifiers[] variant 1: `type` = `"catalog"`
 
-oneOf variant 1: The `catalog` variant of `OrderLineItemModifierInput`..
+oneOf with type: "catalog": The `catalog` variant of `OrderLineItemModifierInput`..
 
 - Condition: not (present(`order_line_item_modifier_id`)).
 - Condition: not (present(`text`)).
@@ -108,7 +110,7 @@ oneOf variant 1: The `catalog` variant of `OrderLineItemModifierInput`..
 
 ### AddLineItemsRequest.line_items[].modifiers[] variant 2: `type` = `"text"`
 
-oneOf variant 2: The `text` variant of `OrderLineItemModifierInput`..
+oneOf with type: "text": The `text` variant of `OrderLineItemModifierInput`..
 
 - Condition: not (present(`order_line_item_modifier_id`)).
 - Condition: not (at least one(present(`modifier_id`); present(`quantity`))).
@@ -167,14 +169,14 @@ One tax component of a draft line item calculation, with its jurisdiction, tax t
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `calculation_type` | Optional | string | Default: `"percentage"`. Values: `"percentage"`. |
-| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Flat tax amount. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
 | `jurisdiction` | Required | [TaxJurisdiction](../models/TaxJurisdiction.md#taxjurisdiction) | The taxing jurisdiction of a draft tax component, identified by code, level, name, state, and country. `jurisdiction`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsjurisdiction). |
 | `percent` | Required | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
 | `tax_type` | Required | string | Values: `"sales_tax"`, `"use_tax"`. |
 
 ### AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money
 
-Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+Flat tax amount. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
 Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
@@ -186,7 +188,9 @@ Field definitions: [shared fields](OrderDraftTaxJurisdictionRequestInput.md#orde
 
 ### AddLineItemsRequest.line_items[].unit_price_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### AddLineItemsRequest.line_items[] variant 2.tax
 

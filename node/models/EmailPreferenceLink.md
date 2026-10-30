@@ -12,6 +12,6 @@ An email preference for one address, such as shipping updates or checkout remind
 | --- | --- | --- | --- |
 | `customer_id` | Required | string or null | Flint customer ID when the email belongs to an active customer in this merchant environment. Null for a guest email. |
 | `email` | Required | string |  |
-| `email_preference` | Required | string | Values: `"shipping_updates"`, `"checkout_reminders"`, `"other"`. |
+| `email_preference` | Required | string | Values: `"shipping_updates"`, `"checkout_reminders"`. |
 | `enabled` | Required | boolean |  |
 

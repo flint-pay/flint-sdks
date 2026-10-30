@@ -12,37 +12,37 @@ namespace Flint;
 final class ManualDiscountRequestInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'discount_class'?: string, 'name': string, 'order_charge_ids'?: list<string>, 'order_line_item_ids'?: list<string>, 'scope'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ManualDiscountRequestInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed discount to apply to the order. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.  Value enum: "order", "line_item", "service_charge".
+    /** Value enum: "order", "line_item", "service_charge".
      * @return string
      * @throws SdkError When discount_class is omitted; use hasDiscountClass() or valueOrDefault().
      */
     public function getDiscountClass(): string { return $this->get('discount_class'); }
     public function hasDiscountClass(): bool { return $this->has('discount_class'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When order_charge_ids is omitted; use hasOrderChargeIds() or valueOrDefault().
      */
     public function getOrderChargeIds(): array { return $this->get('order_charge_ids'); }
     public function hasOrderChargeIds(): bool { return $this->has('order_charge_ids'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When order_line_item_ids is omitted; use hasOrderLineItemIds() or valueOrDefault().
      */
     public function getOrderLineItemIds(): array { return $this->get('order_line_item_ids'); }
     public function hasOrderLineItemIds(): bool { return $this->has('order_line_item_ids'); }
-    /** Shape $ (Value): string.  Value enum: "order", "line_item".
+    /** Value enum: "order", "line_item".
      * @return string
      * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
      */

@@ -22,7 +22,7 @@ No additional constraints.
 
 ### PromotionSchedule variant 2
 
-anyOf variant 2: Declared schema PromotionScheduleRequestRequest. When a promotion is active, with a start time, an end time, and the time zone it was entered in..
+anyOf variant 2: Declared schema PromotionScheduleRequest. When a promotion is active, with a start time, an end time, and the time zone it was entered in..
 
 No additional constraints.
 

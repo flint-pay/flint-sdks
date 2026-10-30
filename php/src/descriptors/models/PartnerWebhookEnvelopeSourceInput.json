@@ -1,1 +1,1 @@
-{"shared":"WebhookEventSource","dependencies":["SharedCodec1047","SharedCodec1048","SharedCodec417","WebhookEventSource"]}
+{"shared":"PartnerWebhookEnvelopeSource","dependencies":["PartnerWebhookEnvelopeSource","SharedCodec26","SharedCodec949","SharedCodec950"]}

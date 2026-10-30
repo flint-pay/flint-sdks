@@ -5,15 +5,13 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { mkdirSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { Client } from "../node/index.js";
+import { Client, errors } from "../node/index.js";
 
 const exec = promisify(execFile);
 const root = resolve(import.meta.dirname, "..");
 const methods = [
   "listFulfillmentEvents",
-  "listFulfillmentEventsWithResponse",
   "listFulfillmentEventsPages",
-  "listFulfillmentEventsPagesWithResponse",
   "listFulfillmentEventsItems",
 ];
 
@@ -44,7 +42,7 @@ test("buyer fulfillment event helpers require an order before dispatch in Node a
             await result.next();
           else await result;
         },
-        (error) => error.kind === "validation" && error.outcome === "not_sent",
+        (error) => error instanceof errors.InvalidInputError && error.code === "INVALID_REQUEST" && error.outcome === "not_sent",
         method,
       );
     }
@@ -72,7 +70,7 @@ foreach ($methods as $method) {
         } catch (\ArgumentCountError $error) {
             $rejected = $args === [];
         } catch (\Flint\SdkError $error) {
-            $rejected = $error->kind === 'validation' && $error->outcome === 'not_sent';
+            $rejected = $error instanceof \Flint\Errors\InvalidInputError && $error->code === 'INVALID_REQUEST' && $error->outcome === 'not_sent';
         }
         if (!$rejected) throw new \RuntimeException($method . ' accepted a missing order ID');
     }
@@ -98,7 +96,7 @@ test("TypeScript consumers require buyer order IDs and canonical checkout URLs",
     const fixture = join(directory, "consumer.mts");
     writeFileSync(
       fixture,
-      `import { Client } from "../../node/index.js";
+      `import { Client, errors } from "../../node/index.js";
 import type { CheckoutSessionWithSecret, InvoiceCheckoutSessionResult, BuyerInvoiceCheckoutSessionResult } from "../../node/index.js";
 // @ts-expect-error The deprecated invoice checkout model is removed.
 import type { HostedCheckout } from "../../node/index.js";

@@ -1,0 +1,1 @@
+{"shared":"InventoryLevelShortageDetectedInstalledMerchantsEvent","dependencies":["InventoryItem","InventoryLevel","InventoryLevelShortageDetectedInstalledMerchantsEvent","MetadataMap","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec639","SharedCodec949","SharedCodec950"]}

@@ -9,17 +9,17 @@ namespace Flint;
 final class SubscriptionPlanChangeResult extends Model {
     /** @param array{'order': mixed, 'order_payment_attempt': mixed, 'subscription': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanChangeResult')); }
-    /** Shape $ (Value): {@see Order} or null. The new period's order when billing_starts is now, including a canceled order when payment fails. Null for next_renewal. Shape $.anyOf[1] (Value): {@see Order}. A customer's purchase and its payment and fulfillment progress. Shape $.anyOf[2] (Value): null.
+    /** The new period's order when billing_starts is now, including a canceled order when payment fails. Null for next_renewal. anyOf[1] (Value): {@see Order}. A customer's purchase and its payment and fulfillment progress. anyOf[2] (Value): null.
      * @return Order|null
      */
     public function getOrder(): Order|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Shape $ (Value): {@see OrderPaymentAttempt} or null. The recorded payment attempt when billing_starts is now, including declines. Null for next_renewal. Shape $.anyOf[1] (Value): {@see OrderPaymentAttempt}. An attempt to pay an order. Shape $.anyOf[2] (Value): null.
+    /** The recorded payment attempt when billing_starts is now, including declines. Null for next_renewal. anyOf[1] (Value): {@see OrderPaymentAttempt}. An attempt to pay an order. anyOf[2] (Value): null.
      * @return OrderPaymentAttempt|null
      */
     public function getOrderPaymentAttempt(): OrderPaymentAttempt|null { return $this->get('order_payment_attempt'); }
     public function hasOrderPaymentAttempt(): bool { return $this->has('order_payment_attempt'); }
-    /** Shape $ (Value): {@see Subscription}. A customer's recurring purchase.
+    /** A customer's recurring purchase.
      * @return Subscription
      */
     public function getSubscription(): Subscription { return $this->get('subscription'); }

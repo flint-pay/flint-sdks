@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryCustomerSegmentConditionInput extends Model {
     /** @param array{'values': list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCustomerSegmentConditionInput')); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When values is omitted; use hasValues() or valueOrDefault().
      */

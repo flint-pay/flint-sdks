@@ -13,43 +13,43 @@ namespace Flint;
 final class TippingSettingsInput extends Model {
     /** @param array{'custom_tip_enabled'?: bool, 'default_enabled'?: bool, 'default_smart_tip_money': array{'amount': string, 'currency': string}|object|null, 'default_tip_percent': int|float|null, 'smart_tip_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TippingSettingsInput')); }
-    /** Shape $ (Value): boolean. Whether buyers can enter a custom tip amount.
+    /** Whether buyers can enter a custom tip amount.
      * @return bool
      * @throws SdkError When custom_tip_enabled is omitted; use hasCustomTipEnabled() or valueOrDefault().
      */
     public function getCustomTipEnabled(): bool { return $this->get('custom_tip_enabled'); }
     public function hasCustomTipEnabled(): bool { return $this->has('custom_tip_enabled'); }
-    /** Shape $ (Value): boolean.
+    /** default_enabled
      * @return bool
      * @throws SdkError When default_enabled is omitted; use hasDefaultEnabled() or valueOrDefault().
      */
     public function getDefaultEnabled(): bool { return $this->get('default_enabled'); }
     public function hasDefaultEnabled(): bool { return $this->has('default_enabled'); }
-    /** Shape $ (Value): {@see MoneyValueInput} or null. Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set; effective settings use Flint's default. Shape $.anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.anyOf[1].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $.anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Shape $.anyOf[2] (Value): null.
+    /** Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set; effective settings use Flint's default. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
      * @return array{'amount': string, 'currency': string}|object|null
      * @throws SdkError When default_smart_tip_money is omitted; use hasDefaultSmartTipMoney() or valueOrDefault().
      */
     public function getDefaultSmartTipMoney(): mixed { return $this->get('default_smart_tip_money'); }
     public function hasDefaultSmartTipMoney(): bool { return $this->has('default_smart_tip_money'); }
-    /** Shape $ (Value): number or null. The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. Null means no preselection is set; effective settings use Flint's default. minimum: 1. maximum: 100. multipleOf: 0.0001.
+    /** The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. Null means no preselection is set; effective settings use Flint's default. minimum: 1. maximum: 100. multipleOf: 0.0001.
      * @return int|float|null
      * @throws SdkError When default_tip_percent is omitted; use hasDefaultTipPercent() or valueOrDefault().
      */
     public function getDefaultTipPercent(): int|float|null { return $this->get('default_tip_percent'); }
     public function hasDefaultTipPercent(): bool { return $this->has('default_tip_percent'); }
-    /** Shape $ (Value): Array of {@see MoneyValueInput}. minItems: 3. maxItems: 3. Shape $[] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $[].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $[].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+    /** minItems: 3. maxItems: 3. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. [].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. [].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      * @return list<array{'amount': string, 'currency': string}|object>
      * @throws SdkError When smart_tip_money_options is omitted; use hasSmartTipMoneyOptions() or valueOrDefault().
      */
     public function getSmartTipMoneyOptions(): array { return $this->get('smart_tip_money_options'); }
     public function hasSmartTipMoneyOptions(): bool { return $this->has('smart_tip_money_options'); }
-    /** Shape $ (Value): boolean. Whether checkout offers fixed tip amounts instead of tip percentages.
+    /** Whether checkout offers fixed tip amounts instead of tip percentages.
      * @return bool
      * @throws SdkError When smart_tips_enabled is omitted; use hasSmartTipsEnabled() or valueOrDefault().
      */
     public function getSmartTipsEnabled(): bool { return $this->get('smart_tips_enabled'); }
     public function hasSmartTipsEnabled(): bool { return $this->has('smart_tips_enabled'); }
-    /** Shape $ (Value): Array of number. Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: 3. maxItems: 3. Shape $[] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+    /** Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
      * @return list<int|float>
      * @throws SdkError When tip_percent_options is omitted; use hasTipPercentOptions() or valueOrDefault().
      */

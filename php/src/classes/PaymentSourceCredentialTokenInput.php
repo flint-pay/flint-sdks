@@ -8,13 +8,13 @@ namespace Flint;
 final class PaymentSourceCredentialTokenInput extends Model {
     /** @param array{'credential_type': string, 'token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCredentialTokenInput')); }
-    /** Shape $ (Value): string.  Value enum: "token".
+    /** Value enum: "token".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1.
+    /** Opaque processor or browser payment source token. minLength: 1.
      * @return string
      * @throws SdkError When token is omitted; use hasToken() or valueOrDefault().
      */

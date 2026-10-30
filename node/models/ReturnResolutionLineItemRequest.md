@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `return_line_item_id` | Required | string |  |
 
 ### ReturnResolutionLineItemRequest variant 1
@@ -33,7 +33,7 @@ anyOf variant 3: Declared schema ReturnShipmentLineItemAllocation. A return line
 
 ### ReturnResolutionLineItemRequest variant 4
 
-anyOf variant 4: Declared schema ReturnShipmentLineItemAllocationRequestRequest. A return line and the quantity placed in a return shipment or package..
+anyOf variant 4: Declared schema ReturnShipmentLineItemAllocationRequest. A return line and the quantity placed in a return shipment or package..
 
 - Constraints for `return_line_item_id`: Return line whose quantity is allocated to the shipment or package. minLength: `1`.
 

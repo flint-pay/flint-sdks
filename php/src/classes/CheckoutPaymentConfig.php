@@ -8,12 +8,12 @@ namespace Flint;
 final class CheckoutPaymentConfig extends Model {
     /** @param array{'enabled_payment_options'?: list<string>, 'payment_note'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPaymentConfig')); }
-    /** Shape $ (Value): Array of string.  [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Payment options for this session. The list replaces settings.checkout.enabled_payment_options; omit it to use that setting. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return ?list<string>
      */
     public function getEnabledPaymentOptions(): ?array { return $this->get('enabled_payment_options'); }
     public function hasEnabledPaymentOptions(): bool { return $this->has('enabled_payment_options'); }
-    /** Shape $ (Value): string.
+    /** payment_note
      * @return ?string
      */
     public function getPaymentNote(): ?string { return $this->get('payment_note'); }

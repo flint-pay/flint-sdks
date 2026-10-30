@@ -10,22 +10,22 @@ namespace Flint;
 final class PublicResolvedTextModifier extends Model {
     /** @param array{'max_length'?: int, 'min_length'?: int, 'multiline'?: bool, 'required'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedTextModifier')); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return ?int
      */
     public function getMaxLength(): ?int { return $this->get('max_length'); }
     public function hasMaxLength(): bool { return $this->has('max_length'); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return ?int
      */
     public function getMinLength(): ?int { return $this->get('min_length'); }
     public function hasMinLength(): bool { return $this->has('min_length'); }
-    /** Shape $ (Value): boolean.
+    /** multiline
      * @return ?bool
      */
     public function getMultiline(): ?bool { return $this->get('multiline'); }
     public function hasMultiline(): bool { return $this->has('multiline'); }
-    /** Shape $ (Value): boolean.
+    /** required
      * @return ?bool
      */
     public function getRequired(): ?bool { return $this->get('required'); }

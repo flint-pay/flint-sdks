@@ -10,25 +10,25 @@ namespace Flint;
 final class PublicResolvedTextModifierInput extends Model {
     /** @param array{'max_length'?: int, 'min_length'?: int, 'multiline'?: bool, 'required'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedTextModifierInput')); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return int
      * @throws SdkError When max_length is omitted; use hasMaxLength() or valueOrDefault().
      */
     public function getMaxLength(): int { return $this->get('max_length'); }
     public function hasMaxLength(): bool { return $this->has('max_length'); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return int
      * @throws SdkError When min_length is omitted; use hasMinLength() or valueOrDefault().
      */
     public function getMinLength(): int { return $this->get('min_length'); }
     public function hasMinLength(): bool { return $this->has('min_length'); }
-    /** Shape $ (Value): boolean.
+    /** multiline
      * @return bool
      * @throws SdkError When multiline is omitted; use hasMultiline() or valueOrDefault().
      */
     public function getMultiline(): bool { return $this->get('multiline'); }
     public function hasMultiline(): bool { return $this->has('multiline'); }
-    /** Shape $ (Value): boolean.
+    /** required
      * @return bool
      * @throws SdkError When required is omitted; use hasRequired() or valueOrDefault().
      */

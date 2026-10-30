@@ -24,7 +24,7 @@ Response model.
 | `source` | Required | object and Alternative shapes (see declared variants) | Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it. `source`: [declared alternatives](../models/GiftCardLoad.md#giftcardloadsource). |
 | `source_created_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 
 ### GiftCardLoad.source
 
@@ -53,7 +53,7 @@ Where the value of a gift card load came from, such as an external payment, a Fl
 
 ### GiftCardLoad.source variant 1: `funding_source_type` = `"external_payment"`
 
-oneOf variant 1: The `external_payment` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "external_payment": The `external_payment` variant of `GiftCardFundingSource`..
 
 - Condition: not (at least one(present(`payment_intent_id`); present(`order_id`))).
 - Required: `customer_id`.
@@ -62,7 +62,7 @@ oneOf variant 1: The `external_payment` variant of `GiftCardFundingSource`..
 
 ### GiftCardLoad.source variant 2: `funding_source_type` = `"flint_payment"`
 
-oneOf variant 2: The `flint_payment` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "flint_payment": The `flint_payment` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`order_manual_payment_id`)).
 - Required: `payment_intent_id`.
@@ -71,7 +71,7 @@ oneOf variant 2: The `flint_payment` variant of `GiftCardFundingSource`..
 
 ### GiftCardLoad.source variant 3: `funding_source_type` = `"flint_manual_payment"`
 
-oneOf variant 3: The `flint_manual_payment` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "flint_manual_payment": The `flint_manual_payment` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`payment_intent_id`)).
 - Required: `customer_id`, `order_id`, `order_manual_payment_id`.
@@ -80,7 +80,7 @@ oneOf variant 3: The `flint_manual_payment` variant of `GiftCardFundingSource`..
 
 ### GiftCardLoad.source variant 4: `funding_source_type` = `"import"`
 
-oneOf variant 4: The `import` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "import": The `import` variant of `GiftCardFundingSource`..
 
 - Condition: not (at least one(present(`payment_intent_id`); present(`order_id`))).
 - Optional: `customer_id`, `order_id`, `order_manual_payment_id`, `payment_intent_id`, `refund_id`.
@@ -88,14 +88,14 @@ oneOf variant 4: The `import` variant of `GiftCardFundingSource`..
 
 ### GiftCardLoad.source variant 5: `funding_source_type` = `"adjustment"`
 
-oneOf variant 5: The `adjustment` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "adjustment": The `adjustment` variant of `GiftCardFundingSource`..
 
 - Optional: `customer_id`, `order_id`, `order_manual_payment_id`, `payment_intent_id`, `refund_id`.
 - Constraints for `funding_source_type`: Values: `"adjustment"`.
 
 ### GiftCardLoad.source variant 6: `funding_source_type` = `"gift_card_refund"`
 
-oneOf variant 6: The `gift_card_refund` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "gift_card_refund": The `gift_card_refund` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`payment_intent_id`)).
 - Optional: `customer_id`, `order_id`, `order_manual_payment_id`, `payment_intent_id`, `refund_id`.
@@ -103,7 +103,7 @@ oneOf variant 6: The `gift_card_refund` variant of `GiftCardFundingSource`..
 
 ### GiftCardLoad.source variant 7: `funding_source_type` = `"gift_card_purchase_refund_recovery"`
 
-oneOf variant 7: The `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "gift_card_purchase_refund_recovery": The `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`..
 
 - Condition: not (at least one(present(`payment_intent_id`); present(`order_manual_payment_id`))).
 - Optional: `customer_id`, `order_id`, `order_manual_payment_id`, `payment_intent_id`, `refund_id`.
@@ -111,7 +111,7 @@ oneOf variant 7: The `gift_card_purchase_refund_recovery` variant of `GiftCardFu
 
 ### GiftCardLoad.source variant 8: `funding_source_type` = `"store_credit"`
 
-oneOf variant 8: The `store_credit` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "store_credit": The `store_credit` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`order_manual_payment_id`)).
 - Required: `order_id`, `payment_intent_id`, `refund_id`.

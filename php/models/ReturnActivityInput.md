@@ -11,14 +11,14 @@ Request input.
 | `activity_type` | Required | string | Values: [39 declared values](#returnactivityinput-activity_type-values). |
 | `actor` | Required | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) | Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `quantity` | Optional | integer string | Canceled whole-number quantity; fractional quantities are not supported. Present only for return_line_item.quantity_canceled. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Optional | integer | Canceled whole-number quantity; fractional quantities are not supported. Present only for return_line_item.quantity_canceled. Format: `int64`. |
 | `reason` | Optional | string | Values: [56 declared values](#returnactivityinput-reason-values). |
 | `reason_message` | Optional | string |  |
 | `resource_id` | Required | string |  |
-| `resource_type` | Required | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `return_activity_id` | Required | string |  |
 | `return_id` | Required | string |  |
-| `return_version` | Required | integer string | Return version produced by this activity. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `return_version` | Required | integer | Return version produced by this activity. Format: `int64`. minimum: `0`. |
 
 #### ReturnActivityInput activity_type values
 

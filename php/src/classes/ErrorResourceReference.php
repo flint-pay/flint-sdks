@@ -9,17 +9,17 @@ namespace Flint;
 final class ErrorResourceReference extends Model {
     /** @param array{'resource_id': string, 'resource_type': string, 'status'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorResourceReference')); }
-    /** Shape $ (Value): string. Public Flint ID of the referenced resource.
+    /** Public Flint ID of the referenced resource.
      * @return string
      */
     public function getResourceId(): string { return $this->get('resource_id'); }
     public function hasResourceId(): bool { return $this->has('resource_id'); }
-    /** Shape $ (Value): string. Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type.
+    /** Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type.
      * @return string
      */
     public function getResourceType(): string { return $this->get('resource_type'); }
     public function hasResourceType(): bool { return $this->has('resource_type'); }
-    /** Shape $ (Value): string. Current public status of the referenced resource when available.
+    /** Current public status of the referenced resource when available.
      * @return ?string
      */
     public function getStatus(): ?string { return $this->get('status'); }

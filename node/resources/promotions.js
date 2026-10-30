@@ -1,151 +1,64 @@
-import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
+import { responsePayload as _sdkPayload, payloadPages as _sdkPayloadPages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { configuredDefaultCredentials, configuredWorkloadIdentityCredentials } from '../runtime.js';
 export function defaultCredentials() { return configuredDefaultCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, "https://api.withflintpay.com" ?? undefined); }
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/promotions.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import r0 from '../descriptors/resources/promotions.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import settings from '../descriptors/settings.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createPromotion"]:r0,["createPromotionCode"]:r0,["deletePromotion"]:r0,["deletePromotionCode"]:r0,["getPromotion"]:r0,["getPromotionCode"]:r0,["listPromotionCodes"]:r0,["listPromotions"]:r0,["updatePromotion"]:r0,["updatePromotionCode"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createPromotion"]:r0,["createPromotionCode"]:r0,["deletePromotion"]:r0,["deletePromotionCode"]:r0,["getPromotion"]:r0,["getPromotionCode"]:r0,["listPromotions"]:r0,["updatePromotion"]:r0,["updatePromotionCode"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.promotions = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createPromotion", _sdkRequestInput([], [], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPromotion", result, path))),
-      createWithResponse: async (params, options) => this.#runtime.request("createPromotion", _sdkRequestInput([], [], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+      create: async (params, options) => this.#runtime.request("createPromotion", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPromotion", result, path))),
       createCode: async (promotion_id, params, options) => this.#runtime.request("createPromotionCode", _sdkRequestInput([
   "promotion_id"
-], [promotion_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPromotionCode", result, path))),
-      createCodeWithResponse: async (promotion_id, params, options) => this.#runtime.request("createPromotionCode", _sdkRequestInput([
+], [promotion_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPromotionCode", result, path))),
+      delete: async (promotion_id, params, options) => this.#runtime.request("deletePromotion", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      remove: async (promotion_id, params, options) => this.#runtime.request("deletePromotion", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
-  "expected_version",
-  "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePromotion", result, path))),
-      removeWithResponse: async (promotion_id, params, options) => this.#runtime.request("deletePromotion", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
-  "expected_version",
-  "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
+  "expected_version"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePromotion", result, path))),
       deleteCode: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("deletePromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
 ], [promotion_id, promotion_code_id], [
-  "expected_version",
-  "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePromotionCode", result, path))),
-      deleteCodeWithResponse: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("deletePromotionCode", _sdkRequestInput([
-  "promotion_id",
-  "promotion_code_id"
-], [promotion_id, promotion_code_id], [
-  "expected_version",
-  "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
+  "expected_version"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePromotionCode", result, path))),
       get: async (promotion_id, params, options) => this.#runtime.request("getPromotion", _sdkRequestInput([
   "promotion_id"
-], [promotion_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPromotion", result, path))),
-      getWithResponse: async (promotion_id, params, options) => this.#runtime.request("getPromotion", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [], false, false, params), options).then(_sdkResponse),
+], [promotion_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPromotion", result, path))),
       getCode: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("getPromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
-], [promotion_id, promotion_code_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPromotionCode", result, path))),
-      getCodeWithResponse: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("getPromotionCode", _sdkRequestInput([
-  "promotion_id",
-  "promotion_code_id"
-], [promotion_id, promotion_code_id], [], false, false, params), options).then(_sdkResponse),
-      listCodes: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
-  "promotion_id",
-  "code",
-  "status",
-  "availability",
-  "page_size",
-  "page_token",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before",
-  "expand"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPromotionCodes", result, path))),
-      listCodesWithResponse: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
-  "promotion_id",
-  "code",
-  "status",
-  "availability",
-  "page_size",
-  "page_token",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before",
-  "expand"
-], false, false, params), options).then(_sdkResponse),
-      listCodesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
-  "promotion_id",
-  "code",
-  "status",
-  "availability",
-  "page_size",
-  "page_token",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before",
-  "expand"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPromotionCodes", result, path)),
-      listCodesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
-  "promotion_id",
-  "code",
-  "status",
-  "availability",
-  "page_size",
-  "page_token",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before",
-  "expand"
-], false, false, params), options)),
-      listCodesItems: (params, options) => this.#runtime.items("listPromotionCodes", _sdkRequestInput([], [], [
-  "promotion_id",
-  "code",
-  "status",
-  "availability",
-  "page_size",
-  "page_token",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before",
-  "expand"
-], false, false, params), options),
+], [promotion_id, promotion_code_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPromotionCode", result, path))),
       list: async (params, options) => this.#runtime.request("listPromotions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -165,27 +78,10 @@ this.promotions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPromotions", result, path))),
-      listWithResponse: async (params, options) => this.#runtime.request("listPromotions", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status",
-  "availability",
-  "external_reference_id",
-  "query",
-  "product_id",
-  "variant_id",
-  "bundle_id",
-  "category_handle",
-  "redemption_type",
-  "discount_class",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPromotions", result, path))),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -205,27 +101,10 @@ this.promotions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPromotions", result, path)),
-      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPromotions", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status",
-  "availability",
-  "external_reference_id",
-  "query",
-  "product_id",
-  "variant_id",
-  "bundle_id",
-  "category_handle",
-  "redemption_type",
-  "discount_class",
-  "sort_by",
-  "sort_direction",
-  "created_after",
-  "created_before",
-  "updated_after",
-  "updated_before"
-], false, false, params), options)),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listPromotions", result, path)),
       listItems: (params, options) => this.#runtime.items("listPromotions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -245,29 +124,25 @@ this.promotions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       update: async (promotion_id, params, options) => this.#runtime.request("updatePromotion", _sdkRequestInput([
   "promotion_id"
-], [promotion_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePromotion", result, path))),
-      updateWithResponse: async (promotion_id, params, options) => this.#runtime.request("updatePromotion", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [promotion_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePromotion", result, path))),
       updateCode: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("updatePromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
-], [promotion_id, promotion_code_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePromotionCode", result, path))),
-      updateCodeWithResponse: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("updatePromotionCode", _sdkRequestInput([
-  "promotion_id",
-  "promotion_code_id"
-], [promotion_id, promotion_code_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [promotion_id, promotion_code_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePromotionCode", result, path))),
     });
 }
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
@@ -295,6 +170,6 @@ export { makePromotionRuleGroupRequest } from '../models/PromotionRuleGroupReque
 export { makePromotionRuleRequest } from '../models/PromotionRuleRequest.js';
 export { makePromotionRuleValueRequest } from '../models/PromotionRuleValueRequest.js';
 export { makePromotionSchedulePatch } from '../models/PromotionSchedulePatch.js';
-export { makePromotionScheduleRequestRequest } from '../models/PromotionScheduleRequestRequest.js';
+export { makePromotionScheduleRequest } from '../models/PromotionScheduleRequest.js';
 export { makeUpdatePromotionCodeRequest } from '../models/UpdatePromotionCodeRequest.js';
 export { makeUpdatePromotionRequest } from '../models/UpdatePromotionRequest.js';

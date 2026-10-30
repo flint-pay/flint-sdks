@@ -12,7 +12,7 @@ Request input.
 | `modifier_group_name` | Required | string |  |
 | `name` | Required | string |  |
 | `pricing_scope` | Required | string | Values: `"per_item"`, `"per_line"`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `show_on_fulfillment` | Required | boolean |  |
 | `show_on_receipt` | Required | boolean |  |
 | `text_value` | Optional | string |  |

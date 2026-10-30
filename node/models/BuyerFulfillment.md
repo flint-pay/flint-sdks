@@ -11,7 +11,7 @@ Work required to deliver an order's items.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `charges` | Optional | Array of [FulfillmentChargeLink](../models/FulfillmentChargeLink.md#fulfillmentchargelink) | Order charges associated with this fulfillment. |
-| `completed_at` | Optional | string | Completion evidence timestamp. Format: `date-time`. |
+| `completed_at` | Optional | string | When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: `date-time`. |
 | `created_at` | Optional | string | When the fulfillment was created, in RFC3339 format. Format: `date-time`. |
 | `customer_id` | Optional | string | Customer receiving this fulfillment, when one is set. |
 | `digital_details` | Optional | [DigitalFulfillmentDetails](../models/DigitalFulfillmentDetails.md#digitalfulfillmentdetails) | Delivery URL and completion time for a digital fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`. |
@@ -19,7 +19,6 @@ Work required to deliver an order's items.
 | `fulfillment_id` | Required | string | Stable identifier of the fulfillment. |
 | `line_items` | Required | Array of [BuyerFulfillmentLineItem](../models/BuyerFulfillmentLineItem.md#buyerfulfillmentlineitem) | Order lines and quantities allocated to this fulfillment. |
 | `local_delivery_details` | Optional | [BuyerDeliveryFulfillmentDetails](../models/BuyerDeliveryFulfillmentDetails.md#buyerdeliveryfulfillmentdetails) | Courier, delivery window, and handoff details for a local delivery fulfillment. Buyer-facing details of a local delivery fulfillment: courier, timing, and tracking. Some fields are omitted for credentials that don't act for the verified customer. |
-| `order` | Optional | [BuyerExpandedOrderSummary](../models/BuyerExpandedOrderSummary.md#buyerexpandedordersummary) or null | Order summary returned when the order relationship is expanded. |
 | `order_id` | Required | string | Order whose items this fulfillment delivers. |
 | `order_number` | Optional | string | Human-readable number of the order this fulfillment belongs to. Omitted when the order has no number. |
 | `outcome` | Optional | [BuyerFulfillmentOutcome](../models/BuyerFulfillmentOutcome.md#buyerfulfillmentoutcome) | Terminal outcome details. Present exactly when status is no_show. A terminal outcome recorded on a fulfillment, such as a no-show, with its `reason` and when it occurred. |
@@ -37,7 +36,7 @@ Work required to deliver an order's items.
 | `terminal_at` | Optional | string | When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: `date-time`. |
 | `type` | Required | string | Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
 | `updated_at` | Optional | string | When the fulfillment was last updated, in RFC3339 format. Format: `date-time`. |
-| `version` | Required | integer string | Monotonic fulfillment version for expected_version checks. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Monotonic fulfillment version for expected_version checks. Format: `uint64`. minimum: `1`. |
 
 #### BuyerFulfillment status values
 
@@ -92,7 +91,7 @@ A package on a buyer's fulfillment, with its carrier, status, tracking details, 
 | `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `tracking_url` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `updated_at` | Optional | string | When the package was last updated, in RFC3339 format. Format: `date-time`. |
-| `version` | Required | integer string | Monotonic package version for expected_version checks. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Monotonic package version for expected_version checks. Format: `uint64`. minimum: `1`. |
 
 #### BuyerFulfillment.packages[] supported_actions [] values
 

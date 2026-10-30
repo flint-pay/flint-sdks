@@ -1,0 +1,1 @@
+{"shared":"InventoryLevelUpdatedMerchantEvent","dependencies":["InventoryItem","InventoryLevel","InventoryLevelUpdatedMerchantEvent","MetadataMap","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec642"]}

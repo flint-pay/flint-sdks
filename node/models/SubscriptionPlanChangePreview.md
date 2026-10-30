@@ -16,7 +16,7 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. `credit_money`: [declared alternatives](../models/SubscriptionPlanChangePreview.md#subscriptionplanchangepreviewcredit_money). |
 | `mode` | Required | string | Values: `"plan_change"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `recurring_subtotal_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `recurring_subtotal_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. |
 | `subscription_id` | Required | string |  |
 | `subscription_plan_id` | Required | string |  |
@@ -29,7 +29,7 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### SubscriptionPlanChangePreview.credit_money variant 1
 
-anyOf variant 1: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 
@@ -42,5 +42,5 @@ anyOf variant 2.
 
 ### SubscriptionPlanChangePreview.recurring_subtotal_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

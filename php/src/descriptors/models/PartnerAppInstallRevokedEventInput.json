@@ -1,0 +1,1 @@
+{"shared":"PartnerAppInstallRevokedEvent","dependencies":["PartnerAppInstall","PartnerAppInstallRevokedEvent","PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec26","SharedCodec538","SharedCodec946","SharedCodec949","SharedCodec950"]}

@@ -2,18 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read array{'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'sku'?: string, 'status'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemsCreateInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'body': array{'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'sku'?: string, 'status'?: string}|object}|object $values */
+    /** @param array{'body': array{'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'sku'?: string, 'status'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemsCreateInput')); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Create inventory item.
+    /** The request body for: Create inventory item. Example: {"barcode":"0781234567890","name":"Ceramic mug, 12oz","sku":"mug-12-white","status":"active"}.
      * @return array{'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'sku'?: string, 'status'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

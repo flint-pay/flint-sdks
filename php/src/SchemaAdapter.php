@@ -127,7 +127,7 @@ final class SchemaAdapter
             foreach ($op['parameters'] as &$parameter) {
                 if (array_key_exists('x-flint-request-option', $parameter)) {
                     $plans = json_decode(
-                        '{"client_request_id":{"node":"clientRequestId","php":"client_request_id","codec":{"value":{"kind":"string"},"nullable":false,"modelObjectInput":false,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{"minLength":1,"maxLength":128,"pattern":"^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])"},"phpPattern":"~^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])~uD","constraints":true}}}',
+                        '{"client_request_id":{"node":"clientRequestId","php":"clientRequestId","codec":{"value":{"kind":"string"},"nullable":false,"modelObjectInput":false,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{"minLength":1,"maxLength":128,"pattern":"^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])"},"phpPattern":"~^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])~uD","constraints":true}}}',
                         true,
                         512,
                         JSON_THROW_ON_ERROR,
@@ -316,6 +316,11 @@ final class SchemaAdapter
             'hiddenOutput' => (bool) ($input['writeOnly'] ?? false),
             'sensitive' =>
                 (bool) (($input['x-sensitive'] ?? false) || ($input['writeOnly'] ?? false)),
+            ...is_string($input['title'] ?? null)
+                ? ['label' => $input['title']]
+                : (is_string($input['x-sdk-type-name'] ?? null)
+                    ? ['label' => $input['x-sdk-type-name']]
+                    : []),
             'checks' => array_intersect_key(
                 $input,
                 array_flip([

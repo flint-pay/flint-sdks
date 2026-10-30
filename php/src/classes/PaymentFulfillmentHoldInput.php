@@ -12,37 +12,37 @@ namespace Flint;
 final class PaymentFulfillmentHoldInput extends Model {
     /** @param array{'reason': string, 'released_at'?: string|\DateTimeInterface, 'requested_at': string|\DateTimeInterface, 'required_action': string, 'status': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentFulfillmentHoldInput')); }
-    /** Shape $ (Value): string.  Value enum: "external_payment_hold", "external_payment_hold_released".
+    /** Value enum: "external_payment_hold", "external_payment_hold_released".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When released_at is omitted; use hasReleasedAt() or valueOrDefault().
      */
     public function getReleasedAt(): string|\DateTimeInterface { return $this->get('released_at'); }
     public function hasReleasedAt(): bool { return $this->has('released_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When requested_at is omitted; use hasRequestedAt() or valueOrDefault().
      */
     public function getRequestedAt(): string|\DateTimeInterface { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** Shape $ (Value): string.  Value enum: "pause_fulfillment", "reevaluate_fulfillment".
+    /** Value enum: "pause_fulfillment", "reevaluate_fulfillment".
      * @return string
      * @throws SdkError When required_action is omitted; use hasRequiredAction() or valueOrDefault().
      */
     public function getRequiredAction(): string { return $this->get('required_action'); }
     public function hasRequiredAction(): bool { return $this->has('required_action'); }
-    /** Shape $ (Value): string.  Value enum: "active", "released".
+    /** Value enum: "active", "released".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

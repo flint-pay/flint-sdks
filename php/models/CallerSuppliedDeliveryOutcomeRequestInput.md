@@ -44,7 +44,7 @@ Request input.
 
 ### CallerSuppliedDeliveryOutcomeRequestInput variant 1: `type` = `"available"`
 
-oneOf variant 1: The `available` variant of `CallerSuppliedDeliveryOutcomeRequest`..
+oneOf with type: "available": The `available` variant of `CallerSuppliedDeliveryOutcomeRequest`..
 
 - Required: `amount_money`, `expires_at`, `selection_guarantee_expires_at`.
 - Optional: `failure_category`, `retryable`, `unavailable_reason`.
@@ -52,7 +52,7 @@ oneOf variant 1: The `available` variant of `CallerSuppliedDeliveryOutcomeReques
 
 ### CallerSuppliedDeliveryOutcomeRequestInput variant 2: `type` = `"unavailable"`
 
-oneOf variant 2: The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequest`..
+oneOf with type: "unavailable": The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequest`..
 
 - Required: `unavailable_reason`.
 - Optional: `amount_money`, `expires_at`, `failure_category`, `retryable`, `selection_guarantee_expires_at`.
@@ -60,7 +60,7 @@ oneOf variant 2: The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequ
 
 ### CallerSuppliedDeliveryOutcomeRequestInput variant 3: `type` = `"cannot_calculate"`
 
-oneOf variant 3: The `cannot_calculate` variant of `CallerSuppliedDeliveryOutcomeRequest`..
+oneOf with type: "cannot_calculate": The `cannot_calculate` variant of `CallerSuppliedDeliveryOutcomeRequest`..
 
 - Required: `failure_category`, `retryable`.
 - Optional: `amount_money`, `expires_at`, `selection_guarantee_expires_at`, `unavailable_reason`.

@@ -1,14 +1,14 @@
-import { d175 as c0 } from '../descriptors/data/9.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4147 as c1 } from '../descriptors/data/181.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3168 as c2 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4189 as c3, d4190 as c4, d4191 as c5, d4167 as c17, d4168 as c18, d4169 as c19, d4170 as c20, d4171 as c21, d4172 as c22, d4188 as c23 } from '../descriptors/data/183.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4156 as c6, d4157 as c7, d4158 as c8, d4159 as c9, d4160 as c10, d4161 as c11, d4162 as c12, d4163 as c13, d4164 as c14, d4165 as c15, d4166 as c16 } from '../descriptors/data/182.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4192 as c24, d4193 as c25, d4194 as c26 } from '../descriptors/data/184.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d175 as d175 } from '../descriptors/data/9.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d215 as c0 } from '../descriptors/data/10.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4281 as c1 } from '../descriptors/data/180.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5372 as c2, d5373 as c3, d5374 as c4, d5377 as c24, d5378 as c25, d5379 as c26 } from '../descriptors/data/241.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5305 as c5, d5306 as c6, d5307 as c7, d5308 as c8, d5309 as c9, d5310 as c10, d5311 as c11, d5312 as c12, d5313 as c13, d5314 as c14 } from '../descriptors/data/238.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5315 as c15, d5316 as c16, d5317 as c17, d5318 as c18, d5319 as c19, d5320 as c20, d5321 as c21, d5322 as c22 } from '../descriptors/data/239.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d5350 as c23 } from '../descriptors/data/240.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d215 as d215 } from '../descriptors/data/10.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d175;
+const read = d215;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateGiftCardLoadRequest"]:c0(),["GiftCardFundingSource"]:c1(),["MoneyValue"]:c2(),["SharedCodec138"]:c3(),["SharedCodec139"]:c4(),["SharedCodec140"]:c5(),["SharedCodec141"]:c6(),["SharedCodec142"]:c7(),["SharedCodec143"]:c8(),["SharedCodec144"]:c9(),["SharedCodec145"]:c10(),["SharedCodec146"]:c11(),["SharedCodec147"]:c12(),["SharedCodec148"]:c13(),["SharedCodec149"]:c14(),["SharedCodec150"]:c15(),["SharedCodec151"]:c16(),["SharedCodec152"]:c17(),["SharedCodec153"]:c18(),["SharedCodec154"]:c19(),["SharedCodec155"]:c20(),["SharedCodec156"]:c21(),["SharedCodec157"]:c22(),["SharedCodec158"]:c23(),["SharedCodec159"]:c24(),["SharedCodec160"]:c25(),["SharedCodec161"]:c26()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateGiftCardLoadRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec198"]:c2(),["SharedCodec199"]:c3(),["SharedCodec200"]:c4(),["SharedCodec201"]:c5(),["SharedCodec202"]:c6(),["SharedCodec203"]:c7(),["SharedCodec204"]:c8(),["SharedCodec205"]:c9(),["SharedCodec206"]:c10(),["SharedCodec207"]:c11(),["SharedCodec208"]:c12(),["SharedCodec209"]:c13(),["SharedCodec210"]:c14(),["SharedCodec211"]:c15(),["SharedCodec212"]:c16(),["SharedCodec213"]:c17(),["SharedCodec214"]:c18(),["SharedCodec215"]:c19(),["SharedCodec216"]:c20(),["SharedCodec217"]:c21(),["SharedCodec218"]:c22(),["SharedCodec219"]:c23(),["SharedCodec220"]:c24(),["SharedCodec221"]:c25(),["SharedCodec222"]:c26()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateGiftCardLoadRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

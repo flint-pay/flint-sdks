@@ -1,7 +1,8 @@
 {
-  "profiles": ["full-common-sdk.json"],
+  "profiles": [
+    "full-common-sdk.json"
+  ],
   "include": [
-    "authorizePartnerInstall",
     "createDemoSession",
     "createMeInvoiceCheckoutSession",
     "getMeCreditNote",
@@ -21,7 +22,9 @@
   "auth": {
     "modes": {
       "invoice": {
-        "schemes": ["InvoiceAccessTokenBearer"],
+        "schemes": [
+          "InvoiceAccessTokenBearer"
+        ],
         "operations": [
           "createMeInvoiceCheckoutSession",
           "getMeCreditNote",

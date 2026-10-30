@@ -16,7 +16,7 @@ The buyer's location for pickup or local delivery, supplied as an address or a c
 
 ### DeliveryBuyerLocationRequest variant 1: `type` = `"address"`
 
-oneOf variant 1: The `address` variant of `DeliveryBuyerLocationInput`..
+oneOf with type: "address": The `address` variant of `DeliveryBuyerLocationInput`..
 
 - Condition: not (present(`coordinate`)).
 - Required: `address`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `address` variant of `DeliveryBuyerLocationInput`..
 
 ### DeliveryBuyerLocationRequest variant 2: `type` = `"coordinate"`
 
-oneOf variant 2: The `coordinate` variant of `DeliveryBuyerLocationInput`..
+oneOf with type: "coordinate": The `coordinate` variant of `DeliveryBuyerLocationInput`..
 
 - Condition: not (present(`address`)).
 - Required: `coordinate`.

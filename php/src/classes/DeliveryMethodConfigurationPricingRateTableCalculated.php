@@ -12,32 +12,32 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingRateTableCalculated extends Model {
     /** @param array{'base_fee_currency_options'?: \stdClass, 'distance'?: mixed, 'maximum_fee_currency_options'?: \stdClass, 'minimum_fee_currency_options'?: \stdClass, 'per_item_handling_fee_currency_options'?: \stdClass, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingRateTableCalculated')); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingRateTableCalculatedBaseFeeCurrencyOptionsValue} and {@see MoneyValue}). Base delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedBaseFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Base delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedBaseFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingRateTableCalculatedBaseFeeCurrencyOptionsValue>
      */
     public function getBaseFeeCurrencyOptions(): ?array { return $this->get('base_fee_currency_options'); }
     public function hasBaseFeeCurrencyOptions(): bool { return $this->has('base_fee_currency_options'); }
-    /** Shape $ (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedDistance}. A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
+    /** A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
      * @return ?DeliveryMethodConfigurationPricingRateTableCalculatedDistance
      */
     public function getDistance(): ?DeliveryMethodConfigurationPricingRateTableCalculatedDistance { return $this->get('distance'); }
     public function hasDistance(): bool { return $this->has('distance'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingRateTableCalculatedMaximumFeeCurrencyOptionsValue} and {@see MoneyValue}). Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedMaximumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedMaximumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingRateTableCalculatedMaximumFeeCurrencyOptionsValue>
      */
     public function getMaximumFeeCurrencyOptions(): ?array { return $this->get('maximum_fee_currency_options'); }
     public function hasMaximumFeeCurrencyOptions(): bool { return $this->has('maximum_fee_currency_options'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingRateTableCalculatedMinimumFeeCurrencyOptionsValue} and {@see MoneyValue}). Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedMinimumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedMinimumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingRateTableCalculatedMinimumFeeCurrencyOptionsValue>
      */
     public function getMinimumFeeCurrencyOptions(): ?array { return $this->get('minimum_fee_currency_options'); }
     public function hasMinimumFeeCurrencyOptions(): bool { return $this->has('minimum_fee_currency_options'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingRateTableCalculatedPerItemHandlingFeeCurrencyOptionsValue} and {@see MoneyValue}). Handling fee per item by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedPerItemHandlingFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Handling fee per item by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedPerItemHandlingFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingRateTableCalculatedPerItemHandlingFeeCurrencyOptionsValue>
      */
     public function getPerItemHandlingFeeCurrencyOptions(): ?array { return $this->get('per_item_handling_fee_currency_options'); }
     public function hasPerItemHandlingFeeCurrencyOptions(): bool { return $this->has('per_item_handling_fee_currency_options'); }
-    /** Shape $ (Value): {@see DeliveryMethodConfigurationPricingRateTableCalculatedWeight}. Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
+    /** Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
      * @return ?DeliveryMethodConfigurationPricingRateTableCalculatedWeight
      */
     public function getWeight(): ?DeliveryMethodConfigurationPricingRateTableCalculatedWeight { return $this->get('weight'); }

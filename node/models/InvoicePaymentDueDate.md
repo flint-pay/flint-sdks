@@ -16,7 +16,7 @@
 
 ### InvoicePaymentDueDate variant 1: `type` = `"date"`
 
-anyOf variant 1: Declared schema InvoicePaymentDueDate. The `date` variant of `InvoicePaymentDue`..
+anyOf InvoicePaymentDueDate: Declared schema InvoicePaymentDueDate. The `date` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`invoice_payment_term_id`)).
 - Constraints for `due_at`: The due date set with type date. Present only with date. The top-level due_at is the effective due date for every type.
@@ -25,7 +25,7 @@ anyOf variant 1: Declared schema InvoicePaymentDueDate. The `date` variant of `I
 
 ### InvoicePaymentDueDate variant 2: `type` = `"date"`
 
-anyOf variant 2: Declared schema InvoicePaymentDueInputDate. The `date` variant of `InvoicePaymentDueInput`..
+anyOf InvoicePaymentDueInputDate: Declared schema InvoicePaymentDueInputDate. The `date` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (present(`invoice_payment_term_id`)).
 - Constraints for `due_at`: When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any other type. minLength: `1`.

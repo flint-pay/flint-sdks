@@ -18,73 +18,73 @@ namespace Flint;
 final class PartnerAppInstallInput extends Model {
     /** @param array{'created_at'?: string|\DateTimeInterface, 'environment_grants'?: list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string|\DateTimeInterface, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): Array of {@see PartnerEnvironmentGrantInput}. Shape $[] (Value): {@see PartnerEnvironmentGrantInput}. A partner application's authorization to access an environment.
+    /**  [] (Value): {@see PartnerEnvironmentGrantInput}. A partner application's authorization to access an environment.
      * @return list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When environment_grants is omitted; use hasEnvironmentGrants() or valueOrDefault().
      */
     public function getEnvironmentGrants(): array { return $this->get('environment_grants'); }
     public function hasEnvironmentGrants(): bool { return $this->has('environment_grants'); }
-    /** Shape $ (Value): string.
+    /** installed_by_user_id
      * @return string
      * @throws SdkError When installed_by_user_id is omitted; use hasInstalledByUserId() or valueOrDefault().
      */
     public function getInstalledByUserId(): string { return $this->get('installed_by_user_id'); }
     public function hasInstalledByUserId(): bool { return $this->has('installed_by_user_id'); }
-    /** Shape $ (Value): string.
+    /** merchant_id
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): string.
+    /** partner_app_id
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** Shape $ (Value): string.
+    /** partner_app_install_id
      * @return string
      * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
      */
     public function getPartnerAppInstallId(): string { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
-    /** Shape $ (Value): string. The app’s current name.
+    /** The app’s current name.
      * @return string
      * @throws SdkError When partner_app_name is omitted; use hasPartnerAppName() or valueOrDefault().
      */
     public function getPartnerAppName(): string { return $this->get('partner_app_name'); }
     public function hasPartnerAppName(): bool { return $this->has('partner_app_name'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When revoked_at is omitted; use hasRevokedAt() or valueOrDefault().
      */
     public function getRevokedAt(): string|\DateTimeInterface { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** Shape $ (Value): string.  Value enum: "merchant", "partner_app".
+    /** Value enum: "merchant", "partner_app".
      * @return string
      * @throws SdkError When revoked_by is omitted; use hasRevokedBy() or valueOrDefault().
      */
     public function getRevokedBy(): string { return $this->get('revoked_by'); }
     public function hasRevokedBy(): bool { return $this->has('revoked_by'); }
-    /** Shape $ (Value): string.
+    /** revoked_by_user_id
      * @return string
      * @throws SdkError When revoked_by_user_id is omitted; use hasRevokedByUserId() or valueOrDefault().
      */
     public function getRevokedByUserId(): string { return $this->get('revoked_by_user_id'); }
     public function hasRevokedByUserId(): bool { return $this->has('revoked_by_user_id'); }
-    /** Shape $ (Value): string.  Value enum: "pending_exchange", "active", "revoked".
+    /** Value enum: "pending_exchange", "active", "revoked".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -8,7 +8,7 @@ Computes delivery options with mode delivery_options or up to 25 pickup location
 
 `POST /v1/delivery-previews`
 
-Signature: `create(DeliveryPreviewsCreateInput|array $input, ?RequestOptions $options = null)`
+Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
@@ -18,39 +18,21 @@ Signature: `create(DeliveryPreviewsCreateInput|array $input, ?RequestOptions $op
 
 Body model: [CreateDeliveryPreviewRequestInput](../models/CreateDeliveryPreviewRequestInput.md#createdeliverypreviewrequestinput).
 
-#### deliveryPreviews.create body oneOf variant 1
+#### deliveryPreviews.create with `mode: "delivery_options"`
 
 The `delivery_options` variant of `CreateDeliveryPreviewRequest`.
 
 Body model: [CreateDeliveryOptionsPreviewRequestInput](../models/CreateDeliveryOptionsPreviewRequestInput.md#createdeliveryoptionspreviewrequestinput).
 
-#### deliveryPreviews.create body oneOf variant 1 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `buyer_location` | Optional | [DeliveryBuyerLocationRequestInput](../models/DeliveryBuyerLocationRequestInput.md#deliverybuyerlocationrequestinput) | The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`. |
-| `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `delivery_method_ids` | Optional | Array of string | Delivery methods to evaluate. When omitted, uses settings.checkout.default_delivery_method_ids, or no methods when that setting is empty. Items: minLength: `1`. |
-| `destination_address` | Optional | [DeliveryAddressRequestInput](../models/DeliveryAddressRequestInput.md#deliveryaddressrequestinput) | A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present. |
-| `inventory_routing_source` | Optional | [DeliveryPreviewRoutingSourceInput](../models/DeliveryPreviewRoutingSourceInput.md#deliverypreviewroutingsourceinput) | Chooses where a delivery options preview routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. |
-| `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | minItems: `1`. maxItems: `100`. |
-| `mode` | Required | string | The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods and prices for the supplied items and buyer location. Values: `"delivery_options"`. |
-| `pickup_location_id` | Optional | string | minLength: `1`. |
-| `pricing_context` | Optional | Map of string | Map values: minLength: `1`. |
-
-#### deliveryPreviews.create body oneOf variant 2
+#### deliveryPreviews.create with `mode: "pickup_locations"`
 
 The `pickup_locations` variant of `CreateDeliveryPreviewRequest`.
 
 Body model: [CreateDeliveryPickupLocationsPreviewRequestInput](../models/CreateDeliveryPickupLocationsPreviewRequestInput.md#createdeliverypickuplocationspreviewrequestinput).
 
-#### deliveryPreviews.create body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateDeliveryPickupLocationsPreviewRequestInput.md#createdeliverypickuplocationspreviewrequestinput). Models: [DeliveryBuyerLocationRequestInput](../models/DeliveryBuyerLocationRequestInput.md#deliverybuyerlocationrequestinput), [DeliveryPickupAvailabilityMaximumDistanceRequestInput](../models/DeliveryPickupAvailabilityMaximumDistanceRequestInput.md#deliverypickupavailabilitymaximumdistancerequestinput).
-
 #### Response
 
-Returned payload: [DeliveryPreviewsCreateResponse200DataDeliveryOptions](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptions.md#deliverypreviewscreateresponse200datadeliveryoptions)|[DeliveryPreviewsCreateResponse200DataPickupLocations](../models/DeliveryPreviewsCreateResponse200DataPickupLocations.md#deliverypreviewscreateresponse200datapickuplocations)|\stdClass.
+Returned payload: [DeliveryPreviewResponseDataDeliveryOptions](../models/DeliveryPreviewResponseDataDeliveryOptions.md#deliverypreviewresponsedatadeliveryoptions)|[DeliveryPreviewResponseDataPickupLocations](../models/DeliveryPreviewResponseDataPickupLocations.md#deliverypreviewresponsedatapickuplocations)|Model.
 
 ##### Response variant 1
 
@@ -87,20 +69,20 @@ The result of a pickup locations preview: each pickup location and whether it ca
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -108,7 +90,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -116,16 +98,14 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 
 ```php
 $result = $client->deliveryPreviews->create([
-  'body' => (object) [
-    'currency' => 'USD',
-    'line_items' => [
-      (object) [
-        'type' => 'variant',
-        'variant_id' => 'example',
-      ],
+  'currency' => 'USD',
+  'line_items' => [
+    (object) [
+      'type' => 'variant',
+      'variant_id' => 'var_01ARZ3NDEKTSV4RRFFQ69G5FAV',
     ],
-    'mode' => 'delivery_options',
   ],
+  'mode' => 'delivery_options',
 ], new RequestOptions());
 ```
 

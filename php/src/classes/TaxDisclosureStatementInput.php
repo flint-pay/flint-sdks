@@ -7,7 +7,7 @@ namespace Flint;
 final class TaxDisclosureStatementInput extends Model {
     /** @param array{'text': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxDisclosureStatementInput')); }
-    /** Shape $ (Value): string. Text to show the seller verbatim.
+    /** Text to show the seller verbatim.
      * @return string
      * @throws SdkError When text is omitted; use hasText() or valueOrDefault().
      */

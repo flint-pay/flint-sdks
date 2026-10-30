@@ -14,7 +14,7 @@ Request input.
 
 ### SubscriptionBillingScheduleUpdateRequestInput variant 1: `owner` = `"flint"`
 
-oneOf variant 1: The `flint` variant of `SubscriptionBillingScheduleUpdateInput`..
+oneOf with owner: "flint": The `flint` variant of `SubscriptionBillingScheduleUpdateInput`..
 
 - Required: `next_billing_at`.
 - Optional: `billing_anchor_day`.
@@ -23,7 +23,7 @@ oneOf variant 1: The `flint` variant of `SubscriptionBillingScheduleUpdateInput`
 
 ### SubscriptionBillingScheduleUpdateRequestInput variant 2: `owner` = `"external"`
 
-oneOf variant 2: The `external` variant of `SubscriptionBillingScheduleUpdateInput`..
+oneOf with owner: "external": The `external` variant of `SubscriptionBillingScheduleUpdateInput`..
 
 - Optional: `next_billing_at`.
 - Undeclared: `billing_anchor_day`.

@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingFixedRateTable extends Model {
     /** @param array{'rates': list<mixed>, 'unmatched_behavior': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingFixedRateTable')); }
-    /** Shape $ (Value): Array of ({@see DeliveryMethodConfigurationPricingFixedRateTableRatesItem} and {@see DeliveryPricingRate}). Shape $[] (Value): {@see DeliveryMethodConfigurationPricingFixedRateTableRatesItem}. One rate in a rate table pricing strategy: a `when` condition, a `priority`, and a price per currency. The first matching rate by priority sets the price.
+    /**  [] (Value): {@see DeliveryMethodConfigurationPricingFixedRateTableRatesItem}. One rate in a rate table pricing strategy: a `when` condition, a `priority`, and a price per currency. The first matching rate by priority sets the price.
      * @return list<DeliveryMethodConfigurationPricingFixedRateTableRatesItem>
      */
     public function getRates(): array { return $this->get('rates'); }
     public function hasRates(): bool { return $this->has('rates'); }
-    /** Shape $ (Value): string.  Value enum: "unavailable".
+    /** Value enum: "unavailable".
      * @return string
      */
     public function getUnmatchedBehavior(): string { return $this->get('unmatched_behavior'); }

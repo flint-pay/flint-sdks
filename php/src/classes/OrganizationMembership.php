@@ -12,32 +12,32 @@ namespace Flint;
 final class OrganizationMembership extends Model {
     /** @param array{'created_at'?: string, 'organization_id': string, 'role': string, 'status': string, 'updated_at'?: string, 'user_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrganizationMembership')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
+    /** organization_id
      * @return string
      */
     public function getOrganizationId(): string { return $this->get('organization_id'); }
     public function hasOrganizationId(): bool { return $this->has('organization_id'); }
-    /** Shape $ (Value): string.  Value enum: "owner", "admin", "operator", "viewer".
+    /** Value enum: "owner", "admin", "operator", "viewer".
      * @return string
      */
     public function getRole(): string { return $this->get('role'); }
     public function hasRole(): bool { return $this->has('role'); }
-    /** Shape $ (Value): string.  Value enum: "active", "removed".
+    /** Value enum: "active", "removed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): string.
+    /** user_id
      * @return string
      */
     public function getUserId(): string { return $this->get('user_id'); }

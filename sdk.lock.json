@@ -1,13 +1,13 @@
 {
   "generator": {
     "repository": "https://github.com/flint-pay/sdk-generator.git",
-    "revision": "9f000b7dadd7eaaaee17157a304866986e25dde0"
+    "revision": "f42a6b8cf1a48e8c46ab2d1d8b2825d29e64780c"
   },
   "api": {
     "repository": "https://github.com/flint-pay/flint",
-    "revision": "0f83faf086dd659e279da39ae653918b38450ae5",
+    "revision": "6cd24dfcae461df982718effa88460b3c732c1e2",
     "path": "web/apps/developers/src/generated/openapi.json",
-    "sha256": "e8fff8a6422b34e3142deea2983568beb1a7cccc697f02368b4931e331c6dd1e",
+    "sha256": "3f72152493c007aa7b0f517bdd713788b25700f95fd2149e6e1d2c97e417c6ac",
     "version": "2026-09-07"
   }
 }

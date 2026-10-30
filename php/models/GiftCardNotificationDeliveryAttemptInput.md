@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `attempt_number` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `attempt_number` | Required | integer | Format: `int64`. |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `delivery_attempt_id` | Required | string |  |
 | `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |

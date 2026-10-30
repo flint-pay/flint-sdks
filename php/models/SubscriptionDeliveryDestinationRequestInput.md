@@ -14,7 +14,7 @@ Request input.
 
 ### SubscriptionDeliveryDestinationRequestInput variant 1: `type` = `"customer_address"`
 
-oneOf variant 1: The `customer_address` variant of `SubscriptionDeliveryDestinationInput`..
+oneOf with type: "customer_address": The `customer_address` variant of `SubscriptionDeliveryDestinationInput`..
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
@@ -22,7 +22,7 @@ oneOf variant 1: The `customer_address` variant of `SubscriptionDeliveryDestinat
 
 ### SubscriptionDeliveryDestinationRequestInput variant 2: `type` = `"address"`
 
-oneOf variant 2: The `address` variant of `SubscriptionDeliveryDestinationInput`..
+oneOf with type: "address": The `address` variant of `SubscriptionDeliveryDestinationInput`..
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.

@@ -9,5 +9,5 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_id` | Required | string |  |
-| `revoked_count` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `revoked_count` | Required | integer | Format: `int64`. |
 

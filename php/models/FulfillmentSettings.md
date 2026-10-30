@@ -6,5 +6,5 @@ Merchant fulfillment settings, including whether fulfillments require approval (
 
 Response model.
 
-Fields, types, descriptions and enum values: [FulfillmentSettingsRequestRequestInput](../models/FulfillmentSettingsRequestRequestInput.md#fulfillmentsettingsrequestrequestinput).
+Fields, types, descriptions and enum values: [FulfillmentSettingsRequestInput](../models/FulfillmentSettingsRequestInput.md#fulfillmentsettingsrequestinput).
 

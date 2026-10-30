@@ -13,37 +13,37 @@ namespace Flint;
 final class ProductOptionValue extends Model {
     /** @param array{'created_at'?: string, 'metadata'?: mixed, 'option_value_id': string, 'position': int, 'status'?: string, 'updated_at'?: string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductOptionValue')); }
-    /** Shape $ (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string. Stable identifier of the option value.
+    /** Stable identifier of the option value.
      * @return string
      */
     public function getOptionValueId(): string { return $this->get('option_value_id'); }
     public function hasOptionValueId(): bool { return $this->has('option_value_id'); }
-    /** Shape $ (Value): integer. Display order among the option's values, starting at zero. Format: int32.
+    /** Display order among the option's values, starting at zero. Format: int32.
      * @return int
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Shape $ (Value): string. Option value lifecycle status. Only active values can be newly selected by active variants. Value enum: "active", "inactive", "archived".
+    /** Option value lifecycle status. Only active values can be newly selected by active variants. Value enum: "active", "inactive", "archived".
      * @return ?string
      */
     public function getStatus(): ?string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): string. Option value shown to buyers, such as Medium.
+    /** Option value shown to buyers, such as Medium.
      * @return string
      */
     public function getValue(): string { return $this->get('value'); }

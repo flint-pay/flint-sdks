@@ -2,18 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory_allocation_enabled'?: bool, 'metadata'?: mixed, 'name': string, 'status'?: string, 'timezone': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class LocationsCreateInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'body': array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory_allocation_enabled'?: bool, 'metadata'?: mixed, 'name': string, 'status'?: string, 'timezone': string}|object}|object $values */
+    /** @param array{'body': array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory_allocation_enabled'?: bool, 'metadata'?: mixed, 'name': string, 'status'?: string, 'timezone': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationsCreateInput')); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Create location.
+    /** The request body for: Create location. Example: {"address":{"city":"Brooklyn","country":"US","line1":"120 Kent Avenue","postal_code":"11249","state":"NY"},"inventory_allocation_enabled":true,"name":"Brooklyn warehouse","status":"active","timezone":"America/New_York"}.
      * @return array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory_allocation_enabled'?: bool, 'metadata'?: mixed, 'name': string, 'status'?: string, 'timezone': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

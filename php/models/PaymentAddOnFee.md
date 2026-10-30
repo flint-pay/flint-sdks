@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `fee_type` | Required | string | Values: `"invoice_collection"`, `"subscription_collection"`, `"automatic_tax"`. |
+| `fee_type` | Required | string | The Flint feature this fee pays for. A payment carries at most one of invoice_collection and subscription_collection. Can gain values: sum every entry rather than matching only the types you know. Values: `"invoice_collection"`, `"subscription_collection"`, `"automatic_tax"`. |
 

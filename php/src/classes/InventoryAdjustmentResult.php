@@ -8,12 +8,12 @@ namespace Flint;
 final class InventoryAdjustmentResult extends Model {
     /** @param array{'inventory_adjustment': mixed, 'inventory_levels': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentResult')); }
-    /** Shape $ (Value): {@see InventoryAdjustment}. A recorded stock change with its reason and the quantity changes Flint computed.
+    /** A recorded stock change with its reason and the quantity changes Flint computed.
      * @return InventoryAdjustment
      */
     public function getInventoryAdjustment(): InventoryAdjustment { return $this->get('inventory_adjustment'); }
     public function hasInventoryAdjustment(): bool { return $this->has('inventory_adjustment'); }
-    /** Shape $ (Value): Array of {@see InventoryLevel}. Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. Shape $[] (Value): {@see InventoryLevel}. The quantity state of one inventory item at one Location.
+    /** Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. [] (Value): {@see InventoryLevel}. The quantity state of one inventory item at one Location.
      * @return list<InventoryLevel>
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }

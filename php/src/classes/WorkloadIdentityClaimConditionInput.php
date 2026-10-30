@@ -9,19 +9,19 @@ namespace Flint;
 final class WorkloadIdentityClaimConditionInput extends Model {
     /** @param array{'claim': string, 'match': string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentityClaimConditionInput')); }
-    /** Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are reserved.
+    /** Literal top-level scalar claim name. Registered JWT claims are reserved.
      * @return string
      * @throws SdkError When claim is omitted; use hasClaim() or valueOrDefault().
      */
     public function getClaim(): string { return $this->get('claim'); }
     public function hasClaim(): bool { return $this->has('claim'); }
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob".
+    /** Default: "exact". Value enum: "exact", "glob".
      * @return string
      * @throws SdkError When match is omitted; use hasMatch() or valueOrDefault().
      */
     public function getMatch(): string { return $this->get('match'); }
     public function hasMatch(): bool { return $this->has('match'); }
-    /** Shape $ (Value): string.
+    /** value
      * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

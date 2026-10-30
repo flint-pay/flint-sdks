@@ -1,25 +1,22 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateDeviceRequestInput } from '../declarations/types-6.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     Device,
     DeviceListResponse,
     DeviceResponse,
-    DevicesCreateInput,
-    DevicesGetInput,
-    DevicesListInput,
-    DevicesRemoveInput,
-    DevicesUpdateInput
-} from '../declarations/types-17.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { UpdateDeviceRequestInput } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    DevicesCreateParams,
+    DevicesDeleteParams,
+    DevicesGetParams,
+    DevicesListParams,
+    DevicesUpdateParams
+} from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -29,170 +26,107 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateDeviceRequestInput } from '../declarations/types-6.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    DevicesCreateParams,
     Device,
     DeviceResponse,
+    DevicesDeleteParams,
+    DevicesGetParams,
+    DevicesListParams,
     DeviceListResponse,
-    DevicesCreateInput,
-    DevicesRemoveInput,
-    DevicesGetInput,
-    DevicesListInput,
-    DevicesUpdateInput
-} from '../declarations/types-17.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { UpdateDeviceRequestInput } from '../declarations/types-51.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+    DevicesUpdateParams
+} from '../declarations/types-20.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateDeviceRequestInput } from '../declarations/types-7.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateDeviceRequest } from '../declarations/types-67.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeUpdateDeviceRequest } from '../declarations/types-77.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { UpdateDeviceRequestInput } from '../declarations/types-58.js';
+export { makeCreateDeviceRequest } from '../declarations/types-63.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-73.js';
 export interface DevicesResource {
     /**
  * Creates a device. If an active device already has the hardware_fingerprint, returns 409
  * ALREADY_EXISTS with reason hardware_fingerprint_already_exists and changes nothing. The
  * details[0].current_resource field names the existing device.
- * @see reference/devices.md#devicescreate
- * POST /v1/devices
+ *
+ * `POST /v1/devices`
+ * @see https://developers.withflintpay.com/docs/api/devices#createDevice
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.create({name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.devices.create({hardware_fingerprint: "ios-device-uuid-123", location_id:
+ * "loc_01KEZF7C00G0VBJJ8VMFCQ5YVG", metadata: {register: "front_counter"}, name: "Front Counter
+ * iPad"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateDeviceRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Device>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/devices.md#devicescreate
-     */
-    createWithResponse(params: (InputValue<CreateDeviceRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeviceResponse>>;
+    create(params: DevicesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Device, DeviceResponse>>;
     /**
  * Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer
  * returns hardware_fingerprint.
- * @see reference/devices.md#devicesremove
- * DELETE /v1/devices/{device_id}
+ *
+ * `DELETE /v1/devices/{device_id}`
+ * @param device_id Flint device ID.
+ * @see https://developers.withflintpay.com/docs/api/devices#deleteDevice
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.devices.delete("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(device_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Device>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/devices.md#devicesremove
-     */
-    removeWithResponse(device_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeviceResponse>>;
+    delete(device_id: InputValue<string>, params?: DevicesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Device, DeviceResponse>>;
     /**
  * Returns a single device by ID.
- * @see reference/devices.md#devicesget
- * GET /v1/devices/{device_id}
+ *
+ * `GET /v1/devices/{device_id}`
+ * @param device_id Flint device ID.
+ * @see https://developers.withflintpay.com/docs/api/devices#getDevice
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.devices.get("example")
+ * client.devices.get("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Device>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/devices.md#devicesget
-     */
-    getWithResponse(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeviceResponse>>;
+    get(device_id: InputValue<string>, params?: DevicesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Device, DeviceResponse>>;
     /**
  * Returns a paginated list of devices for the authenticated merchant. Default order: created_at
  * descending, then device_id descending.
- * @see reference/devices.md#deviceslist
- * GET /v1/devices
+ *
+ * `GET /v1/devices`
+ * @see https://developers.withflintpay.com/docs/api/devices#listDevices
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.devices.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "archived">>;
-        "location_id"?: InputValue<string>;
-        "hardware_fingerprint"?: InputValue<string>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeviceListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/devices.md#deviceslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "archived">>;
-        "location_id"?: InputValue<string>;
-        "hardware_fingerprint"?: InputValue<string>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeviceListResponse>>;
+    list(params?: DevicesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeviceListResponse, DeviceListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/devices.md#deviceslist
+     * @see https://developers.withflintpay.com/docs/api/devices#listDevices
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "archived">>;
-        "location_id"?: InputValue<string>;
-        "hardware_fingerprint"?: InputValue<string>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeviceListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/devices.md#deviceslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "archived">>;
-        "location_id"?: InputValue<string>;
-        "hardware_fingerprint"?: InputValue<string>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeviceListResponse>>;
+    listPages(params?: DevicesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<DeviceListResponse, DeviceListResponse>>;
     /** Iterate items lazily.
-     * @see reference/devices.md#deviceslist
+     * @see https://developers.withflintpay.com/docs/api/devices#listDevices
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "archived">>;
-        "location_id"?: InputValue<string>;
-        "hardware_fingerprint"?: InputValue<string>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Device>;
+    listItems(params?: DevicesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Device>;
     /**
  * Applies a sparse update to a device. Send null to clear location_id or all metadata. The name
  * field cannot be null. Archived devices return ACTION_NOT_ALLOWED with reason archived and
  * current_status archived.
- * @see reference/devices.md#devicesupdate
- * PATCH /v1/devices/{device_id}
+ *
+ * `PATCH /v1/devices/{device_id}`
+ * @param device_id Flint device ID.
+ * @see https://developers.withflintpay.com/docs/api/devices#updateDevice
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.devices.update("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Front counter"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    update(device_id: InputValue<string>, params: (InputValue<UpdateDeviceRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Device>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/devices.md#devicesupdate
-     */
-    updateWithResponse(device_id: InputValue<string>, params: (InputValue<UpdateDeviceRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeviceResponse>>;
+    update(device_id: InputValue<string>, params: DevicesUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Device, DeviceResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

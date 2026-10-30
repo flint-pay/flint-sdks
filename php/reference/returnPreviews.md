@@ -26,29 +26,21 @@ Body model: [CreateReturnPreviewRequestInput](../models/CreateReturnPreviewReque
 | `mode` | Required | string | Values: `"eligibility"`, `"resolution"`. |
 | `resolution` | Optional | [CreateReturnResolutionPreviewRequestInput](../models/CreateReturnResolutionPreviewRequestInput.md#createreturnresolutionpreviewrequestinput) | A request to preview the amounts of a return resolution for a return, selected by `resolution_type`: refund, exchange, replacement, no monetary action, or correction. |
 
-#### returnPreviews.create body oneOf variant 1
+#### returnPreviews.create with `mode: "eligibility"`
 
 The `eligibility` variant of `CreateReturnPreviewRequest`.
 
 Body model: [CreateReturnPreviewRequestEligibilityInput](../models/CreateReturnPreviewRequestEligibilityInput.md#createreturnpreviewrequesteligibilityinput).
 
-#### returnPreviews.create body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateReturnPreviewRequestEligibilityInput.md#createreturnpreviewrequesteligibilityinput). Models: [CreateReturnEligibilityPreviewRequestInput](../models/CreateReturnEligibilityPreviewRequestInput.md#createreturneligibilitypreviewrequestinput), [CreateReturnResolutionPreviewRequestInput](../models/CreateReturnResolutionPreviewRequestInput.md#createreturnresolutionpreviewrequestinput).
-
-#### returnPreviews.create body oneOf variant 2
+#### returnPreviews.create with `mode: "resolution"`
 
 The `resolution` variant of `CreateReturnPreviewRequest`.
 
 Body model: [CreateReturnPreviewRequestResolutionInput](../models/CreateReturnPreviewRequestResolutionInput.md#createreturnpreviewrequestresolutioninput).
 
-#### returnPreviews.create body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateReturnPreviewRequestResolutionInput.md#createreturnpreviewrequestresolutioninput). Models: [CreateReturnEligibilityPreviewRequestInput](../models/CreateReturnEligibilityPreviewRequestInput.md#createreturneligibilitypreviewrequestinput), [CreateReturnResolutionPreviewRequestInput](../models/CreateReturnResolutionPreviewRequestInput.md#createreturnresolutionpreviewrequestinput).
-
 #### Response
 
-Returned payload: [ReturnPreviewsCreateResponse200DataEligibility](../models/ReturnPreviewsCreateResponse200DataEligibility.md#returnpreviewscreateresponse200dataeligibility)|[ReturnPreviewsCreateResponse200DataResolution](../models/ReturnPreviewsCreateResponse200DataResolution.md#returnpreviewscreateresponse200dataresolution)|\stdClass.
+Returned payload: [CreateReturnPreviewResponseDataEligibility](../models/CreateReturnPreviewResponseDataEligibility.md#createreturnpreviewresponsedataeligibility)|[CreateReturnPreviewResponseDataResolution](../models/CreateReturnPreviewResponseDataResolution.md#createreturnpreviewresponsedataresolution)|Model.
 
 ##### Response variant 1
 
@@ -72,19 +64,19 @@ The `resolution` variant of `CreateReturnPreviewData`.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -92,7 +84,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -102,7 +94,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $result = $client->returnPreviews->create([
   'mode' => 'eligibility',
   'eligibility' => (object) [
-    'order_id' => 'example',
+    'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
     'selection' => (object) [
       'selection_type' => 'all_remaining_fulfilled',
     ],

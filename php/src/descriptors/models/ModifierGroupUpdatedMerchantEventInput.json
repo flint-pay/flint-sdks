@@ -1,0 +1,1 @@
+{"shared":"ModifierGroupUpdatedMerchantEvent","dependencies":["MetadataMap","Modifier","ModifierGroup","ModifierGroupUpdatedMerchantEvent","MoneyValue","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec864","TextModifierConfig"]}

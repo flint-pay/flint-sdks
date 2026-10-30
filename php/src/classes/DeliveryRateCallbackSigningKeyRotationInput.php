@@ -9,19 +9,19 @@ namespace Flint;
 final class DeliveryRateCallbackSigningKeyRotationInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'key_id': string, 'secret': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackSigningKeyRotationInput')); }
-    /** Shape $ (Value): string.
+    /** delivery_rate_callback_id
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** Shape $ (Value): string.
+    /** key_id
      * @return string
      * @throws SdkError When key_id is omitted; use hasKeyId() or valueOrDefault().
      */
     public function getKeyId(): string { return $this->get('key_id'); }
     public function hasKeyId(): bool { return $this->has('key_id'); }
-    /** Shape $ (Value): string. New signing secret. Returned only by this rotation response.
+    /** New signing secret. Returned only by this rotation response.
      * @return string
      * @throws SdkError When secret is omitted; use hasSecret() or valueOrDefault().
      */

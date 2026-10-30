@@ -29,7 +29,7 @@ anyOf variant 2: Declared schema LocationCoordinate. A latitude and longitude fo
 
 ### LocationCoordinate variant 3
 
-anyOf variant 3: Declared schema LocationCoordinateRequestRequest. A latitude and longitude for a merchant location..
+anyOf variant 3: Declared schema LocationCoordinateRequest. A latitude and longitude for a merchant location..
 
 - Constraints for `latitude`: Latitude between -90 and 90. Responses always include this field, including 0.
 - Constraints for `longitude`: Longitude between -180 and 180. Responses always include this field, including 0.

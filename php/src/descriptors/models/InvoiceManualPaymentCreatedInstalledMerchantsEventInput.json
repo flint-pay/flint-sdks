@@ -1,0 +1,1 @@
+{"shared":"InvoiceManualPaymentCreatedInstalledMerchantsEvent","dependencies":["InvoiceManualPayment","InvoiceManualPaymentCreatedInstalledMerchantsEvent","MoneyValue","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec750","SharedCodec949","SharedCodec950"]}

@@ -12,37 +12,37 @@ namespace Flint;
 final class CreateInventoryAdjustmentCountedRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInventoryAdjustmentCountedRequestInput')); }
-    /** Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255.
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
     public function getExternalActorId(): string { return $this->get('external_actor_id'); }
     public function hasExternalActorId(): bool { return $this->has('external_actor_id'); }
-    /** Shape $ (Value): Array of {@see InventoryAdjustmentSetLineRequestInput}. minItems: 1. maxItems: 100. Shape $[] (Value): {@see InventoryAdjustmentSetLineRequestInput}. One line of an inventory adjustment that sets absolute quantities for an item at a Location. Omitted quantities stay unchanged.
+    /** minItems: 1. maxItems: 100. [] (Value): {@see InventoryAdjustmentSetLineRequestInput}. One line of an inventory adjustment that sets absolute quantities for an item at a Location. Omitted quantities stay unchanged.
      * @return list<InventoryAdjustmentSetLineRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
      */
     public function getNote(): string { return $this->get('note'); }
     public function hasNote(): bool { return $this->has('note'); }
-    /** Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
+    /** When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Shape $ (Value): string.  Value enum: "counted".
+    /** Value enum: "counted".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): {@see InventorySourceSystemRequestInput}. The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies.
+    /** The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies.
      * @return InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */

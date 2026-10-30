@@ -34,5 +34,5 @@
     "psr/simple-cache": "Optional PSR-16 JWKS cache"
   },
   "type": "library",
-  "version": "7.0.0"
+  "version": "8.0.0-beta.1"
 }

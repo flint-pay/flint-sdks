@@ -21,5 +21,5 @@ Response model.
 | `signing_methods` | Required | Array of string | Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: `1`. uniqueItems: `true`. Items: jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 

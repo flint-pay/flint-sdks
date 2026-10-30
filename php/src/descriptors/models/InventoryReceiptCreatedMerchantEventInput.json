@@ -1,0 +1,1 @@
+{"shared":"InventoryReceiptCreatedMerchantEvent","dependencies":["InventoryReceipt","InventoryReceiptCreatedMerchantEvent","InventoryReceiptLine","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec231","SharedCodec624","SharedCodec625","SharedCodec626","SharedCodec627","SharedCodec628","SharedCodec644"]}

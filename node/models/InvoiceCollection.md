@@ -16,7 +16,7 @@ The invoice collection policy resolved at write time. The object can be sent bac
 
 ### InvoiceCollection variant 1: `mode` = `"buyer_initiated"`
 
-oneOf variant 1: The `buyer_initiated` variant of `InvoiceCollection`..
+oneOf with mode: "buyer_initiated": The `buyer_initiated` variant of `InvoiceCollection`..
 
 - Condition: not (present(`payment_method_id`)).
 - Required: `payment_policy`.
@@ -26,7 +26,7 @@ oneOf variant 1: The `buyer_initiated` variant of `InvoiceCollection`..
 
 ### InvoiceCollection variant 2: `mode` = `"automatic"`
 
-oneOf variant 2: The `automatic` variant of `InvoiceCollection`..
+oneOf with mode: "automatic": The `automatic` variant of `InvoiceCollection`..
 
 - Condition: not (present(`payment_policy`)).
 - Required: `payment_method_id`.
@@ -36,7 +36,7 @@ oneOf variant 2: The `automatic` variant of `InvoiceCollection`..
 
 ### InvoiceCollection variant 3: `mode` = `"external"`
 
-oneOf variant 3: The `external` variant of `InvoiceCollection`..
+oneOf with mode: "external": The `external` variant of `InvoiceCollection`..
 
 - Condition: not (at least one(present(`payment_method_id`); present(`payment_policy`))).
 - Optional: `payment_method_id`, `payment_policy`.

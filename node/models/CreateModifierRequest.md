@@ -10,7 +10,7 @@ A modifier to create in a modifier group, with its name, price change, tax categ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `default_quantity` | Optional | integer string | Whole-number quantity selected by default. Used only when the choice is available and selected_by_default is true. A modifier set can override this value; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `default_quantity` | Optional | integer | Whole-number quantity selected by default. Used only when the choice is available and selected_by_default is true. A modifier set can override this value; fractional quantities are not supported. Format: `int64`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#createmodifierrequest-line_item_tax_category-values). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
 | `name` | Required | string | Name of the choice shown to buyers. minLength: `1`. maxLength: `255`. |

@@ -10,25 +10,25 @@ namespace Flint;
 final class FulfillmentOutcomeInput extends Model {
     /** @param array{'notes'?: string, 'occurred_at': string|\DateTimeInterface, 'outcome_type': string, 'reason': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentOutcomeInput')); }
-    /** Shape $ (Value): string. Additional notes about the fulfillment outcome.
+    /** Additional notes about the fulfillment outcome.
      * @return string
      * @throws SdkError When notes is omitted; use hasNotes() or valueOrDefault().
      */
     public function getNotes(): string { return $this->get('notes'); }
     public function hasNotes(): bool { return $this->has('notes'); }
-    /** Shape $ (Value): string. Time the terminal outcome occurred. Format: date-time.
+    /** Time the terminal outcome occurred. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Shape $ (Value): string. Recorded fulfillment outcome, such as a missed service appointment. Value enum: "no_show".
+    /** Recorded fulfillment outcome, such as a missed service appointment. Value enum: "no_show".
      * @return string
      * @throws SdkError When outcome_type is omitted; use hasOutcomeType() or valueOrDefault().
      */
     public function getOutcomeType(): string { return $this->get('outcome_type'); }
     public function hasOutcomeType(): bool { return $this->has('outcome_type'); }
-    /** Shape $ (Value): string. Machine-readable reason for the recorded outcome. Value enum: "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
+    /** Machine-readable reason for the recorded outcome. Value enum: "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */

@@ -1,1 +1,1 @@
-{"shared":"BuyerPaymentErrorSummary","dependencies":["BuyerErrorRemediation","BuyerPaymentErrorSummary","SharedCodec32","SharedCodec33"]}
+{"shared":"BuyerPaymentErrorSummary","dependencies":["BuyerPaymentErrorSummary","SharedCodec55","SharedCodec56"]}

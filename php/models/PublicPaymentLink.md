@@ -19,7 +19,7 @@ Response model.
 | `image` | Optional | [Image](../models/Image.md#image) | An image with its `url`, `width`, and `height`, and optional `alt` text. |
 | `inactive_message` | Optional | string |  |
 | `legal` | Optional | [CheckoutLegalConfig](../models/CheckoutLegalConfig.md#checkoutlegalconfig) | Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract. |
-| `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/PaymentLinksCreateResponse201.md#paymentlinkscreateresponse201dataline_items). |
+| `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/PaymentLinkResponse.md#paymentlinkresponsedataline_items). |
 | `max_completions` | Optional | integer | Format: `int32`. |
 | `name` | Required | string |  |
 | `payment_link_id` | Required | string |  |
@@ -29,9 +29,9 @@ Response model.
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
 | `subscription_plan_id` | Optional | string |  |
 | `theme` | Optional | [ThemeConfig](../models/ThemeConfig.md#themeconfig) | Colors and title applied to a payment link's checkout page. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 
 ### PublicPaymentLink.line_items[]
 
-Declared alternatives: [PaymentLinksCreateResponse201.data.line_items[]](../models/PaymentLinksCreateResponse201.md#paymentlinkscreateresponse201dataline_items).
+Declared alternatives: [PaymentLinkResponse.data.line_items[]](../models/PaymentLinkResponse.md#paymentlinkresponsedataline_items).
 

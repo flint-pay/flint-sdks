@@ -21,13 +21,12 @@ $client = new Client(new ClientOptions(
     deadlineMs: 20000,
 ));
 try {
-    $auth = $client->developer->getAuthContext();
+    $auth = $client->authContext->get();
     check($auth->getEnvironment() === 'sandbox');
     $page = $client->customers->list(['page_size' => 1]);
     check(is_array($page->getData()));
-    $full = $client->customers->listWithResponse(['page_size' => 1]);
-    check(is_array($full->body->getData()));
-    check($full->meta['status'] === 200);
+    check(is_array($page->lastResponse()?->body->getData()));
+    check($page->lastResponse()?->status === 200);
     $pages = iterator_to_array($client->customers->listPages(['page_size' => 1], new RequestOptions(maxPages: 2)));
     check(count($pages) >= 1 && count($pages) <= 2);
     foreach ($pages as $p) check(is_array($p->getData()));

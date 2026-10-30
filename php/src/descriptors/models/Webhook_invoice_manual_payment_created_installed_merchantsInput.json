@@ -1,1 +1,0 @@
-{"shared":"Webhook_invoice_manual_payment_created_installed_merchants","dependencies":["InvoiceManualPayment","MoneyValue","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec708","WebhookEventSourceInstalledMerchants","Webhook_invoice_manual_payment_created_installed_merchants"]}

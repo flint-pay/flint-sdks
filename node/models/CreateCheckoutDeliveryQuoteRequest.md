@@ -17,5 +17,5 @@ The request body for: Create delivery quote.
 | `inventory_assignments` | Optional | Array of [DeliveryInventoryAssignmentRequest](../models/DeliveryInventoryAssignmentRequest.md#deliveryinventoryassignmentrequest) | maxItems: `1000`. |
 | `method_results` | Optional | Array of [CallerSuppliedDeliveryMethodResultRequest](../models/CallerSuppliedDeliveryMethodResultRequest.md#callersupplieddeliverymethodresultrequest) |  |
 | `pickup_location_id` | Optional | string | minLength: `1`. |
-| `tier_key` | Optional | integer string | Caller-defined nonnegative lookup key used by methods whose tiered pricing basis is caller.tier_key. Merchant authentication is required. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `tier_key` | Optional | integer | Caller-defined nonnegative lookup key used by methods whose tiered pricing basis is caller.tier_key. Merchant authentication is required. Format: `int64`. minimum: `0`. |
 

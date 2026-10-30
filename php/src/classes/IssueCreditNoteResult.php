@@ -10,22 +10,22 @@ namespace Flint;
 final class IssueCreditNoteResult extends Model {
     /** @param array{'credit_note': mixed, 'credit_note_allocation'?: mixed, 'invoice': mixed, 'refund'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IssueCreditNoteResult')); }
-    /** Shape $ (Value): {@see CreditNote}. The issued credit note. Its version is the target of expected_version. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
+    /** The issued credit note. Its version is the target of expected_version. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
      * @return CreditNote
      */
     public function getCreditNote(): CreditNote { return $this->get('credit_note'); }
     public function hasCreditNote(): bool { return $this->has('credit_note'); }
-    /** Shape $ (Value): {@see CreditNoteAllocation}. The linked allocation, present when allocation was requested. Its idempotency_key is issue: followed by the issue request's Idempotency-Key. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+    /** The linked allocation, present when allocation was requested. Its idempotency_key is issue: followed by the issue request's Idempotency-Key. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
      * @return ?CreditNoteAllocation
      */
     public function getCreditNoteAllocation(): ?CreditNoteAllocation { return $this->get('credit_note_allocation'); }
     public function hasCreditNoteAllocation(): bool { return $this->has('credit_note_allocation'); }
-    /** Shape $ (Value): {@see Invoice}. The invoice state after the credit note was issued. A bill issued to a customer.
+    /** The invoice state after the credit note was issued. A bill issued to a customer.
      * @return Invoice
      */
     public function getInvoice(): Invoice { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Shape $ (Value): {@see Refund}. The linked refund, present when refund was requested. A pending refund has been accepted but has not completed. Money returned against a collected payment.
+    /** The linked refund, present when refund was requested. A pending refund has been accepted but has not completed. Money returned against a collected payment.
      * @return ?Refund
      */
     public function getRefund(): ?Refund { return $this->get('refund'); }

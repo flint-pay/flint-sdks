@@ -6,5 +6,5 @@ The client that submits a feedback report, with its name, platform, version, and
 
 Request input.
 
-Fields, types, descriptions and enum values: [FeedbackReportsCreateResponse201DataRatingReportingClient](../models/FeedbackReportsCreateResponse201DataRatingReportingClient.md#feedbackreportscreateresponse201dataratingreportingclient).
+Fields, types, descriptions and enum values: [FeedbackReportResponseDataRatingReportingClient](../models/FeedbackReportResponseDataRatingReportingClient.md#feedbackreportresponsedataratingreportingclient).
 

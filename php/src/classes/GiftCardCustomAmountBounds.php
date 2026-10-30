@@ -8,12 +8,12 @@ namespace Flint;
 final class GiftCardCustomAmountBounds extends Model {
     /** @param array{'maximum_money': object{'amount': string, 'currency': string}, 'minimum_money': object{'amount': string, 'currency': string}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardCustomAmountBounds')); }
-    /** Shape $ (Value): {@see GiftCardCustomAmountBoundsMaximumMoney}. Largest gift card value buyers can choose, in the face value currency.
+    /** Largest gift card value buyers can choose, in the face value currency.
      * @return GiftCardCustomAmountBoundsMaximumMoney
      */
     public function getMaximumMoney(): GiftCardCustomAmountBoundsMaximumMoney { return $this->get('maximum_money'); }
     public function hasMaximumMoney(): bool { return $this->has('maximum_money'); }
-    /** Shape $ (Value): {@see GiftCardCustomAmountBoundsMinimumMoney}. Smallest gift card value buyers can choose, in the face value currency.
+    /** Smallest gift card value buyers can choose, in the face value currency.
      * @return GiftCardCustomAmountBoundsMinimumMoney
      */
     public function getMinimumMoney(): GiftCardCustomAmountBoundsMinimumMoney { return $this->get('minimum_money'); }

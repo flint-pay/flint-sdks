@@ -11,31 +11,31 @@ namespace Flint;
 final class CustomerAccountRouteTemplatesInput extends Model {
     /** @param array{'email_preferences'?: string|null, 'invoice'?: string|null, 'order'?: string|null, 'return'?: string|null, 'subscription'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountRouteTemplatesInput')); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When email_preferences is omitted; use hasEmailPreferences() or valueOrDefault().
      */
     public function getEmailPreferences(): string|null { return $this->get('email_preferences'); }
     public function hasEmailPreferences(): bool { return $this->has('email_preferences'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
      */
     public function getInvoice(): string|null { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): string|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When return is omitted; use hasReturn() or valueOrDefault().
      */
     public function getReturn(): string|null { return $this->get('return'); }
     public function hasReturn(): bool { return $this->has('return'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
      */

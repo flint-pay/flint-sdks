@@ -10,22 +10,22 @@ namespace Flint;
 final class ReceiptSettings extends Model {
     /** @param array{'auto_email_enabled'?: bool, 'footer_text'?: string, 'header_text'?: string, 'is_itemized'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReceiptSettings')); }
-    /** Shape $ (Value): boolean. Whether Flint automatically emails a receipt after a successful payment.
+    /** Whether Flint automatically emails a receipt after a successful payment.
      * @return ?bool
      */
     public function getAutoEmailEnabled(): ?bool { return $this->get('auto_email_enabled'); }
     public function hasAutoEmailEnabled(): bool { return $this->has('auto_email_enabled'); }
-    /** Shape $ (Value): string.
+    /** footer_text
      * @return ?string
      */
     public function getFooterText(): ?string { return $this->get('footer_text'); }
     public function hasFooterText(): bool { return $this->has('footer_text'); }
-    /** Shape $ (Value): string.
+    /** header_text
      * @return ?string
      */
     public function getHeaderText(): ?string { return $this->get('header_text'); }
     public function hasHeaderText(): bool { return $this->has('header_text'); }
-    /** Shape $ (Value): boolean.
+    /** is_itemized
      * @return ?bool
      */
     public function getIsItemized(): ?bool { return $this->get('is_itemized'); }

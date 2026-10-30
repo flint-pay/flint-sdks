@@ -19,14 +19,14 @@
 
 ### WebhookEventSource variant 1: `type` = `"partner_app"`
 
-anyOf variant 1: Declared schema PartnerWebhookEnvelopeSource. The source of a partner webhook event, selected by type.; oneOf variant 1: The partner_app source of a partner webhook event..
+anyOf variant 1: Declared schema PartnerWebhookEnvelopeSource. The source of a partner webhook event, selected by type.; oneOf with type: "partner_app": The partner_app source of a partner webhook event..
 
 - Undeclared: `environment_grant_id`, `mode`, `sandbox_id`.
 - Constraints for `type`: Values: `"partner_app"`.
 
 ### WebhookEventSource variant 2: `type` = `"installed_merchants"`
 
-anyOf variant 1: Declared schema PartnerWebhookEnvelopeSource. The source of a partner webhook event, selected by type.; oneOf variant 2: The installed_merchants source of a partner webhook event..
+anyOf variant 1: Declared schema PartnerWebhookEnvelopeSource. The source of a partner webhook event, selected by type.; oneOf with type: "installed_merchants": The installed_merchants source of a partner webhook event..
 
 - Required: `environment_grant_id`, `mode`.
 - Optional: `sandbox_id`.
@@ -34,14 +34,14 @@ anyOf variant 1: Declared schema PartnerWebhookEnvelopeSource. The source of a p
 
 ### WebhookEventSource variant 3: `type` = `"partner_app"`
 
-anyOf variant 2: Declared schema WebhookEventSource. The source of a partner webhook event, selected by type.; oneOf variant 1: The partner_app source of a partner webhook event..
+anyOf variant 2: Declared schema WebhookEventSource. The source of a partner webhook event, selected by type.; oneOf with type: "partner_app": The partner_app source of a partner webhook event..
 
 - Undeclared: `environment_grant_id`, `mode`, `sandbox_id`.
 - Constraints for `type`: Values: `"partner_app"`.
 
 ### WebhookEventSource variant 4: `type` = `"installed_merchants"`
 
-anyOf variant 2: Declared schema WebhookEventSource. The source of a partner webhook event, selected by type.; oneOf variant 2: The installed_merchants source of a partner webhook event..
+anyOf variant 2: Declared schema WebhookEventSource. The source of a partner webhook event, selected by type.; oneOf with type: "installed_merchants": The installed_merchants source of a partner webhook event..
 
 - Required: `environment_grant_id`, `mode`.
 - Optional: `sandbox_id`.

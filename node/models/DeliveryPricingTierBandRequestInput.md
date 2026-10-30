@@ -13,6 +13,6 @@ One band of a tiered pricing strategy you supply, covering values of the strateg
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `currency_options` | Required | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) |  |
-| `from` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `to` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `from` | Required | integer | Format: `int64`. |
+| `to` | Optional | integer | Format: `int64`. |
 

@@ -1,1 +1,1 @@
-{"shared":"Location","dependencies":["Address","Location","LocationCoordinate","MetadataMap","SharedCodec19"]}
+{"shared":"Location","dependencies":["Address","Location","LocationCoordinate","MetadataMap","SharedCodec40","SharedCodec41"]}

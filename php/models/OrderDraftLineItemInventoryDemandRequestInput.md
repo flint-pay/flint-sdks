@@ -6,5 +6,5 @@ The quantity of one inventory item that each unit of a draft order line item use
 
 Request input.
 
-Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantinventorydemandsitem).
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantinventorydemandsitem).
 

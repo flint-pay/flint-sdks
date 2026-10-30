@@ -16,14 +16,14 @@ The tax location you supply for an order, as a postal code or a full address, wi
 
 ### OrderTaxLocationRequest variant 1: `address_source` = `"provided"`, `address_type` = `"postal_code"`
 
-oneOf variant 1: The `postal_code` variant of `OrderTaxLocationInput`..
+oneOf with address_type: "postal_code": The `postal_code` variant of `OrderTaxLocationInput`..
 
 - Constraints for `address`: [OrderTaxLocationPostalAddressRequest](../models/OrderTaxLocationPostalAddressRequest.md#ordertaxlocationpostaladdressrequest).
 - Constraints for `address_type`: Values: `"postal_code"`.
 
 ### OrderTaxLocationRequest variant 2: `address_source` = `"provided"`
 
-oneOf variant 2: The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`..
+oneOf with address_type: "billing_address" | "shipping_address" | "tax_address": The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`..
 
 - Constraints for `address`: [OrderTaxLocationFullAddressRequest](../models/OrderTaxLocationFullAddressRequest.md#ordertaxlocationfulladdressrequest).
 - Constraints for `address_type`: Values: `"tax_address"`, `"billing_address"`, `"shipping_address"`.

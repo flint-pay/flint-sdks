@@ -12,7 +12,7 @@ Response model.
 | `bundle_components` | Required | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) |  |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `eligible_quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `eligible_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `fulfillment_id` | Required | string |  |
 | `image` | Optional | [Image](../models/Image.md#image) | An image with its `url`, `width`, and `height`, and optional `alt` text. |
@@ -27,11 +27,11 @@ Response model.
 | `reason` | Required | string | Values: [9 declared values](#returnpolicyevaluationlineitem-reason-values). |
 | `receiving_location_id` | Optional | string |  |
 | `release_timing` | Required | string | Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. |
-| `requested_quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `requested_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) |  |
 | `sku` | Optional | string |  |
 | `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
-| `suggested_return_reason_ids` | Required | Array of string |  |
+| `suggested_return_reason_ids` | Required | Array of string | IDs of up to 20 active reasons that apply to this line: category-matched reasons first, then reasons with no categories, each group sorted by handle. |
 | `variant_id` | Optional | string |  |
 
 #### ReturnPolicyEvaluationLineItem reason values

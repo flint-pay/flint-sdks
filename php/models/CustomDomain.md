@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_payment_attempt_count` | Required | integer string or null | Payment attempts in progress on this checkout hostname; null for customer account domains. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `active_payment_attempt_count` | Required | integer or null | Payment attempts in progress on this checkout hostname; null for customer account domains. Format: `int64`. |
 | `created_at` | Required | string | When this domain resource was created, in RFC3339 format. Format: `date-time`. |
 | `custom_domain_id` | Required | string | Flint custom domain ID. |
 | `dns_records` | Required | Array of [CustomDomainDNSRecord](../models/CustomDomainDNSRecord.md#customdomaindnsrecord) | DNS records to add for setup or verification. For an archived hostname, records that can be deleted. |

@@ -1,26 +1,28 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateWebhookDeliveryRequestInput } from '../declarations/types-10.js';
-import type { RequestOptions, ResendWebhookDeliveryRequestInput } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-47.js';
 import type {
-    WebhookDeliveriesCreateInput,
-    WebhookDeliveriesGetInput,
-    WebhookDeliveriesListAttemptsInput,
-    WebhookDeliveriesResendInput,
+    WebhookDeliveriesCreateParams,
+    WebhookDeliveriesGetParams,
+    WebhookDeliveriesListAttemptsParams,
+    WebhookDeliveriesListParams,
+    WebhookDeliveriesResendParams
+} from '../declarations/types-60.js';
+import type {
     WebhookDelivery,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
     WebhookDeliveryAttempt,
     WebhookDeliveryAttemptListResponse,
-    WebhookDeliveryResponse
-} from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    WebhookDeliveryListResponse,
+    WebhookDeliveryResponse,
+    _SdkWithoutIdempotency
+} from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -30,131 +32,117 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateWebhookDeliveryRequestInput, CreateWebhookDeliveryRequest } from '../declarations/types-10.js';
-export type { RequestOptions, ResendWebhookDeliveryRequestInput, ResponseMeta, ResendWebhookDeliveryRequest } from '../declarations/types-42.js';
+export type {
+    WebhookDeliveriesCreateParams,
+    WebhookDeliveriesGetParams,
+    WebhookDeliveriesListParams,
+    WebhookDeliveriesListAttemptsParams,
+    WebhookDeliveriesResendParams
+} from '../declarations/types-60.js';
+export type { RequestOptions, ResendWebhookDeliveryRequestInput, ResendWebhookDeliveryRequest } from '../declarations/types-47.js';
 export type {
     WebhookDelivery,
     WebhookDeliveryResponse,
+    _SdkWithoutIdempotency,
+    WebhookDeliveryListResponse,
     WebhookDeliveryAttemptListResponse,
     WebhookDeliveryAttempt,
     WebhookDeliveryAction,
-    WebhookDeliveryActionResponse,
-    WebhookDeliveriesCreateInput,
-    WebhookDeliveriesGetInput,
-    WebhookDeliveriesListAttemptsInput,
-    WebhookDeliveriesResendInput
-} from '../declarations/types-53.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+    WebhookDeliveryActionResponse
+} from '../declarations/types-61.js';
+export type { ClientOptions, CheckoutSessionsListDeliverySelectionsParams } from '../declarations/types-5.js';
+export type { CreateWebhookDeliveryRequestInput, CreateWebhookDeliveryRequest } from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateWebhookDeliveryRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeResendWebhookDeliveryRequest } from '../declarations/types-75.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeCreateWebhookDeliveryRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeResendWebhookDeliveryRequest } from '../declarations/types-71.js';
 export interface WebhookDeliveriesResource {
     /**
  * Creates a delivery for a retained event and an endpoint that currently subscribes to it, then
  * attempts delivery now. A failed attempt starts the automatic retry schedule. Each event and
  * endpoint pair can have only one delivery.
- * @see reference/webhookDeliveries.md#webhookdeliveriescreate
- * POST /v1/webhook-deliveries
+ *
+ * `POST /v1/webhook-deliveries`
+ * @see https://developers.withflintpay.com/docs/api/webhooks#createWebhookDelivery
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookDeliveries.create({webhook_endpoint_id: "example", webhook_event_id: "example"}, {
- * idempotencyKey: idempotencyKey })
+ * client.webhookDeliveries.create({reason_message: "Recovering after an endpoint outage",
+ * webhook_endpoint_id: "whep_01KEZF7C00940MBDY86SCZ1NW9", webhook_event_id:
+ * "whev_01KEZF7C00BW7XQJ98PQ8EHA81"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateWebhookDeliveryRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookDelivery>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookDeliveries.md#webhookdeliveriescreate
-     */
-    createWithResponse(params: (InputValue<CreateWebhookDeliveryRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookDeliveryResponse>>;
+    create(params: WebhookDeliveriesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookDelivery, WebhookDeliveryResponse>>;
     /**
  * Returns one endpoint delivery and its current retry state.
- * @see reference/webhookDeliveries.md#webhookdeliveriesget
- * GET /v1/webhook-deliveries/{webhook_delivery_id}
+ *
+ * `GET /v1/webhook-deliveries/{webhook_delivery_id}`
+ * @param webhook_delivery_id Flint webhook delivery ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#getWebhookDelivery
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.webhookDeliveries.get("example")
+ * client.webhookDeliveries.get("wdel_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookDelivery>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookDeliveries.md#webhookdeliveriesget
+    get(webhook_delivery_id: InputValue<string>, params?: WebhookDeliveriesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<WebhookDelivery, WebhookDeliveryResponse>>;
+    /**
+ * Returns webhook deliveries, newest first (`created_at` descending, then `webhook_delivery_id`).
+ * Includes deliveries of synthetic test events. Default order: created_at descending, then
+ * webhook_delivery_id descending.
+ *
+ * `GET /v1/webhook-deliveries`
+ * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveries
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.webhookDeliveries.list()
+ */
+    list(params?: WebhookDeliveriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<WebhookDeliveryListResponse, WebhookDeliveryListResponse>>;
+    /** Iterate pages lazily.
+     * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveries
      */
-    getWithResponse(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookDeliveryResponse>>;
+    listPages(params?: WebhookDeliveriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<WebhookDeliveryListResponse, WebhookDeliveryListResponse>>;
+    /** Iterate items lazily.
+     * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveries
+     */
+    listItems(params?: WebhookDeliveriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDelivery>;
     /**
  * Returns the attempts recorded for a specific webhook delivery. Default order: attempt_number
  * ascending; this key uniquely orders the results.
- * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
- * GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts
+ *
+ * `GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts`
+ * @param webhook_delivery_id Flint webhook delivery ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveryAttempts
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.webhookDeliveries.listAttempts("example")
+ * client.webhookDeliveries.listAttempts("wdel_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listAttempts(webhook_delivery_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookDeliveryAttemptListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
-     */
-    listAttemptsWithResponse(webhook_delivery_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookDeliveryAttemptListResponse>>;
+    listAttempts(webhook_delivery_id: InputValue<string>, params?: WebhookDeliveriesListAttemptsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<WebhookDeliveryAttemptListResponse, WebhookDeliveryAttemptListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
+     * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveryAttempts
      */
-    listAttemptsPages(webhook_delivery_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDeliveryAttemptListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
-     */
-    listAttemptsPagesWithResponse(webhook_delivery_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<WebhookDeliveryAttemptListResponse>>;
+    listAttemptsPages(webhook_delivery_id: InputValue<string>, params?: WebhookDeliveriesListAttemptsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<WebhookDeliveryAttemptListResponse, WebhookDeliveryAttemptListResponse>>;
     /** Iterate items lazily.
-     * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
+     * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookDeliveryAttempts
      */
-    listAttemptsItems(webhook_delivery_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDeliveryAttempt>;
+    listAttemptsItems(webhook_delivery_id: InputValue<string>, params?: WebhookDeliveriesListAttemptsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDeliveryAttempt>;
     /**
  * Sends the event to the delivery's endpoint now, including while automatic retries are pending. A
  * failed resend doesn't change the automatic schedule.
- * @see reference/webhookDeliveries.md#webhookdeliveriesresend
- * POST /v1/webhook-deliveries/{webhook_delivery_id}/resend
+ *
+ * `POST /v1/webhook-deliveries/{webhook_delivery_id}/resend`
+ * @param webhook_delivery_id Flint webhook delivery ID.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#resendWebhookDelivery
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookDeliveries.resend("example", undefined, { idempotencyKey: idempotencyKey })
+ * client.webhookDeliveries.resend("wdel_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<ResendWebhookDeliveryRequestInput> | {
-        "reason_message"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<WebhookDeliveryAction>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/webhookDeliveries.md#webhookdeliveriesresend
-     */
-    resendWithResponse(webhook_delivery_id: InputValue<string>, params?: (InputValue<ResendWebhookDeliveryRequestInput> | {
-        "reason_message"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookDeliveryActionResponse>>;
+    resend(webhook_delivery_id: InputValue<string>, params?: WebhookDeliveriesResendParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookDeliveryAction, WebhookDeliveryActionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

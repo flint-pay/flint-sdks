@@ -22,7 +22,7 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `reason` | Required | string | Why the invoice is being corrected. Shown on the credit note document. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit consumed by linked refunds that succeeded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refunded_money`: [field definitions](../models/BuyerCreditNote.md#buyercreditnoterefunded_money). |
 | `seller_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. |
-| `status` | Required | string | draft while the credit note is editable, issued once it is numbered and frozen, void once retired. Values: `"issued"`, `"void"`. |
+| `status` | Required | string | issued once it is numbered and frozen, void once retired. Values: `"issued"`, `"void"`. |
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/BuyerCreditNote.md#buyercreditnotetotal_money). |
 | `voided_at` | Optional | string | When the credit note was voided. Absent unless it is void. Format: `date-time`. |
 

@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderTaxCalculationInputAutomaticInput extends Model {
     /** @param array{'mode': string, 'price_mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxCalculationInputAutomaticInput')); }
-    /** Shape $ (Value): string.  Value enum: "automatic".
+    /** Value enum: "automatic".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Shape $ (Value): string.  Value enum: "additive", "inclusive".
+    /** Value enum: "additive", "inclusive".
      * @return string
      * @throws SdkError When price_mode is omitted; use hasPriceMode() or valueOrDefault().
      */

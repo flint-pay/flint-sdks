@@ -13,7 +13,7 @@ Request input.
 | `modifier_group_name` | Required | string |  |
 | `name` | Required | string |  |
 | `order_line_item_modifier_id` | Optional | string |  |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `refund_line_item_modifier_allocation_id` | Required | string |  |
 | `show_on_fulfillment` | Required | boolean |  |
 | `show_on_receipt` | Required | boolean |  |

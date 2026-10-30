@@ -11,27 +11,27 @@ namespace Flint;
 final class ServiceFulfillmentDetails extends Model {
     /** @param array{'completed_at'?: string, 'notes'?: string, 'scheduled_end_at'?: string, 'scheduled_start_at'?: string, 'timezone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ServiceFulfillmentDetails')); }
-    /** Shape $ (Value): string. When the service was completed, in RFC3339 format. Format: date-time.
+    /** When the service was completed, in RFC3339 format. Format: date-time.
      * @return ?string
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** Shape $ (Value): string. Additional instructions or notes for performing the service.
+    /** Additional instructions or notes for performing the service.
      * @return ?string
      */
     public function getNotes(): ?string { return $this->get('notes'); }
     public function hasNotes(): bool { return $this->has('notes'); }
-    /** Shape $ (Value): string. Scheduled end of the service, in RFC3339 format. Format: date-time.
+    /** Scheduled end of the service, in RFC3339 format. Format: date-time.
      * @return ?string
      */
     public function getScheduledEndAt(): ?string { return $this->get('scheduled_end_at'); }
     public function hasScheduledEndAt(): bool { return $this->has('scheduled_end_at'); }
-    /** Shape $ (Value): string. Scheduled start of the service, in RFC3339 format. Format: date-time.
+    /** Scheduled start of the service, in RFC3339 format. Format: date-time.
      * @return ?string
      */
     public function getScheduledStartAt(): ?string { return $this->get('scheduled_start_at'); }
     public function hasScheduledStartAt(): bool { return $this->has('scheduled_start_at'); }
-    /** Shape $ (Value): string. Timezone used to display the service appointment.
+    /** Timezone used to display the service appointment.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }

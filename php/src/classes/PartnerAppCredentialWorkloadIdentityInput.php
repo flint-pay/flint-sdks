@@ -11,31 +11,31 @@ namespace Flint;
 final class PartnerAppCredentialWorkloadIdentityInput extends Model {
     /** @param array{'audience': string, 'claim_conditions': list<WorkloadIdentityClaimConditionInput|array<array-key, mixed>|\stdClass>, 'issuer': string, 'platform': string, 'subject': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialWorkloadIdentityInput')); }
-    /** Shape $ (Value): string.
+    /** audience
      * @return string
      * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().
      */
     public function getAudience(): string { return $this->get('audience'); }
     public function hasAudience(): bool { return $this->has('audience'); }
-    /** Shape $ (Value): Array of {@see WorkloadIdentityClaimConditionInput}. Bounded value array of top-level scalar conditions checked for every assertion. Shape $[] (Value): {@see WorkloadIdentityClaimConditionInput}. A condition matching one top-level scalar claim in the workload's identity token.
+    /** Bounded value array of top-level scalar conditions checked for every assertion. [] (Value): {@see WorkloadIdentityClaimConditionInput}. A condition matching one top-level scalar claim in the workload's identity token.
      * @return list<WorkloadIdentityClaimConditionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When claim_conditions is omitted; use hasClaimConditions() or valueOrDefault().
      */
     public function getClaimConditions(): array { return $this->get('claim_conditions'); }
     public function hasClaimConditions(): bool { return $this->has('claim_conditions'); }
-    /** Shape $ (Value): string.
+    /** issuer
      * @return string
      * @throws SdkError When issuer is omitted; use hasIssuer() or valueOrDefault().
      */
     public function getIssuer(): string { return $this->get('issuer'); }
     public function hasIssuer(): bool { return $this->has('issuer'); }
-    /** Shape $ (Value): string. Computed from the issuer. New platform values may be added. Value enum: "generic", "github_actions", "gitlab_ci", "google_cloud", "aws", "azure", "kubernetes", "circleci", "buildkite", "vercel", "fly_io".
+    /** The platform Flint recognizes from the issuer. New platform values may be added. Value enum: "generic", "github_actions", "gitlab_ci", "google_cloud", "aws", "azure", "kubernetes", "circleci", "buildkite", "vercel", "fly_io".
      * @return string
      * @throws SdkError When platform is omitted; use hasPlatform() or valueOrDefault().
      */
     public function getPlatform(): string { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** Shape $ (Value): string.
+    /** subject
      * @return string
      * @throws SdkError When subject is omitted; use hasSubject() or valueOrDefault().
      */

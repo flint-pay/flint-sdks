@@ -17,18 +17,18 @@ Request input.
 | `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequestInput](../models/OrderLineItemModifierRequestInput.md#orderlineitemmodifierrequestinput) | Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/CreateOrderLineItemInput.md#createorderlineiteminputmodifiers). |
 | `name` | Conditional | string |  |
-| `quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
+| `quantity` | Optional | integer | Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
 | `subscription` | Optional | [SubscribedLineRequestInput](../models/SubscribedLineRequestInput.md#subscribedlinerequestinput) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. Makes an order line a subscription purchase, with the subscription offer and billing interval. |
 | `tax` | Optional | [OrderDraftLineItemTaxRequestInput](../models/OrderDraftLineItemTaxRequestInput.md#orderdraftlineitemtaxrequestinput) | Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. `tax`: [field definitions](../models/CreateOrderLineItemInput.md#createorderlineiteminput-variant-1tax). |
 | `type` | Required | string | Selects the type branch. Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_dimensions` | Optional | [DimensionsInput](../models/DimensionsInput.md#dimensionsinput) | Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. |
-| `unit_price_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `unit_price_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `unit_weight` | Optional | [WeightInput](../models/WeightInput.md#weightinput) | Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. |
 | `variant_id` | Conditional | string |  |
 
 ### CreateOrderLineItemInput variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `CreateOrderLineItem`..
+oneOf with type: "variant": The `variant` variant of `CreateOrderLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
 - Required: `variant_id`.
@@ -37,7 +37,7 @@ oneOf variant 1: The `variant` variant of `CreateOrderLineItem`..
 
 ### CreateOrderLineItemInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `CreateOrderLineItem`..
+oneOf with type: "bundle": The `bundle` variant of `CreateOrderLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
 - Required: `bundle_id`.
@@ -46,7 +46,7 @@ oneOf variant 2: The `bundle` variant of `CreateOrderLineItem`..
 
 ### CreateOrderLineItemInput variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `CreateOrderLineItem`..
+oneOf with type: "custom": The `custom` variant of `CreateOrderLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
 - Required: `fulfillment`, `name`, `unit_price_money`.
@@ -61,7 +61,7 @@ Field definitions: [shared fields](OrderLineItemModifierRequestInput.md#orderlin
 
 ### CreateOrderLineItemInput.modifiers[] variant 1: `type` = `"catalog"`
 
-oneOf variant 1: The `catalog` variant of `OrderLineItemModifierInput`..
+oneOf with type: "catalog": The `catalog` variant of `OrderLineItemModifierInput`..
 
 - Condition: not (present(`order_line_item_modifier_id`)).
 - Condition: not (present(`text`)).
@@ -71,7 +71,7 @@ oneOf variant 1: The `catalog` variant of `OrderLineItemModifierInput`..
 
 ### CreateOrderLineItemInput.modifiers[] variant 2: `type` = `"text"`
 
-oneOf variant 2: The `text` variant of `OrderLineItemModifierInput`..
+oneOf with type: "text": The `text` variant of `OrderLineItemModifierInput`..
 
 - Condition: not (present(`order_line_item_modifier_id`)).
 - Condition: not (at least one(present(`modifier_id`); present(`quantity`))).

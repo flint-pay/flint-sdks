@@ -17,7 +17,7 @@ An image uploaded to Flint. Create the file, PUT its bytes to upload.url with up
 | `file_id` | Required | string | The file's stable Flint ID. pattern: `^file_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `height` | Optional | integer | The stored image height in pixels, present only when ready. Format: `int32`. |
 | `purpose` | Required | string | Values: `"product"`, `"product_variant"`, `"bundle"`, `"payment_link"`, `"subscription_plan"`, `"merchant_logo"`, `"merchant_icon"`. |
-| `size_bytes` | Required | integer string | The stored image size when ready; the declared upload size otherwise. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `size_bytes` | Required | integer | The stored image size when ready; the declared upload size otherwise. Format: `int64`. |
 | `status` | Required | string | Values: `"awaiting_upload"`, `"processing"`, `"ready"`, `"failed"`, `"expired"`. |
 | `upload` | Optional | [FileUpload](../models/FileUpload.md#fileupload) | Present only in the create response while awaiting_upload. GET never returns upload credentials. PUT bytes before upload.expires_at, then complete the file. The signed upload target for a file: the URL, HTTP method, headers to send, and when the URL expires. |
 | `url` | Optional | string | The canonical image URL, present when ready. Attach the file with images[].file_id, or copy this URL into source_url on another resource. Format: `uri`. |

@@ -1,0 +1,1 @@
+{"shared":"PaymentMethodFailedInstalledMerchantsEvent","dependencies":["CardDetails","PartnerWebhookEnvelopeSource","PaymentMethod","PaymentMethodFailedInstalledMerchantsEvent","SharedCodec1013","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec64","SharedCodec65","SharedCodec949","SharedCodec950"]}

@@ -1,3076 +1,1556 @@
-import type { Address, AssessInvoiceLateFeeRequestInput } from './types-0.js';
-import type { InvoiceDiscount, InvoiceLineItem, InvoiceCheckoutSessionRequestInput, Invoice } from './types-28.js';
-import type { OrderCharge, MoneyValue } from './types-33.js';
-import type { PricingAmounts } from './types-39.js';
-import type { TaxBreakdown } from './types-49.js';
-import type { TaxIdentity } from './types-50.js';
-import type { InputValue } from '../runtime.js';
-import type { CollectInvoiceRequestInput } from './types-5.js';
-import type { CreateInvoiceRequestInput, CreateInvoiceManualPaymentRequestInput } from './types-7.js';
-import type { ResourceVersionRequestInput, ResponseMeta } from './types-42.js';
-import type { ReverseInvoiceManualPaymentRequestInput } from './types-45.js';
-import type { UpdateInvoiceRequestInput } from './types-51.js';
-import type {
-    WaiveInvoiceLateFeeRequestInput,
-    WebhookEventBalanceTransactionCreated,
-    WebhookEventBalanceTransactionUpdated,
-    WebhookEventBalanceUpdated,
-    WebhookEventBundleArchived,
-    WebhookEventBundleCreated,
-    WebhookEventBundleUpdated,
-    WebhookEventCategoryCreated,
-    WebhookEventCategoryDeleted,
-    WebhookEventCategoryUpdated,
-    WebhookEventCheckoutSessionClosed
-} from './types-53.js';
-import type {
-    CreditNoteIssueAllocationRequest,
-    CreditNoteRefundRequest,
-    CreditNoteIssueAllocationRequestInput,
-    CreditNoteRefundRequestInput,
-    CreditNote,
-    CreditNoteAllocation
-} from './types-11.js';
-import type { Refund } from './types-41.js';
-import type {
-    WebhookEventCheckoutSessionCreated,
-    WebhookEventCheckoutSessionExpired,
-    WebhookEventCheckoutSessionInvalidated,
-    WebhookEventCheckoutSessionPaid,
-    WebhookEventCheckoutSessionPartiallyPaid,
-    WebhookEventCreditNoteAllocationCreated,
-    WebhookEventCreditNoteAllocationReversed,
-    WebhookEventCreditNoteCreated,
-    WebhookEventCreditNoteIssued,
-    WebhookEventCreditNoteUpdated,
-    WebhookEventCreditNoteVoided,
-    WebhookEventCustomDomainArchived,
-    WebhookEventCustomDomainUpdated,
-    WebhookEventCustomerCreated,
-    WebhookEventCustomerDeleted,
-    WebhookEventCustomerDeletionRequestCompleted,
-    WebhookEventCustomerDeletionRequestCreated,
-    WebhookEventCustomerDeletionRequestFailed,
-    WebhookEventCustomerDeletionRequestProcessing,
-    WebhookEventCustomerDeletionRequestRejected,
-    WebhookEventCustomerUpdated,
-    WebhookEventDeliveryLocationSetActivated,
-    WebhookEventDeliveryLocationSetArchived,
-    WebhookEventDeliveryLocationSetCreated,
-    WebhookEventDeliveryLocationSetDeactivated,
-    WebhookEventDeliveryLocationSetUpdated,
-    WebhookEventDeliveryMethodActivated,
-    WebhookEventDeliveryMethodArchived,
-    WebhookEventDeliveryMethodCreated,
-    WebhookEventDeliveryMethodDeactivated,
-    WebhookEventDeliveryMethodUpdated,
-    WebhookEventDeliveryProfileActivated,
-    WebhookEventDeliveryProfileArchived,
-    WebhookEventDeliveryProfileCreated,
-    WebhookEventDeliveryProfileDeactivated,
-    WebhookEventDeliveryProfileUpdated,
-    WebhookEventDeliveryRateCallbackActivated,
-    WebhookEventDeliveryRateCallbackArchived,
-    WebhookEventDeliveryRateCallbackCreated,
-    WebhookEventDeliveryRateCallbackDeactivated,
-    WebhookEventDeliveryRateCallbackUpdated,
-    WebhookEventDeliveryRevocationCreated,
-    WebhookEventDeliverySelectionCommitted,
-    WebhookEventDeliveryZoneActivated,
-    WebhookEventDeliveryZoneArchived,
-    WebhookEventDeliveryZoneCreated,
-    WebhookEventDeliveryZoneDeactivated,
-    WebhookEventDeliveryZoneUpdated,
-    WebhookEventDisputeCreated,
-    WebhookEventDisputeInquiryClosed,
-    WebhookEventDisputeLost,
-    WebhookEventDisputeNeedsResponse,
-    WebhookEventDisputePrevented,
-    WebhookEventDisputeUpdated,
-    WebhookEventDisputeWon,
-    WebhookEventEnvironmentGrantCreated,
-    WebhookEventEnvironmentGrantRevoked,
-    WebhookEventFraudWarningCreated,
-    WebhookEventFraudWarningUpdated,
-    WebhookEventFulfillmentCanceled,
-    WebhookEventFulfillmentCompleted,
-    WebhookEventFulfillmentCreated,
-    WebhookEventFulfillmentEventCreated,
-    WebhookEventFulfillmentFailed
-} from './types-54.js';
-import type {
-    WebhookEventFulfillmentUpdated,
-    WebhookEventGiftCardCreated,
-    WebhookEventGiftCardLoadCreated,
-    WebhookEventGiftCardLoadUpdated,
-    WebhookEventGiftCardNotificationCreated,
-    WebhookEventGiftCardNotificationUpdated,
-    WebhookEventGiftCardRedemptionCreated,
-    WebhookEventGiftCardRedemptionUpdated,
-    WebhookEventGiftCardTransactionCreated,
-    WebhookEventGiftCardUpdated,
-    WebhookEventInventoryCountApplied,
-    WebhookEventInventoryLevelShortageDetected,
-    WebhookEventInventoryLevelUpdated,
-    WebhookEventInventoryReceiptCreated,
-    WebhookEventInventoryReservationActionRequired,
-    WebhookEventInventoryReservationAtRisk,
-    WebhookEventInventoryReservationClosed,
-    WebhookEventInventoryReservationCommitted,
-    WebhookEventInventoryReservationConsumed,
-    WebhookEventInventoryReservationCreated,
-    WebhookEventInventoryReservationHoldExpired,
-    WebhookEventInventoryReservationReleased,
-    WebhookEventInventoryTransferClosed,
-    WebhookEventInventoryTransferDeparted,
-    WebhookEventInventoryTransferLost,
-    WebhookEventInventoryTransferReceived,
-    WebhookEventInventoryTransferReturned,
-    WebhookEventInvoiceCollectionBlockResolved,
-    WebhookEventInvoiceCollectionBlocked,
-    WebhookEventInvoiceCreated,
-    WebhookEventInvoiceCredited,
-    WebhookEventInvoiceDeliveryAttemptFailed,
-    WebhookEventInvoiceDeliveryAttemptSent,
-    WebhookEventInvoiceDeliveryAttemptSuppressed,
-    WebhookEventInvoiceIssueFailed,
-    WebhookEventInvoiceIssued,
-    WebhookEventInvoiceLateFeeAssessed,
-    WebhookEventInvoiceLateFeeDue,
-    WebhookEventInvoiceLateFeeWaived,
-    WebhookEventInvoiceManualPaymentCreated,
-    WebhookEventInvoiceManualPaymentReversed,
-    WebhookEventInvoiceMarkedUncollectible,
-    WebhookEventInvoiceOverdue,
-    WebhookEventInvoicePaid,
-    WebhookEventInvoicePartiallyPaid,
-    WebhookEventInvoicePartiallyRefunded,
-    WebhookEventInvoicePaymentAttemptCanceled,
-    WebhookEventInvoicePaymentAttemptExpired,
-    WebhookEventInvoicePaymentAttemptFailed,
-    WebhookEventInvoicePaymentAttemptProcessing,
-    WebhookEventInvoicePaymentAttemptSettled,
-    WebhookEventInvoiceRefunded,
-    WebhookEventInvoiceReminderDue,
-    WebhookEventInvoiceReopened,
-    WebhookEventInvoiceSent,
-    WebhookEventInvoiceUpdated,
-    WebhookEventInvoiceVoided,
-    WebhookEventMerchantBillingBalanceUpdated,
-    WebhookEventMerchantBillingInvoiceIssued,
-    WebhookEventMerchantBillingInvoiceUpdated,
-    WebhookEventMerchantReadinessUpdated,
-    WebhookEventMerchantUpdated,
-    WebhookEventModifierGroupArchived
-} from './types-55.js';
-import type {
-    WebhookEventModifierGroupCreated,
-    WebhookEventModifierGroupUpdated,
-    WebhookEventModifierSetArchived,
-    WebhookEventModifierSetCreated,
-    WebhookEventModifierSetUpdated,
-    WebhookEventOrderClosed,
-    WebhookEventOrderCreated,
-    WebhookEventOrderInventoryExceptionCreated,
-    WebhookEventOrderInventoryExceptionResolved,
-    WebhookEventOrderPaid,
-    WebhookEventOrderPartiallyPaid,
-    WebhookEventOrderPartiallyRefunded,
-    WebhookEventOrderRefunded,
-    WebhookEventOrderUpdated,
-    WebhookEventPackageCreated,
-    WebhookEventPackageUpdated,
-    WebhookEventPartnerAppInstallCreated,
-    WebhookEventPartnerAppInstallPermissionsUpdated,
-    WebhookEventPartnerAppInstallRevoked,
-    WebhookEventPartnerAppInstallUpdated,
-    WebhookEventPaymentIntentCanceled,
-    WebhookEventPaymentIntentCreated,
-    WebhookEventPaymentIntentExpired,
-    WebhookEventPaymentIntentFulfillmentHoldUpdated,
-    WebhookEventPaymentIntentPaymentFailed,
-    WebhookEventPaymentIntentProcessing,
-    WebhookEventPaymentIntentRequiresAction,
-    WebhookEventPaymentIntentRequiresCapture,
-    WebhookEventPaymentIntentSucceeded,
-    WebhookEventPaymentIntentUpdated,
-    WebhookEventPaymentLinkCreated,
-    WebhookEventPaymentLinkUpdated,
-    WebhookEventPaymentMethodActivated,
-    WebhookEventPaymentMethodArchived,
-    WebhookEventPaymentMethodFailed,
-    WebhookEventPaymentReviewClosed,
-    WebhookEventPaymentReviewOpened,
-    WebhookEventPaymentReviewReopened,
-    WebhookEventPayoutCanceled,
-    WebhookEventPayoutCreated,
-    WebhookEventPayoutDestinationArchived,
-    WebhookEventPayoutDestinationCreated,
-    WebhookEventPayoutDestinationDisabled,
-    WebhookEventPayoutDestinationUpdated,
-    WebhookEventPayoutFailed,
-    WebhookEventPayoutPaid,
-    WebhookEventPayoutReversed,
-    WebhookEventPayoutSettingsUpdated,
-    WebhookEventPayoutUpdated,
-    WebhookEventProductArchived,
-    WebhookEventProductCreated,
-    WebhookEventProductUpdated,
-    WebhookEventProductVariantArchived,
-    WebhookEventProductVariantCreated,
-    WebhookEventProductVariantUpdated,
-    WebhookEventPromotionArchived,
-    WebhookEventPromotionCodeArchived,
-    WebhookEventPromotionCodeCreated,
-    WebhookEventPromotionCodeUpdated,
-    WebhookEventPromotionCreated,
-    WebhookEventPromotionUpdated,
-    WebhookEventRefundCreated,
-    WebhookEventRefundFailed,
-    WebhookEventRefundPartiallySucceeded
-} from './types-56.js';
-import type {
-    WebhookEventRefundSucceeded,
-    WebhookEventRefundUpdated,
-    WebhookEventReportFailed,
-    WebhookEventReportSucceeded,
-    WebhookEventReturnCanceled,
-    WebhookEventReturnCompleted,
-    WebhookEventReturnCreated,
-    WebhookEventReturnDecisionRecorded,
-    WebhookEventReturnDispositionCreated,
-    WebhookEventReturnDispositionUpdated,
-    WebhookEventReturnInspectionAcceptanceDecided,
-    WebhookEventReturnInspectionCreated,
-    WebhookEventReturnInspectionSuperseded,
-    WebhookEventReturnReceiptCreated,
-    WebhookEventReturnReceiptSuperseded,
-    WebhookEventReturnReceiptVerified,
-    WebhookEventReturnReopened,
-    WebhookEventReturnResolutionCreated,
-    WebhookEventReturnResolutionUpdated,
-    WebhookEventReturnUpdated,
-    WebhookEventShipmentCreated,
-    WebhookEventShipmentUpdated,
-    WebhookEventSubscriptionActivated,
-    WebhookEventSubscriptionCanceled,
-    WebhookEventSubscriptionCancellationScheduled,
-    WebhookEventSubscriptionCreated,
-    WebhookEventSubscriptionCycleSkipped,
-    WebhookEventSubscriptionDeliveryActionRequired,
-    WebhookEventSubscriptionDeliveryMigrationCompleted,
-    WebhookEventSubscriptionDeliveryPauseUpcoming,
-    WebhookEventSubscriptionDeliveryUpdated,
-    WebhookEventSubscriptionDunningExhausted,
-    WebhookEventSubscriptionPastDue,
-    WebhookEventSubscriptionPaused,
-    WebhookEventSubscriptionPaymentRetryCreated,
-    WebhookEventSubscriptionPaymentRetryFailed,
-    WebhookEventSubscriptionPaymentRetrySucceeded,
-    WebhookEventSubscriptionPaymentSucceeded,
-    WebhookEventSubscriptionPlanChanged,
-    WebhookEventSubscriptionReactivated,
-    WebhookEventSubscriptionRenewalUpcoming,
-    WebhookEventSubscriptionResumed,
-    WebhookEventSubscriptionTrialEnding,
-    WebhookEventSubscriptionUpdated,
-    WebhookEventTaxConnectionUpdated
-} from './types-57.js';
-import type {
-    ReturnActivity,
-    ReturnDisposition,
-    ReturnInspection,
-    ReturnLineItem,
-    ReturnPolicy,
-    ReturnPolicyRevision
-} from './types-43.js';
-import type { ReturnReason, ReturnReceipt, ReturnResolution, ReturnResource } from './types-44.js';
-import type { MetadataMap } from './types-32.js';
+import type { InvoiceManualPayment, InvoiceLateFeePolicy } from './types-29.js';
+import type { PartnerWebhookEnvelope, PaymentErrorSummary } from './types-40.js';
+import type { MerchantWebhookEnvelope } from './types-34.js';
+import type { Invoice } from './types-28.js';
+import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type { ResponseMeta } from './types-48.js';
+import type { InvoicePaymentTermCalculationOnReceipt, InvoicePaymentTermCalculationOnReceiptInput } from './types-31.js';
 /**
- * Shape $ (Value): {@link InvoiceSnapshot}. A frozen copy of an issued invoice's content,
- * including line items, charges, discounts, tax identities, and pricing amounts.
+ * The `invoice_manual_payment.reversed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
  */
-export type InvoiceSnapshot = {
+export type InvoiceManualPaymentReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link Address}. Billing address captured on the invoice. Kept after the
-     * customer is deleted, because an issued invoice must keep it. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country.
+     *  object (Required): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
      */
-    "billing_address"?: Address;
-    /** Shape $ (Value): string. The backing order's buyer note, captured on the invoice. */
-    "buyer_note"?: string;
+    "data"?: {
+        /**
+         * A recorded offline payment against an invoice. Its amount contributes to invoice
+         * paid_money while recorded; reversing it returns its full amount to outstanding_money. A
+         * payment can cover principal and late fees. Manual payments are separate from online
+         * payment attempts.
+         */
+        "object": InvoiceManualPayment;
+    };
+    /** Value enum: "invoice_manual_payment.reversed". */
+    "event_type"?: "invoice_manual_payment.reversed";
     /**
-     * Shape $ (Value): {@link TaxIdentity} or null. Buyer tax identity captured on the invoice.
-     * Kept after the customer is deleted, because an issued invoice must keep it. Shape $.anyOf[1]
-     * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-     * credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection
-     * in display order; replacing the array requires the parent's expected_version. Existing
-     * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
-     * Shape $.anyOf[2] (Value): null.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "buyer_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * Shape $ (Value): Array of {@link OrderCharge}. The backing order's service charges, frozen
-     * at issue. Shape $[] (Value): {@link OrderCharge}. An additional charge applied to an order.
-     */
-    "charges"?: Array<OrderCharge>;
-    /**
-     * Shape $ (Value): string. Buyer name captured on the invoice. Kept after the customer is
-     * deleted, because an issued invoice must keep it.
-     */
-    "customer_display_name"?: string;
-    /** Shape $ (Value): string. Buyer email captured on the invoice. */
-    "customer_email"?: string;
-    /**
-     * Shape $ (Value): Array of {@link InvoiceDiscount}. The discounts applied to the backing
-     * order, frozen at issue. Shape $[] (Value): {@link InvoiceDiscount}. A discount applied to an
-     * invoice, with its source, the discount amount, the amount actually applied, and any
-     * promotion.
-     */
-    "discounts"?: Array<InvoiceDiscount>;
-    /**
-     * Shape $ (Value): string. The backing order's internal note, captured on the invoice.
-     * Merchant reads only; buyer reads leave it out.
-     */
-    "internal_note"?: string;
-    /**
-     * Shape $ (Value): Array of {@link InvoiceLineItem}. The billed line items, frozen at issue. A
-     * draft previews the backing order's lines. Shape $[] (Value): {@link InvoiceLineItem}. A line
-     * item on an invoice, with its quantity, unit price, discount, tax, and totals, and the
-     * product, variant, or bundle it came from.
-     */
-    "line_items"?: Array<InvoiceLineItem>;
-    /**
-     * Shape $ (Value): string. Your business name as shown on the invoice. A draft shows your
-     * current name; issue freezes it.
-     */
-    "merchant_display_name"?: string;
-    /**
-     * Shape $ (Value): {@link PricingAmounts}. The invoice's pricing totals. Its total_money is
-     * the invoice total that the top-level total_money reports. The money totals for an order or
-     * invoice: subtotal, discounts, charges, tax, requested tip, and total.
-     */
-    "pricing_amounts": PricingAmounts;
-    /**
-     * Shape $ (Value): {@link InvoiceTip}. The tip requested on the backing order, frozen at
-     * issue. Absent when none was requested. A tip requested on an invoice, set as a fixed amount
-     * or a percentage, with an optional name and description.
-     */
-    "requested_tip"?: InvoiceTip;
-    /**
-     * Shape $ (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice at
-     * issue. Later profile edits do not change this document. Shape $.anyOf[1] (Value): {@link
-     * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does
-     * not verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
-     * replacing the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "seller_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * Shape $ (Value): Array of {@link TaxBreakdown}. Tax jurisdiction rows for this invoice. A
-     * draft previews the backing order's current rows; issue freezes them, and the API, hosted
-     * invoice, and PDF share the frozen rows. External tax produces these rows. Automatic tax
-     * doesn't, so an automatic-tax invoice reports its tax in pricing_amounts and each line's
-     * tax_money. On a newly issued external-tax invoice, rows sum to pricing_amounts.tax_money,
-     * and rows with price_mode inclusive sum to pricing_amounts.inclusive_tax_money. A row's
-     * order_line_item_id matches the same field on InvoiceLineItem; order_charge_id names a charge
-     * in charges. Always [] when no tax rows apply. Some older external-tax invoices have no
-     * frozen rows. Shape $[] (Value): {@link TaxBreakdown}. The tax calculated for one
-     * jurisdiction on an order, line item, or charge, with the taxable amount, rate or flat
-     * amount, and tax.
-     */
-    "tax_breakdowns": Array<TaxBreakdown>;
-};
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
- * Shape $ (Value): {@link InvoiceTip}. A tip requested on an invoice, set as a fixed amount or a
- * percentage, with an optional name and description.
+ * The `invoice_manual_payment.reversed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
  */
-export type InvoiceTip = {
+export type InvoiceManualPaymentReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     *  object (Required): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
      */
-    "amount_money"?: MoneyValue;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /** Shape $ (Value): string. */
-    "name"?: string;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
-    "percent"?: number;
-};
-export type InvoicesAssessLateFeeInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "data"?: {
+        /**
+         * A recorded offline payment against an invoice. Its amount contributes to invoice
+         * paid_money while recorded; reversing it returns its full amount to outstanding_money. A
+         * payment can cover principal and late fees. Manual payments are separate from online
+         * payment attempts.
+         */
+        "object": InvoiceManualPayment;
+    };
+    /** Value enum: "invoice_manual_payment.reversed". */
+    "event_type"?: "invoice_manual_payment.reversed";
+});
+export type InvoiceMarkedUncollectibleEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.marked_uncollectible";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.marked_uncollectible";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.marked_uncollectible";
+});
+/**
+ * The `invoice.marked_uncollectible` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoiceMarkedUncollectibleInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.marked_uncollectible". */
+    "event_type"?: "invoice.marked_uncollectible";
     /**
-     * Shape $ (Value): {@link AssessInvoiceLateFeeRequestInput}. The request body for: Assess an
-     * invoice late fee.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "body": InputValue<AssessInvoiceLateFeeRequestInput>;
-};
-export type InvoicesCancelPaymentAttemptInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "invoice_payment_attempt_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type InvoicesCollectInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.marked_uncollectible` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceMarkedUncollectibleMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.marked_uncollectible". */
+    "event_type"?: "invoice.marked_uncollectible";
+});
+export type InvoiceOverdueEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.overdue";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.overdue";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.overdue";
+});
+/**
+ * The `invoice.overdue` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type InvoiceOverdueInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.overdue". */
+    "event_type"?: "invoice.overdue";
     /**
-     * Shape $ (Value): {@link CollectInvoiceRequestInput}. The request body for: Collect invoice.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "body": InputValue<CollectInvoiceRequestInput>;
-};
-export type InvoicesCreateCheckoutSessionInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.overdue` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoiceOverdueMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.overdue". */
+    "event_type"?: "invoice.overdue";
+});
+export type InvoicePaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.paid";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.paid";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.paid";
+});
+/**
+ * The `invoice.paid` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
+ */
+export type InvoicePaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.paid". */
+    "event_type"?: "invoice.paid";
     /**
-     * Shape $ (Value): {@link InvoiceCheckoutSessionRequestInput}. The request body for: Create an
-     * invoice checkout session for the current buyer; Get or create invoice checkout collection.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "body"?: InputValue<InvoiceCheckoutSessionRequestInput>;
-};
-export type InvoicesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link CreateInvoiceRequestInput}. The request body for: Create invoice. */
-    "body": InputValue<CreateInvoiceRequestInput>;
-};
-export type InvoicesGetInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.paid` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoicePaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.paid". */
+    "event_type"?: "invoice.paid";
+});
+export type InvoicePartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.partially_paid";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.partially_paid";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.partially_paid";
+});
+/**
+ * The `invoice.partially_paid` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type InvoicePartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.partially_paid". */
+    "event_type"?: "invoice.partially_paid";
     /**
-     * Shape $ (Value): Array of string. [] enum: "customer", "order". Shape $[] (Value): string.
-     * Value enum: "customer", "order".
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "expand"?: InputValue<Array<"customer" | "order">>;
-};
-export type InvoicesGetManualPaymentInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "invoice_manual_payment_id": InputValue<string>;
-};
-export type InvoicesGetPDFInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-};
-export type InvoicesGetPDFResponse = Uint8Array;
-export type InvoicesGetPaymentAttemptInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "invoice_payment_attempt_id": InputValue<string>;
-};
-export type InvoicesIssueInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link IssueInvoiceRequestInput}. The request body for: Issue invoice. */
-    "body": InputValue<IssueInvoiceRequestInput>;
-};
-export type InvoicesListActivitiesInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.partially_paid` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type InvoicePartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.partially_paid". */
+    "event_type"?: "invoice.partially_paid";
+});
+export type InvoicePartiallyRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.partially_refunded";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.partially_refunded";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.partially_refunded";
+});
+/**
+ * The `invoice.partially_refunded` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoicePartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.partially_refunded". */
+    "event_type"?: "invoice.partially_refunded";
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "draft_created", "issued", "sent",
-     * "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied",
-     * "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided",
-     * "token_regenerated", "collection_blocked", "collection_block_resolved", "updated",
-     * "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due",
-     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited". Shape $[] (Value):
-     * string. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent",
-     * "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded",
-     * "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated",
-     * "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible",
-     * "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due",
-     * "late_fee_assessed", "late_fee_waived", "credited".
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "activity_type"?: InputValue<Array<"draft_created"
-        | "issued"
-        | "sent"
-        | "delivery_sent"
-        | "reminder_sent"
-        | "viewed"
-        | "payment_attempt_started"
-        | "payment_applied"
-        | "manual_payment_recorded"
-        | "manual_payment_reversed"
-        | "refund_succeeded"
-        | "voided"
-        | "token_regenerated"
-        | "collection_blocked"
-        | "collection_block_resolved"
-        | "updated"
-        | "marked_uncollectible"
-        | "payment_processing"
-        | "issue_failed"
-        | "overdue"
-        | "reminder_due"
-        | "late_fee_due"
-        | "late_fee_assessed"
-        | "late_fee_waived"
-        | "credited">>;
-};
-export type InvoicesListDeliveryAttemptsInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-};
-export type InvoicesListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.partially_refunded` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type InvoicePartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.partially_refunded". */
+    "event_type"?: "invoice.partially_refunded";
+});
+/** An attempt to collect payment for an invoice. */
+export type InvoicePaymentAttempt = {
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "draft", "open", "partially_paid",
-     * "paid", "void", "uncollectible", "credited". Shape $[] (Value): string. Value enum: "draft",
-     * "open", "partially_paid", "paid", "void", "uncollectible", "credited".
+     * When the attempt was canceled. An attempt canceled with its checkout session before payment
+     * started may not have it. Format: date-time.
      */
-    "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "idempotency_key"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "customer_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "subscription_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "invoice_number"?: InputValue<string>;
+    "canceled_at"?: string;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "buyer_initiated", "automatic",
-     * "external". Shape $[] (Value): string. Value enum: "buyer_initiated", "automatic",
-     * "external".
+     * When cancellation of this attempt was last requested. It stays set when the payment
+     * processor refuses the cancellation or the payment settles first, so read status and
+     * canceled_at for the outcome. Format: date-time.
      */
-    "collection_mode"?: InputValue<Array<"buyer_initiated" | "automatic" | "external">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "issued_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "issued_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "due_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "due_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): boolean. */
-    "is_overdue"?: InputValue<boolean>;
-    /** Shape $ (Value): boolean. */
-    "has_outstanding_balance"?: InputValue<boolean>;
+    "cancellation_requested_at"?: string;
     /**
-     * Shape $ (Value): string. Default: "created_at". Value enum: "created_at", "updated_at",
-     * "due_at", "invoice_number", "outstanding_money".
+     * The hosted or embedded checkout session the buyer pays through. Absent for automatic
+     * charges.
      */
-    "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
+    "checkout_session_id"?: string;
     /**
-     * Shape $ (Value): Array of string. [] enum: "customer", "order". Shape $[] (Value): string.
-     * Value enum: "customer", "order".
+     * The amount this attempt collects: the outstanding balance, or the targeted schedule entry's
+     * outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "expand"?: InputValue<Array<"customer" | "order">>;
+    "expected_amount_money": MoneyValue;
+    /**
+     * When a checkout attempt expires, matching its checkout session. Absent for automatic
+     * charges. Format: date-time.
+     */
+    "expires_at"?: string;
+    /** The invoice this attempt collects. */
+    "invoice_id": string;
+    /** Flint invoice payment attempt ID. */
+    "invoice_payment_attempt_id": string;
+    /**
+     * The schedule entry this attempt collects. Absent when the attempt collects the invoice
+     * balance.
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * Why the payment failed. Present only when status is failed. A summary of why a payment
+     * attempt failed, with a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * The payment intent behind this attempt. Absent until payment starts, such as a hosted
+     * attempt the buyer hasn't paid yet.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit.
+     * Value enum: "card", "ach_debit".
+     */
+    "rail": "card" | "ach_debit" | (string & {});
+    /**
+     * When this attempt first settled successfully. Duplicate payment notifications preserve this
+     * timestamp. Format: date-time.
+     */
+    "settled_at"?: string;
+    /** When the attempt was created. Format: date-time. */
+    "started_at"?: string;
+    /**
+     * Current payment attempt status. settled means this attempt completed successfully, even if
+     * the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that
+     * completion. Value enum: "open", "settled", "failed", "canceled", "expired", "processing".
+     */
+    "status": "open" | "settled" | "failed" | "canceled" | "expired" | "processing" | (string & {});
+    /**
+     * When this attempt last changed. Duplicate payment notifications preserve this timestamp.
+     * Format: date-time.
+     */
+    "updated_at"?: string;
 };
-export type InvoicesListManualPaymentsInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "idempotency_key"?: InputValue<string>;
-};
-export type InvoicesListPaymentAttemptsInput = InvoicesListManualPaymentsInput;
-export type InvoicesMarkUncollectibleInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+export type InvoicePaymentAttemptCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.canceled";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.canceled";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_payment_attempt.canceled";
+});
+/**
+ * The `invoice_payment_attempt.canceled` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoicePaymentAttemptCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link ResourceVersionRequestInput}. The request body for: Mark invoice
-     * uncollectible; Regenerate invoice public link; Resume one of the current buyer's
-     * subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
      * invoice.
      */
-    "body"?: InputValue<ResourceVersionRequestInput>;
-};
-export type InvoicesRecordManualPaymentInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.canceled". */
+    "event_type"?: "invoice_payment_attempt.canceled";
     /**
-     * Shape $ (Value): {@link CreateInvoiceManualPaymentRequestInput}. The request body for:
-     * Create invoice manual payment.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "body": InputValue<CreateInvoiceManualPaymentRequestInput>;
-};
-export type InvoicesRegeneratePublicLinkInput = InvoicesMarkUncollectibleInput;
-export type InvoicesReverseManualPaymentInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "invoice_manual_payment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link ReverseInvoiceManualPaymentRequestInput}. The request body for:
-     * Reverse manual invoice payment.
-     */
-    "body": InputValue<ReverseInvoiceManualPaymentRequestInput>;
-};
-export type InvoicesSendReminderInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type InvoicesUpdateInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link UpdateInvoiceRequestInput}. The request body for: Update invoice. */
-    "body": InputValue<UpdateInvoiceRequestInput>;
-};
-export type InvoicesVoidResourceInput = InvoicesMarkUncollectibleInput;
-export type InvoicesWaiveLateFeeInput = {
-    /** Shape $ (Value): string. */
-    "invoice_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "invoice_late_fee_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link WaiveInvoiceLateFeeRequestInput}. The request body for: Waive an
-     * unpaid invoice late fee.
-     */
-    "body": InputValue<WaiveInvoiceLateFeeRequestInput>;
-};
-/** Shape $ (Value): {@link IssueCreditNoteRequest}. The request body for: Issue credit note. */
-export type IssueCreditNoteRequest = ({
-    /**
-     * Shape $ (Value): {@link CreditNoteIssueAllocationRequest}. Issue the credit note and apply
-     * credit to its invoice atomically. If the allocation fails, the note stays a draft. Omit
-     * amount_money to apply the smaller of the credit available after issue and the invoice's
-     * outstanding balance. Cannot be combined with refund. Credit to apply to the invoice when
-     * issuing a credit note.
-     */
-    "allocation"?: CreditNoteIssueAllocationRequest;
-    /**
-     * Shape $ (Value): integer string. Credit note version last read. Optional; a stale version
-     * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): {@link CreditNoteRefundRequest}. Create a linked refund when the credit
-     * note is issued. Requires both credit-note and refund write permissions and a paid invoice.
-     * Cannot be combined with allocation. Refund details you supply when issuing a credit note:
-     * the reason, an optional message, and an optional amount.
-     */
-    "refund"?: CreditNoteRefundRequest;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
 });
 /**
- * Shape $ (Value): {@link IssueCreditNoteRequestInput}. The request body for: Issue credit note.
+ * The `invoice_payment_attempt.canceled` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
  */
-export type IssueCreditNoteRequestInput = ({
+export type InvoicePaymentAttemptCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link CreditNoteIssueAllocationRequestInput}. Issue the credit note and
-     * apply credit to its invoice atomically. If the allocation fails, the note stays a draft.
-     * Omit amount_money to apply the smaller of the credit available after issue and the invoice's
-     * outstanding balance. Cannot be combined with refund. Credit to apply to the invoice when
-     * issuing a credit note.
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
      */
-    "allocation"?: CreditNoteIssueAllocationRequestInput;
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.canceled". */
+    "event_type"?: "invoice_payment_attempt.canceled";
+});
+export type InvoicePaymentAttemptExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.expired";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.expired";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_payment_attempt.expired";
+});
+/**
+ * The `invoice_payment_attempt.expired` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoicePaymentAttemptExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): integer string. Credit note version last read. Optional; a stale version
-     * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 1.
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
      */
-    "expected_version"?: `${bigint}` | bigint;
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.expired". */
+    "event_type"?: "invoice_payment_attempt.expired";
     /**
-     * Shape $ (Value): {@link CreditNoteRefundRequestInput}. Create a linked refund when the
-     * credit note is issued. Requires both credit-note and refund write permissions and a paid
-     * invoice. Cannot be combined with allocation. Refund details you supply when issuing a credit
-     * note: the reason, an optional message, and an optional amount.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "refund"?: CreditNoteRefundRequestInput;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_payment_attempt.expired` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoicePaymentAttemptExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.expired". */
+    "event_type"?: "invoice_payment_attempt.expired";
+});
+export type InvoicePaymentAttemptFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_payment_attempt.failed";
+});
+/**
+ * The `invoice_payment_attempt.failed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoicePaymentAttemptFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.failed". */
+    "event_type"?: "invoice_payment_attempt.failed";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_payment_attempt.failed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoicePaymentAttemptFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.failed". */
+    "event_type"?: "invoice_payment_attempt.failed";
+});
+/** A page of `InvoicePaymentAttempt` objects. */
+export type InvoicePaymentAttemptListResponse = {
+    /**  [] (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an invoice. */
+    "data": Array<InvoicePaymentAttempt>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InvoicePaymentAttemptProcessingEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.processing";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.processing";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_payment_attempt.processing";
+});
+/**
+ * The `invoice_payment_attempt.processing` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoicePaymentAttemptProcessingInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.processing". */
+    "event_type"?: "invoice_payment_attempt.processing";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_payment_attempt.processing` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoicePaymentAttemptProcessingMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.processing". */
+    "event_type"?: "invoice_payment_attempt.processing";
+});
+/** A response containing `InvoicePaymentAttempt` data. */
+export type InvoicePaymentAttemptResponse = {
+    /** An attempt to collect payment for an invoice. */
+    "data": InvoicePaymentAttempt;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InvoicePaymentAttemptSettledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.settled";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoicePaymentAttempt;
+    };
+    "event_type"?: "invoice_payment_attempt.settled";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_payment_attempt.settled";
+});
+/**
+ * The `invoice_payment_attempt.settled` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoicePaymentAttemptSettledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.settled". */
+    "event_type"?: "invoice_payment_attempt.settled";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_payment_attempt.settled` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoicePaymentAttemptSettledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data"?: {
+        /** An attempt to collect payment for an invoice. */
+        "object": InvoicePaymentAttempt;
+    };
+    /** Value enum: "invoice_payment_attempt.settled". */
+    "event_type"?: "invoice_payment_attempt.settled";
+});
+/**
+ * The invoice due-date policy resolved at write time. The object can be sent back when updating a
+ * draft.
+ */
+export type InvoicePaymentDue = ({
+    /**
+     * The due date set with type date. Present only with date. The top-level due_at is the
+     * effective due date for every type. Format: date-time.
+     */
+    "due_at"?: string;
+    /**
+     * The payment term applied, captured in payment_terms_snapshot. Present only with
+     * payment_terms.
+     */
+    "invoice_payment_term_id"?: string;
+    /** How the due date was set. Value enum: "none", "date", "payment_terms". */
+    "type": "none" | "date" | "payment_terms" | (string & {});
+})
+    & ((Exclude<InvoicePaymentDueNone & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueDate & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDuePaymentTerms & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `date` variant of `InvoicePaymentDue`. */
+export type InvoicePaymentDueDate = ({
+    /**
+     * The due date set with type date. Present only with date. The top-level due_at is the
+     * effective due date for every type. Format: date-time.
+     */
+    "due_at": string;
+    /**
+     * The payment term applied, captured in payment_terms_snapshot. Present only with
+     * payment_terms.
+     */
+    "invoice_payment_term_id"?: string;
+    /** How the due date was set. Value enum: "date". */
+    "type": "date" | (string & {});
+})
+    & (({
+    /** Value enum: "date". */
+    "type"?: "date" | (string & {});
+    /**
+     * The due date set with type date. Present only with date. The top-level due_at is the
+     * effective due date for every type. Format: date-time.
+     */
+    "due_at": string;
+}));
+/** The `customer_default` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputCustomerDefault = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at"?: string;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id"?: string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "customer_default".
+     */
+    "type": "customer_default" | (string & {});
+})
+    & (({
+    /** Value enum: "customer_default". */
+    "type"?: "customer_default" | (string & {});
+}));
+/** The `customer_default` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputCustomerDefaultInput = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id"?: string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "customer_default".
+     */
+    "type": "customer_default";
+})
+    & (({
+    /** Value enum: "customer_default". */
+    "type"?: "customer_default";
+})
+    & (({
+    "due_at"?: never;
+}) & ({
+    "invoice_payment_term_id"?: never;
+})));
+/** The `date` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputDateInput = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at": string | globalThis.Date;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id"?: string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "date".
+     */
+    "type": "date";
+})
+    & (({
+    /** Value enum: "date". */
+    "type"?: "date";
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at": string | globalThis.Date;
 })
     & ({
-    "allocation"?: never;
-} | {
-    "refund"?: never;
-});
-/**
- * Shape $ (Value): {@link IssueCreditNoteResponse}. A response containing `IssueCreditNoteResult`
- * data.
- */
-export type IssueCreditNoteResponse = {
+    "invoice_payment_term_id"?: never;
+}));
+/** The `merchant_default` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputMerchantDefault = ({
     /**
-     * Shape $ (Value): {@link IssueCreditNoteResult}. The issued credit note, its invoice after
-     * issue, and the linked allocation or refund when requested.
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
      */
-    "data": IssueCreditNoteResult;
+    "due_at"?: string;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
      */
-    "meta"?: ResponseMeta;
+    "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "merchant_default".
      */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link IssueCreditNoteResult}. The issued credit note, its invoice after issue,
- * and the linked allocation or refund when requested.
- */
-export type IssueCreditNoteResult = {
-    /**
-     * Shape $ (Value): {@link CreditNote}. The issued credit note. Its version is the target of
-     * expected_version. A correction against an issued invoice. Credit notes reduce what is owed;
-     * refunds return what was already collected.
-     */
-    "credit_note": CreditNote;
-    /**
-     * Shape $ (Value): {@link CreditNoteAllocation}. The linked allocation, present when
-     * allocation was requested. Its idempotency_key is issue: followed by the issue request's
-     * Idempotency-Key. One application of credit to the invoice. Allocations are append-only: a
-     * reversal sets reversed_at rather than removing the row.
-     */
-    "credit_note_allocation"?: CreditNoteAllocation;
-    /**
-     * Shape $ (Value): {@link Invoice}. The invoice state after the credit note was issued. A bill
-     * issued to a customer.
-     */
-    "invoice": Invoice;
-    /**
-     * Shape $ (Value): {@link Refund}. The linked refund, present when refund was requested. A
-     * pending refund has been accepted but has not completed. Money returned against a collected
-     * payment.
-     */
-    "refund"?: Refund;
-};
-/** Shape $ (Value): {@link IssueInvoiceRequest}. The request body for: Issue invoice. */
-export type IssueInvoiceRequest = {
-    /**
-     * Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use
-     * merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email",
-     * "caller_managed".
-     */
-    "delivery_mode"?: "merchant_default" | "email" | "caller_managed" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Invoice version last read. Optional; a stale version
-     * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-};
-/** Shape $ (Value): {@link IssueInvoiceRequestInput}. The request body for: Issue invoice. */
-export type IssueInvoiceRequestInput = {
-    /**
-     * Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use
-     * merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email",
-     * "caller_managed".
-     */
-    "delivery_mode"?: "merchant_default" | "email" | "caller_managed";
-    /**
-     * Shape $ (Value): integer string. Invoice version last read. Optional; a stale version
-     * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-};
-/**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequest}. The request body for: Issue sandbox test
- * key.
- */
-export type IssueSandboxAPIKeyRequest = ({
-    /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "full", "read_only", "restricted".
-     */
-    "access": "full" | "read_only" | "restricted" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
+    "type": "merchant_default" | (string & {});
 })
-    & ((Exclude<IssueSandboxAPIKeyRequestFull & object, readonly unknown[]>)
-    | (Exclude<IssueSandboxAPIKeyRequestReadOnly & object, readonly unknown[]>)
-    | (Exclude<IssueSandboxAPIKeyRequestRestricted & object, readonly unknown[]>)
+    & (({
+    /** Value enum: "merchant_default". */
+    "type"?: "merchant_default" | (string & {});
+}));
+/** The `merchant_default` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputMerchantDefaultInput = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id"?: string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "merchant_default".
+     */
+    "type": "merchant_default";
+})
+    & (({
+    /** Value enum: "merchant_default". */
+    "type"?: "merchant_default";
+})
+    & (({
+    "due_at"?: never;
+}) & ({
+    "invoice_payment_term_id"?: never;
+})));
+/** The `none` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputNoneInput = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id"?: string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "none".
+     */
+    "type": "none";
+})
+    & (({
+    /** Value enum: "none". */
+    "type"?: "none";
+})
+    & (({
+    "due_at"?: never;
+}) & ({
+    "invoice_payment_term_id"?: never;
+})));
+/** The `payment_terms` variant of `InvoicePaymentDueInput`. */
+export type InvoicePaymentDueInputPaymentTermsInput = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id": string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "payment_terms".
+     */
+    "type": "payment_terms";
+})
+    & (({
+    /** Value enum: "payment_terms". */
+    "type"?: "payment_terms";
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id": string;
+})
+    & ({
+    "due_at"?: never;
+}));
+/** The `none` variant of `InvoicePaymentDue`. */
+export type InvoicePaymentDueNone = ({
+    /**
+     * The due date set with type date. Present only with date. The top-level due_at is the
+     * effective due date for every type. Format: date-time.
+     */
+    "due_at"?: string;
+    /**
+     * The payment term applied, captured in payment_terms_snapshot. Present only with
+     * payment_terms.
+     */
+    "invoice_payment_term_id"?: string;
+    /** How the due date was set. Value enum: "none". */
+    "type": "none" | (string & {});
+})
+    & (({
+    /** Value enum: "none". */
+    "type"?: "none" | (string & {});
+}));
+/** The `payment_terms` variant of `InvoicePaymentDue`. */
+export type InvoicePaymentDuePaymentTerms = ({
+    /**
+     * The due date set with type date. Present only with date. The top-level due_at is the
+     * effective due date for every type. Format: date-time.
+     */
+    "due_at"?: string;
+    /**
+     * The payment term applied, captured in payment_terms_snapshot. Present only with
+     * payment_terms.
+     */
+    "invoice_payment_term_id": string;
+    /** How the due date was set. Value enum: "payment_terms". */
+    "type": "payment_terms" | (string & {});
+})
+    & (({
+    /** Value enum: "payment_terms". */
+    "type"?: "payment_terms" | (string & {});
+    /**
+     * The payment term applied, captured in payment_terms_snapshot. Present only with
+     * payment_terms.
+     */
+    "invoice_payment_term_id": string;
+}));
+/**
+ * When an invoice is due, used when creating or updating an invoice: no due date, a fixed time,
+ * payment terms, or a default.
+ */
+export type InvoicePaymentDueRequest = ({
+    /**
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
+     */
+    "due_at"?: string;
+    /**
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
+     */
+    "invoice_payment_term_id"?: string;
+    /**
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "none", "date", "payment_terms",
+     * "customer_default", "merchant_default".
+     */
+    "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default" | (string & {});
+})
+    & ((Exclude<InvoicePaymentDueNone & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueDate & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDuePaymentTerms & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueInputCustomerDefault & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueInputMerchantDefault & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestFull}. The `full` variant of
- * `IssueSandboxAPIKeyRequest`.
+ * When an invoice is due, used when creating or updating an invoice: no due date, a fixed time,
+ * payment terms, or a default.
  */
-export type IssueSandboxAPIKeyRequestFull = ({
+export type InvoicePaymentDueRequestInput = ({
     /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "full".
+     * When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any
+     * other type. Format: date-time. minLength: 1.
      */
-    "access": "full" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
+    "due_at"?: string | globalThis.Date;
     /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
+     * The active payment term to apply. Required with payment_terms and not accepted with any
+     * other type. minLength: 1.
      */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-});
-/**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestFullInput}. The `full` variant of
- * `IssueSandboxAPIKeyRequest`.
- */
-export type IssueSandboxAPIKeyRequestFullInput = ({
+    "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "full".
+     * How the due date is set. customer_default and merchant_default resolve when the draft is
+     * written, and reads return the resolved type. Sending payment_terms on a draft captures the
+     * term's current revision again. Value enum: "none", "date", "payment_terms",
+     * "customer_default", "merchant_default".
      */
-    "access": "full";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
+    "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default";
 })
-    & (({
-    "scopes"?: never;
-}));
+    & ((Exclude<InvoicePaymentDueInputNoneInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueInputDateInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueInputPaymentTermsInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueInputCustomerDefaultInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentDueInputMerchantDefaultInput & object, readonly unknown[]>));
 /**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestInput}. The request body for: Issue sandbox
- * test key.
+ * Compares two payment options on an invoice and shows the estimated savings from the lower-cost
+ * option.
  */
-export type IssueSandboxAPIKeyRequestInput = ({
+export type InvoicePaymentOptionCostComparison = {
+    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". */
+    "compared_with_payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
     /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "full", "read_only", "restricted".
+     * Estimated savings for the merchant, as a positive amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
-    "access": "full" | "read_only" | "restricted";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
+    "estimated_savings_money": MoneyValue;
+    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". */
+    "lower_cost_payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
+};
+/** The largest invoice total allowed for a payment option. */
+export type InvoicePaymentOptionLimit = {
     /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
+     * The largest invoice total, in this currency, for which Flint offers the option. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-})
-    & ((Exclude<IssueSandboxAPIKeyRequestFullInput & object, readonly unknown[]>)
-    | (Exclude<IssueSandboxAPIKeyRequestReadOnlyInput & object, readonly unknown[]>)
-    | (Exclude<IssueSandboxAPIKeyRequestRestrictedInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestReadOnly}. The `read_only` variant of
- * `IssueSandboxAPIKeyRequest`.
- */
-export type IssueSandboxAPIKeyRequestReadOnly = ({
+    "max_total_money": MoneyValue;
     /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "read_only".
+     * The payment option this cap applies to. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit".
      */
-    "access": "read_only" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
+    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
+};
+/** The largest invoice total allowed for a payment option. */
+export type InvoicePaymentOptionLimitInput = {
     /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
+     * The largest invoice total, in this currency, for which Flint offers the option. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-});
-/**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestReadOnlyInput}. The `read_only` variant of
- * `IssueSandboxAPIKeyRequest`.
- */
-export type IssueSandboxAPIKeyRequestReadOnlyInput = ({
+    "max_total_money": MoneyValueInput;
     /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "read_only".
+     * The payment option this cap applies to. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit".
      */
-    "access": "read_only";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-})
-    & (({
-    "scopes"?: never;
-}));
-/**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestRestricted}. The `restricted` variant of
- * `IssueSandboxAPIKeyRequest`.
- */
-export type IssueSandboxAPIKeyRequestRestricted = {
-    /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "restricted".
-     */
-    "access": "restricted" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
+    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit";
 };
 /**
- * Shape $ (Value): {@link IssueSandboxAPIKeyRequestRestrictedInput}. The `restricted` variant of
- * `IssueSandboxAPIKeyRequest`.
+ * Which payment options an invoice accepts, any per-option total limits, and whether to show a
+ * cost comparison.
  */
-export type IssueSandboxAPIKeyRequestRestrictedInput = {
+export type InvoicePaymentPolicy = {
     /**
-     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
-     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
-     * read_only requires a freshly verified authorized user session or a full-access API key.
-     * Value enum: "restricted".
+     * The payment options the buyer can use on the hosted invoice page. Send at least one.
+     * maxItems: 5. uniqueItems: true. [] enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit".
      */
-    "access": "restricted";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
+    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
     /**
-     * Shape $ (Value): Array of string. The scopes to grant. Required only with access restricted;
-     * forbidden with full or read_only. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
+     * Caps by payment option and currency. Flint doesn't offer an option when the invoice total in
+     * that currency is above its max_total_money. maxItems: 100. [] (Value): {@link
+     * InvoicePaymentOptionLimit}. The largest invoice total allowed for a payment option.
      */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-};
-export type KnownWebhookEvent = WebhookEventBalanceTransactionCreated
-    | WebhookEventBalanceTransactionUpdated
-    | WebhookEventBalanceUpdated
-    | WebhookEventBundleArchived
-    | WebhookEventBundleCreated
-    | WebhookEventBundleUpdated
-    | WebhookEventCategoryCreated
-    | WebhookEventCategoryDeleted
-    | WebhookEventCategoryUpdated
-    | WebhookEventCheckoutSessionClosed
-    | WebhookEventCheckoutSessionCreated
-    | WebhookEventCheckoutSessionExpired
-    | WebhookEventCheckoutSessionInvalidated
-    | WebhookEventCheckoutSessionPaid
-    | WebhookEventCheckoutSessionPartiallyPaid
-    | WebhookEventCreditNoteAllocationCreated
-    | WebhookEventCreditNoteAllocationReversed
-    | WebhookEventCreditNoteCreated
-    | WebhookEventCreditNoteIssued
-    | WebhookEventCreditNoteUpdated
-    | WebhookEventCreditNoteVoided
-    | WebhookEventCustomDomainArchived
-    | WebhookEventCustomDomainUpdated
-    | WebhookEventCustomerDeletionRequestCompleted
-    | WebhookEventCustomerDeletionRequestCreated
-    | WebhookEventCustomerDeletionRequestFailed
-    | WebhookEventCustomerDeletionRequestProcessing
-    | WebhookEventCustomerDeletionRequestRejected
-    | WebhookEventCustomerCreated
-    | WebhookEventCustomerDeleted
-    | WebhookEventCustomerUpdated
-    | WebhookEventDeliveryLocationSetActivated
-    | WebhookEventDeliveryLocationSetArchived
-    | WebhookEventDeliveryLocationSetCreated
-    | WebhookEventDeliveryLocationSetDeactivated
-    | WebhookEventDeliveryLocationSetUpdated
-    | WebhookEventDeliveryMethodActivated
-    | WebhookEventDeliveryMethodArchived
-    | WebhookEventDeliveryMethodCreated
-    | WebhookEventDeliveryMethodDeactivated
-    | WebhookEventDeliveryMethodUpdated
-    | WebhookEventDeliveryProfileActivated
-    | WebhookEventDeliveryProfileArchived
-    | WebhookEventDeliveryProfileCreated
-    | WebhookEventDeliveryProfileDeactivated
-    | WebhookEventDeliveryProfileUpdated
-    | WebhookEventDeliveryRateCallbackActivated
-    | WebhookEventDeliveryRateCallbackArchived
-    | WebhookEventDeliveryRateCallbackCreated
-    | WebhookEventDeliveryRateCallbackDeactivated
-    | WebhookEventDeliveryRateCallbackUpdated
-    | WebhookEventDeliveryRevocationCreated
-    | WebhookEventDeliverySelectionCommitted
-    | WebhookEventDeliveryZoneActivated
-    | WebhookEventDeliveryZoneArchived
-    | WebhookEventDeliveryZoneCreated
-    | WebhookEventDeliveryZoneDeactivated
-    | WebhookEventDeliveryZoneUpdated
-    | WebhookEventDisputeCreated
-    | WebhookEventDisputeInquiryClosed
-    | WebhookEventDisputeLost
-    | WebhookEventDisputeNeedsResponse
-    | WebhookEventDisputePrevented
-    | WebhookEventDisputeUpdated
-    | WebhookEventDisputeWon
-    | WebhookEventEnvironmentGrantCreated
-    | WebhookEventEnvironmentGrantRevoked
-    | WebhookEventFraudWarningCreated
-    | WebhookEventFraudWarningUpdated
-    | WebhookEventFulfillmentEventCreated
-    | WebhookEventFulfillmentCanceled
-    | WebhookEventFulfillmentCompleted
-    | WebhookEventFulfillmentCreated
-    | WebhookEventFulfillmentFailed
-    | WebhookEventFulfillmentUpdated
-    | WebhookEventGiftCardLoadCreated
-    | WebhookEventGiftCardLoadUpdated
-    | WebhookEventGiftCardNotificationCreated
-    | WebhookEventGiftCardNotificationUpdated
-    | WebhookEventGiftCardRedemptionCreated
-    | WebhookEventGiftCardRedemptionUpdated
-    | WebhookEventGiftCardTransactionCreated
-    | WebhookEventGiftCardCreated
-    | WebhookEventGiftCardUpdated
-    | WebhookEventInventoryCountApplied
-    | WebhookEventInventoryLevelShortageDetected
-    | WebhookEventInventoryLevelUpdated
-    | WebhookEventInventoryReceiptCreated
-    | WebhookEventInventoryReservationActionRequired
-    | WebhookEventInventoryReservationAtRisk
-    | WebhookEventInventoryReservationClosed
-    | WebhookEventInventoryReservationCommitted
-    | WebhookEventInventoryReservationConsumed
-    | WebhookEventInventoryReservationCreated
-    | WebhookEventInventoryReservationHoldExpired
-    | WebhookEventInventoryReservationReleased
-    | WebhookEventInventoryTransferClosed
-    | WebhookEventInventoryTransferDeparted
-    | WebhookEventInventoryTransferLost
-    | WebhookEventInventoryTransferReceived
-    | WebhookEventInventoryTransferReturned
-    | WebhookEventInvoiceDeliveryAttemptFailed
-    | WebhookEventInvoiceDeliveryAttemptSent
-    | WebhookEventInvoiceDeliveryAttemptSuppressed
-    | WebhookEventInvoiceManualPaymentCreated
-    | WebhookEventInvoiceManualPaymentReversed
-    | WebhookEventInvoicePaymentAttemptCanceled
-    | WebhookEventInvoicePaymentAttemptExpired
-    | WebhookEventInvoicePaymentAttemptFailed
-    | WebhookEventInvoicePaymentAttemptProcessing
-    | WebhookEventInvoicePaymentAttemptSettled
-    | WebhookEventInvoiceCollectionBlockResolved
-    | WebhookEventInvoiceCollectionBlocked
-    | WebhookEventInvoiceCreated
-    | WebhookEventInvoiceCredited
-    | WebhookEventInvoiceIssueFailed
-    | WebhookEventInvoiceIssued
-    | WebhookEventInvoiceLateFeeAssessed
-    | WebhookEventInvoiceLateFeeDue
-    | WebhookEventInvoiceLateFeeWaived
-    | WebhookEventInvoiceMarkedUncollectible
-    | WebhookEventInvoiceOverdue
-    | WebhookEventInvoicePaid
-    | WebhookEventInvoicePartiallyPaid
-    | WebhookEventInvoicePartiallyRefunded
-    | WebhookEventInvoiceRefunded
-    | WebhookEventInvoiceReminderDue
-    | WebhookEventInvoiceReopened
-    | WebhookEventInvoiceSent
-    | WebhookEventInvoiceUpdated
-    | WebhookEventInvoiceVoided
-    | WebhookEventMerchantBillingBalanceUpdated
-    | WebhookEventMerchantBillingInvoiceIssued
-    | WebhookEventMerchantBillingInvoiceUpdated
-    | WebhookEventMerchantReadinessUpdated
-    | WebhookEventMerchantUpdated
-    | WebhookEventModifierGroupArchived
-    | WebhookEventModifierGroupCreated
-    | WebhookEventModifierGroupUpdated
-    | WebhookEventModifierSetArchived
-    | WebhookEventModifierSetCreated
-    | WebhookEventModifierSetUpdated
-    | WebhookEventOrderClosed
-    | WebhookEventOrderCreated
-    | WebhookEventOrderInventoryExceptionCreated
-    | WebhookEventOrderInventoryExceptionResolved
-    | WebhookEventOrderPaid
-    | WebhookEventOrderPartiallyPaid
-    | WebhookEventOrderPartiallyRefunded
-    | WebhookEventOrderRefunded
-    | WebhookEventOrderUpdated
-    | WebhookEventPackageCreated
-    | WebhookEventPackageUpdated
-    | WebhookEventPartnerAppInstallCreated
-    | WebhookEventPartnerAppInstallPermissionsUpdated
-    | WebhookEventPartnerAppInstallRevoked
-    | WebhookEventPartnerAppInstallUpdated
-    | WebhookEventPaymentIntentCanceled
-    | WebhookEventPaymentIntentCreated
-    | WebhookEventPaymentIntentExpired
-    | WebhookEventPaymentIntentFulfillmentHoldUpdated
-    | WebhookEventPaymentIntentPaymentFailed
-    | WebhookEventPaymentIntentProcessing
-    | WebhookEventPaymentIntentRequiresAction
-    | WebhookEventPaymentIntentRequiresCapture
-    | WebhookEventPaymentIntentSucceeded
-    | WebhookEventPaymentIntentUpdated
-    | WebhookEventPaymentLinkCreated
-    | WebhookEventPaymentLinkUpdated
-    | WebhookEventPaymentMethodActivated
-    | WebhookEventPaymentMethodArchived
-    | WebhookEventPaymentMethodFailed
-    | WebhookEventPaymentReviewClosed
-    | WebhookEventPaymentReviewOpened
-    | WebhookEventPaymentReviewReopened
-    | WebhookEventPayoutDestinationArchived
-    | WebhookEventPayoutDestinationCreated
-    | WebhookEventPayoutDestinationDisabled
-    | WebhookEventPayoutDestinationUpdated
-    | WebhookEventPayoutSettingsUpdated
-    | WebhookEventPayoutCanceled
-    | WebhookEventPayoutCreated
-    | WebhookEventPayoutFailed
-    | WebhookEventPayoutPaid
-    | WebhookEventPayoutReversed
-    | WebhookEventPayoutUpdated
-    | WebhookEventProductVariantArchived
-    | WebhookEventProductVariantCreated
-    | WebhookEventProductVariantUpdated
-    | WebhookEventProductArchived
-    | WebhookEventProductCreated
-    | WebhookEventProductUpdated
-    | WebhookEventPromotionCodeArchived
-    | WebhookEventPromotionCodeCreated
-    | WebhookEventPromotionCodeUpdated
-    | WebhookEventPromotionArchived
-    | WebhookEventPromotionCreated
-    | WebhookEventPromotionUpdated
-    | WebhookEventRefundCreated
-    | WebhookEventRefundFailed
-    | WebhookEventRefundPartiallySucceeded
-    | WebhookEventRefundSucceeded
-    | WebhookEventRefundUpdated
-    | WebhookEventReportFailed
-    | WebhookEventReportSucceeded
-    | WebhookEventReturnDispositionCreated
-    | WebhookEventReturnDispositionUpdated
-    | WebhookEventReturnInspectionAcceptanceDecided
-    | WebhookEventReturnInspectionCreated
-    | WebhookEventReturnInspectionSuperseded
-    | WebhookEventReturnReceiptCreated
-    | WebhookEventReturnReceiptSuperseded
-    | WebhookEventReturnReceiptVerified
-    | WebhookEventReturnResolutionCreated
-    | WebhookEventReturnResolutionUpdated
-    | WebhookEventReturnCanceled
-    | WebhookEventReturnCompleted
-    | WebhookEventReturnCreated
-    | WebhookEventReturnDecisionRecorded
-    | WebhookEventReturnReopened
-    | WebhookEventReturnUpdated
-    | WebhookEventShipmentCreated
-    | WebhookEventShipmentUpdated
-    | WebhookEventSubscriptionDeliveryMigrationCompleted
-    | WebhookEventSubscriptionPaymentRetryCreated
-    | WebhookEventSubscriptionPaymentRetryFailed
-    | WebhookEventSubscriptionPaymentRetrySucceeded
-    | WebhookEventSubscriptionActivated
-    | WebhookEventSubscriptionCanceled
-    | WebhookEventSubscriptionCancellationScheduled
-    | WebhookEventSubscriptionCreated
-    | WebhookEventSubscriptionCycleSkipped
-    | WebhookEventSubscriptionDeliveryActionRequired
-    | WebhookEventSubscriptionDeliveryPauseUpcoming
-    | WebhookEventSubscriptionDeliveryUpdated
-    | WebhookEventSubscriptionDunningExhausted
-    | WebhookEventSubscriptionPastDue
-    | WebhookEventSubscriptionPaused
-    | WebhookEventSubscriptionPaymentSucceeded
-    | WebhookEventSubscriptionPlanChanged
-    | WebhookEventSubscriptionReactivated
-    | WebhookEventSubscriptionRenewalUpcoming
-    | WebhookEventSubscriptionResumed
-    | WebhookEventSubscriptionTrialEnding
-    | WebhookEventSubscriptionUpdated
-    | WebhookEventTaxConnectionUpdated;
-/**
- * Shape $ (Value): {@link LegalSettings}. Merchant legal links and terms settings: contract,
- * refund policy, shipping policy, and terms of service URLs, and whether buyers must accept the
- * terms.
- */
-export type LegalSettings = {
-    /** Shape $ (Value): string. */
-    "contract_url"?: string;
-    /** Shape $ (Value): string. */
-    "refund_policy_url"?: string;
-    /** Shape $ (Value): boolean. */
-    "require_terms_of_service"?: boolean;
-    /** Shape $ (Value): string. */
-    "shipping_policy_url"?: string;
-    /** Shape $ (Value): string. */
-    "terms_of_service_url"?: string;
+    "payment_option_limits"?: Array<InvoicePaymentOptionLimit>;
+    /**
+     * Whether the buyer's invoice shows the estimated savings of a lower-cost payment option.
+     * Requires ach_debit and at least one of card, apple_pay, or google_pay.
+     */
+    "show_cost_comparison"?: boolean;
 };
 /**
- * Shape $ (Value): {@link LegalSettingsRequest}. Changes to a merchant's legal settings. Send null
- * on a URL to clear it.
+ * Which payment options an invoice accepts, any per-option total limits, and whether to show a
+ * cost comparison.
  */
-export type LegalSettingsRequest = {
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "contract_url"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "refund_policy_url"?: string | null;
-    /** Shape $ (Value): boolean. */
-    "require_terms_of_service"?: boolean;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "shipping_policy_url"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "terms_of_service_url"?: string | null;
+export type InvoicePaymentPolicyInput = {
+    /**
+     * The payment options the buyer can use on the hosted invoice page. Send at least one.
+     * maxItems: 5. uniqueItems: true. [] enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit".
+     */
+    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /**
+     * Caps by payment option and currency. Flint doesn't offer an option when the invoice total in
+     * that currency is above its max_total_money. maxItems: 100. [] (Value): {@link
+     * InvoicePaymentOptionLimitInput}. The largest invoice total allowed for a payment option.
+     */
+    "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>;
+    /**
+     * Whether the buyer's invoice shows the estimated savings of a lower-cost payment option.
+     * Requires ach_debit and at least one of card, apple_pay, or google_pay.
+     */
+    "show_cost_comparison"?: boolean;
 };
-/**
- * Shape $ (Value): {@link LegalSettingsRequestInput}. Changes to a merchant's legal settings. Send
- * null on a URL to clear it.
- */
-export type LegalSettingsRequestInput = LegalSettingsRequest;
-/**
- * Shape $ (Value): {@link LineItemFulfillmentOriginRequest}. Where a line item ships or is
- * fulfilled from: a fixed location, inventory routing, or the origin of the fulfillment method.
- */
-export type LineItemFulfillmentOriginRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
+/** The payment timing agreed for an invoice. */
+export type InvoicePaymentTerm = {
     /**
-     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
+     * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a
+     * day of the month.
      */
-    "origin_policy_type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
-};
-/**
- * Shape $ (Value): {@link LineItemFulfillmentOriginRequestInput}. Where a line item ships or is
- * fulfilled from: a fixed location, inventory routing, or the origin of the fulfillment method.
- */
-export type LineItemFulfillmentOriginRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
-     */
-    "origin_policy_type": "fixed_location" | "inventory_routing" | "method_origin";
-};
-/**
- * Shape $ (Value): {@link LineItemFulfillmentRequest}. Fulfillment requirements you supply for an
- * order line item, such as allowed fulfillment types, package size and weight, and origin.
- */
-export type LineItemFulfillmentRequest = {
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "allowed_types"?: Array<string>;
-    /**
-     * Shape $ (Value): string. Value enum: "combine_when_compatible", "separate_profile",
-     * "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link LineItemFulfillmentOriginRequest}. Where a line item ships or is
-     * fulfilled from: a fixed location, inventory routing, or the origin of the fulfillment
-     * method.
-     */
-    "origin_policy"?: LineItemFulfillmentOriginRequest;
-    /** Shape $ (Value): string.  Value enum: "none", "required". */
-    "requirement": "none" | "required" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "quote", "manual". */
-    "resolution_mode"?: "quote" | "manual" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "whole_line_item", "quantity_split_allowed". */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-};
-/**
- * Shape $ (Value): {@link LineItemFulfillmentRequestInput}. Fulfillment requirements you supply
- * for an order line item, such as allowed fulfillment types, package size and weight, and origin.
- */
-export type LineItemFulfillmentRequestInput = {
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "allowed_types"?: Array<string>;
-    /**
-     * Shape $ (Value): string. Value enum: "combine_when_compatible", "separate_profile",
-     * "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Shape $ (Value): {@link LineItemFulfillmentOriginRequestInput}. Where a line item ships or
-     * is fulfilled from: a fixed location, inventory routing, or the origin of the fulfillment
-     * method.
-     */
-    "origin_policy"?: LineItemFulfillmentOriginRequestInput;
-    /** Shape $ (Value): string.  Value enum: "none", "required". */
-    "requirement": "none" | "required";
-    /** Shape $ (Value): string.  Value enum: "quote", "manual". */
-    "resolution_mode"?: "quote" | "manual";
-    /** Shape $ (Value): string.  Value enum: "whole_line_item", "quantity_split_allowed". */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-};
-/**
- * Shape $ (Value): {@link LineItemInventoryDemand}. The quantity of one inventory item that each
- * unit of an order line item uses.
- */
-export type LineItemInventoryDemand = {
-    /** Shape $ (Value): string. */
-    "bundle_component_id"?: string;
-    /** Shape $ (Value): string. */
-    "component_snapshot_id"?: string;
-    /** Shape $ (Value): string. */
-    "inventory_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity_per_line_item_unit": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link LineItemInventorySnapshot}. Whether an order line item tracks inventory,
- * and the inventory item quantities each unit demands.
- */
-export type LineItemInventorySnapshot = {
-    /**
-     * Shape $ (Value): Array of {@link LineItemInventoryDemand}. Shape $[] (Value): {@link
-     * LineItemInventoryDemand}. The quantity of one inventory item that each unit of an order line
-     * item uses.
-     */
-    "demands": Array<LineItemInventoryDemand>;
-    /** Shape $ (Value): string.  Value enum: "not_tracked", "tracked". */
-    "inventory_tracking": "not_tracked" | "tracked" | (string & {});
-};
-/**
- * Shape $ (Value): {@link LinkCustomerGuestPurchasesRequest}. The request body for: Link guest
- * purchases to a customer.
- */
-export type LinkCustomerGuestPurchasesRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "customer_verification_id": string;
-};
-/**
- * Shape $ (Value): {@link LinkCustomerGuestPurchasesRequestInput}. The request body for: Link
- * guest purchases to a customer.
- */
-export type LinkCustomerGuestPurchasesRequestInput = LinkCustomerGuestPurchasesRequest;
-/** Shape $ (Value): {@link ListReturnActivitiesResponse}. A page of `ReturnActivity` objects. */
-export type ListReturnActivitiesResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnActivity}. Shape $[] (Value): {@link ReturnActivity}.
-     * One entry in a Return's merchant activity history.
-     */
-    "data": Array<ReturnActivity>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link ListReturnDispositionsResponse}. A page of `ReturnDisposition` objects.
- */
-export type ListReturnDispositionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnDisposition}. Shape $[] (Value): {@link
-     * ReturnDisposition}. A decision about how returned merchandise will be handled.
-     */
-    "data": Array<ReturnDisposition>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnInspectionsResponse}. A page of `ReturnInspection` objects. */
-export type ListReturnInspectionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnInspection}. Shape $[] (Value): {@link
-     * ReturnInspection}. An assessment of the condition of returned items.
-     */
-    "data": Array<ReturnInspection>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnLineItemsResponse}. A page of `ReturnLineItem` objects. */
-export type ListReturnLineItemsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnLineItem}. Shape $[] (Value): {@link ReturnLineItem}.
-     * An item included in a return request.
-     */
-    "data": Array<ReturnLineItem>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnPoliciesResponse}. A page of `ReturnPolicy` objects. */
-export type ListReturnPoliciesResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnPolicy}. Shape $[] (Value): {@link ReturnPolicy}.
-     * Rules governing whether and how purchased items can be returned.
-     */
-    "data": Array<ReturnPolicy>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link ListReturnPolicyRevisionsResponse}. A page of `ReturnPolicyRevision`
- * objects.
- */
-export type ListReturnPolicyRevisionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnPolicyRevision}. Shape $[] (Value): {@link
-     * ReturnPolicyRevision}. A saved revision of a return policy.
-     */
-    "data": Array<ReturnPolicyRevision>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnReasonsResponse}. A page of `ReturnReason` objects. */
-export type ListReturnReasonsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnReason}. Shape $[] (Value): {@link ReturnReason}. A
-     * reason customers can select when requesting a return.
-     */
-    "data": Array<ReturnReason>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnReceiptsResponse}. A page of `ReturnReceipt` objects. */
-export type ListReturnReceiptsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnReceipt}. Shape $[] (Value): {@link ReturnReceipt}. A
-     * record of returned items arriving at a location.
-     */
-    "data": Array<ReturnReceipt>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnResolutionsResponse}. A page of `ReturnResolution` objects. */
-export type ListReturnResolutionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolution}. Shape $[] (Value): {@link
-     * ReturnResolution}. The refund, exchange, or other outcome of a return.
-     */
-    "data": Array<ReturnResolution>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link ListReturnsResponse}. A page of `Return` objects. */
-export type ListReturnsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnResource}. Shape $[] (Value): {@link ReturnResource}.
-     * A request to send purchased items back.
-     */
-    "data": Array<ReturnResource>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link Location}. A physical or logical place a merchant operates from. Every
- * Location can hold stock. inventory_allocation_enabled controls whether it accepts inventory
- * allocation.
- */
-export type Location = {
-    /**
-     * Shape $ (Value): {@link Address} or null. Published postal address. Shape $.anyOf[1]
-     * (Value): {@link Address}. A postal address. Every address has country. Addresses Flint
-     * checked as complete (customer and saved addresses, merchant, location, invoice, order
-     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
-     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
-     * buyer locations and postal-code tax locations hold only what was provided, such as
-     * postal_code and country. Shape $.anyOf[2] (Value): null.
-     */
-    "address": ((Address) | (null));
-    /**
-     * Shape $ (Value): {@link LocationCoordinate}. Published geographic coordinate. A latitude and
-     * longitude for a merchant location.
-     */
-    "coordinate"?: LocationCoordinate;
-    /**
-     * Shape $ (Value): string or null. Source of the stored latitude and longitude. Value enum:
-     * "merchant_supplied", "geocoded", null.
-     */
-    "coordinate_source"?: "merchant_supplied" | "geocoded" | null | (string & {}) | null;
-    /** Shape $ (Value): string. Time the Location was created. Format: date-time. */
+    "calculation": InvoicePaymentTermCalculation;
+    /** RFC3339 timestamp. Format: date-time. */
     "created_at": string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
     "external_reference_id"?: string;
+    "invoice_payment_term_id": string;
     /**
-     * Shape $ (Value): integer string. Read-only version that advances only on geography changes
-     * and is pinned by tax and delivery dependencies. It is not a request fence. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     * A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
+     * whether Flint applies it automatically.
      */
-    "geography_version": `${bigint}`;
-    /**
-     * Shape $ (Value): boolean. Whether this Location accepts inventory allocation. Always
-     * present, including false when allocation is not configured.
-     */
-    "inventory_allocation_enabled": boolean;
-    /** Shape $ (Value): string. Stable Location ID. */
-    "location_id": string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /** Shape $ (Value): string. Merchant-facing Location name. minLength: 1. maxLength: 255. */
+    "late_fee_policy"?: InvoiceLateFeePolicy;
+    "merchant_id": string;
     "name": string;
-    /**
-     * Shape $ (Value): {@link Address}. Provider-normalized address used for geography evaluation.
-     * A postal address. Every address has country. Addresses Flint checked as complete (customer
-     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "normalized_address"?: Address;
-    /**
-     * Shape $ (Value): string. Current Location lifecycle status. Value enum: "active",
-     * "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Shape $ (Value): string. IANA timezone for local schedules. */
-    "timezone": string;
-    /** Shape $ (Value): string. Time the Location last changed. Format: date-time. */
+    /** Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
     "updated_at": string;
-    /**
-     * Shape $ (Value): string. Address validation status. Value enum: "not_validated",
-     * "validated", "merchant_verified".
-     */
-    "validation_status": "not_validated" | "validated" | "merchant_verified" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Optimistic-concurrency version that advances on every
-     * Location change. Use an integer string (decimal digits), not a floating-point number.
-     * Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
+    /** Format: int32. */
+    "version": number;
 };
 /**
- * Shape $ (Value): {@link LocationCoordinate}. A latitude and longitude for a merchant location.
+ * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day
+ * of the month.
  */
-export type LocationCoordinate = {
+export type InvoicePaymentTermCalculation = ({
     /**
-     * Shape $ (Value): number. Latitude between -90 and 90. Responses always include this field,
-     * including 0.
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
      */
-    "latitude": number;
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
     /**
-     * Shape $ (Value): number. Longitude between -180 and 180. Responses always include this
-     * field, including 0.
+     * Value enum: "on_receipt", "net_days", "day_of_month", "day_of_next_month",
+     * "days_after_month_end".
      */
-    "longitude": number;
-};
+    "type": "on_receipt"
+        | "net_days"
+        | "day_of_month"
+        | "day_of_next_month"
+        | "days_after_month_end"
+        | (string & {});
+})
+    & ((Exclude<InvoicePaymentTermCalculationOnReceipt & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationNetDays & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEnd & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfMonth & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonth & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfMonth = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month" | (string & {});
+})
+    & (({
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month" | (string & {});
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+}));
+/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfMonthInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month";
+})
+    & (({
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month";
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+})
+    & ({
+    "days"?: never;
+}));
+/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfNextMonth = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month" | (string & {});
+})
+    & (({
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month" | (string & {});
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+}));
+/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfNextMonthInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month";
+})
+    & (({
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month";
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+})
+    & ({
+    "days"?: never;
+}));
+/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end" | (string & {});
+})
+    & (({
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+}));
+/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDaysAfterMonthEndInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end";
+})
+    & (({
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+})
+    & ({
+    "day"?: never;
+}));
+/**
+ * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day
+ * of the month.
+ */
+export type InvoicePaymentTermCalculationInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /**
+     * Value enum: "on_receipt", "net_days", "day_of_month", "day_of_next_month",
+     * "days_after_month_end".
+     */
+    "type": "on_receipt" | "net_days" | "day_of_month" | "day_of_next_month" | "days_after_month_end";
+})
+    & ((Exclude<InvoicePaymentTermCalculationOnReceiptInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationNetDaysInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEndInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfMonthInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonthInput & object, readonly unknown[]>));
+/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationNetDays = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "net_days". */
+    "type": "net_days" | (string & {});
+})
+    & (({
+    /** Value enum: "net_days". */
+    "type": "net_days" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+}));
+/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationNetDaysInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "net_days". */
+    "type": "net_days";
+})
+    & (({
+    /** Value enum: "net_days". */
+    "type": "net_days";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+})
+    & ({
+    "day"?: never;
+}));

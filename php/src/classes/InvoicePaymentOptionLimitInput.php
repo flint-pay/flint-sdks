@@ -8,13 +8,13 @@ namespace Flint;
 final class InvoicePaymentOptionLimitInput extends Model {
     /** @param array{'max_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_option': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentOptionLimitInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. The largest invoice total, in this currency, for which Flint offers the option. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The largest invoice total, in this currency, for which Flint offers the option. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When max_total_money is omitted; use hasMaxTotalMoney() or valueOrDefault().
      */
     public function getMaxTotalMoney(): mixed { return $this->get('max_total_money'); }
     public function hasMaxTotalMoney(): bool { return $this->has('max_total_money'); }
-    /** Shape $ (Value): string. The payment option this cap applies to. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** The payment option this cap applies to. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return string
      * @throws SdkError When payment_option is omitted; use hasPaymentOption() or valueOrDefault().
      */

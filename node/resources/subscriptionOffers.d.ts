@@ -1,25 +1,22 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateSubscriptionOfferRequestInput } from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-47.js';
 import type {
     SubscriptionOffer,
     SubscriptionOfferListResponse,
     SubscriptionOfferResponse,
-    SubscriptionOffersCreateInput,
-    SubscriptionOffersGetInput,
-    SubscriptionOffersListInput,
-    SubscriptionOffersRemoveInput,
-    SubscriptionOffersUpdateInput
-} from '../declarations/types-48.js';
-import type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    SubscriptionOffersCreateParams,
+    SubscriptionOffersDeleteParams,
+    SubscriptionOffersGetParams,
+    SubscriptionOffersListParams,
+    SubscriptionOffersUpdateParams
+} from '../declarations/types-55.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -29,208 +26,109 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-10.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    SubscriptionOffersCreateParams,
     SubscriptionOffer,
     SubscriptionOfferResponse,
+    SubscriptionOffersDeleteParams,
+    SubscriptionOffersGetParams,
+    SubscriptionOffersListParams,
     SubscriptionOfferListResponse,
-    SubscriptionOffersCreateInput,
-    SubscriptionOffersRemoveInput,
-    SubscriptionOffersGetInput,
-    SubscriptionOffersListInput,
-    SubscriptionOffersUpdateInput,
-    SubscriptionIntervalOptionInput,
-    SubscriptionIntervalOption
-} from '../declarations/types-48.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-52.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+    SubscriptionOffersUpdateParams,
+    SubscriptionIntervalOptionInput
+} from '../declarations/types-55.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-11.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateSubscriptionOfferRequest } from '../declarations/types-69.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeSubscriptionIntervalOption } from '../declarations/types-76.js';
-export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-78.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { SubscriptionIntervalOption } from '../declarations/types-54.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-60.js';
+export { makeCreateSubscriptionOfferRequest } from '../declarations/types-65.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeSubscriptionIntervalOption } from '../declarations/types-73.js';
+export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-74.js';
 export interface SubscriptionOffersResource {
     /**
  * Create subscription offer. Offer changes affect new signups only. Existing subscriptions keep
  * their terms.
- * @see reference/subscriptionOffers.md#subscriptionofferscreate
- * POST /v1/subscription-offers
+ *
+ * `POST /v1/subscription-offers`
+ * @see https://developers.withflintpay.com/docs/api/subscription-offers#createSubscriptionOffer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptionOffers.create({name: "example", billing_interval_options: [{billing_interval:
  * "daily", billing_interval_count: 1}]}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateSubscriptionOfferRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SubscriptionOffer>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionOffers.md#subscriptionofferscreate
-     */
-    createWithResponse(params: (InputValue<CreateSubscriptionOfferRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    create(params: SubscriptionOffersCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
     /**
  * Archive subscription offer. Offer changes affect new signups only. Existing subscriptions keep
  * their terms.
- * @see reference/subscriptionOffers.md#subscriptionoffersremove
- * DELETE /v1/subscription-offers/{subscription_offer_id}
+ *
+ * `DELETE /v1/subscription-offers/{subscription_offer_id}`
+ * @param subscription_offer_id Subscription offer ID.
+ * @see https://developers.withflintpay.com/docs/api/subscription-offers#deleteSubscriptionOffer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionOffers.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.subscriptionOffers.delete("soffer_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    remove(subscription_offer_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SubscriptionOffer>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionOffers.md#subscriptionoffersremove
-     */
-    removeWithResponse(subscription_offer_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    delete(subscription_offer_id: InputValue<string>, params?: SubscriptionOffersDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
     /**
  * Get subscription offer. Offer changes affect new signups only. Existing subscriptions keep their
  * terms.
- * @see reference/subscriptionOffers.md#subscriptionoffersget
- * GET /v1/subscription-offers/{subscription_offer_id}
+ *
+ * `GET /v1/subscription-offers/{subscription_offer_id}`
+ * @param subscription_offer_id Subscription offer ID.
+ * @see https://developers.withflintpay.com/docs/api/subscription-offers#getSubscriptionOffer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptionOffers.get("example")
+ * client.subscriptionOffers.get("soffer_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionOffer>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionOffers.md#subscriptionoffersget
-     */
-    getWithResponse(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    get(subscription_offer_id: InputValue<string>, params?: SubscriptionOffersGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
     /**
  * List subscription offers. Offer changes affect new signups only. Existing subscriptions keep
  * their terms. Default order: created_at descending, then subscription_offer_id descending.
- * @see reference/subscriptionOffers.md#subscriptionofferslist
- * GET /v1/subscription-offers
+ *
+ * `GET /v1/subscription-offers`
+ * @see https://developers.withflintpay.com/docs/api/subscription-offers#listSubscriptionOffers
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.subscriptionOffers.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "product_id"?: InputValue<string>;
-        "variant_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionOfferListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionOffers.md#subscriptionofferslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "product_id"?: InputValue<string>;
-        "variant_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionOfferListResponse>>;
+    list(params?: SubscriptionOffersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionOfferListResponse, SubscriptionOfferListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/subscriptionOffers.md#subscriptionofferslist
+     * @see https://developers.withflintpay.com/docs/api/subscription-offers#listSubscriptionOffers
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "product_id"?: InputValue<string>;
-        "variant_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionOfferListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/subscriptionOffers.md#subscriptionofferslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "product_id"?: InputValue<string>;
-        "variant_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<SubscriptionOfferListResponse>>;
+    listPages(params?: SubscriptionOffersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<SubscriptionOfferListResponse, SubscriptionOfferListResponse>>;
     /** Iterate items lazily.
-     * @see reference/subscriptionOffers.md#subscriptionofferslist
+     * @see https://developers.withflintpay.com/docs/api/subscription-offers#listSubscriptionOffers
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "product_id"?: InputValue<string>;
-        "variant_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionOffer>;
+    listItems(params?: SubscriptionOffersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionOffer>;
     /**
  * Update subscription offer. Offer changes affect new signups only. Existing subscriptions keep
  * their terms.
- * @see reference/subscriptionOffers.md#subscriptionoffersupdate
- * PATCH /v1/subscription-offers/{subscription_offer_id}
+ *
+ * `PATCH /v1/subscription-offers/{subscription_offer_id}`
+ * @param subscription_offer_id Subscription offer ID.
+ * @see https://developers.withflintpay.com/docs/api/subscription-offers#updateSubscriptionOffer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionOffers.update("example", {billing_interval_options: [{billing_interval:
- * "daily", billing_interval_count: 1}]}, { idempotencyKey: idempotencyKey })
+ * client.subscriptionOffers.update("soffer_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Monthly
+ * subscription"}, { idempotencyKey: idempotencyKey })
  */
-    update(subscription_offer_id: InputValue<string>, params: (InputValue<UpdateSubscriptionOfferRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SubscriptionOffer>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionOffers.md#subscriptionoffersupdate
-     */
-    updateWithResponse(subscription_offer_id: InputValue<string>, params: (InputValue<UpdateSubscriptionOfferRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    update(subscription_offer_id: InputValue<string>, params: SubscriptionOffersUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

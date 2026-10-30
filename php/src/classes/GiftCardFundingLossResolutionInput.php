@@ -10,25 +10,25 @@ namespace Flint;
 final class GiftCardFundingLossResolutionInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'disposition': string, 'gift_card_funding_disposition_id': string, 'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingLossResolutionInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.  Value enum: "honor_value".
+    /** Value enum: "honor_value".
      * @return string
      * @throws SdkError When disposition is omitted; use hasDisposition() or valueOrDefault().
      */
     public function getDisposition(): string { return $this->get('disposition'); }
     public function hasDisposition(): bool { return $this->has('disposition'); }
-    /** Shape $ (Value): string.
+    /** gift_card_funding_disposition_id
      * @return string
      * @throws SdkError When gift_card_funding_disposition_id is omitted; use hasGiftCardFundingDispositionId() or valueOrDefault().
      */
     public function getGiftCardFundingDispositionId(): string { return $this->get('gift_card_funding_disposition_id'); }
     public function hasGiftCardFundingDispositionId(): bool { return $this->has('gift_card_funding_disposition_id'); }
-    /** Shape $ (Value): string.
+    /** reason_message
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

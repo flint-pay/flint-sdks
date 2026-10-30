@@ -6,5 +6,5 @@ Where a line item ships or is fulfilled from: a fixed location, inventory routin
 
 Request input.
 
-Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantFulfillmentOriginPolicy](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantFulfillmentOriginPolicy.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantfulfillmentoriginpolicy).
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantFulfillmentOriginPolicy](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantFulfillmentOriginPolicy.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantfulfillmentoriginpolicy).
 

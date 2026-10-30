@@ -3,12 +3,99 @@ declare(strict_types=1);
 namespace Flint;
 class Runtime
 {
+    private const ERROR_FIELDS = '{"code":"code","message":"message","type":"type","param":"param","details":"details","remediation":"remediation","errorSource":"error_source","docUrl":"doc_url","requestId":"request_id","requestLogUrl":"request_log_url"}';
     private array $allowed;
     private readonly string $baseUrl;
     protected readonly array $contract;
     private readonly ?Internal\DescriptorSource $descriptors;
     private mixed $curl = null;
     private array $streams = [];
+    /** @internal */
+    public static function responsePayload(Result $result, array $path): mixed
+    {
+        return Model::responsePayload($result, $path);
+    }
+    /** @internal */
+    public static function responsePayloadPages(\Generator $pages, array $path): \Generator
+    {
+        foreach ($pages as $key => $result) {
+            yield $key => self::responsePayload($result, $path);
+        }
+    }
+    private function userAgent(): string
+    {
+        $agent =
+            ($this->contract['userAgent'] ?? 'PublicSDK') .
+            ' (PHP ' .
+            PHP_VERSION .
+            '; ' .
+            PHP_OS_FAMILY .
+            ')';
+        $app = $this->options->appInfo;
+        if ($app === Omitted::Value) {
+            return $agent;
+        }
+        if (
+            !is_array($app) ||
+            array_is_list($app) ||
+            array_diff(array_keys($app), ['name', 'version', 'url']) ||
+            !is_string($app['name'] ?? null) ||
+            !preg_match('/^[A-Za-z0-9._-]{1,64}$/D', $app['name']) ||
+            (array_key_exists('version', $app) &&
+                (!is_string($app['version']) ||
+                    !preg_match('/^[A-Za-z0-9._-]{1,64}$/D', $app['version'])))
+        ) {
+            self::configuration(
+                'invalid_option',
+                'appInfo name and version must contain 1 to 64 ASCII letters, digits, dots, underscores or hyphens',
+            );
+        }
+        if (
+            array_key_exists('url', $app) &&
+            (!is_string($app['url']) ||
+                ($urlLength = preg_match_all('/./us', $app['url'])) === false ||
+                $urlLength > 256 ||
+                preg_match('/[\s\x00-\x20\x7f]/u', $app['url']) ||
+                str_contains($app['url'], '\\') ||
+                !parse_url($app['url'], PHP_URL_HOST) ||
+                strtolower(parse_url($app['url'], PHP_URL_SCHEME) ?? '') !== 'https')
+        ) {
+            self::configuration(
+                'invalid_option',
+                'appInfo.url must be an absolute HTTPS URL of at most 256 characters',
+            );
+        }
+        return $agent .
+            ' ' .
+            $app['name'] .
+            (isset($app['version']) ? '/' . $app['version'] : '') .
+            (isset($app['url'])
+                ? ' (+' .
+                    preg_replace_callback(
+                        '/[^\x00-\x7f]/u',
+                        static fn($match) => rawurlencode($match[0]),
+                        $app['url'],
+                    ) .
+                    ')'
+                : '');
+    }
+    private static function configuration(string $code, string $message): never
+    {
+        throw SdkError::create('configuration', $message, errorCode: $code);
+    }
+    private static function inputError(string $param, string $code, string $message): never
+    {
+        throw SdkError::create(
+            'validation',
+            $message,
+            errorCode: 'INVALID_REQUEST',
+            details: [['code' => $code, 'param' => $param]],
+        );
+    }
+    private static function notAllowed(string $param, string $reason): never
+    {
+        self::inputError($param, 'NOT_ALLOWED', "$param can't be sent: $reason");
+    }
     public function __construct(
         array|Internal\DescriptorSource $contract,
         private readonly ClientOptions $options,
@@ -23,20 +110,25 @@ class Runtime
         if (!$this->descriptors) {
             self::assertCompiledPlan($this->contract);
         }
+        $this->userAgent();
+        $this->credentialOptionsPassed($options);
         $baseUrl = $options->baseUrl ?? ($this->contract['defaultBaseUrl'] ?? null);
         if ($baseUrl === null) {
-            Codec::fail('baseUrl', 'required: pass baseUrl because this SDK has no default server');
+            self::configuration(
+                'invalid_destination',
+                'baseUrl is required: pass baseUrl because this SDK has no default server',
+            );
         }
         if (!self::validBaseUrl($baseUrl)) {
-            Codec::fail(
-                'baseUrl',
-                'expected an absolute URL without credentials, whitespace, backslash, query or fragment',
+            self::configuration(
+                'invalid_destination',
+                'baseUrl must be an absolute URL without credentials, whitespace, backslash, query or fragment',
             );
         }
         $this->baseUrl = $baseUrl;
         if (
             isset($this->contract['authentication']) &&
-            $options->token !== null &&
+            $options->token !== Omitted::Value &&
             !isset($this->contract['authShortcuts']['token'])
         ) {
             $shortcuts = array_keys($this->contract['authShortcuts'] ?? []);
@@ -45,13 +137,77 @@ class Runtime
                 'authentication',
                 'token is not configured for this SDK; use ' .
                     ($shortcuts ? implode(', ', $shortcuts) : 'authMode and credentials'),
+                errorCode: 'auth_mode_not_permitted',
             );
         }
         $this->allowed = $options->allowedOrigins ?? [self::origin($this->baseUrl)];
         $this->checkUrl($this->baseUrl);
-        if ($options->timeoutMs <= 0 || $options->deadlineMs <= 0) {
-            Codec::fail('options', 'timeouts must be positive');
+        if (
+            $options->maxAttempts !== null &&
+            (!is_finite($options->maxAttempts) ||
+                floor($options->maxAttempts) != $options->maxAttempts ||
+                $options->maxAttempts < 1 ||
+                $options->maxAttempts > 9007199254740991)
+        ) {
+            self::configuration('invalid_option', 'maxAttempts must be a positive safe integer');
         }
+        if (
+            ($options->timeoutMs !== null && $options->timeoutMs <= 0) ||
+            ($options->deadlineMs !== null && $options->deadlineMs <= 0)
+        ) {
+            self::configuration('invalid_option', 'timeoutMs and deadlineMs must be positive');
+        }
+    }
+    /** Validate presence without resolving a provider or reading the environment. */
+    private function credentialOptionsPassed(ClientOptions|RequestOptions $options): bool
+    {
+        $validate = static function (mixed $value, string $param): void {
+            if (
+                $value === null ||
+                (is_string($value) && preg_match('/^[\s\x{FEFF}]*$/uD', $value) === 1)
+            ) {
+                $state = $value === null ? 'null' : 'empty or blank';
+                $kind = $param === 'apiKey' ? 'API key' : 'credential';
+                throw new Errors\ConfigurationError(
+                    $param .
+                        ' was passed but is ' .
+                        $state .
+                        '. Pass a nonempty ' .
+                        $kind .
+                        '; default credentials are used only when no credential option is passed.',
+                    code: 'credential_missing',
+                    param: $param,
+                );
+            }
+        };
+        $passed = false;
+        foreach (
+            array_unique(['token', ...array_keys($this->contract['authShortcuts'] ?? [])])
+            as $key
+        ) {
+            if (!property_exists($options, $key) || $options->$key === Omitted::Value) {
+                continue;
+            }
+            $passed = true;
+            $validate($options->$key, $key);
+        }
+        if ($options->credentials !== Omitted::Value) {
+            $passed = true;
+            $validate($options->credentials, 'credentials');
+            foreach (
+                is_array($options->credentials) ? $options->credentials : []
+                as $key => $value
+            ) {
+                $param = 'credentials.' . $key;
+                $validate($value, $param);
+                if ($options instanceof ClientOptions && is_array($value)) {
+                    foreach ($value as $scheme => $source) {
+                        $validate($source, $param . '.' . $scheme);
+                    }
+                }
+            }
+        }
+        return $passed;
     }
     public static function assertCompiledPlan(array $contract): void
     {
@@ -68,12 +224,46 @@ class Runtime
         if (array_key_exists('errors', $contract) && !is_array($contract['errors'])) {
             throw new \InvalidArgumentException('Invalid compiled error settings');
         }
+        if (array_key_exists('inProgressCodes', $contract['errors'] ?? [])) {
+            $codes = $contract['errors']['inProgressCodes'];
+            if (
+                !is_array($codes) ||
+                !array_is_list($codes) ||
+                count(array_filter($codes, fn($code) => !is_string($code) || trim($code) === '')) >
+                    0
+            ) {
+                throw new \InvalidArgumentException('Invalid compiled in-progress codes');
+            }
+        }
+        $objectPath = array_key_exists('objectPath', $contract['errors'] ?? [])
+            ? $contract['errors']['objectPath']
+            : '';
+        if (
+            !is_string($objectPath) ||
+            ($objectPath !== '' &&
+                !preg_match('/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/D', $objectPath))
+        ) {
+            throw new \InvalidArgumentException('Invalid compiled error objectPath');
+        }
+        $fields = array_key_exists('fields', $contract['errors'] ?? [])
+            ? $contract['errors']['fields']
+            : [];
+        if (!is_array($fields)) {
+            throw new \InvalidArgumentException('Invalid compiled error field mapping');
+        }
+        foreach ($fields as $key => $path) {
+            if (
+                !array_key_exists($key, json_decode(self::ERROR_FIELDS, true)) ||
+                !is_string($path) ||
+                !preg_match('/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/D', $path)
+            ) {
+                throw new \InvalidArgumentException('Invalid compiled error field mapping');
+            }
+        }
         if (array_key_exists('retry', $contract['errors'] ?? [])) {
             $signal = $contract['errors']['retry'];
             if (
                 !is_array($signal) ||
-                !is_string($contract['errors']['codePath'] ?? null) ||
-                $contract['errors']['codePath'] === '' ||
                 !is_string($signal['path'] ?? null) ||
                 !preg_match('/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/D', $signal['path']) ||
                 !is_array($signal['retryValues'] ?? null) ||
@@ -166,7 +356,7 @@ class Runtime
             if (
                 !preg_match('/^[a-z][a-zA-Z0-9]*$/', $name) ||
                 ($name !== 'token' &&
-                    in_array(strtolower($name), ['ambientcredentials', 'credentialcache', 'baseurl', 'token', 'authmode', 'credentials', 'headers', 'idempotencykey', 'ifmatch', 'timeoutms', 'deadlinems', 'maxattempts', 'signal', 'cancellation', 'maxpages', 'maxitems', 'streamidletimeoutms', 'streamlifetimems', 'allowedorigins', 'allowinsecurehttp', 'transport', 'diagnostics', 'redactfields', 'constructor', 'prototype', '__proto__', 'withdeadline', 'this', 'clientrequestid', 'client_request_id'], true)) ||
+                    in_array(strtolower($name), ['ambientcredentials', 'credentialcache', 'baseurl', 'token', 'authmode', 'credentials', 'headers', 'idempotencykey', 'ifmatch', 'timeoutms', 'deadlinems', 'maxattempts', 'signal', 'cancellation', 'maxpages', 'maxitems', 'streamidletimeoutms', 'streamlifetimems', 'allowedorigins', 'allowinsecurehttp', 'transport', 'diagnostics', 'redactfields', 'constructor', 'prototype', '__proto__', 'withdeadline', 'this', 'clientrequestid'], true)) ||
                 count($schemes) !== 1 ||
                 ($schemes[0]['name'] ?? null) !== ($shortcut['scheme'] ?? null)
             ) {
@@ -239,6 +429,21 @@ class Runtime
             ) {
                 throw new \InvalidArgumentException('Invalid compiled operation');
             }
+            if (array_key_exists('defaults', $op)) {
+                if (!is_array($op['defaults']) || !$op['defaults']) {
+                    throw new \InvalidArgumentException('Invalid compiled operation defaults');
+                }
+                foreach ($op['defaults'] as $name => $value) {
+                    if (
+                        !in_array($name, ['timeoutMs', 'deadlineMs'], true) ||
+                        !is_int($value) ||
+                        $value < 1 ||
+                        $value > 9007199254740991
+                    ) {
+                        throw new \InvalidArgumentException('Invalid compiled operation defaults');
+                    }
+                }
+            }
             if (array_key_exists('autoKeyPrefix', $op['idempotency'] ?? [])) {
                 $prefix = $op['idempotency']['autoKeyPrefix'];
                 if (!is_string($prefix) || preg_match('/[^\x20-\x7e]|^ /', $prefix)) {
@@ -307,6 +512,15 @@ class Runtime
             }
             foreach ($op['parameters'] as $parameter) {
                 if (
+                    array_key_exists('scalarArray', $parameter) &&
+                    ($parameter['scalarArray'] !== true ||
+                        ($parameter['in'] ?? '') !== 'query' ||
+                        ($parameter['explode'] ?? true) === false ||
+                        ($parameter['style'] ?? 'form') !== 'form')
+                ) {
+                    throw new \InvalidArgumentException('Invalid compiled scalar query array');
+                }
+                if (
                     array_key_exists('source', $parameter) &&
                     (!in_array($parameter['source'], ['authentication', 'request-option'], true) ||
                         ($parameter['in'] ?? null) !== 'header')
@@ -315,7 +529,7 @@ class Runtime
                 }
                 if (($parameter['source'] ?? null) === 'request-option') {
                     $plans = json_decode(
-                        '{"client_request_id":{"node":"clientRequestId","php":"client_request_id","codec":{"value":{"kind":"string"},"nullable":false,"modelObjectInput":false,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{"minLength":1,"maxLength":128,"pattern":"^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])"},"phpPattern":"~^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])~uD","constraints":true}}}',
+                        '{"client_request_id":{"node":"clientRequestId","php":"clientRequestId","codec":{"value":{"kind":"string"},"nullable":false,"modelObjectInput":false,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{"minLength":1,"maxLength":128,"pattern":"^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])"},"phpPattern":"~^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])~uD","constraints":true}}}',
                         true,
                         512,
                         JSON_THROW_ON_ERROR,
@@ -475,7 +689,14 @@ class Runtime
     }
     private function decode(mixed $value, array $codec, array $context = []): mixed
     {
-        return Codec::execute($value, $codec, $context + ['definitions' => $this->definitions()]);
+        return Codec::execute(
+            $value,
+            $codec,
+            $context + [
+                'definitions' => $this->definitions(),
+                'redactFields' => $this->options->redactFields,
+            ],
+        );
     }
     private function validateHeaderValue(string $value, array $codec, string $path): void
     {
@@ -497,7 +718,7 @@ class Runtime
                 $this->decode($candidate, $codec, ['path' => $path]);
                 return;
             } catch (SdkError $error) {
-                if ($error->kind !== 'validation') {
+                if (SdkError::internalKind($error) !== 'validation') {
                     throw $error;
                 }
                 $failure ??= $error;
@@ -568,6 +789,40 @@ class Runtime
             throw SdkError::create('destination', 'Destination origin is not in allowedOrigins');
         }
     }
+    private static function settleCallError(SdkError $error, array $context): void
+    {
+        $observations = $context['observations'];
+        $last = $observations ? $observations[array_key_last($observations)] : null;
+        if ($error instanceof Errors\ApiError && ($last['state'] ?? null) === 'answered') {
+            $error->outcome =
+                $last['inProgress'] || $last['uncertainWrite'] ? 'unknown' : 'response';
+            $error->retryAllowed =
+                ($context['replaySafe'] ?? false) &&
+                !in_array($error->status, [401, 412], true) &&
+                ($error->outcome === 'unknown' || $last['retryAllowed']);
+        } elseif (
+            $error instanceof Errors\ConnectionError ||
+            $error instanceof Errors\CancelledError ||
+            ($last !== null && $last['state'] !== 'answered')
+        ) {
+            $mayHaveRun =
+                count(
+                    array_filter(
+                        $observations,
+                        fn($attempt) => $attempt['state'] === 'no_answer' ||
+                            ($attempt['state'] === 'answered' &&
+                                (($attempt['status'] >= 500 && $attempt['status'] < 600) ||
+                                    $attempt['inProgress'])),
+                    ),
+                ) > 0;
+            $error->outcome = $mayHaveRun ? 'unknown' : 'not_sent';
+            $error->retryAllowed =
+                ($error instanceof Errors\ConnectionError ||
+                    $error instanceof Errors\CancelledError) &&
+                ($context['replaySafe'] ?? false) &&
+                !in_array($error->status, [401, 412], true);
+        }
+    }
     private static function checkCancel(?Cancellation $c, string $outcome = 'unknown'): void
     {
         if ($c?->isCancelled()) {
@@ -599,7 +854,7 @@ class Runtime
                 return $op;
             }
         }
-        Codec::fail('operation', 'operation is not included in this SDK');
+        self::configuration('operation_unavailable', 'operation is not included in this SDK');
     }
     public function request(
         string $id,
@@ -611,14 +866,7 @@ class Runtime
         $header = strtolower($op['idempotency']['header'] ?? '');
         $key = $header !== '' ? $options?->idempotencyKey : null;
         if ($header !== '' && $key === null) {
-            foreach ([$input, $options?->headers ?? []] as $values) {
-                foreach ($values as $name => $value) {
-                    if (strtolower((string) $name) === $header && $key === null) {
-                        $key = $value;
-                    }
-                }
-            }
-            if ($key === null && ($op['idempotency']['auto'] ?? false)) {
+            if ($op['idempotency']['auto'] ?? false) {
                 $bytes = random_bytes(16);
                 $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
                 $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
@@ -636,6 +884,8 @@ class Runtime
                     substr($hex, 20);
             }
         }
+        $context = ['attempts' => 0, 'requestIds' => [], 'observations' => []];
+        $callStart = self::now();
         try {
             $effective = $options;
             if (is_string($key)) {
@@ -645,8 +895,21 @@ class Runtime
                     ]),
                 );
             }
-            return $this->executeRequest($id, $input, $effective, $continuation);
+            return $this->executeRequest($id, $input, $effective, $continuation, $context);
         } catch (SdkError $error) {
+            $error->attempts = $context['attempts'];
+            $error->requestIds = $context['requestIds'];
+            $error->durationMs = self::now() - $callStart;
+            if (isset($context['lastResponse'])) {
+                $error->status = $context['lastResponse']['status'];
+                $error->headers = $context['lastResponse']['headers'];
+                $error->requestId = $context['lastResponse']['requestId'] ?? null;
+                $error->retryAfterMs = $context['retryAfterMs'] ?? null;
+            }
+            self::settleCallError($error, $context);
+            $error->operation = isset($op['resource'], $op['method'])
+                ? $op['resource'] . '.' . $op['method']
+                : $id;
             if (is_string($key)) {
                 $error->idempotencyKey = $key;
             }
@@ -658,19 +921,25 @@ class Runtime
         array $input = [],
         ?RequestOptions $options = null,
         ?string $continuation = null,
+        array &$context = [],
     ): Result {
         $o = $options ?? new RequestOptions();
+        $requestCredentialsPassed = $this->credentialOptionsPassed($o);
+        $clientCredentialsPassed = $this->credentialOptionsPassed($this->options);
         $op = $this->operation($id);
         foreach (['streamIdleTimeoutMs', 'streamLifetimeMs'] as $key) {
             if ($o->{$key} !== null && $o->{$key} <= 0) {
-                Codec::fail($key, 'must be positive');
+                self::configuration('invalid_option', $key . ' must be positive');
             }
         }
         $start = self::now();
-        $timeout = $o->timeoutMs ?? $this->options->timeoutMs;
-        $duration = $o->deadlineMs ?? $this->options->deadlineMs;
+        $timeout =
+            $o->timeoutMs ?? ($this->options->timeoutMs ?? ($op['defaults']['timeoutMs'] ?? 10000));
+        $duration =
+            $o->deadlineMs ??
+            ($this->options->deadlineMs ?? ($op['defaults']['deadlineMs'] ?? 30000));
         if ($timeout <= 0 || $duration <= 0) {
-            Codec::fail('options', 'timeouts must be positive');
+            self::configuration('invalid_option', 'timeoutMs and deadlineMs must be positive');
         }
         $deadline = $start + $duration;
         $policy = $op['retry'];
@@ -681,7 +950,7 @@ class Runtime
             $budget > 9007199254740991 ||
             floor($budget) != $budget
         ) {
-            Codec::fail('maxAttempts', 'must be a positive safe integer');
+            self::configuration('invalid_option', 'maxAttempts must be a positive safe integer');
         }
         $attempts = min((int) $budget, $policy['maxAttempts']);
         $headers = [
@@ -700,31 +969,29 @@ class Runtime
                     ),
                 ) ?:
                 'application/json',
-            'user-agent' => $this->contract['userAgent'] ?? 'PublicSDK (PHP)',
+            'user-agent' => $this->userAgent(),
         ];
-        $set = function (mixed $name, mixed $value) use (&$headers, $op): void {
+        $set = function (mixed $name, mixed $value) use (&$headers): void {
             if (
                 !is_string($name) ||
                 !is_string($value) ||
                 !preg_match('/^[!#$%&\x27*+.^_`|~0-9A-Za-z-]+$/', $name) ||
                 preg_match('/[\r\n]/', $value)
             ) {
-                Codec::fail('headers', 'invalid HTTP header');
-            }
-            $existing = $headers[strtolower($name)] ?? null;
-            if (
-                strtolower($op['idempotency']['header'] ?? '') === strtolower($name) &&
-                $existing !== null &&
-                $existing !== $value
-            ) {
-                Codec::fail(
-                    'idempotencyKey',
-                    'conflicting keys were supplied through input headers or request options',
+                self::configuration(
+                    'invalid_option',
+                    'headers must contain valid HTTP names and values',
                 );
             }
             $headers[strtolower($name)] = $value;
         };
         foreach ($o->headers as $name => $value) {
+            if (strtolower($op['idempotency']['header'] ?? '') === strtolower((string) $name)) {
+                self::notAllowed(
+                    $op['idempotency']['header'],
+                    'supply this header through options.idempotencyKey',
+                );
+            }
             $set($name, $value);
         }
         $basePath = rtrim(parse_url($this->baseUrl, PHP_URL_PATH) ?? '', '/');
@@ -733,9 +1000,9 @@ class Runtime
             $basePath !== '' &&
             ($op['path'] === $basePath || str_starts_with($op['path'], $basePath . '/'))
         ) {
-            Codec::fail(
-                'baseUrl',
-                'already includes the operation base path; remove that path from baseUrl',
+            self::configuration(
+                'invalid_destination',
+                'baseUrl already includes the operation base path; remove that path from baseUrl',
             );
         }
         $path = $op['path'];
@@ -743,35 +1010,41 @@ class Runtime
         foreach ($op['parameters'] as $p) {
             if (($p['source'] ?? null) === 'authentication') {
                 if (array_key_exists($p['name'], $input)) {
-                    Codec::fail($p['name'], 'supply this header through authentication options');
+                    self::notAllowed(
+                        $p['name'],
+                        'supply this header through authentication options',
+                    );
                 }
                 continue;
             }
             if (($p['source'] ?? null) === 'request-option') {
                 if (array_key_exists($p['name'], $input)) {
-                    Codec::fail($p['name'], 'supply this header through request options');
+                    self::notAllowed($p['name'], 'supply this header through request options');
                 }
                 continue;
             }
             $present = array_key_exists($p['name'], $input);
             $value = $present ? $input[$p['name']] : null;
             if (
-                !$present &&
                 $p['in'] === 'header' &&
                 strtolower($op['idempotency']['header'] ?? '') === strtolower($p['name'])
             ) {
-                if (($options->idempotencyKey ?? null) !== null) {
-                    $value = $options->idempotencyKey;
-                    $present = true;
-                } else {
-                    foreach ($options->headers ?? [] as $name => $headerValue) {
-                        if (strtolower($name) === strtolower($p['name'])) {
-                            $value = $headerValue;
-                            $present = true;
-                            break;
-                        }
-                    }
+                if ($present) {
+                    self::notAllowed(
+                        $p['name'],
+                        'supply this header through options.idempotencyKey',
+                    );
                 }
+                $value = $o->idempotencyKey;
+                $present = $value !== null;
+            }
+            if (
+                $p['in'] === 'header' &&
+                strtolower($this->contract['apiVersion']['header'] ?? '') ===
+                    strtolower($p['name']) &&
+                $present
+            ) {
+                self::notAllowed($p['name'], 'API version is managed by the SDK');
             }
             if (
                 $p['in'] === 'header' &&
@@ -808,19 +1081,39 @@ class Runtime
             }
             if (!$present) {
                 if ($p['required'] ?? false) {
-                    Codec::fail(
+                    self::inputError(
                         $p['name'],
+                        'REQUIRED',
                         strtolower($op['idempotency']['header'] ?? '') === strtolower($p['name'])
                             ? $op['resource'] .
                                 '.' .
                                 $op['method'] .
-                                ' requires idempotencyKey; save and reuse the key on retry'
-                            : 'required parameter is missing',
+                                ' requires idempotencyKey: save a key with the action before the first attempt and reuse it on every retry'
+                            : $p['name'] . ' is required',
                     );
                 }
                 continue;
             }
-            $v = $this->decode($value, $p['codec'], ['path' => $p['name']]);
+            if ($p['scalarArray'] ?? false) {
+                if ($value instanceof Model) {
+                    $value = $value->jsonSerialize();
+                }
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
+            }
+            try {
+                $v = $this->decode($value, $p['codec'], ['path' => $p['name']]);
+            } catch (Errors\InvalidInputError $error) {
+                if (Codec::validationFailureMessage($error) !== null) {
+                    $error->param = $p['name'];
+                    $error->details = array_map(
+                        fn($detail) => [...$detail, 'param' => $p['name']],
+                        $error->details,
+                    );
+                }
+                throw $error;
+            }
             $scalar = fn($v) => $v instanceof RawNumber
                 ? $v->value
                 : (is_bool($v)
@@ -879,18 +1172,21 @@ class Runtime
             $value = $o->{$name};
             $supplied = $headers[strtolower($p['name'])] ?? null;
             if ($value !== null && $supplied !== null && $value !== $supplied) {
-                Codec::fail($name, 'conflicting request option and header values');
+                self::notAllowed($p['name'], 'conflicting request option and header values');
             }
             $effective = $value ?? $supplied;
             if ($effective !== null) {
-                $normalized = $this->decode($effective, $p['codec'], ['path' => $name]);
+                $normalized = $this->decode($effective, $p['codec'], ['path' => $p['name']]);
                 $set($p['name'], $normalized);
             }
         }
         $suppliedHeaders = $headers;
         $ambient = $this->contract['defaultCredentials'] ?? null;
         $ambientProvider =
-            $ambient && $this->options->ambientCredentials
+            $ambient &&
+            $this->options->ambientCredentials &&
+            !$requestCredentialsPassed &&
+            !$clientCredentialsPassed
                 ? new AmbientCredentialProvider($ambient, null, $this->baseUrl)
                 : null;
         $credentialContext = [
@@ -906,6 +1202,13 @@ class Runtime
             string $message,
             bool $rejectNewlines = true,
         ) use (&$providers, $credentialContext): string {
+            if (
+                $source === null ||
+                $source === Omitted::Value ||
+                (is_string($source) && trim($source) === '')
+            ) {
+                throw SdkError::create('authentication', $message, errorCode: 'credential_missing');
+            }
             $value = $source;
             if ($source instanceof CredentialProvider || $source instanceof \Closure) {
                 try {
@@ -924,7 +1227,11 @@ class Runtime
                         throw $error;
                     }
                     // Do not retain provider exceptions, which may include secret values.
-                    throw SdkError::create('authentication', 'Credential provider failed');
+                    throw SdkError::create(
+                        'authentication',
+                        'Credential provider failed',
+                        errorCode: 'credential_provider_failed',
+                    );
                 }
                 if (
                     $source instanceof CredentialProvider &&
@@ -941,9 +1248,9 @@ class Runtime
             if (
                 !is_string($value) ||
                 $value === '' ||
-                ($rejectNewlines && preg_match('/[\r\n]/', $value))
+                ($rejectNewlines && preg_match('/[\x00-\x1f\x7f]/', $value))
             ) {
-                throw SdkError::create('authentication', $message);
+                throw SdkError::create('authentication', $message, errorCode: 'credential_invalid');
             }
             return $value;
         };
@@ -964,7 +1271,7 @@ class Runtime
                 $shortcutAuth = function ($options) {
                     $supplied = [];
                     foreach ($this->contract['authShortcuts'] ?? [] as $key => $shortcut) {
-                        if (($options->$key ?? null) !== null) {
+                        if (property_exists($options, $key) && $options->$key !== Omitted::Value) {
                             $supplied[] = [
                                 'mode' => $shortcut['mode'],
                                 'credentials' => [$shortcut['scheme'] => $options->$key],
@@ -975,13 +1282,12 @@ class Runtime
                         count($supplied) > 1 ||
                         ($supplied &&
                             ($options->authMode !== null ||
-                                ($options->credentials !== null &&
-                                    ($options instanceof RequestOptions ||
-                                        $options->credentials !== []))))
+                                $options->credentials !== Omitted::Value))
                     ) {
                         throw SdkError::create(
                             'authentication',
                             'Use one authentication shortcut or explicit authMode/credentials, not both',
+                            errorCode: 'credential_conflict',
                         );
                     }
                     return $supplied[0] ?? null;
@@ -1031,6 +1337,7 @@ class Runtime
                     throw SdkError::create(
                         'authentication',
                         'Authentication is required; ' . $authHint($permitted),
+                        errorCode: 'credential_missing',
                     );
                 }
                 $selected =
@@ -1044,16 +1351,20 @@ class Runtime
                     throw SdkError::create(
                         'authentication',
                         'Authentication mode is not permitted; ' . $authHint($permitted),
+                        errorCode: 'auth_mode_not_permitted',
                     );
                 }
                 $expected = [];
                 if ($selected !== null) {
                     $credentials =
                         $requestShortcut['credentials'] ??
-                        ($o->credentials ??
-                            (($clientShortcut['mode'] ?? null) === $modeName
+                        ($o->credentials !== Omitted::Value
+                            ? $o->credentials
+                            : (($clientShortcut['mode'] ?? null) === $modeName
                                 ? $clientShortcut['credentials']
-                                : $this->options->credentials[$modeName] ?? null));
+                                : (is_array($this->options->credentials)
+                                    ? $this->options->credentials[$modeName] ?? null
+                                    : null)));
                     foreach ($selected['schemes'] as $scheme) {
                         $source =
                             $credentials[$scheme['name']] ??
@@ -1081,6 +1392,7 @@ class Runtime
                             throw SdkError::create(
                                 'authentication',
                                 'Request headers conflict with the selected authentication mode',
+                                errorCode: 'credential_conflict',
                             );
                         }
                     }
@@ -1090,19 +1402,21 @@ class Runtime
                 }
             } elseif (
                 $op['authenticated'] ||
-                (($op['optionalAuthentication'] ?? false) && $this->options->token)
+                (($op['optionalAuthentication'] ?? false) &&
+                    $this->options->token !== Omitted::Value)
             ) {
                 $auth = $this->contract['auth'] ?? null;
-                if (!$auth || !$this->options->token) {
+                if (!$auth || $this->options->token === Omitted::Value) {
                     throw SdkError::create(
                         'authentication',
                         'Explicit API credentials are required',
+                        errorCode: 'credential_missing',
                     );
                 }
                 $credential = $resolveCredential(
                     $this->options->token,
                     'Explicit API credentials are required',
-                    false, // Legacy header validation owns newline rejection.
+                    true,
                 );
                 $set(
                     $auth['header'],
@@ -1122,15 +1436,16 @@ class Runtime
                 $value = $headers[strtolower($p['name'])] ?? null;
                 if ($value === null) {
                     if ($p['required'] ?? false) {
-                        Codec::fail(
+                        self::inputError(
                             $p['name'],
+                            'REQUIRED',
                             strtolower($op['idempotency']['header'] ?? '') ===
                             strtolower($p['name'])
                                 ? $op['resource'] .
                                     '.' .
                                     $op['method'] .
-                                    ' requires idempotencyKey; save and reuse the key on retry'
-                                : 'required parameter is missing',
+                                    ' requires idempotencyKey: save a key with the action before the first attempt and reuse it on every retry'
+                                : $p['name'] . ' is required',
                         );
                     }
                 } else {
@@ -1140,24 +1455,24 @@ class Runtime
         };
         if ($o->ifMatch !== null) {
             if (!isset($op['conditional'])) {
-                Codec::fail('ifMatch', 'operation does not declare conditional requests');
+                self::notAllowed('If-Match', 'operation does not declare conditional requests');
             }
             $set($op['conditional']['header'], $o->ifMatch);
         }
-        $key =
-            $o->idempotencyKey ??
-            ($headers[strtolower($op['idempotency']['header'] ?? '')] ?? null);
+        $key = $o->idempotencyKey;
         if ($key !== null) {
             if (!isset($op['idempotency']) || $key === '') {
-                Codec::fail(
-                    'idempotencyKey',
+                self::notAllowed(
+                    $op['idempotency']['header'] ?? 'Idempotency-Key',
                     'a nonempty key and declared capability are required',
                 );
             }
             if (preg_match('/^[ \t]|[ \t]$/D', $key)) {
-                Codec::fail(
-                    'idempotencyKey',
-                    'leading or trailing HTTP whitespace would change the key on the wire',
+                self::inputError(
+                    $op['idempotency']['header'] ?? 'Idempotency-Key',
+                    'INVALID_VALUE',
+                    ($op['idempotency']['header'] ?? 'Idempotency-Key') .
+                        ' must not contain leading or trailing HTTP whitespace',
                 );
             }
             $set($op['idempotency']['header'], $key);
@@ -1165,26 +1480,33 @@ class Runtime
         $safe =
             $op['replay'] === 'safe' ||
             isset($headers[strtolower($op['idempotency']['header'] ?? '')]);
+        $context['replaySafe'] =
+            in_array($op['verb'], ['GET', 'HEAD'], true) ||
+            (isset($op['idempotency']) && $key !== null);
         if (!$safe) {
             $attempts = 1;
         }
         $body = null;
         if (array_key_exists('body', $input)) {
             if (!isset($op['body'])) {
-                Codec::fail('body', 'operation does not accept a body');
+                self::notAllowed('body', 'operation does not accept a body');
             }
             $body = Codec::encode($this->decode($input['body'], $op['body']));
             $set('content-type', $op['mediaType']);
         } elseif ($op['bodyRequired']) {
-            Codec::fail('body', 'required body is missing');
+            self::inputError('body', 'REQUIRED', 'body is required');
         }
         foreach (array_keys($input) as $key) {
             if ($key !== 'body' && !in_array($key, array_column($op['parameters'], 'name'), true)) {
-                Codec::fail((string) $key, 'unknown input parameter');
+                self::inputError(
+                    (string) $key,
+                    'UNKNOWN_FIELD',
+                    $key . ' is not a field of this input',
+                );
             }
         }
+        $requestIds = &$context['requestIds'];
         $credentialRetries = 0;
-        $mayHaveBeenSent = false;
         for ($attempt = 1; $attempt <= $attempts; $attempt++) {
             self::checkCancel($o->cancellation, $attempt === 1 ? 'not_sent' : 'unknown');
             $remaining = $deadline - self::now();
@@ -1199,7 +1521,10 @@ class Runtime
             $meta = null;
             $response = null;
             $diagnosticError = null;
+            $error = null;
             try {
+                $context['attempts'] = $attempt;
+                $context['observations'][$attempt - 1] = ['state' => 'not_sent'];
                 $authenticate();
                 self::checkCancel($o->cancellation);
                 $remaining = $deadline - self::now();
@@ -1224,13 +1549,11 @@ class Runtime
                         $o->streamIdleTimeoutMs ?? ($op['stream']['idleTimeoutMs'] ?? 30000),
                     'streamLifetimeMs' => $o->streamLifetimeMs,
                 ];
+                $context['observations'][$attempt - 1] = ['state' => 'no_answer'];
                 $response = $this->options->transport
                     ? ($this->options->transport)($request)
                     : $this->send($request);
                 $status = $response['status'];
-                if ($status > 0) {
-                    $mayHaveBeenSent = true;
-                }
                 $rh = array_change_key_case($response['headers'], CASE_LOWER);
                 $raw = $response['body'] ?? '';
                 $declaredResponse =
@@ -1259,8 +1582,31 @@ class Runtime
                 if (isset($rh[$requestIdHeader])) {
                     $meta['requestId'] = $rh[$requestIdHeader];
                 }
+                if (isset($meta['requestId'])) {
+                    $requestIds[] = $meta['requestId'];
+                }
+                $meta['requestIds'] = $requestIds;
                 if (isset($rh['retry-after'])) {
                     $retryAfter = self::parseRetryAfter($rh['retry-after']);
+                }
+                if ($status > 0) {
+                    $context['lastResponse'] = $meta;
+                    $context['retryAfterMs'] = $retryAfter;
+                }
+                // Successful buffered transports and bodyless responses are already complete.
+                if (
+                    $status > 0 &&
+                    !isset($response['failureCode']) &&
+                    ($op['verb'] === 'HEAD' ||
+                        !(($response['stream'] ?? null) instanceof ByteStream))
+                ) {
+                    $context['observations'][$attempt - 1] = [
+                        'state' => 'answered',
+                        'status' => $status,
+                        'inProgress' => false,
+                        'uncertainWrite' => false,
+                        'retryAllowed' => false,
+                    ];
                 }
                 if ($status === 401 && $safe && $credentialRetries === 0 && $providers) {
                     $diagnosticError = 'authentication';
@@ -1268,7 +1614,7 @@ class Runtime
                         try {
                             $response['stream']->close();
                         } catch (\Throwable) {
-                            // The observed 401 remains authoritative if response cleanup fails.
+                            // Cleanup does not establish completion of an unread body.
                         }
                     }
                     try {
@@ -1281,7 +1627,8 @@ class Runtime
                             'Credential provider invalidation failed',
                             'response',
                             false,
-                            $meta,
+                            null,
+                            'credential_provider_failed',
                         );
                     }
                     $credentialRetries++;
@@ -1294,28 +1641,17 @@ class Runtime
                         $response['failureCode'],
                     );
                 }
-                if (
+                $sse =
                     $status >= 200 &&
                     $status < 300 &&
-                    ($declaredResponse['bodyKind'] ?? null) === 'sse'
+                    ($declaredResponse['bodyKind'] ?? null) === 'sse';
+                $source = $response['stream'] ?? null;
+                if (
+                    $sse &&
+                    $source instanceof ByteStream &&
+                    strtolower(trim(explode(';', $rh['content-type'] ?? '')[0])) ===
+                        'text/event-stream'
                 ) {
-                    $source = $response['stream'] ?? null;
-                    if (
-                        !($source instanceof ByteStream) ||
-                        strtolower(trim(explode(';', $rh['content-type'] ?? '')[0])) !==
-                            'text/event-stream'
-                    ) {
-                        if ($source instanceof ByteStream) {
-                            $source->close();
-                        }
-                        throw SdkError::create(
-                            'protocol',
-                            'Expected an SSE response stream',
-                            'response',
-                            false,
-                            $meta,
-                        );
-                    }
                     if ($source instanceof CurlByteStream) {
                         $source->startStream();
                     }
@@ -1346,6 +1682,7 @@ class Runtime
                     $this->streams[$key] = $stream;
                     return new Result($stream, $meta, '');
                 }
+                // Invalid stream handshakes also need a complete body before they settle the call.
                 if (($response['stream'] ?? null) instanceof ByteStream) {
                     try {
                         while (($chunk = $response['stream']->read()) !== null) {
@@ -1354,6 +1691,23 @@ class Runtime
                     } finally {
                         $response['stream']->close();
                     }
+                }
+                $context['observations'][$attempt - 1] = [
+                    'state' => 'answered',
+                    'status' => $status,
+                    'inProgress' => false,
+                    'uncertainWrite' => false,
+                    'retryAllowed' => false,
+                ];
+                if ($sse) {
+                    throw SdkError::create(
+                        'protocol',
+                        'Expected an SSE response stream',
+                        'response',
+                        false,
+                        $meta,
+                        errorCode: 'unexpected_media_type',
+                    );
                 }
                 $data = null;
                 try {
@@ -1368,6 +1722,7 @@ class Runtime
                             'response',
                             false,
                             $meta,
+                            'invalid_json',
                             previous: $cause,
                             raw: $raw,
                         );
@@ -1380,6 +1735,7 @@ class Runtime
                         'response',
                         false,
                         $meta,
+                        'unexpected_redirect',
                     );
                 }
                 if (($status >= 200 && $status < 300) || $status === 304 || $redirect) {
@@ -1392,10 +1748,13 @@ class Runtime
                             false,
                             $meta,
                             raw: $raw,
+                            errorCode: 'undeclared_status',
                         );
                     }
+                    $responseErrorCode = 'schema_mismatch';
                     try {
                         if ($binary) {
+                            $responseErrorCode = 'unexpected_media_type';
                             $contentType = strtolower(
                                 trim(explode(';', $rh['content-type'] ?? '')[0]),
                             );
@@ -1406,6 +1765,7 @@ class Runtime
                             }
                             $data = $raw;
                         } elseif ($redirect) {
+                            $responseErrorCode = 'unexpected_redirect';
                             $location = $rh['location'] ?? null;
                             if (($declared['locationRequired'] ?? false) && !$location) {
                                 throw new \RuntimeException('Missing Location header');
@@ -1422,6 +1782,7 @@ class Runtime
                                     : (object) ['location' => $location];
                         } elseif (isset($declared['codec'])) {
                             if ($raw === '') {
+                                $responseErrorCode = 'missing_payload';
                                 throw new \RuntimeException('Missing body');
                             }
                             $data = Codec::plainNumbers(
@@ -1432,6 +1793,20 @@ class Runtime
                             );
                         } elseif ($raw !== '') {
                             throw new \RuntimeException('Unexpected body for an empty response');
+                        }
+                        if (!isset($meta['requestId'])) {
+                            $idPath =
+                                $this->contract['errors']['fields']['requestId'] ??
+                                json_decode(self::ERROR_FIELDS, true, flags: JSON_THROW_ON_ERROR)[
+                                    'requestId'
+                                ];
+                            $bodyId = self::field($data, $idPath);
+                            if (is_string($bodyId)) {
+                                $meta['requestId'] = $bodyId;
+                                $requestIds[] = $bodyId;
+                                $meta['requestIds'] = $requestIds;
+                                $context['lastResponse'] = $meta;
+                            }
                         }
                         if (isset($declared['phpRepresentation'])) {
                             $data = Model::hydrate(
@@ -1477,24 +1852,20 @@ class Runtime
                             'response',
                             false,
                             $meta,
+                            $responseErrorCode,
                             previous: $cause,
                             raw: $raw,
                         );
                     }
-                    // Decoding and model construction are synchronous; transport
-                    // timeouts cannot interrupt them. Include them in the deadline.
                     $meta['durationMs'] = self::now() - $start;
-                    if (self::now() >= $deadline) {
-                        throw SdkError::create(
-                            'deadline',
-                            'Response decoding exceeded the overall deadline',
-                            'response',
-                            false,
-                            $meta,
-                            raw: $raw,
-                        );
-                    }
-                    return new Result($data, $meta, $raw);
+                    return new Result(
+                        $data,
+                        $meta,
+                        $raw,
+                        $this->options->redactFields,
+                        $declared['codec'] ?? [],
+                        $this->definitions(),
+                    );
                 }
                 $kind = match (true) {
                     in_array($status, [401, 403], true) => 'authentication',
@@ -1505,32 +1876,53 @@ class Runtime
                     $status >= 500 && $status < 600 => 'server',
                     default => 'api',
                 };
-                $code = self::field($data, $this->contract['errors']['codePath'] ?? 'code');
-                $originalMessage = self::field(
-                    $data,
-                    $this->contract['errors']['messagePath'] ?? 'message',
+                $objectPath = $this->contract['errors']['objectPath'] ?? 'error';
+                $fields = array_replace(
+                    json_decode(self::ERROR_FIELDS, true),
+                    $this->contract['errors']['fields'] ?? [],
                 );
-                // Text fields use their wire kinds; public details keep exact numeric tokens as strings.
-                $details = Codec::redactPlan(
+                $object = fn($body) => $objectPath === '' ? $body : self::field($body, $objectPath);
+                $envelope = $object($data);
+                $oauth =
+                    !($envelope instanceof \stdClass) &&
+                    !(is_array($envelope) && !array_is_list($envelope)) &&
+                    is_string(self::field($data, 'error'));
+                $read = fn($body, $key) => $oauth
+                    ? self::field(
+                        $body,
+                        $key === 'code'
+                            ? 'error'
+                            : ($key === 'message'
+                                ? 'error_description'
+                                : '__absent__'),
+                    )
+                    : self::field($object($body), $fields[$key]);
+                $code = $read($data, 'code');
+                $originalMessage = $read($data, 'message');
+                $safeErrorBody = Codec::redactPlan(
                     Codec::plainNumbers($data),
                     $op['responses'][(string) $status]['codec'] ??
                         ($op['responses']['default']['codec'] ?? []),
                     $this->options->redactFields,
                     $this->definitions(),
                 );
-                $message = self::field(
-                    $details,
-                    $this->contract['errors']['messagePath'] ?? 'message',
-                );
-                $publicCode = self::field(
-                    $details,
-                    $this->contract['errors']['codePath'] ?? 'code',
-                );
-                if (isset($this->contract['errors']['detailsPath'])) {
-                    $details = self::field($details, $this->contract['errors']['detailsPath']);
+                $errorBody = self::errorValue($safeErrorBody);
+                $message = $read($errorBody, 'message');
+                $publicCode = $read($errorBody, 'code');
+                $wireDetails = $read($data, 'details');
+                $details =
+                    is_array($wireDetails) && array_is_list($wireDetails)
+                        ? $read($errorBody, 'details')
+                        : [];
+                $envelopeId = $read($errorBody, 'requestId');
+                if (!isset($meta['requestId']) && is_string($envelopeId)) {
+                    $meta['requestId'] = $envelopeId;
+                    $requestIds[] = $envelopeId;
+                    $meta['requestIds'] = $requestIds;
+                    $context['lastResponse'] = $meta;
                 }
                 $signal = $this->contract['errors']['retry'] ?? null;
-                $retryValue = $signal !== null ? self::field($data, $signal['path']) : null;
+                $retryValue = $signal !== null ? self::field($envelope, $signal['path']) : null;
                 $diagnosticError = $kind;
                 $error = SdkError::create(
                     $kind,
@@ -1558,13 +1950,75 @@ class Runtime
                                         ),
                                     ) > 0)),
                     $meta,
-                    is_string($code) && is_string($publicCode) ? $publicCode : null,
+                    is_string($code) &&
+                    preg_match('/[^\p{Z}\x{0009}-\x{000D}\x{FEFF}]/u', $code) &&
+                    is_string($publicCode)
+                        ? $publicCode
+                        : 'http_error',
                     $details,
                     raw: $raw,
                 );
+                if ($error instanceof Errors\ApiError) {
+                    $error->body = $safeErrorBody;
+                    foreach (['type', 'param', 'errorSource', 'docUrl', 'requestLogUrl'] as $key) {
+                        $value = $read($errorBody, $key);
+                        if (is_string($value)) {
+                            $error->$key = $value;
+                        }
+                    }
+                    $remediation = $read($errorBody, 'remediation');
+                    if (is_array($remediation)) {
+                        if (
+                            array_key_exists('retry', $remediation) &&
+                            !in_array(
+                                $remediation['retry'],
+                                [
+                                    Errors\ApiError::RETRY_SAME_REQUEST,
+                                    Errors\ApiError::RETRY_AFTER_REFRESH,
+                                    Errors\ApiError::RETRY_NONE,
+                                ],
+                                true,
+                            )
+                        ) {
+                            unset($remediation['retry']);
+                        }
+                        $error->remediation = $remediation;
+                    }
+                }
+                $reasons = self::field($envelope, $fields['details']);
+                $inProgress =
+                    is_string($code) &&
+                    in_array($code, $this->contract['errors']['inProgressCodes'] ?? [], true);
+                $uncertainWrite =
+                    !in_array($op['verb'], ['GET', 'HEAD'], true) &&
+                    (($status >= 500 && $status < 600) ||
+                        $code === 'IDEMPOTENCY_RECOVERY_REQUIRED' ||
+                        self::field($envelope, 'reason') === 'outcome_unknown' ||
+                        (is_array($reasons) &&
+                            count(
+                                array_filter(
+                                    $reasons,
+                                    fn($detail) => self::field($detail, 'reason') ===
+                                        'outcome_unknown',
+                                ),
+                            ) > 0));
+                $hasEnvelope = is_object($envelope) && !($envelope instanceof ParsedNumber);
+                $retryAllowed =
+                    $signal !== null
+                        ? (is_string($retryValue) &&
+                                in_array($retryValue, $signal['retryValues'], true)) ||
+                            (!$hasEnvelope && in_array($status, $policy['statuses'], true))
+                        : $error->retryAllowed;
+                $context['observations'][$attempt - 1] = [
+                    'state' => 'answered',
+                    'status' => $status,
+                    'inProgress' => $inProgress,
+                    'uncertainWrite' => $uncertainWrite,
+                    'retryAllowed' => $retryAllowed,
+                ];
                 $error->retryAfterMs = $retryAfter;
             } catch (SdkError $error) {
-                $diagnosticError = $error->kind;
+                $diagnosticError = SdkError::internalKind($error);
                 throw $error;
             } catch (\Throwable $cause) {
                 if (($meta['status'] ?? null) === 401) {
@@ -1587,18 +2041,21 @@ class Runtime
                 $expired = self::now() >= $deadline;
                 $timedOut = $curlCode === CURLE_OPERATION_TIMEDOUT;
                 $notSent =
-                    !$mayHaveBeenSent &&
-                    !($meta['status'] ?? null) &&
-                    in_array(
-                        $curlCode,
-                        [
-                            CURLE_COULDNT_CONNECT,
-                            CURLE_COULDNT_RESOLVE_HOST,
-                            CURLE_COULDNT_RESOLVE_PROXY,
-                        ],
-                        true,
-                    );
-                $mayHaveBeenSent = $mayHaveBeenSent || !$notSent;
+                    ($context['observations'][$attempt - 1]['state'] ?? 'not_sent') ===
+                        'not_sent' ||
+                    (!($meta['status'] ?? null) &&
+                        in_array(
+                            $curlCode,
+                            [
+                                CURLE_COULDNT_CONNECT,
+                                CURLE_COULDNT_RESOLVE_HOST,
+                                CURLE_COULDNT_RESOLVE_PROXY,
+                            ],
+                            true,
+                        ));
+                if ($notSent) {
+                    $context['observations'][$attempt - 1] = ['state' => 'not_sent'];
+                }
                 $diagnosticError = $o->cancellation?->isCancelled()
                     ? 'cancelled'
                     : ($expired
@@ -1670,7 +2127,22 @@ class Runtime
                             'durationMs' => self::now() - $start,
                         ];
                         if ($diagnosticError !== null) {
-                            $event['errorKind'] = $diagnosticError;
+                            $event['errorName'] =
+                                $error instanceof SdkError
+                                    ? substr(strrchr($error::class, '\\'), 1)
+                                    : match ($diagnosticError) {
+                                        'authentication' => 'AuthenticationError',
+                                        'timeout', 'deadline' => 'TimeoutError',
+                                        'transport' => 'ConnectionError',
+                                        'cancelled' => 'CancelledError',
+                                        default => 'UnexpectedResponseError',
+                                    };
+                            $event['errorCode'] =
+                                $error instanceof SdkError
+                                    ? $error->code
+                                    : ($diagnosticError === 'authentication'
+                                        ? 'http_error'
+                                        : '');
                         }
                         ($this->options->diagnostics)($event);
                     }
@@ -1800,6 +2272,13 @@ class Runtime
     {
         $this->close();
     }
+    /** API object values use wire-keyed arrays, never generated entities. */
+    private static function errorValue(mixed $value): mixed
+    {
+        return is_array($value) || $value instanceof \stdClass
+            ? array_map(self::errorValue(...), (array) $value)
+            : $value;
+    }
     private static function field(mixed $value, string $path): mixed
     {
         foreach (explode('.', $path) as $key) {
@@ -1856,23 +2335,26 @@ class Runtime
         $o = $options ?? new RequestOptions();
         $p = $this->operation($id)['pagination'] ?? null;
         if (!$p) {
-            Codec::fail('pagination', 'capability is not declared');
+            self::configuration('operation_unavailable', 'pagination capability is not declared');
         }
         $next = null;
         $limit = $o->maxPages ?? 1000;
         $seen = [];
         $emptyPages = 0;
         if ($limit < 1) {
-            Codec::fail('maxPages', 'must be positive');
+            self::configuration('invalid_option', 'maxPages must be positive');
         }
         for ($i = 0; $i < $limit; $i++) {
             self::checkCancel($o->cancellation);
             // Each page owns its request deadline; time spent consuming yields is unbounded.
             $result = $this->request($id, $input, $o, $p['kind'] === 'link' ? $next : null);
             yield $result;
+            if ($o->maxPages !== null && $i + 1 >= $limit) {
+                return;
+            }
             $previous =
                 $p['kind'] === 'link'
-                    ? $next ?? $result->meta['url']
+                    ? $next ?? $result->internalMeta()['url']
                     : $input[$p['parameter']] ?? null;
             if ($previous instanceof ParsedNumber) {
                 $previous = $previous->value;
@@ -1880,6 +2362,25 @@ class Runtime
             $next = self::field($result->data, $p['next']);
             if ($next === null || $next === '') {
                 return;
+            }
+            if ($o->maxPages === null && $i + 1 === $limit) {
+                throw new Errors\PaginationLimitError(
+                    'Pagination exceeded the implicit limit of 1000 pages',
+                    code: 'pagination_limit_exceeded',
+                    operation: $this->operation($id)['resource'] .
+                        '.' .
+                        $this->operation($id)['method'],
+                    outcome: 'response',
+                    status: $result->internalMeta()['status'],
+                    requestId: $result->internalMeta()['requestId'] ?? null,
+                    requestIds: $result->internalMeta()['requestIds'] ?? [],
+                    idempotencyKey: $result->internalMeta()['idempotencyKey'] ?? null,
+                    attempts: $result->internalMeta()['attempts'],
+                    durationMs: $result->internalMeta()['durationMs'],
+                    headers: $result->internalMeta()['headers'] ?? [],
+                    nextPageToken: $next,
+                    pages: $i + 1,
+                );
             }
             $values = self::field($result->data, $p['items']);
             $emptyPages = is_array($values) && count($values) === 0 ? $emptyPages + 1 : 0;
@@ -1889,15 +2390,20 @@ class Runtime
                     'Pagination returned consecutive empty pages with continuations',
                     'response',
                     false,
-                    $result->meta,
-                    'pagination_empty_pages',
+                    $result->internalMeta(),
+                    'invalid_pagination',
                 );
             }
             if ($p['kind'] === 'link' && !is_string($next)) {
-                throw SdkError::create('protocol', 'Expected a pagination URL', 'response');
+                throw SdkError::create(
+                    'protocol',
+                    'Expected a pagination URL',
+                    'response',
+                    errorCode: 'invalid_pagination',
+                );
             }
             if ($p['kind'] === 'link') {
-                $next = self::resolveLink($next, $result->meta['url']);
+                $next = self::resolveLink($next, $result->internalMeta()['url']);
             }
             if (
                 isset($seen[(string) $next]) ||
@@ -1905,12 +2411,13 @@ class Runtime
                 ($p['kind'] === 'offset' &&
                     $previous !== null &&
                     (string) $next === (string) $previous) ||
-                ($p['kind'] === 'link' && $next === $result->meta['url'])
+                ($p['kind'] === 'link' && $next === $result->internalMeta()['url'])
             ) {
                 throw SdkError::create(
                     'protocol',
                     'Pagination returned a repeated continuation (cursor cycle)',
                     'response',
+                    errorCode: 'invalid_pagination',
                 );
             }
             if ($previous !== null) {
@@ -1929,12 +2436,12 @@ class Runtime
     ): \Generator {
         $p = $this->operation($id)['pagination'] ?? null;
         if (!$p) {
-            Codec::fail('pagination', 'capability is not declared');
+            self::configuration('operation_unavailable', 'pagination capability is not declared');
         }
         $count = 0;
         $limit = $options?->maxItems ?? PHP_INT_MAX;
         if ($limit < 1) {
-            Codec::fail('maxItems', 'must be positive');
+            self::configuration('invalid_option', 'maxItems must be positive');
         }
         foreach ($this->pages($id, $input, $options) as $page) {
             $items = self::field($page->data, $p['items']);
@@ -1943,6 +2450,7 @@ class Runtime
                     'protocol',
                     'Pagination items field is not an array',
                     'response',
+                    errorCode: 'invalid_pagination',
                 );
             }
             foreach ($items as $item) {
@@ -1957,11 +2465,15 @@ class Runtime
     public function wait(string $id, array $input, ?RequestOptions $options = null): Result
     {
         $o = $options ?? new RequestOptions();
-        $p = $this->operation($id)['polling'] ?? null;
+        $op = $this->operation($id);
+        $p = $op['polling'] ?? null;
         if (!$p) {
-            Codec::fail('polling', 'capability is not declared');
+            self::configuration('operation_unavailable', 'polling capability is not declared');
         }
-        $deadline = self::now() + ($o->deadlineMs ?? $this->options->deadlineMs);
+        $deadline =
+            self::now() +
+            ($o->deadlineMs ??
+                ($this->options->deadlineMs ?? ($op['defaults']['deadlineMs'] ?? 30000)));
         $interval = $p['intervalMs'];
         while (true) {
             $remaining = $deadline - self::now();
@@ -1983,7 +2495,7 @@ class Runtime
                     'Operation reached a declared failure state',
                     'response',
                     false,
-                    $result->meta,
+                    $result->internalMeta(),
                 );
             }
             self::pause(min((int) $interval, max(0, $deadline - self::now())), $o->cancellation);
@@ -1992,7 +2504,7 @@ class Runtime
     }
     private static function webhookError(string $kind, string $code, string $message): never
     {
-        throw SdkError::create($kind, $message, errorCode: 'webhook_' . $code);
+        throw SdkError::create('webhook', $message, errorCode: 'webhook_' . $code);
     }
     private static function webhookHeaderValues(
         array $headers,
@@ -2420,7 +2932,7 @@ class Runtime
                 return $flight->result = $state;
             }
             $flight->error = SdkError::create(
-                'transport',
+                'webhook',
                 'Webhook JWKS unavailable; respond with 5xx so delivery can retry',
                 errorCode: 'webhook_jwks_unavailable',
             );
@@ -2521,7 +3033,7 @@ class Runtime
                 ? $source->webhook()
                 : $source['webhook'] ?? null;
         if (!$w) {
-            Codec::fail('webhook', 'capability is not declared');
+            self::configuration('operation_unavailable', 'webhook capability is not declared');
         }
         if (
             array_diff(array_keys($options), [
@@ -2822,7 +3334,7 @@ class Runtime
                 ? $source->webhook()
                 : $source['webhook'] ?? null;
         if (!$w || ($w['algorithm'] ?? null) !== 'hmac-sha256') {
-            Codec::fail('webhook', 'HMAC capability is not declared');
+            self::configuration('operation_unavailable', 'webhook HMAC capability is not declared');
         }
         if (!is_string($rawBody)) {
             self::webhookError(
@@ -3011,7 +3523,7 @@ class Runtime
             $event = Codec::parse($rawBody, true);
         } catch (\Throwable $cause) {
             throw SdkError::create(
-                'protocol',
+                'webhook',
                 'Invalid webhook JSON',
                 'response',
                 errorCode: 'webhook_invalid_json',
@@ -3028,11 +3540,11 @@ class Runtime
                     'path' => 'event',
                 ]);
             } catch (SdkError $cause) {
-                if ($cause->kind !== 'validation') {
+                if (SdkError::internalKind($cause) !== 'validation') {
                     throw $cause;
                 }
                 throw SdkError::create(
-                    'protocol',
+                    'webhook',
                     'Invalid webhook payload' .
                         (($reason = Codec::validationFailureMessage($cause)) !== null
                             ? ': ' . $reason
@@ -3050,7 +3562,7 @@ class Runtime
                 ]);
                 $known = true;
             } catch (SdkError $error) {
-                if ($error->kind !== 'validation') {
+                if (SdkError::internalKind($error) !== 'validation') {
                     throw $error;
                 }
             }

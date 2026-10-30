@@ -20,28 +20,28 @@ Request input.
 
 ### RiskPredicateNodeInput variant 1
 
-oneOf variant 1: The `All` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeAll: The `All` variant of `RiskPredicateNode`..
 
 - Required: `all`.
 - Undeclared: `any`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskPredicateNodeInput variant 2
 
-oneOf variant 2: The `Any` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeAny: The `Any` variant of `RiskPredicateNode`..
 
 - Required: `any`.
 - Undeclared: `all`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskPredicateNodeInput variant 3
 
-oneOf variant 3: The `Not` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeNot: The `Not` variant of `RiskPredicateNode`..
 
 - Required: `not`.
 - Undeclared: `all`, `any`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskPredicateNodeInput variant 4
 
-oneOf variant 4: The `Comparison` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeComparison: The `Comparison` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`, `value`.
 - Undeclared: `all`, `any`, `not`, `amount_money`, `values`, `list_alias`.
@@ -50,7 +50,7 @@ oneOf variant 4: The `Comparison` variant of `RiskPredicateNode`..
 
 ### RiskPredicateNodeInput variant 5: `attribute` = `"amount_money"`
 
-oneOf variant 5: The `Money comparison` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeMoneyComparison: The `Money comparison` variant of `RiskPredicateNode`..
 
 - Required: `amount_money`, `attribute`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `values`, `list_alias`.
@@ -59,7 +59,7 @@ oneOf variant 5: The `Money comparison` variant of `RiskPredicateNode`..
 
 ### RiskPredicateNodeInput variant 6: `operator` = `"in"`
 
-oneOf variant 6: The `In` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeIn: The `In` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`, `values`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `list_alias`.
@@ -68,7 +68,7 @@ oneOf variant 6: The `In` variant of `RiskPredicateNode`..
 
 ### RiskPredicateNodeInput variant 7: `operator` = `"in_list"`
 
-oneOf variant 7: The `In list` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeInList: The `In list` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `list_alias`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`.
@@ -77,7 +77,7 @@ oneOf variant 7: The `In list` variant of `RiskPredicateNode`..
 
 ### RiskPredicateNodeInput variant 8: `operator` = `"is_missing"`
 
-oneOf variant 8: The `Is missing` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeIsMissing: The `Is missing` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`, `list_alias`.
@@ -88,19 +88,19 @@ oneOf variant 8: The `Is missing` variant of `RiskPredicateNode`..
 
 ### RiskPredicateNodeInput variant 4.value variant 1
 
-oneOf variant 1.
+oneOf String.
 
 - Value shape: string. minLength: `1`. 
 
 ### RiskPredicateNodeInput variant 4.value variant 2
 
-oneOf variant 2.
+oneOf Integer.
 
 - Value shape: integer.  
 
 ### RiskPredicateNodeInput variant 4.value variant 3
 
-oneOf variant 3.
+oneOf Boolean.
 
 - Value shape: boolean.  
 

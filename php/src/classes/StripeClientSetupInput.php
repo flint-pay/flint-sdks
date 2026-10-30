@@ -7,7 +7,7 @@ namespace Flint;
 final class StripeClientSetupInput extends Model {
     /** @param array{'stripe'?: StripeClientSetupStripeInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripeClientSetupInput')); }
-    /** Shape $ (Value): {@see StripeClientSetupStripeInput}. Stripe.js initialization context and SetupIntent setup authority.
+    /** Stripe.js initialization context and SetupIntent setup authority.
      * @return StripeClientSetupStripeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When stripe is omitted; use hasStripe() or valueOrDefault().
      */

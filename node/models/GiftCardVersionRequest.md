@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. minimum: `1`. |
+| `expected_version` | Optional | integer | minimum: `1`. |
 
 ### GiftCardVersionRequest variant 1
 

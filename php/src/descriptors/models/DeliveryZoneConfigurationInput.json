@@ -1,1 +1,1 @@
-{"shared":"DeliveryZoneConfiguration","dependencies":["DeliveryCountryCondition","DeliveryDistance","DeliveryPostalCodeCondition","DeliveryPostalCodeValue","DeliveryRadiusCondition","DeliveryRadiusOrigin","DeliveryStateCondition","DeliveryZoneConfiguration","SharedCodec130","SharedCodec370"]}
+{"shared":"DeliveryZoneConfiguration","dependencies":["DeliveryCountryCondition","DeliveryDistance","DeliveryPostalCodeCondition","DeliveryPostalCodeValue","DeliveryStateCondition","DeliveryZoneConfiguration","SharedCodec387","SharedCodec388","SharedCodec520","SharedCodec521"]}

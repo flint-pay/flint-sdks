@@ -15,8 +15,8 @@ Request input.
 | `instructions` | Optional | string or null | Pickup instructions for the buyer, such as where to go on arrival. Send null to clear it. minLength: `1`. |
 | `location_name` | Optional | string or null | Name of the store or place where the buyer collects the order. Send null to clear it. minLength: `1`. |
 | `picked_up_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
-| `pickup_window_duration_seconds` | Optional | integer string or null | Width of the promised pickup window, from 0 to 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
-| `prep_time_duration_seconds` | Optional | integer string or null | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
+| `pickup_window_duration_seconds` | Optional | integer or null | Width of the promised pickup window, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |
+| `prep_time_duration_seconds` | Optional | integer or null | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
 | `timezone` | Optional | string | minLength: `1`. |
 | `vehicle_description` | Optional | string or null | Buyer vehicle description used for curbside handoff. Send null to clear it. minLength: `1`. maxLength: `500`. |

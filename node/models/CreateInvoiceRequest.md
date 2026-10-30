@@ -31,7 +31,7 @@ The request body for: Create invoice.
 
 ### CreateInvoiceRequest variant 1: `type` = `"order"`
 
-oneOf variant 1: The `order` variant of `CreateInvoiceRequest`..
+oneOf with type: "order": The `order` variant of `CreateInvoiceRequest`..
 
 - Condition: not (present(`issue`, `scheduled_issue_at`) and `scheduled_issue_at`: string).
 - Condition: not (at least one(present(`quick_pay`))).
@@ -41,7 +41,7 @@ oneOf variant 1: The `order` variant of `CreateInvoiceRequest`..
 
 ### CreateInvoiceRequest variant 2: `type` = `"quick_pay"`
 
-oneOf variant 2: The `quick_pay` variant of `CreateInvoiceRequest`..
+oneOf with type: "quick_pay": The `quick_pay` variant of `CreateInvoiceRequest`..
 
 - Condition: not (present(`issue`, `scheduled_issue_at`) and `scheduled_issue_at`: string).
 - Condition: not (at least one(present(`order_id`))).

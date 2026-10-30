@@ -10,25 +10,25 @@ namespace Flint;
 final class CreateInvoicePaymentTermRequestInput extends Model {
     /** @param array{'calculation': InvoicePaymentTermCalculationInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'late_fee_policy'?: InvoiceLateFeePolicyInput|array<array-key, mixed>|\stdClass, 'name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoicePaymentTermRequestInput')); }
-    /** Shape $ (Value): {@see InvoicePaymentTermCalculationInput}. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
+    /** How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
      * @return InvoicePaymentTermCalculationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculation is omitted; use hasCalculation() or valueOrDefault().
      */
     public function getCalculation(): mixed { return $this->get('calculation'); }
     public function hasCalculation(): bool { return $this->has('calculation'); }
-    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): {@see InvoiceLateFeePolicyInput}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
+    /** A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
      * @return InvoiceLateFeePolicyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When late_fee_policy is omitted; use hasLateFeePolicy() or valueOrDefault().
      */
     public function getLateFeePolicy(): mixed { return $this->get('late_fee_policy'); }
     public function hasLateFeePolicy(): bool { return $this->has('late_fee_policy'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

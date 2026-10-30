@@ -7,7 +7,7 @@ namespace Flint;
 final class ResolveCustomerDeletionRequestInput extends Model {
     /** @param array{'decision': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolveCustomerDeletionRequestInput')); }
-    /** Shape $ (Value): string.  Value enum: "approve", "reject".
+    /** Value enum: "approve", "reject".
      * @return string
      * @throws SdkError When decision is omitted; use hasDecision() or valueOrDefault().
      */

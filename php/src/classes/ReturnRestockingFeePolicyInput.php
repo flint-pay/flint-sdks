@@ -9,19 +9,19 @@ namespace Flint;
 final class ReturnRestockingFeePolicyInput extends Model {
     /** @param array{'calculation_type': string, 'flat_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnRestockingFeePolicyInput')); }
-    /** Shape $ (Value): string.  Value enum: "flat", "percent".
+    /** Value enum: "flat", "percent".
      * @return string
      * @throws SdkError When calculation_type is omitted; use hasCalculationType() or valueOrDefault().
      */
     public function getCalculationType(): string { return $this->get('calculation_type'); }
     public function hasCalculationType(): bool { return $this->has('calculation_type'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When flat_money is omitted; use hasFlatMoney() or valueOrDefault().
      */
     public function getFlatMoney(): mixed { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** Shape $ (Value): number. Format: double. multipleOf: 0.0001.
+    /** Format: double. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */

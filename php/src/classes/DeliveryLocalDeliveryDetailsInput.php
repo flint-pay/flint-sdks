@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryLocalDeliveryDetailsInput extends Model {
     /** @param array{'instructions'?: string, 'service_level'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocalDeliveryDetailsInput')); }
-    /** Shape $ (Value): string.
+    /** instructions
      * @return string
      * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
      */
     public function getInstructions(): string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** Shape $ (Value): string.
+    /** service_level
      * @return string
      * @throws SdkError When service_level is omitted; use hasServiceLevel() or valueOrDefault().
      */

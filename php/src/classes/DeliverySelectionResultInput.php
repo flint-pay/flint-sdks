@@ -10,25 +10,25 @@ namespace Flint;
 final class DeliverySelectionResultInput extends Model {
     /** @param array{'checkout_session': CheckoutSessionInput|array<array-key, mixed>|\stdClass, 'delivery_selection': DeliverySelectionInput|array<array-key, mixed>|\stdClass, 'inventory_reservation'?: DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass, 'order': OrderInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionResultInput')); }
-    /** Shape $ (Value): {@see CheckoutSessionInput}. A session in which a buyer completes an order's payment.
+    /** The checkout session after the selection. A session in which a buyer completes an order's payment.
      * @return CheckoutSessionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When checkout_session is omitted; use hasCheckoutSession() or valueOrDefault().
      */
     public function getCheckoutSession(): mixed { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** Shape $ (Value): {@see DeliverySelectionInput}. The delivery choice selected for a checkout or order.
+    /** The selection now on the checkout. The delivery choice selected for a checkout or order.
      * @return DeliverySelectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_selection is omitted; use hasDeliverySelection() or valueOrDefault().
      */
     public function getDeliverySelection(): mixed { return $this->get('delivery_selection'); }
     public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
-    /** Shape $ (Value): {@see DeliveryInventoryReservationSummaryInput}. The inventory reservation held for a delivery selection: its owner, status, expiry, and the next action required.
+    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, expiry, and the next action required.
      * @return DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
      */
     public function getInventoryReservation(): mixed { return $this->get('inventory_reservation'); }
     public function hasInventoryReservation(): bool { return $this->has('inventory_reservation'); }
-    /** Shape $ (Value): {@see OrderInput}. A customer's purchase and its payment and fulfillment progress.
+    /** The order after the selection, with delivery charges applied and tax recalculated. Render totals from it instead of reading the order again. When tax still needs input, order.tax.status says so. A customer's purchase and its payment and fulfillment progress.
      * @return OrderInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */

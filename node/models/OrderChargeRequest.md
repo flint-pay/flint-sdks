@@ -10,7 +10,7 @@ A charge you add to an order, such as a delivery or service fee, set as a fixed 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fixed charge amount in the order currency. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/OrderChargeInputAmount.md#orderchargeinputamountamount_money). |
 | `calculation_basis` | Optional | string | Values: `"subtotal_pre_discount"`, `"subtotal_post_discount"`. |
 | `calculation_type` | Required | string | Selects a fixed amount or percentage calculation. Values: `"amount"`, `"percent"`. |
 | `description` | Optional | string | minLength: `1`. maxLength: `2048`. |
@@ -23,7 +23,7 @@ A charge you add to an order, such as a delivery or service fee, set as a fixed 
 
 ### OrderChargeRequest variant 1: `calculation_type` = `"amount"`
 
-oneOf variant 1: The `amount` variant of `OrderChargeInput`..
+oneOf with calculation_type: "amount": The `amount` variant of `OrderChargeInput`..
 
 - Condition: not (at least one(present(`percent`))).
 - Required: `amount_money`.
@@ -32,7 +32,7 @@ oneOf variant 1: The `amount` variant of `OrderChargeInput`..
 
 ### OrderChargeRequest variant 2: `calculation_type` = `"percent"`
 
-oneOf variant 2: The `percent` variant of `OrderChargeInput`..
+oneOf with calculation_type: "percent": The `percent` variant of `OrderChargeInput`..
 
 - Condition: not (at least one(present(`amount_money`))).
 - Required: `percent`.
@@ -41,7 +41,7 @@ oneOf variant 2: The `percent` variant of `OrderChargeInput`..
 
 ### OrderChargeRequest.amount_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [OrderChargeInputAmount.amount_money](../models/OrderChargeInputAmount.md#orderchargeinputamountamount_money).
 
 ### OrderChargeRequest.metadata
 

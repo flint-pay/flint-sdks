@@ -2,184 +2,19 @@
 
 # orders
 
-### orders.addCharge
-
-Adds a service charge, fee, or surcharge to an order.
-
-`POST /v1/orders/{order_id}/charges`
-
-Signature:
-
-```typescript
-addCharge(order_id: InputValue<string>,
- params: (InputValue<AddOrderChargeRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [AddOrderChargeRequestInput](../models/AddOrderChargeRequest.md#addorderchargerequest) | The request body for: Add order charge. |
-
-Body model: [AddOrderChargeRequestInput](../models/AddOrderChargeRequest.md#addorderchargerequest).
-
-#### orders.addCharge body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `charge` | Required | [OrderChargeRequestInput](../models/OrderChargeRequest.md#orderchargerequest) | A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a percentage with its tax settings. |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-
-#### Response
-
-Returned payload: [Order](../models/Order.md#order).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `addChargeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.orders.addCharge("example", {charge: {amount_money: {amount: "100", currency: "USD"}, calculation_type: "amount", name: "example", type: "service_fee"}}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/orders-addCharge.mjs)
-
-### orders.addLineItems
-
-Adds one or more line items to an order.
-
-`POST /v1/orders/{order_id}/line-items`
-
-Signature:
-
-```typescript
-addLineItems(order_id: InputValue<string>,
- params: (InputValue<AddLineItemsRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [AddLineItemsRequestInput](../models/AddLineItemsRequest.md#addlineitemsrequest) | The request body for: Add line items. |
-
-Body model: [AddLineItemsRequestInput](../models/AddLineItemsRequest.md#addlineitemsrequest).
-
-#### orders.addLineItems body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | minItems: `1`. |
-
-#### Response
-
-Returned payload: [Order](../models/Order.md#order).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `addLineItemsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.orders.addLineItems("example", {line_items: [{type: "variant", variant_id: "example"}]}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/orders-addLineItems.mjs)
-
 ### orders.applyDiscount
 
 Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must provide a promotion code; resource IDs and manual discounts require merchant authentication.
 
 `POST /v1/orders/{order_id}/discounts`
 
-Signature:
-
-```typescript
-applyDiscount(order_id: InputValue<string>,
- params: (InputValue<ApplyDiscountRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
-```
+Signature: `applyDiscount(order_id: InputValue<string>, params: OrdersApplyDiscountParams, options?: RequestOptions<"checkout" | "merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Required | [ApplyDiscountRequestInput](../models/ApplyDiscountRequest.md#applydiscountrequest) | The request body for: Apply discount. |
 
 Body model: [ApplyDiscountRequestInput](../models/ApplyDiscountRequest.md#applydiscountrequest).
@@ -188,37 +23,21 @@ Body model: [ApplyDiscountRequestInput](../models/ApplyDiscountRequest.md#applyd
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 | `manual` | Optional | [ManualDiscountRequestInput](../models/ManualDiscountRequest.md#manualdiscountrequest) | A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
 | `promotion` | Optional | [PromotionRefRequestInput](../models/PromotionRefRequest.md#promotionrefrequest) | Identifies the promotion to apply, by promotion code or by promotion ID. |
 
-#### orders.applyDiscount body oneOf variant 1
+#### orders.applyDiscount: ApplyDiscountRequestPromotion
 
 The `Promotion` variant of `ApplyDiscountRequest`.
 
 Body model: [ApplyDiscountRequestPromotionInput](../models/ApplyDiscountRequestPromotion.md#applydiscountrequestpromotion).
 
-#### orders.applyDiscount body oneOf variant 1 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `manual` | Optional | [ManualDiscountRequestInput](../models/ManualDiscountRequest.md#manualdiscountrequest) | A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
-| `promotion` | Required | [PromotionRefRequestInput](../models/PromotionRefRequest.md#promotionrefrequest) | Identifies the promotion to apply, by promotion code or by promotion ID. |
-
-#### orders.applyDiscount body oneOf variant 2
+#### orders.applyDiscount: ApplyDiscountRequestManual
 
 The `Manual` variant of `ApplyDiscountRequest`.
 
 Body model: [ApplyDiscountRequestManualInput](../models/ApplyDiscountRequestManual.md#applydiscountrequestmanual).
-
-#### orders.applyDiscount body oneOf variant 2 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `manual` | Required | [ManualDiscountRequestInput](../models/ManualDiscountRequest.md#manualdiscountrequest) | A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
-| `promotion` | Optional | [PromotionRefRequestInput](../models/PromotionRefRequest.md#promotionrefrequest) | Identifies the promotion to apply, by promotion code or by promotion ID. |
 
 #### Response
 
@@ -226,21 +45,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -248,9 +67,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `applyDiscountWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -260,7 +79,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.applyDiscount("example", {promotion: {promotion_id: "example"}}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.applyDiscount("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {promotion: {promotion_id: "promo_01ARZ3NDEKTSV4RRFFQ69G5FAV"}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-applyDiscount.mjs)
@@ -271,24 +90,14 @@ Selects a gift card by its current code and returns masked selections and an unr
 
 `POST /v1/orders/{order_id}/gift-cards`
 
-Signature:
-
-```typescript
-applyGiftCard(order_id: InputValue<string>,
- params: (InputValue<ApplyOrderGiftCardRequestInput>) & {
-  "Flint-Gift-Card-Challenge"?: InputValue<string>;
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
-```
+Signature: `applyGiftCard(order_id: InputValue<string>, params: OrdersApplyGiftCardParams, options?: RequestOptions<"checkout" | "merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Flint-Gift-Card-Challenge` | Optional | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Order ID. |
+| `Flint-Gift-Card-Challenge` | Optional | string | Single-use proof from the checkout's gift card challenge. Needed only after GIFT_CARD_CHALLENGE_REQUIRED. While a challenge is required, every code needs a new proof, for up to an hour after the failures that triggered it. Ignored for API keys. |
 | `body` | Required | [ApplyOrderGiftCardRequestInput](../models/ApplyOrderGiftCardRequestInput.md#applyordergiftcardrequestinput) | The request body for: Apply a gift card to an order. |
 
 Body model: [ApplyOrderGiftCardRequestInput](../models/ApplyOrderGiftCardRequestInput.md#applyordergiftcardrequestinput).
@@ -303,19 +112,19 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -323,9 +132,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `applyGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -335,7 +144,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.applyGiftCard("example", {code: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.applyGiftCard("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {code: "example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-applyGiftCard.mjs)
@@ -351,22 +160,17 @@ Signature:
 ```typescript
 cancelPaymentAttempt(order_id: InputValue<string>,
  order_payment_attempt_id: InputValue<string>,
- params?: (InputValue<CancelOrderPaymentAttemptRequestInput> |
-  {
-  "cancellation_reason"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
+ params?: OrdersCancelPaymentAttemptParams,
+ options?: RequestOptions<"checkout" |
+  "merchant">)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `order_payment_attempt_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `order_payment_attempt_id` | Required | string | Flint order payment attempt ID. |
 | `body` | Optional | [CancelOrderPaymentAttemptRequestInput](../models/CancelOrderPaymentAttemptRequest.md#cancelorderpaymentattemptrequest) | The request body for: Cancel order payment attempt. |
 
 Body model: [CancelOrderPaymentAttemptRequestInput](../models/CancelOrderPaymentAttemptRequest.md#cancelorderpaymentattemptrequest).
@@ -383,21 +187,21 @@ Returned payload: [PayOrderResult](../models/PayOrderResult.md#payorderresult).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -405,9 +209,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelPaymentAttemptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -417,42 +221,29 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.cancelPaymentAttempt("example", "example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.orders.cancelPaymentAttempt("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "opat_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-cancelPaymentAttempt.mjs)
 
-### orders.closeSession
+### orders.close
 
 Closes an open order and stops further payment. Cancels pending discounts, releases their reservations, and recalculates totals; canceled discounts remain visible with status: "canceled" but no longer reduce the total. Unused order-owned payment intents are canceled. When collected money remains refundable, send collected_money_behavior: keep to close and keep it, or refund it first with POST /v1/refunds and order_id. Closing does not refund money; refunds remain available afterwards. Closing is blocked while payment collection is in progress. To complete a zero-balance order as paid, use POST /v1/orders/{order_id}/pay. closed_reason and closed_at record why and when the order closed. The request body is optional. Send expected_version to reject a mutation based on an outdated order read.
 
 `POST /v1/orders/{order_id}/close`
 
-Signature:
-
-```typescript
-closeSession(order_id: InputValue<string>,
- params?: (InputValue<CloseOrderRequestInput> | {
-  "collected_money_behavior"?: never;
-  "expected_version"?: never;
-  "reason_message"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `close(order_id: InputValue<string>, params?: OrdersCloseParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Optional | [CloseOrderRequestInput](../models/CloseOrderRequest.md#closeorderrequest) | The request body for: Close order. |
 
 Body model: [CloseOrderRequestInput](../models/CloseOrderRequest.md#closeorderrequest).
 
-#### orders.closeSession body fields
+#### orders.close body fields
 
 Field definitions: [shared fields](../models/CloseOrderRequest.md#closeorderrequest).
 
@@ -462,21 +253,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -484,9 +275,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `closeSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -496,10 +287,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.closeSession("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.orders.close("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/orders-closeSession.mjs)
+[Complete runnable example](../examples/orders-close.mjs)
 
 ### orders.create
 
@@ -507,13 +298,12 @@ Creates an order for the authenticated merchant. For USD orders, an effective re
 
 `POST /v1/orders`
 
-Signature: `create(params: (InputValue<CreateOrderRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
+Signature: `create(params: OrdersCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateOrderRequestInput](../models/CreateOrderRequest.md#createorderrequest) | The request body for: Create order. |
 
 Body model: [CreateOrderRequestInput](../models/CreateOrderRequest.md#createorderrequest).
@@ -525,11 +315,11 @@ Body model: [CreateOrderRequestInput](../models/CreateOrderRequest.md#createorde
 | `buyer_note` | Optional | string | minLength: `1`. maxLength: `1000`. |
 | `customer_id` | Optional | string | minLength: `1`. |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationRequestInput](../models/OrderDeliveryDestinationRequest.md#orderdeliverydestinationrequest) | Shipment or local-delivery destination for an order created without a delivery selection. The delivery destination you set when creating or updating an order, with an address and an optional recipient. |
-| `discounts` | Optional | Array of [CreateOrderDiscountInput](../models/CreateOrderDiscount.md#createorderdiscount) |  |
+| `discounts` | Optional | Array of [CreateOrderDiscountInput](../models/CreateOrderDiscount.md#createorderdiscount) | Items: A discount to apply when creating an order: either a manual discount or a reference to a promotion. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string | minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [OrderInventoryRoutingSourceRequestInput](../models/DeliveryPreviewRoutingSourceInput.md#deliverypreviewroutingsourceinput) | Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision. |
-| `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | minItems: `1`. |
+| `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | minItems: `1`. Items: A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and unit price. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `requested_tip` | Optional | [CreateOrderTipInput](../models/CreateOrderTip.md#createordertip) | Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit. Requested tip expressed as either a flat amount or a percentage. Send exactly one of amount_money or percent. |
 | `tax` | Optional | [OrderTaxRequestInput](../models/OrderTaxRequest.md#ordertaxrequest) | Tax settings you supply when creating an order: whether tax is enabled, how it is calculated, and the tax location. |
@@ -540,21 +330,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -562,9 +352,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -574,35 +364,24 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.create({line_items: [{type: "variant", variant_id: "example"}]}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.create({line_items: [{type: "variant", variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV"}]}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-create.mjs)
 
 ### orders.createAccessLink
 
-Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for an order without a customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns 409 ACTION_NOT_ALLOWED with reason merchant_hosted_customer_accounts, and for an order without a customer, 409 ACTION_NOT_ALLOWED with reason configuration_required. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
 
 `POST /v1/orders/{order_id}/access-links`
 
-Signature:
-
-```typescript
-createAccessLink(order_id: InputValue<string>,
- params?: (InputValue<{
-}> | {
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `createAccessLink(order_id: InputValue<string>, params?: OrdersCreateAccessLinkParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Optional | object | maxProperties: `0`. |
 
 Body shape: object.
@@ -613,17 +392,17 @@ Returned payload: [AccessLink](../models/AccessLink.md#accesslink).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -631,9 +410,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createAccessLinkWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -643,33 +422,93 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.orders.createAccessLink("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-createAccessLink.mjs)
 
-### orders.createFulfillment
+### orders.createCharge
 
-Creates a fulfillment for the specified quantities on a paid order. Use this when you manage fulfillment outside checkout; checkout creates fulfillments for the buyer's delivery selections. While Flint is creating those fulfillments, requests for their quantities return OPERATION_IN_PROGRESS with reason delivery_selection_materializing. Retrieve the order and use its fulfillments. Returns ORDER_NOT_FULFILLABLE when the order is not paid. See the fulfillment guide.
+Adds a service charge, fee, or surcharge to an order.
 
-`POST /v1/orders/{order_id}/fulfillments`
+`POST /v1/orders/{order_id}/charges`
 
-Signature:
-
-```typescript
-createFulfillment(order_id: InputValue<string>,
- params: (InputValue<CreateFulfillmentRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `createCharge(order_id: InputValue<string>, params: OrdersCreateChargeParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `body` | Required | [AddOrderChargeRequestInput](../models/AddOrderChargeRequest.md#addorderchargerequest) | The request body for: Add order charge. |
+
+Body model: [AddOrderChargeRequestInput](../models/AddOrderChargeRequest.md#addorderchargerequest).
+
+#### orders.createCharge body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `charge` | Required | [OrderChargeRequestInput](../models/OrderChargeRequest.md#orderchargerequest) | A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a percentage with its tax settings. |
+| `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
+
+#### Response
+
+Returned payload: [Order](../models/Order.md#order).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.orders.createCharge("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {charge: {amount_money: {amount: "100", currency: "USD"}, calculation_type: "amount", name: "example", type: "service_fee"}}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/orders-createCharge.mjs)
+
+### orders.createFulfillment
+
+Creates a fulfillment for the specified quantities on a paid order. Use this when you manage fulfillment outside checkout; checkout creates fulfillments for the buyer's delivery selections. While Flint is creating those fulfillments, requests for their quantities return OPERATION_IN_PROGRESS with reason delivery_selection_materializing. Retrieve the order and use its fulfillments. Returns 409 ACTION_NOT_ALLOWED with details[0].reason status_not_reached when the order is not paid. See the fulfillment guide.
+
+`POST /v1/orders/{order_id}/fulfillments`
+
+Signature: `createFulfillment(order_id: InputValue<string>, params: OrdersCreateFulfillmentParams, options?: RequestOptions<"merchant">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Required | [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequest.md#createfulfillmentrequest) | Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. |
 
 Body model: [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequest.md#createfulfillmentrequest).
@@ -679,10 +518,10 @@ Body model: [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequest.m
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
+| `device_id` | Optional | string | Device used for this fulfillment. It must be active. When location_id is also set, the device must belong to that Location. minLength: `1`. |
 | `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
+| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. Items: An order line item and quantity to include when creating a fulfillment. |
 | `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetails.md#createdeliveryfulfillmentdetails) | Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
 | `location_id` | Optional | string | minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
@@ -692,125 +531,35 @@ Body model: [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequest.m
 | `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequest.md#fulfillmentpackagingrequest) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
 | `type` | Required | string | Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
 
-#### orders.createFulfillment body oneOf variant 1
+#### orders.createFulfillment with `type: "shipment"`
 
 Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
 Body model: [CreateFulfillmentRequestShipmentInput](../models/CreateFulfillmentRequestShipment.md#createfulfillmentrequestshipment).
 
-#### orders.createFulfillment body oneOf variant 1 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
-| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
-| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetails.md#createdeliveryfulfillmentdetails) | Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
-| `location_id` | Optional | string | minLength: `1`. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetails.md#createpickupfulfillmentdetails) | Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
-| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequest.md#fulfillmentrecipientrequest) | Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
-| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetails.md#createservicefulfillmentdetails) | Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
-| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequest.md#fulfillmentpackagingrequest) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
-| `type` | Required | string | Values: `"shipment"`. |
-
-#### orders.createFulfillment body oneOf variant 2
+#### orders.createFulfillment with `type: "pickup"`
 
 Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
 Body model: [CreateFulfillmentRequestPickupInput](../models/CreateFulfillmentRequestPickup.md#createfulfillmentrequestpickup).
 
-#### orders.createFulfillment body oneOf variant 2 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
-| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
-| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetails.md#createdeliveryfulfillmentdetails) | Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
-| `location_id` | Optional | string | minLength: `1`. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetails.md#createpickupfulfillmentdetails) | Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
-| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequest.md#fulfillmentrecipientrequest) | Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
-| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetails.md#createservicefulfillmentdetails) | Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
-| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequest.md#fulfillmentpackagingrequest) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
-| `type` | Required | string | Values: `"pickup"`. |
-
-#### orders.createFulfillment body oneOf variant 3
+#### orders.createFulfillment with `type: "local_delivery"`
 
 Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
 Body model: [CreateFulfillmentRequestLocalDeliveryInput](../models/CreateFulfillmentRequestLocalDelivery.md#createfulfillmentrequestlocaldelivery).
 
-#### orders.createFulfillment body oneOf variant 3 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
-| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
-| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetails.md#createdeliveryfulfillmentdetails) | Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
-| `location_id` | Optional | string | minLength: `1`. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetails.md#createpickupfulfillmentdetails) | Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
-| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequest.md#fulfillmentrecipientrequest) | Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
-| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetails.md#createservicefulfillmentdetails) | Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
-| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequest.md#fulfillmentpackagingrequest) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
-| `type` | Required | string | Values: `"local_delivery"`. |
-
-#### orders.createFulfillment body oneOf variant 4
+#### orders.createFulfillment with `type: "digital"`
 
 Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
 Body model: [CreateFulfillmentRequestDigitalInput](../models/CreateFulfillmentRequestDigital.md#createfulfillmentrequestdigital).
 
-#### orders.createFulfillment body oneOf variant 4 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
-| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
-| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetails.md#createdeliveryfulfillmentdetails) | Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
-| `location_id` | Optional | string | minLength: `1`. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetails.md#createpickupfulfillmentdetails) | Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
-| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequest.md#fulfillmentrecipientrequest) | Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
-| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetails.md#createservicefulfillmentdetails) | Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
-| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequest.md#fulfillmentpackagingrequest) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
-| `type` | Required | string | Values: `"digital"`. |
-
-#### orders.createFulfillment body oneOf variant 5
+#### orders.createFulfillment with `type: "service"`
 
 Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
 Body model: [CreateFulfillmentRequestServiceInput](../models/CreateFulfillmentRequestService.md#createfulfillmentrequestservice).
-
-#### orders.createFulfillment body oneOf variant 5 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
-| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
-| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetails.md#createdeliveryfulfillmentdetails) | Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
-| `location_id` | Optional | string | minLength: `1`. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetails.md#createpickupfulfillmentdetails) | Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
-| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequest.md#fulfillmentrecipientrequest) | Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
-| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetails.md#createservicefulfillmentdetails) | Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
-| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequest.md#fulfillmentpackagingrequest) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
-| `type` | Required | string | Values: `"service"`. |
 
 #### Response
 
@@ -818,19 +567,19 @@ Returned payload: [Fulfillment](../models/Fulfillment.md#fulfillment).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -838,9 +587,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createFulfillmentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -850,10 +599,79 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.createFulfillment("example", {line_items: [{order_line_item_id: "example", quantity: "100"}], type: "shipment"}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.createFulfillment("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {line_items: [{order_line_item_id: "li_01KEZF7C004XP0V220YVMGQ354", quantity: 1}], metadata: {source: "dispatch"}, shipment: {package: {carrier: "ups", status: "created", tracking_number: "1Z999AA10123456784"}, packaging: "single_package"}, type: "shipment"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-createFulfillment.mjs)
+
+### orders.createLineItems
+
+Adds one or more line items to an order.
+
+`POST /v1/orders/{order_id}/line-items`
+
+Signature: `createLineItems(order_id: InputValue<string>, params: OrdersCreateLineItemsParams, options?: RequestOptions<"merchant">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string | Flint order ID. |
+| `body` | Required | [AddLineItemsRequestInput](../models/AddLineItemsRequest.md#addlineitemsrequest) | The request body for: Add line items. |
+
+Body model: [AddLineItemsRequestInput](../models/AddLineItemsRequest.md#addlineitemsrequest).
+
+#### orders.createLineItems body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
+| `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | minItems: `1`. Items: A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and unit price. |
+
+#### Response
+
+Returned payload: [Order](../models/Order.md#order).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.orders.createLineItems("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {line_items: [{type: "variant", variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV"}]}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/orders-createLineItems.mjs)
 
 ### orders.createPaymentIntent
 
@@ -865,18 +683,16 @@ Signature:
 
 ```typescript
 createPaymentIntent(order_id: InputValue<string>,
- params: (InputValue<CreateOrderPaymentIntentRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant">>)
+ params: OrdersCreatePaymentIntentParams,
+ options: _SdkRequiredIdempotency<RequestOptions<"checkout" |
+  "merchant">>)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Required | [CreateOrderPaymentIntentRequestInput](../models/CreateOrderPaymentIntentRequest.md#createorderpaymentintentrequest) | The request body for: Create order payment intent. |
 
 Body model: [CreateOrderPaymentIntentRequestInput](../models/CreateOrderPaymentIntentRequest.md#createorderpaymentintentrequest).
@@ -885,12 +701,12 @@ Body model: [CreateOrderPaymentIntentRequestInput](../models/CreateOrderPaymentI
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount to collect toward the order, in the order currency. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `capture_method` | Optional | string | automatic collects the payment when it is confirmed. manual places a hold at confirmation that you capture or cancel later. Defaults to automatic. Values: `"automatic"`, `"manual"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `payment_options` | Optional | Array of string | Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `payment_return_url` | Optional | string | minLength: `1`. |
+| `payment_return_url` | Optional | string | Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm. Required when payment_options includes affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. minLength: `1`. pattern: `\S`. |
 | `payment_source_selection` | Optional | [OrderPaymentSourceSelectionInput](../models/OrderPaymentSourceSelection.md#orderpaymentsourceselection) | The payment source options you choose when creating an order payment intent. |
 
 #### Response
@@ -911,18 +727,18 @@ Returned payload: ({ "payment_collection": unknown; }) & (Exclude&lt;[PaymentInt
 | `captured_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount collected from the buyer. Reconcile revenue and print receipts from this amount, not amount_money. Zero while a hold is open, and positive whenever status is succeeded. processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `checkout_session_id` | Optional | string | Flint checkout session ID associated with this payment, when present. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | The linked customer. Returned only with expand=customer. |
+| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | The linked customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string | Customer linked to this payment intent. |
 | `dispute_status` | Optional | string | Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Values: [10 declared values](#orderscreatepaymentintent-response-dispute_status-values). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `fulfillment_hold` | Optional | [PaymentFulfillmentHold](../models/PaymentFulfillmentHold.md#paymentfulfillmenthold) | Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. A hold on fulfillment tied to a payment, with the reason, the action required, and whether the hold is active or released. |
-| `invoice` | Optional | [ExpandedInvoiceSummary](../models/ExpandedInvoiceSummary.md#expandedinvoicesummary) or null | The linked invoice. Returned only with expand=invoice. |
+| `invoice` | Optional | [ExpandedInvoiceSummary](../models/ExpandedInvoiceSummary.md#expandedinvoicesummary) or null | The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. |
 | `invoice_id` | Optional | string | Invoice this payment intent collects, when it pays an invoice. |
 | `last_payment_error` | Required | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) or null | Most recent payment error. Null when no payment error is recorded. |
 | `merchant_id` | Optional | string | Merchant that owns this payment intent. |
 | `merchant_net_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
-| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | The linked order. Returned only with expand=order. |
+| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Optional | string | Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. |
 | `payment_flow` | Required | string | How the payment was started. Fixed when the payment intent is created. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent_id` | Required | string | Flint payment intent ID. |
@@ -942,7 +758,7 @@ Returned payload: ({ "payment_collection": unknown; }) & (Exclude&lt;[PaymentInt
 | `tip_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 | `payment_collection` | Required | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Setup details your client uses to collect the buyer's payment details. Required on both standalone and order-owned creates. On GET, returned only for a standalone intent in requires_payment_method or requires_confirmation, and omitted for an intent owned by a checkout session when read with merchant credentials. Order-owned intents never include it on GET; use Order.payment_collection, whose selectable_payment_intents lists the staged payments. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 
 #### orders.createPaymentIntent response cancellation_reason values
@@ -971,21 +787,21 @@ Returned payload: ({ "payment_collection": unknown; }) & (Exclude&lt;[PaymentInt
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -993,9 +809,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createPaymentIntentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1005,7 +821,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.createPaymentIntent("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.createPaymentIntent("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-createPaymentIntent.mjs)
@@ -1021,10 +837,7 @@ Signature:
 ```typescript
 deleteCharge(order_id: InputValue<string>,
  order_charge_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: OrdersDeleteChargeParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -1032,10 +845,9 @@ deleteCharge(order_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `order_charge_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `order_charge_id` | Required | string | Flint order charge ID. |
+| `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 
 #### Response
 
@@ -1043,19 +855,19 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1063,9 +875,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteChargeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1075,7 +887,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.deleteCharge("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.deleteCharge("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "och_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-deleteCharge.mjs)
@@ -1091,10 +903,7 @@ Signature:
 ```typescript
 deleteLineItem(order_id: InputValue<string>,
  order_line_item_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: OrdersDeleteLineItemParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -1102,10 +911,9 @@ deleteLineItem(order_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `order_line_item_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `order_line_item_id` | Required | string | Flint order line item ID. |
+| `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 
 #### Response
 
@@ -1113,19 +921,19 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1133,9 +941,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1145,7 +953,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.deleteLineItem("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.deleteLineItem("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "li_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-deleteLineItem.mjs)
@@ -1156,27 +964,14 @@ Returns a single order by ID.
 
 `GET /v1/orders/{order_id}`
 
-Signature:
-
-```typescript
-get(order_id: InputValue<string>,
- params?: {
-  "expand"?: InputValue<Array<"customer" |
-    "fulfillments.packages" |
-    "fulfillments.shipments" |
-    "payment_intents" |
-    "subscription" |
-    "subscription_plan">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
-```
+Signature: `get(order_id: InputValue<string>, params?: OrdersGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"customer"`, `"fulfillments.packages"`, `"fulfillments.shipments"`, `"payment_intents"`, `"subscription"`, `"subscription_plan"`. |
+| `order_id` | Required | string | Flint order ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: customer, fulfillments.packages, fulfillments.shipments, payment_intents, subscription, subscription_plan. Expansion requires the base order read scope plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Repeat expand, for example expand=customer&expand=fulfillments.packages, or pass one comma-separated value. Items values: `"customer"`, `"fulfillments.packages"`, `"fulfillments.shipments"`, `"payment_intents"`, `"subscription"`, `"subscription_plan"`. Values: `"customer"`, `"fulfillments.packages"`, `"fulfillments.shipments"`, `"payment_intents"`, `"subscription"`, `"subscription_plan"`. |
 
 #### Response
 
@@ -1184,17 +979,17 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1202,14 +997,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.orders.get("example", {}, {  });
+const result = await client.orders.get("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/orders-get.mjs)
@@ -1220,13 +1015,19 @@ Returns the delivery selection committed to an order.
 
 `GET /v1/orders/{order_id}/delivery-selections/current`
 
-Signature: `getCurrentDeliverySelection(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature:
+
+```typescript
+getCurrentDeliverySelection(order_id: InputValue<string>,
+ params?: OrdersGetCurrentDeliverySelectionParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
+| `order_id` | Required | string | Flint order ID. |
 
 #### Response
 
@@ -1234,17 +1035,17 @@ Returned payload: [DeliverySelection](../models/DeliverySelection.md#deliverysel
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1252,14 +1053,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getCurrentDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.orders.getCurrentDeliverySelection("example", {}, {  });
+const result = await client.orders.getCurrentDeliverySelection("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/orders-getCurrentDeliverySelection.mjs)
@@ -1275,17 +1076,17 @@ Signature:
 ```typescript
 getPaymentAttempt(order_id: InputValue<string>,
  order_payment_attempt_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
+ params?: OrdersGetPaymentAttemptParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" |
+  "merchant">>)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `order_payment_attempt_id` | Required | string |  |
+| `order_id` | Required | string | Flint order ID. |
+| `order_payment_attempt_id` | Required | string | Flint order payment attempt ID. |
 
 #### Response
 
@@ -1293,17 +1094,17 @@ Returned payload: [OrderPaymentAttempt](../models/OrderPaymentAttempt.md#orderpa
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1311,14 +1112,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPaymentAttemptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.orders.getPaymentAttempt("example", "example", {}, {  });
+const result = await client.orders.getPaymentAttempt("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "opat_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/orders-getPaymentAttempt.mjs)
@@ -1329,96 +1130,42 @@ Returns a paginated list of orders for the authenticated merchant. Default order
 
 `GET /v1/orders`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "customer_id"?: InputValue<string>;
-  "order_id"?: InputValue<Array<string>>;
-  "closed_reason"?: InputValue<Array<"paid" |
-    "closed_by_merchant" |
-    "checkout_expired" |
-    "written_off" |
-    "superseded" |
-    "return_resolution_canceled" |
-    "other">>;
-  "status"?: InputValue<Array<"open" | "closed">>;
-  "payment_status"?: InputValue<Array<"unpaid" | "partially_paid" | "paid">>;
-  "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-  "fulfillment_status"?: InputValue<Array<"not_fulfilled" |
-    "partially_fulfilled" |
-    "fulfilled" |
-    "canceled" |
-    "not_applicable" |
-    "closed">>;
-  "order_number"?: InputValue<string>;
-  "has_unassigned_fulfillment_quantity"?: InputValue<boolean>;
-  "has_open_fulfillment"?: InputValue<boolean>;
-  "external_reference_id"?: InputValue<string>;
-  "origin"?: InputValue<Array<"virtual_terminal" |
-    "payment_link" |
-    "checkout" |
-    "api" |
-    "subscription">>;
-  "query"?: InputValue<string>;
-  "subscription_id"?: InputValue<string>;
-  "subscription_delivery_changed"?: InputValue<boolean>;
-  "return_id"?: InputValue<string>;
-  "return_resolution_id"?: InputValue<string>;
-  "payment_link_id"?: InputValue<string>;
-  "min_amount"?: InputValue<`${bigint}` | bigint>;
-  "max_amount"?: InputValue<`${bigint}` | bigint>;
-  "currency"?: InputValue<string>;
-  "sort_by"?: InputValue<"created_at" |
-    "updated_at" |
-    "settlement_amounts.outstanding_money" |
-    "pricing_amounts.total_money">;
-  "sort_direction"?: InputValue<"asc" | "desc">;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>;
-  "updated_after"?: InputValue<string | globalThis.Date>;
-  "updated_before"?: InputValue<string | globalThis.Date>;
-  "expand"?: InputValue<Array<"customer" | "subscription" | "subscription_plan">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: OrdersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `customer_id` | Optional | string |  |
-| `order_id` | Optional | Array of string | minItems: `1`. maxItems: `100`. Items: pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `closed_reason` | Optional | Array of string | minItems: `1`. Items values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"open"`, `"closed"`. |
-| `payment_status` | Optional | Array of string | minItems: `1`. Items values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
-| `refund_status` | Optional | Array of string | minItems: `1`. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. |
-| `fulfillment_status` | Optional | Array of string | minItems: `1`. Items values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. |
-| `order_number` | Optional | string |  |
-| `has_unassigned_fulfillment_quantity` | Optional | boolean |  |
-| `has_open_fulfillment` | Optional | boolean |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `origin` | Optional | Array of string | minItems: `1`. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
-| `query` | Optional | string |  |
-| `subscription_id` | Optional | string |  |
-| `subscription_delivery_changed` | Optional | boolean |  |
-| `return_id` | Optional | string |  |
-| `return_resolution_id` | Optional | string |  |
-| `payment_link_id` | Optional | string |  |
-| `min_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `max_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `customer_id` | Optional | string | Filter by customer ID. |
+| `order_id` | Optional | Array of string or string | Exact-match filter on order IDs. Repeat the parameter or use comma-separated IDs to match any of up to 100 distinct IDs. Unknown IDs and orders outside your merchant or environment are absent. Other filters still apply, and results keep the list's ordering and pagination. Keep the same ID set on subsequent pages. |
+| `closed_reason` | Optional | Array of string or string | Why a closed order closed. Repeated keys and comma-separated values match any reason. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
+| `status` | Optional | Array of string or string | Order status: open or closed. Repeated keys and comma-separated values are both accepted. Selecting open and closed includes both statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"closed"`. Values: `"open"`, `"closed"`. |
+| `payment_status` | Optional | Array of string or string | Filter by settled collection status. Repeat the parameter or pass comma-separated values to match any of several statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unpaid"`, `"partially_paid"`, `"paid"`. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
+| `refund_status` | Optional | Array of string or string | Filter by refund progress. Repeated keys and comma-separated values are both accepted to match any status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
+| `fulfillment_status` | Optional | Array of string or string | Filter by aggregate order fulfillment status. Repeated keys and comma-separated values are both accepted to match any status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. |
+| `order_number` | Optional | string | Filter by merchant-visible order number. |
+| `has_unassigned_fulfillment_quantity` | Optional | boolean | Filter by whether any required fulfillment quantity is unassigned. True includes orders with a positive sum of line fulfillment_quantities.unassigned_quantity; false includes orders with no unassigned quantity, including orders that need no fulfillment. |
+| `has_open_fulfillment` | Optional | boolean | Filter by whether the order has an open fulfillment. A fulfillment remains open until it completes, is canceled, fails, or is marked as a no-show. False includes orders with no fulfillments. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `origin` | Optional | Array of string or string | Filter by order origin. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
+| `query` | Optional | string | Search across order_id, order number, external_reference_id, fulfillment external_reference_id, buyer email, notes, and line item names. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01. |
+| `subscription_id` | Optional | string | Filter by subscription ID. |
+| `subscription_delivery_changed` | Optional | boolean | Filter by whether the subscriber changed delivery after this order was paid. |
+| `return_id` | Optional | string | Filter by the Return that created a replacement order. |
+| `return_resolution_id` | Optional | string | Filter by the ReturnResolution that created a replacement order. |
+| `payment_link_id` | Optional | string | Filter by the payment link whose checkout created the order. |
+| `min_amount` | Optional | integer | Inclusive lower bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
+| `max_amount` | Optional | integer | Inclusive upper bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"settlement_amounts.outstanding_money"`, `"pricing_amounts.total_money"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `expand` | Optional | Array of string | Items values: `"customer"`, `"subscription"`, `"subscription_plan"`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by order_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"settlement_amounts.outstanding_money"`, `"pricing_amounts.total_money"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `expand` | Optional | Array of string or string | Supported expansions: customer, subscription, subscription_plan. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=subscription, or pass one comma-separated value. Items values: `"customer"`, `"subscription"`, `"subscription_plan"`. Values: `"customer"`, `"subscription"`, `"subscription_plan"`. |
 
 #### Response
 
@@ -1426,16 +1173,16 @@ Returned payload: [OrderListResponse](../models/OrderListResponse.md#orderlistre
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1443,11 +1190,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -1467,44 +1214,13 @@ Signature:
 
 ```typescript
 listActivities(order_id: InputValue<string>,
- params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "sort_direction"?: InputValue<"asc" | "desc">;
-  "activity_type"?: InputValue<Array<"created" |
-    "line_item_added" |
-    "line_item_updated" |
-    "line_item_removed" |
-    "discount_applied" |
-    "discount_removed" |
-    "tax_updated" |
-    "requested_tip_added" |
-    "requested_tip_updated" |
-    "requested_tip_removed" |
-    "charge_added" |
-    "charge_updated" |
-    "charge_removed" |
-    "charge_fulfillment_updated" |
-    "order_updated" |
-    "adjustment" |
-    "closed" |
-    "payment" |
-    "payment_failed" |
-    "refund" |
-    "refund_failed" |
-    "checkout_session_created" |
-    "checkout_session_expired" |
-    "checkout_session_invalidated" |
-    "fulfillment_created" |
-    "fulfillment_updated" |
-    "fulfillment_state_changed">>
-},
+ params?: OrdersListActivitiesParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-43).
+Field definitions: [shared fields](me.md#request-fields-45).
 
 #### Response
 
@@ -1512,16 +1228,16 @@ Returned payload: [OrderActivityListResponse](../models/OrderActivityListRespons
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1529,16 +1245,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listActivitiesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listActivitiesItems`, `listActivitiesPages`, `listActivitiesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listActivitiesItems`, `listActivitiesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```typescript
-const result = await client.orders.listActivities("example", {}, {  });
+const result = await client.orders.listActivities("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/orders-listActivities.mjs)
@@ -1553,22 +1269,19 @@ Signature:
 
 ```typescript
 listPaymentAttempts(order_id: InputValue<string>,
- params?: {
-  "idempotency_key"?: InputValue<string>;
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
+ params?: OrdersListPaymentAttemptsParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" |
+  "merchant">>)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `order_id` | Required | string | Flint order ID. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -1576,17 +1289,17 @@ Returned payload: [OrderPaymentAttemptListResponse](../models/OrderPaymentAttemp
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1594,16 +1307,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPaymentAttemptsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`, `listPaymentAttemptsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```typescript
-const result = await client.orders.listPaymentAttempts("example", {}, {  });
+const result = await client.orders.listPaymentAttempts("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/orders-listPaymentAttempts.mjs)
@@ -1614,88 +1327,41 @@ Starts or resumes a payment attempt on the order. Set action to pay to charge th
 
 `POST /v1/orders/{order_id}/pay`
 
-Signature: `pay(input: OrdersPayInput, options: RequestOptions)`
+Signature: `pay(order_id: InputValue<string>, params: OrdersPayParams, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Flint-Buyer-Device` | Optional | string | pattern: `^[a-f0-9]{32}$`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `Flint-Buyer-Device` | Optional | string | A stable random device identifier, independent of the order or checkout session. Required for checkout-session gift card purchases. Keep it for subsequent purchases from the same device; it grants no access. pattern: `^[a-f0-9]{32}$`. |
 | `body` | Required | [PayOrderRequestInput](../models/PayOrderRequest.md#payorderrequest) | The request body for: Pay order. |
 
 Body model: [PayOrderRequestInput](../models/PayOrderRequest.md#payorderrequest).
 
-#### orders.pay body oneOf variant 1
+#### orders.pay with `action: "pay"`
 
 The `pay` variant of `PayOrderRequest`.
 
 Body model: [PayOrderRequestPayInput](../models/PayOrderRequestPay.md#payorderrequestpay).
 
-#### orders.pay body oneOf variant 1 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptanceInput](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptance) | Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder. |
-| `action` | Required | string | Values: `"pay"`. |
-| `buyer_contact` | Optional | [CheckoutBuyerContactRequestInput](../models/CheckoutBuyerContactRequest.md#checkoutbuyercontactrequest) | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. |
-| `expected_outstanding_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The outstanding balance you reviewed. Required with checkout credentials, and with an API key or partner token when the order has an open checkout session. Optional otherwise. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer string | Optional version from the order you reviewed. A mismatch returns VERSION_CONFLICT, even when the outstanding amount is unchanged. Starting a payment advances the order's version. After a declined or failed attempt, use the order returned in the pay response or read the order again before retrying. When accepted_gift_card_allocation is sent, its order_version must match this value. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `payment_source` | Optional | [PaymentSourceCredentialInput](../models/PaymentSourceCredential.md#paymentsourcecredential) | The credential you provide to pay an order: a payment source token, a saved payment method ID, or a Stripe confirmation token. |
-| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's can_save_payment_method is true and save_payment_method_requires_verification is false, for one newly collected card sent as stripe.confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. A checkout can send the buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm, in stripe.confirmation_token created with no setup_future_usage, pays without the save, and the payment attempt's payment_method_save reports not_saved with reason payment_method_not_saveable. The session's save_payment_method_types lists what is saved. Send false or omit it when the buyer does not choose to save; stripe.confirmation_token must then have no setup_future_usage. Default: `false`. |
-| `save_payment_method_phone` | Optional | string | A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a card saved while the checkout acts for no customer, or for the customer whose email the buyer confirmed in it. Send it with save_payment_method: true only from the checkout session's own credential, when the session's can_save_payment_method_with_phone is true. The card is kept for the customer the checkout acts for, or else the merchant's customer with the buyer's email, once the payment succeeds, or once it is approved when the merchant captures later, but works for nothing until the buyer confirms it within 24 hours, with a code texted to this number or, when the customer's email is the email of the payment, emailed there instead: request the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method, and read payment_method_save on the checkout session. A card saved with the number makes it the customer's saved number, and the cards saved with the number it replaces are removed. A card not confirmed in time is not saved. minLength: `1`. maxLength: `16`. pattern: `^\+1[2-9][0-9]{2}[2-9][0-9]{6}$`. |
-
-#### orders.pay body oneOf variant 2
+#### orders.pay with `action: "confirm_payment_intents"`
 
 The `confirm_payment_intents` variant of `PayOrderRequest`.
 
 Body model: [PayOrderRequestConfirmPaymentIntentsInput](../models/PayOrderRequestConfirmPaymentIntents.md#payorderrequestconfirmpaymentintents).
 
-#### orders.pay body oneOf variant 2 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptanceInput](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptance) | Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder. |
-| `action` | Required | string | Values: `"confirm_payment_intents"`. |
-| `buyer_contact` | Optional | [CheckoutBuyerContactRequestInput](../models/CheckoutBuyerContactRequest.md#checkoutbuyercontactrequest) | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. |
-| `completion_behavior` | Optional | string | Values: `"complete_order"`, `"partial_payment"`. |
-| `expected_outstanding_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The outstanding balance you reviewed. Required with checkout credentials, and with an API key or partner token when the order has an open checkout session. Optional otherwise. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer string | Optional version from the order you reviewed. A mismatch returns VERSION_CONFLICT, even when the outstanding amount is unchanged. Starting a payment advances the order's version. After a declined or failed attempt, use the order returned in the pay response or read the order again before retrying. When accepted_gift_card_allocation is sent, its order_version must match this value. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `payment_intents` | Required | Array of [OrderPaymentIntentSelectionInput](../models/OrderPaymentIntentSelection.md#orderpaymentintentselection) | minItems: `1`. |
-| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's can_save_payment_method is true and save_payment_method_requires_verification is false, for one newly collected card sent as stripe.confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. A checkout can send the buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm, in stripe.confirmation_token created with no setup_future_usage, pays without the save, and the payment attempt's payment_method_save reports not_saved with reason payment_method_not_saveable. The session's save_payment_method_types lists what is saved. Send false or omit it when the buyer does not choose to save; stripe.confirmation_token must then have no setup_future_usage. Default: `false`. |
-| `save_payment_method_phone` | Optional | string | A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a card saved while the checkout acts for no customer, or for the customer whose email the buyer confirmed in it. Send it with save_payment_method: true only from the checkout session's own credential, when the session's can_save_payment_method_with_phone is true. The card is kept for the customer the checkout acts for, or else the merchant's customer with the buyer's email, once the payment succeeds, or once it is approved when the merchant captures later, but works for nothing until the buyer confirms it within 24 hours, with a code texted to this number or, when the customer's email is the email of the payment, emailed there instead: request the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method, and read payment_method_save on the checkout session. A card saved with the number makes it the customer's saved number, and the cards saved with the number it replaces are removed. A card not confirmed in time is not saved. minLength: `1`. maxLength: `16`. pattern: `^\+1[2-9][0-9]{2}[2-9][0-9]{6}$`. |
-
-#### orders.pay body oneOf variant 3
+#### orders.pay with `action: "setup"`
 
 The `setup` variant of `PayOrderRequest`.
 
 Body model: [PayOrderRequestSetupInput](../models/PayOrderRequestSetup.md#payorderrequestsetup).
 
-#### orders.pay body oneOf variant 3 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `action` | Required | string | Values: `"setup"`. |
-| `buyer_contact` | Optional | [CheckoutBuyerContactRequestInput](../models/CheckoutBuyerContactRequest.md#checkoutbuyercontactrequest) | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. |
-| `expected_outstanding_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The outstanding balance you reviewed. Required with checkout credentials, and with an API key or partner token when the order has an open checkout session. Optional otherwise. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer string | Optional version from the order you reviewed. A mismatch returns VERSION_CONFLICT, even when the outstanding amount is unchanged. Starting a payment advances the order's version. After a declined or failed attempt, use the order returned in the pay response or read the order again before retrying. When accepted_gift_card_allocation is sent, its order_version must match this value. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `setup_payment_source` | Required | [PaymentSourceCredentialTokenInput](../models/PaymentSourceCredentialToken.md#paymentsourcecredentialtoken) | The `token` variant of `PaymentSourceCredential`. |
-
-#### orders.pay body oneOf variant 4
+#### orders.pay with `action: "resume"`
 
 The `resume` variant of `PayOrderRequest`.
 
 Body model: [PayOrderRequestResumeInput](../models/PayOrderRequestResume.md#payorderrequestresume).
-
-#### orders.pay body oneOf variant 4 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `action` | Required | string | Values: `"resume"`. |
-| `buyer_contact` | Optional | [CheckoutBuyerContactRequestInput](../models/CheckoutBuyerContactRequest.md#checkoutbuyercontactrequest) | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. |
-| `expected_outstanding_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The outstanding balance you reviewed. Required with checkout credentials, and with an API key or partner token when the order has an open checkout session. Optional otherwise. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `order_payment_attempt_id` | Required | string | minLength: `1`. |
 
 #### Response
 
@@ -1703,21 +1369,21 @@ Returned payload: [PayOrderResult](../models/PayOrderResult.md#payorderresult).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1725,9 +1391,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `payWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1737,7 +1403,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.pay({order_id: "example", body: {action: "pay"}}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.pay("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "pay"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-pay.mjs)
@@ -1748,22 +1414,13 @@ Removes one or more pending applied discounts from an order. Redeemed or cancele
 
 `POST /v1/orders/{order_id}/discounts/remove`
 
-Signature:
-
-```typescript
-removeDiscounts(order_id: InputValue<string>,
- params: (InputValue<RemoveDiscountsRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
-```
+Signature: `removeDiscounts(order_id: InputValue<string>, params: OrdersRemoveDiscountsParams, options?: RequestOptions<"checkout" | "merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Required | [RemoveDiscountsRequestInput](../models/RemoveDiscountsRequest.md#removediscountsrequest) | The request body for: Remove discounts. |
 
 Body model: [RemoveDiscountsRequestInput](../models/RemoveDiscountsRequest.md#removediscountsrequest).
@@ -1778,21 +1435,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1800,9 +1457,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `removeDiscountsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1812,7 +1469,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.removeDiscounts("example", {order_discount_ids: []}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.removeDiscounts("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {order_discount_ids: ["ad_01JFXH8Z2K7QF9V3MB0N4T6RCP"]}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-removeDiscounts.mjs)
@@ -1828,21 +1485,18 @@ Signature:
 ```typescript
 removeGiftCard(order_id: InputValue<string>,
  gift_card_id: InputValue<string>,
- params: {
-  "expected_version": InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
+ params: OrdersRemoveGiftCardParams,
+ options?: RequestOptions<"checkout" |
+  "merchant">)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `gift_card_id` | Required | string |  |
-| `expected_version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Order ID. |
+| `gift_card_id` | Required | string | Selected gift card ID. |
+| `expected_version` | Required | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 
 #### Response
 
@@ -1850,17 +1504,17 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1868,9 +1522,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `removeGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1880,7 +1534,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.removeGiftCard("example", "example", {expected_version: "1"}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.removeGiftCard("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {expected_version: 1}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-removeGiftCard.mjs)
@@ -1891,31 +1545,22 @@ Recalculates pending discounts and automatic promotions for a mutable order. The
 
 `POST /v1/orders/{order_id}/discounts/reprice`
 
-Signature:
-
-```typescript
-repriceDiscounts(order_id: InputValue<string>,
- params?: (InputValue<RepriceDiscountsRequestInput> | {
-  "expected_version"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
-```
+Signature: `repriceDiscounts(order_id: InputValue<string>, params?: OrdersRepriceDiscountsParams, options?: RequestOptions<"checkout" | "merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Optional | [RepriceDiscountsRequestInput](../models/RepriceDiscountsRequestInput.md#repricediscountsrequestinput) | The request body for: Reprice discounts. |
 
 Body model: [RepriceDiscountsRequestInput](../models/RepriceDiscountsRequestInput.md#repricediscountsrequestinput).
 
 #### orders.repriceDiscounts body fields
 
-Field definitions: [shared fields](../models/RepriceDiscountsRequestInput.md#repricediscountsrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 
 #### Response
 
@@ -1923,21 +1568,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1945,9 +1590,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `repriceDiscountsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1957,7 +1602,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.repriceDiscounts("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.orders.repriceDiscounts("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-repriceDiscounts.mjs)
@@ -1972,12 +1617,7 @@ Signature:
 
 ```typescript
 resolveInventoryException(order_id: InputValue<string>,
- params?: (InputValue<ResolveOrderInventoryExceptionRequestInput> |
-  {
-  "reason_message"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: OrdersResolveInventoryExceptionParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -1985,17 +1625,14 @@ resolveInventoryException(order_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Optional | [ResolveOrderInventoryExceptionRequestInput](../models/ResolveOrderInventoryExceptionRequestInput.md#resolveorderinventoryexceptionrequestinput) | The request body for: Resolve order inventory exception. |
 
 Body model: [ResolveOrderInventoryExceptionRequestInput](../models/ResolveOrderInventoryExceptionRequestInput.md#resolveorderinventoryexceptionrequestinput).
 
 #### orders.resolveInventoryException body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `reason_message` | Optional | string | Your note explaining this action. minLength: `1`. |
+Field definitions: [shared fields](../models/ResolveOrderInventoryExceptionRequestInput.md#resolveorderinventoryexceptionrequestinput).
 
 #### Response
 
@@ -2003,19 +1640,19 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2023,9 +1660,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `resolveInventoryExceptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -2035,7 +1672,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.resolveInventoryException("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.orders.resolveInventoryException("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-resolveInventoryException.mjs)
@@ -2046,24 +1683,13 @@ Queues a receipt for a paid order, including gift card payments and settled paym
 
 `POST /v1/orders/{order_id}/send-receipt`
 
-Signature:
-
-```typescript
-sendReceipt(order_id: InputValue<string>,
- params?: (InputValue<SendOrderReceiptRequestInput> | {
-  "email"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
-```
+Signature: `sendReceipt(order_id: InputValue<string>, params?: OrdersSendReceiptParams, options?: RequestOptions<"checkout" | "merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Optional | [SendOrderReceiptRequestInput](../models/SendOrderReceiptRequestInput.md#sendorderreceiptrequestinput) | The request body for: Send an order receipt. |
 
 Body model: [SendOrderReceiptRequestInput](../models/SendOrderReceiptRequestInput.md#sendorderreceiptrequestinput).
@@ -2080,20 +1706,20 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2101,9 +1727,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `sendReceiptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -2113,33 +1739,24 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.sendReceipt("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.orders.sendReceipt("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-sendReceipt.mjs)
 
 ### orders.update
 
-Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. A request containing only metadata, internal_note, buyer_note, or external_reference_id, with optional expected_version, can update open, closed, paid, and invoice-locked orders without changing totals. Other merchant edits keep hosted and embedded checkout sessions open unless an edit closes or completes the order, which ends the session with order_mutated. Edits can also end invoice, return-resolution, and subscription-plan sessions with order_mutated. A session already past expires_at ends with expired before the edit is applied. These annotation updates are blocked while any order payment attempt remains non-terminal, including an authorization awaiting capture, or checkout payment work is still resolving. Requests combining annotations with other fields use the financial mutation rules for the entire request. Send requested_tip: null to clear the current requested tip. A merchant can correct a paid subscription signup or renewal destination before shipment by sending delivery_destination and the current order version as expected_version. The committed delivery methods must remain eligible, and shipping and tax totals must stay unchanged. ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED returns the reason and computed shipping and tax amounts when the correction would change the paid totals.
+Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. A request containing only metadata, internal_note, buyer_note, or external_reference_id, with optional expected_version, can update open, closed, paid, and invoice-locked orders without changing totals. Other merchant edits keep hosted and embedded checkout sessions open unless an edit closes or completes the order, which ends the session with order_mutated. Edits can also end invoice, return-resolution, and subscription-plan sessions with order_mutated. A session already past expires_at ends with expired before the edit is applied. These annotation updates are blocked while any order payment attempt remains non-terminal, including an authorization awaiting capture, or checkout payment work is still resolving. Requests combining annotations with other fields use the financial mutation rules for the entire request. Send requested_tip: null to clear the current requested tip. A merchant can correct a paid subscription signup or renewal destination before shipment by sending delivery_destination and the current order version as expected_version. The committed delivery methods must remain eligible, and shipping and tax totals must stay unchanged. When the correction would change the paid totals, the request returns 409 ACTION_NOT_ALLOWED with details[0].reason payment_collected. The detail can include shipping_money, requoted_shipping_money, tax_money, and requoted_tax_money.
 
 `PATCH /v1/orders/{order_id}`
 
-Signature:
-
-```typescript
-update(order_id: InputValue<string>,
- params: (InputValue<UpdateOrderRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
-```
+Signature: `update(order_id: InputValue<string>, params: OrdersUpdateParams, options?: RequestOptions<"checkout" | "merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 | `body` | Required | [UpdateOrderRequestInput](../models/UpdateOrderRequest.md#updateorderrequest) | The request body for: Update order. minProperties: `1`. |
 
 Body model: [UpdateOrderRequestInput](../models/UpdateOrderRequest.md#updateorderrequest).
@@ -2151,7 +1768,7 @@ Body model: [UpdateOrderRequestInput](../models/UpdateOrderRequest.md#updateorde
 | `buyer_note` | Optional | string or null | Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: `1`. maxLength: `1000`. |
 | `customer_id` | Optional | string | minLength: `1`. |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationRequestInput](../models/OrderDeliveryDestinationRequest.md#orderdeliverydestinationrequest) or null | Complete replacement destination. Allowed while the order is open and unpaid and no delivery selection controls it. A merchant may also correct a paid subscription signup or renewal before shipment by sending expected_version, when the committed delivery methods remain eligible and shipping and tax totals stay the same. A paid destination cannot be cleared. Send null to clear an unpaid order's delivery destination. |
-| `expected_version` | Optional | integer string | Order version from the last order read. Required when correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Order version from the last order read. Required when correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string or null | Internal note about this order, visible only to the merchant. Send null to clear it. minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [OrderInventoryRoutingSourceRequestInput](../models/DeliveryPreviewRoutingSourceInput.md#deliverypreviewroutingsourceinput) | Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision. |
@@ -2165,21 +1782,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2187,9 +1804,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -2199,7 +1816,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.update("example", {buyer_note: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.update("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {buyer_note: "Please include a gift receipt"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-update.mjs)
@@ -2215,9 +1832,7 @@ Signature:
 ```typescript
 updateCharge(order_id: InputValue<string>,
  order_charge_id: InputValue<string>,
- params: (InputValue<UpdateOrderChargeRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params: OrdersUpdateChargeParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -2225,9 +1840,8 @@ updateCharge(order_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `order_charge_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `order_charge_id` | Required | string | Flint order charge ID. |
 | `body` | Required | [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequest.md#updateorderchargerequest) | The request body for: Update order charge. |
 
 Body model: [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequest.md#updateorderchargerequest).
@@ -2236,10 +1850,10 @@ Body model: [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequest.m
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Replacement fixed charge amount in the order currency. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `calculation_basis` | Optional | string | Values: `"subtotal_pre_discount"`, `"subtotal_post_discount"`. |
 | `description` | Optional | string or null |  Send null to clear description. minLength: `1`. maxLength: `2048`. |
-| `expected_version` | Optional | integer string | Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 | `fulfillment_id` | Optional | string or null |  Send null to unlink the fulfillment. minLength: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear all metadata. |
 | `name` | Optional | string | minLength: `1`. maxLength: `255`. |
@@ -2253,21 +1867,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2275,9 +1889,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateChargeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -2287,7 +1901,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.updateCharge("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.updateCharge("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "och_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Priority delivery"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-updateCharge.mjs)
@@ -2303,19 +1917,17 @@ Signature:
 ```typescript
 updateLineItem(order_id: InputValue<string>,
  order_line_item_id: InputValue<string>,
- params: (InputValue<UpdateLineItemRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"checkout" | "merchant">)
+ params: OrdersUpdateLineItemParams,
+ options?: RequestOptions<"checkout" |
+  "merchant">)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `order_line_item_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
+| `order_line_item_id` | Required | string | Flint order line item ID. |
 | `body` | Required | [UpdateLineItemRequestInput](../models/UpdateLineItemRequest.md#updatelineitemrequest) | The request body for: Update line item. |
 
 Body model: [UpdateLineItemRequestInput](../models/UpdateLineItemRequest.md#updatelineitemrequest).
@@ -2325,16 +1937,16 @@ Body model: [UpdateLineItemRequestInput](../models/UpdateLineItemRequest.md#upda
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `description` | Optional | string or null |  Send null to clear description. minLength: `1`. |
-| `expected_version` | Optional | integer string | Order version from the last order read, returned in data.version. Required when any of these fields is present: modifiers, gift_card_recipient, gift_card_face_value_money, subscription. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `gift_card_face_value_money` | Optional | object | Selects the face value of an unpaid, unfunded gift card line within its frozen offer's custom_amount_bounds and reprices the order. Fixed-denomination offers accept only their current value. Omission preserves the value; null is not allowed. Requires expected_version from the order. Checkout credentials may send this field alone or together with gift_card_recipient. |
+| `expected_version` | Optional | integer | Order version from the last order read, returned in data.version. Required when any of these fields is present: modifiers, gift_card_recipient, gift_card_face_value_money, subscription. Format: `int64`. minimum: `1`. |
+| `gift_card_face_value_money` | Optional | object | Selects the face value of an unpaid, unfunded gift card line within its frozen offer's custom_amount_bounds and reprices the order. Fixed-denomination offers accept only their current value. Omission preserves the value; null is not allowed. Requires expected_version from the order. Checkout credentials may send this field alone or together with gift_card_recipient. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. |
 | `gift_card_recipient` | Optional | [GiftCardPurchaseRecipientPatchRequestInput](../models/GiftCardPurchaseRecipientPatchRequest.md#giftcardpurchaserecipientpatchrequest) or null | Replaces the recipient of an unfunded gift card purchase. Omission preserves it; null clears it. Send expected_version from the order. Send null to clear gift_card_recipient. Requires expected_version. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear all metadata. |
-| `modifiers` | Optional | Array of [OrderLineItemModifierRequestInput](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) |  |
+| `modifiers` | Optional | Array of [OrderLineItemModifierRequestInput](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. |
 | `name` | Optional | string | minLength: `1`. |
-| `quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `9999`. |
+| `quantity` | Optional | integer | Replacement quantity, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. |
 | `subscription` | Optional | [SubscribedLineRequestInput](../models/SubscribedLineRequest.md#subscribedlinerequest) or null | Selects an active subscription offer and reprices an unpaid line. Null selects a one-time purchase. Omission preserves the selection. Requires expected_version from the order and clears the delivery selection when terms change. Send null to clear subscription. Requires expected_version. |
 | `tax` | Optional | [OrderCalculatedLineItemTaxInput](../models/OrderCalculatedLineItemTaxInput.md#ordercalculatedlineitemtaxinput) | Tax settings for an order line item calculated by Flint or supplied by you, including the line item tax category and whether it is taxable. |
-| `unit_price_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `unit_price_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 #### Response
 
@@ -2342,21 +1954,21 @@ Returned payload: [Order](../models/Order.md#order).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2364,9 +1976,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -2376,7 +1988,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.orders.updateLineItem("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.orders.updateLineItem("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", "li_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Gift item"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/orders-updateLineItem.mjs)

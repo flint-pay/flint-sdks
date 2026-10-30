@@ -8,13 +8,13 @@ namespace Flint;
 final class TaxConnectionSellerAttestationInput extends Model {
     /** @param array{'attested_at': string|\DateTimeInterface, 'disclosure_version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionSellerAttestationInput')); }
-    /** Shape $ (Value): string. When Flint recorded the seller's agreement. Format: date-time.
+    /** When Flint recorded the seller's agreement. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When attested_at is omitted; use hasAttestedAt() or valueOrDefault().
      */
     public function getAttestedAt(): string|\DateTimeInterface { return $this->get('attested_at'); }
     public function hasAttestedAt(): bool { return $this->has('attested_at'); }
-    /** Shape $ (Value): string. Opaque version of the disclosure the seller agreed to.
+    /** Opaque version of the disclosure the seller agreed to.
      * @return string
      * @throws SdkError When disclosure_version is omitted; use hasDisclosureVersion() or valueOrDefault().
      */

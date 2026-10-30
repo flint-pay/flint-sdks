@@ -14,7 +14,7 @@ Request input.
 
 ### InvoicePaymentDueInput variant 1: `type` = `"none"`
 
-oneOf variant 1: The `none` variant of `InvoicePaymentDue`..
+oneOf with type: "none": The `none` variant of `InvoicePaymentDue`..
 
 - Condition: not (at least one(present(`due_at`); present(`invoice_payment_term_id`))).
 - Optional: `due_at`, `invoice_payment_term_id`.
@@ -22,7 +22,7 @@ oneOf variant 1: The `none` variant of `InvoicePaymentDue`..
 
 ### InvoicePaymentDueInput variant 2: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoicePaymentDue`..
+oneOf with type: "date": The `date` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`invoice_payment_term_id`)).
 - Required: `due_at`.
@@ -31,7 +31,7 @@ oneOf variant 2: The `date` variant of `InvoicePaymentDue`..
 
 ### InvoicePaymentDueInput variant 3: `type` = `"payment_terms"`
 
-oneOf variant 3: The `payment_terms` variant of `InvoicePaymentDue`..
+oneOf with type: "payment_terms": The `payment_terms` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`due_at`)).
 - Required: `invoice_payment_term_id`.

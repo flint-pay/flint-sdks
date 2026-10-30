@@ -1,1 +1,1 @@
-{"shared":"UpdateLocationRequest","dependencies":["AddressRequest","LocationCoordinateRequestRequest","MetadataPatchRequest","SharedCodec0","SharedCodec1","SharedCodec1256","SharedCodec1285","SharedCodec1286","SharedCodec1287","UpdateLocationRequest"]}
+{"shared":"UpdateLocationRequest","dependencies":["AddressRequest","SharedCodec0","SharedCodec1","SharedCodec1350","SharedCodec1353","SharedCodec1390","SharedCodec1391","SharedCodec1392","SharedCodec1393","UpdateLocationRequest"]}

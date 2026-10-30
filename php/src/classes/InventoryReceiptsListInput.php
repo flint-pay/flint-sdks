@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $inventory_item_id
@@ -10,7 +12,7 @@ namespace Flint;
  * @property-read string $return_id
  * @property-read string $return_disposition_id
  * @property-read string $idempotency_key
- * @property-read list<string> $source_system_type
+ * @property-read list<string>|string $source_system_type
  * @property-read string $external_source_id
  * @property-read string $external_actor_id
  * @property-read string|\DateTimeInterface $occurred_after
@@ -19,93 +21,93 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'receiving_location_id'?: string, 'inventory_reservation_id'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'idempotency_key'?: string, 'source_system_type'?: list<string>, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'receiving_location_id'?: string, 'inventory_reservation_id'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'idempotency_key'?: string, 'source_system_type'?: list<string>|string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptsListInput')); }
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+    /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Shape $ (Value): string.
+    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Shape $ (Value): string.
+    /** Filter by inventory item. Example: "invi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by receiving Location. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by source reservation. Example: "invr_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
      */
     public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by the customer Return that produced the receipt. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by the Return disposition that produced the receipt. Example: "retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp", "flint", "other". Shape $[] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "flint", "other".
-     * @return list<string>
+    /** Filter by source-system type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "manual", "pos", "wms", "erp", "flint", "other". Value enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[1][] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[2] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "flint", "other".
+     * @return list<string>|string
      * @throws SdkError When source_system_type is omitted; use hasSourceSystemType() or valueOrDefault().
      */
-    public function getSourceSystemType(): array { return $this->get('source_system_type'); }
+    public function getSourceSystemType(): mixed { return $this->get('source_system_type'); }
     public function hasSourceSystemType(): bool { return $this->has('source_system_type'); }
-    /** Shape $ (Value): string.
+    /** Filter by external source ID.
      * @return string
      * @throws SdkError When external_source_id is omitted; use hasExternalSourceId() or valueOrDefault().
      */
     public function getExternalSourceId(): string { return $this->get('external_source_id'); }
     public function hasExternalSourceId(): bool { return $this->has('external_source_id'); }
-    /** Shape $ (Value): string.
+    /** Filter by external actor ID.
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
     public function getExternalActorId(): string { return $this->get('external_actor_id'); }
     public function hasExternalActorId(): bool { return $this->has('external_actor_id'); }
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
+    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_after is omitted; use hasOccurredAfter() or valueOrDefault().
      */
     public function getOccurredAfter(): string|\DateTimeInterface { return $this->get('occurred_after'); }
     public function hasOccurredAfter(): bool { return $this->has('occurred_after'); }
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
+    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_before is omitted; use hasOccurredBefore() or valueOrDefault().
      */
     public function getOccurredBefore(): string|\DateTimeInterface { return $this->get('occurred_before'); }
     public function hasOccurredBefore(): bool { return $this->has('occurred_before'); }
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_after is omitted; use hasCreatedAfter() or valueOrDefault().
      */
     public function getCreatedAfter(): string|\DateTimeInterface { return $this->get('created_after'); }
     public function hasCreatedAfter(): bool { return $this->has('created_after'); }
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_before is omitted; use hasCreatedBefore() or valueOrDefault().
      */

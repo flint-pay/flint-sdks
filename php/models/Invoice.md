@@ -11,11 +11,11 @@ Response model.
 | `cc_emails` | Required | Array of string | Additional recipients copied on the invoice email and every reminder. |
 | `closed_at` | Optional | string | When the current closed interval began. Cleared when status returns to open or partially_paid. A direct move between closed statuses preserves this timestamp. Format: `date-time`. |
 | `collection` | Required | object and ([InvoiceCollectionBuyerInitiated](../models/InvoiceCollectionBuyerInitiated.md#invoicecollectionbuyerinitiated) or [InvoiceCollectionAutomatic](../models/InvoiceCollectionAutomatic.md#invoicecollectionautomatic) or [InvoiceCollectionExternal](../models/InvoiceCollectionExternal.md#invoicecollectionexternal)) | How this invoice is collected, resolved when the draft is written. Send this object back when updating its collection policy. The invoice collection policy resolved at write time. The object can be sent back when updating a draft. `collection`: [declared alternatives](../models/Invoice.md#invoicecollection). |
-| `collection_block_status` | Required | string | Whether collection is blocked. While it is inventory_blocked, collection attempts return INVOICE_COLLECTION_BLOCKED. Values: `"none"`, `"inventory_blocked"`, `"resolved"`. |
+| `collection_block_status` | Required | string | Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Values: `"none"`, `"inventory_blocked"`, `"resolved"`. |
 | `created_at` | Optional | string | When the invoice was created. Format: `date-time`. |
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `currently_due_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due time has arrived and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything past due, add the outstanding_money of the entries whose status is due or overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Summary of the billed customer. Returned only with expand=customer. |
+| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string | Customer billed by this invoice. Absent when the invoice has no customer. |
 | `delivery_mode` | Optional | string | How issue delivered the invoice. Values: `"email"`, `"caller_managed"`. |
 | `due_at` | Optional | string | When payment is due. With payment terms, issue sets it from issued_at and the terms, counted in the invoice's timezone. Absent when the invoice has no due date. Format: `date-time`. |
@@ -29,8 +29,8 @@ Response model.
 | `late_fees` | Required | Array of [InvoiceLateFee](../models/InvoiceLateFee.md#invoicelatefee) | Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. late_fee_money is their assessed total minus waivers. |
 | `memo` | Required | string or null | Message to the customer, printed on the invoice and PDF. It cannot change after issue. null when unset. |
 | `merchant_id` | Required | string | Merchant that owns this invoice. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/LocationsCreateResponse201.md#locationscreateresponse201datametadata). |
-| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Summary of the backing order. Returned only with expand=order. |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/LocationResponse.md#locationresponsedatametadata). |
+| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Summary of the backing order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Required | string | The order this invoice bills. Every invoice has one; quick pay creates it. |
 | `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed: total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and void invoices; equal to total_money on a draft. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `paid_at` | Optional | string | When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: `date-time`. |
@@ -56,7 +56,7 @@ Response model.
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the issued invoice bills, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `uncollectible_at` | Optional | string | When the invoice was marked uncollectible. Format: `date-time`. |
 | `updated_at` | Optional | string | When the invoice last changed. Format: `date-time`. |
-| `version` | Required | integer string | Current invoice version. Send this as expected_version when updating the draft. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `version` | Required | integer | Current invoice version. Send this as expected_version when updating the draft. Format: `int64`. minimum: `1`. |
 | `viewed_at` | Optional | string | When the buyer first opened the invoice through its hosted invoice link. Recorded on a best-effort basis. Format: `date-time`. |
 | `voided_at` | Optional | string | When the invoice was voided. Format: `date-time`. |
 | `written_off_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The balance written off when the invoice was marked uncollectible, including unpaid late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -73,7 +73,7 @@ How this invoice is collected, resolved when the draft is written. Send this obj
 
 ### Invoice.collection variant 1: `mode` = `"buyer_initiated"`
 
-oneOf variant 1: The `buyer_initiated` variant of `InvoiceCollection`..
+oneOf with mode: "buyer_initiated": The `buyer_initiated` variant of `InvoiceCollection`..
 
 - Condition: not (present(`payment_method_id`)).
 - Required: `payment_policy`.
@@ -83,7 +83,7 @@ oneOf variant 1: The `buyer_initiated` variant of `InvoiceCollection`..
 
 ### Invoice.collection variant 2: `mode` = `"automatic"`
 
-oneOf variant 2: The `automatic` variant of `InvoiceCollection`..
+oneOf with mode: "automatic": The `automatic` variant of `InvoiceCollection`..
 
 - Condition: not (present(`payment_policy`)).
 - Required: `payment_method_id`.
@@ -93,7 +93,7 @@ oneOf variant 2: The `automatic` variant of `InvoiceCollection`..
 
 ### Invoice.collection variant 3: `mode` = `"external"`
 
-oneOf variant 3: The `external` variant of `InvoiceCollection`..
+oneOf with mode: "external": The `external` variant of `InvoiceCollection`..
 
 - Condition: not (at least one(present(`payment_method_id`); present(`payment_policy`))).
 - Optional: `payment_method_id`, `payment_policy`.
@@ -102,7 +102,7 @@ oneOf variant 3: The `external` variant of `InvoiceCollection`..
 
 ### Invoice.metadata
 
-Field definitions: [LocationsCreateResponse201.data.metadata](../models/LocationsCreateResponse201.md#locationscreateresponse201datametadata).
+Field definitions: [LocationResponse.data.metadata](../models/LocationResponse.md#locationresponsedatametadata).
 
 ### Invoice.payment_due
 
@@ -112,7 +112,7 @@ Field definitions: [shared fields](InvoicePaymentDueInput.md#invoicepaymentduein
 
 ### Invoice.payment_due variant 1: `type` = `"none"`
 
-oneOf variant 1: The `none` variant of `InvoicePaymentDue`..
+oneOf with type: "none": The `none` variant of `InvoicePaymentDue`..
 
 - Condition: not (at least one(present(`due_at`); present(`invoice_payment_term_id`))).
 - Optional: `due_at`, `invoice_payment_term_id`.
@@ -120,7 +120,7 @@ oneOf variant 1: The `none` variant of `InvoicePaymentDue`..
 
 ### Invoice.payment_due variant 2: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoicePaymentDue`..
+oneOf with type: "date": The `date` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`invoice_payment_term_id`)).
 - Required: `due_at`.
@@ -129,7 +129,7 @@ oneOf variant 2: The `date` variant of `InvoicePaymentDue`..
 
 ### Invoice.payment_due variant 3: `type` = `"payment_terms"`
 
-oneOf variant 3: The `payment_terms` variant of `InvoicePaymentDue`..
+oneOf with type: "payment_terms": The `payment_terms` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`due_at`)).
 - Required: `invoice_payment_term_id`.
@@ -160,7 +160,7 @@ The billing content of the invoice: line items, discounts, charges, tip, tax, an
 | `merchant_display_name` | Optional | string | Your business name as shown on the invoice. A draft shows your current name; issue freezes it. |
 | `pricing_amounts` | Required | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) | The invoice's pricing totals. Its total_money is the invoice total that the top-level total_money reports. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total. |
 | `requested_tip` | Optional | [InvoiceTip](../models/InvoiceTip.md#invoicetip) | The tip requested on the backing order, frozen at issue. Absent when none was requested. A tip requested on an invoice, set as a fixed amount or a percentage, with an optional name and description. |
-| `seller_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `seller_tax_identity`: [declared alternatives](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity). |
+| `seller_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `seller_tax_identity`: [declared alternatives](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity). |
 | `tax_breakdowns` | Required | Array of (object and Alternative shapes (see declared variants)) | Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows; issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax produces these rows. Automatic tax doesn't, so an automatic-tax invoice reports its tax in pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum to pricing_amounts.tax_money, and rows with price_mode inclusive sum to pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows apply. Some older external-tax invoices have no frozen rows. `tax_breakdowns[]`: [declared alternatives](../models/OrderTax.md#ordertaxtax_breakdowns). |
 
 ### Invoice.snapshot fields 1.billing_address
@@ -171,11 +171,11 @@ Field definitions: [InvoiceSnapshot.billing_address](../models/InvoiceSnapshot.m
 
 Buyer tax identity captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it.
 
-Field definitions: [shared fields](CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity).
+Field definitions: [shared fields](CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity).
 
 ### Invoice.snapshot fields 1.buyer_tax_identity variant 1
 
-anyOf variant 1: Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one..
+anyOf TaxIdentity: Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one..
 
 - Required: `legal_name`, `registered_address`, `tax_ids`.
 
@@ -188,15 +188,15 @@ anyOf variant 2.
 
 ### Invoice.snapshot fields 1.buyer_tax_identity variant 1.registered_address
 
-Declared alternatives: [CreditNotesCreateResponse201.data.buyer_tax_identity variant 1.registered_address](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity-variant-1registered_address).
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1registered_address).
 
 ### Invoice.snapshot fields 1.buyer_tax_identity variant 1.tax_ids[]
 
-Field definitions: [CreditNotesCreateResponse201.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity-variant-1tax_ids).
+Field definitions: [CreditNoteResponse.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids).
 
 ### Invoice.snapshot fields 1.seller_tax_identity
 
-Declared alternatives: [CreditNotesCreateResponse201.data.buyer_tax_identity](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity).
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity).
 
 ### Invoice.snapshot fields 1.tax_breakdowns[]
 

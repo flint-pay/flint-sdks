@@ -17,14 +17,14 @@ How billing begins. Send exactly one closed tagged-union branch.
 
 ### SubscriptionBillingStartRequest variant 1: `type` = `"immediate"`
 
-oneOf variant 1: The `immediate` variant of `SubscriptionBillingStartInput`..
+oneOf with type: "immediate": The `immediate` variant of `SubscriptionBillingStartInput`..
 
 - Undeclared: `starts_at`, `completed_cycles`, `period_started_at`.
 - Constraints for `type`: Values: `"immediate"`.
 
 ### SubscriptionBillingStartRequest variant 2: `type` = `"scheduled"`
 
-oneOf variant 2: The `scheduled` variant of `SubscriptionBillingStartInput`..
+oneOf with type: "scheduled": The `scheduled` variant of `SubscriptionBillingStartInput`..
 
 - Required: `starts_at`.
 - Undeclared: `completed_cycles`, `period_started_at`.
@@ -32,7 +32,7 @@ oneOf variant 2: The `scheduled` variant of `SubscriptionBillingStartInput`..
 
 ### SubscriptionBillingStartRequest variant 3: `type` = `"imported"`
 
-oneOf variant 3: The `imported` variant of `SubscriptionBillingStartInput`..
+oneOf with type: "imported": The `imported` variant of `SubscriptionBillingStartInput`..
 
 - Required: `period_started_at`.
 - Optional: `completed_cycles`.

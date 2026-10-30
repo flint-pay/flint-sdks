@@ -12,5 +12,5 @@ Request input.
 | `last4` | Required | string | Last four characters of the card's current code. |
 | `original_gift_card_id` | Optional | string |  |
 | `restoration_reason` | Optional | string | Values: `"manual_recollection"`, `"processor_recollection"`. |
-| `unit_ordinal` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `unit_ordinal` | Required | integer | Format: `int64`. minimum: `1`. |
 

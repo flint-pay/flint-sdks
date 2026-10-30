@@ -15,14 +15,14 @@ A rule group is an object with exactly one nonempty all (AND) or any (OR) array 
 
 ### PromotionRuleGroupRequest variant 1
 
-oneOf variant 1.
+oneOf All.
 
 - Required: `all`.
 - Undeclared: `any`.
 
 ### PromotionRuleGroupRequest variant 2
 
-oneOf variant 2.
+oneOf Any.
 
 - Required: `any`.
 - Undeclared: `all`.

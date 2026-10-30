@@ -13,37 +13,37 @@ namespace Flint;
 final class CreditNoteAllocation extends Model {
     /** @param array{'allocated_at': string, 'amount_money': mixed, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocation')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getAllocatedAt(): string { return $this->get('allocated_at'); }
     public function hasAllocatedAt(): bool { return $this->has('allocated_at'); }
-    /** Shape $ (Value): {@see MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Credit applied to the invoice balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string. Unique identifier of the allocation.
+    /** Unique identifier of the allocation.
      * @return string
      */
     public function getCreditNoteAllocationId(): string { return $this->get('credit_note_allocation_id'); }
     public function hasCreditNoteAllocationId(): bool { return $this->has('credit_note_allocation_id'); }
-    /** Shape $ (Value): string. The credit note whose credit was applied.
+    /** The credit note whose credit was applied.
      * @return string
      */
     public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** Shape $ (Value): string. The key the caller sent when allocating, or issue: followed by the issue request's Idempotency-Key for an allocation made on issue. It is this allocation's identity and is filterable on the allocations list.
+    /** The key the caller sent when allocating, or issue: followed by the issue request's Idempotency-Key for an allocation made on issue. It is this allocation's identity and is filterable on the allocations list.
      * @return string
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Shape $ (Value): string. The invoice whose balance the credit reduced.
+    /** The invoice whose balance the credit reduced.
      * @return string
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string. When the allocation was reversed and its credit returned. Absent while the allocation stands. Format: date-time.
+    /** When the allocation was reversed and its credit returned. Absent while the allocation stands. Format: date-time.
      * @return ?string
      */
     public function getReversedAt(): ?string { return $this->get('reversed_at'); }

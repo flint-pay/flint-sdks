@@ -1,8 +1,8 @@
 # Flint Public API SDK
 
-Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts. See the [SDK ↔ API version mapping](https://github.com/flint-pay/flint-sdks#sdk--api-versions) for version history.
+The client sends requests to `https://api.withflintpay.com`, which serves sandbox and live mode: a `flint_test_` key runs in your sandbox, a `flint_live_` key in live mode. See the [Flint SDK guide](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides, and the [changelog](https://github.com/flint-pay/flint-sdks/blob/main/CHANGELOG.md) for release history.
 
-Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generator). Submit fixes and pull requests to the generator; this distribution repository does not accept pull requests.
+Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generator).
 
 ## Install
 
@@ -14,18 +14,17 @@ Requires PHP 8.2+ with ext-json and ext-curl. PHPDoc types target PHPStan 2.2+.
 
 ## Quickstart
 
-Set `API_BASE_URL` ([authentication](RUNTIME.md#authentication)) and configure default credentials as described in the authentication guide, then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
+Configure the client and configure default credentials as described in the authentication guide, then replace the sample values with your own. Optionally set FLINT_BASE_URL to override the API default server (https://api.withflintpay.com).
 
 ```php
 <?php
 declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, SdkError};
-$baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
+$baseUrl = getenv('FLINT_BASE_URL') ?: null;
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
-  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
+  allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -43,7 +42,7 @@ try {
   ], new RequestOptions(idempotencyKey: $idempotencyKey));
   echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 } catch (SdkError $error) {
-  error_log($error->getMessage() . ' status=' . ($error->status ?? 'none') . ' code=' . ($error->errorCode ?? '') . ' request=' . ($error->meta['requestId'] ?? 'unknown'));
+  error_log($error->getMessage() . ' status=' . ($error->status ?? 'none') . ' code=' . $error->code . ' request=' . ($error->requestId ?? 'unknown'));
   if ($error->outcome === 'unknown') {
     // Reconcile with the API before resubmitting this action.
     error_log('The request may have succeeded; check its current state.');
@@ -54,7 +53,7 @@ try {
 
 [Run the standalone example](examples/paymentIntents-create.php)
 
-Methods return the decoded body, except result-mode operations, which return `$result->data` and `$result->meta`; the [API reference](REFERENCE.md) lists each operation's mode. Call `$client->close()` when finished to release the cURL handle.
+Methods return the decoded body, except result-mode operations, which return `$result->data` and `$result->lastResponse()`; the [API reference](REFERENCE.md) lists each operation's mode. Call `$client->close()` when finished to release the cURL handle.
 
 ## More examples
 
@@ -63,7 +62,7 @@ Methods return the decoded body, except result-mode operations, which return `$r
 Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with credential_type attached to retrieve current_payment_action.
 
 ```php
-$result = $client->paymentIntents->get('example');
+$result = $client->paymentIntents->get('pi_01ARZ3NDEKTSV4RRFFQ69G5FAV');
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 ```
 
@@ -79,7 +78,7 @@ $refundsCreateIdempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->refunds->create([
   'refund_type' => 'full',
-  'order_id' => 'example',
+  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions(idempotencyKey: $refundsCreateIdempotencyKey));
 echo $result->refund_id . PHP_EOL;
 echo $result->status . PHP_EOL;
@@ -89,7 +88,7 @@ echo $result->status . PHP_EOL;
 
 ## Errors and retries
 
-Failed calls throw `SdkError` with `getMessage()`, `kind`, `status`, `errorCode` and the request ID in `meta`. An `outcome` of `unknown` means the request may have succeeded, so check the current state before resubmitting. Each operation retries according to its declared policy; the [API reference](REFERENCE.md) lists its attempt limit. See [errors](RUNTIME.md#responses-and-errors) and [retries](RUNTIME.md#retries-and-idempotency).
+Failed calls throw `SdkError` with `getMessage()`, `status`, `code` and `requestId`. An `outcome` of `unknown` means the request may have succeeded, so check the current state before resubmitting. Each operation retries according to its declared policy; the [API reference](REFERENCE.md) lists its attempt limit. See [errors](RUNTIME.md#responses-and-errors) and [retries](RUNTIME.md#retries-and-idempotency).
 
 Check an error's class to handle a specific failure; every class extends `SdkError`:
 
@@ -115,7 +114,7 @@ Verify each delivery with `$client->verifyWebhookDelivery($rawBody, $headers, ['
 
 ## Documentation
 
-Set API_BASE_URL to your sandbox or local mock URL and supply the credential environment variables shown in the quickstart. Example IDs are placeholders: replace them with IDs from that environment.
+Optionally set FLINT_BASE_URL to override the API default server. Supply the credential environment variables shown in the quickstart. Example IDs are placeholders: replace them with IDs from that environment.
 
 Selected methods use positional path arguments; check their signatures. Request options are the last argument.
 
@@ -127,4 +126,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 7.0.0, generated for API 2026-09-07.
+Package 8.0.0-beta.1, generated for API 2026-09-07.

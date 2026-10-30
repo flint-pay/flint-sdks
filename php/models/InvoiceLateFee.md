@@ -35,7 +35,7 @@ The late fee policy from payment_terms_snapshot, copied when the fee was assesse
 
 ### InvoiceLateFee.late_fee_policy variant 1: `type` = `"fixed"`
 
-anyOf variant 1: A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.; oneOf variant 1: The `fixed` variant of `InvoiceLateFeePolicy`..
+anyOf InvoiceLateFeePolicy: A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.; oneOf with type: "fixed": The `fixed` variant of `InvoiceLateFeePolicy`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`, `grace_period_days`, `type`.
@@ -44,7 +44,7 @@ anyOf variant 1: A late fee for overdue invoices: a fixed amount or a percentage
 
 ### InvoiceLateFee.late_fee_policy variant 2: `type` = `"percentage"`
 
-anyOf variant 1: A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.; oneOf variant 2: The `percentage` variant of `InvoiceLateFeePolicy`..
+anyOf InvoiceLateFeePolicy: A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.; oneOf with type: "percentage": The `percentage` variant of `InvoiceLateFeePolicy`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `grace_period_days`, `percent`, `type`.

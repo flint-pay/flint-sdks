@@ -11,10 +11,10 @@ The gift card purchase details saved on an order line item: configuration, face 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Required | [GiftCardProductConfiguration](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) or null | `configuration`: [declared alternatives](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconfiguration). |
-| `consideration_money` | Required | object | `consideration_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money). |
-| `face_value_money` | Required | object | `face_value_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money). |
+| `consideration_money` | Required | object | `consideration_money`: [field definitions](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconsideration_money). |
+| `face_value_money` | Required | object | `face_value_money`: [field definitions](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconsideration_money). |
 | `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional `send_at` time. `recipient`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchaserecipient). |
-| `reference_price_money` | Required | object | `reference_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money). |
+| `reference_price_money` | Required | object | `reference_price_money`: [field definitions](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconsideration_money). |
 
 ### GiftCardPurchaseSnapshot.configuration
 
@@ -26,7 +26,7 @@ The gift card purchase details saved on an order line item: configuration, face 
 
 ### GiftCardPurchaseSnapshot.configuration variant 1
 
-anyOf variant 1: Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts..
+anyOf GiftCardProductConfiguration: Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts..
 
 - Required: `face_value_money`, `price_mode`.
 - Optional: `custom_amount_bounds`.
@@ -48,11 +48,11 @@ Field definitions: [GiftCardProductConfiguration.face_value_money](../models/Gif
 
 ### GiftCardPurchaseSnapshot.consideration_money
 
-Field definitions: [AddLineItemsRequest.line_items[].gift_card_purchase.face_value_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [shared fields](AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
 
 ### GiftCardPurchaseSnapshot.face_value_money
 
-Field definitions: [AddLineItemsRequest.line_items[].gift_card_purchase.face_value_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [GiftCardPurchaseSnapshot.consideration_money](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconsideration_money).
 
 ### GiftCardPurchaseSnapshot.recipient
 
@@ -60,5 +60,5 @@ Field definitions: [CreateOrderLineItem variant 1.gift_card_purchase.recipient](
 
 ### GiftCardPurchaseSnapshot.reference_price_money
 
-Field definitions: [AddLineItemsRequest.line_items[].gift_card_purchase.face_value_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [GiftCardPurchaseSnapshot.consideration_money](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconsideration_money).
 

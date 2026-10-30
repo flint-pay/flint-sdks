@@ -1,20 +1,19 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     DeliveryQuote,
     DeliveryQuoteListResponse,
     DeliveryQuoteResponse,
-    DeliveryQuotesGetInput,
-    DeliveryQuotesListInput
-} from '../declarations/types-15.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    DeliveryQuotesGetParams,
+    DeliveryQuotesListParams
+} from '../declarations/types-18.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -24,23 +23,23 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    DeliveryQuotesGetParams,
     DeliveryQuote,
     DeliveryQuoteResponse,
+    DeliveryQuotesListParams,
     DeliveryQuoteListResponse,
-    DeliveryQuotesGetInput,
-    DeliveryQuotesListInput,
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
+    DeliveryRecipientRequirement,
     DeliveryQuoteLineItemResource,
     DeliveryQuoteMethodResource
-} from '../declarations/types-15.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-18.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode, Address } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
+export type { Credentials } from '../declarations/types-12.js';
 export type {
     DeliveryBuyerLocationResource,
     DeliveryBuyerLocationResourceAddress,
@@ -48,113 +47,62 @@ export type {
     DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
     DeliveryArrivalEstimate,
-    DeliveryCandidateOutcomeResourceAvailable
-} from '../declarations/types-12.js';
-export type { LocationCoordinate } from '../declarations/types-30.js';
+    DeliveryCandidateOutcomeResourceAvailable,
+    DeliveryCandidateOutcomeResourceUnavailable,
+    DeliveryCandidateOutcomeResourceInputRequired,
+    DeliveryCandidateOutcomeResourceCannotCalculate,
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
+} from '../declarations/types-14.js';
+export type { LocationCoordinate } from '../declarations/types-32.js';
 export type {
     DeliveryInputRequirement,
     DeliveryInputConstraint,
     DeliveryLocationSummaryResource,
-    DeliveryCandidateOutcomeResourceUnavailable,
-    DeliveryCandidateOutcomeResourceInputRequired,
-    DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
     DeliveryMerchantDiagnostic,
     DeliveryEligibilityMismatch
-} from '../declarations/types-13.js';
-export type { DeliveryWindowRequest, DeliveryShipmentDetails, DeliveryRecipientRequirement } from '../declarations/types-16.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
-export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-14.js';
-export type { BuyerInstructionsConfig } from '../declarations/types-1.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-70.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+} from '../declarations/types-15.js';
+export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-19.js';
+export type { MoneyValue, NextAction } from '../declarations/types-35.js';
+export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-16.js';
+export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface DeliveryQuotesResource {
     /**
  * Returns a persisted delivery quote for diagnostics and recovery by its ID, using the same
  * merchant view as the quote list.
- * @see reference/deliveryQuotes.md#deliveryquotesget
- * GET /v1/delivery-quotes/{delivery_quote_id}
+ *
+ * `GET /v1/delivery-quotes/{delivery_quote_id}`
+ * @param delivery_quote_id Delivery quote ID.
+ * @see https://developers.withflintpay.com/docs/api/delivery-quotes#getDeliveryQuote
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.deliveryQuotes.get("example")
+ * client.deliveryQuotes.get("dqt_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryQuote>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryQuotes.md#deliveryquotesget
-     */
-    getWithResponse(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryQuoteResponse>>;
+    get(delivery_quote_id: InputValue<string>, params?: DeliveryQuotesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryQuote, DeliveryQuoteResponse>>;
     /**
  * Returns delivery quote diagnostics with status derived identically to individual and checkout
  * quote reads. Quotes are ordered by created_at and delivery_quote_id ascending. Each page scans
  * at most 500 rows and may contain fewer than page_size items while next_page_token is present.
  * Default order: created_at ascending, then delivery_quote_id ascending.
- * @see reference/deliveryQuotes.md#deliveryquoteslist
- * GET /v1/delivery-quotes
+ *
+ * `GET /v1/delivery-quotes`
+ * @see https://developers.withflintpay.com/docs/api/delivery-quotes#listDeliveryQuotes
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.deliveryQuotes.list()
  */
-    list(params?: {
-        "checkout_session_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
-        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryQuoteListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryQuotes.md#deliveryquoteslist
-     */
-    listWithResponse(params?: {
-        "checkout_session_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
-        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryQuoteListResponse>>;
+    list(params?: DeliveryQuotesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryQuoteListResponse, DeliveryQuoteListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/deliveryQuotes.md#deliveryquoteslist
+     * @see https://developers.withflintpay.com/docs/api/delivery-quotes#listDeliveryQuotes
      */
-    listPages(params?: {
-        "checkout_session_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
-        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryQuoteListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/deliveryQuotes.md#deliveryquoteslist
-     */
-    listPagesWithResponse(params?: {
-        "checkout_session_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
-        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryQuoteListResponse>>;
+    listPages(params?: DeliveryQuotesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<DeliveryQuoteListResponse, DeliveryQuoteListResponse>>;
     /** Iterate items lazily.
-     * @see reference/deliveryQuotes.md#deliveryquoteslist
+     * @see https://developers.withflintpay.com/docs/api/delivery-quotes#listDeliveryQuotes
      */
-    listItems(params?: {
-        "checkout_session_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
-        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryQuote>;
+    listItems(params?: DeliveryQuotesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryQuote>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

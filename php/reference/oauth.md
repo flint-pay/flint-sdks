@@ -2,71 +2,9 @@
 
 # oauth
 
-### oauth.authorizePartnerInstall
-
-Starts a partner app install in the merchant's browser. Flint validates the request, then redirects to Flint's consent screen, where the merchant signs in, chooses a merchant, and approves or denies the requested permissions. Flint then redirects to redirect_uri with code, state, and mode, or with an OAuth error. Request errors found before consent also redirect with an OAuth error once client_id and redirect_uri are validated. Unknown or inactive clients and missing or unregistered redirect URIs return the Flint error envelope. Flint ignores unrecognized parameters.
-
-`GET /v1/oauth/authorize`
-
-Signature: `authorizePartnerInstall(array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `response_type` | Required | string | Values: `"code"`. |
-| `client_id` | Required | string |  |
-| `redirect_uri` | Required | string |  |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
-| `code_challenge` | Required | string |  |
-| `code_challenge_method` | Required | string | Values: `"S256"`. |
-| `scope` | Optional | string |  |
-| `sandbox_id` | Optional | string |  |
-| `merchant_id` | Optional | string |  |
-| `state` | Required | string |  |
-
-#### Response
-
-Response body (inside Result.data): null.
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-$result = $client->oauth->authorizePartnerInstall([
-  'response_type' => 'code',
-  'client_id' => 'example',
-  'redirect_uri' => 'example',
-  'mode' => 'test',
-  'code_challenge' => 'example',
-  'code_challenge_method' => 'S256',
-  'state' => 'example',
-], new RequestOptions());
-```
-
-[Complete runnable example](../examples/oauth-authorizePartnerInstall.php)
-
 ### oauth.previewPartnerInstallAuthorization
 
-Validates the install link inputs and returns the partner app metadata and requested permissions for the consent screen. Flint ignores unrecognized parameters.
+Validates the install link inputs and returns the partner app metadata and requested permissions for the consent screen. This route takes no credential. Flint ignores an Authorization header, except that a partner install access token is refused with 401. Flint ignores unrecognized parameters.
 
 `GET /v1/oauth/authorize/preview`
 
@@ -76,15 +14,15 @@ Signature: `previewPartnerInstallAuthorization(array|Model $params, ?RequestOpti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `response_type` | Optional | string | Values: `"code"`. |
-| `client_id` | Required | string |  |
-| `redirect_uri` | Required | string |  |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
-| `code_challenge` | Optional | string |  |
-| `code_challenge_method` | Optional | string | Values: `"S256"`. |
-| `scope` | Optional | string |  |
-| `sandbox_id` | Optional | string |  |
-| `state` | Optional | string |  |
+| `response_type` | Optional | string | OAuth response type. Must be code. Values: `"code"`. |
+| `client_id` | Required | string | Partner app client ID. |
+| `redirect_uri` | Required | string | Registered redirect URI for the partner app. |
+| `mode` | Required | string | Install mode. Values: `"test"`, `"live"`. |
+| `code_challenge` | Optional | string | Base64url-encoded SHA-256 hash of your code_verifier, without padding (RFC 7636). |
+| `code_challenge_method` | Optional | string | PKCE challenge method. Values: `"S256"`. |
+| `scope` | Optional | string | Space-separated permission IDs from your app's permission manifest. Omit to request default_requested_permissions. Required permissions are always granted. |
+| `sandbox_id` | Optional | string | Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test mode, Flint uses the merchant's default sandbox. |
+| `state` | Optional | string | Opaque state value returned to the partner callback. |
 
 #### Response
 
@@ -92,14 +30,14 @@ Returned payload: [PartnerAuthorizePreview](../models/PartnerAuthorizePreview.md
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -107,7 +45,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `previewPartnerInstallAuthorizationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 

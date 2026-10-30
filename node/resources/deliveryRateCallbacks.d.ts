@@ -1,6 +1,5 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-6.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     DeliveryRateCallback,
     DeliveryRateCallbackConnectionCheck,
@@ -8,29 +7,25 @@ import type {
     DeliveryRateCallbackListResponse,
     DeliveryRateCallbackResponse,
     DeliveryRateCallbackSigningKeyRotation,
-    DeliveryRateCallbackSigningKeyRotationResponse
-} from '../declarations/types-15.js';
-import type {
+    DeliveryRateCallbackSigningKeyRotationResponse,
     DeliveryRateCallbackTestDelivery,
     DeliveryRateCallbackTestDeliveryResponse,
-    DeliveryRateCallbacksCheckConnectionInput,
-    DeliveryRateCallbacksCreateInput,
-    DeliveryRateCallbacksCreateTestDeliveryInput,
-    DeliveryRateCallbacksGetInput,
-    DeliveryRateCallbacksListInput,
-    DeliveryRateCallbacksRemoveInput,
-    DeliveryRateCallbacksRotateSigningKeyInput,
-    DeliveryRateCallbacksUpdateInput
-} from '../declarations/types-16.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    DeliveryRateCallbacksCheckConnectionParams,
+    DeliveryRateCallbacksCreateParams,
+    DeliveryRateCallbacksCreateTestDeliveryParams,
+    DeliveryRateCallbacksDeleteParams,
+    DeliveryRateCallbacksGetParams,
+    DeliveryRateCallbacksListParams,
+    DeliveryRateCallbacksRotateSecretParams,
+    DeliveryRateCallbacksUpdateParams
+} from '../declarations/types-18.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -40,68 +35,63 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    DeliveryRateCallbacksCheckConnectionParams,
     DeliveryRateCallbackConnectionCheck,
     DeliveryRateCallbackConnectionCheckResponse,
+    DeliveryRateCallbacksCreateParams,
     DeliveryRateCallback,
     DeliveryRateCallbackResponse,
+    DeliveryRateCallbacksCreateTestDeliveryParams,
+    DeliveryRateCallbackTestDelivery,
+    DeliveryRateCallbackTestDeliveryResponse,
+    DeliveryRateCallbacksDeleteParams,
+    DeliveryRateCallbacksGetParams,
+    DeliveryRateCallbacksListParams,
     DeliveryRateCallbackListResponse,
+    DeliveryRateCallbacksRotateSecretParams,
     DeliveryRateCallbackSigningKeyRotation,
     DeliveryRateCallbackSigningKeyRotationResponse,
+    DeliveryRateCallbacksUpdateParams,
     DeliveryRateCallbackConfigurationInput,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPatchRequestInput
-} from '../declarations/types-15.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-6.js';
-export type {
-    DeliveryRateCallbackTestDelivery,
-    DeliveryRateCallbackTestDeliveryResponse,
-    DeliveryRateCallbacksCheckConnectionInput,
-    DeliveryRateCallbacksCreateInput,
-    DeliveryRateCallbacksCreateTestDeliveryInput,
-    DeliveryRateCallbacksRemoveInput,
-    DeliveryRateCallbacksGetInput,
-    DeliveryRateCallbacksListInput,
-    DeliveryRateCallbacksRotateSigningKeyInput,
-    DeliveryRateCallbacksUpdateInput
-} from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-51.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-18.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export type { WebhookSigningMethodInput } from '../declarations/types-57.js';
-export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-67.js';
-export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-70.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-77.js';
-export { makeWebhookSigningMethod } from '../declarations/types-78.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-7.js';
+export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-58.js';
+export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-15.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-63.js';
+export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-73.js';
+export { makeWebhookSigningMethod } from '../declarations/types-75.js';
 export interface DeliveryRateCallbacksResource {
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without
  * running a synthetic rate evaluation. The Idempotency-Key fingerprint includes the
  * delivery_rate_callback_id path value and request body. A retry replays the original result even
  * after the callback changes or is archived.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscheckconnection
- * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/check-connection
+ *
+ * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/check-connection`
+ * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#checkDeliveryRateCallbackConnection
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.checkConnection("example", {}, { idempotencyKey: idempotencyKey })
+ * client.deliveryRateCallbacks.checkConnection("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * idempotencyKey: idempotencyKey })
  */
-    checkConnection(delivery_rate_callback_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRateCallbackConnectionCheck>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscheckconnection
-     */
-    checkConnectionWithResponse(delivery_rate_callback_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackConnectionCheckResponse>>;
+    checkConnection(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksCheckConnectionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackConnectionCheck, DeliveryRateCallbackConnectionCheckResponse>>;
     /**
  * Delivery callback endpoints pin shared outbound callback transport configuration. Creation
  * publishes immutable revision 1. signing_methods defaults to ["jwt"]. JWTs use Flint's public
@@ -110,186 +100,122 @@ export interface DeliveryRateCallbacksResource {
  * webhook-signature and Flint-Signing-Key-Ids. Every request includes webhook-id and
  * webhook-timestamp. A shared secret and key_id are issued and returned once only when hmac is
  * included. It starts inactive.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscreate
- * POST /v1/delivery-rate-callbacks
+ *
+ * `POST /v1/delivery-rate-callbacks`
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#createDeliveryRateCallback
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryRateCallbacks.create({name: "example", configuration: {url: "example"}}, {
  * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateDeliveryRateCallbackRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRateCallback>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscreate
-     */
-    createWithResponse(params: (InputValue<CreateDeliveryRateCallbackRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackResponse>>;
+    create(params: DeliveryRateCallbacksCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
     /**
  * Sends a signed delivery rate callback with synthetic non-PII data and returns a safe result. The
  * Idempotency-Key fingerprint includes the delivery_rate_callback_id path value and request body.
  * A retry replays the original result even after the callback changes or is archived.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscreatetestdelivery
- * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/test-deliveries
+ *
+ * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/test-deliveries`
+ * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#createDeliveryRateCallbackTestDelivery
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.createTestDelivery("example", {}, { idempotencyKey: idempotencyKey
- * })
+ * client.deliveryRateCallbacks.createTestDelivery("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * idempotencyKey: idempotencyKey })
  */
-    createTestDelivery(delivery_rate_callback_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRateCallbackTestDelivery>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscreatetestdelivery
-     */
-    createTestDeliveryWithResponse(delivery_rate_callback_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackTestDeliveryResponse>>;
+    createTestDelivery(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksCreateTestDeliveryParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackTestDelivery, DeliveryRateCallbackTestDeliveryResponse>>;
     /**
  * Retires the delivery rate callback after checking current dependencies. The retired resource
  * remains available by ID for historical records. Deleting an already archived resource returns it
  * without changing its version or repeating effects.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksremove
- * DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
+ *
+ * `DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
+ * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#deleteDeliveryRateCallback
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.deliveryRateCallbacks.delete("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    remove(delivery_rate_callback_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRateCallback>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksremove
-     */
-    removeWithResponse(delivery_rate_callback_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackResponse>>;
+    delete(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery rate callback.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksget
- * GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
+ *
+ * `GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
+ * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryRateCallback
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.deliveryRateCallbacks.get("example")
+ * client.deliveryRateCallbacks.get("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(delivery_rate_callback_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryRateCallback>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksget
-     */
-    getWithResponse(delivery_rate_callback_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryRateCallbackResponse>>;
+    get(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
     /**
  * Returns delivery rate callbacks in a stable, cursor-paginated order. Archived resources are
  * excluded by default. Default order: created_at ascending, then delivery_rate_callback_id
  * ascending.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbackslist
- * GET /v1/delivery-rate-callbacks
+ *
+ * `GET /v1/delivery-rate-callbacks`
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#listDeliveryRateCallbacks
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.deliveryRateCallbacks.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryRateCallbackListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryRateCallbackListResponse>>;
+    list(params?: DeliveryRateCallbacksListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryRateCallbackListResponse, DeliveryRateCallbackListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackslist
+     * @see
+     * https://developers.withflintpay.com/docs/api/delivery-configuration#listDeliveryRateCallbacks
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRateCallbackListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryRateCallbackListResponse>>;
+    listPages(params?: DeliveryRateCallbacksListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<DeliveryRateCallbackListResponse, DeliveryRateCallbackListResponse>>;
     /** Iterate items lazily.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbackslist
+     * @see
+     * https://developers.withflintpay.com/docs/api/delivery-configuration#listDeliveryRateCallbacks
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRateCallback>;
+    listItems(params?: DeliveryRateCallbacksListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRateCallback>;
     /**
  * Issues a first shared secret and adds hmac when no secret exists, and increments the callback's
  * version. Otherwise rotates the shared secret and accepts both keys for one hour. Returns the new
  * secret and key_id once.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksrotatesigningkey
- * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret
+ *
+ * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret`
+ * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#rotateDeliveryRateCallbackSigningKey
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.rotateSigningKey("example", {}, { idempotencyKey: idempotencyKey })
+ * client.deliveryRateCallbacks.rotateSecret("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * idempotencyKey: idempotencyKey })
  */
-    rotateSigningKey(delivery_rate_callback_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRateCallbackSigningKeyRotation>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksrotatesigningkey
-     */
-    rotateSigningKeyWithResponse(delivery_rate_callback_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackSigningKeyRotationResponse>>;
+    rotateSecret(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackSigningKeyRotation, DeliveryRateCallbackSigningKeyRotationResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
  * revision. Configuration and signing_methods changes require expected_version. signing_methods
  * replaces the set; removing hmac deletes all shared secrets. Use rotate-secret to issue a first
  * shared secret before adding hmac. Archived resources can't be changed; create a new resource
  * instead.
- * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksupdate
- * PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
+ *
+ * `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
+ * @param delivery_rate_callback_id Flint delivery rate callback ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#updateDeliveryRateCallback
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.update("example", {name: "example"}, { idempotencyKey:
- * idempotencyKey })
+ * client.deliveryRateCallbacks.update("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Delivery rates"},
+ * { idempotencyKey: idempotencyKey })
  */
-    update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<UpdateDeliveryRateCallbackRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRateCallback>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksupdate
-     */
-    updateWithResponse(delivery_rate_callback_id: InputValue<string>, params: (InputValue<UpdateDeliveryRateCallbackRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackResponse>>;
+    update(delivery_rate_callback_id: InputValue<string>, params: DeliveryRateCallbacksUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

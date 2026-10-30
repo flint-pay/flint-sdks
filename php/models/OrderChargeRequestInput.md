@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Fixed charge amount in the order currency. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `calculation_basis` | Optional | string | Values: `"subtotal_pre_discount"`, `"subtotal_post_discount"`. |
 | `calculation_type` | Required | string | Selects a fixed amount or percentage calculation. Values: `"amount"`, `"percent"`. |
 | `description` | Optional | string | minLength: `1`. maxLength: `2048`. |
@@ -21,7 +21,7 @@ Request input.
 
 ### OrderChargeRequestInput variant 1: `calculation_type` = `"amount"`
 
-oneOf variant 1: The `amount` variant of `OrderChargeInput`..
+oneOf with calculation_type: "amount": The `amount` variant of `OrderChargeInput`..
 
 - Condition: not (at least one(present(`percent`))).
 - Required: `amount_money`.
@@ -30,7 +30,7 @@ oneOf variant 1: The `amount` variant of `OrderChargeInput`..
 
 ### OrderChargeRequestInput variant 2: `calculation_type` = `"percent"`
 
-oneOf variant 2: The `percent` variant of `OrderChargeInput`..
+oneOf with calculation_type: "percent": The `percent` variant of `OrderChargeInput`..
 
 - Condition: not (at least one(present(`amount_money`))).
 - Required: `percent`.

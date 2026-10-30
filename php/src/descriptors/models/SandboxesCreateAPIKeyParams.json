@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3728"},"dependencies":["IssueSandboxAPIKeyRequest","SharedCodec128","SharedCodec3","SharedCodec3728","SharedCodec847","SharedCodec848","SharedCodec849"]}

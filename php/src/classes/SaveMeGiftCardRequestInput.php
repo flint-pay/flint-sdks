@@ -10,25 +10,25 @@ namespace Flint;
 final class SaveMeGiftCardRequestInput extends Model {
     /** @param array{'code': string, 'credential_type': string, 'grant_id'?: string, 'recipient_access_token'?: string}|object|array{'code'?: string, 'credential_type': string, 'grant_id': string, 'recipient_access_token': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SaveMeGiftCardRequestInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Shape $ (Value): string.  Value enum: "code", "recipient_access".
+    /** Value enum: "code", "recipient_access".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When grant_id is omitted; use hasGrantId() or valueOrDefault().
      */
     public function getGrantId(): string { return $this->get('grant_id'); }
     public function hasGrantId(): bool { return $this->has('grant_id'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When recipient_access_token is omitted; use hasRecipientAccessToken() or valueOrDefault().
      */

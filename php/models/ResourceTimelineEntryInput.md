@@ -17,7 +17,7 @@ Request input.
 | `error_summary` | Conditional | string |  |
 | `error_type` | Conditional | string | The error envelope's `type` for this response. Values: [11 declared values](APIRequestLogInput.md#apirequestloginput-error_type-values). |
 | `http_method` | Conditional | string |  |
-| `latency_milliseconds` | Conditional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `latency_milliseconds` | Conditional | integer | Format: `int64`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `path` | Conditional | string |  |
 | `recommended_action` | Conditional | string |  |
@@ -27,12 +27,12 @@ Request input.
 | `retry` | Conditional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Conditional | string |  |
 | `status_code` | Conditional | integer | Format: `int32`. |
-| `event_type` | Conditional | string | Values: [246 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Conditional | string | Values: [251 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `webhook_event_id` | Conditional | string |  |
 | `attempt_number` | Conditional | integer | Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. |
 | `delivery_trigger` | Conditional | string | Values: `"automatic_delivery"`, `"automatic_retry"`, `"manual_resend"`, `"manual_delivery"`. |
-| `duration_milliseconds` | Conditional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `duration_milliseconds` | Conditional | integer | Format: `int64`. |
 | `error_category` | Conditional | string | The kind of failure on the most recent failed attempt. Absent before any attempt, and when delivered or suppressed. Values: [11 declared values](#resourcetimelineentryinput-error_category-values). |
 | `reason_message` | Conditional | string | The note supplied when this action was requested. |
 | `retryable` | Conditional | boolean | Whether sending this delivery again without changing your endpoint is likely to succeed. While the delivery is pending, Flint retries automatically either way. |
@@ -41,7 +41,7 @@ Request input.
 | `webhook_delivery_attempt_id` | Conditional | string |  |
 | `webhook_delivery_id` | Conditional | string |  |
 | `webhook_endpoint_id` | Conditional | string |  |
-| `image_version` | Conditional | integer string | Version of the resource's image attachments after this change. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `image_version` | Conditional | integer | Version of the resource's image attachments after this change. Format: `int64`. |
 | `mutation_kind` | Conditional | string | The change made to the resource's images. Values: `"replaced"`. |
 
 #### ResourceTimelineEntryInput error_category values
@@ -55,12 +55,12 @@ Request input.
 - `"webhook_redirect"`
 - `"webhook_http_4xx"`
 - `"webhook_http_5xx"`
-- `"server_error"`
+- `"webhook_payload_render"`
 - `"webhook_delivery"`
 
 ### ResourceTimelineEntryInput variant 1: `entry_type` = `"api_request"`
 
-oneOf variant 1: An API request recorded in this resource's timeline..
+oneOf with entry_type: "api_request": An API request recorded in this resource's timeline..
 
 - Required: `api_request_log_id`, `http_method`, `latency_milliseconds`, `path`, `request_id`, `route_pattern`, `status_code`.
 - Optional: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `recommended_action`, `reference_url`, `retry`.
@@ -71,7 +71,7 @@ oneOf variant 1: An API request recorded in this resource's timeline..
 
 ### ResourceTimelineEntryInput variant 2: `entry_type` = `"webhook_event"`
 
-oneOf variant 2: A webhook event recorded in this resource's timeline..
+oneOf with entry_type: "webhook_event": A webhook event recorded in this resource's timeline..
 
 - Required: `event_type`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `request_id`.
@@ -80,7 +80,7 @@ oneOf variant 2: A webhook event recorded in this resource's timeline..
 
 ### ResourceTimelineEntryInput variant 3: `entry_type` = `"webhook_delivery_attempt"`
 
-oneOf variant 3: A webhook delivery attempt recorded in this resource's timeline..
+oneOf with entry_type: "webhook_delivery_attempt": A webhook delivery attempt recorded in this resource's timeline..
 
 - Required: `attempt_number`, `delivery_trigger`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `completed_at`, `duration_milliseconds`, `error_category`, `error_summary`, `reason_message`, `recommended_action`, `request_id`, `retryable`, `started_at`, `status_code`.
@@ -91,7 +91,7 @@ oneOf variant 3: A webhook delivery attempt recorded in this resource's timeline
 
 ### ResourceTimelineEntryInput variant 4: `entry_type` = `"image_mutation"`, `mutation_kind` = `"replaced"`
 
-oneOf variant 4: A change to this resource's image attachments recorded in its timeline..
+oneOf with entry_type: "image_mutation": A change to this resource's image attachments recorded in its timeline..
 
 - Required: `image_version`, `mutation_kind`.
 - Optional: `request_id`.

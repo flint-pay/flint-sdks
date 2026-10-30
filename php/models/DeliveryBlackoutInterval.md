@@ -6,5 +6,5 @@ A local start and end time during which a delivery schedule offers no windows.
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryBlackoutIntervalRequestRequestInput](../models/DeliveryBlackoutIntervalRequestRequestInput.md#deliveryblackoutintervalrequestrequestinput).
+Fields, types, descriptions and enum values: [DeliveryBlackoutIntervalRequestInput](../models/DeliveryBlackoutIntervalRequestInput.md#deliveryblackoutintervalrequestinput).
 

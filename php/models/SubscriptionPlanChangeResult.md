@@ -10,9 +10,9 @@ Response model.
 | --- | --- | --- | --- |
 | `order` | Required | [Order](../models/Order.md#order) or null | The new period's order when billing_starts is now, including a canceled order when payment fails. Null for next_renewal. |
 | `order_payment_attempt` | Required | [OrderPaymentAttempt](../models/OrderPaymentAttempt.md#orderpaymentattempt) or null | The recorded payment attempt when billing_starts is now, including declines. Null for next_renewal. |
-| `subscription` | Required | [Subscription](../models/Subscription.md#subscription) | A customer's recurring purchase. `subscription`: [field definitions](../models/SubscriptionsCancelResponse200.md#subscriptionscancelresponse200data). |
+| `subscription` | Required | [Subscription](../models/Subscription.md#subscription) | A customer's recurring purchase. `subscription`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedata). |
 
 ### SubscriptionPlanChangeResult.subscription
 
-Field definitions: [SubscriptionsCancelResponse200.data](../models/SubscriptionsCancelResponse200.md#subscriptionscancelresponse200data).
+Field definitions: [SubscriptionResponse.data](../models/SubscriptionResponse.md#subscriptionresponsedata).
 

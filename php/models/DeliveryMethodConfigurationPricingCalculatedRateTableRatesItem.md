@@ -26,106 +26,106 @@ Response model.
 | `customer_segment` | Conditional | object | Matches the free-form segment you assign to the customer against values. A delivery eligibility condition that matches customers in one of the listed segments (`values`). `customer_segment`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallcustomer_segment). |
 | `not` | Conditional | object and Alternative shapes (see declared variants) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `not`: [declared alternatives](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1all). |
 | `postal_code` | Conditional | object | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallpostal_code). |
-| `radius` | Conditional | object | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius). |
+| `radius` | Conditional | object | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius). |
 | `state` | Conditional | object | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallstate). |
 | `subscription_purchase` | Conditional | object | A delivery eligibility condition that tests a true or false fact about the customer against `value`. `subscription_purchase`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallcustomer_has_email). |
 | `window_time` | Conditional | object | Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the listed `weekdays`. `window_time`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallwindow_time). |
-| `zone` | Conditional | object | Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. `zone`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone). |
+| `zone` | Conditional | object | Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. `zone`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone). |
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 1.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 1.
 
 - Required: `all`.
 - Optional: `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 2
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 2.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 2.
 
 - Required: `any`.
 - Optional: `all`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 3
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 3.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 3.
 
 - Required: `not`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 4
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 4.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 4.
 
 - Required: `zone`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 5
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 5.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 5.
 
 - Required: `country`.
 - Optional: `all`, `any`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 6
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 6.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 6.
 
 - Required: `state`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 7
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 7.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 7.
 
 - Required: `postal_code`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 8
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 8.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 8.
 
 - Required: `radius`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 9
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 9.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 9.
 
 - Required: `window_time`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 10
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 10.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 10.
 
 - Required: `customer_segment`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 11
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 11.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 11.
 
 - Required: `customer_merchant_verified`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 12
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 12.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 12.
 
 - Required: `customer_has_email`.
 - Optional: `all`, `any`, `country`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 13
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 13.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 13.
 
 - Required: `customer_has_phone`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 14
 
-anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 14.
+anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 14.
 
 - Required: `subscription_purchase`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `window_time`, `zone`.
@@ -462,7 +462,7 @@ The point a radius condition measures from: a specific Location (`location_id`) 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string | minLength: `1`. |
+| `location_id` | Optional | string | minLength: `1`. Example: `"loc_01ARZ3NDEKTSV4RRFFQ69G5FAV"`. |
 | `method_origin` | Optional | boolean |  |
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].state
@@ -489,7 +489,7 @@ Eligibility condition that matches by time of day, using `start_minute` and `end
 
 Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`.
 
-Field definitions: [shared fields](DeliveryZoneConditionInput.md#deliveryzoneconditioninput).
+Field definitions: [shared fields](DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninputallzone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].all[] fields 1
 
@@ -733,7 +733,27 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_distance` | Required | object | A distance as a `value` in meters, kilometers, or miles. `maximum_distance`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradiusmaximum_distance). |
+| `measurement` | Optional | string | Default: `"straight_line"`. Values: `"straight_line"`. |
+| `origin` | Required | object | The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). `origin`: [field definitions](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radiusorigin). |
+| `subject` | Optional | string | Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Default: `"destination_address"`. Values: `"destination_address"`, `"buyer_location"`. |
+
+### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius.maximum_distance
+
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius.maximum_distance](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradiusmaximum_distance).
+
+### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius.origin
+
+The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`).
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `location_id` | Optional | string | minLength: `1`. |
+| `method_origin` | Optional | boolean |  |
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.state
 
@@ -749,7 +769,9 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`.
+
+Field definitions: [shared fields](DeliveryZoneConditionInput.md#deliveryzoneconditioninput).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 2.all[]
 
@@ -789,7 +811,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 2.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 2.state
 
@@ -805,7 +827,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 2.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 3.all[]
 
@@ -845,7 +867,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 3.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 3.state
 
@@ -861,7 +883,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 3.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 4.all[]
 
@@ -901,7 +923,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 4.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 4.state
 
@@ -917,7 +939,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 4.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 5.all[]
 
@@ -957,7 +979,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 5.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 5.state
 
@@ -973,7 +995,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 5.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 6.all[]
 
@@ -1013,7 +1035,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 6.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 6.state
 
@@ -1029,7 +1051,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 6.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 7.all[]
 
@@ -1069,7 +1091,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 7.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 7.state
 
@@ -1085,7 +1107,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 7.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 8.all[]
 
@@ -1125,7 +1147,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 8.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 8.state
 
@@ -1141,7 +1163,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 8.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 9.all[]
 
@@ -1181,7 +1203,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 9.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 9.state
 
@@ -1197,7 +1219,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 9.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 10.all[]
 
@@ -1237,7 +1259,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 10.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 10.state
 
@@ -1253,7 +1275,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 10.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 11.all[]
 
@@ -1293,7 +1315,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 11.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 11.state
 
@@ -1309,7 +1331,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 11.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 12.all[]
 
@@ -1349,7 +1371,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 12.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 12.state
 
@@ -1365,7 +1387,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 12.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 13.all[]
 
@@ -1405,7 +1427,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 13.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 13.state
 
@@ -1421,7 +1443,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 13.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 14.all[]
 
@@ -1461,7 +1483,7 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 14.radius
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallradius).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.radius](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1radius).
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 14.state
 
@@ -1477,5 +1499,5 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 
 ### DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 14.zone
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallzone).
+Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.zone](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1zone).
 

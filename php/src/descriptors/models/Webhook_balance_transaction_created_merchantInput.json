@@ -1,1 +1,0 @@
-{"shared":"Webhook_balance_transaction_created_merchant","dependencies":["BalanceTransaction","CheckoutBuyerContact","ExpandedOrderSummary","MerchantWebhookEnvelope","MoneyValue","PricingAmounts","ResourceReference","ResourceType","SettlementAmounts","SharedCodec11","SharedCodec413","SharedCodec414","SharedCodec774","SignedMoney","Webhook_balance_transaction_created_merchant"]}

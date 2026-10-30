@@ -8,13 +8,13 @@ namespace Flint;
 final class DisputeResponseSessionInput extends Model {
     /** @param array{'client_session': DisputeResponseSessionClientSessionInput|array<array-key, mixed>|\stdClass, 'dispute_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputeResponseSessionInput')); }
-    /** Shape $ (Value): {@see DisputeResponseSessionClientSessionInput}. Browser session for responding to a dispute, with its expiry and the Stripe details needed to load the embedded response component.
+    /** Browser session for responding to a dispute, with its expiry and the Stripe details needed to load the embedded response component.
      * @return DisputeResponseSessionClientSessionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When client_session is omitted; use hasClientSession() or valueOrDefault().
      */
     public function getClientSession(): mixed { return $this->get('client_session'); }
     public function hasClientSession(): bool { return $this->has('client_session'); }
-    /** Shape $ (Value): string.
+    /** dispute_id
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */

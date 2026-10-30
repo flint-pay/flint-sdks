@@ -10,25 +10,25 @@ namespace Flint;
 final class InventoryRoutingSourceInput extends Model {
     /** @param array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryRoutingSourceInput')); }
-    /** Shape $ (Value): string.
+    /** inventory_allocation_policy_id
      * @return string
      * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventoryAllocationPolicyId() or valueOrDefault().
      */
     public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** Shape $ (Value): string.
+    /** inventory_allocation_policy_revision_id
      * @return string
      * @throws SdkError When inventory_allocation_policy_revision_id is omitted; use hasInventoryAllocationPolicyRevisionId() or valueOrDefault().
      */
     public function getInventoryAllocationPolicyRevisionId(): string { return $this->get('inventory_allocation_policy_revision_id'); }
     public function hasInventoryAllocationPolicyRevisionId(): bool { return $this->has('inventory_allocation_policy_revision_id'); }
-    /** Shape $ (Value): string.
+    /** location_id
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): string.  Value enum: "fixed_location", "policy", "policy_revision".
+    /** Value enum: "fixed_location", "policy", "policy_revision".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

@@ -9,12 +9,12 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Positive billed value to credit in the invoice currency, no more than the frozen source line's remaining value. Consumes proportional remaining tax and discount without consuming quantity; later quantity corrections use the reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `quantity` | Conditional | integer string | Positive whole units; fractional quantities are not supported. No more than the source line's remaining uncredited quantity. Credits that fraction of its remaining billed value, rounded half up once at line level. Earlier amount corrections reduce that remaining value without consuming quantity. A share that rounds to zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Conditional | integer | Positive whole units; fractional quantities are not supported. No more than the source line's remaining uncredited quantity. Credits that fraction of its remaining billed value, rounded half up once at line level. Earlier amount corrections reduce that remaining value without consuming quantity. A share that rounds to zero is rejected; use a larger quantity or a positive amount. Format: `int64`. |
 | `type` | Required | string | quantity credits whole units and requires quantity. amount credits a named figure and requires amount_money. The two are mutually exclusive. Values: `"quantity"`, `"amount"`. |
 
 ### CreditNoteCorrectionRequestInput variant 1: `type` = `"quantity"`
 
-oneOf variant 1: The `quantity` variant of `CreditNoteCorrectionRequest`..
+oneOf with type: "quantity": The `quantity` variant of `CreditNoteCorrectionRequest`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `quantity`.
@@ -23,7 +23,7 @@ oneOf variant 1: The `quantity` variant of `CreditNoteCorrectionRequest`..
 
 ### CreditNoteCorrectionRequestInput variant 2: `type` = `"amount"`
 
-oneOf variant 2: The `amount` variant of `CreditNoteCorrectionRequest`..
+oneOf with type: "amount": The `amount` variant of `CreditNoteCorrectionRequest`..
 
 - Condition: not (present(`quantity`)).
 - Required: `amount_money`.

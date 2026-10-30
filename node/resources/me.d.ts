@@ -1,8 +1,6 @@
-import type { Result, InputValue } from '../runtime.js';
+import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
 import type {
     BuyerCheckoutSessionWithSecret,
-    BuyerCreateReturnPreviewRequestInput,
-    BuyerCreateReturnRequestInput,
     BuyerCreditNote,
     BuyerCreditNoteListResponse,
     BuyerCreditNoteResponse,
@@ -13,7 +11,9 @@ import type {
     BuyerFlintWalletStoreSetupResponse,
     BuyerFulfillment,
     BuyerFulfillmentEvent,
-    BuyerFulfillmentEventListResponse,
+    BuyerFulfillmentEventListResponse
+} from '../declarations/types-1.js';
+import type {
     BuyerFulfillmentListResponse,
     BuyerFulfillmentResponse,
     BuyerGiftCard,
@@ -26,9 +26,7 @@ import type {
     BuyerInvoiceCheckoutSessionResult,
     BuyerInvoiceListResponse,
     BuyerInvoiceResponse,
-    BuyerOrder
-} from '../declarations/types-1.js';
-import type {
+    BuyerOrder,
     BuyerOrderListResponse,
     BuyerOrderResponse,
     BuyerPackage,
@@ -46,7 +44,9 @@ import type {
     BuyerRefundResponse,
     BuyerReturn,
     BuyerReturnListResponse,
-    BuyerReturnPreview,
+    BuyerReturnPreview
+} from '../declarations/types-2.js';
+import type {
     BuyerReturnPreviewResponse,
     BuyerReturnResolution,
     BuyerReturnResolutionCheckoutSessionResponse,
@@ -54,9 +54,7 @@ import type {
     BuyerReturnResponse,
     BuyerSavePaymentMethodResponse,
     BuyerShipment,
-    BuyerShipmentListResponse
-} from '../declarations/types-2.js';
-import type {
+    BuyerShipmentListResponse,
     BuyerShipmentResponse,
     BuyerSubscription,
     BuyerSubscriptionListResponse,
@@ -67,13 +65,9 @@ import type {
     BuyerSubscriptionPreviewResponse,
     BuyerSubscriptionRenewalResult,
     BuyerSubscriptionRenewalResultResponse,
-    BuyerSubscriptionResponse,
-    CancelReturnRequestInput,
-    CancelSubscriptionRequestInput
+    BuyerSubscriptionResponse
 } from '../declarations/types-3.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { ConfirmEmailChangeRequestInput } from '../declarations/types-5.js';
-import type { CreateCustomerAddressRequestInput, CreateEmailChangeRequestInput } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     CustomerAddress,
     CustomerAddressListResponse,
@@ -82,85 +76,84 @@ import type {
     CustomerDeletionRequestListResponse,
     CustomerDeletionRequestResponse,
     CustomerEmailPreferences,
-    CustomerEmailPreferencesResponse
-} from '../declarations/types-11.js';
-import type { CustomerSession, CustomerSessionResponse } from '../declarations/types-12.js';
-import type { EmailChangeRequest, EmailChangeRequestResponse } from '../declarations/types-18.js';
-import type { GetOrCreateReturnResolutionCheckoutSessionRequestInput } from '../declarations/types-20.js';
-import type { InvoiceCheckoutSessionRequestInput } from '../declarations/types-28.js';
+    CustomerEmailPreferencesResponse,
+    CustomerSession,
+    CustomerSessionResponse
+} from '../declarations/types-13.js';
+import type { EmailChangeRequest, EmailChangeRequestResponse } from '../declarations/types-21.js';
 import type {
-    MeCancelReturnInput,
-    MeCancelSubscriptionInput,
-    MeConfirmEmailChangeRequestInput,
-    MeCreateAddressInput,
-    MeCreateDeletionRequestInput,
-    MeCreateEmailChangeRequestInput,
-    MeCreateFlintWalletStoreSetupInput,
-    MeCreateInvoiceCheckoutSessionInput,
-    MeCreateReturnInput,
-    MeCreateReturnPreviewInput,
-    MeCreateReturnResolutionCheckoutSessionInput,
-    MeCreateSubscriptionPaymentRetryInput,
-    MeCreateSubscriptionPreviewInput,
-    MeDeleteAddressInput,
-    MeGetAddressInput,
-    MeGetCreditNoteInput,
-    MeGetCreditNotePDFInput,
+    MeCancelReturnParams,
+    MeCancelSubscriptionParams,
+    MeConfirmEmailChangeRequestParams,
+    MeCreateAddressParams,
+    MeCreateDeletionRequestParams,
+    MeCreateEmailChangeRequestParams,
+    MeCreateFlintWalletStoreSetupParams,
+    MeCreateInvoiceCheckoutSessionParams,
+    MeCreatePaymentMethodParams,
+    MeCreateReturnParams,
+    MeCreateReturnPreviewParams,
+    MeCreateReturnResolutionCheckoutSessionParams,
+    MeCreateSubscriptionPaymentRetryParams,
+    MeCreateSubscriptionPreviewParams,
+    MeDeleteAddressParams,
+    MeDeletePaymentMethodParams,
+    MeGetAddressParams,
+    MeGetCreditNotePDFParams,
     MeGetCreditNotePDFResponse,
-    MeGetDeletionRequestInput,
-    MeGetEmailPreferencesInput,
-    MeGetFulfillmentInput,
-    MeGetGiftCardInput,
-    MeGetInput,
-    MeGetInvoiceInput,
-    MeGetInvoicePDFInput,
+    MeGetCreditNoteParams,
+    MeGetDeletionRequestParams,
+    MeGetEmailPreferencesParams,
+    MeGetFulfillmentParams,
+    MeGetGiftCardParams,
+    MeGetInvoicePDFParams,
     MeGetInvoicePDFResponse,
-    MeGetOrderInput,
-    MeGetPackageInput,
-    MeGetPaymentIntentInput,
-    MeGetPaymentMethodInput,
-    MeGetRefundInput,
-    MeGetReturnInput,
-    MeGetReturnResolutionInput,
-    MeGetShipmentInput,
-    MeGetSubscriptionInput,
-    MeGetSubscriptionPaymentRetryInput,
-    MeListAddressesInput,
-    MeListCreditNotesInput,
-    MeListDeletionRequestsInput,
-    MeListFlintWalletCardsInput,
-    MeListFulfillmentEventsInput,
-    MeListFulfillmentsInput,
-    MeListGiftCardTransactionsInput,
-    MeListGiftCardsInput,
-    MeListInvoicesInput,
-    MeListOrderActivitiesInput,
-    MeListOrdersInput,
-    MeListPackagesInput,
-    MeListPaymentIntentsInput,
-    MeListPaymentMethodsInput,
-    MeListRefundsInput,
-    MeListReturnsInput
-} from '../declarations/types-31.js';
+    MeGetInvoiceParams,
+    MeGetOrderParams,
+    MeGetPackageParams,
+    MeGetParams,
+    MeGetPaymentIntentParams,
+    MeGetPaymentMethodParams,
+    MeGetRefundParams,
+    MeGetReturnParams,
+    MeGetReturnResolutionParams,
+    MeGetShipmentParams,
+    MeGetSubscriptionParams,
+    MeGetSubscriptionPaymentRetryParams,
+    MeListAddressesParams,
+    MeListCreditNotesParams,
+    MeListDeletionRequestsParams,
+    MeListFlintWalletCardsParams,
+    MeListFulfillmentEventsParams,
+    MeListFulfillmentsParams,
+    MeListGiftCardTransactionsParams,
+    MeListGiftCardsParams,
+    MeListInvoicesParams,
+    MeListOrderActivitiesParams,
+    MeListOrdersParams,
+    MeListPackagesParams,
+    MeListPaymentIntentsParams,
+    MeListPaymentMethodsParams
+} from '../declarations/types-33.js';
 import type {
-    MeListShipmentsInput,
-    MeListSubscriptionPaymentRetriesInput,
-    MeListSubscriptionsInput,
-    MePauseSubscriptionInput,
-    MeRemoveGiftCardInput,
-    MeRemovePaymentMethodInput,
-    MeRenewSubscriptionInput,
-    MeResumeSubscriptionInput,
-    MeRevokeSessionInput,
-    MeSaveGiftCardInput,
-    MeSavePaymentMethodInput,
-    MeSendOrderReceiptInput,
-    MeSkipSubscriptionCycleInput,
-    MeUpdateAddressInput,
-    MeUpdateEmailPreferencesInput,
-    MeUpdateInput,
-    MeUpdateSubscriptionInput,
-    MeUpdateSubscriptionLineItemInput,
+    MeListRefundsParams,
+    MeListReturnsParams,
+    MeListShipmentsParams,
+    MeListSubscriptionPaymentRetriesParams,
+    MeListSubscriptionsParams,
+    MePauseSubscriptionParams,
+    MeRemoveGiftCardParams,
+    MeRenewSubscriptionParams,
+    MeResumeSubscriptionParams,
+    MeRevokeSessionParams,
+    MeSaveGiftCardParams,
+    MeSendOrderReceiptParams,
+    MeSkipSubscriptionCycleParams,
+    MeUpdateAddressParams,
+    MeUpdateEmailPreferencesParams,
+    MeUpdateParams,
+    MeUpdateSubscriptionLineItemParams,
+    MeUpdateSubscriptionParams,
     Merchant,
     MerchantAccountSession,
     MerchantAccountSessionClientSession,
@@ -174,46 +167,41 @@ import type {
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
-    MerchantAccountSessionsCreateInput,
-    MerchantAccountSessionsRefreshInput,
+    MerchantAccountSessionsCreateParams,
+    MerchantAccountSessionsRefreshParams,
     MerchantBillingBalance,
     MerchantBillingBalanceListResponse,
     MerchantBillingBalanceResponse,
-    MerchantBillingBalancesGetInput,
-    MerchantBillingBalancesListInput,
-    MerchantBillingEntriesListInput,
+    MerchantBillingBalancesGetParams,
+    MerchantBillingBalancesListParams,
+    MerchantBillingEntriesListParams,
     MerchantBillingEntry,
     MerchantBillingEntryListResponse,
     MerchantBillingInvoice,
     MerchantBillingInvoiceLineItem,
     MerchantBillingInvoiceListResponse,
     MerchantBillingInvoiceResponse,
+    MerchantBillingInvoicesGetParams,
+    MerchantBillingInvoicesListParams,
+    MerchantGetParams,
     MerchantReadiness,
     MerchantResponse,
-    MerchantSubscriptionInvoicesGetInput,
-    MerchantSubscriptionInvoicesListInput,
+    MerchantUpdateParams,
     MerchantWebhookEnvelope,
-    MerchantsGetInput,
-    MerchantsUpdateInput,
     MetadataMap,
     MetadataPatchRequest,
     MetadataPatchRequestInput,
     MetadataRequestInput
-} from '../declarations/types-32.js';
-import type { OrderActivity, OrderActivityListResponse } from '../declarations/types-33.js';
-import type { PauseSubscriptionRequestInput } from '../declarations/types-37.js';
-import type { RenewSubscriptionRequestInput, RequestOptions, ResourceVersionRequestInput } from '../declarations/types-42.js';
-import type { SaveMeGiftCardRequestInput, SaveMePaymentMethodRequestInput, SdkResponse } from '../declarations/types-46.js';
-import type { SkipMeSubscriptionCycleRequestInput } from '../declarations/types-47.js';
-import type { SubscriptionRenewalPreview } from '../declarations/types-49.js';
-import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from '../declarations/types-50.js';
-import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from '../declarations/types-51.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
+} from '../declarations/types-34.js';
+import type { OrderActivity, OrderActivityListResponse } from '../declarations/types-36.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { SubscriptionRenewalPreview } from '../declarations/types-56.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -224,50 +212,74 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
-    CancelReturnRequestInput,
-    CancelSubscriptionRequestInput,
-    BuyerSubscription,
-    BuyerSubscriptionResponse,
-    BuyerSubscriptionPaymentRetry,
-    BuyerSubscriptionPaymentRetryResponse,
-    BuyerSubscriptionPreview,
-    BuyerSubscriptionPreviewResponse,
-    BuyerShipmentResponse,
-    BuyerSubscriptionPaymentRetryListResponse,
-    BuyerSubscriptionListResponse,
-    BuyerSubscriptionRenewalResult,
-    BuyerSubscriptionRenewalResultResponse,
-    BuyerSubscriptionCancellationDetails,
-    BuyerSubscriptionLineItem,
-    CategoryReference,
-    BuyerSubscriptionServiceLocation,
-    BuyerSubscriptionPlanLineItem,
-    BuyerSubscriptionPlanLineItemVariant,
-    BuyerSubscriptionPlanLineItemBundle,
-    BuyerSubscriptionPlanLineItemCustom,
-    CardDetails,
-    BuyerTip,
-    CapabilityReadiness
-} from '../declarations/types-3.js';
-export type {
-    RequestOptions,
-    RenewSubscriptionRequestInput,
-    ResourceVersionRequestInput,
-    ResponseMeta,
-    RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation
-} from '../declarations/types-42.js';
+    MeCancelReturnParams,
+    MeCancelSubscriptionParams,
+    MeConfirmEmailChangeRequestParams,
+    MeCreateAddressParams,
+    MeCreateDeletionRequestParams,
+    MeCreateEmailChangeRequestParams,
+    MeCreateFlintWalletStoreSetupParams,
+    MeCreateInvoiceCheckoutSessionParams,
+    MeCreatePaymentMethodParams,
+    MeCreateReturnParams,
+    MeCreateReturnPreviewParams,
+    MeCreateReturnResolutionCheckoutSessionParams,
+    MeCreateSubscriptionPaymentRetryParams,
+    MeCreateSubscriptionPreviewParams,
+    MeDeleteAddressParams,
+    MeDeletePaymentMethodParams,
+    MeGetParams,
+    MeGetAddressParams,
+    MeGetCreditNoteParams,
+    MeGetCreditNotePDFParams,
+    MeGetCreditNotePDFResponse,
+    MeGetDeletionRequestParams,
+    MeGetEmailPreferencesParams,
+    MeGetFulfillmentParams,
+    MeGetGiftCardParams,
+    MeGetInvoiceParams,
+    MeGetInvoicePDFParams,
+    MeGetInvoicePDFResponse,
+    MeGetOrderParams,
+    MeGetPackageParams,
+    MeGetPaymentIntentParams,
+    MeGetPaymentMethodParams,
+    MeGetRefundParams,
+    MeGetReturnParams,
+    MeGetReturnResolutionParams,
+    MeGetShipmentParams,
+    MeGetSubscriptionParams,
+    MeGetSubscriptionPaymentRetryParams,
+    MeListAddressesParams,
+    MeListCreditNotesParams,
+    MeListDeletionRequestsParams,
+    MeListFlintWalletCardsParams,
+    MeListFulfillmentEventsParams,
+    MeListFulfillmentsParams,
+    MeListGiftCardsParams,
+    MeListGiftCardTransactionsParams,
+    MeListInvoicesParams,
+    MeListOrderActivitiesParams,
+    MeListOrdersParams,
+    MeListPackagesParams,
+    MeListPaymentIntentsParams,
+    MeListPaymentMethodsParams
+} from '../declarations/types-33.js';
+export type { RequestOptions, RefundTaxBreakdownRefund, RefundTenderAllocation, RenewSubscriptionRequestInput } from '../declarations/types-47.js';
 export type {
     BuyerReturn,
-    BuyerReturnResponse,
+    BuyerInvoiceCheckoutSessionResult,
+    BuyerInvoiceCheckoutSessionResponse,
     BuyerPaymentMethodWithSetup,
-    BuyerSavePaymentMethodResponse,
     BuyerReturnPreview,
-    BuyerReturnPreviewResponse,
-    BuyerReturnResolutionCheckoutSessionResponse,
     BuyerPaymentMethod,
     BuyerPaymentMethodResponse,
+    BuyerFulfillmentResponse,
+    BuyerGiftCard,
+    BuyerGiftCardResponse,
+    BuyerInvoice,
+    BuyerInvoiceResponse,
+    BuyerOrder,
     BuyerOrderResponse,
     BuyerPackage,
     BuyerPackageResponse,
@@ -275,16 +287,17 @@ export type {
     BuyerPaymentIntentResponse,
     BuyerRefund,
     BuyerRefundResponse,
-    BuyerReturnResolution,
-    BuyerReturnResolutionResponse,
-    BuyerShipment,
+    BuyerFulfillmentListResponse,
+    BuyerGiftCardListResponse,
+    BuyerGiftCardTransactionListResponse,
+    BuyerGiftCardTransaction,
+    BuyerInvoiceListResponse,
     BuyerOrderListResponse,
     BuyerPackageListResponse,
     BuyerPaymentIntentListResponse,
     BuyerPaymentMethodListResponse,
     BuyerRefundListResponse,
     BuyerReturnListResponse,
-    BuyerShipmentListResponse,
     BuyerPauseActionOptions,
     BuyerPayBalanceActionOptions,
     BuyerReturnCompletionBlocker,
@@ -297,53 +310,70 @@ export type {
     BuyerOrderPaymentAttempt,
     BuyerPaymentErrorSummary,
     BuyerPaymentAttemptPaymentIntent,
+    BuyerInstructionsConfig,
     BuyerPaymentCollection,
     BuyerPaymentCollectionStripe,
     BuyerPaymentCollectionStripeElements,
-    BuyerSelectableOrderPaymentIntent,
-    BuyerReturnReplacementLineItemRequestInput,
-    BuyerReturnReplacementLineItemInputVariantInput,
-    BuyerReturnReplacementLineItemInputBundleInput,
     BuyerReturnEligibilityPreview,
     BuyerReturnEligibilityPreviewLineItem,
     BuyerReturnPolicyEvaluation,
     BuyerReturnPolicyEvaluationLineItem,
-    BuyerReturnResolutionPreview,
-    BuyerReturnResolutionAdjustment,
     BuyerReturnPreviewEligibility,
     BuyerReturnPreviewResolution,
+    BuyerFulfillmentOutcome,
+    BuyerInvoiceLateFee,
+    BuyerOrderCharge,
     BuyerOrderLineItem,
     BuyerOrderTax,
-    BuyerOrderTaxLocation,
-    BuyerReturnResolutionExecutionBlocker
+    BuyerOrderTaxLocation
 } from '../declarations/types-2.js';
 export type {
-    SdkResponse,
-    SaveMePaymentMethodRequestInput,
-    SaveMeGiftCardRequestInput,
-    SaveMeGiftCardRequestCodeInput,
-    SaveMeGiftCardRequestRecipientAccessInput
-} from '../declarations/types-46.js';
-export type {
-    ConfirmEmailChangeRequestInput,
-    ConfirmEmailChangeRequest,
-    ConfigurationVersionRequestInput,
-    ConfirmReturnResolutionRequestInput
-} from '../declarations/types-5.js';
+    BuyerReturnResponse,
+    BuyerSubscription,
+    BuyerSubscriptionResponse,
+    BuyerSavePaymentMethodResponse,
+    BuyerReturnPreviewResponse,
+    BuyerReturnResolutionCheckoutSessionResponse,
+    BuyerSubscriptionPaymentRetry,
+    BuyerSubscriptionPaymentRetryResponse,
+    BuyerSubscriptionPreview,
+    BuyerSubscriptionPreviewResponse,
+    BuyerReturnResolution,
+    BuyerReturnResolutionResponse,
+    BuyerShipment,
+    BuyerShipmentResponse,
+    BuyerShipmentListResponse,
+    BuyerSubscriptionPaymentRetryListResponse,
+    BuyerSubscriptionListResponse,
+    BuyerSubscriptionRenewalResult,
+    BuyerSubscriptionRenewalResultResponse,
+    BuyerSubscriptionCancellationDetails,
+    BuyerSubscriptionLineItem,
+    BuyerSubscriptionServiceLocation,
+    BuyerSubscriptionPlanLineItem,
+    BuyerSubscriptionPlanLineItemVariant,
+    BuyerSubscriptionPlanLineItemBundle,
+    BuyerSubscriptionPlanLineItemCustom,
+    BuyerSelectableOrderPaymentIntent,
+    BuyerReturnReplacementLineItemRequestInput,
+    BuyerReturnReplacementLineItemInputVariantInput,
+    BuyerReturnReplacementLineItemInputBundleInput,
+    BuyerReturnResolutionPreview,
+    BuyerReturnResolutionAdjustment,
+    BuyerTip,
+    BuyerReturnResolutionExecutionBlocker
+} from '../declarations/types-3.js';
 export type {
     EmailChangeRequest,
     EmailChangeRequestResponse,
     ErrorRemediation,
-    DocumentTaxID,
+    FulfillmentChargeLink,
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
     ExpandedCustomerSummary,
     ExpandedPaymentIntentSummary,
-    ExpandedOrganizationSummary,
-    DisputeResponseSessionStripeAccountSession,
-    FeedbackReportsListInput
-} from '../declarations/types-18.js';
-export type { CreateCustomerAddressRequestInput, CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-6.js';
+    ExpandedOrganizationSummary
+} from '../declarations/types-21.js';
 export type {
     CustomerAddress,
     CustomerAddressResponse,
@@ -353,40 +383,22 @@ export type {
     CustomerEmailPreferencesResponse,
     CustomerAddressListResponse,
     CustomerDeletionRequestListResponse,
-    Credentials,
-    CreditNoteLineItem,
-    CreditNoteCorrectionRequest,
-    CreditNoteCorrectionRequestQuantity,
-    CreditNoteCorrectionRequestAmount
-} from '../declarations/types-11.js';
+    CustomerSession,
+    CustomerSessionResponse
+} from '../declarations/types-13.js';
 export type {
     BuyerFlintWalletStoreSetup,
     BuyerFlintWalletStoreSetupResponse,
-    BuyerInvoiceCheckoutSessionResult,
-    BuyerInvoiceCheckoutSessionResponse,
-    BuyerCreateReturnRequestInput,
-    BuyerCreateReturnPreviewRequestInput,
     BuyerCheckoutSessionWithSecret,
     BuyerCustomer,
     BuyerCustomerResponse,
     BuyerCreditNote,
     BuyerCreditNoteResponse,
     BuyerFulfillment,
-    BuyerFulfillmentResponse,
-    BuyerGiftCard,
-    BuyerGiftCardResponse,
-    BuyerInvoice,
-    BuyerInvoiceResponse,
-    BuyerOrder,
     BuyerCreditNoteListResponse,
     BuyerFlintWalletCardListResponse,
     BuyerFulfillmentEventListResponse,
     BuyerFulfillmentEvent,
-    BuyerFulfillmentListResponse,
-    BuyerGiftCardListResponse,
-    BuyerGiftCardTransactionListResponse,
-    BuyerGiftCardTransaction,
-    BuyerInvoiceListResponse,
     BuyerAction,
     BuyerCancelActionOptions,
     BuyerCancelRetentionOffer,
@@ -395,161 +407,65 @@ export type {
     BuyerExpandedSubscriptionPlanSummary,
     BuyerCheckoutSession,
     BuyerErrorRemediation,
-    BuyerInstructionsConfig,
     BuyerCheckoutProblemResource,
+    BuyerCreateReturnRequestInput,
+    BuyerCreateReturnPreviewRequestInput,
     BuyerCreateReturnResolutionPreviewRequestInput,
     BuyerCreateReturnPreviewRequestEligibilityInput,
     BuyerCreateReturnPreviewRequestResolutionInput,
     BuyerFulfillmentLineItem,
     BuyerDeliveryFulfillmentDetails,
     BuyerExpandedOrderSummary,
-    BuyerFulfillmentOutcome,
-    BuyerInvoiceLateFee,
-    BuyerOrderCharge,
     BuyerFlintWalletCard
 } from '../declarations/types-1.js';
-export type {
-    InvoiceCheckoutSessionRequestInput,
-    InvoicePaymentAttempt,
-    InvoiceDocumentRow,
-    InvoiceLateFeePolicy,
-    InvoiceLateFeePolicyFixed,
-    InvoiceLateFeePolicyPercentage,
-    InvoiceDiscount,
-    InvoiceLineItem
-} from '../declarations/types-28.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-65.js';
-export type {
-    GetOrCreateReturnResolutionCheckoutSessionRequestInput,
-    GiftCardProductConfiguration,
-    GiftCardCustomAmountBounds
-} from '../declarations/types-20.js';
-export type {
-    MeCreateSubscriptionPreviewInput,
-    MeGetCreditNotePDFResponse,
-    MeGetInvoicePDFResponse,
-    MeCancelReturnInput,
-    MeCancelSubscriptionInput,
-    MeConfirmEmailChangeRequestInput,
-    MeCreateAddressInput,
-    MeCreateDeletionRequestInput,
-    MeCreateEmailChangeRequestInput,
-    MeCreateFlintWalletStoreSetupInput,
-    MeCreateInvoiceCheckoutSessionInput,
-    MeCreateReturnInput,
-    MeCreateReturnPreviewInput,
-    MeCreateReturnResolutionCheckoutSessionInput,
-    MeCreateSubscriptionPaymentRetryInput,
-    MeDeleteAddressInput,
-    MeGetInput,
-    MeGetAddressInput,
-    MeGetCreditNoteInput,
-    MeGetCreditNotePDFInput,
-    MeGetDeletionRequestInput,
-    MeGetEmailPreferencesInput,
-    MeGetFulfillmentInput,
-    MeGetGiftCardInput,
-    MeGetInvoiceInput,
-    MeGetInvoicePDFInput,
-    MeGetOrderInput,
-    MeGetPackageInput,
-    MeGetPaymentIntentInput,
-    MeGetPaymentMethodInput,
-    MeGetRefundInput,
-    MeGetReturnInput,
-    MeGetReturnResolutionInput,
-    MeGetShipmentInput,
-    MeGetSubscriptionInput,
-    MeGetSubscriptionPaymentRetryInput,
-    MeListAddressesInput,
-    MeListCreditNotesInput,
-    MeListDeletionRequestsInput,
-    MeListFlintWalletCardsInput,
-    MeListFulfillmentEventsInput,
-    MeListFulfillmentsInput,
-    MeListGiftCardsInput,
-    MeListGiftCardTransactionsInput,
-    MeListInvoicesInput,
-    MeListOrderActivitiesInput,
-    MeListOrdersInput,
-    MeListPackagesInput,
-    MeListPaymentIntentsInput,
-    MeListPaymentMethodsInput,
-    MeListRefundsInput,
-    MeListReturnsInput
-} from '../declarations/types-31.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-61.js';
 export type {
     SubscriptionRenewalPreview,
     SubscriptionPromotion,
-    SubscriptionPlanSwapVariant,
     SubscriptionUpcomingDeliveryHold,
     SubscriptionRenewalEstimate,
     SubscriptionRenewalEstimateDiscount,
     SubscriptionRenewalEstimateLineItem,
-    TaxBreakdown,
-    TaxBreakdownPercentage,
-    TaxBreakdownFlatAmount,
-    TaxCalculationRequest,
-    TaxComponentRequest
-} from '../declarations/types-49.js';
+    TaxBreakdown
+} from '../declarations/types-56.js';
 export type {
     OrderActivityListResponse,
     OrderActivity,
-    MoneyValue,
-    NextAction,
-    NextActionMerchantAccountSession,
     OrderCharge,
     OrderCalculatedChargeTax,
     OrderAuthorizationAmounts,
+    OrderDeliveryDestination,
+    OrderDeliveryDestinationRecipient,
+    OrderDiscount,
+    OrderGiftCardEstimate,
+    OrderGiftCardAllocation,
+    OrderGiftCardSettlement,
+    OrderGiftCardSelection,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineItemFulfillmentComponent,
+    OrderLineItemFulfillmentProfile,
     OrderCalculatedLineItemTax
-} from '../declarations/types-33.js';
+} from '../declarations/types-36.js';
 export type {
-    PauseSubscriptionRequestInput,
-    PaymentAttemptGiftCardRedemption,
-    PaymentClientAction,
-    PaymentErrorSummary,
-    PaymentFulfillmentHold
-} from '../declarations/types-37.js';
-export type {
-    CustomerSession,
-    CustomerSessionResponse,
-    DeliveryAddressAdvisoryResource,
-    DeliveryCandidateOutcomeResource,
-    DeliveryArrivalEstimate,
-    DeliveryCandidateOutcomeResourceAvailable,
-    CustomersGetDeletionRequestInput
-} from '../declarations/types-12.js';
-export type {
-    SkipMeSubscriptionCycleRequestInput,
-    SelectedProductOption,
-    SubscriptionAddressVerification,
-    StripeClientSetup,
-    StripeClientSetupStripe,
-    StripeClientAuthority,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    SettlementAmounts,
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    SubscribedLine
-} from '../declarations/types-47.js';
-export type {
-    UpdateMeRequestInput,
-    UpdateMeSubscriptionRequestInput,
-    UpdateMeSubscriptionLineItemRequestInput,
-    UpdateMerchantRequestInput
-} from '../declarations/types-51.js';
-export type {
-    UpdateCustomerAddressRequestInput,
-    UpdateCustomerEmailPreferencesRequestInput,
-    TextModifierRequest,
-    TaxIdentity,
-    TaxJurisdiction,
-    TicketedEvent,
-    TipPaymentIntentAllocation,
-    TipValueSettlementAllocation
-} from '../declarations/types-50.js';
-export type {
+    MeListRefundsParams,
+    MeListReturnsParams,
+    MeListShipmentsParams,
+    MeListSubscriptionPaymentRetriesParams,
+    MeListSubscriptionsParams,
+    MePauseSubscriptionParams,
+    MeRemoveGiftCardParams,
+    MeRenewSubscriptionParams,
+    MeResumeSubscriptionParams,
+    MeRevokeSessionParams,
+    MeSaveGiftCardParams,
+    MeSendOrderReceiptParams,
+    MeSkipSubscriptionCycleParams,
+    MeUpdateParams,
+    MeUpdateAddressParams,
+    MeUpdateEmailPreferencesParams,
+    MeUpdateSubscriptionParams,
+    MeUpdateSubscriptionLineItemParams,
     Merchant,
     MerchantAccountSession,
     MerchantAccountSessionClientSession,
@@ -579,36 +495,30 @@ export type {
     MetadataPatchRequest,
     MetadataPatchRequestInput,
     MetadataRequestInput,
-    MeSavePaymentMethodInput,
-    MerchantAccountSessionsCreateInput,
-    MeRemovePaymentMethodInput,
-    MerchantsGetInput,
-    MerchantBillingBalancesGetInput,
-    MerchantSubscriptionInvoicesGetInput,
-    MerchantBillingBalancesListInput,
-    MerchantBillingEntriesListInput,
-    MerchantSubscriptionInvoicesListInput,
-    MeListShipmentsInput,
-    MeListSubscriptionPaymentRetriesInput,
-    MeListSubscriptionsInput,
-    MePauseSubscriptionInput,
-    MerchantAccountSessionsRefreshInput,
-    MeRemoveGiftCardInput,
-    MeRenewSubscriptionInput,
-    MeResumeSubscriptionInput,
-    MeRevokeSessionInput,
-    MeSaveGiftCardInput,
-    MeSendOrderReceiptInput,
-    MeSkipSubscriptionCycleInput,
-    MeUpdateInput,
-    MeUpdateAddressInput,
-    MeUpdateEmailPreferencesInput,
-    MerchantsUpdateInput,
-    MeUpdateSubscriptionInput,
-    MeUpdateSubscriptionLineItemInput
-} from '../declarations/types-32.js';
+    MerchantAccountSessionsCreateParams,
+    MerchantGetParams,
+    MerchantBillingBalancesGetParams,
+    MerchantBillingInvoicesGetParams,
+    MerchantBillingBalancesListParams,
+    MerchantBillingEntriesListParams,
+    MerchantBillingInvoicesListParams,
+    MerchantAccountSessionsRefreshParams,
+    MerchantUpdateParams
+} from '../declarations/types-34.js';
 export type {
     ClientOptions,
+    CheckoutSubscriptionTerms,
+    CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax,
+    CheckoutTheme,
+    CheckoutTipConfig,
+    CheckoutSessionsListDeliverySelectionsParams,
+    ConfigurationVersionRequestInput
+} from '../declarations/types-5.js';
+export type {
+    CancelReturnRequestInput,
+    CancelSubscriptionRequestInput,
+    CategoryReference,
     CheckoutRedirectsRequestInput,
     CheckoutBuyerContact,
     CheckoutBuyerFields,
@@ -622,20 +532,22 @@ export type {
     CheckoutPrefill,
     CheckoutPromotionConfig,
     CheckoutRedirects,
-    CheckoutSubscriptionTerms,
-    CheckoutSubscriptionRecurringShipping,
-    CheckoutSessionTax,
-    CheckoutTheme,
-    CheckoutTipConfig
+    CardDetails,
+    CapabilityReadiness
 } from '../declarations/types-4.js';
 export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
 export type {
+    Credentials,
+    CreditNoteLineItem,
+    CreditNoteCorrectionRequest,
+    CreditNoteCorrectionRequestQuantity,
+    CreditNoteCorrectionRequestAmount,
+    CreditNotesListAllocationsParams
+} from '../declarations/types-12.js';
+export type {
     ReturnFinancialSummary,
-    ReturnLineItemDecisionProposal,
-    ReturnPolicyAdjustmentProposal,
-    ReturnLineItemValue,
+    ResponseMeta,
     ResponseWarning,
-    ReturnLineItemRequestInput,
     ReturnEligibilitySelectionInput,
     ReturnEligibilityLineItemRequestInput,
     ReturnEligibilitySelectionAllRemainingFulfilledInput,
@@ -643,25 +555,51 @@ export type {
     ReturnEligibilitySelection,
     ReturnEligibilityLineItemRequest,
     ReturnEligibilitySelectionAllRemainingFulfilled,
-    ReturnEligibilitySelectionLineItems
-} from '../declarations/types-43.js';
+    ReturnEligibilitySelectionLineItems,
+    ResourceVersionRequestInput
+} from '../declarations/types-48.js';
+export type { MoneyValue, NextAction } from '../declarations/types-35.js';
 export type {
     ReturnResolutionLineItemRequest,
     ReturnResolutionLineItemRequestInput,
-    ReturnReasonSummary,
     ReturnResolutionLineItem,
     ReturnReplacementLineItem
-} from '../declarations/types-44.js';
+} from '../declarations/types-50.js';
 export type {
-    Image,
-    GiftCardPurchaseSnapshot,
-    GiftCardPurchaseRecipient,
-    ImageAttachment,
-    ImageRequestInput,
-    ImageInputSourceURLInput,
-    ImageInputFileInput,
-    GiftCardsGetInput
-} from '../declarations/types-21.js';
+    SelectedProductOption,
+    SubscriptionAddressVerification,
+    StripeClientSetup,
+    StripeClientSetupStripe,
+    StripeClientAuthority,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails,
+    SubscribedLine,
+    SettlementAmounts,
+    SkipMeSubscriptionCycleRequestInput
+} from '../declarations/types-53.js';
+export type {
+    ReturnLineItemDecisionProposal,
+    ReturnPolicyAdjustmentProposal,
+    ReturnLineItemValue,
+    ReturnLineItemRequestInput,
+    ReturnReasonSummary
+} from '../declarations/types-49.js';
+export type { Image, ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-25.js';
+export type {
+    ReadinessMerchantAccountSession,
+    PurchasedGiftCard,
+    RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    ReadinessAction,
+    ReadinessRequirements,
+    ReadinessAxis
+} from '../declarations/types-46.js';
 export type {
     SubscriptionIntervalOption,
     SubscriptionDelivery,
@@ -673,96 +611,138 @@ export type {
     SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionDeliveryOption,
     SubscriptionDeliveryRequestInput
-} from '../declarations/types-48.js';
+} from '../declarations/types-54.js';
 export type {
     DeliveryRecipientResource,
-    DeliveryWindowRequest,
-    DeliveryShipmentDetails,
+    DeliveryQuoteChoiceGroupResource,
+    DeliveryQuoteExecutionLegResource,
     DeliveryRecipientRequirement,
-    DeliverySelectionRecipientRequestInput,
-    DeliverySelectionRecipientRequest
-} from '../declarations/types-16.js';
+    DeliveryQuoteLineItemResource
+} from '../declarations/types-18.js';
+export type {
+    TextModifierRequest,
+    TaxIdentity,
+    TaxJurisdiction,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount,
+    TaxCalculationRequest,
+    TaxComponentRequest,
+    TicketedEvent,
+    TipPaymentIntentAllocation,
+    TipValueSettlementAllocation
+} from '../declarations/types-57.js';
 export type {
     PromotionRecurrence,
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever
-} from '../declarations/types-40.js';
+} from '../declarations/types-45.js';
+export type { SubscriptionPlanSwapVariant } from '../declarations/types-55.js';
 export type {
     OrderLineItemTax,
     OrderPaymentAttemptPaymentMethodSave,
     OrderLineItemModifier,
-    OrderDeliveryDestination,
-    OrderDeliveryDestinationRecipient,
-    OrderDiscount,
-    OrderGiftCardEstimate,
-    OrderGiftCardAllocation,
-    OrderGiftCardSettlement,
-    OrderGiftCardSelection,
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineItemFulfillmentComponent,
-    OrderLineItemFulfillmentProfile,
     OrderLineSubscriptionOfferSummary,
     OrderLineSubscriptionOfferDiscount,
-    OrderReturnCreditSettlement
-} from '../declarations/types-34.js';
+    OrderReturnCreditSettlement,
+    OrderTaxExemption
+} from '../declarations/types-37.js';
+export type {
+    ConfirmEmailChangeRequestInput,
+    CreateCustomerAddressRequestInput,
+    ConfirmEmailChangeRequest,
+    ConfirmReturnResolutionRequestInput
+} from '../declarations/types-6.js';
+export type { CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-7.js';
+export type { InvoiceCheckoutSessionRequestInput } from '../declarations/types-28.js';
+export type {
+    PaymentAttemptGiftCardRedemption,
+    PaymentClientAction,
+    PaymentErrorSummary,
+    PaymentFulfillmentHold,
+    PauseSubscriptionRequestInput,
+    PauseSubscriptionRequest
+} from '../declarations/types-40.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
-    PricingAmounts,
     PickupFulfillmentDetails,
+    PricingAmounts,
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
-    PaymentSourceCardSummary,
-    PaymentRefund
-} from '../declarations/types-39.js';
+    PaymentSourceCardSummary
+} from '../declarations/types-43.js';
 export type {
-    DeliveryQuoteChoiceGroupResource,
-    DeliveryQuoteExecutionLegResource,
-    DeliveryQuoteLineItemResource
-} from '../declarations/types-15.js';
-export type {
-    DeliveryInputRequirement,
-    DeliveryInputConstraint,
-    DeliveryLocationSummaryResource,
+    DeliveryAddressAdvisoryResource,
+    DeliveryCandidateOutcomeResource,
+    DeliveryArrivalEstimate,
+    DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
+    CustomersCreateAddressParams,
+    CustomersDeleteAddressParams,
+    CustomersUpdateAddressParams
+} from '../declarations/types-14.js';
+export type {
+    DeliveryInputRequirement,
+    DeliveryInputConstraint,
+    DeliveryLocationSummaryResource,
     DeliveryMerchantDiagnostic,
     DeliveryEligibilityMismatch
-} from '../declarations/types-13.js';
-export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-14.js';
+} from '../declarations/types-15.js';
+export type {
+    DeliveryWindowRequest,
+    DeliveryShipmentDetails,
+    DeliverySelectionRecipientRequestInput,
+    DeliverySelectionRecipientRequest
+} from '../declarations/types-19.js';
+export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-16.js';
 export type {
     LegalSettings,
-    InvoiceSnapshot,
-    InvoiceTip,
     LineItemInventorySnapshot,
     LineItemInventoryDemand,
-    InvoicesCreateCheckoutSessionInput,
-    InvoicesGetPDFInput,
-    InvoicesListDeliveryAttemptsInput
+    InvoicesCreateCheckoutSessionParams,
+    InvoicesMarkUncollectibleParams
+} from '../declarations/types-32.js';
+export type {
+    InvoicePaymentAttempt,
+    InvoicePaymentOptionCostComparison,
+    InvoicePaymentTermCalculation,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
+    InvoicePaymentTermCalculationDayOfMonth,
+    InvoicePaymentTermCalculationDayOfNextMonth
 } from '../declarations/types-30.js';
-export type { CreateReturnEligibilityPreviewRequestInput } from '../declarations/types-9.js';
+export type {
+    SaveMePaymentMethodRequestInput,
+    SaveMeGiftCardRequestInput,
+    SaveMeGiftCardRequestCodeInput,
+    SaveMeGiftCardRequestRecipientAccessInput
+} from '../declarations/types-52.js';
+export type { CreateReturnEligibilityPreviewRequestInput } from '../declarations/types-10.js';
+export type { GetOrCreateReturnResolutionCheckoutSessionRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-23.js';
 export type {
     CreateMeSubscriptionPreviewRequestInput,
     CreateMeSubscriptionPreviewRequestDeliveryOptionsInput,
     CreateMeSubscriptionPreviewRequestNextRenewalInput
 } from '../declarations/types-8.js';
-export type { FulfillmentChargeLink, FulfillmentRecipient } from '../declarations/types-19.js';
-export type { DigitalFulfillmentDetails, Dimensions } from '../declarations/types-17.js';
+export type { DocumentTaxID, DigitalFulfillmentDetails, Dimensions, DisputeResponseSessionStripeAccountSession } from '../declarations/types-20.js';
+export type { FulfillmentRecipient } from '../declarations/types-22.js';
 export type {
-    InvoicePaymentOptionCostComparison,
+    InvoiceDocumentRow,
+    InvoiceLateFeePolicy,
+    InvoiceLateFeePolicyFixed,
+    InvoiceLateFeePolicyPercentage,
+    InvoiceDiscount,
+    InvoiceLineItem
+} from '../declarations/types-29.js';
+export type {
     InvoicePaymentTermsSnapshot,
-    InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationOnReceipt,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
-    InvoicePaymentTermCalculationDayOfMonth,
-    InvoicePaymentTermCalculationDayOfNextMonth,
     InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleAmountSpecificationFixed,
@@ -771,23 +751,27 @@ export type {
     InvoiceScheduleDue,
     InvoiceScheduleDueAtIssue,
     InvoiceScheduleDueDate,
-    InvoiceScheduleDueInvoiceDueDate
-} from '../declarations/types-29.js';
+    InvoiceScheduleDueInvoiceDueDate,
+    InvoiceSnapshot,
+    InvoiceTip
+} from '../declarations/types-31.js';
+export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-24.js';
+export type { PaymentRefund } from '../declarations/types-42.js';
 export type {
-    PurchasedGiftCard,
-    RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundAdjustmentReason,
-    RefundLineItemAutomaticRefund,
-    ReadinessAction,
-    ReadinessMerchantAccountSession,
-    ReadinessRequirements,
-    ReadinessAxis
-} from '../declarations/types-41.js';
-export type { OrderTaxExemption } from '../declarations/types-35.js';
+    UpdateMeRequestInput,
+    UpdateMeSubscriptionRequestInput,
+    UpdateMeSubscriptionLineItemRequestInput,
+    UpdateMerchantRequestInput,
+    UpdateMeRequest,
+    UpdateMeSubscriptionLineItemRequest
+} from '../declarations/types-59.js';
+export type {
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerEmailPreferencesRequestInput,
+    UpdateCustomerEmailPreferencesRequest
+} from '../declarations/types-58.js';
+export { makeAddressRequest } from '../declarations/types-61.js';
 export {
-    makeAddressRequest,
     makeBuyerCreateReturnPreviewRequest,
     makeBuyerCreateReturnPreviewRequestEligibility,
     makeBuyerCreateReturnPreviewRequestResolution,
@@ -796,41 +780,36 @@ export {
     makeBuyerReturnReplacementLineItemInputBundle,
     makeBuyerReturnReplacementLineItemInputVariant,
     makeBuyerReturnReplacementLineItemRequest,
-    makeCancelReturnRequest
-} from '../declarations/types-65.js';
-export {
+    makeCancelReturnRequest,
     makeCancelSubscriptionRequest,
     makeCheckoutRedirectsRequest,
     makeConfigurationVersionRequest,
     makeConfirmEmailChangeRequest,
-    makeConfirmReturnResolutionRequest,
-    makeCreateCustomerAddressRequest
-} from '../declarations/types-66.js';
+    makeConfirmReturnResolutionRequest
+} from '../declarations/types-62.js';
+export { makeCreateCustomerAddressRequest, makeCreateEmailChangeRequest } from '../declarations/types-63.js';
 export {
-    makeCreateEmailChangeRequest,
     makeCreateMeSubscriptionPreviewRequest,
     makeCreateMeSubscriptionPreviewRequestDeliveryOptions,
     makeCreateMeSubscriptionPreviewRequestNextRenewal
-} from '../declarations/types-67.js';
-export { makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-68.js';
+} from '../declarations/types-64.js';
 export {
+    makeCreateReturnEligibilityPreviewRequest,
     makeCreditNoteCorrectionRequest,
     makeCreditNoteCorrectionRequestAmount,
     makeCreditNoteCorrectionRequestQuantity
-} from '../declarations/types-69.js';
+} from '../declarations/types-65.js';
 export {
     makeDeliveryRecipientRequirement,
     makeDeliverySelectionRecipientRequest,
     makeDeliveryWindowRequest,
-    makeDimensions
-} from '../declarations/types-70.js';
-export {
+    makeDimensions,
     makeGetOrCreateReturnResolutionCheckoutSessionRequest,
     makeImageInputFile,
-    makeImageInputSourceURL,
-    makeImageRequest
-} from '../declarations/types-71.js';
+    makeImageInputSourceURL
+} from '../declarations/types-67.js';
 export {
+    makeImageRequest,
     makeInvoiceCheckoutSessionRequest,
     makeInvoiceLateFeePolicy,
     makeInvoiceLateFeePolicyFixed,
@@ -842,43 +821,43 @@ export {
     makeInvoicePaymentTermCalculationNetDays,
     makeInvoicePaymentTermCalculationOnReceipt,
     makeInvoiceScheduleAmountSpecification,
-    makeInvoiceScheduleAmountSpecificationFixed,
+    makeInvoiceScheduleAmountSpecificationFixed
+} from '../declarations/types-68.js';
+export {
     makeInvoiceScheduleAmountSpecificationPercentage,
     makeInvoiceScheduleAmountSpecificationRemainingBalance,
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
     makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-72.js';
-export {
+    makeMetadataRequest,
     makeMoneyValue,
     makeOrderCalculatedChargeTax,
     makeOrderCalculatedLineItemTax,
-    makeOrderLineItemTax,
-    makePauseSubscriptionRequest
-} from '../declarations/types-73.js';
+    makeOrderLineItemTax
+} from '../declarations/types-69.js';
+export { makePauseSubscriptionRequest } from '../declarations/types-70.js';
 export {
     makePromotionRecurrence,
     makePromotionRecurrenceForever,
     makePromotionRecurrenceOnce,
-    makePromotionRecurrenceRepeating
-} from '../declarations/types-74.js';
-export {
+    makePromotionRecurrenceRepeating,
     makeRenewSubscriptionRequest,
     makeResourceVersionRequest,
     makeReturnEligibilityLineItemRequest,
     makeReturnEligibilitySelection,
     makeReturnEligibilitySelectionAllRemainingFulfilled,
     makeReturnEligibilitySelectionLineItems,
-    makeReturnLineItemRequest,
-    makeReturnResolutionLineItemRequest
-} from '../declarations/types-75.js';
+    makeReturnLineItemRequest
+} from '../declarations/types-71.js';
 export {
+    makeReturnResolutionLineItemRequest,
     makeSaveMeGiftCardRequest,
     makeSaveMeGiftCardRequestCode,
     makeSaveMeGiftCardRequestRecipientAccess,
     makeSaveMePaymentMethodRequest,
-    makeSkipMeSubscriptionCycleRequest,
+    makeSkipMeSubscriptionCycleRequest
+} from '../declarations/types-72.js';
+export {
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
@@ -886,39 +865,35 @@ export {
     makeSubscriptionIntervalOption,
     makeTaxCalculationRequest,
     makeTaxComponentRequest,
-    makeTaxJurisdiction
-} from '../declarations/types-76.js';
-export {
+    makeTaxJurisdiction,
     makeTextModifierRequest,
     makeUpdateCustomerAddressRequest,
-    makeUpdateCustomerEmailPreferencesRequest,
+    makeUpdateCustomerEmailPreferencesRequest
+} from '../declarations/types-73.js';
+export {
     makeUpdateMerchantRequest,
     makeUpdateMeRequest,
     makeUpdateMeSubscriptionLineItemRequest,
     makeUpdateMeSubscriptionRequest
-} from '../declarations/types-77.js';
-export { makeWeight } from '../declarations/types-78.js';
+} from '../declarations/types-74.js';
+export { makeWeight } from '../declarations/types-75.js';
 export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Cancel a Return before any merchandise or value work commits. Cancellation is
  * refused once a receipt, inspection, disposition, or resolution exists.
- * @see reference/me.md#mecancelreturn
- * POST /v1/me/returns/{return_id}/cancel
+ *
+ * `POST /v1/me/returns/{return_id}/cancel`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#cancelMeReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.cancelReturn("example", {reason: "buyer_request"}, { idempotencyKey: idempotencyKey })
+ * client.me.cancelReturn("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason: "buyer_request"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    cancelReturn(return_id: InputValue<string>, params: (InputValue<CancelReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerReturn>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecancelreturn
-     */
-    cancelReturnWithResponse(return_id: InputValue<string>, params: (InputValue<CancelReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerReturnResponse>>;
+    cancelReturn(return_id: InputValue<string>, params: MeCancelReturnParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerReturn, BuyerReturnResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Cancels a subscription and records who asked, why, and when in
@@ -929,24 +904,18 @@ export interface MeResource {
  * reason period_end_unavailable. Read scheduled_cancel_at for the scheduled end time. A buyer's
  * cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to
  * reject a concurrent change.
- * @see reference/me.md#mecancelsubscription
- * POST /v1/me/subscriptions/{subscription_id}/cancel
+ *
+ * `POST /v1/me/subscriptions/{subscription_id}/cancel`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#cancelMeSubscription
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.cancelSubscription("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.cancelSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {cancel_immediately: false,
+ * cancellation_reason_code: "too_expensive"}, { idempotencyKey: idempotencyKey })
  */
-    cancelSubscription(subscription_id: InputValue<string>, params: (InputValue<CancelSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecancelsubscription
-     */
-    cancelSubscriptionWithResponse(subscription_id: InputValue<string>, params: (InputValue<CancelSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    cancelSubscription(subscription_id: InputValue<string>, params: MeCancelSubscriptionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
  * Confirms possession of the current and new email addresses, then atomically updates the customer
  * account in the selected merchant environment. Omit current_email_code only when
@@ -954,33 +923,28 @@ export interface MeResource {
  * everywhere at this store: it revokes every customer session, buyer access grant, and
  * Flint-hosted account session for the customer, including the session that made this request.
  * Sign the buyer in again with the new email.
- * @see reference/me.md#meconfirmemailchangerequest
- * POST /v1/me/email-change-requests/{email_change_request_id}/confirm
+ *
+ * `POST /v1/me/email-change-requests/{email_change_request_id}/confirm`
+ * @param email_change_request_id Flint email change request ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#confirmMeEmailChangeRequest
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.confirmEmailChangeRequest("example", {new_email_code: "123456"}, { idempotencyKey:
- * idempotencyKey })
+ * client.me.confirmEmailChangeRequest("cecr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {new_email_code:
+ * "123456"}, { idempotencyKey: idempotencyKey })
  */
-    confirmEmailChangeRequest(email_change_request_id: InputValue<string>, params: (InputValue<ConfirmEmailChangeRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<EmailChangeRequest>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meconfirmemailchangerequest
-     */
-    confirmEmailChangeRequestWithResponse(email_change_request_id: InputValue<string>, params: (InputValue<ConfirmEmailChangeRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<EmailChangeRequestResponse>>;
+    confirmEmailChangeRequest(email_change_request_id: InputValue<string>, params: MeConfirmEmailChangeRequestParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<EmailChangeRequest, EmailChangeRequestResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Saves an address for the buyer. The address becomes a default only when the request
  * sets is_default_billing or is_default_shipping, or later by setting those flags with PATCH,
  * including the buyer's first address. A default address is also the billing or shipping address
  * on the buyer's customer profile.
- * @see reference/me.md#mecreateaddress
- * POST /v1/me/addresses
+ *
+ * `POST /v1/me/addresses`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeAddress
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
@@ -988,38 +952,22 @@ export interface MeResource {
  * Street", postal_code: "62701", state: "IL"}, recipient_name: "Jordan Example"}, {
  * idempotencyKey: idempotencyKey })
  */
-    createAddress(params: (InputValue<CreateCustomerAddressRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<CustomerAddress>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreateaddress
-     */
-    createAddressWithResponse(params: (InputValue<CreateCustomerAddressRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<CustomerAddressResponse>>;
+    createAddress(params: MeCreateAddressParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Asks the store to delete the buyer's account, or returns the request already
  * pending. The store approves or rejects it. Deletion anonymizes the customer: orders, payments,
  * and refunds stay without the buyer's identity.
- * @see reference/me.md#mecreatedeletionrequest
- * POST /v1/me/deletion-requests
+ *
+ * `POST /v1/me/deletion-requests`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeDeletionRequest
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.me.createDeletionRequest({}, { idempotencyKey: idempotencyKey })
  */
-    createDeletionRequest(params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<CustomerDeletionRequest>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreatedeletionrequest
-     */
-    createDeletionRequestWithResponse(params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
+    createDeletionRequest(params?: MeCreateDeletionRequestParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerDeletionRequest, CustomerDeletionRequestResponse>>;
     /**
  * Sends short-lived confirmation codes to the current and new email addresses. If the account has
  * no current email, only the new address must be confirmed. The customer email does not change
@@ -1027,55 +975,43 @@ export interface MeResource {
  * rejected because the email is already used. A rejected attempt keeps any pending email change
  * request. Over the limit, the request returns 429 RATE_LIMIT_EXCEEDED with Retry-After set to the
  * whole seconds until the oldest counted attempt leaves the window, at least 1.
- * @see reference/me.md#mecreateemailchangerequest
- * POST /v1/me/email-change-requests
+ *
+ * `POST /v1/me/email-change-requests`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeEmailChangeRequest
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.me.createEmailChangeRequest({new_email: "example@example.invalid"}, { idempotencyKey:
  * idempotencyKey })
  */
-    createEmailChangeRequest(params: (InputValue<CreateEmailChangeRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<EmailChangeRequest>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreateemailchangerequest
-     */
-    createEmailChangeRequestWithResponse(params: (InputValue<CreateEmailChangeRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<EmailChangeRequestResponse>>;
+    createEmailChangeRequest(params: MeCreateEmailChangeRequestParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<EmailChangeRequest, EmailChangeRequestResponse>>;
     /**
  * Records the buyer's consent to save an independent store copy for off-session payments,
  * including subscriptions. Call only after the buyer agrees. Requires a live email-code buyer
  * login and an enabled Flint wallet at a Flint-hosted store account. Supply a flint_wallet_card_id
- * from listMeFlintWalletCards. Confirm client_setup with Stripe.js confirmSetup, then poll GET
- * /v1/me/payment-methods/{payment_method_id} until active before changing a subscription through
- * PATCH /v1/me/subscriptions/{subscription_id} with payment_method_id. Setup may request
- * authentication. Removing the platform card or revoking store consent blocks the copy
- * immediately. Idempotency-Key is optional and scoped to the store, customer, card handle, and
- * key. Responses are retained for 24 hours. After a copy is revoked, retries with any key bound to
- * that copy are refused. Get new consent and use a new key to create another copy. Retry a lost
- * response with the same key. Concurrent requests for the same card at this store share one copy
- * and setup. A failed off-session charge can still require the buyer to return through the
- * existing card-update link. Accept an empty body or {}.
- * @see reference/me.md#mecreateflintwalletstoresetup
- * POST /v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups
+ * from listMeFlintWalletCards. Confirm client_setup with Stripe.js confirmSetup, then poll
+ * `client.me.getPaymentMethod` until active before changing a subscription through
+ * `client.me.updateSubscription` with payment_method_id. Setup may request authentication.
+ * Removing the platform card or revoking store consent blocks the copy immediately.
+ * Idempotency-Key is optional and scoped to the store, customer, card handle, and key. Responses
+ * are retained for 24 hours. After a copy is revoked, retries with any key bound to that copy are
+ * refused. Get new consent and use a new key to create another copy. Retry a lost response with
+ * the same key. Concurrent requests for the same card at this store share one copy and setup. A
+ * failed off-session charge can still require the buyer to return through the existing card-update
+ * link. Accept an empty body or {}.
+ *
+ * `POST /v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups`
+ * @param flint_wallet_card_id The card's handle at this store.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeFlintWalletStoreSetup
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.createFlintWalletStoreSetup("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.createFlintWalletStoreSetup("fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    createFlintWalletStoreSetup(flint_wallet_card_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerFlintWalletStoreSetup>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreateflintwalletstoresetup
-     */
-    createFlintWalletStoreSetupWithResponse(flint_wallet_card_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerFlintWalletStoreSetupResponse>>;
+    createFlintWalletStoreSetup(flint_wallet_card_id: InputValue<string>, params?: MeCreateFlintWalletStoreSetupParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerFlintWalletStoreSetup, BuyerFlintWalletStoreSetupResponse>>;
     /**
  * Accepts a customer session, which limits the request to that customer's invoices, or the access
  * token from this invoice's public link, which limits it to this invoice. The request cannot
@@ -1085,107 +1021,69 @@ export interface MeResource {
  * sessions are reused regardless of remaining lifetime; active payment work returns a resolving
  * conflict instead of creating competing collection. When the invoice's order has items to
  * deliver, a new session offers the delivery methods in
- * settings.checkout.default_delivery_method_ids, and the request fails with a validation error
- * when those methods cannot deliver every item. return_url sets where the checkout sends the buyer
- * after paying. A reused session takes a new return_url only until a payment starts on it, and
- * keeps the one it has after that.
- * @see reference/me.md#mecreateinvoicecheckoutsession
- * POST /v1/me/invoices/{invoice_id}/checkout-sessions
+ * settings.checkout.default_delivery_method_ids, and the request returns 409 ACTION_NOT_ALLOWED
+ * with reason configuration_required when those methods cannot deliver every item. return_url sets
+ * where the checkout sends the buyer after paying. A reused session takes a new return_url only
+ * until a payment starts on it, and keeps the one it has after that.
+ *
+ * `POST /v1/me/invoices/{invoice_id}/checkout-sessions`
+ * @param invoice_id Flint invoice ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeInvoiceCheckoutSession
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.createInvoiceCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
+ * client.me.createInvoiceCheckoutSession("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * idempotencyKey: idempotencyKey })
  */
-    createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<InvoiceCheckoutSessionRequestInput>
-        | {
-        "invoice_schedule_entry_id"?: never;
-        "page_origin"?: never;
-        "payment_return_url"?: never;
-        "redirects"?: never;
-        "return_url"?: never;
-        "surface"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer" | "invoice">): Promise<BuyerInvoiceCheckoutSessionResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreateinvoicecheckoutsession
-     */
-    createInvoiceCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<InvoiceCheckoutSessionRequestInput>
-        | {
-        "invoice_schedule_entry_id"?: never;
-        "page_origin"?: never;
-        "payment_return_url"?: never;
-        "redirects"?: never;
-        "return_url"?: never;
-        "surface"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer" | "invoice">): Promise<SdkResponse<BuyerInvoiceCheckoutSessionResponse>>;
+    createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: MeCreateInvoiceCheckoutSessionParams, options?: RequestOptions<"customer" | "invoice">): Promise<WithResponseInfo<BuyerInvoiceCheckoutSessionResult, BuyerInvoiceCheckoutSessionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Starts saving a payment method for the buyer and returns the client setup to
  * confirm in the browser. The payment method is pending until setup succeeds.
- * @see reference/me.md#mesavepaymentmethod
- * POST /v1/me/payment-methods
+ *
+ * `POST /v1/me/payment-methods`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMePaymentMethod
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.savePaymentMethod({}, { idempotencyKey: idempotencyKey })
+ * client.me.createPaymentMethod({type: "card"}, { idempotencyKey: idempotencyKey })
  */
-    savePaymentMethod(params: (InputValue<SaveMePaymentMethodRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerPaymentMethodWithSetup>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mesavepaymentmethod
-     */
-    savePaymentMethodWithResponse(params: (InputValue<SaveMePaymentMethodRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSavePaymentMethodResponse>>;
+    createPaymentMethod(params: MeCreatePaymentMethodParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerPaymentMethodWithSetup, BuyerSavePaymentMethodResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Requests a Return for one of the buyer's orders. An active return policy must cover
  * each line and leave the requested quantity eligible, or the request fails with 409
- * ACTION_NOT_ALLOWED with reason not_offered. Check can_buyer_request with POST
- * /v1/me/return-previews first. The buyer's reason must be active and apply to the line, and a
- * policy that sends the request to review leaves the Return waiting for the store's decision.
- * @see reference/me.md#mecreatereturn
- * POST /v1/me/returns
+ * ACTION_NOT_ALLOWED with reason not_offered. Check can_buyer_request with
+ * `client.me.createReturnPreview` first. The buyer's reason must be active and apply to the line,
+ * and a policy that sends the request to review leaves the Return waiting for the store's
+ * decision.
+ *
+ * `POST /v1/me/returns`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.createReturn({line_items: [{order_line_item_id: "example", requested_quantity: "100",
- * return_reason_id: "example"}], order_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.me.createReturn({line_items: [{order_line_item_id: "li_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * requested_quantity: 1, return_reason_id: "rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV"}], order_id:
+ * "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey })
  */
-    createReturn(params: (InputValue<BuyerCreateReturnRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<BuyerReturn>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreatereturn
-     */
-    createReturnWithResponse(params: (InputValue<BuyerCreateReturnRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerReturnResponse>>;
+    createReturn(params: MeCreateReturnParams, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerReturn, BuyerReturnResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Preview return eligibility or resolution amounts without creating a Return or
  * reserving quantity. Set mode to eligibility or resolution and send the matching input object.
- * @see reference/me.md#mecreatereturnpreview
- * POST /v1/me/return-previews
+ *
+ * `POST /v1/me/return-previews`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeReturnPreview
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.createReturnPreview({mode: "eligibility", eligibility: {order_id: "example",
- * selection: {selection_type: "all_remaining_fulfilled"}}})
+ * client.me.createReturnPreview({mode: "eligibility", eligibility: {order_id:
+ * "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", selection: {selection_type: "all_remaining_fulfilled"}}})
  */
-    createReturnPreview(params: (InputValue<BuyerCreateReturnPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerReturnPreview>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreatereturnpreview
-     */
-    createReturnPreviewWithResponse(params: (InputValue<BuyerCreateReturnPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerReturnPreviewResponse>>;
+    createReturnPreview(params: MeCreateReturnPreviewParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerReturnPreview, BuyerReturnPreviewResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Create or reuse a hosted or embedded checkout session for the buyer's balance on a
@@ -1196,535 +1094,409 @@ export interface MeResource {
  * alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout
  * and must be an address of the merchant's customer account. A reused session takes a new success
  * destination only until a payment starts, then keeps its existing destination.
- * @see reference/me.md#mecreatereturnresolutioncheckoutsession
- * POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions
+ *
+ * `POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions`
+ * @param return_resolution_id Flint return resolution id.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-account#createMeReturnResolutionCheckoutSession
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.createReturnResolutionCheckoutSession("example", undefined, { idempotencyKey:
- * idempotencyKey })
+ * client.me.createReturnResolutionCheckoutSession("retres_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined,
+ * { idempotencyKey: idempotencyKey })
  */
-    createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<GetOrCreateReturnResolutionCheckoutSessionRequestInput>
-        | {
-        "page_origin"?: never;
-        "payment_return_url"?: never;
-        "redirects"?: never;
-        "return_url"?: never;
-        "surface"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerCheckoutSessionWithSecret>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreatereturnresolutioncheckoutsession
-     */
-    createReturnResolutionCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<GetOrCreateReturnResolutionCheckoutSessionRequestInput>
-        | {
-        "page_origin"?: never;
-        "payment_return_url"?: never;
-        "redirects"?: never;
-        "return_url"?: never;
-        "surface"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerReturnResolutionCheckoutSessionResponse>>;
+    createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: MeCreateReturnResolutionCheckoutSessionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerCheckoutSessionWithSecret, BuyerReturnResolutionCheckoutSessionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Starts one manual collection attempt
  * on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the
  * outcome. While cancellation is scheduled, a new buyer retry returns 409 ACTION_NOT_ALLOWED with
- * reason cancellation_scheduled and current_status past_due. First use PATCH
- * /v1/me/subscriptions/{subscription_id} with cancel_at_period_end false to keep the subscription;
+ * reason cancellation_scheduled and current_status past_due. First use
+ * `client.me.updateSubscription` with cancel_at_period_end false to keep the subscription;
  * retry_payment becomes available again if the other retry conditions allow it. Only one retry may
  * be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created
  * for the current billing period, counting the store's retries too. subscription_card_update
  * email-link sessions can start retries.
- * @see reference/me.md#mecreatesubscriptionpaymentretry
- * POST /v1/me/subscriptions/{subscription_id}/payment-retries
+ *
+ * `POST /v1/me/subscriptions/{subscription_id}/payment-retries`
+ * @param subscription_id Flint subscription ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-account#createMeSubscriptionPaymentRetry
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.createSubscriptionPaymentRetry("example", undefined, { idempotencyKey: idempotencyKey
- * })
+ * client.me.createSubscriptionPaymentRetry("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * idempotencyKey: idempotencyKey })
  */
-    createSubscriptionPaymentRetry(subscription_id: InputValue<string>, params: (InputValue<{}> | {}) & {
-        "Idempotency-Key"?: InputValue<string>;
-    } | undefined, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<BuyerSubscriptionPaymentRetry>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreatesubscriptionpaymentretry
-     */
-    createSubscriptionPaymentRetryWithResponse(subscription_id: InputValue<string>, params: (InputValue<{}> | {}) & {
-        "Idempotency-Key"?: InputValue<string>;
-    } | undefined, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionPaymentRetryResponse>>;
+    createSubscriptionPaymentRetry(subscription_id: InputValue<string>, params: MeCreateSubscriptionPaymentRetryParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscriptionPaymentRetry, BuyerSubscriptionPaymentRetryResponse>>;
     /**
  * Estimates a buyer's next subscription renewal, or lists delivery methods and rates for a
  * proposed destination, without changing the subscription. next_renewal includes recurring
  * promotions, shipping, and tax for the next charged cycle. Tax is null when no tax address is
  * available; a tax service failure returns 502 EXTERNAL_SERVICE_ERROR. Requires a full buyer
  * session. A preview does not reserve inventory or guarantee a future shipping rate.
- * @see reference/me.md#mecreatesubscriptionpreview
- * POST /v1/me/subscription-previews
+ *
+ * `POST /v1/me/subscription-previews`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#createMeSubscriptionPreview
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.createSubscriptionPreview({body: {mode: "next_renewal", subscription_id:
- * "sub_00000000000000000000000000"}})
+ * client.me.createSubscriptionPreview({mode: "next_renewal", subscription_id:
+ * "sub_00000000000000000000000000"})
  */
-    createSubscriptionPreview(input: MeCreateSubscriptionPreviewInput, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<((BuyerSubscriptionPreview) | (SubscriptionRenewalPreview) | (Record<string, unknown>))>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mecreatesubscriptionpreview
-     */
-    createSubscriptionPreviewWithResponse(input: MeCreateSubscriptionPreviewInput, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionPreviewResponse>>;
+    createSubscriptionPreview(params: MeCreateSubscriptionPreviewParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<((BuyerSubscriptionPreview) | (SubscriptionRenewalPreview) | (Record<string, unknown>)), BuyerSubscriptionPreviewResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Deletes one of the buyer's saved addresses. Deleting the billing or shipping
  * default leaves the customer with none; Flint doesn't pick another address.
- * @see reference/me.md#medeleteaddress
- * DELETE /v1/me/addresses/{customer_address_id}
+ *
+ * `DELETE /v1/me/addresses/{customer_address_id}`
+ * @param customer_address_id Flint customer address ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#deleteMeAddress
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.deleteAddress("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.deleteAddress("caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey
+ * })
  */
-    deleteAddress(customer_address_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<CustomerAddress>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#medeleteaddress
-     */
-    deleteAddressWithResponse(customer_address_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<CustomerAddressResponse>>;
+    deleteAddress(customer_address_id: InputValue<string>, params?: MeDeleteAddressParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Deletes a saved payment method so it can no longer be used for future payments.
  * Returns the payment method with status archived, including when it was already archived.
- * @see reference/me.md#meremovepaymentmethod
- * DELETE /v1/me/payment-methods/{payment_method_id}
+ *
+ * `DELETE /v1/me/payment-methods/{payment_method_id}`
+ * @param payment_method_id Flint payment method ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#deleteMePaymentMethod
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.removePaymentMethod("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.deletePaymentMethod("pm_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    removePaymentMethod(payment_method_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerPaymentMethod>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meremovepaymentmethod
-     */
-    removePaymentMethodWithResponse(payment_method_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerPaymentMethodResponse>>;
+    deletePaymentMethod(payment_method_id: InputValue<string>, params?: MeDeletePaymentMethodParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerPaymentMethod, BuyerPaymentMethodResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns the buyer's customer profile.
- * @see reference/me.md#meget
- * GET /v1/me
+ *
+ * `GET /v1/me`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMe
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.get()
  */
-    get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerCustomer>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meget
-     */
-    getWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerCustomerResponse>>;
+    get(params?: MeGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerCustomer, BuyerCustomerResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's saved addresses.
- * @see reference/me.md#megetaddress
- * GET /v1/me/addresses/{customer_address_id}
+ *
+ * `GET /v1/me/addresses/{customer_address_id}`
+ * @param customer_address_id Flint customer address ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeAddress
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getAddress("example")
+ * client.me.getAddress("caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getAddress(customer_address_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<CustomerAddress>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetaddress
-     */
-    getAddressWithResponse(customer_address_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<CustomerAddressResponse>>;
+    getAddress(customer_address_id: InputValue<string>, params?: MeGetAddressParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
     /**
  * Accepts a customer session, which limits the request to that customer's invoices, or the access
  * token from this invoice's public link, which limits it to this invoice. The request cannot
  * select a customer_id. Returns one credit note with its lines, total, and the credit still
  * available to allocate.
- * @see reference/me.md#megetcreditnote
- * GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}
+ *
+ * `GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}`
+ * @param invoice_id Flint invoice ID.
+ * @param credit_note_id Flint credit note ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeCreditNote
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getCreditNote("example", "example")
+ * client.me.getCreditNote("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", "cn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getCreditNote(invoice_id: InputValue<string>, credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<BuyerCreditNote>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetcreditnote
-     */
-    getCreditNoteWithResponse(invoice_id: InputValue<string>, credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<SdkResponse<BuyerCreditNoteResponse>>;
+    getCreditNote(invoice_id: InputValue<string>, credit_note_id: InputValue<string>, params?: MeGetCreditNoteParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<WithResponseInfo<BuyerCreditNote, BuyerCreditNoteResponse>>;
     /**
  * Accepts a customer session, which limits the request to that customer's invoices, or the access
  * token from this invoice's public link, which limits it to this invoice. The request cannot
  * select a customer_id. Returns the credit note document as application/pdf rather than a JSON
- * envelope. The PDF exists from issue onward and carries your branding, the credited lines, and
- * the invoice it corrects.
- * @see reference/me.md#megetcreditnotepdf
- * GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf
+ * envelope. The PDF exists from issue onward and shows the credited lines, totals, and the invoice
+ * it corrects. It uses your current branding, so a later download can differ in logo or colors,
+ * but not in content.
+ *
+ * `GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf`
+ * @param invoice_id Flint invoice ID.
+ * @param credit_note_id Flint credit note ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeCreditNotePDF
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getCreditNotePDF("example", "example")
+ * client.me.getCreditNotePDF("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", "cn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getCreditNotePDF(invoice_id: InputValue<string>, credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<Result<MeGetCreditNotePDFResponse>>;
+    getCreditNotePDF(invoice_id: InputValue<string>, credit_note_id: InputValue<string>, params?: MeGetCreditNotePDFParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<Result<MeGetCreditNotePDFResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns the status of one of the buyer's deletion requests.
- * @see reference/me.md#megetdeletionrequest
- * GET /v1/me/deletion-requests/{customer_deletion_request_id}
+ *
+ * `GET /v1/me/deletion-requests/{customer_deletion_request_id}`
+ * @param customer_deletion_request_id Flint customer deletion request ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeDeletionRequest
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getDeletionRequest("example")
+ * client.me.getDeletionRequest("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getDeletionRequest(customer_deletion_request_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<CustomerDeletionRequest>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetdeletionrequest
-     */
-    getDeletionRequestWithResponse(customer_deletion_request_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
+    getDeletionRequest(customer_deletion_request_id: InputValue<string>, params?: MeGetDeletionRequestParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<CustomerDeletionRequest, CustomerDeletionRequestResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Returns which of the merchant's
  * optional email categories the customer's current email receives in the selected merchant
  * environment. A category the buyer never changed is on. Email preferences exist only for a
- * customer with an email: without one, the read answers 404 with CUSTOMER_EMAIL_REQUIRED. Receipts
- * and other transactional email always send.
- * @see reference/me.md#megetemailpreferences
- * GET /v1/me/email-preferences
+ * customer with an email: without one, the read returns 404 RESOURCE_NOT_FOUND. Receipts and other
+ * transactional email always send.
+ *
+ * `GET /v1/me/email-preferences`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeEmailPreferences
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.getEmailPreferences()
  */
-    getEmailPreferences(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<CustomerEmailPreferences>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetemailpreferences
-     */
-    getEmailPreferencesWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<CustomerEmailPreferencesResponse>>;
+    getEmailPreferences(params?: MeGetEmailPreferencesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<CustomerEmailPreferences, CustomerEmailPreferencesResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's fulfillments.
- * @see reference/me.md#megetfulfillment
- * GET /v1/me/fulfillments/{fulfillment_id}
+ *
+ * `GET /v1/me/fulfillments/{fulfillment_id}`
+ * @param fulfillment_id Flint fulfillment ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeFulfillment
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getFulfillment("example")
+ * client.me.getFulfillment("ful_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getFulfillment(fulfillment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerFulfillment>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetfulfillment
-     */
-    getFulfillmentWithResponse(fulfillment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerFulfillmentResponse>>;
+    getFulfillment(fulfillment_id: InputValue<string>, params?: MeGetFulfillmentParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerFulfillment, BuyerFulfillmentResponse>>;
     /**
  * Requires a full customer session. Saved access requires possession of a current code or
  * recipient link. Customer associations and purchase history do not authorize access. Replacing a
  * code invalidates saved access; save again with fresh proof. Saved access does not permit
  * spending or reveal a full code.
- * @see reference/me.md#megetgiftcard
- * GET /v1/me/gift-cards/{gift_card_id}
+ *
+ * `GET /v1/me/gift-cards/{gift_card_id}`
+ * @param gift_card_id Flint gift card ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeGiftCard
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getGiftCard("example")
+ * client.me.getGiftCard("gc_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getGiftCard(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerGiftCard>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetgiftcard
-     */
-    getGiftCardWithResponse(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerGiftCardResponse>>;
+    getGiftCard(gift_card_id: InputValue<string>, params?: MeGetGiftCardParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerGiftCard, BuyerGiftCardResponse>>;
     /**
  * Accepts a customer session, which limits the request to that customer's invoices, or the access
  * token from this invoice's public link, which limits it to this invoice. The request cannot
  * select a customer_id. Returns one of the buyer's invoices. A draft invoice returns 404.
- * @see reference/me.md#megetinvoice
- * GET /v1/me/invoices/{invoice_id}
+ *
+ * `GET /v1/me/invoices/{invoice_id}`
+ * @param invoice_id Flint invoice ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeInvoice
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getInvoice("example")
+ * client.me.getInvoice("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getInvoice(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<BuyerInvoice>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetinvoice
-     */
-    getInvoiceWithResponse(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<SdkResponse<BuyerInvoiceResponse>>;
+    getInvoice(invoice_id: InputValue<string>, params?: MeGetInvoiceParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<WithResponseInfo<BuyerInvoice, BuyerInvoiceResponse>>;
     /**
  * Accepts a customer session, which limits the request to that customer's invoices, or the access
  * token from this invoice's public link, which limits it to this invoice. The request cannot
  * select a customer_id. Returns the invoice document as application/pdf rather than a JSON
  * envelope.
- * @see reference/me.md#megetinvoicepdf
- * GET /v1/me/invoices/{invoice_id}/pdf
+ *
+ * `GET /v1/me/invoices/{invoice_id}/pdf`
+ * @param invoice_id Flint invoice ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeInvoicePDF
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getInvoicePDF("example")
+ * client.me.getInvoicePDF("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getInvoicePDF(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<Result<MeGetInvoicePDFResponse>>;
+    getInvoicePDF(invoice_id: InputValue<string>, params?: MeGetInvoicePDFParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<Result<MeGetInvoicePDFResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's orders.
- * @see reference/me.md#megetorder
- * GET /v1/me/orders/{order_id}
+ *
+ * `GET /v1/me/orders/{order_id}`
+ * @param order_id Flint order ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeOrder
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getOrder("example")
+ * client.me.getOrder("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getOrder(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerOrder>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetorder
-     */
-    getOrderWithResponse(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerOrderResponse>>;
+    getOrder(order_id: InputValue<string>, params?: MeGetOrderParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerOrder, BuyerOrderResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's packages.
- * @see reference/me.md#megetpackage
- * GET /v1/me/packages/{package_id}
+ *
+ * `GET /v1/me/packages/{package_id}`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMePackage
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getPackage("example")
+ * client.me.getPackage("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getPackage(package_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPackage>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetpackage
-     */
-    getPackageWithResponse(package_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPackageResponse>>;
+    getPackage(package_id: InputValue<string>, params?: MeGetPackageParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerPackage, BuyerPackageResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's payments.
- * @see reference/me.md#megetpaymentintent
- * GET /v1/me/payment-intents/{payment_intent_id}
+ *
+ * `GET /v1/me/payment-intents/{payment_intent_id}`
+ * @param payment_intent_id Flint payment intent ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMePaymentIntent
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getPaymentIntent("example")
+ * client.me.getPaymentIntent("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getPaymentIntent(payment_intent_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPaymentIntent>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetpaymentintent
-     */
-    getPaymentIntentWithResponse(payment_intent_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPaymentIntentResponse>>;
-    /**
- * Uses the customer identity fixed by the customer session. The request cannot select a
- * customer_id. Returns one of the buyer's payments.
- * @see reference/me.md#megetpaymentintent
- * GET /v1/me/payment-intents/{payment_intent_id}
- * @deprecated Use me.getPaymentIntent; HTTP behavior is unchanged.
- * @example
- * client.me.getPayment("example")
- */
-    getPayment(payment_intent_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPaymentIntent>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetpaymentintent
-     */
-    getPaymentWithResponse(payment_intent_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPaymentIntentResponse>>;
+    getPaymentIntent(payment_intent_id: InputValue<string>, params?: MeGetPaymentIntentParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerPaymentIntent, BuyerPaymentIntentResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's saved payment methods.
- * @see reference/me.md#megetpaymentmethod
- * GET /v1/me/payment-methods/{payment_method_id}
+ *
+ * `GET /v1/me/payment-methods/{payment_method_id}`
+ * @param payment_method_id Flint payment method ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMePaymentMethod
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getPaymentMethod("example")
+ * client.me.getPaymentMethod("pm_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getPaymentMethod(payment_method_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPaymentMethod>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetpaymentmethod
-     */
-    getPaymentMethodWithResponse(payment_method_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPaymentMethodResponse>>;
+    getPaymentMethod(payment_method_id: InputValue<string>, params?: MeGetPaymentMethodParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerPaymentMethod, BuyerPaymentMethodResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's refunds.
- * @see reference/me.md#megetrefund
- * GET /v1/me/refunds/{refund_id}
+ *
+ * `GET /v1/me/refunds/{refund_id}`
+ * @param refund_id Flint refund ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeRefund
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getRefund("example")
+ * client.me.getRefund("ref_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getRefund(refund_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerRefund>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetrefund
-     */
-    getRefundWithResponse(refund_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerRefundResponse>>;
+    getRefund(refund_id: InputValue<string>, params?: MeGetRefundParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerRefund, BuyerRefundResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's Returns.
- * @see reference/me.md#megetreturn
- * GET /v1/me/returns/{return_id}
+ *
+ * `GET /v1/me/returns/{return_id}`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getReturn("example")
+ * client.me.getReturn("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getReturn(return_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerReturn>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetreturn
-     */
-    getReturnWithResponse(return_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerReturnResponse>>;
+    getReturn(return_id: InputValue<string>, params?: MeGetReturnParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerReturn, BuyerReturnResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns a buyer-visible Return resolution, including the amount the buyer needs to
  * pay. Use the checkout_session action to pay its balance.
- * @see reference/me.md#megetreturnresolution
- * GET /v1/me/return-resolutions/{return_resolution_id}
+ *
+ * `GET /v1/me/return-resolutions/{return_resolution_id}`
+ * @param return_resolution_id Flint return resolution id.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeReturnResolution
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getReturnResolution("example")
+ * client.me.getReturnResolution("retres_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getReturnResolution(return_resolution_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerReturnResolution>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetreturnresolution
-     */
-    getReturnResolutionWithResponse(return_resolution_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerReturnResolutionResponse>>;
+    getReturnResolution(return_resolution_id: InputValue<string>, params?: MeGetReturnResolutionParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerReturnResolution, BuyerReturnResolutionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's shipments.
- * @see reference/me.md#megetshipment
- * GET /v1/me/shipments/{shipment_id}
+ *
+ * `GET /v1/me/shipments/{shipment_id}`
+ * @param shipment_id Flint shipment ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeShipment
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getShipment("example")
+ * client.me.getShipment("shp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getShipment(shipment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerShipment>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetshipment
-     */
-    getShipmentWithResponse(shipment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerShipmentResponse>>;
+    getShipment(shipment_id: InputValue<string>, params?: MeGetShipmentParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerShipment, BuyerShipmentResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns one of the buyer's subscriptions. subscription_plan is always included
  * without expand: the plan's current summary, or null when the subscription has no plan.
- * @see reference/me.md#megetsubscription
- * GET /v1/me/subscriptions/{subscription_id}
+ *
+ * `GET /v1/me/subscriptions/{subscription_id}`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeSubscription
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getSubscription("example")
+ * client.me.getSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getSubscription(subscription_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetsubscription
-     */
-    getSubscriptionWithResponse(subscription_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    getSubscription(subscription_id: InputValue<string>, params?: MeGetSubscriptionParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Returns one durable manual
  * subscription payment retry.
- * @see reference/me.md#megetsubscriptionpaymentretry
- * GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}
+ *
+ * `GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}`
+ * @param subscription_id Flint subscription ID.
+ * @param subscription_payment_retry_id Flint subscription payment retry ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#getMeSubscriptionPaymentRetry
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.getSubscriptionPaymentRetry("example", "example")
+ * client.me.getSubscriptionPaymentRetry("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "spr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getSubscriptionPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerSubscriptionPaymentRetry>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#megetsubscriptionpaymentretry
-     */
-    getSubscriptionPaymentRetryWithResponse(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionPaymentRetryResponse>>;
+    getSubscriptionPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: MeGetSubscriptionPaymentRetryParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscriptionPaymentRetry, BuyerSubscriptionPaymentRetryResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's saved addresses with their billing and shipping default flags.
  * Default order: created_at descending, then customer_address_id descending.
- * @see reference/me.md#melistaddresses
- * GET /v1/me/addresses
+ *
+ * `GET /v1/me/addresses`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeAddresses
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listAddresses()
  */
-    listAddresses(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<CustomerAddressListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistaddresses
-     */
-    listAddressesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<CustomerAddressListResponse>>;
+    listAddresses(params?: MeListAddressesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<CustomerAddressListResponse, CustomerAddressListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistaddresses
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeAddresses
      */
-    listAddressesPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerAddressListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistaddresses
-     */
-    listAddressesPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<CustomerAddressListResponse>>;
+    listAddressesPages(params?: MeListAddressesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<CustomerAddressListResponse, CustomerAddressListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistaddresses
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeAddresses
      */
-    listAddressesItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerAddress>;
+    listAddressesItems(params?: MeListAddressesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerAddress>;
     /**
  * Accepts a customer session, which limits the request to that customer's invoices, or the access
  * token from this invoice's public link, which limits it to this invoice. The request cannot
  * select a customer_id. Lists the credit notes issued against this invoice, newest first. Default
  * order: issued_at descending, then credit_note_id descending.
- * @see reference/me.md#melistcreditnotes
- * GET /v1/me/invoices/{invoice_id}/credit-notes
+ *
+ * `GET /v1/me/invoices/{invoice_id}/credit-notes`
+ * @param invoice_id Flint invoice ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeCreditNotes
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.listCreditNotes("example")
+ * client.me.listCreditNotes("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listCreditNotes(invoice_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<BuyerCreditNoteListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistcreditnotes
-     */
-    listCreditNotesWithResponse(invoice_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<SdkResponse<BuyerCreditNoteListResponse>>;
+    listCreditNotes(invoice_id: InputValue<string>, params?: MeListCreditNotesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<WithResponseInfo<BuyerCreditNoteListResponse, BuyerCreditNoteListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistcreditnotes
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeCreditNotes
      */
-    listCreditNotesPages(invoice_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): AsyncGenerator<BuyerCreditNoteListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistcreditnotes
-     */
-    listCreditNotesPagesWithResponse(invoice_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): AsyncGenerator<SdkResponse<BuyerCreditNoteListResponse>>;
+    listCreditNotesPages(invoice_id: InputValue<string>, params?: MeListCreditNotesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): AsyncGenerator<WithResponseInfo<BuyerCreditNoteListResponse, BuyerCreditNoteListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistcreditnotes
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeCreditNotes
      */
-    listCreditNotesItems(invoice_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): AsyncGenerator<BuyerCreditNote>;
+    listCreditNotesItems(invoice_id: InputValue<string>, params?: MeListCreditNotesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): AsyncGenerator<BuyerCreditNote>;
     /**
  * Uses the customer identity fixed by the customer session. Lists the current buyer's deletion
  * requests in the selected merchant environment, newest first by requested_at. Default order:
  * requested_at descending, then customer_deletion_request_id descending.
- * @see reference/me.md#melistdeletionrequests
- * GET /v1/me/deletion-requests
+ *
+ * `GET /v1/me/deletion-requests`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeDeletionRequests
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listDeletionRequests()
  */
-    listDeletionRequests(params?: {
-        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<CustomerDeletionRequestListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistdeletionrequests
-     */
-    listDeletionRequestsWithResponse(params?: {
-        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<CustomerDeletionRequestListResponse>>;
+    listDeletionRequests(params?: MeListDeletionRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<CustomerDeletionRequestListResponse, CustomerDeletionRequestListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistdeletionrequests
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeDeletionRequests
      */
-    listDeletionRequestsPages(params?: {
-        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistdeletionrequests
-     */
-    listDeletionRequestsPagesWithResponse(params?: {
-        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestListResponse>>;
+    listDeletionRequestsPages(params?: MeListDeletionRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<CustomerDeletionRequestListResponse, CustomerDeletionRequestListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistdeletionrequests
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeDeletionRequests
      */
-    listDeletionRequestsItems(params?: {
-        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerDeletionRequest>;
+    listDeletionRequestsItems(params?: MeListDeletionRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerDeletionRequest>;
     /**
  * Returns the current buyer's usable wallet cards in newest-first order. Each flint_wallet_card_id
  * is an opaque per-store handle. store_payment_method_id is null until this store holds a copy.
@@ -1733,280 +1505,76 @@ export interface MeResource {
  * merchant-created sessions, and API keys receive 404. Live and sandbox wallets are isolated. The
  * full card collection is returned in one page. Flint wallet support must be enabled. Default
  * order: most recently added card first.
- * @see reference/me.md#melistflintwalletcards
- * GET /v1/me/flint-wallet/cards
+ *
+ * `GET /v1/me/flint-wallet/cards`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFlintWalletCards
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listFlintWalletCards()
  */
-    listFlintWalletCards(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerFlintWalletCardListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistflintwalletcards
-     */
-    listFlintWalletCardsWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerFlintWalletCardListResponse>>;
-    /**
- * Returns the current buyer's usable wallet cards in newest-first order. Each flint_wallet_card_id
- * is an opaque per-store handle. store_payment_method_id is null until this store holds a copy.
- * Requires a customer session minted from a live email-code buyer login at a Flint-hosted store
- * account, including a login narrowed to a custom domain. Email links, checkout sessions, grants,
- * merchant-created sessions, and API keys receive 404. Live and sandbox wallets are isolated. The
- * full card collection is returned in one page. Flint wallet support must be enabled. Default
- * order: most recently added card first.
- * @see reference/me.md#melistflintwalletcards
- * GET /v1/me/flint-wallet/cards
- * @deprecated Use me.listFlintWalletCards; HTTP behavior is unchanged.
- * @example
- * client.me.listFlintWalletPaymentMethods()
- */
-    listFlintWalletPaymentMethods(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerFlintWalletCardListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistflintwalletcards
-     */
-    listFlintWalletPaymentMethodsWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerFlintWalletCardListResponse>>;
+    listFlintWalletCards(params?: MeListFlintWalletCardsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerFlintWalletCardListResponse, BuyerFlintWalletCardListResponse>>;
     /**
  * Lists fulfillment events for an order owned by the current buyer, ordered by occurred_at
  * descending. Internal merchant fields are omitted. order_id is required. Default order:
  * occurred_at descending, then fulfillment_event_id descending.
- * @see reference/me.md#melistfulfillmentevents
- * GET /v1/me/fulfillment-events
+ *
+ * `GET /v1/me/fulfillment-events`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFulfillmentEvents
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.listFulfillmentEvents({order_id: "example"})
+ * client.me.listFulfillmentEvents({order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"})
  */
-    listFulfillmentEvents(params: {
-        "order_id": InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "shipment_id"?: InputValue<string>;
-        "package_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerFulfillmentEventListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistfulfillmentevents
-     */
-    listFulfillmentEventsWithResponse(params: {
-        "order_id": InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "shipment_id"?: InputValue<string>;
-        "package_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerFulfillmentEventListResponse>>;
+    listFulfillmentEvents(params: MeListFulfillmentEventsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerFulfillmentEventListResponse, BuyerFulfillmentEventListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistfulfillmentevents
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFulfillmentEvents
      */
-    listFulfillmentEventsPages(params: {
-        "order_id": InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "shipment_id"?: InputValue<string>;
-        "package_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillmentEventListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistfulfillmentevents
-     */
-    listFulfillmentEventsPagesWithResponse(params: {
-        "order_id": InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "shipment_id"?: InputValue<string>;
-        "package_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerFulfillmentEventListResponse>>;
+    listFulfillmentEventsPages(params: MeListFulfillmentEventsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerFulfillmentEventListResponse, BuyerFulfillmentEventListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistfulfillmentevents
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFulfillmentEvents
      */
-    listFulfillmentEventsItems(params: {
-        "order_id": InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "shipment_id"?: InputValue<string>;
-        "package_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillmentEvent>;
+    listFulfillmentEventsItems(params: MeListFulfillmentEventsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillmentEvent>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists fulfillments for the buyer's orders, newest created first. Default order:
  * created_at descending, then fulfillment_id descending.
- * @see reference/me.md#melistfulfillments
- * GET /v1/me/fulfillments
+ *
+ * `GET /v1/me/fulfillments`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFulfillments
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listFulfillments()
  */
-    listFulfillments(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending"
-            | "in_progress"
-            | "ready"
-            | "completed"
-            | "canceled"
-            | "failed"
-            | "scheduled"
-            | "accepted"
-            | "preparing"
-            | "picked"
-            | "packed"
-            | "dispatched"
-            | "no_show">>;
-        "type"?: InputValue<Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerFulfillmentListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistfulfillments
-     */
-    listFulfillmentsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending"
-            | "in_progress"
-            | "ready"
-            | "completed"
-            | "canceled"
-            | "failed"
-            | "scheduled"
-            | "accepted"
-            | "preparing"
-            | "picked"
-            | "packed"
-            | "dispatched"
-            | "no_show">>;
-        "type"?: InputValue<Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerFulfillmentListResponse>>;
+    listFulfillments(params?: MeListFulfillmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerFulfillmentListResponse, BuyerFulfillmentListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistfulfillments
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFulfillments
      */
-    listFulfillmentsPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending"
-            | "in_progress"
-            | "ready"
-            | "completed"
-            | "canceled"
-            | "failed"
-            | "scheduled"
-            | "accepted"
-            | "preparing"
-            | "picked"
-            | "packed"
-            | "dispatched"
-            | "no_show">>;
-        "type"?: InputValue<Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillmentListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistfulfillments
-     */
-    listFulfillmentsPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending"
-            | "in_progress"
-            | "ready"
-            | "completed"
-            | "canceled"
-            | "failed"
-            | "scheduled"
-            | "accepted"
-            | "preparing"
-            | "picked"
-            | "packed"
-            | "dispatched"
-            | "no_show">>;
-        "type"?: InputValue<Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerFulfillmentListResponse>>;
+    listFulfillmentsPages(params?: MeListFulfillmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerFulfillmentListResponse, BuyerFulfillmentListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistfulfillments
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeFulfillments
      */
-    listFulfillmentsItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending"
-            | "in_progress"
-            | "ready"
-            | "completed"
-            | "canceled"
-            | "failed"
-            | "scheduled"
-            | "accepted"
-            | "preparing"
-            | "picked"
-            | "packed"
-            | "dispatched"
-            | "no_show">>;
-        "type"?: InputValue<Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillment>;
+    listFulfillmentsItems(params?: MeListFulfillmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerFulfillment>;
     /**
  * Requires a full customer session. Saved access requires possession of a current code or
  * recipient link. Customer associations and purchase history do not authorize access. Replacing a
  * code invalidates saved access; save again with fresh proof. Saved access does not permit
  * spending or reveal a full code. Lists valid saved cards by saved time then card ID, descending.
  * Default order: time the buyer saved the card (descending), then gift_card_id descending.
- * @see reference/me.md#melistgiftcards
- * GET /v1/me/gift-cards
+ *
+ * `GET /v1/me/gift-cards`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCards
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listGiftCards()
  */
-    listGiftCards(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerGiftCardListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistgiftcards
-     */
-    listGiftCardsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerGiftCardListResponse>>;
+    listGiftCards(params?: MeListGiftCardsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerGiftCardListResponse, BuyerGiftCardListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistgiftcards
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCards
      */
-    listGiftCardsPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCardListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistgiftcards
-     */
-    listGiftCardsPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerGiftCardListResponse>>;
+    listGiftCardsPages(params?: MeListGiftCardsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerGiftCardListResponse, BuyerGiftCardListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistgiftcards
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCards
      */
-    listGiftCardsItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCard>;
+    listGiftCardsItems(params?: MeListGiftCardsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCard>;
     /**
  * Requires a full customer session. Saved access requires possession of a current code or
  * recipient link. Customer associations and purchase history do not authorize access. Replacing a
@@ -2014,134 +1582,43 @@ export interface MeResource {
  * spending or reveal a full code. Lists the full anonymous balance-change history by per-card
  * sequence, descending. Other holders' identities and order references are omitted. Default order:
  * sequence descending; this key uniquely orders the results.
- * @see reference/me.md#melistgiftcardtransactions
- * GET /v1/me/gift-cards/{gift_card_id}/transactions
+ *
+ * `GET /v1/me/gift-cards/{gift_card_id}/transactions`
+ * @param gift_card_id Flint gift card ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCardTransactions
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.listGiftCardTransactions("example")
+ * client.me.listGiftCardTransactions("gc_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listGiftCardTransactions(gift_card_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerGiftCardTransactionListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistgiftcardtransactions
-     */
-    listGiftCardTransactionsWithResponse(gift_card_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerGiftCardTransactionListResponse>>;
+    listGiftCardTransactions(gift_card_id: InputValue<string>, params?: MeListGiftCardTransactionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerGiftCardTransactionListResponse, BuyerGiftCardTransactionListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistgiftcardtransactions
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCardTransactions
      */
-    listGiftCardTransactionsPages(gift_card_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCardTransactionListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistgiftcardtransactions
-     */
-    listGiftCardTransactionsPagesWithResponse(gift_card_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerGiftCardTransactionListResponse>>;
+    listGiftCardTransactionsPages(gift_card_id: InputValue<string>, params?: MeListGiftCardTransactionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerGiftCardTransactionListResponse, BuyerGiftCardTransactionListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistgiftcardtransactions
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeGiftCardTransactions
      */
-    listGiftCardTransactionsItems(gift_card_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCardTransaction>;
+    listGiftCardTransactionsItems(gift_card_id: InputValue<string>, params?: MeListGiftCardTransactionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerGiftCardTransaction>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's invoices. Draft invoices are never returned. Default order:
  * created_at descending, then invoice_id descending.
- * @see reference/me.md#melistinvoices
- * GET /v1/me/invoices
+ *
+ * `GET /v1/me/invoices`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeInvoices
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listInvoices()
  */
-    listInvoices(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
-        "order_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "due_after"?: InputValue<string | globalThis.Date>;
-        "due_before"?: InputValue<string | globalThis.Date>;
-        "is_overdue"?: InputValue<boolean>;
-        "has_outstanding_balance"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerInvoiceListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistinvoices
-     */
-    listInvoicesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
-        "order_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "due_after"?: InputValue<string | globalThis.Date>;
-        "due_before"?: InputValue<string | globalThis.Date>;
-        "is_overdue"?: InputValue<boolean>;
-        "has_outstanding_balance"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerInvoiceListResponse>>;
+    listInvoices(params?: MeListInvoicesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerInvoiceListResponse, BuyerInvoiceListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistinvoices
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeInvoices
      */
-    listInvoicesPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
-        "order_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "due_after"?: InputValue<string | globalThis.Date>;
-        "due_before"?: InputValue<string | globalThis.Date>;
-        "is_overdue"?: InputValue<boolean>;
-        "has_outstanding_balance"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerInvoiceListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistinvoices
-     */
-    listInvoicesPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
-        "order_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "due_after"?: InputValue<string | globalThis.Date>;
-        "due_before"?: InputValue<string | globalThis.Date>;
-        "is_overdue"?: InputValue<boolean>;
-        "has_outstanding_balance"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerInvoiceListResponse>>;
+    listInvoicesPages(params?: MeListInvoicesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerInvoiceListResponse, BuyerInvoiceListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistinvoices
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeInvoices
      */
-    listInvoicesItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
-        "order_id"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "due_after"?: InputValue<string | globalThis.Date>;
-        "due_before"?: InputValue<string | globalThis.Date>;
-        "is_overdue"?: InputValue<boolean>;
-        "has_outstanding_balance"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerInvoice>;
+    listInvoicesItems(params?: MeListInvoicesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerInvoice>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Returns a read-only, human-readable history log for an order. Use it to render
@@ -2154,1104 +1631,189 @@ export interface MeResource {
  * typical chronological log might show created, payment_failed, payment, refund, then
  * refund_failed; each row gives one reference to click through for the authoritative resource.
  * Default order: created_at descending, then order_activity_id descending.
- * @see reference/me.md#melistorderactivities
- * GET /v1/me/orders/{order_id}/activities
+ *
+ * `GET /v1/me/orders/{order_id}/activities`
+ * @param order_id Flint order ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrderActivities
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.listOrderActivities("example")
+ * client.me.listOrderActivities("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listOrderActivities(order_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "activity_type"?: InputValue<Array<"created"
-            | "line_item_added"
-            | "line_item_updated"
-            | "line_item_removed"
-            | "discount_applied"
-            | "discount_removed"
-            | "tax_updated"
-            | "requested_tip_added"
-            | "requested_tip_updated"
-            | "requested_tip_removed"
-            | "charge_added"
-            | "charge_updated"
-            | "charge_removed"
-            | "charge_fulfillment_updated"
-            | "order_updated"
-            | "adjustment"
-            | "closed"
-            | "payment"
-            | "payment_failed"
-            | "refund"
-            | "refund_failed"
-            | "checkout_session_created"
-            | "checkout_session_expired"
-            | "checkout_session_invalidated"
-            | "fulfillment_created"
-            | "fulfillment_updated"
-            | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<OrderActivityListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistorderactivities
-     */
-    listOrderActivitiesWithResponse(order_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "activity_type"?: InputValue<Array<"created"
-            | "line_item_added"
-            | "line_item_updated"
-            | "line_item_removed"
-            | "discount_applied"
-            | "discount_removed"
-            | "tax_updated"
-            | "requested_tip_added"
-            | "requested_tip_updated"
-            | "requested_tip_removed"
-            | "charge_added"
-            | "charge_updated"
-            | "charge_removed"
-            | "charge_fulfillment_updated"
-            | "order_updated"
-            | "adjustment"
-            | "closed"
-            | "payment"
-            | "payment_failed"
-            | "refund"
-            | "refund_failed"
-            | "checkout_session_created"
-            | "checkout_session_expired"
-            | "checkout_session_invalidated"
-            | "fulfillment_created"
-            | "fulfillment_updated"
-            | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<OrderActivityListResponse>>;
+    listOrderActivities(order_id: InputValue<string>, params?: MeListOrderActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<OrderActivityListResponse, OrderActivityListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistorderactivities
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrderActivities
      */
-    listOrderActivitiesPages(order_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "activity_type"?: InputValue<Array<"created"
-            | "line_item_added"
-            | "line_item_updated"
-            | "line_item_removed"
-            | "discount_applied"
-            | "discount_removed"
-            | "tax_updated"
-            | "requested_tip_added"
-            | "requested_tip_updated"
-            | "requested_tip_removed"
-            | "charge_added"
-            | "charge_updated"
-            | "charge_removed"
-            | "charge_fulfillment_updated"
-            | "order_updated"
-            | "adjustment"
-            | "closed"
-            | "payment"
-            | "payment_failed"
-            | "refund"
-            | "refund_failed"
-            | "checkout_session_created"
-            | "checkout_session_expired"
-            | "checkout_session_invalidated"
-            | "fulfillment_created"
-            | "fulfillment_updated"
-            | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<OrderActivityListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistorderactivities
-     */
-    listOrderActivitiesPagesWithResponse(order_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "activity_type"?: InputValue<Array<"created"
-            | "line_item_added"
-            | "line_item_updated"
-            | "line_item_removed"
-            | "discount_applied"
-            | "discount_removed"
-            | "tax_updated"
-            | "requested_tip_added"
-            | "requested_tip_updated"
-            | "requested_tip_removed"
-            | "charge_added"
-            | "charge_updated"
-            | "charge_removed"
-            | "charge_fulfillment_updated"
-            | "order_updated"
-            | "adjustment"
-            | "closed"
-            | "payment"
-            | "payment_failed"
-            | "refund"
-            | "refund_failed"
-            | "checkout_session_created"
-            | "checkout_session_expired"
-            | "checkout_session_invalidated"
-            | "fulfillment_created"
-            | "fulfillment_updated"
-            | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<OrderActivityListResponse>>;
+    listOrderActivitiesPages(order_id: InputValue<string>, params?: MeListOrderActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<OrderActivityListResponse, OrderActivityListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistorderactivities
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrderActivities
      */
-    listOrderActivitiesItems(order_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "activity_type"?: InputValue<Array<"created"
-            | "line_item_added"
-            | "line_item_updated"
-            | "line_item_removed"
-            | "discount_applied"
-            | "discount_removed"
-            | "tax_updated"
-            | "requested_tip_added"
-            | "requested_tip_updated"
-            | "requested_tip_removed"
-            | "charge_added"
-            | "charge_updated"
-            | "charge_removed"
-            | "charge_fulfillment_updated"
-            | "order_updated"
-            | "adjustment"
-            | "closed"
-            | "payment"
-            | "payment_failed"
-            | "refund"
-            | "refund_failed"
-            | "checkout_session_created"
-            | "checkout_session_expired"
-            | "checkout_session_invalidated"
-            | "fulfillment_created"
-            | "fulfillment_updated"
-            | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<OrderActivity>;
+    listOrderActivitiesItems(order_id: InputValue<string>, params?: MeListOrderActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<OrderActivity>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's orders. Default order: created_at descending, then order_id
  * descending.
- * @see reference/me.md#melistorders
- * GET /v1/me/orders
+ *
+ * `GET /v1/me/orders`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrders
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listOrders()
  */
-    listOrders(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "closed_reason"?: InputValue<Array<"paid"
-            | "closed_by_merchant"
-            | "checkout_expired"
-            | "written_off"
-            | "superseded"
-            | "return_resolution_canceled"
-            | "other">>;
-        "status"?: InputValue<Array<"open" | "closed">>;
-        "payment_status"?: InputValue<Array<"unpaid" | "partially_paid" | "paid">>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed">>;
-        "order_number"?: InputValue<string>;
-        "origin"?: InputValue<Array<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">>;
-        "query"?: InputValue<string>;
-        "subscription_id"?: InputValue<string>;
-        "subscription_delivery_changed"?: InputValue<boolean>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerOrderListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistorders
-     */
-    listOrdersWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "closed_reason"?: InputValue<Array<"paid"
-            | "closed_by_merchant"
-            | "checkout_expired"
-            | "written_off"
-            | "superseded"
-            | "return_resolution_canceled"
-            | "other">>;
-        "status"?: InputValue<Array<"open" | "closed">>;
-        "payment_status"?: InputValue<Array<"unpaid" | "partially_paid" | "paid">>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed">>;
-        "order_number"?: InputValue<string>;
-        "origin"?: InputValue<Array<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">>;
-        "query"?: InputValue<string>;
-        "subscription_id"?: InputValue<string>;
-        "subscription_delivery_changed"?: InputValue<boolean>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerOrderListResponse>>;
+    listOrders(params?: MeListOrdersParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerOrderListResponse, BuyerOrderListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistorders
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrders
      */
-    listOrdersPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "closed_reason"?: InputValue<Array<"paid"
-            | "closed_by_merchant"
-            | "checkout_expired"
-            | "written_off"
-            | "superseded"
-            | "return_resolution_canceled"
-            | "other">>;
-        "status"?: InputValue<Array<"open" | "closed">>;
-        "payment_status"?: InputValue<Array<"unpaid" | "partially_paid" | "paid">>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed">>;
-        "order_number"?: InputValue<string>;
-        "origin"?: InputValue<Array<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">>;
-        "query"?: InputValue<string>;
-        "subscription_id"?: InputValue<string>;
-        "subscription_delivery_changed"?: InputValue<boolean>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerOrderListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistorders
-     */
-    listOrdersPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "closed_reason"?: InputValue<Array<"paid"
-            | "closed_by_merchant"
-            | "checkout_expired"
-            | "written_off"
-            | "superseded"
-            | "return_resolution_canceled"
-            | "other">>;
-        "status"?: InputValue<Array<"open" | "closed">>;
-        "payment_status"?: InputValue<Array<"unpaid" | "partially_paid" | "paid">>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed">>;
-        "order_number"?: InputValue<string>;
-        "origin"?: InputValue<Array<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">>;
-        "query"?: InputValue<string>;
-        "subscription_id"?: InputValue<string>;
-        "subscription_delivery_changed"?: InputValue<boolean>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerOrderListResponse>>;
+    listOrdersPages(params?: MeListOrdersParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerOrderListResponse, BuyerOrderListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistorders
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeOrders
      */
-    listOrdersItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "closed_reason"?: InputValue<Array<"paid"
-            | "closed_by_merchant"
-            | "checkout_expired"
-            | "written_off"
-            | "superseded"
-            | "return_resolution_canceled"
-            | "other">>;
-        "status"?: InputValue<Array<"open" | "closed">>;
-        "payment_status"?: InputValue<Array<"unpaid" | "partially_paid" | "paid">>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed">>;
-        "order_number"?: InputValue<string>;
-        "origin"?: InputValue<Array<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">>;
-        "query"?: InputValue<string>;
-        "subscription_id"?: InputValue<string>;
-        "subscription_delivery_changed"?: InputValue<boolean>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerOrder>;
+    listOrdersItems(params?: MeListOrdersParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerOrder>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists packages in the buyer's shipments, newest created first. Default order:
  * created_at descending, then package_id descending.
- * @see reference/me.md#melistpackages
- * GET /v1/me/packages
+ *
+ * `GET /v1/me/packages`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMePackages
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listPackages()
  */
-    listPackages(params?: {
-        "shipment_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPackageListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistpackages
-     */
-    listPackagesWithResponse(params?: {
-        "shipment_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPackageListResponse>>;
+    listPackages(params?: MeListPackagesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerPackageListResponse, BuyerPackageListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistpackages
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMePackages
      */
-    listPackagesPages(params?: {
-        "shipment_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPackageListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistpackages
-     */
-    listPackagesPagesWithResponse(params?: {
-        "shipment_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerPackageListResponse>>;
+    listPackagesPages(params?: MeListPackagesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerPackageListResponse, BuyerPackageListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistpackages
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMePackages
      */
-    listPackagesItems(params?: {
-        "shipment_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPackage>;
+    listPackagesItems(params?: MeListPackagesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPackage>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's payments. Default order: created_at descending, then
  * payment_intent_id descending.
- * @see reference/me.md#melistpaymentintents
- * GET /v1/me/payment-intents
+ *
+ * `GET /v1/me/payment-intents`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMePaymentIntents
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listPaymentIntents()
  */
-    listPaymentIntents(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPaymentIntentListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistpaymentintents
-     */
-    listPaymentIntentsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPaymentIntentListResponse>>;
-    /**
- * Uses the customer identity fixed by the customer session. The request cannot select a
- * customer_id. Lists the buyer's payments. Default order: created_at descending, then
- * payment_intent_id descending.
- * @see reference/me.md#melistpaymentintents
- * GET /v1/me/payment-intents
- * @deprecated Use me.listPaymentIntents; HTTP behavior is unchanged.
- * @example
- * client.me.listPayments()
- */
-    listPayments(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPaymentIntentListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistpaymentintents
-     */
-    listPaymentsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPaymentIntentListResponse>>;
+    listPaymentIntents(params?: MeListPaymentIntentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerPaymentIntentListResponse, BuyerPaymentIntentListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistpaymentintents
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMePaymentIntents
      */
-    listPaymentIntentsPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPaymentIntentListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistpaymentintents
-     */
-    listPaymentIntentsPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerPaymentIntentListResponse>>;
+    listPaymentIntentsPages(params?: MeListPaymentIntentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerPaymentIntentListResponse, BuyerPaymentIntentListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistpaymentintents
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMePaymentIntents
      */
-    listPaymentIntentsItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "invoice_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requires_payment_method"
-            | "requires_confirmation"
-            | "requires_action"
-            | "processing"
-            | "requires_capture"
-            | "canceled"
-            | "succeeded"
-            | "expired">>;
-        "payment_flow"?: InputValue<Array<"checkout"
-            | "payment_link"
-            | "invoice"
-            | "subscription_initial"
-            | "subscription_renewal"
-            | "virtual_terminal"
-            | "api">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPaymentIntent>;
+    listPaymentIntentsItems(params?: MeListPaymentIntentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPaymentIntent>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists payment methods in every status except archived, newest first. Filter by
  * status=active for the cards you can charge. Filter by usage off_session to list the payment
  * methods a subscription, automatic invoice, or default payment method can use. Default order:
  * created_at descending, then payment_method_id descending.
- * @see reference/me.md#melistpaymentmethods
- * GET /v1/me/payment-methods
+ *
+ * `GET /v1/me/payment-methods`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMePaymentMethods
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listPaymentMethods()
  */
-    listPaymentMethods(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"card">>;
-        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
-        "usage"?: InputValue<Array<"on_session" | "off_session">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerPaymentMethodListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistpaymentmethods
-     */
-    listPaymentMethodsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"card">>;
-        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
-        "usage"?: InputValue<Array<"on_session" | "off_session">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerPaymentMethodListResponse>>;
+    listPaymentMethods(params?: MeListPaymentMethodsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerPaymentMethodListResponse, BuyerPaymentMethodListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistpaymentmethods
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMePaymentMethods
      */
-    listPaymentMethodsPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"card">>;
-        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
-        "usage"?: InputValue<Array<"on_session" | "off_session">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPaymentMethodListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistpaymentmethods
-     */
-    listPaymentMethodsPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"card">>;
-        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
-        "usage"?: InputValue<Array<"on_session" | "off_session">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerPaymentMethodListResponse>>;
+    listPaymentMethodsPages(params?: MeListPaymentMethodsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerPaymentMethodListResponse, BuyerPaymentMethodListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistpaymentmethods
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMePaymentMethods
      */
-    listPaymentMethodsItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"card">>;
-        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
-        "usage"?: InputValue<Array<"on_session" | "off_session">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPaymentMethod>;
+    listPaymentMethodsItems(params?: MeListPaymentMethodsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerPaymentMethod>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's refunds. Default order: created_at descending, then refund_id
  * descending.
- * @see reference/me.md#melistrefunds
- * GET /v1/me/refunds
+ *
+ * `GET /v1/me/refunds`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeRefunds
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listRefunds()
  */
-    listRefunds(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "succeeded" | "partially_succeeded" | "failed">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerRefundListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistrefunds
-     */
-    listRefundsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "succeeded" | "partially_succeeded" | "failed">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerRefundListResponse>>;
+    listRefunds(params?: MeListRefundsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerRefundListResponse, BuyerRefundListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistrefunds
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeRefunds
      */
-    listRefundsPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "succeeded" | "partially_succeeded" | "failed">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerRefundListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistrefunds
-     */
-    listRefundsPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "succeeded" | "partially_succeeded" | "failed">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerRefundListResponse>>;
+    listRefundsPages(params?: MeListRefundsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerRefundListResponse, BuyerRefundListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistrefunds
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeRefunds
      */
-    listRefundsItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "succeeded" | "partially_succeeded" | "failed">>;
-        "min_amount"?: InputValue<`${bigint}` | bigint>;
-        "max_amount"?: InputValue<`${bigint}` | bigint>;
-        "currency"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerRefund>;
+    listRefundsItems(params?: MeListRefundsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerRefund>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's Returns. Filter by order, return number, reason, status,
- * decision, merchandise, resolution, or creation and update time. Newest first: created_at
- * descending, with return_id descending as the tiebreak. Default order: created_at descending,
- * then return_id descending.
- * @see reference/me.md#melistreturns
- * GET /v1/me/returns
+ * decision, merchandise, resolution, or creation and update time. Default order: created_at
+ * descending, then return_id descending.
+ *
+ * `GET /v1/me/returns`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeReturns
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listReturns()
  */
-    listReturns(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerReturnListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistreturns
-     */
-    listReturnsWithResponse(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerReturnListResponse>>;
+    listReturns(params?: MeListReturnsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerReturnListResponse, BuyerReturnListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistreturns
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeReturns
      */
-    listReturnsPages(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerReturnListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistreturns
-     */
-    listReturnsPagesWithResponse(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerReturnListResponse>>;
+    listReturnsPages(params?: MeListReturnsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerReturnListResponse, BuyerReturnListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistreturns
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeReturns
      */
-    listReturnsItems(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerReturn>;
+    listReturnsItems(params?: MeListReturnsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerReturn>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists shipments for the buyer's orders and Returns, newest created first. Default
  * order: created_at descending, then shipment_id descending.
- * @see reference/me.md#melistshipments
- * GET /v1/me/shipments
+ *
+ * `GET /v1/me/shipments`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeShipments
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listShipments()
  */
-    listShipments(params?: {
-        "order_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "handed_off_after"?: InputValue<string | globalThis.Date>;
-        "handed_off_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerShipmentListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistshipments
-     */
-    listShipmentsWithResponse(params?: {
-        "order_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "handed_off_after"?: InputValue<string | globalThis.Date>;
-        "handed_off_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerShipmentListResponse>>;
+    listShipments(params?: MeListShipmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerShipmentListResponse, BuyerShipmentListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistshipments
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeShipments
      */
-    listShipmentsPages(params?: {
-        "order_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "handed_off_after"?: InputValue<string | globalThis.Date>;
-        "handed_off_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerShipmentListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistshipments
-     */
-    listShipmentsPagesWithResponse(params?: {
-        "order_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "handed_off_after"?: InputValue<string | globalThis.Date>;
-        "handed_off_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerShipmentListResponse>>;
+    listShipmentsPages(params?: MeListShipmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerShipmentListResponse, BuyerShipmentListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistshipments
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeShipments
      */
-    listShipmentsItems(params?: {
-        "order_id"?: InputValue<string>;
-        "fulfillment_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "return_id"?: InputValue<string>;
-        "handed_off_after"?: InputValue<string | globalThis.Date>;
-        "handed_off_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerShipment>;
+    listShipmentsItems(params?: MeListShipmentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerShipment>;
     /**
  * Returns a subscription's manual payment retries, newest first. Default order: created_at
  * descending, then subscription_payment_retry_id descending.
- * @see reference/me.md#melistsubscriptionpaymentretries
- * GET /v1/me/subscriptions/{subscription_id}/payment-retries
+ *
+ * `GET /v1/me/subscriptions/{subscription_id}/payment-retries`
+ * @param subscription_id Flint subscription ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptionPaymentRetries
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.me.listSubscriptionPaymentRetries("example")
+ * client.me.listSubscriptionPaymentRetries("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listSubscriptionPaymentRetries(subscription_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerSubscriptionPaymentRetryListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistsubscriptionpaymentretries
-     */
-    listSubscriptionPaymentRetriesWithResponse(subscription_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionPaymentRetryListResponse>>;
+    listSubscriptionPaymentRetries(subscription_id: InputValue<string>, params?: MeListSubscriptionPaymentRetriesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscriptionPaymentRetryListResponse, BuyerSubscriptionPaymentRetryListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistsubscriptionpaymentretries
+     * @see
+     * https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptionPaymentRetries
      */
-    listSubscriptionPaymentRetriesPages(subscription_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerSubscriptionPaymentRetryListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistsubscriptionpaymentretries
-     */
-    listSubscriptionPaymentRetriesPagesWithResponse(subscription_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerSubscriptionPaymentRetryListResponse>>;
+    listSubscriptionPaymentRetriesPages(subscription_id: InputValue<string>, params?: MeListSubscriptionPaymentRetriesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerSubscriptionPaymentRetryListResponse, BuyerSubscriptionPaymentRetryListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistsubscriptionpaymentretries
+     * @see
+     * https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptionPaymentRetries
      */
-    listSubscriptionPaymentRetriesItems(subscription_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerSubscriptionPaymentRetry>;
+    listSubscriptionPaymentRetriesItems(subscription_id: InputValue<string>, params?: MeListSubscriptionPaymentRetriesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerSubscriptionPaymentRetry>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Lists the buyer's subscriptions. Subscriptions without a next_billing_at never
@@ -3259,118 +1821,22 @@ export interface MeResource {
  * either direction. subscription_plan is always included without expand: the plan's current
  * summary, or null when the subscription has no plan. Default order: created_at descending, then
  * subscription_id descending.
- * @see reference/me.md#melistsubscriptions
- * GET /v1/me/subscriptions
+ *
+ * `GET /v1/me/subscriptions`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptions
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.me.listSubscriptions()
  */
-    listSubscriptions(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
-        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
-        "cancel_at_period_end"?: InputValue<boolean>;
-        "delivery_method_id"?: InputValue<string>;
-        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
-        "subscription_plan_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "next_billing_after"?: InputValue<string | globalThis.Date>;
-        "next_billing_before"?: InputValue<string | globalThis.Date>;
-        "needs_attention"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<BuyerSubscriptionListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#melistsubscriptions
-     */
-    listSubscriptionsWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
-        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
-        "cancel_at_period_end"?: InputValue<boolean>;
-        "delivery_method_id"?: InputValue<string>;
-        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
-        "subscription_plan_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "next_billing_after"?: InputValue<string | globalThis.Date>;
-        "next_billing_before"?: InputValue<string | globalThis.Date>;
-        "needs_attention"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionListResponse>>;
+    listSubscriptions(params?: MeListSubscriptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscriptionListResponse, BuyerSubscriptionListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/me.md#melistsubscriptions
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptions
      */
-    listSubscriptionsPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
-        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
-        "cancel_at_period_end"?: InputValue<boolean>;
-        "delivery_method_id"?: InputValue<string>;
-        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
-        "subscription_plan_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "next_billing_after"?: InputValue<string | globalThis.Date>;
-        "next_billing_before"?: InputValue<string | globalThis.Date>;
-        "needs_attention"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerSubscriptionListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/me.md#melistsubscriptions
-     */
-    listSubscriptionsPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
-        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
-        "cancel_at_period_end"?: InputValue<boolean>;
-        "delivery_method_id"?: InputValue<string>;
-        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
-        "subscription_plan_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "next_billing_after"?: InputValue<string | globalThis.Date>;
-        "next_billing_before"?: InputValue<string | globalThis.Date>;
-        "needs_attention"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<BuyerSubscriptionListResponse>>;
+    listSubscriptionsPages(params?: MeListSubscriptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerSubscriptionListResponse, BuyerSubscriptionListResponse>>;
     /** Iterate items lazily.
-     * @see reference/me.md#melistsubscriptions
+     * @see https://developers.withflintpay.com/docs/api/customer-account#listMeSubscriptions
      */
-    listSubscriptionsItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
-        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
-        "cancel_at_period_end"?: InputValue<boolean>;
-        "delivery_method_id"?: InputValue<string>;
-        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
-        "subscription_plan_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "next_billing_after"?: InputValue<string | globalThis.Date>;
-        "next_billing_before"?: InputValue<string | globalThis.Date>;
-        "needs_attention"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerSubscription>;
+    listSubscriptionsItems(params?: MeListSubscriptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerSubscription>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Pauses a subscription immediately, optionally for at least one billing cycle. A
@@ -3379,24 +1845,18 @@ export interface MeResource {
  * reason field_locked and param pause_duration_cycles and requires resuming first. A buyer's pause
  * follows the store's customer_account.buyer_capabilities. Send expected_version to reject a
  * concurrent change.
- * @see reference/me.md#mepausesubscription
- * POST /v1/me/subscriptions/{subscription_id}/pause
+ *
+ * `POST /v1/me/subscriptions/{subscription_id}/pause`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#pauseMeSubscription
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.pauseSubscription("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.pauseSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {pause_duration_cycles: 2}, {
+ * idempotencyKey: idempotencyKey })
  */
-    pauseSubscription(subscription_id: InputValue<string>, params: (InputValue<PauseSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mepausesubscription
-     */
-    pauseSubscriptionWithResponse(subscription_id: InputValue<string>, params: (InputValue<PauseSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    pauseSubscription(subscription_id: InputValue<string>, params: MePauseSubscriptionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
  * Requires a full customer session. Saved access requires possession of a current code or
  * recipient link. Customer associations and purchase history do not authorize access. Replacing a
@@ -3406,22 +1866,17 @@ export interface MeResource {
  * access is already absent. Reusing the same idempotency key replays the original removal snapshot
  * without restoring saved access. Idempotency keys are scoped to the buyer, merchant, environment,
  * and operation. A replay cannot restore removed or revoked saved access.
- * @see reference/me.md#meremovegiftcard
- * DELETE /v1/me/gift-cards/{gift_card_id}
+ *
+ * `DELETE /v1/me/gift-cards/{gift_card_id}`
+ * @param gift_card_id Flint gift card ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#removeMeGiftCard
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.removeGiftCard("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.removeGiftCard("gc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    removeGiftCard(gift_card_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerGiftCard>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meremovegiftcard
-     */
-    removeGiftCardWithResponse(gift_card_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerGiftCardResponse>>;
+    removeGiftCard(gift_card_id: InputValue<string>, params?: MeRemoveGiftCardParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerGiftCard, BuyerGiftCardResponse>>;
     /**
  * Charges the next renewal now, ships it when the subscription has delivery, and moves the next
  * billing date forward by one interval. Available while the subscription is active on a
@@ -3432,24 +1887,18 @@ export interface MeResource {
  * with the same key to recover the same attempt. Returns the subscription, renewal order, and
  * payment attempt with status 200, including when the payment is declined. Inspect
  * order_payment_attempt.last_payment_error for a failed payment.
- * @see reference/me.md#merenewsubscription
- * POST /v1/me/subscriptions/{subscription_id}/renew
+ *
+ * `POST /v1/me/subscriptions/{subscription_id}/renew`
+ * @param subscription_id Subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#renewMeSubscription
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.renewSubscription("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.renewSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    renewSubscription(subscription_id: InputValue<string>, params: (InputValue<RenewSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<BuyerSubscriptionRenewalResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#merenewsubscription
-     */
-    renewSubscriptionWithResponse(subscription_id: InputValue<string>, params: (InputValue<RenewSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<BuyerSubscriptionRenewalResultResponse>>;
+    renewSubscription(subscription_id: InputValue<string>, params: MeRenewSubscriptionParams, options: _SdkRequiredIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerSubscriptionRenewalResult, BuyerSubscriptionRenewalResultResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Asks Flint to resume a paused subscription. Returns 202 while the subscription is
@@ -3458,92 +1907,66 @@ export interface MeResource {
  * paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails
  * with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, PATCH the subscription with
  * cancel_at_period_end set to false.
- * @see reference/me.md#meresumesubscription
- * POST /v1/me/subscriptions/{subscription_id}/resume
+ *
+ * `POST /v1/me/subscriptions/{subscription_id}/resume`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#resumeMeSubscription
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.resumeSubscription("example", undefined, { idempotencyKey: idempotencyKey })
+ * client.me.resumeSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    resumeSubscription(subscription_id: InputValue<string>, params?: (InputValue<ResourceVersionRequestInput> | {
-        "expected_version"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meresumesubscription
-     */
-    resumeSubscriptionWithResponse(subscription_id: InputValue<string>, params?: (InputValue<ResourceVersionRequestInput> | {
-        "expected_version"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    resumeSubscription(subscription_id: InputValue<string>, params?: MeResumeSubscriptionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
  * Signs out the current customer session using its current server-held secret, including after
  * expiry, after revocation, or after its parent buyer session or grant ended. Repeating the call
  * preserves revoked_at. A secret rotated away by refresh is invalid. Flint Account buyer sessions
  * remain independent.
- * @see reference/me.md#merevokesession
- * POST /v1/me/session/revoke
+ *
+ * `POST /v1/me/session/revoke`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#revokeMeSession
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.me.revokeSession({}, { idempotencyKey: idempotencyKey })
  */
-    revokeSession(params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<CustomerSession>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#merevokesession
-     */
-    revokeSessionWithResponse(params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<CustomerSessionResponse>>;
+    revokeSession(params?: MeRevokeSessionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerSession, CustomerSessionResponse>>;
     /**
  * Requires a full customer session. Saved access requires possession of a current code or
  * recipient link. Customer associations and purchase history do not authorize access. Replacing a
  * code invalidates saved access; save again with fresh proof. Saved access does not permit
  * spending or reveal a full code. Idempotency keys are scoped to the buyer, merchant, environment,
  * and operation. A replay cannot restore removed or revoked saved access.
- * @see reference/me.md#mesavegiftcard
- * POST /v1/me/gift-cards
+ *
+ * `POST /v1/me/gift-cards`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#saveMeGiftCard
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.me.saveGiftCard({credential_type: "code", code: "example"}, { idempotencyKey:
  * idempotencyKey })
  */
-    saveGiftCard(params: (InputValue<SaveMeGiftCardRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerGiftCard>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mesavegiftcard
-     */
-    saveGiftCardWithResponse(params: (InputValue<SaveMeGiftCardRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerGiftCardResponse>>;
+    saveGiftCard(params: MeSaveGiftCardParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerGiftCard, BuyerGiftCardResponse>>;
     /**
  * Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed
  * receipt delivery. Sending is limited to once every five minutes per order and normalized
  * recipient.
- * @see reference/me.md#mesendorderreceipt
- * POST /v1/me/orders/{order_id}/send-receipt
+ *
+ * `POST /v1/me/orders/{order_id}/send-receipt`
+ * @param order_id Flint order ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#sendMeOrderReceipt
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.sendOrderReceipt("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.sendOrderReceipt("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    sendOrderReceipt(order_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerOrder>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#mesendorderreceipt
-     */
-    sendOrderReceiptWithResponse(order_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerOrderResponse>>;
+    sendOrderReceipt(order_id: InputValue<string>, params?: MeSendOrderReceiptParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerOrder, BuyerOrderResponse>>;
     /**
  * Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves
  * forward by one of the subscription's billing intervals while preserving billing_anchor_day,
@@ -3551,43 +1974,31 @@ export interface MeResource {
  * active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel
  * at the end of its period, and is under the store's consecutive skip limit. Requires a full buyer
  * session. Send expected_version to reject concurrent changes.
- * @see reference/me.md#meskipsubscriptioncycle
- * POST /v1/me/subscriptions/{subscription_id}/skip-cycle
+ *
+ * `POST /v1/me/subscriptions/{subscription_id}/skip-cycle`
+ * @param subscription_id Subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#skipMeSubscriptionCycle
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.skipSubscriptionCycle("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.skipSubscriptionCycle("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    skipSubscriptionCycle(subscription_id: InputValue<string>, params: (InputValue<SkipMeSubscriptionCycleRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meskipsubscriptioncycle
-     */
-    skipSubscriptionCycleWithResponse(subscription_id: InputValue<string>, params: (InputValue<SkipMeSubscriptionCycleRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    skipSubscriptionCycle(subscription_id: InputValue<string>, params: MeSkipSubscriptionCycleParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Updates the current buyer's name or
  * phone. Manage billing and shipping addresses through /v1/me/addresses.
- * @see reference/me.md#meupdate
- * PATCH /v1/me
+ *
+ * `PATCH /v1/me`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#updateMe
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.update({default_payment_method_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.me.update({name: "Jordan Example"}, { idempotencyKey: idempotencyKey })
  */
-    update(params: (InputValue<UpdateMeRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerCustomer>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meupdate
-     */
-    updateWithResponse(params: (InputValue<UpdateMeRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerCustomerResponse>>;
+    update(params: MeUpdateParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerCustomer, BuyerCustomerResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a
  * customer_id. Changes the fields you send on one of the buyer's saved addresses. The address
@@ -3595,48 +2006,34 @@ export interface MeResource {
  * is_default_billing or is_default_shipping to true to make this address the default, or false to
  * clear a default it holds. Changing a default address also changes the matching address on the
  * buyer's customer profile.
- * @see reference/me.md#meupdateaddress
- * PATCH /v1/me/addresses/{customer_address_id}
+ *
+ * `PATCH /v1/me/addresses/{customer_address_id}`
+ * @param customer_address_id Flint customer address ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeAddress
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.updateAddress("caddr_example", {label: "Home"}, { idempotencyKey: idempotencyKey })
+ * client.me.updateAddress("caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {label: "Home"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    updateAddress(customer_address_id: InputValue<string>, params: (InputValue<UpdateCustomerAddressRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<CustomerAddress>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meupdateaddress
-     */
-    updateAddressWithResponse(customer_address_id: InputValue<string>, params: (InputValue<UpdateCustomerAddressRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<CustomerAddressResponse>>;
+    updateAddress(customer_address_id: InputValue<string>, params: MeUpdateAddressParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Turns the optional email categories in
  * the body on or off for the customer's current email at this merchant in the selected merchant
  * environment, and leaves the others as they are. The setting follows the email address, so it
  * also covers guest checkouts with the same email. A customer without an email has no email
- * preferences, and the change answers 404 with CUSTOMER_EMAIL_REQUIRED.
- * @see reference/me.md#meupdateemailpreferences
- * PATCH /v1/me/email-preferences
+ * preferences, and the change returns 404 RESOURCE_NOT_FOUND.
+ *
+ * `PATCH /v1/me/email-preferences`
+ * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeEmailPreferences
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.updateEmailPreferences({checkout_reminders: true}, { idempotencyKey: idempotencyKey })
+ * client.me.updateEmailPreferences({checkout_reminders: false}, { idempotencyKey: idempotencyKey })
  */
-    updateEmailPreferences(params: (InputValue<UpdateCustomerEmailPreferencesRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<CustomerEmailPreferences>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meupdateemailpreferences
-     */
-    updateEmailPreferencesWithResponse(params: (InputValue<UpdateCustomerEmailPreferencesRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<CustomerEmailPreferencesResponse>>;
+    updateEmailPreferences(params: MeUpdateEmailPreferencesParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerEmailPreferences, CustomerEmailPreferencesResponse>>;
     /**
  * Updates payment_method_id, cancel_at_period_end: false, delivery, billing interval and quantity
  * when the matching buyer action is available. Send billing_interval and billing_interval_count
@@ -3644,47 +2041,36 @@ export interface MeResource {
  * payment_method_id and expected_version. Send expected_version to reject concurrent changes. A
  * card whose setup hasn't finished returns 409 ACTION_NOT_ALLOWED with reason status_not_reached.
  * Once setup finishes, send a new request with a new Idempotency-Key.
- * @see reference/me.md#meupdatesubscription
- * PATCH /v1/me/subscriptions/{subscription_id}
+ *
+ * `PATCH /v1/me/subscriptions/{subscription_id}`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeSubscription
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.updateSubscription("example", {}, { idempotencyKey: idempotencyKey })
+ * client.me.updateSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 2}, { idempotencyKey:
+ * idempotencyKey })
  */
-    updateSubscription(subscription_id: InputValue<string>, params: (InputValue<UpdateMeSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meupdatesubscription
-     */
-    updateSubscriptionWithResponse(subscription_id: InputValue<string>, params: (InputValue<UpdateMeSubscriptionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    updateSubscription(subscription_id: InputValue<string>, params: MeUpdateSubscriptionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**
  * Swaps a subscription line to an offered variant for future renewals. Requires a full buyer
  * session. Send expected_version to reject concurrent changes. The replacement must remain
  * deliverable to the subscription destination.
- * @see reference/me.md#meupdatesubscriptionlineitem
- * PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}
+ *
+ * `PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+ * @param subscription_id Subscription ID.
+ * @param subscription_line_item_id Subscription line item ID.
+ * @see https://developers.withflintpay.com/docs/api/customer-account#updateMeSubscriptionLineItem
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.updateSubscriptionLineItem("example", "example", {variant_id:
- * "var_00000000000000000000000000"}, { idempotencyKey: idempotencyKey })
+ * client.me.updateSubscriptionLineItem("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {variant_id: "var_00000000000000000000000000"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    updateSubscriptionLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<UpdateMeSubscriptionLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<BuyerSubscription>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/me.md#meupdatesubscriptionlineitem
-     */
-    updateSubscriptionLineItemWithResponse(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<UpdateMeSubscriptionLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"customer">): Promise<SdkResponse<BuyerSubscriptionResponse>>;
+    updateSubscriptionLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: MeUpdateSubscriptionLineItemParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

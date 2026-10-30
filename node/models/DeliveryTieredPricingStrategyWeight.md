@@ -16,13 +16,13 @@
 
 ### DeliveryTieredPricingStrategyWeight variant 1: `basis` = `"choice_group.total_weight"`
 
-anyOf variant 1: Declared schema DeliveryTieredPricingStrategyInputWeight. The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategyInput`..
+anyOf DeliveryTieredPricingStrategyInputWeight: Declared schema DeliveryTieredPricingStrategyInputWeight. The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategyInput`..
 
 No additional constraints.
 
 ### DeliveryTieredPricingStrategyWeight variant 2: `basis` = `"choice_group.total_weight"`
 
-anyOf variant 2: Declared schema DeliveryTieredPricingStrategyWeight. The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
+anyOf DeliveryTieredPricingStrategyWeight: Declared schema DeliveryTieredPricingStrategyWeight. The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
 
 No additional constraints.
 

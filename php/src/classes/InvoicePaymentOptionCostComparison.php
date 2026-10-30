@@ -9,17 +9,17 @@ namespace Flint;
 final class InvoicePaymentOptionCostComparison extends Model {
     /** @param array{'compared_with_payment_option': string, 'estimated_savings_money': mixed, 'lower_cost_payment_option': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentOptionCostComparison')); }
-    /** Shape $ (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return string
      */
     public function getComparedWithPaymentOption(): string { return $this->get('compared_with_payment_option'); }
     public function hasComparedWithPaymentOption(): bool { return $this->has('compared_with_payment_option'); }
-    /** Shape $ (Value): {@see MoneyValue}. Estimated savings for the merchant, as a positive amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Estimated savings for the merchant, as a positive amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getEstimatedSavingsMoney(): MoneyValue { return $this->get('estimated_savings_money'); }
     public function hasEstimatedSavingsMoney(): bool { return $this->has('estimated_savings_money'); }
-    /** Shape $ (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return string
      */
     public function getLowerCostPaymentOption(): string { return $this->get('lower_cost_payment_option'); }

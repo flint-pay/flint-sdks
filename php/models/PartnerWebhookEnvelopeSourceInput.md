@@ -17,14 +17,14 @@ Request input.
 
 ### PartnerWebhookEnvelopeSourceInput variant 1: `type` = `"partner_app"`
 
-oneOf variant 1: The partner_app source of a partner webhook event..
+oneOf with type: "partner_app": The partner_app source of a partner webhook event..
 
 - Undeclared: `environment_grant_id`, `mode`, `sandbox_id`.
 - Constraints for `type`: Values: `"partner_app"`.
 
 ### PartnerWebhookEnvelopeSourceInput variant 2: `type` = `"installed_merchants"`
 
-oneOf variant 2: The installed_merchants source of a partner webhook event..
+oneOf with type: "installed_merchants": The installed_merchants source of a partner webhook event..
 
 - Required: `environment_grant_id`, `mode`.
 - Optional: `sandbox_id`.

@@ -8,13 +8,13 @@ namespace Flint;
 final class SubscriptionDeliveryMethodCountsInput extends Model {
     /** @param array{'delivery_method_id': string, 'subscription_counts': SubscriptionCountsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMethodCountsInput')); }
-    /** Shape $ (Value): string.
+    /** delivery_method_id
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Shape $ (Value): {@see SubscriptionCountsInput}. Counts of subscriptions by status: active, past due, and paused.
+    /** Counts of subscriptions by status: active, past due, and paused.
      * @return SubscriptionCountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subscription_counts is omitted; use hasSubscriptionCounts() or valueOrDefault().
      */

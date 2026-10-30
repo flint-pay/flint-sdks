@@ -9,19 +9,19 @@ namespace Flint;
 final class OnboardingStartResultInput extends Model {
     /** @param array{'expires_at': string|\DateTimeInterface, 'verification_started': bool, 'verification_token': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartResultInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Shape $ (Value): boolean.
+    /** verification_started
      * @return bool
      * @throws SdkError When verification_started is omitted; use hasVerificationStarted() or valueOrDefault().
      */
     public function getVerificationStarted(): bool { return $this->get('verification_started'); }
     public function hasVerificationStarted(): bool { return $this->has('verification_started'); }
-    /** Shape $ (Value): string.
+    /** verification_token
      * @return string
      * @throws SdkError When verification_token is omitted; use hasVerificationToken() or valueOrDefault().
      */

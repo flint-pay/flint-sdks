@@ -24,7 +24,7 @@ Response model.
 
 ### GiftCardPurchaseSnapshot.configuration variant 1
 
-anyOf variant 1: Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts..
+anyOf GiftCardProductConfiguration: Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts..
 
 - Required: `face_value_money`, `price_mode`.
 - Optional: `custom_amount_bounds`.

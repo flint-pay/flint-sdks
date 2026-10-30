@@ -1,28 +1,25 @@
-import type { InputValue } from '../runtime.js';
-import type { Bundle } from '../declarations/types-0.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type {
+    Bundle,
     BundleComponent,
     BundleComponentListResponse,
     BundleListResponse,
     BundleResponse,
-    BundlesCreateInput,
-    BundlesGetInput,
-    BundlesListComponentsInput,
-    BundlesListInput,
-    BundlesRemoveInput,
-    BundlesUpdateInput
+    BundlesCreateParams,
+    BundlesDeleteParams,
+    BundlesGetParams,
+    BundlesListComponentsParams,
+    BundlesListParams,
+    BundlesUpdateParams
 } from '../declarations/types-1.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateBundleRequestInput } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { UpdateBundleRequestInput } from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -32,32 +29,25 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
-export type { Bundle, AuthMode } from '../declarations/types-0.js';
-export type { SdkResponse } from '../declarations/types-46.js';
 export type {
+    BundlesCreateParams,
+    Bundle,
     BundleResponse,
+    BundlesDeleteParams,
+    BundlesGetParams,
+    BundlesListComponentsParams,
     BundleComponentListResponse,
     BundleComponent,
+    BundlesListParams,
     BundleListResponse,
-    BundlesCreateInput,
-    BundlesRemoveInput,
-    BundlesGetInput,
-    BundlesListComponentsInput,
-    BundlesListInput,
-    BundlesUpdateInput,
+    BundlesUpdateParams,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type {
-    UpdateBundleRequestInput,
-    TextModifierConfig,
-    UpdateBundleComponentRequestInput,
-    UpdateBundleComponentRequest
-} from '../declarations/types-50.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-21.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-6.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-25.js';
 export type {
     MetadataRequestInput,
     MetadataMap,
@@ -65,7 +55,7 @@ export type {
     Modifier,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-32.js';
+} from '../declarations/types-34.js';
 export type {
     MoneyValueInput,
     ModifierSet,
@@ -74,255 +64,115 @@ export type {
     ModifierOverride,
     ModifierSetGroupExisting,
     ModifierSetGroupInline,
-    NextAction,
-    NextActionMerchantAccountSession
-} from '../declarations/types-33.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { CategoryReference } from '../declarations/types-3.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { SelectedProductOption } from '../declarations/types-47.js';
-export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-66.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-71.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-77.js';
+    NextAction
+} from '../declarations/types-35.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { CategoryReference } from '../declarations/types-4.js';
+export type { TextModifierConfig } from '../declarations/types-57.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { SelectedProductOption } from '../declarations/types-53.js';
+export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-58.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-63.js';
+export { makeImageInputFile, makeImageInputSourceURL } from '../declarations/types-67.js';
+export { makeImageRequest } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride, makeMoneyValue } from '../declarations/types-69.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-73.js';
 export interface BundlesResource {
     /**
  * Create bundle.
- * @see reference/bundles.md#bundlescreate
- * POST /v1/bundles
+ *
+ * `POST /v1/bundles`
+ * @see https://developers.withflintpay.com/docs/api/bundles#createBundle
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.bundles.create({name: "example", unit_price_money: {amount: "100", currency: "USD"}}, {
  * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateBundleRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Bundle>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/bundles.md#bundlescreate
-     */
-    createWithResponse(params: (InputValue<CreateBundleRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<BundleResponse>>;
+    create(params: BundlesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Bundle, BundleResponse>>;
     /**
  * Archives a bundle and returns its final state. Returns the archived resource exactly as GET
  * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
  * webhook, or checking references. When expected_version is present, it is compared before the
  * archived replay; a stale version returns 409 VERSION_CONFLICT with current_version.
- * @see reference/bundles.md#bundlesremove
- * DELETE /v1/bundles/{bundle_id}
+ *
+ * `DELETE /v1/bundles/{bundle_id}`
+ * @param bundle_id Flint bundle ID.
+ * @see https://developers.withflintpay.com/docs/api/bundles#deleteBundle
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.bundles.delete("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(bundle_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Bundle>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/bundles.md#bundlesremove
-     */
-    removeWithResponse(bundle_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<BundleResponse>>;
+    delete(bundle_id: InputValue<string>, params?: BundlesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Bundle, BundleResponse>>;
     /**
  * Get bundle.
- * @see reference/bundles.md#bundlesget
- * GET /v1/bundles/{bundle_id}
+ *
+ * `GET /v1/bundles/{bundle_id}`
+ * @param bundle_id Flint bundle ID.
+ * @see https://developers.withflintpay.com/docs/api/bundles#getBundle
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.bundles.get("example")
+ * client.bundles.get("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(bundle_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Bundle>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/bundles.md#bundlesget
-     */
-    getWithResponse(bundle_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleResponse>>;
+    get(bundle_id: InputValue<string>, params?: BundlesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Bundle, BundleResponse>>;
     /**
  * List bundle components. Default order: position ascending, then bundle_component_id ascending.
- * @see reference/bundles.md#bundleslistcomponents
- * GET /v1/bundles/{bundle_id}/components
+ *
+ * `GET /v1/bundles/{bundle_id}/components`
+ * @param bundle_id Flint bundle ID.
+ * @see https://developers.withflintpay.com/docs/api/bundles#listBundleComponents
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.bundles.listComponents("example")
+ * client.bundles.listComponents("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listComponents(bundle_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<BundleComponentListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/bundles.md#bundleslistcomponents
-     */
-    listComponentsWithResponse(bundle_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleComponentListResponse>>;
+    listComponents(bundle_id: InputValue<string>, params?: BundlesListComponentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<BundleComponentListResponse, BundleComponentListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/bundles.md#bundleslistcomponents
+     * @see https://developers.withflintpay.com/docs/api/bundles#listBundleComponents
      */
-    listComponentsPages(bundle_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleComponentListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/bundles.md#bundleslistcomponents
-     */
-    listComponentsPagesWithResponse(bundle_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<BundleComponentListResponse>>;
+    listComponentsPages(bundle_id: InputValue<string>, params?: BundlesListComponentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<BundleComponentListResponse, BundleComponentListResponse>>;
     /** Iterate items lazily.
-     * @see reference/bundles.md#bundleslistcomponents
+     * @see https://developers.withflintpay.com/docs/api/bundles#listBundleComponents
      */
-    listComponentsItems(bundle_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleComponent>;
+    listComponentsItems(bundle_id: InputValue<string>, params?: BundlesListComponentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleComponent>;
     /**
  * List bundles. Default order: created_at descending, then bundle_id descending.
- * @see reference/bundles.md#bundleslist
- * GET /v1/bundles
+ *
+ * `GET /v1/bundles`
+ * @see https://developers.withflintpay.com/docs/api/bundles#listBundles
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.bundles.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "category_handle"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<BundleListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/bundles.md#bundleslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "category_handle"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleListResponse>>;
+    list(params?: BundlesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<BundleListResponse, BundleListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/bundles.md#bundleslist
+     * @see https://developers.withflintpay.com/docs/api/bundles#listBundles
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "category_handle"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/bundles.md#bundleslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "category_handle"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<BundleListResponse>>;
+    listPages(params?: BundlesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<BundleListResponse, BundleListResponse>>;
     /** Iterate items lazily.
-     * @see reference/bundles.md#bundleslist
+     * @see https://developers.withflintpay.com/docs/api/bundles#listBundles
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "category_handle"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Bundle>;
+    listItems(params?: BundlesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Bundle>;
     /**
  * Update bundle. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and
  * current_status archived. The error identifies the archived resource; a create under an archived
  * parent identifies that parent.
- * @see reference/bundles.md#bundlesupdate
- * PATCH /v1/bundles/{bundle_id}
+ *
+ * `PATCH /v1/bundles/{bundle_id}`
+ * @param bundle_id Flint bundle ID.
+ * @see https://developers.withflintpay.com/docs/api/bundles#updateBundle
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.bundles.update("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Weekend admission pass"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    update(bundle_id: InputValue<string>, params: (InputValue<UpdateBundleRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Bundle>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/bundles.md#bundlesupdate
-     */
-    updateWithResponse(bundle_id: InputValue<string>, params: (InputValue<UpdateBundleRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<BundleResponse>>;
+    update(bundle_id: InputValue<string>, params: BundlesUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Bundle, BundleResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

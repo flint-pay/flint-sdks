@@ -14,7 +14,7 @@ Request input.
 
 ### CreateReturnPreviewRequestInput variant 1: `mode` = `"eligibility"`
 
-oneOf variant 1: The `eligibility` variant of `CreateReturnPreviewRequest`..
+oneOf with mode: "eligibility": The `eligibility` variant of `CreateReturnPreviewRequest`..
 
 - Condition: not (present(`resolution`)).
 - Required: `eligibility`.
@@ -23,7 +23,7 @@ oneOf variant 1: The `eligibility` variant of `CreateReturnPreviewRequest`..
 
 ### CreateReturnPreviewRequestInput variant 2: `mode` = `"resolution"`
 
-oneOf variant 2: The `resolution` variant of `CreateReturnPreviewRequest`..
+oneOf with mode: "resolution": The `resolution` variant of `CreateReturnPreviewRequest`..
 
 - Condition: not (present(`eligibility`)).
 - Required: `resolution`.

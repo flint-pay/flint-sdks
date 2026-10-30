@@ -1,20 +1,18 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
+import type { WithResponseInfo } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     EmailPreferenceLink,
-    EmailPreferenceLinkRequestInput,
     EmailPreferenceLinkResponse,
-    EmailPreferenceLinksLookupInput,
-    EmailPreferenceLinksUnsubscribeInput
-} from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    EmailPreferenceLinksLookupParams,
+    EmailPreferenceLinksUnsubscribeParams
+} from '../declarations/types-21.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -25,60 +23,50 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
-    EmailPreferenceLinkRequestInput,
+    EmailPreferenceLinksLookupParams,
     EmailPreferenceLink,
     EmailPreferenceLinkResponse,
-    EmailPreferenceLinksLookupInput,
-    EmailPreferenceLinksUnsubscribeInput,
+    EmailPreferenceLinksUnsubscribeParams,
+    EmailPreferenceLinkRequestInput,
     EmailPreferenceLinkRequest
-} from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-21.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeEmailPreferenceLinkRequest } from '../declarations/types-70.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeEmailPreferenceLinkRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface EmailPreferenceLinksResource {
     /**
  * Reads an emailed preference token without signing the buyer in. The merchant key must match the
  * token's merchant and environment. Tokens belong in the request body and must stay on your
  * backend.
- * @see reference/emailPreferenceLinks.md#emailpreferencelinkslookup
- * POST /v1/email-preference-links/lookup
+ *
+ * `POST /v1/email-preference-links/lookup`
+ * @see https://developers.withflintpay.com/docs/api/customers#lookupEmailPreferenceLink
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.emailPreferenceLinks.lookup({token: "example"})
  */
-    lookup(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<EmailPreferenceLink>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/emailPreferenceLinks.md#emailpreferencelinkslookup
-     */
-    lookupWithResponse(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<EmailPreferenceLinkResponse>>;
+    lookup(params: EmailPreferenceLinksLookupParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<EmailPreferenceLink, EmailPreferenceLinkResponse>>;
     /**
  * Disables the email preference represented by an emailed token without signing the buyer in.
  * Repeating the request keeps it disabled. The merchant key must match the token's merchant and
  * environment.
- * @see reference/emailPreferenceLinks.md#emailpreferencelinksunsubscribe
- * POST /v1/email-preference-links/unsubscribe
+ *
+ * `POST /v1/email-preference-links/unsubscribe`
+ * @see https://developers.withflintpay.com/docs/api/customers#unsubscribeEmailPreferenceLink
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.emailPreferenceLinks.unsubscribe({token: "example"}, { idempotencyKey: idempotencyKey })
  */
-    unsubscribe(params: (InputValue<EmailPreferenceLinkRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<EmailPreferenceLink>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/emailPreferenceLinks.md#emailpreferencelinksunsubscribe
-     */
-    unsubscribeWithResponse(params: (InputValue<EmailPreferenceLinkRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<EmailPreferenceLinkResponse>>;
+    unsubscribe(params: EmailPreferenceLinksUnsubscribeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<EmailPreferenceLink, EmailPreferenceLinkResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

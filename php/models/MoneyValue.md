@@ -6,5 +6,5 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 Response model.
 
-Fields, types, descriptions and enum values: [PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney).
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney).
 

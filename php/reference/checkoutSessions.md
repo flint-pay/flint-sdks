@@ -2,25 +2,24 @@
 
 # checkoutSessions
 
-### checkoutSessions.closeSession
+### checkoutSessions.close
 
 Closes an open checkout session before it naturally expires.
 
 `POST /v1/checkout-sessions/{checkout_session_id}/close`
 
-Signature: `closeSession(string|Model $checkout_session_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+Signature: `close(string|Model $checkout_session_id, array|Model|null $params = null, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
 | `body` | Optional | [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionRequestInput.md#closecheckoutsessionrequestinput) | The request body for: Close checkout session. |
 
 Body model: [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionRequestInput.md#closecheckoutsessionrequestinput).
 
-#### checkoutSessions.closeSession body fields
+#### checkoutSessions.close body fields
 
 Field definitions: [shared fields](../models/CloseCheckoutSessionRequestInput.md#closecheckoutsessionrequestinput).
 
@@ -30,20 +29,20 @@ Returned payload: [CheckoutSession](../models/CheckoutSession.md#checkoutsession
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -51,9 +50,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `closeSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -63,10 +62,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->closeSession('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->checkoutSessions->close('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
-[Complete runnable example](../examples/checkoutSessions-closeSession.php)
+[Complete runnable example](../examples/checkoutSessions-close.php)
 
 ### checkoutSessions.confirmCustomerVerification
 
@@ -90,9 +89,8 @@ confirmCustomerVerification(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `checkout_session_customer_verification_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `checkout_session_customer_verification_id` | Required | string | The checkout_session_customer_verification_id the code request returned. |
 | `body` | Required | [ConfirmCheckoutSessionCustomerVerificationRequestInput](../models/ConfirmCheckoutSessionCustomerVerificationRequestInput.md#confirmcheckoutsessioncustomerverificationrequestinput) | The code the buyer typed. |
 
 Body model: [ConfirmCheckoutSessionCustomerVerificationRequestInput](../models/ConfirmCheckoutSessionCustomerVerificationRequestInput.md#confirmcheckoutsessioncustomerverificationrequestinput).
@@ -109,19 +107,19 @@ Returned payload: [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecre
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -129,9 +127,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `confirmCustomerVerificationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -141,7 +139,7 @@ Authentication modes: `checkout`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->confirmCustomerVerification('cs_example', 'cver_example', [
+$result = $client->checkoutSessions->confirmCustomerVerification('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'cscv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'code' => '123456',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -160,7 +158,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateCheckoutSessionRequestInput](../models/CreateCheckoutSessionRequestInput.md#createcheckoutsessionrequestinput) | The request body for: Create checkout session. |
 
 Body model: [CreateCheckoutSessionRequestInput](../models/CreateCheckoutSessionRequestInput.md#createcheckoutsessionrequestinput).
@@ -169,11 +166,11 @@ Body model: [CreateCheckoutSessionRequestInput](../models/CreateCheckoutSessionR
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_fields` | Optional | [CheckoutBuyerFieldsRequestRequestInput](../models/CheckoutBuyerFieldsRequestRequestInput.md#checkoutbuyerfieldsrequestrequestinput) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
+| `buyer_fields` | Optional | [CheckoutBuyerFieldsRequestInput](../models/CheckoutBuyerFieldsRequestInput.md#checkoutbuyerfieldsrequestinput) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfigInput](../models/CheckoutCustomTextWriteConfigInput.md#checkoutcustomtextwriteconfiginput) | Custom checkout text you supply when creating a checkout session: an order summary message and a shipping address label. |
 | `customer_id` | Optional | string | Existing customer to link to the order Flint creates. Not allowed with type: order: the session uses the order's customer, so set customer_id on the order first. minLength: `1`. |
 | `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise no methods are assigned. Empty arrays and null are rejected. minItems: `1`. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
-| `expires_in_seconds` | Optional | integer string | Seconds the session stays open, from 60 to 86,400. Omit it to use settings.checkout.default_expires_in_seconds, or 24 hours. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
+| `expires_in_seconds` | Optional | integer | Seconds the session stays open, from 60 to 86,400. Omit it to use settings.checkout.default_expires_in_seconds, or 24 hours. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `legal` | Optional | [CheckoutLegalConfigRequestInput](../models/CheckoutLegalConfigRequestInput.md#checkoutlegalconfigrequestinput) | Legal settings you supply when creating a checkout session: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
@@ -182,72 +179,35 @@ Body model: [CreateCheckoutSessionRequestInput](../models/CreateCheckoutSessionR
 | `payment_return_url` | Optional | string | Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: `uri`. minLength: `1`. maxLength: `2048`. |
 | `payments` | Optional | [CheckoutPaymentConfigRequestInput](../models/CheckoutPaymentConfigRequestInput.md#checkoutpaymentconfigrequestinput) | Payment settings you supply when creating a checkout session: the enabled payment options and a note shown with payment. |
 | `prefill` | Optional | [CheckoutPrefillRequestInput](../models/CheckoutPrefillRequestInput.md#checkoutprefillrequestinput) | Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record. |
-| `promotion_config` | Optional | [CheckoutPromotionConfigRequestRequestInput](../models/CheckoutPromotionConfigRequestRequestInput.md#checkoutpromotionconfigrequestrequestinput) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
+| `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfigRequestInput.md#checkoutpromotionconfigrequestinput) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequestInput](../models/CheckoutQuickPayItemRequestInput.md#checkoutquickpayitemrequestinput) | A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an amount, and optional tax settings. |
 | `redirects` | Optional | [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput) | Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. |
 | `replace_checkout_session_id` | Optional | string | Expected checkout session for an atomic replacement. Allowed only with type: order. The named session must belong to the same merchant, environment, and order. Active payment work returns PAYMENT_IN_PROGRESS. minLength: `1`. |
 | `subscription_plan_id` | Optional | string | An active plan. minLength: `1`. |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequestInput](../models/CheckoutSubscriptionTermsRequestInput.md#checkoutsubscriptiontermsrequestinput) | Subscription terms you set on a checkout session: billing interval, interval count, and quantity. |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Default: `"hosted"`. Values: `"hosted"`, `"embedded"`. |
-| `tax` | Optional | [CheckoutTaxConfigRequestRequestInput](../models/CheckoutTaxConfigRequestRequestInput.md#checkouttaxconfigrequestrequestinput) | Automatic tax settings for the order Flint creates from quick_pay_item or subscription_plan_id. With order_id, set tax on the order; sending tax returns INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and status. Whether tax is collected for a checkout session or payment link. |
+| `tax` | Optional | [CheckoutTaxConfigRequestInput](../models/CheckoutTaxConfigRequestInput.md#checkouttaxconfigrequestinput) | Automatic tax settings for the order Flint creates from quick_pay_item or subscription_plan_id. With order_id, set tax on the order; sending tax returns INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and status. Whether tax is collected for a checkout session or payment link. |
 | `theme` | Optional | [ThemeConfigRequestInput](../models/ThemeConfigRequestInput.md#themeconfigrequestinput) | Colors and title to apply to a checkout session's page. |
-| `tip` | Optional | [CheckoutTipConfigRequestRequestInput](../models/CheckoutTipConfigRequestRequestInput.md#checkouttipconfigrequestrequestinput) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
+| `tip` | Optional | [CheckoutTipConfigRequestInput](../models/CheckoutTipConfigRequestInput.md#checkouttipconfigrequestinput) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
 | `type` | Required | string | What the checkout collects payment for. order: an order you created; send order_id. quick_pay: one named amount; send quick_pay_item, and Flint creates the order. subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates the order and, once the buyer pays, the subscription. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`. |
 
-#### checkoutSessions.create body oneOf variant 1
+#### checkoutSessions.create with `type: "order"`
 
 The `order` variant of `CreateCheckoutSessionRequest`.
 
 Body model: [CreateCheckoutSessionOrderInput](../models/CreateCheckoutSessionOrderInput.md#createcheckoutsessionorderinput).
 
-#### checkoutSessions.create body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateCheckoutSessionOrderInput.md#createcheckoutsessionorderinput). Models: [CheckoutBuyerFieldsRequestRequestInput](../models/CheckoutBuyerFieldsRequestRequestInput.md#checkoutbuyerfieldsrequestrequestinput), [CheckoutCustomTextWriteConfigInput](../models/CheckoutCustomTextWriteConfigInput.md#checkoutcustomtextwriteconfiginput), [CheckoutLegalConfigRequestInput](../models/CheckoutLegalConfigRequestInput.md#checkoutlegalconfigrequestinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [CheckoutPaymentConfigRequestInput](../models/CheckoutPaymentConfigRequestInput.md#checkoutpaymentconfigrequestinput), [CheckoutPrefillRequestInput](../models/CheckoutPrefillRequestInput.md#checkoutprefillrequestinput), [CheckoutPromotionConfigRequestRequestInput](../models/CheckoutPromotionConfigRequestRequestInput.md#checkoutpromotionconfigrequestrequestinput), [CheckoutQuickPayItemRequestInput](../models/CheckoutQuickPayItemRequestInput.md#checkoutquickpayitemrequestinput), [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput), [CheckoutSubscriptionTermsRequestInput](../models/CheckoutSubscriptionTermsRequestInput.md#checkoutsubscriptiontermsrequestinput), [CheckoutTaxConfigRequestRequestInput](../models/CheckoutTaxConfigRequestRequestInput.md#checkouttaxconfigrequestrequestinput), [ThemeConfigRequestInput](../models/ThemeConfigRequestInput.md#themeconfigrequestinput), [CheckoutTipConfigRequestRequestInput](../models/CheckoutTipConfigRequestRequestInput.md#checkouttipconfigrequestrequestinput).
-
-#### checkoutSessions.create body oneOf variant 2
+#### checkoutSessions.create with `type: "quick_pay"`
 
 The `quick_pay` variant of `CreateCheckoutSessionRequest`.
 
 Body model: [CreateCheckoutSessionQuickPayInput](../models/CreateCheckoutSessionQuickPayInput.md#createcheckoutsessionquickpayinput).
 
-#### checkoutSessions.create body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateCheckoutSessionQuickPayInput.md#createcheckoutsessionquickpayinput). Models: [CheckoutBuyerFieldsRequestRequestInput](../models/CheckoutBuyerFieldsRequestRequestInput.md#checkoutbuyerfieldsrequestrequestinput), [CheckoutCustomTextWriteConfigInput](../models/CheckoutCustomTextWriteConfigInput.md#checkoutcustomtextwriteconfiginput), [CheckoutLegalConfigRequestInput](../models/CheckoutLegalConfigRequestInput.md#checkoutlegalconfigrequestinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [CheckoutPaymentConfigRequestInput](../models/CheckoutPaymentConfigRequestInput.md#checkoutpaymentconfigrequestinput), [CheckoutPrefillRequestInput](../models/CheckoutPrefillRequestInput.md#checkoutprefillrequestinput), [CheckoutPromotionConfigRequestRequestInput](../models/CheckoutPromotionConfigRequestRequestInput.md#checkoutpromotionconfigrequestrequestinput), [CheckoutQuickPayItemRequestInput](../models/CheckoutQuickPayItemRequestInput.md#checkoutquickpayitemrequestinput), [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput), [CheckoutSubscriptionTermsRequestInput](../models/CheckoutSubscriptionTermsRequestInput.md#checkoutsubscriptiontermsrequestinput), [CheckoutTaxConfigRequestRequestInput](../models/CheckoutTaxConfigRequestRequestInput.md#checkouttaxconfigrequestrequestinput), [ThemeConfigRequestInput](../models/ThemeConfigRequestInput.md#themeconfigrequestinput), [CheckoutTipConfigRequestRequestInput](../models/CheckoutTipConfigRequestRequestInput.md#checkouttipconfigrequestrequestinput).
-
-#### checkoutSessions.create body oneOf variant 3
+#### checkoutSessions.create with `type: "subscription_plan"`
 
 The `subscription_plan` variant of `CreateCheckoutSessionRequest`.
 
 Body model: [CreateCheckoutSessionSubscriptionPlanInput](../models/CreateCheckoutSessionSubscriptionPlanInput.md#createcheckoutsessionsubscriptionplaninput).
-
-#### checkoutSessions.create body oneOf variant 3 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `buyer_fields` | Optional | [CheckoutBuyerFieldsRequestRequestInput](../models/CheckoutBuyerFieldsRequestRequestInput.md#checkoutbuyerfieldsrequestrequestinput) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
-| `custom_text` | Optional | [CheckoutCustomTextWriteConfigInput](../models/CheckoutCustomTextWriteConfigInput.md#checkoutcustomtextwriteconfiginput) | Custom checkout text you supply when creating a checkout session: an order summary message and a shipping address label. |
-| `customer_id` | Optional | string | Existing customer to link to the order Flint creates. Not allowed with type: order: the session uses the order's customer, so set customer_id on the order first. minLength: `1`. |
-| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise no methods are assigned. Empty arrays and null are rejected. minItems: `1`. maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. |
-| `expires_in_seconds` | Optional | integer string | Seconds the session stays open, from 60 to 86,400. Omit it to use settings.checkout.default_expires_in_seconds, or 24 hours. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `legal` | Optional | [CheckoutLegalConfigRequestInput](../models/CheckoutLegalConfigRequestInput.md#checkoutlegalconfigrequestinput) | Legal settings you supply when creating a checkout session: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `order_id` | Optional | string | The order to collect. It must be open and not collected by an invoice or a return resolution. minLength: `1`. |
-| `page_origin` | Optional | string | Origin of the page where you render this embedded checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. minLength: `1`. maxLength: `255`. |
-| `payment_return_url` | Optional | string | Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: `uri`. minLength: `1`. maxLength: `2048`. |
-| `payments` | Optional | [CheckoutPaymentConfigRequestInput](../models/CheckoutPaymentConfigRequestInput.md#checkoutpaymentconfigrequestinput) | Payment settings you supply when creating a checkout session: the enabled payment options and a note shown with payment. |
-| `prefill` | Optional | [CheckoutPrefillRequestInput](../models/CheckoutPrefillRequestInput.md#checkoutprefillrequestinput) | Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record. |
-| `promotion_config` | Optional | [CheckoutPromotionConfigRequestRequestInput](../models/CheckoutPromotionConfigRequestRequestInput.md#checkoutpromotionconfigrequestrequestinput) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
-| `quick_pay_item` | Optional | [CheckoutQuickPayItemRequestInput](../models/CheckoutQuickPayItemRequestInput.md#checkoutquickpayitemrequestinput) | A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an amount, and optional tax settings. |
-| `redirects` | Optional | [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput) | Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. |
-| `replace_checkout_session_id` | Optional | string | Expected checkout session for an atomic replacement. Allowed only with type: order. The named session must belong to the same merchant, environment, and order. Active payment work returns PAYMENT_IN_PROGRESS. minLength: `1`. |
-| `subscription_plan_id` | Required | string | An active plan. minLength: `1`. |
-| `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequestInput](../models/CheckoutSubscriptionTermsRequestInput.md#checkoutsubscriptiontermsrequestinput) | Subscription terms you set on a checkout session: billing interval, interval count, and quantity. |
-| `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Default: `"hosted"`. Values: `"hosted"`, `"embedded"`. |
-| `tax` | Optional | [CheckoutTaxConfigRequestRequestInput](../models/CheckoutTaxConfigRequestRequestInput.md#checkouttaxconfigrequestrequestinput) | Automatic tax settings for the order Flint creates from quick_pay_item or subscription_plan_id. With order_id, set tax on the order; sending tax returns INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and status. Whether tax is collected for a checkout session or payment link. |
-| `theme` | Optional | [ThemeConfigRequestInput](../models/ThemeConfigRequestInput.md#themeconfigrequestinput) | Colors and title to apply to a checkout session's page. |
-| `tip` | Optional | [CheckoutTipConfigRequestRequestInput](../models/CheckoutTipConfigRequestRequestInput.md#checkouttipconfigrequestrequestinput) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
-| `type` | Required | string | What the checkout collects payment for. order: an order you created; send order_id. quick_pay: one named amount; send quick_pay_item, and Flint creates the order. subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates the order and, once the buyer pays, the subscription. Values: `"subscription_plan"`. |
 
 #### Response
 
@@ -255,21 +215,21 @@ Returned payload: [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecre
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -277,9 +237,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -291,7 +251,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->checkoutSessions->create([
   'type' => 'order',
-  'order_id' => 'example',
+  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -303,60 +263,40 @@ Sends a six-digit code to prove the buyer controls an email address or mobile ph
 
 `POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications`
 
-Signature: `createCustomerVerification(CheckoutSessionsCreateCustomerVerificationInput|array $input, ?RequestOptions $options = null)`
+Signature: `createCustomerVerification(string|Model $checkout_session_id, array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
 | `body` | Required | [CreateCheckoutSessionCustomerVerificationRequestInput](../models/CreateCheckoutSessionCustomerVerificationRequestInput.md#createcheckoutsessioncustomerverificationrequestinput) | A checkout verification request selected by purpose. |
 
 Body model: [CreateCheckoutSessionCustomerVerificationRequestInput](../models/CreateCheckoutSessionCustomerVerificationRequestInput.md#createcheckoutsessioncustomerverificationrequestinput).
 
-#### checkoutSessions.createCustomerVerification body oneOf variant 1
+#### checkoutSessions.createCustomerVerification with `purpose: "gift_card_purchase"`
 
 The buyer confirms their email before funding a gift card purchase. Flint emails a code without saving a payment method.
 
 Body model: [CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput](../models/CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput.md#createcheckoutsessiongiftcardpurchaseverificationrequestinput).
 
-#### checkoutSessions.createCustomerVerification body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput.md#createcheckoutsessiongiftcardpurchaseverificationrequestinput).
-
-#### checkoutSessions.createCustomerVerification body oneOf variant 2
+#### checkoutSessions.createCustomerVerification with `purpose: "save_payment_method"`
 
 The buyer asked to save the card they are paying with. Flint emails a code to any valid address while the session is open and save_payment_method_requires_verification is true.
 
 Body model: [CreateCheckoutSessionSavePaymentMethodVerificationRequestInput](../models/CreateCheckoutSessionSavePaymentMethodVerificationRequestInput.md#createcheckoutsessionsavepaymentmethodverificationrequestinput).
 
-#### checkoutSessions.createCustomerVerification body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateCheckoutSessionSavePaymentMethodVerificationRequestInput.md#createcheckoutsessionsavepaymentmethodverificationrequestinput).
-
-#### checkoutSessions.createCustomerVerification body oneOf variant 3
+#### checkoutSessions.createCustomerVerification with `purpose: "use_saved_payment_methods"`
 
 The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the number saved with the email's details, or emails a code when they have cards saved by email and no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason not_offered. The response's channel says which. By email, Flint sends a code only when the email has saved details and an active card saved by email or with a number; the response is the same either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also reveals the number's last two digits. Always offer email alongside sms. A texted code opens only cards saved with that number; an emailed code opens only cards saved by email.
 
 Body model: [CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput](../models/CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput.md#createcheckoutsessionusesavedpaymentmethodsverificationrequestinput).
 
-#### checkoutSessions.createCustomerVerification body oneOf variant 3 fields
-
-Field definitions: [shared fields](../models/CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput.md#createcheckoutsessionusesavedpaymentmethodsverificationrequestinput).
-
-#### checkoutSessions.createCustomerVerification body oneOf variant 4
+#### checkoutSessions.createCustomerVerification with `purpose: "confirm_saved_payment_method"`
 
 After a payment that sent save_payment_method_phone, the buyer confirms the card it saved. Channel sms texts the number given with the payment; channel email emails the customer's email only when it matches the payment's email, otherwise returning 409. The response masks the email. Send no email. Available on the paid session, or an open session whose payment is approved for later capture, while payment_method_save.status is pending. A texted code saves the card with the number when the payment created the customer, the buyer confirmed their email in this checkout, or the number already opens their saved details; otherwise payment_method_save.email_confirmation_required becomes true and an emailed code finishes the save. An emailed code alone saves the card by email.
 
 Body model: [CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput](../models/CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput.md#createcheckoutsessionconfirmsavedpaymentmethodverificationrequestinput).
-
-#### checkoutSessions.createCustomerVerification body oneOf variant 4 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `channel` | Required | string | Values: `"email"`, `"sms"`. |
-| `purpose` | Required | string | Values: `"confirm_saved_payment_method"`. |
 
 #### Response
 
@@ -364,19 +304,19 @@ Returned payload: [CheckoutSessionCustomerVerification](../models/CheckoutSessio
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -384,9 +324,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createCustomerVerificationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -396,12 +336,9 @@ Authentication modes: `checkout`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->createCustomerVerification([
-  'checkout_session_id' => 'example',
-  'body' => (object) [
-    'purpose' => 'gift_card_purchase',
-    'email' => 'example@example.invalid',
-  ],
+$result = $client->checkoutSessions->createCustomerVerification('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'email' => 'ada@example.com',
+  'purpose' => 'use_saved_payment_methods',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -419,15 +356,23 @@ Signature: `createDeliveryQuote(string|Model $checkout_session_id, array|Model $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
 | `body` | Required | [CreateCheckoutDeliveryQuoteRequestInput](../models/CreateCheckoutDeliveryQuoteRequestInput.md#createcheckoutdeliveryquoterequestinput) | The request body for: Create delivery quote. |
 
 Body model: [CreateCheckoutDeliveryQuoteRequestInput](../models/CreateCheckoutDeliveryQuoteRequestInput.md#createcheckoutdeliveryquoterequestinput).
 
 #### checkoutSessions.createDeliveryQuote body fields
 
-Field definitions: [shared fields](../models/CreateCheckoutDeliveryQuoteRequestInput.md#createcheckoutdeliveryquoterequestinput). Models: [DeliveryBuyerLocationRequestInput](../models/DeliveryBuyerLocationRequestInput.md#deliverybuyerlocationrequestinput), [DeliveryAddressRequestInput](../models/DeliveryAddressRequestInput.md#deliveryaddressrequestinput), [DeliveryInventoryAssignmentRequestInput](../models/DeliveryInventoryAssignmentRequestInput.md#deliveryinventoryassignmentrequestinput), [CallerSuppliedDeliveryMethodResultRequestInput](../models/CallerSuppliedDeliveryMethodResultRequestInput.md#callersupplieddeliverymethodresultrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `basis_delivery_quote_id` | Optional | string | minLength: `1`. |
+| `buyer_location` | Optional | [DeliveryBuyerLocationRequestInput](../models/DeliveryBuyerLocationRequestInput.md#deliverybuyerlocationrequestinput) | The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`. |
+| `destination_address` | Optional | [DeliveryAddressRequestInput](../models/DeliveryAddressRequestInput.md#deliveryaddressrequestinput) | Partial is fine when quoting: send what the buyer has entered, at least country. A destination_address sent with a selection must be complete; a selection that omits it uses the quote's destination, which may be partial. A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present. |
+| `expected_delivery_selection_id` | Optional | string or null | Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: `1`. |
+| `inventory_assignments` | Optional | Array of [DeliveryInventoryAssignmentRequestInput](../models/DeliveryInventoryAssignmentRequestInput.md#deliveryinventoryassignmentrequestinput) | maxItems: `1000`. Items: Assigns a quantity of an inventory item at a location to a demand when creating a delivery quote. |
+| `method_results` | Optional | Array of [CallerSuppliedDeliveryMethodResultRequestInput](../models/CallerSuppliedDeliveryMethodResultRequestInput.md#callersupplieddeliverymethodresultrequestinput) | Items: The rate result you supply for one delivery method and choice group when creating a delivery quote with caller-supplied pricing. |
+| `pickup_location_id` | Optional | string | minLength: `1`. |
+| `tier_key` | Optional | integer | Caller-defined nonnegative lookup key used by methods whose tiered pricing basis is caller.tier_key. Merchant authentication is required. Format: `int64`. minimum: `0`. |
 
 #### Response
 
@@ -435,19 +380,19 @@ Returned payload: [DeliveryQuote](../models/DeliveryQuote.md#deliveryquote).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -455,9 +400,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createDeliveryQuoteWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -467,7 +412,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->createDeliveryQuote('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->checkoutSessions->createDeliveryQuote('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/checkoutSessions-createDeliveryQuote.php)
@@ -484,15 +429,20 @@ Signature: `createDeliverySelection(string|Model $checkout_session_id, array|Mod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
 | `body` | Required | [CreateDeliverySelectionRequestInput](../models/CreateDeliverySelectionRequestInput.md#createdeliveryselectionrequestinput) | The request body for: Create delivery selection. |
 
 Body model: [CreateDeliverySelectionRequestInput](../models/CreateDeliverySelectionRequestInput.md#createdeliveryselectionrequestinput).
 
 #### checkoutSessions.createDeliverySelection body fields
 
-Field definitions: [shared fields](../models/CreateDeliverySelectionRequestInput.md#createdeliveryselectionrequestinput). Models: [CreateDeliverySelectionChoiceRequestInput](../models/CreateDeliverySelectionChoiceRequestInput.md#createdeliveryselectionchoicerequestinput), [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [DeliverySelectionRecipientRequestInput](../models/DeliverySelectionRecipientRequestInput.md#deliveryselectionrecipientrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `choices` | Required | Array of [CreateDeliverySelectionChoiceRequestInput](../models/CreateDeliverySelectionChoiceRequestInput.md#createdeliveryselectionchoicerequestinput) | Items: The delivery option to select for one choice group when creating a delivery selection, with optional delivery instructions. |
+| `delivery_quote_id` | Required | string | minLength: `1`. |
+| `destination_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Partial is fine when quoting: send what the buyer has entered, at least country. A destination_address sent with a selection must be complete; a selection that omits it uses the quote's destination, which may be partial. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
+| `expected_delivery_selection_id` | Optional | string or null | Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: `1`. |
+| `recipient` | Optional | [DeliverySelectionRecipientRequestInput](../models/DeliverySelectionRecipientRequestInput.md#deliveryselectionrecipientrequestinput) | Recipient details you supply with a delivery selection or subscription delivery: optional `name`, `email`, and `phone`. |
 
 #### Response
 
@@ -500,20 +450,20 @@ Returned payload: [DeliverySelectionResult](../models/DeliverySelectionResult.md
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -521,9 +471,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -533,9 +483,15 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->createDeliverySelection('example', [
-  'choices' => [],
-  'delivery_quote_id' => 'example',
+$result = $client->checkoutSessions->createDeliverySelection('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'choices' => [
+    (object) [
+      'delivery_choice_group_id' => 'dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+      'delivery_option_id' => 'dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+    ],
+  ],
+  'delivery_quote_id' => 'dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'expected_delivery_selection_id' => null,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -553,9 +509,8 @@ Signature: `deleteCurrentDeliverySelection(string|Model $checkout_session_id, ar
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `expected_delivery_selection_id` | Optional | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `expected_delivery_selection_id` | Optional | string | Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to clear whichever selection is current. |
 
 #### Response
 
@@ -563,17 +518,17 @@ Returned payload: [DeliverySelectionResult](../models/DeliverySelectionResult.md
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -581,9 +536,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteCurrentDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -593,7 +548,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->deleteCurrentDeliverySelection('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->checkoutSessions->deleteCurrentDeliverySelection('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/checkoutSessions-deleteCurrentDeliverySelection.php)
@@ -610,8 +565,8 @@ Signature: `get(string|Model $checkout_session_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"customer"`, `"invoice"`, `"order"`, `"payment_intents"`, `"payment_link"`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: customer, invoice, order, payment_intents, payment_link. Expansion requires checkouts.checkout_sessions.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Repeat expand, for example expand=customer&expand=invoice, or pass one comma-separated value. Items values: `"customer"`, `"invoice"`, `"order"`, `"payment_intents"`, `"payment_link"`. Values: `"customer"`, `"invoice"`, `"order"`, `"payment_intents"`, `"payment_link"`. |
 
 #### Response
 
@@ -619,17 +574,17 @@ Returned payload: [CheckoutSession](../models/CheckoutSession.md#checkoutsession
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -637,14 +592,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->checkoutSessions->get('example', [], new RequestOptions());
+$result = $client->checkoutSessions->get('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/checkoutSessions-get.php)
@@ -661,7 +616,7 @@ Signature: `getCurrentDeliverySelection(string|Model $checkout_session_id, array
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
 
 #### Response
 
@@ -669,17 +624,17 @@ Returned payload: [EffectiveDeliverySelectionResource](../models/EffectiveDelive
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -687,14 +642,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getCurrentDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->checkoutSessions->getCurrentDeliverySelection('example', [], new RequestOptions());
+$result = $client->checkoutSessions->getCurrentDeliverySelection('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/checkoutSessions-getCurrentDeliverySelection.php)
@@ -722,8 +677,8 @@ getDeliveryQuote(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `delivery_quote_id` | Required | string |  |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `delivery_quote_id` | Required | string | Flint delivery quote ID. |
 
 #### Response
 
@@ -731,17 +686,17 @@ Returned payload: [DeliveryQuote](../models/DeliveryQuote.md#deliveryquote).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -749,14 +704,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getDeliveryQuoteWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->checkoutSessions->getDeliveryQuote('example', 'example', [], new RequestOptions());
+$result = $client->checkoutSessions->getDeliveryQuote('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'dqt_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/checkoutSessions-getDeliveryQuote.php)
@@ -784,8 +739,8 @@ getDeliverySelection(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `delivery_selection_id` | Required | string |  |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `delivery_selection_id` | Required | string | Flint delivery selection ID. |
 
 #### Response
 
@@ -793,17 +748,17 @@ Returned payload: [DeliverySelection](../models/DeliverySelection.md#deliverysel
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -811,16 +766,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-Deprecated aliases: getDeliverySelectionHistory.
 
 #### Example
 
 ```php
-$result = $client->checkoutSessions->getDeliverySelection('example', 'example', [], new RequestOptions());
+$result = $client->checkoutSessions->getDeliverySelection('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'dsel_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/checkoutSessions-getDeliverySelection.php)
@@ -837,43 +790,43 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. |
-| `order_id` | Optional | string |  |
-| `payment_link_id` | Optional | string |  |
-| `customer_id` | Optional | string |  |
-| `subscription_plan_id` | Optional | string | minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `invoice_id` | Optional | string | minLength: `1`. pattern: `^inv_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `surface` | Optional | Array of string | minItems: `1`. Items values: `"hosted"`, `"embedded"`. |
-| `type` | Optional | Array of string | minItems: `1`. Items values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`. |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `query` | Optional | string |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `expires_after` | Optional | string | Format: `date-time`. |
-| `expires_before` | Optional | string | Format: `date-time`. |
-| `expand` | Optional | Array of string | Items values: `"customer"`, `"invoice"`, `"order"`, `"payment_link"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by the status each session has when read. A session past expires_at lists as expired even before its stored status is updated, unless payment work keeps it open, in which case it lists as open. A page can hold fewer sessions than page_size. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. |
+| `order_id` | Optional | string | Filter by Flint order ID. |
+| `payment_link_id` | Optional | string | Filter by Flint payment link ID. |
+| `customer_id` | Optional | string | Filter by Flint customer ID. |
+| `subscription_plan_id` | Optional | string | Exact match on the Flint subscription plan ID. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `invoice_id` | Optional | string | Exact match on the Flint invoice ID. minLength: `1`. pattern: `^inv_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `surface` | Optional | Array of string or string | Filter by checkout surface. Sessions created before surfaces existed are hosted. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"hosted"`, `"embedded"`. Values: `"hosted"`, `"embedded"`. |
+| `type` | Optional | Array of string or string | Filter by checkout session type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `query` | Optional | string | Search across checkout session ID, external reference ID, metadata, and payment notes. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as cs_01. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by checkout_session_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `expires_after` | Optional | string | Inclusive lower bound on expires_at. Format: `date-time`. |
+| `expires_before` | Optional | string | Exclusive upper bound on expires_at. Format: `date-time`. |
+| `expand` | Optional | Array of string or string | Supported expansions: customer, invoice, order, payment_link. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=invoice, or pass one comma-separated value. Items values: `"customer"`, `"invoice"`, `"order"`, `"payment_link"`. Values: `"customer"`, `"invoice"`, `"order"`, `"payment_link"`. |
 
 #### Response
 
-Returned payload: [CheckoutSessionsListResponse200](../models/CheckoutSessionsListResponse200.md#checkoutsessionslistresponse200).
+Returned payload: [CheckoutSessionListResponse](../models/CheckoutSessionListResponse.md#checkoutsessionlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -881,11 +834,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -907,26 +860,26 @@ Signature: `listDeliverySelections(string|Model $checkout_session_id, array|Mode
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [CheckoutSessionsListDeliverySelectionsResponse200](../models/CheckoutSessionsListDeliverySelectionsResponse200.md#checkoutsessionslistdeliveryselectionsresponse200).
+Returned payload: [DeliverySelectionListResponse](../models/DeliverySelectionListResponse.md#deliveryselectionlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -934,16 +887,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listDeliverySelectionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listDeliverySelectionsItems`, `listDeliverySelectionsPages`, `listDeliverySelectionsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listDeliverySelectionsItems`, `listDeliverySelectionsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->checkoutSessions->listDeliverySelections('example', [], new RequestOptions());
+$result = $client->checkoutSessions->listDeliverySelections('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/checkoutSessions-listDeliverySelections.php)
@@ -960,8 +913,7 @@ Signature: `update(string|Model $checkout_session_id, array|Model $params, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `checkout_session_id` | Required | string | Flint checkout session ID. |
 | `body` | Required | [UpdateCheckoutSessionRequestInput](../models/UpdateCheckoutSessionRequestInput.md#updatecheckoutsessionrequestinput) | The request body for: Update checkout session. |
 
 Body model: [UpdateCheckoutSessionRequestInput](../models/UpdateCheckoutSessionRequestInput.md#updatecheckoutsessionrequestinput).
@@ -976,21 +928,21 @@ Returned payload: [CheckoutSession](../models/CheckoutSession.md#checkoutsession
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -998,9 +950,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1010,7 +962,11 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->checkoutSessions->update('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'metadata' => (object) [
+    'campaign' => 'spring_launch',
+  ],
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/checkoutSessions-update.php)

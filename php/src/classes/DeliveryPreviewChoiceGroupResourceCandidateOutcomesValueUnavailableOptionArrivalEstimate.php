@@ -9,17 +9,17 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionArrivalEstimate extends Model {
     /** @param array{'earliest_date': string, 'latest_date': string, 'timezone': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionArrivalEstimate')); }
-    /** Shape $ (Value): string. Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
+    /** Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
      * @return string
      */
     public function getEarliestDate(): string { return $this->get('earliest_date'); }
     public function hasEarliestDate(): bool { return $this->has('earliest_date'); }
-    /** Shape $ (Value): string. Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
+    /** Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
      * @return string
      */
     public function getLatestDate(): string { return $this->get('latest_date'); }
     public function hasLatestDate(): bool { return $this->has('latest_date'); }
-    /** Shape $ (Value): string.
+    /** timezone
      * @return string
      */
     public function getTimezone(): string { return $this->get('timezone'); }

@@ -1,24 +1,32 @@
-# GitHub/Packagist source archives only need the Composer package.
-/.context export-ignore
+# Keep these patterns identical to scripts/packages.mjs archive.exclude.
+# GitHub/Packagist source archives only need the Composer package and public guides.
+/.git export-ignore
 /.github export-ignore
+/.context export-ignore
+/.tools export-ignore
+/.generated export-ignore
 /.gitignore export-ignore
 /.gitattributes export-ignore
-/.generated export-ignore
-/.tools export-ignore
+/AGENTS.md export-ignore
+/CLAUDE.md export-ignore
+/claude export-ignore
+/CONTRIBUTING.md export-ignore
 /node export-ignore
+/node_modules export-ignore
+/vendor export-ignore
+/composer.lock export-ignore
+/php/vendor export-ignore
+/php/composer.lock export-ignore
 /spec export-ignore
 /scripts export-ignore
 /tests export-ignore
+/releases export-ignore
 /sdk.json export-ignore
 /sdk.lock.json export-ignore
 /sdk-files.json export-ignore
 /package.json export-ignore
 /package-lock.json export-ignore
 /RELEASING.md export-ignore
-/MIGRATION.md export-ignore
-/node/** export-ignore
-/spec/** export-ignore
-/.generated/** export-ignore
 **/vendor export-ignore
 **/vendor/** export-ignore
 **/node_modules export-ignore

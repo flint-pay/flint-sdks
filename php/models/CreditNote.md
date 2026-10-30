@@ -29,6 +29,6 @@ Response model.
 | `status` | Required | string | draft while the credit note is editable, issued once it is numbered and frozen, void once retired. Values: `"draft"`, `"issued"`, `"void"`. |
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `updated_at` | Required | string | When the credit note last changed. Format: `date-time`. |
-| `version` | Required | integer string | Current credit note version. Send this as expected_version when updating the draft. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `version` | Required | integer | Current credit note version. Send this as expected_version when updating the draft. Format: `int64`. minimum: `1`. |
 | `voided_at` | Optional | string | When the credit note was voided. Absent unless it is void. Format: `date-time`. |
 

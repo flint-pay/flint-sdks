@@ -13,15 +13,15 @@ A replacement item to include in a return resolution, from a variant, a bundle, 
 | `bundle_id` | Conditional | string | minLength: `1`. |
 | `description` | Optional | string | minLength: `1`. |
 | `name` | Conditional | string | minLength: `1`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `sku` | Optional | string | minLength: `1`. |
 | `type` | Required | string | The source of the replacement merchandise: variant, bundle, or custom. Values: `"variant"`, `"bundle"`, `"custom"`. |
-| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `variant_id` | Conditional | string | minLength: `1`. |
 
 ### ReturnReplacementLineItemRequest variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `ReturnReplacementLineItemInput`..
+oneOf with type: "variant": The `variant` variant of `ReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`))).
 - Required: `variant_id`.
@@ -30,7 +30,7 @@ oneOf variant 1: The `variant` variant of `ReturnReplacementLineItemInput`..
 
 ### ReturnReplacementLineItemRequest variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `ReturnReplacementLineItemInput`..
+oneOf with type: "bundle": The `bundle` variant of `ReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`))).
 - Required: `bundle_id`.
@@ -39,7 +39,7 @@ oneOf variant 2: The `bundle` variant of `ReturnReplacementLineItemInput`..
 
 ### ReturnReplacementLineItemRequest variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `ReturnReplacementLineItemInput`..
+oneOf with type: "custom": The `custom` variant of `ReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`.
@@ -48,5 +48,5 @@ oneOf variant 3: The `custom` variant of `ReturnReplacementLineItemInput`..
 
 ### ReturnReplacementLineItemRequest.unit_price_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

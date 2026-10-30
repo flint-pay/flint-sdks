@@ -1,0 +1,128 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read array{'accent_color'?: string|null, 'background_color'?: string|null, 'corner_radius'?: int, 'font_family'?: string|null, 'primary_color'?: string|null, 'text_color'?: string|null}|object|null $branding
+ * @property-read array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: int, 'enabled_payment_options'?: list<string>, 'promotion_codes_enabled'?: bool, 'recovery_email'?: CheckoutRecoveryEmailSettingsRequestInput|array<array-key, mixed>|\stdClass, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: CheckoutSavedPaymentDetailsSettingsRequestInput|array<array-key, mixed>|\stdClass}|object|null $checkout
+ * @property-read array{'buyer_capabilities'?: BuyerCapabilitiesInput|array<array-key, mixed>|\stdClass, 'merchant_account_url'?: string|null, 'mode'?: string, 'presentation'?: CustomerAccountPresentationRequestInput|array<array-key, mixed>|\stdClass, 'route_templates'?: CustomerAccountRouteTemplatesRequestInput|array<array-key, mixed>|\stdClass}|object|null $customer_account
+ * @property-read array{'dunning'?: string, 'fulfillment_updates'?: string, 'invoices'?: string, 'order_receipts'?: string, 'returns'?: string, 'subscription_lifecycle'?: string}|object|null $customer_email_delivery
+ * @property-read int $expected_version
+ * @property-read array{'approval_required'?: bool}|object|null $fulfillment
+ * @property-read array{'low_stock_threshold'?: int, 'origin_policies'?: array<array-key, InventoryOriginPolicyRequestInput|array<array-key, mixed>|\stdClass>|\stdClass}|object|null $inventory
+ * @property-read array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|object|null $invoices
+ * @property-read array{'contract_url'?: string|null, 'refund_policy_url'?: string|null, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string|null, 'terms_of_service_url'?: string|null}|object|null $legal
+ * @property-read array<array-key, string|null>|\stdClass|null $metadata
+ * @property-read array{'max_amounts'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null, 'min_amounts'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null}|object|null $payment_limits
+ * @property-read array{'automatic_enabled'?: bool, 'codes_enabled'?: bool, 'max_promotions_per_order'?: int}|object|null $promotions
+ * @property-read array{'auto_email_enabled'?: bool, 'footer_text'?: string|null, 'header_text'?: string|null, 'is_itemized'?: bool}|object|null $receipts
+ * @property-read array{'default_billing_schedule_owner'?: string, 'dunning_end_action'?: string, 'dunning_retry_days'?: int, 'external_dunning_end_action'?: string, 'send_backordered_email'?: bool}|object|null $subscriptions
+ * @property-read array{'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null}|object|null $tax
+ * @property-read array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null $tax_identity
+ * @property-read array{'custom_tip_enabled'?: bool, 'default_enabled'?: bool, 'default_smart_tip_money'?: array{'amount': string, 'currency': string}|object|null, 'default_tip_percent'?: int|float|null, 'smart_tip_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object|null $tipping
+ * Presence-aware input; omitted fields throw when accessed. */
+final class SettingsUpdateParams extends Model {
+    /** @param array{'branding'?: array{'accent_color'?: string|null, 'background_color'?: string|null, 'corner_radius'?: int, 'font_family'?: string|null, 'primary_color'?: string|null, 'text_color'?: string|null}|object|null, 'checkout'?: array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: int, 'enabled_payment_options'?: list<string>, 'promotion_codes_enabled'?: bool, 'recovery_email'?: CheckoutRecoveryEmailSettingsRequestInput|array<array-key, mixed>|\stdClass, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: CheckoutSavedPaymentDetailsSettingsRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'customer_account'?: array{'buyer_capabilities'?: BuyerCapabilitiesInput|array<array-key, mixed>|\stdClass, 'merchant_account_url'?: string|null, 'mode'?: string, 'presentation'?: CustomerAccountPresentationRequestInput|array<array-key, mixed>|\stdClass, 'route_templates'?: CustomerAccountRouteTemplatesRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'customer_email_delivery'?: array{'dunning'?: string, 'fulfillment_updates'?: string, 'invoices'?: string, 'order_receipts'?: string, 'returns'?: string, 'subscription_lifecycle'?: string}|object|null, 'expected_version'?: int, 'fulfillment'?: array{'approval_required'?: bool}|object|null, 'inventory'?: array{'low_stock_threshold'?: int, 'origin_policies'?: array<array-key, InventoryOriginPolicyRequestInput|array<array-key, mixed>|\stdClass>|\stdClass}|object|null, 'invoices'?: array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|object|null, 'legal'?: array{'contract_url'?: string|null, 'refund_policy_url'?: string|null, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string|null, 'terms_of_service_url'?: string|null}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_limits'?: array{'max_amounts'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null, 'min_amounts'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null}|object|null, 'promotions'?: array{'automatic_enabled'?: bool, 'codes_enabled'?: bool, 'max_promotions_per_order'?: int}|object|null, 'receipts'?: array{'auto_email_enabled'?: bool, 'footer_text'?: string|null, 'header_text'?: string|null, 'is_itemized'?: bool}|object|null, 'subscriptions'?: array{'default_billing_schedule_owner'?: string, 'dunning_end_action'?: string, 'dunning_retry_days'?: int, 'external_dunning_end_action'?: string, 'send_backordered_email'?: bool}|object|null, 'tax'?: array{'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null}|object|null, 'tax_identity'?: array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null, 'tipping'?: array{'custom_tip_enabled'?: bool, 'default_enabled'?: bool, 'default_smart_tip_money'?: array{'amount': string, 'currency': string}|object|null, 'default_tip_percent'?: int|float|null, 'smart_tip_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object|null}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SettingsUpdateParams')); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see BrandingSettingsRequestInput}. Branding values to change when updating settings. Send null for a color or `font_family` to clear it. anyOf[2] (Value): null.
+     * @return array{'accent_color'?: string|null, 'background_color'?: string|null, 'corner_radius'?: int, 'font_family'?: string|null, 'primary_color'?: string|null, 'text_color'?: string|null}|object|null
+     * @throws SdkError When branding is omitted; use hasBranding() or valueOrDefault().
+     */
+    public function getBranding(): mixed { return $this->get('branding'); }
+    public function hasBranding(): bool { return $this->has('branding'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see CheckoutSettingsRequestInput}. Merchant defaults for checkout: custom domain, delivery methods, expiration, payment options, required contact fields, promotion codes, recovery email, and saved payment details. anyOf[2] (Value): null.
+     * @return array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: int, 'enabled_payment_options'?: list<string>, 'promotion_codes_enabled'?: bool, 'recovery_email'?: CheckoutRecoveryEmailSettingsRequestInput|array<array-key, mixed>|\stdClass, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: CheckoutSavedPaymentDetailsSettingsRequestInput|array<array-key, mixed>|\stdClass}|object|null
+     * @throws SdkError When checkout is omitted; use hasCheckout() or valueOrDefault().
+     */
+    public function getCheckout(): mixed { return $this->get('checkout'); }
+    public function hasCheckout(): bool { return $this->has('checkout'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Flint then serves the default Flint-hosted account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@see CustomerAccountSettingsRequestInput}. Customer account settings: hosted mode, merchant account URL, presentation, route templates, and what buyers may do to their own subscriptions. anyOf[2] (Value): null.
+     * @return array{'buyer_capabilities'?: BuyerCapabilitiesInput|array<array-key, mixed>|\stdClass, 'merchant_account_url'?: string|null, 'mode'?: string, 'presentation'?: CustomerAccountPresentationRequestInput|array<array-key, mixed>|\stdClass, 'route_templates'?: CustomerAccountRouteTemplatesRequestInput|array<array-key, mixed>|\stdClass}|object|null
+     * @throws SdkError When customer_account is omitted; use hasCustomerAccount() or valueOrDefault().
+     */
+    public function getCustomerAccount(): mixed { return $this->get('customer_account'); }
+    public function hasCustomerAccount(): bool { return $this->has('customer_account'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see CustomerEmailDeliverySettingsRequestInput}. For each kind of customer email, whether Flint sends it or the merchant sends it. anyOf[2] (Value): null.
+     * @return array{'dunning'?: string, 'fulfillment_updates'?: string, 'invoices'?: string, 'order_receipts'?: string, 'returns'?: string, 'subscription_lifecycle'?: string}|object|null
+     * @throws SdkError When customer_email_delivery is omitted; use hasCustomerEmailDelivery() or valueOrDefault().
+     */
+    public function getCustomerEmailDelivery(): mixed { return $this->get('customer_email_delivery'); }
+    public function hasCustomerEmailDelivery(): bool { return $this->has('customer_email_delivery'); }
+    /** The Settings.version last read by the caller. Required when tax_identity is present, including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see FulfillmentSettingsRequestInput}. Merchant fulfillment settings, including whether fulfillments require approval (`approval_required`). anyOf[2] (Value): null.
+     * @return array{'approval_required'?: bool}|object|null
+     * @throws SdkError When fulfillment is omitted; use hasFulfillment() or valueOrDefault().
+     */
+    public function getFulfillment(): mixed { return $this->get('fulfillment'); }
+    public function hasFulfillment(): bool { return $this->has('fulfillment'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see InventorySettingsRequestInput}. Inventory settings: the `low_stock_threshold` and how inventory failures are handled for each order source. anyOf[2] (Value): null.
+     * @return array{'low_stock_threshold'?: int, 'origin_policies'?: array<array-key, InventoryOriginPolicyRequestInput|array<array-key, mixed>|\stdClass>|\stdClass}|object|null
+     * @throws SdkError When inventory is omitted; use hasInventory() or valueOrDefault().
+     */
+    public function getInventory(): mixed { return $this->get('inventory'); }
+    public function hasInventory(): bool { return $this->has('inventory'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see InvoiceSettingsPatchInput}. Changes to a merchant's invoice settings. Send only the fields to change, and send null on a nullable field to clear it. minProperties: 1. anyOf[2] (Value): null.
+     * @return array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|object|null
+     * @throws SdkError When invoices is omitted; use hasInvoices() or valueOrDefault().
+     */
+    public function getInvoices(): mixed { return $this->get('invoices'); }
+    public function hasInvoices(): bool { return $this->has('invoices'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see LegalSettingsRequestInput}. Changes to a merchant's legal settings. Send null on a URL to clear it. anyOf[2] (Value): null.
+     * @return array{'contract_url'?: string|null, 'refund_policy_url'?: string|null, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string|null, 'terms_of_service_url'?: string|null}|object|null
+     * @throws SdkError When legal is omitted; use hasLegal() or valueOrDefault().
+     */
+    public function getLegal(): mixed { return $this->get('legal'); }
+    public function hasLegal(): bool { return $this->has('legal'); }
+    /** Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2] (Value): null.
+     * @return array<array-key, string|null>|\stdClass|null
+     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+     */
+    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Clearing merchant limits preserves Flint support approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@see PaymentLimitSettingsPatchInput}. Changes to a merchant's payment amount limits. Each map replaces the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
+     * @return array{'max_amounts'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null, 'min_amounts'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass|null}|object|null
+     * @throws SdkError When payment_limits is omitted; use hasPaymentLimits() or valueOrDefault().
+     */
+    public function getPaymentLimits(): mixed { return $this->get('payment_limits'); }
+    public function hasPaymentLimits(): bool { return $this->has('payment_limits'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see PromotionSettingsRequestInput}. Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order. anyOf[2] (Value): null.
+     * @return array{'automatic_enabled'?: bool, 'codes_enabled'?: bool, 'max_promotions_per_order'?: int}|object|null
+     * @throws SdkError When promotions is omitted; use hasPromotions() or valueOrDefault().
+     */
+    public function getPromotions(): mixed { return $this->get('promotions'); }
+    public function hasPromotions(): bool { return $this->has('promotions'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see ReceiptSettingsRequestInput}. Receipt settings to change when updating settings. Send null for `header_text` or `footer_text` to clear it. anyOf[2] (Value): null.
+     * @return array{'auto_email_enabled'?: bool, 'footer_text'?: string|null, 'header_text'?: string|null, 'is_itemized'?: bool}|object|null
+     * @throws SdkError When receipts is omitted; use hasReceipts() or valueOrDefault().
+     */
+    public function getReceipts(): mixed { return $this->get('receipts'); }
+    public function hasReceipts(): bool { return $this->has('receipts'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see SubscriptionSettingsRequestInput}. Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email. anyOf[2] (Value): null.
+     * @return array{'default_billing_schedule_owner'?: string, 'dunning_end_action'?: string, 'dunning_retry_days'?: int, 'external_dunning_end_action'?: string, 'send_backordered_email'?: bool}|object|null
+     * @throws SdkError When subscriptions is omitted; use hasSubscriptions() or valueOrDefault().
+     */
+    public function getSubscriptions(): mixed { return $this->get('subscriptions'); }
+    public function hasSubscriptions(): bool { return $this->has('subscriptions'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see TaxSettingsRequestInput}. Tax settings to change when updating settings. Send null for a category to clear it. anyOf[2] (Value): null.
+     * @return array{'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null}|object|null
+     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+     */
+    public function getTax(): mixed { return $this->get('tax'); }
+    public function hasTax(): bool { return $this->has('tax'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Legal identity displayed on invoices and credit notes. Requires expected_version whenever present. anyOf[1] (Value): {@see TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+     * @return array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null
+     * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
+     */
+    public function getTaxIdentity(): mixed { return $this->get('tax_identity'); }
+    public function hasTaxIdentity(): bool { return $this->has('tax_identity'); }
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. anyOf[1] (Value): {@see TippingSettingsPatchInput}. Tipping settings to change when updating settings. Omit a field to keep it; send null to clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
+     * @return array{'custom_tip_enabled'?: bool, 'default_enabled'?: bool, 'default_smart_tip_money'?: array{'amount': string, 'currency': string}|object|null, 'default_tip_percent'?: int|float|null, 'smart_tip_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object|null
+     * @throws SdkError When tipping is omitted; use hasTipping() or valueOrDefault().
+     */
+    public function getTipping(): mixed { return $this->get('tipping'); }
+    public function hasTipping(): bool { return $this->has('tipping'); }
+}

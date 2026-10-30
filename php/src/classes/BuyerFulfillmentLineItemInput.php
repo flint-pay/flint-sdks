@@ -4,27 +4,27 @@ namespace Flint;
 /**
  * @property-read list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $order_line_item_id
- * @property-read string $quantity
+ * @property-read int $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerFulfillmentLineItemInput extends Model {
-    /** @param array{'modifiers'?: list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'order_line_item_id': string, 'quantity': string, ...}|object $values */
+    /** @param array{'modifiers'?: list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'order_line_item_id': string, 'quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentLineItemInput')); }
-    /** Shape $ (Value): Array of {@see BuyerOrderLineItemModifierInput}. Modifier selections snapshotted from the order line for fulfillment. Shape $[] (Value): {@see BuyerOrderLineItemModifierInput}. A modifier on a buyer's order line item, either a catalog modifier or entered text, with its quantity and price change.
+    /** Modifier selections snapshotted from the order line for fulfillment. [] (Value): {@see BuyerOrderLineItemModifierInput}. A modifier on a buyer's order line item, either a catalog modifier or entered text, with its quantity and price change.
      * @return list<BuyerOrderLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** Shape $ (Value): string. Order line whose quantity is allocated to the fulfillment.
+    /** Order line whose quantity is allocated to the fulfillment.
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * @return string
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */
-    public function getQuantity(): string { return $this->get('quantity'); }
+    public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
 }

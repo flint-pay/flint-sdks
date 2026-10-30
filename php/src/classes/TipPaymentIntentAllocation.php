@@ -8,12 +8,12 @@ namespace Flint;
 final class TipPaymentIntentAllocation extends Model {
     /** @param array{'amount_money': mixed, 'payment_intent_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipPaymentIntentAllocation')); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.
+    /** payment_intent_id
      * @return string
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }

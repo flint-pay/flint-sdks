@@ -7,7 +7,7 @@ namespace Flint;
 final class InvoiceReminderRuleInput extends Model {
     /** @param array{'days_from_due': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceReminderRuleInput')); }
-    /** Shape $ (Value): integer. Format: int32. minimum: -90. maximum: 365.
+    /** Format: int32. minimum: -90. maximum: 365.
      * @return int
      * @throws SdkError When days_from_due is omitted; use hasDaysFromDue() or valueOrDefault().
      */

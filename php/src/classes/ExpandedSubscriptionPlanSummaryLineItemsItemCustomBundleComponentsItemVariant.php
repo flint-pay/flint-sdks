@@ -12,32 +12,32 @@ namespace Flint;
 final class ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariant extends Model {
     /** @param array{'available_for_sale': bool, 'name'?: string, 'product_name'?: string, 'selected_options'?: list<mixed>, 'sku'?: string, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariant')); }
-    /** Shape $ (Value): boolean. Whether the component's variant and its product are both active.
+    /** Whether the component's variant and its product are both active.
      * @return bool
      */
     public function getAvailableForSale(): bool { return $this->get('available_for_sale'); }
     public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
-    /** Shape $ (Value): string. Name of the component's variant, when set.
+    /** Name of the component's variant, when set.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Name of the product the variant belongs to.
+    /** Name of the product the variant belongs to.
      * @return ?string
      */
     public function getProductName(): ?string { return $this->get('product_name'); }
     public function hasProductName(): bool { return $this->has('product_name'); }
-    /** Shape $ (Value): Array of ({@see ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariantSelectedOptionsItem} and {@see SelectedProductOption}). Option names and values selected by the component's variant. Shape $[] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariantSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
+    /** Option names and values selected by the component's variant. [] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariantSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
      * @return ?list<ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariantSelectedOptionsItem>
      */
     public function getSelectedOptions(): ?array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** Shape $ (Value): string. Stock keeping unit assigned to the component's variant, when set.
+    /** Stock keeping unit assigned to the component's variant, when set.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Shape $ (Value): string. Identifier of the product variant included in the component.
+    /** Identifier of the product variant included in the component.
      * @return string
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

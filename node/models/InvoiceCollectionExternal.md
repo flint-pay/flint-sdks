@@ -16,7 +16,7 @@
 
 ### InvoiceCollectionExternal variant 1: `mode` = `"external"`
 
-anyOf variant 1: Declared schema InvoiceCollectionExternal. The `external` variant of `InvoiceCollection`..
+anyOf InvoiceCollectionExternal: Declared schema InvoiceCollectionExternal. The `external` variant of `InvoiceCollection`..
 
 - Condition: not (at least one(present(`payment_method_id`); present(`payment_policy`))).
 - Constraints for `mode`: How the invoice is collected, resolved when the draft was written. Values: `"external"`.
@@ -25,7 +25,7 @@ anyOf variant 1: Declared schema InvoiceCollectionExternal. The `external` varia
 
 ### InvoiceCollectionExternal variant 2: `mode` = `"external"`
 
-anyOf variant 2: Declared schema InvoiceCollectionInputExternal. The `external` variant of `InvoiceCollectionInput`..
+anyOf InvoiceCollectionInputExternal: Declared schema InvoiceCollectionInputExternal. The `external` variant of `InvoiceCollectionInput`..
 
 - Condition: not (at least one(present(`payment_method_id`); present(`payment_policy`))).
 - Constraints for `mode`: How the invoice is collected. merchant_default resolves when the draft is written, and reads return the resolved mode. Values: `"external"`.

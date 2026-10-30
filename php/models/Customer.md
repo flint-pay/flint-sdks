@@ -12,14 +12,14 @@ Response model.
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `customer_id` | Required | string |  |
 | `default_invoice_payment_term_id` | Optional | string |  |
-| `default_payment_method` | Optional | [ExpandedPaymentMethodSummary](../models/ExpandedPaymentMethodSummary.md#expandedpaymentmethodsummary) or null |  |
+| `default_payment_method` | Optional | [ExpandedPaymentMethodSummary](../models/ExpandedPaymentMethodSummary.md#expandedpaymentmethodsummary) or null | Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. |
 | `default_payment_method_id` | Required | string or null |  |
 | `email` | Required | string or null | Customer email, or null when the customer has none. Unique among the environment's customers. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this customer in an external system, or null when none. Not returned to customer sessions. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string or null | Internal note about this customer, or null when none. Not returned to customer sessions. |
 | `is_merchant_verified` | Optional | boolean | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata). |
 | `name` | Required | string or null | Customer name, or null when none. |
 | `phone` | Required | string or null | Customer phone number, or null when none. |
 | `receivables` | Optional | [CustomerReceivables](../models/CustomerReceivables.md#customerreceivables) | A customer's receivable balances by currency and when they were observed. |
@@ -28,10 +28,11 @@ Response model.
 | `status` | Required | string | Values: `"active"`, `"deletion_processing"`, `"deleted"`. |
 | `tax_exempt` | Optional | boolean |  |
 | `tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null |  |
+| `test_clock_id` | Optional | string | ID of the test clock the customer was created on. The customer and its subscriptions read the clock's `frozen_at` as the current time. Present only for customers created on a test clock. Not returned to customer sessions. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 
 ### Customer.metadata
 
-Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
+Field definitions: [CancelReturnResponse.data.metadata](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata).
 

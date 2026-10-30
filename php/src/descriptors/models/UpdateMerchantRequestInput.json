@@ -1,1 +1,1 @@
-{"shared":"UpdateMerchantRequest","dependencies":["AddressRequest","ImageInputFile","ImageInputSourceURL","ImageRequest","MetadataPatchRequest","SharedCodec0","SharedCodec1","SharedCodec1256","SharedCodec1288","UpdateMerchantRequest"]}
+{"shared":"UpdateMerchantRequest","dependencies":["AddressRequest","ImageInputFile","ImageInputSourceURL","SharedCodec0","SharedCodec1","SharedCodec1350","SharedCodec1353","SharedCodec1394","SharedCodec1395","UpdateMerchantRequest"]}

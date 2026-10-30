@@ -34,14 +34,14 @@ Field definitions: [shared fields](PromotionApplicationMethodPercentOff.md#promo
 
 ### PromotionApplicationMethodBuyXGetY.qualifying_item_rules variant 1
 
-oneOf variant 1.
+oneOf All.
 
 - Required: `all`.
 - Undeclared: `any`.
 
 ### PromotionApplicationMethodBuyXGetY.qualifying_item_rules variant 2
 
-oneOf variant 2.
+oneOf Any.
 
 - Required: `any`.
 - Undeclared: `all`.

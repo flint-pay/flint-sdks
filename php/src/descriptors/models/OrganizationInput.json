@@ -1,1 +1,1 @@
-{"shared":"Organization","dependencies":["ExpandedOrganizationSummary","MetadataMap","Organization","SharedCodec997"]}
+{"shared":"Organization","dependencies":["MetadataMap","Organization","SharedCodec850","SharedCodec851"]}

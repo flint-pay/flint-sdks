@@ -18,7 +18,7 @@ Where a delivery method starts, chosen by `type`: a fixed location, an allocated
 
 ### DeliveryMethodOriginSelector variant 1: `type` = `"fixed_location"`
 
-oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelector`..
+oneOf with type: "fixed_location": The `fixed_location` variant of `DeliveryMethodOriginSelector`..
 
 - Condition: not (at least one(present(`delivery_location_set_id`); present(`delivery_location_set_revision_id`); present(`location_ids`))).
 - Required: `location_id`.
@@ -27,7 +27,7 @@ oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelector`.
 
 ### DeliveryMethodOriginSelector variant 2: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
+oneOf with type: "allocated_origin_group": The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
 
 - Condition: not (present(`location_id`)).
 - Required: `delivery_location_set_id`.
@@ -37,7 +37,7 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodOriginSelector variant 3: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
+oneOf with type: "allocated_origin_group": The `allocated_origin_group` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
 
 - Condition: not (present(`location_id`)).
 - Required: `location_ids`.
@@ -47,7 +47,7 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodOriginSelector variant 4: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
+oneOf with type: "pickup_location_collection": The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 1.
 
 - Condition: not (present(`location_id`)).
 - Required: `delivery_location_set_id`.
@@ -57,7 +57,7 @@ oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOrig
 
 ### DeliveryMethodOriginSelector variant 5: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
+oneOf with type: "pickup_location_collection": The `pickup_location_collection` variant of `DeliveryMethodOriginSelector`.; anyOf variant 2.
 
 - Condition: not (present(`location_id`)).
 - Required: `location_ids`.

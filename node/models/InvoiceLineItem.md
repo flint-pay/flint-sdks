@@ -23,7 +23,7 @@ A line item on an invoice, with its quantity, unit price, discount, tax, and tot
 | `name` | Required | string | Line item name as billed. |
 | `order_line_item_id` | Optional | string | The backing order's line item. Tax rows in snapshot.tax_breakdowns reference the line by this ID. |
 | `product_id` | Optional | string | Parent product of the line's variant. Absent on bundle and custom lines. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | The product options chosen for the line, as billed. |
 | `sku` | Optional | string | Stock keeping unit as billed. |
 | `source_type` | Optional | string | The catalog item the line was sold from. Absent on custom lines. Values: `"variant"`, `"bundle"`. |

@@ -1,1 +1,1 @@
-{"shared":"TaxRegistrationListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3","TaxRegistration","TaxRegistrationListResponse"]}
+{"shared":"TaxRegistrationListResponse","dependencies":["MoneyValue","NextAction","ReadinessMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec2","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876","TaxRegistration","TaxRegistrationListResponse"]}

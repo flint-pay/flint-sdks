@@ -22,142 +22,149 @@ namespace Flint;
  * @property-read string $status
  * @property-read bool $tax_exempt
  * @property-read array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $tax_identity
+ * @property-read string $test_clock_id
  * @property-read string|\DateTimeInterface $updated_at
- * @property-read string $version
+ * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerInput extends Model {
-    /** @param array{'billing_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'default_payment_method_id': string|null, 'email': string|null, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string|null, 'phone': string|null, 'receivables'?: CustomerReceivablesInput|array<array-key, mixed>|\stdClass, 'segment'?: string|null, 'shipping_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'status': string, 'tax_exempt'?: bool, 'tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'billing_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'default_payment_method_id': string|null, 'email': string|null, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string|null, 'phone': string|null, 'receivables'?: CustomerReceivablesInput|array<array-key, mixed>|\stdClass, 'segment'?: string|null, 'shipping_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'status': string, 'tax_exempt'?: bool, 'tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'test_clock_id'?: string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerInput')); }
-    /** Shape $ (Value): {@see AddressInput} or null. The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. Null when no saved address is the billing default. Shape $.anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+    /** The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. Null when no saved address is the billing default. anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[2] (Value): null.
      * @return array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null
      * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().
      */
     public function getBillingAddress(): mixed { return $this->get('billing_address'); }
     public function hasBillingAddress(): bool { return $this->has('billing_address'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
+    /** customer_id
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Shape $ (Value): string.
+    /** default_invoice_payment_term_id
      * @return string
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
      */
     public function getDefaultInvoicePaymentTermId(): string { return $this->get('default_invoice_payment_term_id'); }
     public function hasDefaultInvoicePaymentTermId(): bool { return $this->has('default_invoice_payment_term_id'); }
-    /** Shape $ (Value): {@see ExpandedPaymentMethodSummaryInput} or null. Shape $.anyOf[1] (Value): {@see ExpandedPaymentMethodSummaryInput}. A payment method's summary fields, including type, status, and card details, returned when the payment method is expanded. Shape $.anyOf[2] (Value): null.
+    /** Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): {@see ExpandedPaymentMethodSummaryInput}. A payment method's summary fields, including type, status, and card details, returned when the payment method is expanded. anyOf[2] (Value): null.
      * @return array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When default_payment_method is omitted; use hasDefaultPaymentMethod() or valueOrDefault().
      */
     public function getDefaultPaymentMethod(): mixed { return $this->get('default_payment_method'); }
     public function hasDefaultPaymentMethod(): bool { return $this->has('default_payment_method'); }
-    /** Shape $ (Value): string or null.
+    /** default_payment_method_id
      * @return string|null
      * @throws SdkError When default_payment_method_id is omitted; use hasDefaultPaymentMethodId() or valueOrDefault().
      */
     public function getDefaultPaymentMethodId(): string|null { return $this->get('default_payment_method_id'); }
     public function hasDefaultPaymentMethodId(): bool { return $this->has('default_payment_method_id'); }
-    /** Shape $ (Value): string or null. Customer email, or null when the customer has none. Unique among the environment's customers.
+    /** Customer email, or null when the customer has none. Unique among the environment's customers.
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string or null. Caller-owned identifier for this customer in an external system, or null when none. Not returned to customer sessions. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this customer in an external system, or null when none. Not returned to customer sessions. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string or null. Internal note about this customer, or null when none. Not returned to customer sessions.
+    /** Internal note about this customer, or null when none. Not returned to customer sessions.
      * @return string|null
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */
     public function getInternalNote(): string|null { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** Shape $ (Value): boolean. Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address.
+    /** Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address.
      * @return bool
      * @throws SdkError When is_merchant_verified is omitted; use hasIsMerchantVerified() or valueOrDefault().
      */
     public function getIsMerchantVerified(): bool { return $this->get('is_merchant_verified'); }
     public function hasIsMerchantVerified(): bool { return $this->has('is_merchant_verified'); }
-    /** Shape $ (Value): string.
+    /** merchant_id
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string or null. Customer name, or null when none.
+    /** Customer name, or null when none.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string or null. Customer phone number, or null when none.
+    /** Customer phone number, or null when none.
      * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Shape $ (Value): {@see CustomerReceivablesInput}. A customer's receivable balances by currency and when they were observed.
+    /** A customer's receivable balances by currency and when they were observed.
      * @return CustomerReceivablesInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When receivables is omitted; use hasReceivables() or valueOrDefault().
      */
     public function getReceivables(): mixed { return $this->get('receivables'); }
     public function hasReceivables(): bool { return $this->has('receivables'); }
-    /** Shape $ (Value): string or null. Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. Null when none. Not returned to customer sessions.
+    /** Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. Null when none. Not returned to customer sessions.
      * @return string|null
      * @throws SdkError When segment is omitted; use hasSegment() or valueOrDefault().
      */
     public function getSegment(): string|null { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** Shape $ (Value): {@see AddressInput} or null. The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. Null when no saved address is the shipping default. Shape $.anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+    /** The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. Null when no saved address is the shipping default. anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[2] (Value): null.
      * @return array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null
      * @throws SdkError When shipping_address is omitted; use hasShippingAddress() or valueOrDefault().
      */
     public function getShippingAddress(): mixed { return $this->get('shipping_address'); }
     public function hasShippingAddress(): bool { return $this->has('shipping_address'); }
-    /** Shape $ (Value): string.  Value enum: "active", "deletion_processing", "deleted".
+    /** Value enum: "active", "deletion_processing", "deleted".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): boolean.
+    /** tax_exempt
      * @return bool
      * @throws SdkError When tax_exempt is omitted; use hasTaxExempt() or valueOrDefault().
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
-    /** Shape $ (Value): {@see TaxIdentityInput} or null. Shape $.anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
+    /**  anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */
     public function getTaxIdentity(): mixed { return $this->get('tax_identity'); }
     public function hasTaxIdentity(): bool { return $this->has('tax_identity'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** ID of the test clock the customer was created on. The customer and its subscriptions read the clock's `frozen_at` as the current time. Present only for customers created on a test clock. Not returned to customer sessions.
+     * @return string
+     * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
+     */
+    public function getTestClockId(): string { return $this->get('test_clock_id'); }
+    public function hasTestClockId(): bool { return $this->has('test_clock_id'); }
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     * @return string
+    /** Format: uint64. minimum: 1.
+     * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */
-    public function getVersion(): string { return $this->get('version'); }
+    public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
 }

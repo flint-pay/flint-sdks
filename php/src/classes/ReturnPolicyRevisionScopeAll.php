@@ -12,32 +12,32 @@ namespace Flint;
 final class ReturnPolicyRevisionScopeAll extends Model {
     /** @param array{'category_handles'?: list<string>, 'channel_types'?: list<string>, 'location_ids'?: list<string>, 'match_type': string, 'product_ids'?: list<string>, 'variant_ids'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPolicyRevisionScopeAll')); }
-    /** Shape $ (Value): Array of string. maxItems: 0. Shape $[] (Value): string. minLength: 1.
+    /** maxItems: 0. [] (Value): string. minLength: 1.
      * @return ?list<string>
      */
     public function getCategoryHandles(): ?array { return $this->get('category_handles'); }
     public function hasCategoryHandles(): bool { return $this->has('category_handles'); }
-    /** Shape $ (Value): Array of string. maxItems: 0. Shape $[] (Value): string. minLength: 1.
+    /** maxItems: 0. [] (Value): string. minLength: 1.
      * @return ?list<string>
      */
     public function getChannelTypes(): ?array { return $this->get('channel_types'); }
     public function hasChannelTypes(): bool { return $this->has('channel_types'); }
-    /** Shape $ (Value): Array of string. maxItems: 0. Shape $[] (Value): string. minLength: 1.
+    /** maxItems: 0. [] (Value): string. minLength: 1.
      * @return ?list<string>
      */
     public function getLocationIds(): ?array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Shape $ (Value): string. all covers every item and requires every selector to be empty. include covers only what the selectors name and requires at least one nonempty selector. Value enum: "all".
+    /** all covers every item and requires every selector to be empty. include covers only what the selectors name and requires at least one nonempty selector. Value enum: "all".
      * @return string
      */
     public function getMatchType(): string { return $this->get('match_type'); }
     public function hasMatchType(): bool { return $this->has('match_type'); }
-    /** Shape $ (Value): Array of string. maxItems: 0. Shape $[] (Value): string. minLength: 1.
+    /** maxItems: 0. [] (Value): string. minLength: 1.
      * @return ?list<string>
      */
     public function getProductIds(): ?array { return $this->get('product_ids'); }
     public function hasProductIds(): bool { return $this->has('product_ids'); }
-    /** Shape $ (Value): Array of string. maxItems: 0. Shape $[] (Value): string. minLength: 1.
+    /** maxItems: 0. [] (Value): string. minLength: 1.
      * @return ?list<string>
      */
     public function getVariantIds(): ?array { return $this->get('variant_ids'); }

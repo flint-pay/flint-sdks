@@ -1,1 +1,0 @@
-{"shared":"Webhook_customer_deletion_request_rejected_installed_merchants","dependencies":["CustomerDeletionRequest","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec597","WebhookEventSourceInstalledMerchants","Webhook_customer_deletion_request_rejected_installed_merchants"]}

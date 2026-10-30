@@ -7,14 +7,20 @@ final class EventStream implements \IteratorAggregate
     private bool $closed = false;
     private bool $started = false;
     private float $created;
+    private readonly ResponseInfo $responseInfo;
     public function __construct(
         private readonly ByteStream $source,
-        public readonly array $meta,
+        private readonly array $transportMeta,
         private readonly array $settings,
         private readonly \Closure $decode,
         private readonly \Closure $released,
     ) {
         $this->created = hrtime(true) / 1000000;
+        $this->responseInfo = ResponseInfo::from($this->transportMeta, $this);
+    }
+    public function lastResponse(): ResponseInfo
+    {
+        return $this->responseInfo;
     }
     public function close(): void
     {
@@ -28,10 +34,7 @@ final class EventStream implements \IteratorAggregate
     public function __debugInfo(): array
     {
         return [
-            'meta' => array_intersect_key(
-                $this->meta,
-                array_flip(['status', 'requestId', 'attempts', 'durationMs']),
-            ),
+            'lastResponse' => $this->lastResponse(),
             'closed' => $this->closed,
         ];
     }
@@ -58,7 +61,7 @@ final class EventStream implements \IteratorAggregate
                         'Stream cancelled',
                         'response',
                         false,
-                        $this->meta,
+                        $this->transportMeta,
                     );
                 }
                 if (
@@ -70,7 +73,7 @@ final class EventStream implements \IteratorAggregate
                         'Stream lifetime exceeded',
                         'response',
                         false,
-                        $this->meta,
+                        $this->transportMeta,
                     );
                 }
                 $wait = hrtime(true) / 1000000;
@@ -81,7 +84,7 @@ final class EventStream implements \IteratorAggregate
                         'Stream cancelled',
                         'response',
                         false,
-                        $this->meta,
+                        $this->transportMeta,
                     );
                 }
                 if (hrtime(true) / 1000000 - $wait >= $this->settings['idleTimeoutMs']) {
@@ -90,7 +93,7 @@ final class EventStream implements \IteratorAggregate
                         'Stream idle timeout exceeded',
                         'response',
                         false,
-                        $this->meta,
+                        $this->transportMeta,
                     );
                 }
                 if ($chunk === null) {
@@ -100,7 +103,8 @@ final class EventStream implements \IteratorAggregate
                             'Invalid UTF-8 stream',
                             'response',
                             false,
-                            $this->meta,
+                            $this->transportMeta,
+                            errorCode: 'invalid_event',
                         );
                     }
                     break;
@@ -116,7 +120,7 @@ final class EventStream implements \IteratorAggregate
                             'Stream cancelled',
                             'response',
                             false,
-                            $this->meta,
+                            $this->transportMeta,
                         );
                     }
                     if (
@@ -128,7 +132,7 @@ final class EventStream implements \IteratorAggregate
                             'Stream lifetime exceeded',
                             'response',
                             false,
-                            $this->meta,
+                            $this->transportMeta,
                         );
                     }
                     $character = $chunk[$index];
@@ -144,7 +148,8 @@ final class EventStream implements \IteratorAggregate
                             'SSE event exceeds configured size limit',
                             'response',
                             false,
-                            $this->meta,
+                            $this->transportMeta,
+                            errorCode: 'invalid_event',
                         );
                     }
                     if ($character !== "\r" && $character !== "\n") {
@@ -164,7 +169,8 @@ final class EventStream implements \IteratorAggregate
                             'Invalid UTF-8 stream',
                             'response',
                             false,
-                            $this->meta,
+                            $this->transportMeta,
+                            errorCode: 'invalid_event',
                         );
                     }
                     if ($line === '') {
@@ -184,8 +190,8 @@ final class EventStream implements \IteratorAggregate
                                         '; inspect details.eventId and details.position',
                                     'response',
                                     false,
-                                    $this->meta,
-                                    'sse_invalid_event',
+                                    $this->transportMeta,
+                                    'invalid_event',
                                     ['eventId' => $id, 'position' => $position],
                                     previous: $cause,
                                 );
@@ -226,7 +232,7 @@ final class EventStream implements \IteratorAggregate
                 }
             }
         } catch (SdkError $error) {
-            if ($error->kind !== 'validation') {
+            if (SdkError::internalKind($error) !== 'validation') {
                 throw $error;
             }
             throw SdkError::create(
@@ -234,8 +240,9 @@ final class EventStream implements \IteratorAggregate
                 'Invalid SSE event payload',
                 'response',
                 false,
-                $this->meta,
+                $this->transportMeta,
                 previous: $error,
+                errorCode: 'invalid_event',
             );
         } catch (\Throwable $error) {
             throw SdkError::create(
@@ -243,8 +250,9 @@ final class EventStream implements \IteratorAggregate
                 'Invalid or interrupted SSE stream',
                 'response',
                 false,
-                $this->meta,
+                $this->transportMeta,
                 previous: $error,
+                errorCode: 'invalid_event',
             );
         } finally {
             $this->close();

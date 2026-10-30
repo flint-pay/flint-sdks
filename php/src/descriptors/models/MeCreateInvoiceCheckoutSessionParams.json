@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3658"},"dependencies":["CheckoutRedirectsRequest","InvoiceCheckoutSessionRequest","SharedCodec136","SharedCodec137","SharedCodec138","SharedCodec3658"]}

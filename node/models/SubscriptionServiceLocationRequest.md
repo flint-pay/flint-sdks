@@ -16,7 +16,7 @@
 
 ### SubscriptionServiceLocationRequest variant 1: `type` = `"customer_address"`
 
-anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where to deliver a subscription: a saved customer address by ID, or a new address.; oneOf variant 1: The `customer_address` variant of `SubscriptionDeliveryDestinationInput`..
+anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where to deliver a subscription: a saved customer address by ID, or a new address.; oneOf with type: "customer_address": The `customer_address` variant of `SubscriptionDeliveryDestinationInput`..
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
@@ -25,7 +25,7 @@ anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where t
 
 ### SubscriptionServiceLocationRequest variant 2: `type` = `"address"`
 
-anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where to deliver a subscription: a saved customer address by ID, or a new address.; oneOf variant 2: The `address` variant of `SubscriptionDeliveryDestinationInput`..
+anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where to deliver a subscription: a saved customer address by ID, or a new address.; oneOf with type: "address": The `address` variant of `SubscriptionDeliveryDestinationInput`..
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.
@@ -33,7 +33,7 @@ anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where t
 
 ### SubscriptionServiceLocationRequest variant 3: `type` = `"customer_address"`
 
-anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a subscription's service is delivered: a saved customer address by ID, or a new address.; oneOf variant 1: The `customer_address` variant of `SubscriptionServiceLocationInput`..
+anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a subscription's service is delivered: a saved customer address by ID, or a new address.; oneOf with type: "customer_address": The `customer_address` variant of `SubscriptionServiceLocationInput`..
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
@@ -42,7 +42,7 @@ anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a sub
 
 ### SubscriptionServiceLocationRequest variant 4: `type` = `"address"`
 
-anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a subscription's service is delivered: a saved customer address by ID, or a new address.; oneOf variant 2: The `address` variant of `SubscriptionServiceLocationInput`..
+anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a subscription's service is delivered: a saved customer address by ID, or a new address.; oneOf with type: "address": The `address` variant of `SubscriptionServiceLocationInput`..
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.

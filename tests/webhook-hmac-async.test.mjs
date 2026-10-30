@@ -68,7 +68,7 @@ foreach ([['secrets' => $input['secret']], ['secrets' => [$input['secret']], 'en
             $verified = \Flint\Webhooks::verifyDelivery($input['body'], $headers, $options);
             $rows[] = $verified['signing_method'];
         } catch (\Flint\SdkError $error) {
-            $rows[] = $error->errorCode;
+            $rows[] = $error->code;
         }
     }
 }

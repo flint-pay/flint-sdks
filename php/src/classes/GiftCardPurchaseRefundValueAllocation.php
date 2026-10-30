@@ -9,17 +9,17 @@ namespace Flint;
 final class GiftCardPurchaseRefundValueAllocation extends Model {
     /** @param array{'amount_money': mixed, 'gift_card_id': string, 'gift_card_load_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundValueAllocation')); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.
+    /** gift_card_id
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Shape $ (Value): string.
+    /** gift_card_load_id
      * @return string
      */
     public function getGiftCardLoadId(): string { return $this->get('gift_card_load_id'); }

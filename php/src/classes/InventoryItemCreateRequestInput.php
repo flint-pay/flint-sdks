@@ -10,25 +10,25 @@ namespace Flint;
 final class InventoryItemCreateRequestInput extends Model {
     /** @param array{'barcode'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'sku'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemCreateRequestInput')); }
-    /** Shape $ (Value): string. Barcode assigned to the new inventory item. minLength: 1. maxLength: 255.
+    /** Barcode assigned to the new inventory item. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata for the new inventory item. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+    /** Caller-owned metadata for the new inventory item. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string. Name of the inventory item to create for this variant. minLength: 1. maxLength: 255.
+    /** Name of the inventory item to create for this variant. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Stock keeping unit assigned to the new inventory item. minLength: 1. maxLength: 255.
+    /** Stock keeping unit assigned to the new inventory item. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */

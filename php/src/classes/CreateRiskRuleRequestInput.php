@@ -10,25 +10,25 @@ namespace Flint;
 final class CreateRiskRuleRequestInput extends Model {
     /** @param array{'action': string, 'description': string, 'predicate': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRiskRuleRequestInput')); }
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds".
+    /** Value enum: "allow", "block", "review", "require_3ds".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Shape $ (Value): {@see RiskPredicateNodeInput}. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+    /** A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
      * @return RiskPredicateNodeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When predicate is omitted; use hasPredicate() or valueOrDefault().
      */
     public function getPredicate(): mixed { return $this->get('predicate'); }
     public function hasPredicate(): bool { return $this->has('predicate'); }
-    /** Shape $ (Value): string. Default: "active". Value enum: "active", "inactive".
+    /** Default: "active". Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

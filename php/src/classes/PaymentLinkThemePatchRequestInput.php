@@ -9,19 +9,19 @@ namespace Flint;
 final class PaymentLinkThemePatchRequestInput extends Model {
     /** @param array{'accent_color'?: string|null, 'primary_color'?: string|null, 'title'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkThemePatchRequestInput')); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 50.
+    /** Send null to clear it. minLength: 1. maxLength: 50.
      * @return string|null
      * @throws SdkError When accent_color is omitted; use hasAccentColor() or valueOrDefault().
      */
     public function getAccentColor(): string|null { return $this->get('accent_color'); }
     public function hasAccentColor(): bool { return $this->has('accent_color'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 50.
+    /** Send null to clear it. minLength: 1. maxLength: 50.
      * @return string|null
      * @throws SdkError When primary_color is omitted; use hasPrimaryColor() or valueOrDefault().
      */
     public function getPrimaryColor(): string|null { return $this->get('primary_color'); }
     public function hasPrimaryColor(): bool { return $this->has('primary_color'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Send null to clear it. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When title is omitted; use hasTitle() or valueOrDefault().
      */

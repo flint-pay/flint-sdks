@@ -22,82 +22,82 @@ namespace Flint;
 final class PublicResolvedLineItemInfo extends Model {
     /** @param array{'available_modifiers'?: list<mixed>, 'available_variants'?: list<mixed>, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: mixed, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<mixed>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: mixed, 'selected_options'?: list<mixed>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedLineItemInfo')); }
-    /** Shape $ (Value): Array of {@see PublicResolvedModifierGroup}. Shape $[] (Value): {@see PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
+    /**  [] (Value): {@see PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return ?list<PublicResolvedModifierGroup>
      */
     public function getAvailableModifiers(): ?array { return $this->get('available_modifiers'); }
     public function hasAvailableModifiers(): bool { return $this->has('available_modifiers'); }
-    /** Shape $ (Value): Array of {@see PaymentLinkAvailableVariant}. Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. Shape $[] (Value): {@see PaymentLinkAvailableVariant}. A listed payment link variant that can be sold in the line currency, with its current price, options, image, modifiers, and advisory stock state.
+    /** Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. [] (Value): {@see PaymentLinkAvailableVariant}. A listed payment link variant that can be sold in the line currency, with its current price, options, image, modifiers, and advisory stock state.
      * @return ?list<PaymentLinkAvailableVariant>
      */
     public function getAvailableVariants(): ?array { return $this->get('available_variants'); }
     public function hasAvailableVariants(): bool { return $this->has('available_variants'); }
-    /** Shape $ (Value): Array of {@see PublicResolvedBundleComponent}. Shape $[] (Value): {@see PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
+    /**  [] (Value): {@see PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
      * @return ?list<PublicResolvedBundleComponent>
      */
     public function getBundleComponents(): ?array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** Shape $ (Value): string.
+    /** bundle_id
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Shape $ (Value): string.  Value enum: "variant", "bundle".
+    /** Value enum: "variant", "bundle".
      * @return ?string
      */
     public function getCatalogObjectType(): ?string { return $this->get('catalog_object_type'); }
     public function hasCatalogObjectType(): bool { return $this->has('catalog_object_type'); }
-    /** Shape $ (Value): {@see Image}. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
      * @return ?Image
      */
     public function getImage(): ?Image { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** Shape $ (Value): boolean.
+    /** is_inventory_tracked
      * @return ?bool
      */
     public function getIsInventoryTracked(): ?bool { return $this->get('is_inventory_tracked'); }
     public function hasIsInventoryTracked(): bool { return $this->has('is_inventory_tracked'); }
-    /** Shape $ (Value): boolean. True when the fixed variant or bundle components cannot be bought at the line minimum quantity from the link inventory_routing_source. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock.
+    /** True when the fixed variant or bundle components cannot be bought at the line minimum quantity from the link inventory_routing_source. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock.
      * @return bool
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
     public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
-    /** Shape $ (Value): string.
+    /** key
      * @return string
      */
     public function getKey(): string { return $this->get('key'); }
     public function hasKey(): bool { return $this->has('key'); }
-    /** Shape $ (Value): string.
+    /** product_id
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Shape $ (Value): Array of {@see PaymentLinkProductOption}. Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. Shape $[] (Value): {@see PaymentLinkProductOption}. An active product option offered on a payment link, with values used by its available variants.
+    /** Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. [] (Value): {@see PaymentLinkProductOption}. An active product option offered on a payment link, with values used by its available variants.
      * @return ?list<PaymentLinkProductOption>
      */
     public function getProductOptions(): ?array { return $this->get('product_options'); }
     public function hasProductOptions(): bool { return $this->has('product_options'); }
-    /** Shape $ (Value): string.
+    /** resolved_description
      * @return ?string
      */
     public function getResolvedDescription(): ?string { return $this->get('resolved_description'); }
     public function hasResolvedDescription(): bool { return $this->has('resolved_description'); }
-    /** Shape $ (Value): string.
+    /** resolved_name
      * @return ?string
      */
     public function getResolvedName(): ?string { return $this->get('resolved_name'); }
     public function hasResolvedName(): bool { return $this->has('resolved_name'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getResolvedUnitPriceMoney(): ?MoneyValue { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /** Shape $ (Value): Array of {@see SelectedProductOption}. Shape $[] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
+    /**  [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
      * @return ?list<SelectedProductOption>
      */
     public function getSelectedOptions(): ?array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** Shape $ (Value): string.
+    /** variant_id
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderDeliveryDestinationRequestInput extends Model {
     /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRequestInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+    /** A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Shape $ (Value): {@see OrderDeliveryDestinationRecipientRequestInput}. The recipient name and phone you supply for an order delivery. Send null to clear a field. minProperties: 1.
+    /** The recipient name and phone you supply for an order delivery. Send null to clear a field. minProperties: 1.
      * @return OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */

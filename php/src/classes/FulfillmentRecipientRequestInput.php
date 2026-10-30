@@ -11,31 +11,31 @@ namespace Flint;
 final class FulfillmentRecipientRequestInput extends Model {
     /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'instructions'?: string, 'name'?: string, 'phone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentRecipientRequestInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput}. Postal address where the recipient receives the items. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+    /** Postal address where the recipient receives the items. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Shape $ (Value): string. Recipient's contact email address. minLength: 1.
+    /** Recipient's contact email address. minLength: 1.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string. Instructions for handling the recipient's order. For a pickup that checkout creates, this is the note the buyer left for the store, such as the car to look for. minLength: 1.
+    /** Instructions for handling the recipient's order. For a pickup that checkout creates, this is the note the buyer left for the store, such as the car to look for. minLength: 1.
      * @return string
      * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
      */
     public function getInstructions(): string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** Shape $ (Value): string. Recipient's name for delivery or pickup. minLength: 1.
+    /** Recipient's name for delivery or pickup. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Recipient's contact phone number. minLength: 1.
+    /** Recipient's contact phone number. minLength: 1.
      * @return string
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */

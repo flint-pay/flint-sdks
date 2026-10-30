@@ -10,7 +10,7 @@ const exec = promisify(execFile);
 const root = resolve(
   process.env.FLINT_SDK_TEST_ROOT ?? resolve(import.meta.dirname, ".."),
 );
-const { Client } = await import(pathToFileURL(resolve(root, "node/index.js")));
+const { Client, errors } = await import(pathToFileURL(resolve(root, "node/index.js")));
 const categories = {
   explicit: "service_fee",
   inherited: null,
@@ -74,9 +74,6 @@ function verifyRequests(requests) {
       "explicit",
       "inherited",
       "future",
-      "explicit",
-      "inherited",
-      "future",
       "omitted",
       "invalid",
     ].map((id) => `/v1/delivery-methods/${id}`),
@@ -96,22 +93,22 @@ test("Node deliveryMethods.get preserves inherited null through the HTTP transpo
     apiKey: "delivery-null-test",
   });
   t.after(() => client.close());
-  for (const method of ["get", "getWithResponse"]) {
-    for (const id of ["explicit", "inherited", "future"]) {
-      const result = await client.deliveryMethods[method](id);
-      const value = method === "get" ? result : result.body.data;
-      assert.equal(value.delivery_method_id, id);
-      assert.ok(Object.hasOwn(value.configuration, "charge_tax_category"));
-      assert.equal(value.configuration.charge_tax_category, categories[id]);
-      assert.equal(value.configuration.taxable, null);
-      assert.equal(value.configuration.minimum_option_lifetime_seconds, "0");
+  for (const id of ["explicit", "inherited", "future"]) {
+    const value = await client.deliveryMethods.get(id);
+    for (const payload of [value, value.lastResponse.body.data]) {
+      assert.equal(payload.delivery_method_id, id);
+      assert.ok(Object.hasOwn(payload.configuration, "charge_tax_category"));
+      assert.equal(payload.configuration.charge_tax_category, categories[id]);
+      assert.equal(payload.configuration.taxable, null);
+      assert.equal(payload.configuration.minimum_option_lifetime_seconds, 0);
     }
   }
   for (const id of ["omitted", "invalid"]) {
     await assert.rejects(
       client.deliveryMethods.get(id),
       (error) =>
-        error.kind === "protocol" &&
+        error instanceof errors.UnexpectedResponseError &&
+        error.code === "schema_mismatch" &&
         error.message.includes("charge_tax_category"),
     );
   }
@@ -125,22 +122,21 @@ require $argv[1] . '/php/src/Runtime.php';
 require $argv[1] . '/php/src/Client.php';
 $client = new \Flint\Client(new \Flint\ClientOptions(baseUrl: $argv[2], allowInsecureHttp: true, apiKey: 'delivery-null-test'));
 try {
-    foreach (['get', 'getWithResponse'] as $method) {
-        foreach (['explicit' => 'service_fee', 'inherited' => null, 'future' => 'future_category'] as $id => $category) {
-            $result = $client->deliveryMethods->$method($id);
-            $value = $method === 'get' ? $result : $result->body->data;
+    foreach (['explicit' => 'service_fee', 'inherited' => null, 'future' => 'future_category'] as $id => $category) {
+        $result = $client->deliveryMethods->get($id);
+        foreach ([$result, $result->lastResponse()->body->data] as $value) {
             if (!$value instanceof \Flint\DeliveryMethod) throw new \RuntimeException('Response was not hydrated');
             $configuration = $value->getConfiguration();
             if (!$configuration instanceof \Flint\DeliveryMethodConfiguration) throw new \RuntimeException('Configuration was not hydrated');
             if (!$configuration->hasChargeTaxCategory()) throw new \RuntimeException('Present category was lost');
             if ($configuration->charge_tax_category !== $category || $configuration->getChargeTaxCategory() !== $category) throw new \RuntimeException('Category was not preserved');
-            if ($configuration->getTaxable() !== null || $configuration->getMinimumOptionLifetimeSeconds() !== '0') throw new \RuntimeException('Configuration control failed');
+            if ($configuration->getTaxable() !== null || $configuration->getMinimumOptionLifetimeSeconds() !== 0) throw new \RuntimeException('Configuration control failed');
         }
     }
     foreach (['omitted', 'invalid'] as $id) {
         $rejected = false;
         try { $client->deliveryMethods->get($id); }
-        catch (\Flint\SdkError $error) { $rejected = $error->kind === 'protocol' && str_contains($error->getMessage(), 'charge_tax_category'); }
+        catch (\Flint\SdkError $error) { $rejected = $error instanceof \Flint\Errors\UnexpectedResponseError && $error->code === 'schema_mismatch' && str_contains($error->getMessage(), 'charge_tax_category'); }
         if (!$rejected) throw new \RuntimeException('Invalid category was accepted: ' . $id);
     }
 } finally { $client->close(); }

@@ -9,19 +9,19 @@ namespace Flint;
 final class RefundAdjustmentAuditInput extends Model {
     /** @param array{'actor_id': string, 'actor_type': string, 'source': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundAdjustmentAuditInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When actor_id is omitted; use hasActorId() or valueOrDefault().
      */
     public function getActorId(): string { return $this->get('actor_id'); }
     public function hasActorId(): bool { return $this->has('actor_id'); }
-    /** Shape $ (Value): string.  Value enum: "user", "system", "admin".
+    /** Value enum: "user", "system", "admin".
      * @return string
      * @throws SdkError When actor_type is omitted; use hasActorType() or valueOrDefault().
      */
     public function getActorType(): string { return $this->get('actor_type'); }
     public function hasActorType(): bool { return $this->has('actor_type'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */

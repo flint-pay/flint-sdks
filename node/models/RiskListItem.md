@@ -14,7 +14,7 @@ One value in a payment risk list.
 | `created_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that created this list item. Null when Flint created it. The reference may name an API key in the other mode. `created_by`: [declared alternatives](../models/RiskListItem.md#risklistitemcreated_by). |
 | `risk_list_id` | Required | string |  |
 | `risk_list_item_id` | Required | string |  |
-| `value` | Required | string |  |
+| `value` | Required | string | The value as stored after item_type normalization, which is what payments are matched against. |
 
 ### RiskListItem.created_by
 
@@ -24,7 +24,7 @@ Field definitions: [shared fields](CheckoutDeliveryPinnedDependency.md#checkoutd
 
 ### RiskListItem.created_by variant 1
 
-anyOf variant 1: A reference to another resource by `resource_type` and `resource_id`..
+anyOf ResourceReference: A reference to another resource by `resource_type` and `resource_id`..
 
 - Required: `resource_id`, `resource_type`.
 

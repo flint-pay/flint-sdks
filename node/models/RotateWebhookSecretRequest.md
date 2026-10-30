@@ -10,13 +10,14 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
 | `expire_previous_secret_at` | Optional | string | Format: `date-time`. minLength: `1`. |
 
 ### RotateWebhookSecretRequest variant 1
 
 anyOf variant 1: Declared schema RotatePartnerAppSecretRequest. The request body for: Rotate partner app secret..
 
+- Constraints for `expected_version`: Rotate only if this matches the app's current version. A mismatch returns HTTP 409 VERSION_CONFLICT.
 - Constraints for `expire_previous_secret_at`: RFC3339 timestamp.
 
 ### RotateWebhookSecretRequest variant 2

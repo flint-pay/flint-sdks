@@ -1,1 +1,1 @@
-{"shared":"OrderChargeTaxAssignment","dependencies":["MoneyValue","OrderChargeTaxAssignment","TaxCalculationRequestRequest","TaxComponentRequestRequest","TaxJurisdictionRequestRequest"]}
+{"shared":"OrderChargeTaxAssignment","dependencies":["MoneyValue","OrderChargeTaxAssignment","TaxCalculationRequestModel","TaxComponentRequestModel","TaxJurisdictionRequest"]}

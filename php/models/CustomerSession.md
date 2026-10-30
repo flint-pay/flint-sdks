@@ -2,7 +2,7 @@
 
 ## CustomerSession
 
-A session granting a customer access to their saved details.
+A credential for the /v1/me routes that acts as one customer. Unless it came from an access link, its secret can read and change that customer's orders, payments, subscriptions, saved payment methods, addresses, returns, and invoices, and request account deletion.
 
 Response model.
 

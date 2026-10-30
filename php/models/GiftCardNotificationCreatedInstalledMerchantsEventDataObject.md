@@ -1,0 +1,10 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## GiftCardNotificationCreatedInstalledMerchantsEventDataObject
+
+A message sent to a gift card recipient.
+
+Response model.
+
+Fields, types, descriptions and enum values: [GiftCardNotification](../models/GiftCardNotification.md#giftcardnotification).
+

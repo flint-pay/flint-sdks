@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryQuoteExecutionLegResourceInput extends Model {
     /** @param array{'delivery_execution_leg_id': string, 'origin_location_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteExecutionLegResourceInput')); }
-    /** Shape $ (Value): string.
+    /** delivery_execution_leg_id
      * @return string
      * @throws SdkError When delivery_execution_leg_id is omitted; use hasDeliveryExecutionLegId() or valueOrDefault().
      */
     public function getDeliveryExecutionLegId(): string { return $this->get('delivery_execution_leg_id'); }
     public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
-    /** Shape $ (Value): string.
+    /** origin_location_id
      * @return string
      * @throws SdkError When origin_location_id is omitted; use hasOriginLocationId() or valueOrDefault().
      */

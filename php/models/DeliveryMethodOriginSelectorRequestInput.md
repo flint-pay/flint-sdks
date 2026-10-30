@@ -15,7 +15,7 @@ Request input.
 
 ### DeliveryMethodOriginSelectorRequestInput variant 1: `type` = `"fixed_location"`
 
-oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelectorInput`..
+oneOf with type: "fixed_location": The `fixed_location` variant of `DeliveryMethodOriginSelectorInput`..
 
 - Condition: not (at least one(present(`delivery_location_set_id`); present(`delivery_location_set_revision_id`); present(`location_ids`))).
 - Required: `location_id`.
@@ -24,7 +24,7 @@ oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelectorIn
 
 ### DeliveryMethodOriginSelectorRequestInput variant 2: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1: The Delivery location set selector for a allocated_origin_group delivery origin..
+oneOf with type: "allocated_origin_group": The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet: The Delivery location set selector for a allocated_origin_group delivery origin..
 
 - Condition: not (present(`location_id`)).
 - Condition: not (at least one(present(`location_id`); present(`location_ids`))).
@@ -35,7 +35,7 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodOriginSelectorRequestInput variant 3: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2: The Locations selector for a allocated_origin_group delivery origin..
+oneOf with type: "allocated_origin_group": The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations: The Locations selector for a allocated_origin_group delivery origin..
 
 - Condition: not (present(`location_id`)).
 - Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).
@@ -46,7 +46,7 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodOriginSelectorRequestInput variant 4: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1: The Delivery location set selector for a pickup_location_collection delivery origin..
+oneOf with type: "pickup_location_collection": The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet: The Delivery location set selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
 - Condition: not (at least one(present(`location_id`); present(`location_ids`))).
@@ -57,7 +57,7 @@ oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOrig
 
 ### DeliveryMethodOriginSelectorRequestInput variant 5: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2: The Locations selector for a pickup_location_collection delivery origin..
+oneOf with type: "pickup_location_collection": The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations: The Locations selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
 - Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).

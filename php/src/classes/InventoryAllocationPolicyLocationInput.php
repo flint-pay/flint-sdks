@@ -8,13 +8,13 @@ namespace Flint;
 final class InventoryAllocationPolicyLocationInput extends Model {
     /** @param array{'group_priority': int, 'location_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPolicyLocationInput')); }
-    /** Shape $ (Value): integer. Format: int32. minimum: 1.
+    /** Format: int32. minimum: 1.
      * @return int
      * @throws SdkError When group_priority is omitted; use hasGroupPriority() or valueOrDefault().
      */
     public function getGroupPriority(): int { return $this->get('group_priority'); }
     public function hasGroupPriority(): bool { return $this->has('group_priority'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

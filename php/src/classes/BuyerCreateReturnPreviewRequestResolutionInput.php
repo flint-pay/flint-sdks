@@ -9,19 +9,19 @@ namespace Flint;
 final class BuyerCreateReturnPreviewRequestResolutionInput extends Model {
     /** @param array{'eligibility'?: CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'resolution': BuyerCreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreateReturnPreviewRequestResolutionInput')); }
-    /** Shape $ (Value): {@see CreateReturnEligibilityPreviewRequestInput}. A request to preview which items of an order can be returned, given an order and a selection.
+    /** A request to preview which items of an order can be returned, given an order and a selection.
      * @return CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When eligibility is omitted; use hasEligibility() or valueOrDefault().
      */
     public function getEligibility(): mixed { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
-    /** Shape $ (Value): string.  Value enum: "resolution".
+    /** Value enum: "resolution".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Shape $ (Value): {@see BuyerCreateReturnResolutionPreviewRequestInput}. The buyer's proposed resolution type, returned quantities, and replacement items to preview for a Return.
+    /** The buyer's proposed resolution type, returned quantities, and replacement items to preview for a Return.
      * @return BuyerCreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resolution is omitted; use hasResolution() or valueOrDefault().
      */

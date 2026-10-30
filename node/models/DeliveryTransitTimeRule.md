@@ -21,7 +21,7 @@ No additional constraints.
 
 ### DeliveryTransitTimeRule variant 2
 
-anyOf variant 2: Declared schema DeliveryTransitTimeRuleRequestRequest. Estimate rule giving a delivery method's handling time and transit time as ranges of business days..
+anyOf variant 2: Declared schema DeliveryTransitTimeRuleRequest. Estimate rule giving a delivery method's handling time and transit time as ranges of business days..
 
 No additional constraints.
 

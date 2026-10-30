@@ -1,2270 +1,1867 @@
-import type { DeliveryFulfillmentDetails } from './types-13.js';
-import type { DigitalFulfillmentDetails } from './types-17.js';
-import type { ExpandedOrderSummary, ExpandedPackageSummary, ExpandedShipmentSummary } from './types-18.js';
-import type { MetadataMap, MetadataRequestInput } from './types-32.js';
-import type { PickupFulfillmentDetails } from './types-39.js';
-import type {
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    SinglePackageCreateRequest,
-    SinglePackageCreateRequestInput
-} from './types-47.js';
-import type { ResponseMeta } from './types-42.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { ResponseMeta } from './types-48.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-8.js';
-import type { PackageCreateRequest, PackageCreateRequestInput, PackageTransitionRequestMarkPacked } from './types-36.js';
-import type { OrderLineItemModifier } from './types-34.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
-import type { CreateFulfillmentEventRequestInput } from './types-6.js';
-import type { CreateShipmentRequestInput } from './types-10.js';
-/** Shape $ (Value): {@link Fulfillment}. Work required to deliver an order's items. */
-export type Fulfillment = {
+import type { RevokeDeliveryDependencyRequestInput } from './types-51.js';
+import type {
+    DeliveryAvailability,
+    DeliveryAvailabilityRequestInput,
+    DeliveryBuyerLocationResource,
+    DeliveryBusinessDayRange,
+    DeliveryBusinessDayRangeRequestInput,
+    DeliveryCountryConditionInput
+} from './types-14.js';
+import type { Address } from './types-0.js';
+import type { DeliveryInputRequirement, DeliveryInventoryReservationSummary } from './types-15.js';
+import type { DeliveryRecipientResource, DeliveryRadiusCondition, DeliveryRadiusConditionInput } from './types-18.js';
+import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type {
+    DeliveryPickupDetails,
+    DeliveryPlan,
+    DeliveryPostalCodeCondition,
+    DeliveryPostalCodeConditionInput
+} from './types-16.js';
+import type { CheckoutSession } from './types-4.js';
+import type { Order } from './types-36.js';
+import type { DeliveryPricingTierBand, DeliveryPricingTierBandRequestInput } from './types-17.js';
+/** A withdrawal of a previously available delivery choice. */
+export type DeliveryRevocation = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    "delivery_revocation_id": string;
     /**
-     * Shape $ (Value): {@link FulfillmentHold}. Current hold details. Present exactly when status
-     * is on_hold. A hold on a fulfillment, with its reason, who placed it, and when it became
-     * active.
+     * Counts of active delivery quotes and current delivery selections affected by a delivery
+     * revocation.
      */
-    "active_hold"?: FulfillmentHold;
+    "estimated_impact": DeliveryRevocationImpact;
+    "merchant_note"?: string;
     /**
-     * Shape $ (Value): Array of {@link FulfillmentChargeLink}. Order charges associated with this
-     * fulfillment. Shape $[] (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an
-     * order charge by `order_charge_id`.
+     * Value enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other".
      */
-    "charges"?: Array<FulfillmentChargeLink>;
-    /** Shape $ (Value): string. Completion evidence timestamp. Format: date-time. */
-    "completed_at"?: string;
+    "reason": "unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other"
+        | (string & {});
+    /** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+    "target": DeliveryRevocationTarget;
+};
+export type DeliveryRevocationCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryRevocation;
+    };
+    "event_type"?: "delivery_revocation.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryRevocation;
+    };
+    "event_type"?: "delivery_revocation.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_revocation.created";
+});
+/**
+ * The `delivery_revocation.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryRevocationCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): string. When the fulfillment was created, in RFC3339 format. Format:
-     * date-time.
+     *  object (Required): {@link DeliveryRevocation}. A withdrawal of a previously available
+     * delivery choice.
      */
-    "created_at"?: string;
-    /** Shape $ (Value): string. Customer receiving this fulfillment, when one is set. */
-    "customer_id"?: string;
+    "data"?: {
+        /** A withdrawal of a previously available delivery choice. */
+        "object": DeliveryRevocation;
+    };
+    /** Value enum: "delivery_revocation.created". */
+    "event_type"?: "delivery_revocation.created";
     /**
-     * Shape $ (Value): string or null. Delivery choice group that created this fulfillment. Null
-     * for fulfillments created by the merchant or through checkout without a delivery quote.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "delivery_choice_group_id": string | null;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_revocation.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type DeliveryRevocationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): string or null. Execution leg of the selected delivery option that created
-     * this fulfillment. Null for fulfillments created by the merchant or through checkout without
-     * a delivery quote.
+     *  object (Required): {@link DeliveryRevocation}. A withdrawal of a previously available
+     * delivery choice.
      */
-    "delivery_execution_leg_id": string | null;
+    "data"?: {
+        /** A withdrawal of a previously available delivery choice. */
+        "object": DeliveryRevocation;
+    };
+    /** Value enum: "delivery_revocation.created". */
+    "event_type"?: "delivery_revocation.created";
+});
+/**
+ * Counts of active delivery quotes and current delivery selections affected by a delivery
+ * revocation.
+ */
+export type DeliveryRevocationImpact = {
+    /** Format: int64. */
+    "active_quote_count": number;
+    /** Format: int64. */
+    "current_selection_count": number;
+};
+/** A page of `DeliveryRevocation` objects. */
+export type DeliveryRevocationListResponse = {
     /**
-     * Shape $ (Value): string or null. Delivery method chosen for this fulfillment. Null for
-     * fulfillments created by the merchant or through checkout without a delivery quote. Also null
-     * for fulfillments created before this field was added.
+     *  [] (Value): {@link DeliveryRevocation}. A withdrawal of a previously available delivery
+     * choice.
      */
-    "delivery_method_id": string | null;
+    "data": Array<DeliveryRevocation>;
     /**
-     * Shape $ (Value): string or null. Delivery selection that created this fulfillment. Null for
-     * fulfillments created by the merchant or through checkout without a delivery quote.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
-    "delivery_selection_id": string | null;
-    /** Shape $ (Value): string. Device associated with the fulfillment, when one is recorded. */
-    "device_id"?: string;
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
     /**
-     * Shape $ (Value): {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a
-     * digital fulfillment. Details of a digital fulfillment: when it was delivered
-     * (`delivered_at`) and its `delivery_url`.
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "digital_details"?: DigitalFulfillmentDetails;
+    "request_id": string;
+};
+/** A response containing `DeliveryRevocation` data. */
+export type DeliveryRevocationResponse = {
+    /** A withdrawal of a previously available delivery choice. */
+    "data": DeliveryRevocation;
     /**
-     * Shape $ (Value): string. First time this fulfillment reached dispatched. Format: date-time.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
-    "dispatched_at"?: string;
+    "meta"?: ResponseMeta;
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. Stable identifier of the fulfillment. */
-    "fulfillment_id": string;
+    "request_id": string;
+};
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTarget = ({
+    "delivery_method_id"?: string;
+    "delivery_method_revision_id"?: string;
+    "delivery_rate_callback_id"?: string;
+    "delivery_rate_callback_revision_id"?: string;
+    "delivery_rate_callback_signing_key_id"?: string;
     /**
-     * Shape $ (Value): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated
-     * to this fulfillment. Shape $[] (Value): {@link FulfillmentLineItem}. An order line item and
-     * quantity included in a fulfillment, with the modifiers applied to it.
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
      */
-    "line_items": Array<FulfillmentLineItem>;
+    "expected_version"?: number;
     /**
-     * Shape $ (Value): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer.
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
      */
-    "local_delivery_details"?: DeliveryFulfillmentDetails;
-    /** Shape $ (Value): string. Merchant location responsible for this fulfillment. */
+    "location_geography_version"?: number;
     "location_id"?: string;
     /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-     * fulfillment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback", "delivery_rate_callback_revision", "delivery_method",
+     * "delivery_method_revision".
      */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-     * relationship is expanded. Shape $.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. Order whose items this fulfillment delivers. */
-    "order_id": string;
-    /**
-     * Shape $ (Value): string. Human-readable number of the order this fulfillment belongs to.
-     * Omitted when the order has no number.
-     */
-    "order_number"?: string;
-    /**
-     * Shape $ (Value): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
-     * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show, with
-     * its reason, notes, and when it occurred.
-     */
-    "outcome"?: FulfillmentOutcome;
-    /**
-     * Shape $ (Value): Array of {@link ExpandedPackageSummary}. Packages associated with this
-     * fulfillment. Shape $[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
-     * including carrier, tracking, status, and supported actions, returned when the package is
-     * expanded.
-     */
-    "packages"?: Array<ExpandedPackageSummary>;
-    /** Shape $ (Value): string. First time this fulfillment reached packed. Format: date-time. */
-    "packed_at"?: string;
-    /** Shape $ (Value): string. First time this fulfillment reached picked. Format: date-time. */
-    "picked_at"?: string;
-    /**
-     * Shape $ (Value): {@link PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff
-     * times for a pickup fulfillment. Pickup details. For a pickup that checkout creates,
-     * location_name, address, and instructions name the store the buyer chose and the delivery
-     * method's pickup instructions. The note the buyer left for the store is in
-     * recipient.instructions.
-     */
-    "pickup_details"?: PickupFulfillmentDetails;
-    /**
-     * Shape $ (Value): {@link FulfillmentRecipient}. Omitted for a checkout session credential
-     * that doesn't act for the customer the buyer verified. The recipient of a fulfillment, with
-     * name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipient;
-    /**
-     * Shape $ (Value): string or null. Derived start of the service schedule or pickup, local
-     * delivery, or shipment window. Null when no schedule is booked, including digital
-     * fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending
-     * and last descending, then by fulfillment_id in the same direction. Format: date-time.
-     */
-    "scheduled_start_at": string | null;
-    /**
-     * Shape $ (Value): {@link ServiceFulfillmentDetails}. Schedule and completion details for a
-     * service fulfillment. Details of a service fulfillment: the scheduled start and end,
-     * timezone, completion time, and notes.
-     */
-    "service_details"?: ServiceFulfillmentDetails;
-    /**
-     * Shape $ (Value): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
-     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
-     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
-     * to the carrier.
-     */
-    "shipment_details"?: ShipmentFulfillmentDetails;
-    /**
-     * Shape $ (Value): Array of {@link ExpandedShipmentSummary}. Shipments associated with this
-     * fulfillment. Shape $[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
-     * fields, including direction, status, and package count, returned when the shipment is
-     * expanded.
-     */
-    "shipments"?: Array<ExpandedShipmentSummary>;
-    /**
-     * Shape $ (Value): string. Current fulfillment lifecycle status. Read supported_actions for
-     * available transitions. - `pending`: Work has not started and has not been accepted. Approval
-     * may be required before work can begin. - `accepted`: The provider accepted the fulfillment;
-     * work has not started. - `on_hold`: Work is paused. Release the hold to restore
-     * active_hold.previous_status, or use a supported forward action. - `in_progress`: Work has
-     * started and is not yet ready or complete. - `ready`: The fulfillment is ready for pickup,
-     * handoff, or completion. - `completed`: All fulfillment work completed successfully. -
-     * `canceled`: The fulfillment was intentionally canceled and will not continue. - `failed`:
-     * The fulfillment could not be completed. Resolve the recorded reason before creating
-     * replacement work. - `scheduled`: The fulfillment is scheduled for its recorded service
-     * window. - `preparing`: Warehouse or provider preparation is underway. - `picked`: The
-     * assigned items have been picked. - `packed`: The assigned items have been packed. -
-     * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`: The
-     * pickup or appointment was missed. Read outcome for the recorded reason. Value enum:
-     * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
-     * "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
-     */
-    "status": "pending"
-        | "accepted"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback"
+        | "delivery_rate_callback_revision"
+        | "delivery_method"
+        | "delivery_method_revision"
         | (string & {});
+})
+    & ((Exclude<DeliveryRevocationTargetLocationGeography & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackSigningKey & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallback & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryMethod & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryMethodRevision & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTargetDeliveryMethod = ({
+    "delivery_method_id": string;
+    "delivery_method_revision_id"?: string;
+    "delivery_rate_callback_id"?: string;
+    "delivery_rate_callback_revision_id"?: string;
+    "delivery_rate_callback_signing_key_id"?: string;
     /**
-     * Shape $ (Value): Array of string. Read-only actions currently supported for this
-     * fulfillment. [] enum: "complete", "cancel", "hold", "start", "mark_ready", "fail",
-     * "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch",
-     * "mark_no_show", "release_hold". Shape $[] (Value): string. Value enum: "complete", "cancel",
-     * "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing",
-     * "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold".
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
      */
-    "supported_actions": Array<"complete"
-        | "cancel"
-        | "hold"
-        | "start"
-        | "mark_ready"
-        | "fail"
-        | "schedule"
-        | "accept"
-        | "mark_preparing"
-        | "mark_picked"
-        | "mark_packed"
-        | "dispatch"
-        | "mark_no_show"
-        | "release_hold"
-        | (string & {})>;
+    "expected_version"?: number;
     /**
-     * Shape $ (Value): string. When the fulfillment entered a terminal state: completed, canceled,
-     * failed, or no_show. This records the state transition; completed_at records completion
-     * evidence supplied for the fulfillment. Format: date-time.
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
      */
-    "terminal_at"?: string;
+    "location_geography_version"?: number;
+    "location_id"?: string;
+    /** Value enum: "delivery_method". */
+    "target_type": "delivery_method" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_method". */
+    "target_type": unknown;
+    "delivery_method_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTargetDeliveryMethodRevision = ({
+    "delivery_method_id": string;
+    "delivery_method_revision_id": string;
+    "delivery_rate_callback_id"?: string;
+    "delivery_rate_callback_revision_id"?: string;
+    "delivery_rate_callback_signing_key_id"?: string;
     /**
-     * Shape $ (Value): string. How the items are delivered: shipment, pickup, local delivery,
-     * digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital",
-     * "service".
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
      */
-    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {});
+    "expected_version"?: number;
     /**
-     * Shape $ (Value): string. When the fulfillment was last updated, in RFC3339 format. Format:
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    "location_id"?: string;
+    /** Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_method_revision". */
+    "target_type": unknown;
+    "delivery_method_id": string;
+    "delivery_method_revision_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTargetDeliveryRateCallback = ({
+    "delivery_method_id"?: string;
+    "delivery_method_revision_id"?: string;
+    "delivery_rate_callback_id": string;
+    "delivery_rate_callback_revision_id"?: string;
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_rate_callback". */
+    "target_type": unknown;
+    "delivery_rate_callback_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTargetDeliveryRateCallbackRevision = ({
+    "delivery_method_id"?: string;
+    "delivery_method_revision_id"?: string;
+    "delivery_rate_callback_id": string;
+    "delivery_rate_callback_revision_id": string;
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_rate_callback_revision". */
+    "target_type": unknown;
+    "delivery_rate_callback_id": string;
+    "delivery_rate_callback_revision_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTargetDeliveryRateCallbackSigningKey = ({
+    "delivery_method_id"?: string;
+    "delivery_method_revision_id"?: string;
+    "delivery_rate_callback_id"?: string;
+    "delivery_rate_callback_revision_id"?: string;
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": unknown;
+    "delivery_rate_callback_signing_key_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type DeliveryRevocationTargetLocationGeography = ({
+    "delivery_method_id"?: string;
+    "delivery_method_revision_id"?: string;
+    "delivery_rate_callback_id"?: string;
+    "delivery_rate_callback_revision_id"?: string;
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Required for delivery_method and delivery_rate_callback targets. The revocation resolves and
+     * permanently fences only the exact current revision at this stable-resource version. Omit it
+     * for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+    "location_id": string;
+    /** Value enum: "location_geography". */
+    "target_type": "location_geography" | (string & {});
+})
+    & (({
+    /** Value enum: "location_geography". */
+    "target_type": unknown;
+    "location_id": string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+}));
+export type DeliveryRevocationsCreateParams = (InputValue<RevokeDeliveryDependencyRequestInput>);
+export type DeliveryRevocationsGetParams = {};
+export type DeliveryRevocationsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by revocation target type. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "location_geography", "delivery_rate_callback_signing_key", "delivery_rate_callback",
+     * "delivery_rate_callback_revision", "delivery_method", "delivery_method_revision". Value
+     * enum: "location_geography", "delivery_rate_callback_signing_key", "delivery_rate_callback",
+     * "delivery_rate_callback_revision", "delivery_method", "delivery_method_revision". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback",
+     * "delivery_rate_callback_revision", "delivery_method", "delivery_method_revision". anyOf[1][]
+     * (Value): string. Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback", "delivery_rate_callback_revision", "delivery_method",
+     * "delivery_method_revision". anyOf[2] (Value): string. Value enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback",
+     * "delivery_rate_callback_revision", "delivery_method", "delivery_method_revision".
+     */
+    "target_type"?: InputValue<("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback"
+        | "delivery_rate_callback_revision"
+        | "delivery_method"
+        | "delivery_method_revision")
+        | readonly ("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback"
+        | "delivery_rate_callback_revision"
+        | "delivery_method"
+        | "delivery_method_revision")[]>;
+    /**
+     * Filter by revocation reason. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". Value enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1][] (Value): string. Value
+     * enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". anyOf[2] (Value): string. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason"?: InputValue<("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")
+        | readonly ("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
+/** Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule. */
+export type DeliveryScheduleWindowRule = {
+    /**
+     * When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time,
+     * and how far ahead a buyer can book.
+     */
+    "availability": DeliveryAvailability;
+};
+/**
+ * Scheduled-window estimate rule you supply for a delivery method, defined by its `availability`
+ * schedule.
+ */
+export type DeliveryScheduleWindowRuleRequestInput = {
+    /**
+     * When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time,
+     * and how far ahead a buyer can book.
+     */
+    "availability": DeliveryAvailabilityRequestInput;
+};
+/** The delivery choice selected for a checkout or order. */
+export type DeliverySelection = {
+    /**
+     * Delivery charge committed by this selection. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or
+     * dashboard credential. The normalized buyer address or coordinate used for this quote.
+     */
+    "buyer_location"?: DeliveryBuyerLocationResource;
+    /**
+     * Deadline after which calculated pricing evidence is no longer valid. Always present with an
+     * API key or dashboard credential. Format: date-time.
+     */
+    "calculation_expires_at"?: string;
+    /**
+     * Checkout session that owns the selection. Always present with an API key or dashboard
+     * credential.
+     */
+    "checkout_session_id"?: string;
+    /**
+     * One chosen option for each required choice group. [] (Value): {@link
+     * DeliverySelectionChoiceResource}. A delivery option chosen for one choice group in a
+     * delivery selection, with its method, amounts, type-specific details, timezone, and any
+     * chosen delivery window.
+     */
+    "choices": Array<DeliverySelectionChoiceResource>;
+    /**
+     * Time the selection was created. Always present with an API key or dashboard credential.
+     * Format: date-time.
+     */
+    "created_at"?: string;
+    /** Quote from which this selection was made. */
+    "delivery_quote_id": string;
+    /**
+     * Quote version from which this selection was created. Always present with an API key or
+     * dashboard credential. Format: uint64. minimum: 0.
+     */
+    "delivery_quote_version"?: number;
+    /** Stable delivery selection ID. */
+    "delivery_selection_id": string;
+    /**
+     * Destination address snapshot used for delivery evaluation. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. A postal address. Every
+     * address has country. Addresses Flint checked as complete (customer and saved addresses,
+     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
+     * and pickup addresses) always have line1 and city, and US ones always have state and
+     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
+     * only what was provided, such as postal_code and country.
+     */
+    "destination_address"?: Address;
+    /**
+     * Checkout eligibility context version evaluated by this selection. Always present with an API
+     * key or dashboard credential. Format: uint64. minimum: 0.
+     */
+    "eligibility_context_version"?: number;
+    /**
+     * Deadline after which this provisional selection can no longer be committed. Format:
      * date-time.
      */
-    "updated_at"?: string;
+    "expires_at": string;
     /**
-     * Shape $ (Value): integer string. Monotonic fulfillment version for expected_version checks.
-     * Use an integer string (decimal digits), not a floating-point number. Format: uint64.
-     * minimum: 1.
+     * Inputs this selection still needs before payment: each recipient field a chosen option
+     * requires that the selection does not include. Each entry repeats the quote's requirement for
+     * that option, with the same delivery_input_requirement_id. Payment fails with
+     * ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference
+     * until a new delivery selection includes them. Empty when nothing is missing, and always
+     * empty unless status is selected. [] (Value): {@link DeliveryInputRequirement}. An input a
+     * delivery method needs, such as an address field or time window, with its `field_path`,
+     * purpose, and constraint.
      */
-    "version": `${bigint}`;
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /** Buyer-provided delivery instructions. Returned with an API key or dashboard credential. */
+    "instructions"?: string;
+    /**
+     * Ordered lifecycle events recorded for this selection. [] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened.
+     */
+    "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+    /**
+     * Time the selection lifecycle last changed. Always present with an API key or dashboard
+     * credential. Format: date-time.
+     */
+    "lifecycle_updated_at"?: string;
+    /**
+     * Constraint that determined the selection expiry. Always present with an API key or dashboard
+     * credential. Value enum: "selection_guarantee_expiry", "calculation_expiry",
+     * "selection_maximum_lifetime", "inventory_reservation_expiry", "tax_validity_expiry",
+     * "checkout_session_expiry".
+     */
+    "limiting_deadline_reason"?: "selection_guarantee_expiry"
+        | "calculation_expiry"
+        | "selection_maximum_lifetime"
+        | "inventory_reservation_expiry"
+        | "tax_validity_expiry"
+        | "checkout_session_expiry"
+        | (string & {});
+    /** Order affected by the selection. Always present with an API key or dashboard credential. */
+    "order_id"?: string;
+    /**
+     * Availability state of merchant-private selection evidence. Value enum: "available",
+     * "redacted".
+     */
+    "private_data_status"?: "available" | "redacted" | (string & {});
+    /**
+     * Recipient details captured with the selection. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified. The person receiving a delivery
+     * selection, with optional `name`, `email`, and `phone`.
+     */
+    "recipient"?: DeliveryRecipientResource;
+    /** Time merchant-private selection evidence was redacted. Format: date-time. */
+    "redacted_at"?: string;
+    /**
+     * Current selection lifecycle status. Value enum: "selected", "locked_for_payment",
+     * "committed", "superseded", "expired", "released".
+     */
+    "status": "selected"
+        | "locked_for_payment"
+        | "committed"
+        | "superseded"
+        | "expired"
+        | "released"
+        | (string & {});
 };
 /**
- * Shape $ (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
- * `order_charge_id`.
+ * A delivery option chosen for one choice group in a delivery selection, with its method, amounts,
+ * type-specific details, timezone, and any chosen delivery window.
  */
-export type FulfillmentChargeLink = {
-    /** Shape $ (Value): string. Order charge associated with this fulfillment. */
-    "order_charge_id": string;
+export type DeliverySelectionChoiceResource = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    "delivery_choice_group_id": string;
+    "delivery_method_id": string;
+    "delivery_option_id": string;
+    /**
+     * Whether a delivery option is fulfilled in one delivery or several, with the first arrival
+     * time, completion time, and delivery count.
+     */
+    "delivery_plan": DeliveryPlan;
+    "delivery_window_id"?: string;
+    "description"?: string;
+    /**
+     * Always present with an API key or dashboard credential. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "discount_money"?: MoneyValue;
+    /**
+     * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
+     * delivery windows, and optional `instructions`.
+     */
+    "input"?: DeliverySelectionInstructionsRequest;
+    /** Details of a local delivery option: instructions and service level. */
+    "local_delivery"?: DeliveryShipmentDetails;
+    "merchant_reference"?: string;
+    "name": string;
+    /**
+     * Always present with an API key or dashboard credential. Null when the choice has no order
+     * charge.
+     */
+    "order_charge_id"?: string | null;
+    /** Pickup details of a delivery option: the pickup mode and the pickup location. */
+    "pickup"?: DeliveryPickupDetails;
+    /**
+     * Shipment-specific details of a delivery option or choice: the `service_level` and buyer
+     * `instructions`.
+     */
+    "shipment"?: DeliveryShipmentDetails;
+    "stable_key": string;
+    /**
+     * Always present with an API key or dashboard credential. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money"?: MoneyValue;
+    /**
+     * IANA timezone for displaying window_start_at and window_end_at. Example: "America/New_York".
+     */
+    "timezone"?: string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "total_money": MoneyValue;
+    /** Value enum: "shipment", "pickup", "local_delivery". */
+    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "window_start_at"?: string;
 };
-/** Shape $ (Value): {@link FulfillmentEvent}. An action recorded during an order's fulfillment. */
-export type FulfillmentEvent = {
+export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliverySelection;
+    };
+    "event_type"?: "delivery_selection.committed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliverySelection;
+    };
+    "event_type"?: "delivery_selection.committed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_selection.committed";
+});
+/**
+ * The `delivery_selection.committed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
+     *  object (Required): {@link DeliverySelection}. The delivery choice selected for a checkout
+     * or order.
      */
-    "buyer_notification_behavior": "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. Timeline entry creation timestamp. Format: date-time. */
-    "created_at"?: string;
+    "data"?: {
+        /** The delivery choice selected for a checkout or order. */
+        "object": DeliverySelection;
+    };
+    /** Value enum: "delivery_selection.committed". */
+    "event_type"?: "delivery_selection.committed";
     /**
-     * Shape $ (Value): string. Value enum: "pending", "on_hold", "in_progress", "ready",
-     * "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed",
-     * "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery",
-     * "delivered", "delivery_attempted", "exception", "returned", "voided".
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "current_status"?: "pending"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
-        | "created"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "custom_details"?: Record<string, string>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_selection.committed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): string. Value enum: "carrier_scan", "status_changed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "tracking_updated",
-     * "exception", "returned", "custom", "accepted", "preparing", "picked", "packed", "ready",
-     * "dispatched", "completed", "canceled", "failed", "no_show".
+     *  object (Required): {@link DeliverySelection}. The delivery choice selected for a checkout
+     * or order.
      */
-    "event_type": "carrier_scan"
-        | "status_changed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "tracking_updated"
-        | "exception"
-        | "returned"
-        | "custom"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "ready"
-        | "dispatched"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "no_show"
-        | (string & {});
-    /** Shape $ (Value): string. */
-    "external_event_id"?: string;
-    /** Shape $ (Value): string. */
-    "external_status"?: string;
-    /** Shape $ (Value): string. */
-    "external_system"?: string;
-    /** Shape $ (Value): string. */
-    "fulfillment_event_id": string;
-    /** Shape $ (Value): string. */
-    "fulfillment_id": string;
-    /** Shape $ (Value): string. */
-    "location_description"?: string;
-    /** Shape $ (Value): string. */
-    "message"?: string;
-    /** Shape $ (Value): string. Provider event timestamp. Format: date-time. */
-    "occurred_at"?: string;
+    "data"?: {
+        /** The delivery choice selected for a checkout or order. */
+        "object": DeliverySelection;
+    };
+    /** Value enum: "delivery_selection.committed". */
+    "event_type"?: "delivery_selection.committed";
+});
+/**
+ * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
+ * delivery windows, and optional `instructions`.
+ */
+export type DeliverySelectionInstructionsRequest = {
+    /** minLength: 1. */
+    "delivery_window_id"?: string;
     /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
+     * Buyer instructions for the selected option, without leading or trailing whitespace. Send
+     * this field only when buyer_instructions.enabled is true. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. minLength: 1. maxLength:
+     * 2000.
      */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
-    "order_id": string;
-    /** Shape $ (Value): string. */
-    "package_id"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "pending", "on_hold", "in_progress", "ready",
-     * "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed",
-     * "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery",
-     * "delivered", "delivery_attempted", "exception", "returned", "voided".
-     */
-    "previous_status"?: "pending"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
-        | "created"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /** Shape $ (Value): string.  Value enum: "preserve", "fulfill", "release". */
-    "quantity_effect"?: "preserve" | "fulfill" | "release" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "address_issue", "customer_no_show",
-     * "customer_request", "fraud_review", "inventory_issue", "location_unavailable", "other",
-     * "payment_review", "provider_issue", "provider_no_show", "scheduling_error",
-     * "scheduling_issue".
-     */
-    "reason"?: "address_issue"
-        | "customer_no_show"
-        | "customer_request"
-        | "fraud_review"
-        | "inventory_issue"
-        | "location_unavailable"
-        | "other"
-        | "payment_review"
-        | "provider_issue"
-        | "provider_no_show"
-        | "scheduling_error"
-        | "scheduling_issue"
-        | (string & {});
-    /** Shape $ (Value): string. The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. Flint receive timestamp. Format: date-time. */
-    "received_at"?: string;
-    /** Shape $ (Value): string. */
-    "shipment_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "fulfillment", "shipment", "package". */
-    "subject_type": "fulfillment" | "shipment" | "package" | (string & {});
-};
-/** Shape $ (Value): {@link FulfillmentEventListResponse}. A page of `FulfillmentEvent` objects. */
-export type FulfillmentEventListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link FulfillmentEvent}. Shape $[] (Value): {@link
-     * FulfillmentEvent}. An action recorded during an order's fulfillment.
-     */
-    "data": Array<FulfillmentEvent>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
+    "instructions"?: string;
 };
 /**
- * Shape $ (Value): {@link FulfillmentEventResourceResponse}. A response containing
- * `FulfillmentEvent` data.
+ * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
+ * delivery windows, and optional `instructions`.
  */
-export type FulfillmentEventResourceResponse = {
-    /**
-     * Shape $ (Value): {@link FulfillmentEvent}. An action recorded during an order's fulfillment.
-     */
-    "data": FulfillmentEvent;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type FulfillmentEventsGetInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_event_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-};
-export type FulfillmentEventsListInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "shipment_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "package_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "carrier_scan", "status_changed",
-     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "tracking_updated", "exception", "returned", "custom". Shape $[] (Value): string. Value
-     * enum: "carrier_scan", "status_changed", "shipped", "in_transit", "out_for_delivery",
-     * "delivered", "delivery_attempted", "tracking_updated", "exception", "returned", "custom".
-     */
-    "event_type"?: InputValue<Array<"carrier_scan"
-        | "status_changed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "tracking_updated"
-        | "exception"
-        | "returned"
-        | "custom">>;
-    /** Shape $ (Value): string. */
-    "external_system"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "external_event_id"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): string. Default: "received_at". Value enum: "received_at", "occurred_at".
-     */
-    "sort_by"?: InputValue<"received_at" | "occurred_at">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-};
+export type DeliverySelectionInstructionsRequestInput = DeliverySelectionInstructionsRequest;
 /**
- * Shape $ (Value): {@link FulfillmentHold}. A hold on a fulfillment, with its reason, who placed
- * it, and when it became active.
+ * A status change in a delivery selection's history, with the new `status`, the `reason`, and when
+ * it happened.
  */
-export type FulfillmentHold = {
-    /** Shape $ (Value): string. Time the hold became active. Format: date-time. */
+export type DeliverySelectionLifecycleEventResource = {
+    /** RFC3339 timestamp. Format: date-time. */
     "created_at": string;
-    /** Shape $ (Value): string. Explanation of the hold suitable for display to the merchant. */
-    "display_reason"?: string;
-    /** Shape $ (Value): string. Actor that placed the fulfillment on hold. */
-    "held_by"?: string;
+    "delivery_selection_id": string;
+    "delivery_selection_lifecycle_event_id": string;
     /**
-     * Shape $ (Value): string. Status before this hold. Never on_hold or terminal. The
-     * release_hold action restores this status. Value enum: "pending", "accepted", "on_hold",
-     * "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "preparing",
-     * "picked", "packed", "dispatched", "no_show".
+     * Value enum: "replacement_selected", "buyer_selected", "payment_started",
+     * "payment_failed_selection_restored", "payment_settled", "payment_failed_selection_expired",
+     * "calculation_expired", "selection_expired", "selection_not_current", "dependency_revoked",
+     * "buyer_cleared", "eligibility_context_refreshed", "checkout_replaced", "checkout_terminal",
+     * "order_mutated", "quote_basis_changed", "calculation_changed".
      */
-    "previous_status": "pending"
-        | "accepted"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
+    "reason": "replacement_selected"
+        | "buyer_selected"
+        | "payment_started"
+        | "payment_failed_selection_restored"
+        | "payment_settled"
+        | "payment_failed_selection_expired"
+        | "calculation_expired"
+        | "selection_expired"
+        | "selection_not_current"
+        | "dependency_revoked"
+        | "buyer_cleared"
+        | "eligibility_context_refreshed"
+        | "checkout_replaced"
+        | "checkout_terminal"
+        | "order_mutated"
+        | "quote_basis_changed"
+        | "calculation_changed"
         | (string & {});
     /**
-     * Shape $ (Value): string. Machine-readable reason fulfillment work is paused. Value enum:
-     * "payment_review", "inventory_issue", "address_issue", "customer_request", "provider_issue",
-     * "scheduling_issue", "fraud_review", "other".
+     * Value enum: "selected", "locked_for_payment", "committed", "superseded", "expired",
+     * "released".
      */
-    "reason": "payment_review"
-        | "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other"
+    "status": "selected"
+        | "locked_for_payment"
+        | "committed"
+        | "superseded"
+        | "expired"
+        | "released"
         | (string & {});
-    /** Shape $ (Value): string. Additional notes explaining the hold. */
-    "reason_notes"?: string;
 };
-/**
- * Shape $ (Value): {@link FulfillmentItemizedPackagesRequest}. The `itemized` variant of
- * `FulfillmentPackagingInput`.
- */
-export type FulfillmentItemizedPackagesRequest = ({
+/** A page of `DeliverySelection` objects. */
+export type DeliverySelectionListResponse = {
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
+     *  [] (Value): {@link DeliverySelection}. The delivery choice selected for a checkout or
+     * order.
      */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "external_system"?: string;
+    "data": Array<DeliverySelection>;
     /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
-     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link SinglePackageCreateRequest}. The single package created with a
-     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
-     * created or shipped; items and return_line_items are not accepted.
-     */
-    "package"?: SinglePackageCreateRequest;
-    /**
-     * Shape $ (Value): Array of {@link PackageCreateRequest}. minItems: 1. maxItems: 20. Shape $[]
-     * (Value): {@link PackageCreateRequest}. The request body for: Create package. Shape
-     * $[].buyer_notification_behavior (Optional): string. Controls buyer email handling. Omit or
-     * use send to send when recipient, template, and deduplication rules allow it. Use suppress
-     * when another system owns buyer messaging. Value enum: "send", "suppress". Shape $[].carrier
-     * (Optional): string. minLength: 1. Shape $[].dimensions (Optional): {@link Dimensions}.
-     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`. Shape
-     * $[].expected_delivery_at (Optional): string or null. When the carrier or merchant expects
-     * this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it
-     * unchanged on updates and transitions. Format: date-time. minLength: 1. Shape
-     * $[].external_reference_id (Optional): string. Caller-owned identifier for this resource in
-     * an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Shape $[].external_system
-     * (Optional): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1. Shape
-     * $[].items (Required): Array of {@link CreatePackageItemRequest}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[].items[] (Value): {@link CreatePackageItemRequest}. The request
-     * body for: Create package item. Shape $[].label_url (Optional): string. Merchant or
-     * integration supplied HTTPS shipping-label URL for authenticated merchant workflows.
-     * Non-Flint URLs must include external_system for provenance. Flint does not currently manage
-     * label file hosting or buyer-facing label downloads. minLength: 1. Shape $[].metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Caller-owned key-value data for a new or replaced map. Omit it for no
-     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
-     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
-     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * Shape $[].return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. Shape
-     * $[].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A return line and
-     * the quantity placed in a return shipment or package. Shape $[].service_code (Optional):
-     * string. minLength: 1. Shape $[].shipped_at (Optional): string. Package handoff time.
-     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
-     * Shape $[].status (Required): string. Value enum: "created", "shipped". Shape
-     * $[].status_reason (Optional): string. minLength: 1. Shape $[].tracking_number (Optional):
-     * string. minLength: 1. Shape $[].tracking_url (Optional): string. Absolute HTTPS carrier
-     * tracking URL. Embedded URL credentials are rejected. minLength: 1. Shape $[].weight
-     * (Optional): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration. Shape $[].oneOf[1] (Value): {@link
-     * PackageCreateInputCreated}. The `created` variant of `PackageCreateInput`. Shape
-     * $[].oneOf[2] (Value): {@link PackageCreateInputShipped}. The `shipped` variant of
-     * `PackageCreateInput`.
-     */
-    "packages": Array<({
-        /**
-         * Shape $ (Value): Array of {@link CreatePackageItemRequest}. Independent package-item
-         * collection. Inline creation uses the child-create shape and commits atomically; edit
-         * items through the package item routes after creation. Each order line may appear once.
-         * minItems: 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequest}. The
-         * request body for: Create package item.
-         */
-        "items": Array<CreatePackageItemRequest>;
-    })
-        & (Exclude<PackageCreateRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string.  Value enum: "itemized". */
-    "packaging": "itemized" | (string & {});
-});
-/**
- * Shape $ (Value): {@link FulfillmentItemizedPackagesRequestInput}. The `itemized` variant of
- * `FulfillmentPackagingInput`.
- */
-export type FulfillmentItemizedPackagesRequestInput = ({
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): {@link SinglePackageCreateRequestInput}. The single package created with a
-     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
-     * created or shipped; items and return_line_items are not accepted.
-     */
-    "package"?: SinglePackageCreateRequestInput;
-    /**
-     * Shape $ (Value): Array of {@link PackageCreateRequestInput}. minItems: 1. maxItems: 20.
-     * Shape $[] (Value): {@link PackageCreateRequestInput}. The request body for: Create package.
-     * Shape $[].buyer_notification_behavior (Optional): string. Controls buyer email handling.
-     * Omit or use send to send when recipient, template, and deduplication rules allow it. Use
-     * suppress when another system owns buyer messaging. Value enum: "send", "suppress". Shape
-     * $[].carrier (Optional): string. minLength: 1. Shape $[].dimensions (Optional): {@link
-     * DimensionsInput}. Package or item dimensions as `length`, `width`, and `height` in the given
-     * `unit`. Shape $[].expected_delivery_at (Optional): string or null. When the carrier or
-     * merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit
-     * to leave it unchanged on updates and transitions. Format: date-time. minLength: 1. Shape
-     * $[].external_reference_id (Optional): string. Caller-owned identifier for this resource in
-     * an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Shape $[].external_system
-     * (Optional): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1. Shape
-     * $[].items (Required): Array of {@link CreatePackageItemRequestInput}. Independent
-     * package-item collection. Inline creation uses the child-create shape and commits atomically;
-     * edit items through the package item routes after creation. Each order line may appear once.
-     * minItems: 1. maxItems: 100. Shape $[].items[] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item. Shape
-     * $[].label_url (Optional): string. Merchant or integration supplied HTTPS shipping-label URL
-     * for authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1. Shape $[].metadata (Optional): {@link MetadataRequestInput}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. Shape $[].return_line_items
-     * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestRequestInput}. Required
-     * for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. Shape
-     * $[].return_line_items[] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestRequestInput}. A return line and the quantity placed
-     * in a return shipment or package. Shape $[].service_code (Optional): string. minLength: 1.
-     * Shape $[].shipped_at (Optional): string. Package handoff time. Defaults to request time.
-     * Only allowed with status shipped. Format: date-time. minLength: 1. Shape $[].status
-     * (Required): string. Value enum: "created", "shipped". Shape $[].status_reason (Optional):
-     * string. minLength: 1. Shape $[].tracking_number (Optional): string. minLength: 1. Shape
-     * $[].tracking_url (Optional): string. Absolute HTTPS carrier tracking URL. Embedded URL
-     * credentials are rejected. minLength: 1. Shape $[].weight (Optional): {@link WeightInput}. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * Shape $[].oneOf[1] (Value): {@link PackageCreateInputCreatedInput}. The `created` variant of
-     * `PackageCreateInput`. Shape $[].oneOf[2] (Value): {@link PackageCreateInputShippedInput}.
-     * The `shipped` variant of `PackageCreateInput`.
-     */
-    "packages": Array<({
-        /**
-         * Shape $ (Value): Array of {@link CreatePackageItemRequestInput}. Independent
-         * package-item collection. Inline creation uses the child-create shape and commits
-         * atomically; edit items through the package item routes after creation. Each order line
-         * may appear once. minItems: 1. maxItems: 100. Shape $[] (Value): {@link
-         * CreatePackageItemRequestInput}. The request body for: Create package item.
-         */
-        "items": Array<CreatePackageItemRequestInput>;
-    })
-        & (Exclude<PackageCreateRequestInput & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string.  Value enum: "itemized". */
-    "packaging": "itemized";
-})
-    & (({
-    "package"?: never;
-}));
-/**
- * Shape $ (Value): {@link FulfillmentLineItem}. An order line item and quantity included in a
- * fulfillment, with the modifiers applied to it.
- */
-export type FulfillmentLineItem = {
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifier}. Modifier selections snapshotted
-     * from the order line for fulfillment. Shape $[] (Value): {@link OrderLineItemModifier}. A
-     * modifier selected on an order line item, with its quantity, price change, total, and display
-     * flags.
-     */
-    "modifiers"?: Array<OrderLineItemModifier>;
-    /** Shape $ (Value): string. Order line whose quantity is allocated to the fulfillment. */
-    "order_line_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include
- * when creating a fulfillment.
- */
-export type FulfillmentLineItemRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "order_line_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to
- * include when creating a fulfillment.
- */
-export type FulfillmentLineItemRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "order_line_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-};
-/** Shape $ (Value): {@link FulfillmentListResponse}. A page of `Fulfillment` objects. */
-export type FulfillmentListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link Fulfillment}. Shape $[] (Value): {@link Fulfillment}. Work
-     * required to deliver an order's items.
-     */
-    "data": Array<Fulfillment>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
     "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
 /**
- * Shape $ (Value): {@link FulfillmentNotification}. A message sent about an order's fulfillment.
+ * Recipient details you supply with a delivery selection or subscription delivery: optional
+ * `name`, `email`, and `phone`.
  */
-export type FulfillmentNotification = {
-    /** Shape $ (Value): string.  Value enum: "email". */
-    "channel": "email" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
+export type DeliverySelectionRecipientRequest = {
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
+     * Recipient email address. Limited to 254 characters (Unicode code points), counted before
+     * surrounding whitespace is trimmed. When the selected delivery option requires it, payment
+     * needs it: send it with this selection or a later one. Send null to clear it. Format: email.
+     * minLength: 1. maxLength: 254.
      */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "failed_at"?: string;
-    /** Shape $ (Value): string. */
-    "fulfillment_event_id"?: string;
-    /** Shape $ (Value): string. */
-    "fulfillment_id": string;
-    /** Shape $ (Value): string. */
-    "fulfillment_notification_id": string;
+    "email"?: string | null;
     /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them.
+     * Recipient name. Limited to 200 characters (Unicode code points), counted before surrounding
+     * whitespace is trimmed. When the selected delivery option requires it, payment needs it: send
+     * it with this selection or a later one. Send null to clear it. minLength: 1. maxLength: 200.
      */
-    "metadata"?: MetadataMap;
+    "name"?: string | null;
     /**
-     * Shape $ (Value): string. Value enum: "fulfillment_ready", "fulfillment_dispatched",
-     * "fulfillment_completed", "fulfillment_canceled", "fulfillment_failed",
-     * "fulfillment_no_show", "fulfillment_shipped", "fulfillment_delivered", "shipment_shipped",
-     * "shipment_out_for_delivery", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_returned".
+     * Recipient phone number. After surrounding whitespace is trimmed, use + followed by 7 through
+     * 15 ASCII digits, with a nonzero first digit. Limited to 16 characters (Unicode code points),
+     * counted before trimming. When the selected delivery option requires it, payment needs it:
+     * send it with this selection or a later one. Send null to clear it. minLength: 1. maxLength:
+     * 16.
      */
-    "notification_type": "fulfillment_ready"
-        | "fulfillment_dispatched"
-        | "fulfillment_completed"
-        | "fulfillment_canceled"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_shipped"
-        | "fulfillment_delivered"
-        | "shipment_shipped"
-        | "shipment_out_for_delivery"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_returned"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
-    "order_id": string;
-    /** Shape $ (Value): string. */
-    "package_id"?: string;
-    /** Shape $ (Value): string. */
-    "recipient_customer_id"?: string;
-    /** Shape $ (Value): string. */
-    "recipient_email"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "sent_at"?: string;
-    /** Shape $ (Value): string. */
-    "shipment_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "pending", "sent", "failed", "suppressed". */
-    "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "source_suppressed", "default_suppressed",
-     * "recipient_missing", "template_not_configured", "merchant_managed_email",
-     * "recipient_unsubscribed".
-     */
-    "suppression_reason"?: "source_suppressed"
-        | "default_suppressed"
-        | "recipient_missing"
-        | "template_not_configured"
-        | "merchant_managed_email"
-        | "recipient_unsubscribed"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "fulfillment_status_updated",
-     * "fulfillment_event_created".
-     */
-    "trigger_type": "fulfillment_status_updated" | "fulfillment_event_created" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
+    "phone"?: string | null;
 };
 /**
- * Shape $ (Value): {@link FulfillmentNotificationListResponse}. A page of
- * `FulfillmentNotification` objects.
+ * Recipient details you supply with a delivery selection or subscription delivery: optional
+ * `name`, `email`, and `phone`.
  */
-export type FulfillmentNotificationListResponse = {
+export type DeliverySelectionRecipientRequestInput = DeliverySelectionRecipientRequest;
+/** A response containing `DeliverySelection` data. */
+export type DeliverySelectionResponse = {
+    /** The delivery choice selected for a checkout or order. */
+    "data": DeliverySelection;
     /**
-     * Shape $ (Value): Array of {@link FulfillmentNotification}. Shape $[] (Value): {@link
-     * FulfillmentNotification}. A message sent about an order's fulfillment.
-     */
-    "data": Array<FulfillmentNotification>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentNotificationResponse}. A response containing
- * `FulfillmentNotification` data.
- */
-export type FulfillmentNotificationResponse = {
-    /**
-     * Shape $ (Value): {@link FulfillmentNotification}. A message sent about an order's
-     * fulfillment.
-     */
-    "data": FulfillmentNotification;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type FulfillmentNotificationsGetInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_notification_id": InputValue<string>;
+/**
+ * Result of a checkout delivery selection request, returning the checkout session, order, delivery
+ * selection, and any inventory reservation summary.
+ */
+export type DeliverySelectionResult = {
     /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
+     * The checkout session after the selection. A session in which a buyer completes an order's
+     * payment.
      */
-    "expand"?: InputValue<Array<"order">>;
+    "checkout_session": CheckoutSession;
+    /** The selection now on the checkout. The delivery choice selected for a checkout or order. */
+    "delivery_selection": DeliverySelection;
+    /**
+     * The stock held for this selection. Omitted when the order holds no stock reservation, and
+     * for checkout credentials. The inventory reservation held for a delivery selection: its
+     * owner, status, expiry, and the next action required.
+     */
+    "inventory_reservation"?: DeliveryInventoryReservationSummary;
+    /**
+     * The order after the selection, with delivery charges applied and tax recalculated. Render
+     * totals from it instead of reading the order again. When tax still needs input,
+     * order.tax.status says so. A customer's purchase and its payment and fulfillment progress.
+     */
+    "order": Order;
 };
-export type FulfillmentNotificationsListInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "fulfillment_event_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
+/** A response containing `DeliverySelectionResult` data. */
+export type DeliverySelectionResultResponse = {
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "email". Shape $[] (Value): string.
-     * Value enum: "email".
+     * Result of a checkout delivery selection request, returning the checkout session, order,
+     * delivery selection, and any inventory reservation summary.
      */
-    "channel"?: InputValue<Array<"email">>;
+    "data": DeliverySelectionResult;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "pending", "sent", "failed",
-     * "suppressed". Shape $[] (Value): string. Value enum: "pending", "sent", "failed",
-     * "suppressed".
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
-    "status"?: InputValue<Array<"pending" | "sent" | "failed" | "suppressed">>;
+    "meta"?: ResponseMeta;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "fulfillment_canceled",
-     * "fulfillment_completed", "fulfillment_delivered", "fulfillment_dispatched",
-     * "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped",
-     * "shipment_delivered", "shipment_delivery_attempted", "shipment_exception",
-     * "shipment_out_for_delivery", "shipment_returned", "shipment_shipped". Shape $[] (Value):
-     * string. Value enum: "fulfillment_canceled", "fulfillment_completed",
-     * "fulfillment_delivered", "fulfillment_dispatched", "fulfillment_failed",
-     * "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped", "shipment_delivered",
-     * "shipment_delivery_attempted", "shipment_exception", "shipment_out_for_delivery",
-     * "shipment_returned", "shipment_shipped".
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "notification_type"?: InputValue<Array<"fulfillment_canceled"
-        | "fulfillment_completed"
-        | "fulfillment_delivered"
-        | "fulfillment_dispatched"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_ready"
-        | "fulfillment_shipped"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_out_for_delivery"
-        | "shipment_returned"
-        | "shipment_shipped">>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link FulfillmentOutcome}. The terminal outcome recorded for a fulfillment,
- * such as a no-show, with its reason, notes, and when it occurred.
+ * Shipment-specific details of a delivery option or choice: the `service_level` and buyer
+ * `instructions`.
  */
-export type FulfillmentOutcome = {
-    /** Shape $ (Value): string. Additional notes about the fulfillment outcome. */
-    "notes"?: string;
-    /** Shape $ (Value): string. Time the terminal outcome occurred. Format: date-time. */
-    "occurred_at": string;
+export type DeliveryShipmentDetails = {
+    "instructions"?: string;
+    "service_level"?: string;
+};
+/**
+ * Eligibility condition that matches when the destination or buyer location is in one of the
+ * listed states or provinces, given as ISO 3166-2 codes.
+ */
+export type DeliveryStateCondition = {
     /**
-     * Shape $ (Value): string. Recorded fulfillment outcome, such as a missed service appointment.
-     * Value enum: "no_show".
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
      */
-    "outcome_type": "no_show" | (string & {});
+    "subject"?: "destination_address" | "buyer_location" | (string & {});
     /**
-     * Shape $ (Value): string. Machine-readable reason for the recorded outcome. Value enum:
-     * "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
+     * ISO 3166-2 subdivision codes, such as US-NY or DE-BY. For a US state or Canadian province
+     * you can send the two-letter code, such as NY or ON, and Flint stores US-NY or CA-ON. USPS
+     * military codes AA, AE, and AP are also accepted and stored as US-AA, US-AE, and US-AP. An
+     * address matches when its state names one of these subdivisions of its country, whether it
+     * was sent as NY, US-NY, or New York. If the address country is listed by the condition but
+     * state names no subdivision of that country, the condition cannot be decided: the method or
+     * rate is left out as cannot_calculate (invalid_buyer_input). [] (Value): string. minLength:
+     * 1.
      */
-    "reason": "customer_no_show"
-        | "provider_no_show"
-        | "location_unavailable"
-        | "scheduling_error"
-        | "other"
+    "values": Array<string>;
+};
+/**
+ * Eligibility condition that matches when the destination or buyer location is in one of the
+ * listed states or provinces, given as ISO 3166-2 codes.
+ */
+export type DeliveryStateConditionInput = {
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location";
+    /**
+     * ISO 3166-2 subdivision codes, such as US-NY or DE-BY. For a US state or Canadian province
+     * you can send the two-letter code, such as NY or ON, and Flint stores US-NY or CA-ON. USPS
+     * military codes AA, AE, and AP are also accepted and stored as US-AA, US-AE, and US-AP. An
+     * address matches when its state names one of these subdivisions of its country, whether it
+     * was sent as NY, US-NY, or New York. If the address country is listed by the condition but
+     * state names no subdivision of that country, the condition cannot be decided: the method or
+     * rate is left out as cannot_calculate (invalid_buyer_input). [] (Value): string. minLength:
+     * 1.
+     */
+    "values": Array<string>;
+};
+/**
+ * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+ * selects a band, and `unit` applies to weight bases.
+ */
+export type DeliveryTieredPricingStrategy = ({
+    /**
+     *  [] (Value): {@link DeliveryPricingTierBand}. One band of a tiered pricing strategy,
+     * covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+     */
+    "bands": Array<DeliveryPricingTierBand>;
+    /**
+     * Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value
+     * enum: "choice_group.total_weight", "choice_group.fulfillment_quantity",
+     * "choice_group.merchandise_subtotal_before_discounts",
+     * "choice_group.merchandise_subtotal_after_line_item_discounts",
+     * "order.merchandise_subtotal_before_discounts",
+     * "order.merchandise_subtotal_after_line_item_discounts", "caller.tier_key".
+     */
+    "basis": "choice_group.total_weight"
+        | "choice_group.fulfillment_quantity"
+        | "choice_group.merchandise_subtotal_before_discounts"
+        | "choice_group.merchandise_subtotal_after_line_item_discounts"
+        | "order.merchandise_subtotal_before_discounts"
+        | "order.merchandise_subtotal_after_line_item_discounts"
+        | "caller.tier_key"
         | (string & {});
-};
-/**
- * Shape $ (Value): {@link FulfillmentPackagingRequest}. Creates an outbound shipment with one
- * package using `packaging: single_package`, or 1 to 20 packages with explicit items using
- * `packaging: itemized`. External reference and metadata are optional.
- */
-export type FulfillmentPackagingRequest = ({
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
      */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
-     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link SinglePackageCreateRequest}. The single package created with a
-     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
-     * created or shipped; items and return_line_items are not accepted.
-     */
-    "package"?: SinglePackageCreateRequest;
-    /**
-     * Shape $ (Value): Array of {@link PackageCreateRequest}. minItems: 1. maxItems: 20. Shape $[]
-     * (Value): {@link PackageCreateRequest}. The request body for: Create package. Shape
-     * $[].buyer_notification_behavior (Optional): string. Controls buyer email handling. Omit or
-     * use send to send when recipient, template, and deduplication rules allow it. Use suppress
-     * when another system owns buyer messaging. Value enum: "send", "suppress". Shape $[].carrier
-     * (Optional): string. minLength: 1. Shape $[].dimensions (Optional): {@link Dimensions}.
-     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`. Shape
-     * $[].expected_delivery_at (Optional): string or null. When the carrier or merchant expects
-     * this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it
-     * unchanged on updates and transitions. Format: date-time. minLength: 1. Shape
-     * $[].external_reference_id (Optional): string. Caller-owned identifier for this resource in
-     * an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Shape $[].external_system
-     * (Optional): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1. Shape
-     * $[].items (Required): Array of {@link CreatePackageItemRequest}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[].items[] (Value): {@link CreatePackageItemRequest}. The request
-     * body for: Create package item. Shape $[].label_url (Optional): string. Merchant or
-     * integration supplied HTTPS shipping-label URL for authenticated merchant workflows.
-     * Non-Flint URLs must include external_system for provenance. Flint does not currently manage
-     * label file hosting or buyer-facing label downloads. minLength: 1. Shape $[].metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Caller-owned key-value data for a new or replaced map. Omit it for no
-     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
-     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
-     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * Shape $[].return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. Shape
-     * $[].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A return line and
-     * the quantity placed in a return shipment or package. Shape $[].service_code (Optional):
-     * string. minLength: 1. Shape $[].shipped_at (Optional): string. Package handoff time.
-     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
-     * Shape $[].status (Required): string. Value enum: "created", "shipped". Shape
-     * $[].status_reason (Optional): string. minLength: 1. Shape $[].tracking_number (Optional):
-     * string. minLength: 1. Shape $[].tracking_url (Optional): string. Absolute HTTPS carrier
-     * tracking URL. Embedded URL credentials are rejected. minLength: 1. Shape $[].weight
-     * (Optional): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration. Shape $[].oneOf[1] (Value): {@link
-     * PackageCreateInputCreated}. The `created` variant of `PackageCreateInput`. Shape
-     * $[].oneOf[2] (Value): {@link PackageCreateInputShipped}. The `shipped` variant of
-     * `PackageCreateInput`.
-     */
-    "packages"?: Array<({
-        /**
-         * Shape $ (Value): Array of {@link CreatePackageItemRequest}. Independent package-item
-         * collection. Inline creation uses the child-create shape and commits atomically; edit
-         * items through the package item routes after creation. Each order line may appear once.
-         * minItems: 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequest}. The
-         * request body for: Create package item.
-         */
-        "items": Array<CreatePackageItemRequest>;
-    })
-        & (Exclude<PackageCreateRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string.  Value enum: "single_package", "itemized". */
-    "packaging": "single_package" | "itemized" | (string & {});
+    "unit"?: "gram" | "kilogram" | "ounce" | "pound" | (string & {});
 })
-    & ((Exclude<FulfillmentSinglePackageRequest & object, readonly unknown[]>)
-    | (Exclude<FulfillmentItemizedPackagesRequest & object, readonly unknown[]>)
+    & ((Exclude<DeliveryTieredPricingStrategyWeight & object, readonly unknown[]>)
+    | (Exclude<DeliveryTieredPricingStrategyQuantityOrMoney & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link FulfillmentPackagingRequestInput}. Creates an outbound shipment with one
- * package using `packaging: single_package`, or 1 to 20 packages with explicit items using
- * `packaging: itemized`. External reference and metadata are optional.
+ * The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategyInput`. The
+ * `choice_group.merchandise_subtotal_after_line_item_discounts` variant of
+ * `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_before_discounts`
+ * variant of `DeliveryTieredPricingStrategyInput`. The
+ * `order.merchandise_subtotal_after_line_item_discounts` variant of
+ * `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_before_discounts` variant
+ * of `DeliveryTieredPricingStrategyInput`.
  */
-export type FulfillmentPackagingRequestInput = ({
+export type DeliveryTieredPricingStrategyInputQuantityOrMoneyInput = ({
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
+     *  [] (Value): {@link DeliveryPricingTierBandRequestInput}. One band of a tiered pricing
+     * strategy you supply, covering values of the strategy's `basis` from `from` to `to`, with a
+     * price per currency.
      */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "external_system"?: string;
+    "bands": Array<DeliveryPricingTierBandRequestInput>;
     /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
+     * Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value
+     * enum: "choice_group.fulfillment_quantity",
+     * "choice_group.merchandise_subtotal_before_discounts",
+     * "choice_group.merchandise_subtotal_after_line_item_discounts",
+     * "order.merchandise_subtotal_before_discounts",
+     * "order.merchandise_subtotal_after_line_item_discounts".
      */
-    "metadata"?: MetadataRequestInput;
+    "basis": "choice_group.fulfillment_quantity"
+        | "choice_group.merchandise_subtotal_before_discounts"
+        | "choice_group.merchandise_subtotal_after_line_item_discounts"
+        | "order.merchandise_subtotal_before_discounts"
+        | "order.merchandise_subtotal_after_line_item_discounts";
     /**
-     * Shape $ (Value): {@link SinglePackageCreateRequestInput}. The single package created with a
-     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
-     * created or shipped; items and return_line_items are not accepted.
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
      */
-    "package"?: SinglePackageCreateRequestInput;
-    /**
-     * Shape $ (Value): Array of {@link PackageCreateRequestInput}. minItems: 1. maxItems: 20.
-     * Shape $[] (Value): {@link PackageCreateRequestInput}. The request body for: Create package.
-     * Shape $[].buyer_notification_behavior (Optional): string. Controls buyer email handling.
-     * Omit or use send to send when recipient, template, and deduplication rules allow it. Use
-     * suppress when another system owns buyer messaging. Value enum: "send", "suppress". Shape
-     * $[].carrier (Optional): string. minLength: 1. Shape $[].dimensions (Optional): {@link
-     * DimensionsInput}. Package or item dimensions as `length`, `width`, and `height` in the given
-     * `unit`. Shape $[].expected_delivery_at (Optional): string or null. When the carrier or
-     * merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit
-     * to leave it unchanged on updates and transitions. Format: date-time. minLength: 1. Shape
-     * $[].external_reference_id (Optional): string. Caller-owned identifier for this resource in
-     * an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Shape $[].external_system
-     * (Optional): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1. Shape
-     * $[].items (Required): Array of {@link CreatePackageItemRequestInput}. Independent
-     * package-item collection. Inline creation uses the child-create shape and commits atomically;
-     * edit items through the package item routes after creation. Each order line may appear once.
-     * minItems: 1. maxItems: 100. Shape $[].items[] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item. Shape
-     * $[].label_url (Optional): string. Merchant or integration supplied HTTPS shipping-label URL
-     * for authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1. Shape $[].metadata (Optional): {@link MetadataRequestInput}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. Shape $[].return_line_items
-     * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestRequestInput}. Required
-     * for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. Shape
-     * $[].return_line_items[] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestRequestInput}. A return line and the quantity placed
-     * in a return shipment or package. Shape $[].service_code (Optional): string. minLength: 1.
-     * Shape $[].shipped_at (Optional): string. Package handoff time. Defaults to request time.
-     * Only allowed with status shipped. Format: date-time. minLength: 1. Shape $[].status
-     * (Required): string. Value enum: "created", "shipped". Shape $[].status_reason (Optional):
-     * string. minLength: 1. Shape $[].tracking_number (Optional): string. minLength: 1. Shape
-     * $[].tracking_url (Optional): string. Absolute HTTPS carrier tracking URL. Embedded URL
-     * credentials are rejected. minLength: 1. Shape $[].weight (Optional): {@link WeightInput}. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * Shape $[].oneOf[1] (Value): {@link PackageCreateInputCreatedInput}. The `created` variant of
-     * `PackageCreateInput`. Shape $[].oneOf[2] (Value): {@link PackageCreateInputShippedInput}.
-     * The `shipped` variant of `PackageCreateInput`.
-     */
-    "packages"?: Array<({
-        /**
-         * Shape $ (Value): Array of {@link CreatePackageItemRequestInput}. Independent
-         * package-item collection. Inline creation uses the child-create shape and commits
-         * atomically; edit items through the package item routes after creation. Each order line
-         * may appear once. minItems: 1. maxItems: 100. Shape $[] (Value): {@link
-         * CreatePackageItemRequestInput}. The request body for: Create package item.
-         */
-        "items": Array<CreatePackageItemRequestInput>;
-    })
-        & (Exclude<PackageCreateRequestInput & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string.  Value enum: "single_package", "itemized". */
-    "packaging": "single_package" | "itemized";
-})
-    & ((Exclude<FulfillmentSinglePackageRequestInput & object, readonly unknown[]>)
-    | (Exclude<FulfillmentItemizedPackagesRequestInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link FulfillmentRecipient}. The recipient of a fulfillment, with name, email,
- * phone, address, and handling instructions.
- */
-export type FulfillmentRecipient = {
-    /**
-     * Shape $ (Value): {@link Address}. Postal address where the recipient receives the items. A
-     * postal address. Every address has country. Addresses Flint checked as complete (customer and
-     * saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /** Shape $ (Value): string. Recipient's contact email address. */
-    "email"?: string;
-    /**
-     * Shape $ (Value): string. Instructions for handling the recipient's order. For a pickup that
-     * checkout creates, this is the note the buyer left for the store, such as the car to look
-     * for.
-     */
-    "instructions"?: string;
-    /** Shape $ (Value): string. Recipient's name for delivery or pickup. */
-    "name"?: string;
-    /** Shape $ (Value): string. Recipient's contact phone number. */
-    "phone"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentRecipientRequest}. Recipient details you supply when creating
- * or updating a fulfillment: name, email, phone, address, and handling instructions.
- */
-export type FulfillmentRecipientRequest = {
-    /**
-     * Shape $ (Value): {@link AddressRequest}. Postal address where the recipient receives the
-     * items. A complete postal address. State and postal_code are required for US addresses and
-     * optional for other countries. Send null or omit line2, state, and postal_code when the
-     * address has none.
-     */
-    "address"?: AddressRequest;
-    /** Shape $ (Value): string. Recipient's contact email address. minLength: 1. */
-    "email"?: string;
-    /**
-     * Shape $ (Value): string. Instructions for handling the recipient's order. For a pickup that
-     * checkout creates, this is the note the buyer left for the store, such as the car to look
-     * for. minLength: 1.
-     */
-    "instructions"?: string;
-    /** Shape $ (Value): string. Recipient's name for delivery or pickup. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string. Recipient's contact phone number. minLength: 1. */
-    "phone"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentRecipientRequestInput}. Recipient details you supply when
- * creating or updating a fulfillment: name, email, phone, address, and handling instructions.
- */
-export type FulfillmentRecipientRequestInput = {
-    /**
-     * Shape $ (Value): {@link AddressRequestInput}. Postal address where the recipient receives
-     * the items. A complete postal address. State and postal_code are required for US addresses
-     * and optional for other countries. Send null or omit line2, state, and postal_code when the
-     * address has none.
-     */
-    "address"?: AddressRequestInput;
-    /** Shape $ (Value): string. Recipient's contact email address. minLength: 1. */
-    "email"?: string;
-    /**
-     * Shape $ (Value): string. Instructions for handling the recipient's order. For a pickup that
-     * checkout creates, this is the note the buyer left for the store, such as the car to look
-     * for. minLength: 1.
-     */
-    "instructions"?: string;
-    /** Shape $ (Value): string. Recipient's name for delivery or pickup. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string. Recipient's contact phone number. minLength: 1. */
-    "phone"?: string;
-};
-/** Shape $ (Value): {@link FulfillmentResponse}. A response containing `Fulfillment` data. */
-export type FulfillmentResponse = {
-    /** Shape $ (Value): {@link Fulfillment}. Work required to deliver an order's items. */
-    "data": Fulfillment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentSettings}. Merchant fulfillment settings, including whether
- * fulfillments require approval (`approval_required`).
- */
-export type FulfillmentSettings = {
-    /** Shape $ (Value): boolean. */
-    "approval_required"?: boolean;
-};
-/**
- * Shape $ (Value): {@link FulfillmentSettingsRequestRequestInput}. Merchant fulfillment settings,
- * including whether fulfillments require approval (`approval_required`).
- */
-export type FulfillmentSettingsRequestRequestInput = FulfillmentSettings;
-/**
- * Shape $ (Value): {@link FulfillmentSinglePackageRequest}. The `single_package` variant of
- * `FulfillmentPackagingInput`.
- */
-export type FulfillmentSinglePackageRequest = ({
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
-     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Shape $ (Value): {@link SinglePackageCreateRequest}. The single package created with a
-     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
-     * created or shipped; items and return_line_items are not accepted.
-     */
-    "package": SinglePackageCreateRequest;
-    /**
-     * Shape $ (Value): Array of {@link PackageCreateRequest}. minItems: 1. maxItems: 20. Shape $[]
-     * (Value): {@link PackageCreateRequest}. The request body for: Create package. Shape
-     * $[].buyer_notification_behavior (Optional): string. Controls buyer email handling. Omit or
-     * use send to send when recipient, template, and deduplication rules allow it. Use suppress
-     * when another system owns buyer messaging. Value enum: "send", "suppress". Shape $[].carrier
-     * (Optional): string. minLength: 1. Shape $[].dimensions (Optional): {@link Dimensions}.
-     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`. Shape
-     * $[].expected_delivery_at (Optional): string or null. When the carrier or merchant expects
-     * this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it
-     * unchanged on updates and transitions. Format: date-time. minLength: 1. Shape
-     * $[].external_reference_id (Optional): string. Caller-owned identifier for this resource in
-     * an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Shape $[].external_system
-     * (Optional): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1. Shape
-     * $[].items (Required): Array of {@link CreatePackageItemRequest}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[].items[] (Value): {@link CreatePackageItemRequest}. The request
-     * body for: Create package item. Shape $[].label_url (Optional): string. Merchant or
-     * integration supplied HTTPS shipping-label URL for authenticated merchant workflows.
-     * Non-Flint URLs must include external_system for provenance. Flint does not currently manage
-     * label file hosting or buyer-facing label downloads. minLength: 1. Shape $[].metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Caller-owned key-value data for a new or replaced map. Omit it for no
-     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
-     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
-     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * Shape $[].return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. Shape
-     * $[].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A return line and
-     * the quantity placed in a return shipment or package. Shape $[].service_code (Optional):
-     * string. minLength: 1. Shape $[].shipped_at (Optional): string. Package handoff time.
-     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
-     * Shape $[].status (Required): string. Value enum: "created", "shipped". Shape
-     * $[].status_reason (Optional): string. minLength: 1. Shape $[].tracking_number (Optional):
-     * string. minLength: 1. Shape $[].tracking_url (Optional): string. Absolute HTTPS carrier
-     * tracking URL. Embedded URL credentials are rejected. minLength: 1. Shape $[].weight
-     * (Optional): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration. Shape $[].oneOf[1] (Value): {@link
-     * PackageCreateInputCreated}. The `created` variant of `PackageCreateInput`. Shape
-     * $[].oneOf[2] (Value): {@link PackageCreateInputShipped}. The `shipped` variant of
-     * `PackageCreateInput`.
-     */
-    "packages"?: Array<({
-        /**
-         * Shape $ (Value): Array of {@link CreatePackageItemRequest}. Independent package-item
-         * collection. Inline creation uses the child-create shape and commits atomically; edit
-         * items through the package item routes after creation. Each order line may appear once.
-         * minItems: 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequest}. The
-         * request body for: Create package item.
-         */
-        "items": Array<CreatePackageItemRequest>;
-    })
-        & (Exclude<PackageCreateRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string.  Value enum: "single_package". */
-    "packaging": "single_package" | (string & {});
-});
-/**
- * Shape $ (Value): {@link FulfillmentSinglePackageRequestInput}. The `single_package` variant of
- * `FulfillmentPackagingInput`.
- */
-export type FulfillmentSinglePackageRequestInput = ({
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Shape $ (Value): {@link SinglePackageCreateRequestInput}. The single package created with a
-     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
-     * created or shipped; items and return_line_items are not accepted.
-     */
-    "package": SinglePackageCreateRequestInput;
-    /**
-     * Shape $ (Value): Array of {@link PackageCreateRequestInput}. minItems: 1. maxItems: 20.
-     * Shape $[] (Value): {@link PackageCreateRequestInput}. The request body for: Create package.
-     * Shape $[].buyer_notification_behavior (Optional): string. Controls buyer email handling.
-     * Omit or use send to send when recipient, template, and deduplication rules allow it. Use
-     * suppress when another system owns buyer messaging. Value enum: "send", "suppress". Shape
-     * $[].carrier (Optional): string. minLength: 1. Shape $[].dimensions (Optional): {@link
-     * DimensionsInput}. Package or item dimensions as `length`, `width`, and `height` in the given
-     * `unit`. Shape $[].expected_delivery_at (Optional): string or null. When the carrier or
-     * merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit
-     * to leave it unchanged on updates and transitions. Format: date-time. minLength: 1. Shape
-     * $[].external_reference_id (Optional): string. Caller-owned identifier for this resource in
-     * an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Shape $[].external_system
-     * (Optional): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1. Shape
-     * $[].items (Required): Array of {@link CreatePackageItemRequestInput}. Independent
-     * package-item collection. Inline creation uses the child-create shape and commits atomically;
-     * edit items through the package item routes after creation. Each order line may appear once.
-     * minItems: 1. maxItems: 100. Shape $[].items[] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item. Shape
-     * $[].label_url (Optional): string. Merchant or integration supplied HTTPS shipping-label URL
-     * for authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1. Shape $[].metadata (Optional): {@link MetadataRequestInput}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. Shape $[].return_line_items
-     * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestRequestInput}. Required
-     * for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. Shape
-     * $[].return_line_items[] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestRequestInput}. A return line and the quantity placed
-     * in a return shipment or package. Shape $[].service_code (Optional): string. minLength: 1.
-     * Shape $[].shipped_at (Optional): string. Package handoff time. Defaults to request time.
-     * Only allowed with status shipped. Format: date-time. minLength: 1. Shape $[].status
-     * (Required): string. Value enum: "created", "shipped". Shape $[].status_reason (Optional):
-     * string. minLength: 1. Shape $[].tracking_number (Optional): string. minLength: 1. Shape
-     * $[].tracking_url (Optional): string. Absolute HTTPS carrier tracking URL. Embedded URL
-     * credentials are rejected. minLength: 1. Shape $[].weight (Optional): {@link WeightInput}. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * Shape $[].oneOf[1] (Value): {@link PackageCreateInputCreatedInput}. The `created` variant of
-     * `PackageCreateInput`. Shape $[].oneOf[2] (Value): {@link PackageCreateInputShippedInput}.
-     * The `shipped` variant of `PackageCreateInput`.
-     */
-    "packages"?: Array<({
-        /**
-         * Shape $ (Value): Array of {@link CreatePackageItemRequestInput}. Independent
-         * package-item collection. Inline creation uses the child-create shape and commits
-         * atomically; edit items through the package item routes after creation. Each order line
-         * may appear once. minItems: 1. maxItems: 100. Shape $[] (Value): {@link
-         * CreatePackageItemRequestInput}. The request body for: Create package item.
-         */
-        "items": Array<CreatePackageItemRequestInput>;
-    })
-        & (Exclude<PackageCreateRequestInput & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string.  Value enum: "single_package". */
-    "packaging": "single_package";
+    "unit"?: "gram" | "kilogram" | "ounce" | "pound";
 })
     & (({
-    "packages"?: never;
+    /**
+     * Value enum: "choice_group.fulfillment_quantity",
+     * "choice_group.merchandise_subtotal_before_discounts",
+     * "choice_group.merchandise_subtotal_after_line_item_discounts",
+     * "order.merchandise_subtotal_before_discounts",
+     * "order.merchandise_subtotal_after_line_item_discounts".
+     */
+    "basis"?: "choice_group.fulfillment_quantity"
+        | "choice_group.merchandise_subtotal_before_discounts"
+        | "choice_group.merchandise_subtotal_after_line_item_discounts"
+        | "order.merchandise_subtotal_before_discounts"
+        | "order.merchandise_subtotal_after_line_item_discounts";
+})
+    & ({
+    "unit"?: never;
+}));
+/** The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategyInput`. */
+export type DeliveryTieredPricingStrategyInputWeightInput = ({
+    /**
+     *  [] (Value): {@link DeliveryPricingTierBandRequestInput}. One band of a tiered pricing
+     * strategy you supply, covering values of the strategy's `basis` from `from` to `to`, with a
+     * price per currency.
+     */
+    "bands": Array<DeliveryPricingTierBandRequestInput>;
+    /**
+     * Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value
+     * enum: "choice_group.total_weight".
+     */
+    "basis": "choice_group.total_weight";
+    /**
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
+     */
+    "unit": "gram" | "kilogram" | "ounce" | "pound";
+})
+    & ({
+    /** Value enum: "choice_group.total_weight". */
+    "basis"?: "choice_group.total_weight";
+    /**
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
+     */
+    "unit": "gram" | "kilogram" | "ounce" | "pound";
+});
+/**
+ * The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The
+ * `choice_group.merchandise_subtotal_after_line_item_discounts` variant of
+ * `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts`
+ * variant of `DeliveryTieredPricingStrategy`. The
+ * `order.merchandise_subtotal_after_line_item_discounts` variant of
+ * `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of
+ * `DeliveryTieredPricingStrategy`.
+ */
+export type DeliveryTieredPricingStrategyQuantityOrMoney = ({
+    /**
+     *  [] (Value): {@link DeliveryPricingTierBand}. One band of a tiered pricing strategy,
+     * covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+     */
+    "bands": Array<DeliveryPricingTierBand>;
+    /**
+     * Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value
+     * enum: "choice_group.fulfillment_quantity",
+     * "choice_group.merchandise_subtotal_before_discounts",
+     * "choice_group.merchandise_subtotal_after_line_item_discounts",
+     * "order.merchandise_subtotal_before_discounts",
+     * "order.merchandise_subtotal_after_line_item_discounts".
+     */
+    "basis": "choice_group.fulfillment_quantity"
+        | "choice_group.merchandise_subtotal_before_discounts"
+        | "choice_group.merchandise_subtotal_after_line_item_discounts"
+        | "order.merchandise_subtotal_before_discounts"
+        | "order.merchandise_subtotal_after_line_item_discounts"
+        | (string & {});
+    /**
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
+     */
+    "unit"?: "gram" | "kilogram" | "ounce" | "pound" | (string & {});
+})
+    & (({
+    /**
+     * Value enum: "choice_group.fulfillment_quantity",
+     * "choice_group.merchandise_subtotal_before_discounts",
+     * "choice_group.merchandise_subtotal_after_line_item_discounts",
+     * "order.merchandise_subtotal_before_discounts",
+     * "order.merchandise_subtotal_after_line_item_discounts".
+     */
+    "basis"?: "choice_group.fulfillment_quantity"
+        | "choice_group.merchandise_subtotal_before_discounts"
+        | "choice_group.merchandise_subtotal_after_line_item_discounts"
+        | "order.merchandise_subtotal_before_discounts"
+        | "order.merchandise_subtotal_after_line_item_discounts"
+        | (string & {});
 }));
 /**
- * Shape $ (Value): {@link FulfillmentTransitionRequest}. The request body for: Transition
- * fulfillment.
+ * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+ * prices, and a weight `unit` when the basis is total weight.
  */
-export type FulfillmentTransitionRequest = ((FulfillmentTransitionRequestReleaseHold)
-    | (FulfillmentTransitionRequestComplete)
-    | (FulfillmentTransitionRequestCancel)
-    | (FulfillmentTransitionRequestHold)
-    | (FulfillmentTransitionRequestStart)
-    | (FulfillmentTransitionRequestMarkReady)
-    | (FulfillmentTransitionRequestFail)
-    | (FulfillmentTransitionRequestSchedule)
-    | (FulfillmentTransitionRequestAccept)
-    | (FulfillmentTransitionRequestMarkPreparing)
-    | (FulfillmentTransitionRequestMarkPicked)
-    | (PackageTransitionRequestMarkPacked)
-    | (FulfillmentTransitionRequestDispatch)
-    | (FulfillmentTransitionRequestMarkNoShow)
+export type DeliveryTieredPricingStrategyRequestInput = ({
+    /**
+     *  [] (Value): {@link DeliveryPricingTierBandRequestInput}. One band of a tiered pricing
+     * strategy you supply, covering values of the strategy's `basis` from `from` to `to`, with a
+     * price per currency.
+     */
+    "bands": Array<DeliveryPricingTierBandRequestInput>;
+    /**
+     * Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value
+     * enum: "choice_group.total_weight", "choice_group.fulfillment_quantity",
+     * "choice_group.merchandise_subtotal_before_discounts",
+     * "choice_group.merchandise_subtotal_after_line_item_discounts",
+     * "order.merchandise_subtotal_before_discounts",
+     * "order.merchandise_subtotal_after_line_item_discounts", "caller.tier_key".
+     */
+    "basis": "choice_group.total_weight"
+        | "choice_group.fulfillment_quantity"
+        | "choice_group.merchandise_subtotal_before_discounts"
+        | "choice_group.merchandise_subtotal_after_line_item_discounts"
+        | "order.merchandise_subtotal_before_discounts"
+        | "order.merchandise_subtotal_after_line_item_discounts"
+        | "caller.tier_key";
+    /**
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
+     */
+    "unit"?: "gram" | "kilogram" | "ounce" | "pound";
+})
+    & ((Exclude<DeliveryTieredPricingStrategyInputWeightInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryTieredPricingStrategyInputQuantityOrMoneyInput & object, readonly unknown[]>));
+/** The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`. */
+export type DeliveryTieredPricingStrategyWeight = ({
+    /**
+     *  [] (Value): {@link DeliveryPricingTierBand}. One band of a tiered pricing strategy,
+     * covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+     */
+    "bands": Array<DeliveryPricingTierBand>;
+    /**
+     * Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value
+     * enum: "choice_group.total_weight".
+     */
+    "basis": "choice_group.total_weight" | (string & {});
+    /**
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
+     */
+    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
+})
+    & ({
+    /** Value enum: "choice_group.total_weight". */
+    "basis"?: "choice_group.total_weight" | (string & {});
+    /**
+     * Required only for choice_group.total_weight and forbidden for every other basis. Value enum:
+     * "gram", "kilogram", "ounce", "pound".
+     */
+    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
+});
+/**
+ * Estimate rule giving a delivery method's handling time and transit time as ranges of business
+ * days.
+ */
+export type DeliveryTransitTimeRule = {
+    /** A minimum and maximum number of business days, used in transit time estimates. */
+    "handling_days": DeliveryBusinessDayRange;
+    /** A minimum and maximum number of business days, used in transit time estimates. */
+    "transit_days": DeliveryBusinessDayRange;
+};
+/**
+ * Estimate rule giving a delivery method's handling time and transit time as ranges of business
+ * days.
+ */
+export type DeliveryTransitTimeRuleRequestInput = {
+    /** A minimum and maximum number of business days, used in transit time estimates. */
+    "handling_days": DeliveryBusinessDayRangeRequestInput;
+    /** A minimum and maximum number of business days, used in transit time estimates. */
+    "transit_days": DeliveryBusinessDayRangeRequestInput;
+};
+/**
+ * A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a
+ * delivery method's availability schedule.
+ */
+export type DeliveryWeeklyInterval = {
+    "end_minute": number;
+    "end_weekday": number;
+    "start_minute": number;
+    "start_weekday": number;
+};
+/**
+ * A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a
+ * delivery method's availability schedule.
+ */
+export type DeliveryWeeklyIntervalRequestInput = DeliveryWeeklyInterval;
+/**
+ * Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity`
+ * of the chosen weight `unit`.
+ */
+export type DeliveryWeightUnitPrice = {
+    /**
+     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /** Weight unit used by unit_quantity. Value enum: "gram", "kilogram", "ounce", "pound". */
+    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
+    /**
+     * Whole-number quantity of the selected unit charged at each configured currency price;
+     * fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "unit_quantity": number;
+};
+/**
+ * Price per unit of weight you supply for calculated pricing: a price per currency for each
+ * `unit_quantity` of the chosen weight `unit`.
+ */
+export type DeliveryWeightUnitPriceRequestInput = {
+    /**
+     *  * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+    /** Weight unit used by unit_quantity. Value enum: "gram", "kilogram", "ounce", "pound". */
+    "unit": "gram" | "kilogram" | "ounce" | "pound";
+    /**
+     * Whole-number quantity of the selected unit charged at each configured currency price;
+     * fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "unit_quantity": number;
+};
+/**
+ * A delivery window you supply in a caller-supplied delivery outcome, with its time range, price,
+ * and the last moment a buyer can choose it.
+ */
+export type DeliveryWindowRequest = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** minLength: 1. */
+    "delivery_window_id": string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "end_at": string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "expires_at": string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "start_at": string;
+};
+/**
+ * A delivery window you supply in a caller-supplied delivery outcome, with its time range, price,
+ * and the last moment a buyer can choose it.
+ */
+export type DeliveryWindowRequestInput = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValueInput;
+    /** minLength: 1. */
+    "delivery_window_id": string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "end_at": string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "expires_at": string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "start_at": string | globalThis.Date;
+};
+/**
+ * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the
+ * listed `weekdays`.
+ */
+export type DeliveryWindowTimeCondition = {
+    "end_minute"?: number;
+    "start_minute"?: number;
+    /**  [] (Value): string. minLength: 1. */
+    "weekdays"?: Array<string>;
+};
+/**
+ * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the
+ * listed `weekdays`.
+ */
+export type DeliveryWindowTimeConditionInput = DeliveryWindowTimeCondition;
+/** A geographic area served by a delivery method. */
+export type DeliveryZone = {
+    /**
+     * Current geographic eligibility conditions. A reusable geographic predicate containing only
+     * country, state, postal_code, and radius conditions.
+     */
+    "configuration": DeliveryZoneConfiguration;
+    /** Time the zone was created. Format: date-time. */
+    "created_at": string;
+    /** Immutable revision used for new quotes. */
+    "current_delivery_zone_revision_id": string;
+    /** Stable delivery zone ID. */
+    "delivery_zone_id": string;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing zone name. */
+    "name": string;
+    /** Current zone lifecycle status. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** Time the zone last changed. Format: date-time. */
+    "updated_at": string;
+    /** Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type DeliveryZoneActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.activated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.activated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.activated";
+});
+/**
+ * The `delivery_zone.activated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type DeliveryZoneActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.activated". */
+    "event_type"?: "delivery_zone.activated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_zone.activated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryZoneActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.activated". */
+    "event_type"?: "delivery_zone.activated";
+});
+export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.archived";
+});
+/**
+ * The `delivery_zone.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.archived". */
+    "event_type"?: "delivery_zone.archived";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_zone.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.archived". */
+    "event_type"?: "delivery_zone.archived";
+});
+/**
+ * Eligibility condition that matches when the destination or buyer location falls inside the
+ * delivery zone `delivery_zone_id`.
+ */
+export type DeliveryZoneCondition = {
+    /** minLength: 1. */
+    "delivery_zone_id": string;
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location" | (string & {});
+};
+/**
+ * Eligibility condition that matches when the destination or buyer location falls inside the
+ * delivery zone `delivery_zone_id`.
+ */
+export type DeliveryZoneConditionInput = {
+    /** minLength: 1. */
+    "delivery_zone_id": string;
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location";
+};
+/**
+ * A reusable geographic predicate containing only country, state, postal_code, and radius
+ * conditions.
+ */
+export type DeliveryZoneConfiguration = ({
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfiguration>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfiguration>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryStateCondition;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfiguration;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeCondition;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusCondition;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateCondition;
+})
+    & (({
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all": Array<DeliveryZoneConfiguration>;
+})
+    | ({
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any": Array<DeliveryZoneConfiguration>;
+})
+    | ({
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not": DeliveryZoneConfiguration;
+})
+    | ({
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeCondition;
+})
+    | ({
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius": DeliveryRadiusCondition;
+})
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link FulfillmentTransitionRequestAccept}. The `accept` variant of
- * `FulfillmentTransitionRequest`.
+ * A reusable geographic predicate containing only country, state, postal_code, and radius
+ * conditions.
  */
-export type FulfillmentTransitionRequestAccept = {
-    /** Shape $ (Value): string.  Value enum: "accept". */
-    "action": "accept" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+export type DeliveryZoneConfigurationInput = {
     /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
      */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
+    "all": Array<DeliveryZoneConfigurationInput>;
     /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
      */
-    "reason_message"?: string;
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any": Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not": DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country": DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius": DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
 };
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestAcceptInput}. The `accept` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestAcceptInput = {
-    /** Shape $ (Value): string.  Value enum: "accept". */
-    "action": "accept";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestCancel}. The `cancel` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestCancel = {
-    /** Shape $ (Value): string.  Value enum: "cancel". */
-    "action": "cancel" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestCancelInput}. The `cancel` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestCancelInput = {
-    /** Shape $ (Value): string.  Value enum: "cancel". */
-    "action": "cancel";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestComplete}. The `complete` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestComplete = {
-    /** Shape $ (Value): string.  Value enum: "complete". */
-    "action": "complete" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestCompleteInput}. The `complete` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestCompleteInput = {
-    /** Shape $ (Value): string.  Value enum: "complete". */
-    "action": "complete";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestDispatch}. The `dispatch` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestDispatch = {
-    /** Shape $ (Value): string.  Value enum: "dispatch". */
-    "action": "dispatch" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestDispatchInput}. The `dispatch` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestDispatchInput = {
-    /** Shape $ (Value): string.  Value enum: "dispatch". */
-    "action": "dispatch";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestFail}. The `fail` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestFail = {
-    /** Shape $ (Value): string.  Value enum: "fail". */
-    "action": "fail" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-    /** Shape $ (Value): boolean. */
-    "release_quantity": boolean;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestFailInput}. The `fail` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestFailInput = {
-    /** Shape $ (Value): string.  Value enum: "fail". */
-    "action": "fail";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-    /** Shape $ (Value): boolean. */
-    "release_quantity": boolean;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestHold}. The `hold` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestHold = {
-    /** Shape $ (Value): string.  Value enum: "hold". */
-    "action": "hold" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "payment_review", "inventory_issue", "address_issue",
-     * "customer_request", "provider_issue", "scheduling_issue", "fraud_review", "other".
-     */
-    "reason": "payment_review"
-        | "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestHoldInput}. The `hold` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestHoldInput = {
-    /** Shape $ (Value): string.  Value enum: "hold". */
-    "action": "hold";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Value enum: "payment_review", "inventory_issue", "address_issue",
-     * "customer_request", "provider_issue", "scheduling_issue", "fraud_review", "other".
-     */
-    "reason": "payment_review"
-        | "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other";
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestInput}. The request body for: Transition
- * fulfillment.
- */
-export type FulfillmentTransitionRequestInput = ((FulfillmentTransitionRequestReleaseHoldInput)
-    | (FulfillmentTransitionRequestCompleteInput)
-    | (FulfillmentTransitionRequestCancelInput)
-    | (FulfillmentTransitionRequestHoldInput)
-    | (FulfillmentTransitionRequestStartInput)
-    | (FulfillmentTransitionRequestMarkReadyInput)
-    | (FulfillmentTransitionRequestFailInput)
-    | (FulfillmentTransitionRequestScheduleInput)
-    | (FulfillmentTransitionRequestAcceptInput)
-    | (FulfillmentTransitionRequestMarkPreparingInput)
-    | (FulfillmentTransitionRequestMarkPickedInput)
-    | (FulfillmentTransitionRequestMarkPackedInput)
-    | (FulfillmentTransitionRequestDispatchInput)
-    | (FulfillmentTransitionRequestMarkNoShowInput));
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkNoShow}. The `mark_no_show` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkNoShow = {
-    /** Shape $ (Value): string.  Value enum: "mark_no_show". */
-    "action": "mark_no_show" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "customer_no_show", "provider_no_show",
-     * "location_unavailable", "scheduling_error", "other".
-     */
-    "reason": "customer_no_show"
-        | "provider_no_show"
-        | "location_unavailable"
-        | "scheduling_error"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkNoShowInput}. The `mark_no_show` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkNoShowInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_no_show". */
-    "action": "mark_no_show";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Value enum: "customer_no_show", "provider_no_show",
-     * "location_unavailable", "scheduling_error", "other".
-     */
-    "reason": "customer_no_show" | "provider_no_show" | "location_unavailable" | "scheduling_error" | "other";
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPackedInput}. The `mark_packed` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPackedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_packed". */
-    "action": "mark_packed";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPicked}. The `mark_picked` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPicked = {
-    /** Shape $ (Value): string.  Value enum: "mark_picked". */
-    "action": "mark_picked" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPickedInput}. The `mark_picked` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPickedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_picked". */
-    "action": "mark_picked";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPreparing}. The `mark_preparing` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPreparing = {
-    /** Shape $ (Value): string.  Value enum: "mark_preparing". */
-    "action": "mark_preparing" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPreparingInput}. The `mark_preparing`
- * variant of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPreparingInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_preparing". */
-    "action": "mark_preparing";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkReady}. The `mark_ready` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkReady = {
-    /** Shape $ (Value): string.  Value enum: "mark_ready". */
-    "action": "mark_ready" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkReadyInput}. The `mark_ready` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkReadyInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_ready". */
-    "action": "mark_ready";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestReleaseHold}. The `release_hold` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestReleaseHold = {
-    /** Shape $ (Value): string.  Value enum: "release_hold". */
-    "action": "release_hold" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestReleaseHoldInput}. The `release_hold`
- * variant of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestReleaseHoldInput = {
-    /** Shape $ (Value): string.  Value enum: "release_hold". */
-    "action": "release_hold";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestSchedule}. The `schedule` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestSchedule = {
-    /** Shape $ (Value): string.  Value enum: "schedule". */
-    "action": "schedule" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_end_at": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_start_at": string;
-    /** Shape $ (Value): string. IANA timezone of the service appointment. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestScheduleInput}. The `schedule` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestScheduleInput = {
-    /** Shape $ (Value): string.  Value enum: "schedule". */
-    "action": "schedule";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_end_at": string | globalThis.Date;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_start_at": string | globalThis.Date;
-    /** Shape $ (Value): string. IANA timezone of the service appointment. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestStart}. The `start` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestStart = {
-    /** Shape $ (Value): string.  Value enum: "start". */
-    "action": "start" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestStartInput}. The `start` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestStartInput = {
-    /** Shape $ (Value): string.  Value enum: "start". */
-    "action": "start";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-export type FulfillmentsCreateEventInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateFulfillmentEventRequestInput}. The request body for: Create
-     * fulfillment event.
-     */
-    "body": InputValue<CreateFulfillmentEventRequestInput>;
-};
-export type FulfillmentsCreateShipmentInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateShipmentRequestInput}. The request body for: Create shipment.
-     */
-    "body": InputValue<CreateShipmentRequestInput>;
-};
-export type FulfillmentsGetInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order", "packages", "shipments". Shape $[]
-     * (Value): string. Value enum: "order", "packages", "shipments".
-     */
-    "expand"?: InputValue<Array<"order" | "packages" | "shipments">>;
-};
-export type FulfillmentsListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "pending", "on_hold", "in_progress",
-     * "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked",
-     * "packed", "dispatched", "no_show". Shape $[] (Value): string. Value enum: "pending",
-     * "on_hold", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
-     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
-     */
-    "status"?: InputValue<Array<"pending"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service". Shape $[] (Value): string. Value enum: "shipment",
-     * "pickup", "local_delivery", "digital", "service".
-     */
-    "type"?: InputValue<Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">>;
-    /** Shape $ (Value): string. */
-    "location_id"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): string. Default: "created_at". Value enum: "created_at",
-     * "scheduled_start_at", "terminal_at".
-     */
-    "sort_by"?: InputValue<"created_at" | "scheduled_start_at" | "terminal_at">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-};
-export type FulfillmentsTransitionInput = {
-    /** Shape $ (Value): string. */
-    "fulfillment_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link FulfillmentTransitionRequestInput}. The request body for: Transition
-     * fulfillment.
-     */
-    "body": InputValue<FulfillmentTransitionRequestInput>;
-};
+export type DeliveryZoneCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.created";
+});

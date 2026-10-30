@@ -1,1 +1,1 @@
-{"shared":"WebhookEventSourceInstalledMerchants","dependencies":["SharedCodec417","WebhookEventSourceInstalledMerchants"]}
+{"shared":"PartnerWebhookEnvelopeSourceInstalledMerchants","dependencies":["PartnerWebhookEnvelopeSourceInstalledMerchants","SharedCodec26"]}

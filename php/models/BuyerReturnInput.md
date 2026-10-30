@@ -31,7 +31,7 @@ Request input.
 | `status` | Required | string | Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Items values: `"cancel"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `version` | Required | integer | Format: `int64`. minimum: `0`. |
 
 #### BuyerReturnInput merchandise_status values
 

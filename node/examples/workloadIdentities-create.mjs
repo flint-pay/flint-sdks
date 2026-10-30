@@ -1,19 +1,25 @@
 import { Client } from "@flintpay/node";
-const baseUrl = process.env.API_BASE_URL;
-if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
 const client = new Client({
   baseUrl,
-  allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.workloadIdentities.create(
   {
-    name: "example",
-    issuer: "example",
-    subject: "example",
-    scopes: [],
+    claim_conditions: [
+      {
+        claim: "repository_owner_id",
+        match: "exact",
+        value: "123456",
+      },
+    ],
+    issuer: "https://token.actions.githubusercontent.com",
+    name: "Production deploy",
+    scopes: ["commerce.orders.read"],
+    subject: "repo:acme/shop:ref:refs/heads/main",
   },
   { idempotencyKey: idempotencyKey },
 );

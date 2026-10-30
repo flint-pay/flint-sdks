@@ -6,5 +6,5 @@ Tip settings for a checkout: whether tips are enabled, the percent or fixed amou
 
 Request input.
 
-Fields, types, descriptions and enum values: [CheckoutTipConfigRequestRequestInput](../models/CheckoutTipConfigRequestRequestInput.md#checkouttipconfigrequestrequestinput).
+Fields, types, descriptions and enum values: [CheckoutTipConfigRequestInput](../models/CheckoutTipConfigRequestInput.md#checkouttipconfigrequestinput).
 

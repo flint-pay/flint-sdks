@@ -47,7 +47,7 @@ Request input.
 
 ### DeliveryCandidateOutcomeResourceInput variant 1: `type` = `"available"`
 
-oneOf variant 1: The `available` variant of `DeliveryCandidateOutcomeResource`..
+oneOf with type: "available": The `available` variant of `DeliveryCandidateOutcomeResource`..
 
 - Required: `option`.
 - Optional: `failure_category`, `input_requirements`, `retryable`, `unavailable_reason`.
@@ -55,7 +55,7 @@ oneOf variant 1: The `available` variant of `DeliveryCandidateOutcomeResource`..
 
 ### DeliveryCandidateOutcomeResourceInput variant 2: `type` = `"unavailable"`
 
-oneOf variant 2: The `unavailable` variant of `DeliveryCandidateOutcomeResource`..
+oneOf with type: "unavailable": The `unavailable` variant of `DeliveryCandidateOutcomeResource`..
 
 - Required: `unavailable_reason`.
 - Optional: `failure_category`, `input_requirements`, `option`, `retryable`.
@@ -63,7 +63,7 @@ oneOf variant 2: The `unavailable` variant of `DeliveryCandidateOutcomeResource`
 
 ### DeliveryCandidateOutcomeResourceInput variant 3: `type` = `"input_required"`
 
-oneOf variant 3: The `input_required` variant of `DeliveryCandidateOutcomeResource`..
+oneOf with type: "input_required": The `input_required` variant of `DeliveryCandidateOutcomeResource`..
 
 - Required: `input_requirements`.
 - Optional: `failure_category`, `option`, `retryable`, `unavailable_reason`.
@@ -71,7 +71,7 @@ oneOf variant 3: The `input_required` variant of `DeliveryCandidateOutcomeResour
 
 ### DeliveryCandidateOutcomeResourceInput variant 4: `type` = `"cannot_calculate"`
 
-oneOf variant 4: The `cannot_calculate` variant of `DeliveryCandidateOutcomeResource`..
+oneOf with type: "cannot_calculate": The `cannot_calculate` variant of `DeliveryCandidateOutcomeResource`..
 
 - Required: `failure_category`, `retryable`.
 - Optional: `input_requirements`, `option`, `unavailable_reason`.
@@ -79,7 +79,7 @@ oneOf variant 4: The `cannot_calculate` variant of `DeliveryCandidateOutcomeReso
 
 ### DeliveryCandidateOutcomeResourceInput variant 5: `type` = `"requires_checkout_context"`
 
-oneOf variant 5: The `requires_checkout_context` variant of `DeliveryCandidateOutcomeResource`..
+oneOf with type: "requires_checkout_context": The `requires_checkout_context` variant of `DeliveryCandidateOutcomeResource`..
 
 - Optional: `failure_category`, `input_requirements`, `option`, `retryable`, `unavailable_reason`.
 - Constraints for `type`: Values: `"requires_checkout_context"`.

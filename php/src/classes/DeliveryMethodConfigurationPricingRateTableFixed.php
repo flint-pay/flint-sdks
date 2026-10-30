@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingRateTableFixed extends Model {
     /** @param array{'currency_options': \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingRateTableFixed')); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingRateTableFixedCurrencyOptionsValue} and {@see MoneyValue}). Shape $.* (Value): {@see DeliveryMethodConfigurationPricingRateTableFixedCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /**  * (Value): {@see DeliveryMethodConfigurationPricingRateTableFixedCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, DeliveryMethodConfigurationPricingRateTableFixedCurrencyOptionsValue>
      */
     public function getCurrencyOptions(): array { return $this->get('currency_options'); }

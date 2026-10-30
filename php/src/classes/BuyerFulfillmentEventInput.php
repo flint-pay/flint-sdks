@@ -17,67 +17,67 @@ namespace Flint;
 final class BuyerFulfillmentEventInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'current_status'?: string, 'event_type': string, 'fulfillment_event_id': string, 'fulfillment_id': string, 'location_description'?: string, 'occurred_at': string|\DateTimeInterface, 'order_id': string, 'package_id'?: string, 'previous_status'?: string, 'shipment_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentEventInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+    /** Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
      * @return string
      * @throws SdkError When current_status is omitted; use hasCurrentStatus() or valueOrDefault().
      */
     public function getCurrentStatus(): string { return $this->get('current_status'); }
     public function hasCurrentStatus(): bool { return $this->has('current_status'); }
-    /** Shape $ (Value): string.  Value enum: "carrier_scan", "status_changed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "tracking_updated", "exception", "returned", "custom", "accepted", "preparing", "picked", "packed", "ready", "dispatched", "completed", "canceled", "failed", "no_show".
+    /** Value enum: "carrier_scan", "status_changed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "tracking_updated", "exception", "returned", "custom", "accepted", "preparing", "picked", "packed", "ready", "dispatched", "completed", "canceled", "failed", "no_show".
      * @return string
      * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
      */
     public function getEventType(): string { return $this->get('event_type'); }
     public function hasEventType(): bool { return $this->has('event_type'); }
-    /** Shape $ (Value): string.
+    /** fulfillment_event_id
      * @return string
      * @throws SdkError When fulfillment_event_id is omitted; use hasFulfillmentEventId() or valueOrDefault().
      */
     public function getFulfillmentEventId(): string { return $this->get('fulfillment_event_id'); }
     public function hasFulfillmentEventId(): bool { return $this->has('fulfillment_event_id'); }
-    /** Shape $ (Value): string.
+    /** fulfillment_id
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Shape $ (Value): string.
+    /** location_description
      * @return string
      * @throws SdkError When location_description is omitted; use hasLocationDescription() or valueOrDefault().
      */
     public function getLocationDescription(): string { return $this->get('location_description'); }
     public function hasLocationDescription(): bool { return $this->has('location_description'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Shape $ (Value): string.
+    /** order_id
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Shape $ (Value): string.
+    /** package_id
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */
     public function getPackageId(): string { return $this->get('package_id'); }
     public function hasPackageId(): bool { return $this->has('package_id'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+    /** Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
      * @return string
      * @throws SdkError When previous_status is omitted; use hasPreviousStatus() or valueOrDefault().
      */
     public function getPreviousStatus(): string { return $this->get('previous_status'); }
     public function hasPreviousStatus(): bool { return $this->has('previous_status'); }
-    /** Shape $ (Value): string.
+    /** shipment_id
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */

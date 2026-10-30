@@ -21,7 +21,7 @@ No additional constraints.
 
 ### DeliveryBlackoutInterval variant 2
 
-anyOf variant 2: Declared schema DeliveryBlackoutIntervalRequestRequest. A local start and end time during which a delivery schedule offers no windows..
+anyOf variant 2: Declared schema DeliveryBlackoutIntervalRequest. A local start and end time during which a delivery schedule offers no windows..
 
 No additional constraints.
 

@@ -1,1 +1,0 @@
-{"shared":"Webhook_custom_domain_archived_merchant","dependencies":["CustomDomain","CustomDomainDNSRecord","MerchantWebhookEnvelope","SharedCodec413","SharedCodec414","SharedCodec440","Webhook_custom_domain_archived_merchant"]}

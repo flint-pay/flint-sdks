@@ -12,32 +12,32 @@ namespace Flint;
 final class PaymentLinkEventConfig extends Model {
     /** @param array{'event_at'?: string, 'max_total_quantity'?: int|null, 'send_ticket_emails'?: bool, 'ticket_prefix'?: string, 'timezone'?: string, 'venue'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkEventConfig')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getEventAt(): ?string { return $this->get('event_at'); }
     public function hasEventAt(): bool { return $this->has('event_at'); }
-    /** Shape $ (Value): integer or null. Most tickets the event sells across all orders. Absent means no limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number quantity; fractional quantities are not supported. Format: int32.
+    /** Most tickets the event sells across all orders. Absent means no limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int|null
      */
     public function getMaxTotalQuantity(): int|null { return $this->get('max_total_quantity'); }
     public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
-    /** Shape $ (Value): boolean.
+    /** send_ticket_emails
      * @return ?bool
      */
     public function getSendTicketEmails(): ?bool { return $this->get('send_ticket_emails'); }
     public function hasSendTicketEmails(): bool { return $this->has('send_ticket_emails'); }
-    /** Shape $ (Value): string. Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. maxLength: 5.
+    /** Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. maxLength: 5.
      * @return ?string
      */
     public function getTicketPrefix(): ?string { return $this->get('ticket_prefix'); }
     public function hasTicketPrefix(): bool { return $this->has('ticket_prefix'); }
-    /** Shape $ (Value): string.
+    /** timezone
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** Shape $ (Value): string. maxLength: 500.
+    /** maxLength: 500.
      * @return ?string
      */
     public function getVenue(): ?string { return $this->get('venue'); }

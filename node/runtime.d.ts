@@ -8,7 +8,7 @@ export type { RuntimeContract } from './runtime-plan.js';
 export type { Operation, Schema } from './contract.js';
 export { directionalSchema } from './codec-plan.js';
 declare const inspectCustom: unique symbol;
-export type ErrorKind = 'transport'
+type InternalErrorKind = 'transport'
     | 'timeout'
     | 'authentication'
     | 'validation'
@@ -20,8 +20,22 @@ export type ErrorKind = 'transport'
     | 'protocol'
     | 'cancelled'
     | 'deadline'
-    | 'destination';
-export interface Metadata {
+    | 'destination'
+    | 'webhook';
+export interface ResponseInfo<Body = unknown> {
+    status: number;
+    headers: Record<string, string>;
+    requestId?: string;
+    requestIds: string[];
+    idempotencyKey?: string;
+    attempts: number;
+    durationMs: number;
+    body: Body;
+}
+export type WithResponseInfo<T, Body> = T & {
+    readonly lastResponse: ResponseInfo<Body>;
+};
+interface Metadata {
     status: number;
     headers: Record<string, string>;
     requestId?: string;
@@ -29,76 +43,127 @@ export interface Metadata {
     attempts: number;
     durationMs: number;
     url?: string;
+    requestIds?: string[];
 }
 export interface Result<T> {
     data: T;
-    meta: Metadata;
+    readonly lastResponse: ResponseInfo<T>;
     raw: T extends Uint8Array ? Uint8Array : string;
 }
-export type RuntimeErrorDetails = {
-    "transportCode": string | null;
+export interface SdkErrorInit {
+    code?: string;
+    param?: string;
+    operation?: string;
+    outcome?: 'unknown' | 'response' | 'not_sent';
+    retryAllowed?: boolean;
+    status?: number;
+    requestId?: string;
+    requestIds?: string[];
+    idempotencyKey?: string;
+    attempts?: number;
+    durationMs?: number;
+    retryAfterMs?: number;
+    headers?: Record<string, string>;
+    raw?: string;
+    cause?: unknown;
 }
-    | {
-    "eventId": string;
-    "position": number;
+export type ErrorRetry = 'same_request' | 'after_refresh' | 'none';
+export interface ErrorRemediation {
+    retry?: ErrorRetry;
+    next_steps?: readonly string[];
+    next_actions?: readonly unknown[];
+    [key: string]: unknown;
 }
-    | {
-    "reason": string;
-    "source": string;
-    "workloadIdentityId": string;
-    "iss": string;
-    "sub": string;
-    "aud": string;
-    "error_description": string;
-};
-/** SDK failure with outcome and recovery metadata. See RUNTIME.md#error-reference. */
+export interface ApiErrorInit extends SdkErrorInit {
+    details?: unknown;
+    type?: "authentication_error"
+        | "authorization_error"
+        | "validation_error"
+        | "not_found_error"
+        | "conflict_error"
+        | "rate_limit_error"
+        | "external_service_error"
+        | "timeout_error"
+        | "unavailable_error"
+        | "internal_error"
+        | "protocol_error"
+        | (string & {});
+    errorSource?: "caller" | "merchant" | "merchant_endpoint" | "flint" | "integration" | (string & {});
+    docUrl?: string;
+    requestLogUrl?: string;
+    remediation?: SdkErrorRemediation;
+    body?: unknown;
+}
+/** SDK failure with flattened call context. */
 export declare class SdkError extends Error {
-    kind: ErrorKind;
+    code: SdkErrorCode;
+    param?: string;
+    operation?: string;
     outcome: 'unknown' | 'response' | 'not_sent';
     retryAllowed: boolean;
-    meta?: Metadata | undefined;
-    code?: SdkErrorCode | undefined;
-    details?: SdkErrorDetails | undefined;
-    raw?: string | undefined;
+    status?: number;
+    requestId?: string;
+    requestIds: string[];
     idempotencyKey?: string;
+    attempts: number;
+    durationMs?: number;
     retryAfterMs?: number;
-    constructor(kind: ErrorKind, message: string, outcome?: 'unknown' | 'response' | 'not_sent', retryAllowed?: boolean, meta?: Metadata | undefined, code?: SdkErrorCode | undefined, details?: SdkErrorDetails | undefined, options?: ErrorOptions, raw?: string | undefined);
-    get status(): number | undefined;
+    headers: Record<string, string>;
+    raw?: string;
+    constructor(message: string, init?: SdkErrorInit);
     toJSON(): {
-        name: string;
-        kind: ErrorKind;
-        message: string;
-        outcome: "unknown" | "response" | "not_sent";
-        retryAllowed: boolean;
-        requestId: string | undefined;
-        status: number | undefined;
-        code: SdkErrorCode | undefined;
-        details: SdkErrorDetails | undefined;
-        idempotencyKey: string | undefined;
-        retryAfterMs: number | undefined;
         cause: {
             name: string;
-            code: string | undefined;
-        } | undefined;
-        stack: string | undefined;
+            code: string | null;
+        } | null;
+        stack: string | null;
+        nextPageToken?: unknown;
+        pages?: number;
+        details?: readonly unknown[];
+        type?: string | null;
+        param?: string | null;
+        errorSource?: string | null;
+        docUrl?: string | null;
+        remediation?: ErrorRemediation | null;
+        operation: string | null;
+        outcome: "response" | "unknown" | "not_sent";
+        retryAllowed: boolean;
+        status: number | null;
+        requestId: string | null;
+        requestIds: string[];
+        idempotencyKey: string | null;
+        attempts: number;
+        retryAfterMs: number | null;
+        name: string;
+        message: string;
+        code: SdkErrorCode;
     };
     [inspectCustom](): {
-        name: string;
-        kind: ErrorKind;
-        message: string;
-        outcome: "unknown" | "response" | "not_sent";
-        retryAllowed: boolean;
-        requestId: string | undefined;
-        status: number | undefined;
-        code: SdkErrorCode | undefined;
-        details: SdkErrorDetails | undefined;
-        idempotencyKey: string | undefined;
-        retryAfterMs: number | undefined;
         cause: {
             name: string;
-            code: string | undefined;
-        } | undefined;
-        stack: string | undefined;
+            code: string | null;
+        } | null;
+        stack: string | null;
+        nextPageToken?: unknown;
+        pages?: number;
+        details?: readonly unknown[];
+        type?: string | null;
+        param?: string | null;
+        errorSource?: string | null;
+        docUrl?: string | null;
+        remediation?: ErrorRemediation | null;
+        operation: string | null;
+        outcome: "response" | "unknown" | "not_sent";
+        retryAllowed: boolean;
+        status: number | null;
+        requestId: string | null;
+        requestIds: string[];
+        idempotencyKey: string | null;
+        attempts: number;
+        retryAfterMs: number | null;
+        name: string;
+        message: string;
+        code: SdkErrorCode;
     };
 }
 declare const BaseSdkError: typeof import("./runtime.js").SdkError;
@@ -106,42 +171,87 @@ type BaseSdkError = SdkError;
 export declare namespace errors {
     const SdkError: typeof import("./runtime.js").SdkError;
     type SdkError = BaseSdkError;
+    class ApiError extends BaseSdkError {
+        details: SdkErrorDetails;
+        type?: "authentication_error"
+            | "authorization_error"
+            | "validation_error"
+            | "not_found_error"
+            | "conflict_error"
+            | "rate_limit_error"
+            | "external_service_error"
+            | "timeout_error"
+            | "unavailable_error"
+            | "internal_error"
+            | "protocol_error"
+            | (string & {});
+        errorSource?: "caller" | "merchant" | "merchant_endpoint" | "flint" | "integration" | (string & {});
+        docUrl?: string;
+        requestLogUrl?: string;
+        remediation?: SdkErrorRemediation;
+        body?: unknown;
+        constructor(message: string, init?: ApiErrorInit);
+    }
+    class InvalidRequestError extends ApiError {
+    }
+    class AuthenticationError extends ApiError {
+    }
+    class PermissionError extends ApiError {
+    }
+    class NotFoundError extends ApiError {
+    }
+    class ConflictError extends ApiError {
+    }
+    class RateLimitError extends ApiError {
+    }
+    class ServerError extends ApiError {
+    }
     class ConnectionError extends BaseSdkError {
     }
-    class TimeoutError extends BaseSdkError {
+    class TimeoutError extends ConnectionError {
     }
-    class AuthenticationError extends BaseSdkError {
+    class InvalidInputError extends BaseSdkError {
+        details: readonly {
+            code: 'REQUIRED' | 'INVALID_VALUE' | 'UNKNOWN_FIELD' | 'NOT_ALLOWED';
+            param: string;
+        }[];
+        constructor(message: string, init?: SdkErrorInit & {
+            details?: unknown;
+        });
     }
-    class ValidationError extends BaseSdkError {
-    }
-    class RateLimitError extends BaseSdkError {
-    }
-    class NotFoundError extends BaseSdkError {
-    }
-    class ConflictError extends BaseSdkError {
-    }
-    class ServerError extends BaseSdkError {
-    }
-    class ApiError extends BaseSdkError {
-    }
-    class ProtocolError extends BaseSdkError {
+    class ConfigurationError extends BaseSdkError {
+        workloadIdentity?: unknown;
+        constructor(message: string, init?: SdkErrorInit);
     }
     class CancelledError extends BaseSdkError {
     }
-    class DeadlineError extends BaseSdkError {
+    class UnexpectedResponseError extends BaseSdkError {
+        event?: {
+            id: string;
+            position: number;
+        };
     }
-    class DestinationError extends BaseSdkError {
+    class WebhookVerificationError extends BaseSdkError {
+    }
+    class PaginationLimitError extends BaseSdkError {
+        nextPageToken: unknown;
+        pages: number;
+        constructor(message: string, init?: SdkErrorInit & {
+            nextPageToken?: unknown;
+            pages?: number;
+        });
     }
 }
-/** Internal construction boundary; public constructors keep their existing arguments. */
-export declare function createSdkError(...args: ConstructorParameters<typeof SdkError>): SdkError;
+/** Internal migration adapter. Remove kind routing when the call sites migrate. */
+export declare function createSdkError(kind: InternalErrorKind, message: string, outcome?: SdkError['outcome'], retryAllowed?: boolean, meta?: Metadata, code?: string, details?: unknown, options?: ErrorOptions, raw?: string): SdkError;
 export interface DiagnosticEvent {
     operation: string;
     attempt: number;
     status?: number;
     requestId?: string;
     durationMs: number;
-    errorKind?: ErrorKind;
+    errorName?: string;
+    errorCode?: string;
 }
 /** Incoming Node/Express headers or Fetch Headers; only signing headers are inspected. */
 export type WebhookHeaders = Headers | Readonly<Record<string, string | readonly string[] | undefined>>;
@@ -180,6 +290,11 @@ export interface RequestOptions extends RequestOptionValues {
 }
 /** Client environment, credentials and transport defaults. See RUNTIME.md#clientoptions. */
 export interface ClientOptions {
+    appInfo?: {
+        name: string;
+        version?: string;
+        url?: string;
+    };
     ambientCredentials?: boolean;
     baseUrl?: string;
     token?: string | CredentialProvider;
@@ -203,8 +318,8 @@ export interface ServerSentEvent {
 }
 /** A single-consumer stream. Breaking iteration releases the response connection. */
 export declare class EventStream implements AsyncIterable<ServerSentEvent> {
+    #private;
     private readonly reader;
-    readonly meta: Metadata;
     private readonly settings;
     private readonly decodeEvent;
     private readonly released;
@@ -222,8 +337,9 @@ export declare class EventStream implements AsyncIterable<ServerSentEvent> {
         retainConnection?: () => void;
     }, decodeEvent?: (event: string, data: string) => unknown, released?: () => void);
     close(): Promise<void>;
+    get lastResponse(): ResponseInfo<EventStream>;
     [inspectCustom](): {
-        meta: {
+        lastResponse: {
             status: number;
             requestId: string | undefined;
             idempotencyKey: string | undefined;
@@ -259,6 +375,7 @@ type CodecMode = {
 export type CodecContext = CodecMode
     & {
     path?: string;
+    sensitive?: boolean;
     redactFields?: string[];
     definitions?: Readonly<Record<string, CodecPlan>>;
     depth?: number;
@@ -413,20 +530,7 @@ export type SdkErrorCode = ("ACTION_NOT_ALLOWED"
     | "VERSION_CONFLICT"
     | (string & {}))
     & string;
-export type SdkErrorDetails = import("./declarations/types-18.js").ErrorObject
-    | ({
-    "transportCode": string | null;
-}
-    | {
-    "eventId": string;
-    "position": number;
-}
-    | {
-    "reason": string;
-    "source": string;
-    "workloadIdentityId": string;
-    "iss": string;
-    "sub": string;
-    "aud": string;
-    "error_description": string;
-});
+export type SdkErrorDetails = ReadonlyArray<import("./declarations/types-21.js").ErrorDetail>;
+export type SdkErrorRemediation = (((import("./declarations/types-21.js").ErrorRemediation) | (null))) & {
+    retry?: ErrorRetry;
+};

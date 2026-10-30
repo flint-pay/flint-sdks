@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `current_status` | Optional | string | Values: [23 declared values](#buyerfulfillmenteventinput-current_status-values). |
+| `current_status` | Optional | string | Values: [22 declared values](#buyerfulfillmenteventinput-current_status-values). |
 | `event_type` | Required | string | Values: [21 declared values](#buyerfulfillmenteventinput-event_type-values). |
 | `fulfillment_event_id` | Required | string |  |
 | `fulfillment_id` | Required | string |  |
@@ -17,13 +17,12 @@ Request input.
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `order_id` | Required | string |  |
 | `package_id` | Optional | string |  |
-| `previous_status` | Optional | string | Values: [23 declared values](#buyerfulfillmenteventinput-current_status-values). |
+| `previous_status` | Optional | string | Values: [22 declared values](#buyerfulfillmenteventinput-current_status-values). |
 | `shipment_id` | Optional | string |  |
 
 #### BuyerFulfillmentEventInput current_status values
 
 - `"pending"`
-- `"on_hold"`
 - `"in_progress"`
 - `"ready"`
 - `"completed"`

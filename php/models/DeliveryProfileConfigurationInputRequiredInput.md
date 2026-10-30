@@ -17,7 +17,7 @@ Request input.
 
 ### DeliveryProfileConfigurationInputRequiredInput variant 1: `requirement` = `"required"`, `resolution_mode` = `"quote"`
 
-oneOf variant 1: The `quote` variant of `DeliveryProfileConfigurationInputRequired`..
+oneOf with resolution_mode: "quote": The `quote` variant of `DeliveryProfileConfigurationInputRequired`..
 
 - Required: `combination_policy`, `origin_policy`, `splitting_policy`.
 - Constraints for `allowed_types`: Items values: `"shipment"`, `"pickup"`, `"local_delivery"`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `quote` variant of `DeliveryProfileConfigurationInputRequir
 
 ### DeliveryProfileConfigurationInputRequiredInput variant 2: `requirement` = `"required"`, `resolution_mode` = `"manual"`
 
-oneOf variant 2: The `manual` variant of `DeliveryProfileConfigurationInputRequired`..
+oneOf with resolution_mode: "manual": The `manual` variant of `DeliveryProfileConfigurationInputRequired`..
 
 - Condition: not (at least one(present(`origin_policy`); present(`combination_policy`); present(`splitting_policy`))).
 - Optional: `combination_policy`, `origin_policy`, `splitting_policy`.

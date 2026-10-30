@@ -8,13 +8,13 @@ namespace Flint;
 final class CreateInventoryCountRequestInput extends Model {
     /** @param array{'inventory_item_ids': list<string>, 'location_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInventoryCountRequestInput')); }
-    /** Shape $ (Value): Array of string. minItems: 1. maxItems: 100. Shape $[] (Value): string. minLength: 1.
+    /** minItems: 1. maxItems: 100. [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When inventory_item_ids is omitted; use hasInventoryItemIds() or valueOrDefault().
      */
     public function getInventoryItemIds(): array { return $this->get('inventory_item_ids'); }
     public function hasInventoryItemIds(): bool { return $this->has('inventory_item_ids'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

@@ -8,12 +8,12 @@ namespace Flint;
 final class InventorySettings extends Model {
     /** @param array{'low_stock_threshold'?: int, 'origin_policies'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventorySettings')); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Available quantity your team treats as low stock, zero or greater. The Dashboard shows this setting. It does not change allocation, filter API results, or send events. Format: int32.
      * @return ?int
      */
     public function getLowStockThreshold(): ?int { return $this->get('low_stock_threshold'); }
     public function hasLowStockThreshold(): bool { return $this->has('low_stock_threshold'); }
-    /** Shape $ (Value): Map of {@see InventoryOriginPolicy}. Map replaced as a whole: the keys you send become the full map. Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. Shape $.* (Value): {@see InventoryOriginPolicy}. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription.
+    /** Map replaced as a whole: the keys you send become the full map. Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. * (Value): {@see InventoryOriginPolicy}. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription.
      * @return ?array<array-key, InventoryOriginPolicy>
      */
     public function getOriginPolicies(): ?array { return $this->get('origin_policies'); }

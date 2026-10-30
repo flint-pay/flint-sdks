@@ -16,7 +16,7 @@ The normalized buyer address or coordinate used for this quote.
 
 ### DeliveryBuyerLocationResource variant 1: `type` = `"address"`
 
-oneOf variant 1: The normalized buyer address or coordinate used for this quote..
+oneOf with type: "address": The normalized buyer address or coordinate used for this quote..
 
 - Condition: not (present(`coordinate`)).
 - Required: `address`.
@@ -25,7 +25,7 @@ oneOf variant 1: The normalized buyer address or coordinate used for this quote.
 
 ### DeliveryBuyerLocationResource variant 2: `type` = `"coordinate"`
 
-oneOf variant 2: The normalized buyer address or coordinate used for this quote..
+oneOf with type: "coordinate": The normalized buyer address or coordinate used for this quote..
 
 - Condition: not (present(`address`)).
 - Required: `coordinate`.

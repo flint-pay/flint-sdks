@@ -109,9 +109,9 @@ test("pagination follows cursors and bounds requests; reads and keyed writes ret
     ),
     SdkError,
   );
-  const command = { inventory_count_id: "ic_test", body: { action: "cancel" } };
+  const command = { action: "cancel" };
   await assert.rejects(
-    client.inventoryCounts.transition(command, {
+    client.inventoryCounts.transition("ic_test", command, {
       ...options("node-fail-inventory"),
       idempotencyKey: "persisted-action-key",
     }),
@@ -119,7 +119,8 @@ test("pagination follows cursors and bounds requests; reads and keyed writes ret
   );
   await assert.rejects(
     client.inventoryCounts.transition(
-      { ...command, body: { action: "invalid" } },
+      "ic_test",
+      { action: "invalid" },
       options("node-no-dispatch"),
     ),
     SdkError,
@@ -159,13 +160,13 @@ try {
   $client->customers->update('cus_test', ['email' => 'buyer@example.com'], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-update'], idempotencyKey: 'persisted-action-key'));
   throw new \RuntimeException('Expected update failure');
 } catch (\Flint\SdkError $e) {}
-$command = ['inventory_count_id' => 'ic_test', 'body' => ['action' => 'cancel']];
+$command = ['action' => 'cancel'];
 try {
-  $client->inventoryCounts->transition($command, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-inventory'], idempotencyKey: 'persisted-action-key'));
+  $client->inventoryCounts->transition('ic_test', $command, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-inventory'], idempotencyKey: 'persisted-action-key'));
   throw new \RuntimeException('Expected inventory failure');
 } catch (\Flint\SdkError $e) {}
 try {
-  $client->inventoryCounts->transition(['inventory_count_id' => 'ic_test', 'body' => ['action' => 'invalid']], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch']));
+  $client->inventoryCounts->transition('ic_test', ['action' => 'invalid'], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch']));
   throw new \RuntimeException('Expected action validation');
 } catch (\Flint\SdkError $e) {}
 try {

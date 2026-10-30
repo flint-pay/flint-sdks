@@ -11,7 +11,7 @@ Request input.
 | `address_verification` | Optional | [SubscriptionAddressVerificationInput](../models/SubscriptionAddressVerificationInput.md#subscriptionaddressverificationinput) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
 | `delivery_method` | Optional | [SubscriptionDeliveryMethodSummaryInput](../models/SubscriptionDeliveryMethodSummaryInput.md#subscriptiondeliverymethodsummaryinput) | A short summary of a subscription's delivery method: name, description, type, and whether its price is fixed or quoted. |
 | `delivery_method_id` | Required | string |  |
-| `delivery_version` | Required | integer string | Version of the subscription's saved delivery preference. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_version` | Required | integer | Version of the subscription's saved delivery preference. Format: `uint64`. minimum: `0`. |
 | `destination` | Required | [SubscriptionDeliveryDestinationInput](../models/SubscriptionDeliveryDestinationInput.md#subscriptiondeliverydestinationinput) | The delivery address for a subscription's future shipments, with the saved customer address it came from. |
 | `recipient` | Optional | [DeliveryRecipientResourceInput](../models/DeliveryRecipientResourceInput.md#deliveryrecipientresourceinput) | The person receiving a delivery selection, with optional `name`, `email`, and `phone`. |
 | `shipping_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |

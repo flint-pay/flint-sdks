@@ -7,7 +7,7 @@ namespace Flint;
 final class OrderPaymentSourceSelectionInput extends Model {
     /** @param array{'card'?: OrderPaymentSourceCardSelectionInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentSourceSelectionInput')); }
-    /** Shape $ (Value): {@see OrderPaymentSourceCardSelectionInput}. Card options for the payment source selected on an order payment intent, including which digital wallets to offer.
+    /** Card options for the payment source selected on an order payment intent, including which digital wallets to offer.
      * @return OrderPaymentSourceCardSelectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
      */

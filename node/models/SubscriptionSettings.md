@@ -24,7 +24,7 @@ No additional constraints.
 
 ### SubscriptionSettings variant 2
 
-anyOf variant 2: Declared schema SubscriptionSettingsRequestRequest. Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email..
+anyOf variant 2: Declared schema SubscriptionSettingsRequest. Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email..
 
 No additional constraints.
 

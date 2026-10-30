@@ -19,7 +19,7 @@ A reusable collection of customization groups.
 | `name` | Required | string | Name used to identify this modifier set. |
 | `status` | Required | string | Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Optional | string | When the modifier set, its group entries, or its inline groups last changed, as an RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Version of the modifier set, its group entries, and its inline groups. Send it as expected_version when replacing modifier_groups. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Version of the modifier set, its group entries, and its inline groups. Send it as expected_version when replacing modifier_groups. Format: `uint64`. minimum: `1`. |
 
 ### ModifierSet.metadata
 

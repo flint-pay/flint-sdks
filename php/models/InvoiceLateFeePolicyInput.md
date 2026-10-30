@@ -16,7 +16,7 @@ Request input.
 
 ### InvoiceLateFeePolicyInput variant 1: `type` = `"fixed"`
 
-oneOf variant 1: The `fixed` variant of `InvoiceLateFeePolicy`..
+oneOf with type: "fixed": The `fixed` variant of `InvoiceLateFeePolicy`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `fixed` variant of `InvoiceLateFeePolicy`..
 
 ### InvoiceLateFeePolicyInput variant 2: `type` = `"percentage"`
 
-oneOf variant 2: The `percentage` variant of `InvoiceLateFeePolicy`..
+oneOf with type: "percentage": The `percentage` variant of `InvoiceLateFeePolicy`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `percent`.

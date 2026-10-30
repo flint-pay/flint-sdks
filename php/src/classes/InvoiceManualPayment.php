@@ -15,47 +15,47 @@ namespace Flint;
 final class InvoiceManualPayment extends Model {
     /** @param array{'amount_money': mixed, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string, 'reversal_note'?: string, 'reversed_at'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPayment')); }
-    /** Shape $ (Value): {@see MoneyValue}. Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string. The invoice this payment was recorded against.
+    /** The invoice this payment was recorded against.
      * @return string
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string. Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id.
+    /** Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id.
      * @return string
      */
     public function getInvoiceManualPaymentId(): string { return $this->get('invoice_manual_payment_id'); }
     public function hasInvoiceManualPaymentId(): bool { return $this->has('invoice_manual_payment_id'); }
-    /** Shape $ (Value): string. minLength: 1. maxLength: 4096.
+    /** minLength: 1. maxLength: 4096.
      * @return ?string
      */
     public function getNote(): ?string { return $this->get('note'); }
     public function hasNote(): bool { return $this->has('note'); }
-    /** Shape $ (Value): string. Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1. maxLength: 255.
+    /** Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1. maxLength: 255.
      * @return ?string
      */
     public function getPaymentReference(): ?string { return $this->get('payment_reference'); }
     public function hasPaymentReference(): bool { return $this->has('payment_reference'); }
-    /** Shape $ (Value): string. When the payment was received. Format: date-time.
+    /** When the payment was received. Format: date-time.
      * @return string
      */
     public function getReceivedAt(): string { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
-    /** Shape $ (Value): string. Note supplied when reversing the payment. Present only when reversed and a note was supplied. minLength: 1. maxLength: 4096.
+    /** Note supplied when reversing the payment. Present only when reversed and a note was supplied. minLength: 1. maxLength: 4096.
      * @return ?string
      */
     public function getReversalNote(): ?string { return $this->get('reversal_note'); }
     public function hasReversalNote(): bool { return $this->has('reversal_note'); }
-    /** Shape $ (Value): string. When the payment was reversed. Present only when reversed. Format: date-time.
+    /** When the payment was reversed. Present only when reversed. Format: date-time.
      * @return ?string
      */
     public function getReversedAt(): ?string { return $this->get('reversed_at'); }
     public function hasReversedAt(): bool { return $this->has('reversed_at'); }
-    /** Shape $ (Value): string. Whether the payment is recorded or has been reversed in full. Value enum: "recorded", "reversed".
+    /** Whether the payment is recorded or has been reversed in full. Value enum: "recorded", "reversed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3910"},"dependencies":["SharedCodec1366","SharedCodec1461","SharedCodec1462","SharedCodec1463","SharedCodec3910","UpdateWebhookEndpointRequest","WebhookSigningMethod"]}

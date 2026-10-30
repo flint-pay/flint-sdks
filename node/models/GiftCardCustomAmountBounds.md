@@ -21,7 +21,7 @@ No additional constraints.
 
 ### GiftCardCustomAmountBounds variant 2
 
-anyOf variant 2: Declared schema GiftCardCustomAmountBoundsRequestRequest. The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount..
+anyOf variant 2: Declared schema GiftCardCustomAmountBoundsRequest. The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount..
 
 No additional constraints.
 

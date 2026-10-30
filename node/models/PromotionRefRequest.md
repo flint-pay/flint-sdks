@@ -10,12 +10,12 @@ Identifies the promotion to apply, by promotion code or by promotion ID.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `promotion_code` | Conditional | string | Human-entered promotion code. Use this when redeeming a campaign code. minLength: `1`. |
-| `promotion_id` | Conditional | string | Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. minLength: `1`. |
+| `promotion_code` | Conditional | string | Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion amounts applied to orders must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: `1`. |
+| `promotion_id` | Conditional | string | Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion amounts applied to orders must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: `1`. |
 
 ### PromotionRefRequest variant 1
 
-oneOf variant 1: The `Promotion ID` variant of `PromotionRefInput`..
+oneOf PromotionRefInputPromotionID: The `Promotion ID` variant of `PromotionRefInput`..
 
 - Condition: not (at least one(present(`promotion_code`))).
 - Required: `promotion_id`.
@@ -23,7 +23,7 @@ oneOf variant 1: The `Promotion ID` variant of `PromotionRefInput`..
 
 ### PromotionRefRequest variant 2
 
-oneOf variant 2: The `Promotion code` variant of `PromotionRefInput`..
+oneOf PromotionRefInputPromotionCode: The `Promotion code` variant of `PromotionRefInput`..
 
 - Condition: not (at least one(present(`promotion_id`))).
 - Required: `promotion_code`.

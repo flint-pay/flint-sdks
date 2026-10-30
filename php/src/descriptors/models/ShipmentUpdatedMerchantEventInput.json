@@ -1,0 +1,1 @@
+{"shared":"ShipmentUpdatedMerchantEvent","dependencies":["CheckoutBuyerContact","ExpandedPackageSummary","MetadataMap","MoneyValue","PricingAmounts","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec12","SharedCodec1252","SharedCodec13","SharedCodec14","SharedCodec15","SharedCodec16","Shipment","ShipmentUpdatedMerchantEvent","SignedMoney"]}

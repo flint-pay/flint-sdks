@@ -1,0 +1,1 @@
+{"shared":"InventoryTransferReturnedInstalledMerchantsEvent","dependencies":["InventoryTransfer","InventoryTransferLine","InventoryTransferReturnedInstalledMerchantsEvent","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec688","SharedCodec949","SharedCodec950"]}

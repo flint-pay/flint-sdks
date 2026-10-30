@@ -11,7 +11,7 @@ Request input.
 | `bundle_id` | Conditional | string | minLength: `1`. |
 | `description` | Optional | string | minLength: `1`. |
 | `name` | Conditional | string | minLength: `1`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `return_replacement_line_item_id` | Optional | string | minLength: `1`. |
 | `sku` | Optional | string | minLength: `1`. |
 | `type` | Required | string | The source of the replacement merchandise: variant, bundle, or custom. Values: `"variant"`, `"bundle"`, `"custom"`. |
@@ -20,7 +20,7 @@ Request input.
 
 ### UpdateReturnReplacementLineItemRequestInput variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `UpdateReturnReplacementLineItemInput`..
+oneOf with type: "variant": The `variant` variant of `UpdateReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`))).
 - Required: `variant_id`.
@@ -29,7 +29,7 @@ oneOf variant 1: The `variant` variant of `UpdateReturnReplacementLineItemInput`
 
 ### UpdateReturnReplacementLineItemRequestInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `UpdateReturnReplacementLineItemInput`..
+oneOf with type: "bundle": The `bundle` variant of `UpdateReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`))).
 - Required: `bundle_id`.
@@ -38,7 +38,7 @@ oneOf variant 2: The `bundle` variant of `UpdateReturnReplacementLineItemInput`.
 
 ### UpdateReturnReplacementLineItemRequestInput variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `UpdateReturnReplacementLineItemInput`..
+oneOf with type: "custom": The `custom` variant of `UpdateReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`.

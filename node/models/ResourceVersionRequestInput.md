@@ -12,5 +12,5 @@ The request body for: Mark invoice uncollectible; Regenerate invoice public link
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `int64`. minimum: `1`. |
 

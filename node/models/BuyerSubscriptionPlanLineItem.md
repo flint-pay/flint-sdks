@@ -24,12 +24,12 @@ A line item of a subscription plan as a buyer sees it: the product, bundle, or v
 | `swap_variants` | Optional | Array of [SubscriptionPlanSwapVariant](../models/SubscriptionPlanSwapVariant.md#subscriptionplanswapvariant) | Current sellable alternatives in swap_variant_ids order, excluding the line's own variant and variants priced in a different currency. Present on variant lines, including an empty array. maxItems: `25`. |
 | `tax` | Optional | [OrderLineItemTax](../models/OrderLineItemTax.md#orderlineitemtax) | A line item's tax category and whether it is taxable. |
 | `type` | Required | string | Values: `"variant"`, `"bundle"`, `"custom"`. |
-| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `variant_id` | Conditional | string |  |
 
 ### BuyerSubscriptionPlanLineItem variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `BuyerSubscriptionPlanLineItem`..
+oneOf with type: "variant": The `variant` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`))).
 - Required: `variant_id`.
@@ -38,7 +38,7 @@ oneOf variant 1: The `variant` variant of `BuyerSubscriptionPlanLineItem`..
 
 ### BuyerSubscriptionPlanLineItem variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
+oneOf with type: "bundle": The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`))).
 - Required: `bundle_id`.
@@ -47,7 +47,7 @@ oneOf variant 2: The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
 
 ### BuyerSubscriptionPlanLineItem variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `BuyerSubscriptionPlanLineItem`..
+oneOf with type: "custom": The `custom` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.
@@ -56,5 +56,5 @@ oneOf variant 3: The `custom` variant of `BuyerSubscriptionPlanLineItem`..
 
 ### BuyerSubscriptionPlanLineItem.unit_price_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

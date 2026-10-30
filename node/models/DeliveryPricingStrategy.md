@@ -20,7 +20,7 @@ How a delivery method sets its price, selected by `type`. Only the matching prop
 
 ### DeliveryPricingStrategy variant 1: `type` = `"calculated"`
 
-oneOf variant 1: The `calculated` variant of `DeliveryPricingStrategy`..
+oneOf with type: "calculated": The `calculated` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`callback`); present(`caller_supplied`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `calculated`.
@@ -29,7 +29,7 @@ oneOf variant 1: The `calculated` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryPricingStrategy variant 2: `type` = `"callback"`
 
-oneOf variant 2: The `callback` variant of `DeliveryPricingStrategy`..
+oneOf with type: "callback": The `callback` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`caller_supplied`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `callback`.
@@ -38,7 +38,7 @@ oneOf variant 2: The `callback` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryPricingStrategy variant 3: `type` = `"caller_supplied"`
 
-oneOf variant 3: The `caller_supplied` variant of `DeliveryPricingStrategy`..
+oneOf with type: "caller_supplied": The `caller_supplied` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`fixed`); present(`rate_table`); present(`tiered`))).
 - Required: `caller_supplied`.
@@ -47,7 +47,7 @@ oneOf variant 3: The `caller_supplied` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryPricingStrategy variant 4: `type` = `"fixed"`
 
-oneOf variant 4: The `fixed` variant of `DeliveryPricingStrategy`..
+oneOf with type: "fixed": The `fixed` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`rate_table`); present(`tiered`))).
 - Required: `fixed`.
@@ -56,7 +56,7 @@ oneOf variant 4: The `fixed` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryPricingStrategy variant 5: `type` = `"rate_table"`
 
-oneOf variant 5: The `rate_table` variant of `DeliveryPricingStrategy`..
+oneOf with type: "rate_table": The `rate_table` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`fixed`); present(`tiered`))).
 - Required: `rate_table`.
@@ -65,7 +65,7 @@ oneOf variant 5: The `rate_table` variant of `DeliveryPricingStrategy`..
 
 ### DeliveryPricingStrategy variant 6: `type` = `"tiered"`
 
-oneOf variant 6: The `tiered` variant of `DeliveryPricingStrategy`..
+oneOf with type: "tiered": The `tiered` variant of `DeliveryPricingStrategy`..
 
 - Condition: not (at least one(present(`calculated`); present(`callback`); present(`caller_supplied`); present(`fixed`); present(`rate_table`))).
 - Required: `tiered`.
@@ -78,16 +78,16 @@ Delivery pricing calculated from a base fee, distance, weight, and per-item hand
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `base_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Base delivery fee by ISO currency code. Each key must equal the Money object's currency. `base_fee_currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `base_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Base delivery fee by ISO currency code. Each key must equal the Money object's currency. `base_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `distance` | Optional | [DeliveryDistanceUnitPrice](../models/DeliveryDistanceUnitPrice.md#deliverydistanceunitprice) | A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`. `distance`: [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-1distance). |
-| `maximum_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. `maximum_fee_currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `minimum_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. `minimum_fee_currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `per_item_handling_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Handling fee per item by ISO currency code. Each key must equal the Money object's currency. `per_item_handling_fee_currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `maximum_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. `maximum_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `minimum_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. `minimum_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `per_item_handling_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Handling fee per item by ISO currency code. Each key must equal the Money object's currency. `per_item_handling_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `weight` | Optional | [DeliveryWeightUnitPrice](../models/DeliveryWeightUnitPrice.md#deliveryweightunitprice) | Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`. `weight`: [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-1weight). |
 
 ### DeliveryPricingStrategy.calculated fields 1.base_fee_currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### DeliveryPricingStrategy.calculated fields 1.distance
 
@@ -95,15 +95,15 @@ Field definitions: [DeliveryCalculatedPricingStrategy variant 1.distance](../mod
 
 ### DeliveryPricingStrategy.calculated fields 1.maximum_fee_currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### DeliveryPricingStrategy.calculated fields 1.minimum_fee_currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### DeliveryPricingStrategy.calculated fields 1.per_item_handling_fee_currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### DeliveryPricingStrategy.calculated fields 1.weight
 
@@ -131,14 +131,14 @@ Pricing strategy that charges by band. The `basis` value, such as total weight o
 
 ### DeliveryPricingStrategy.tiered fields 1 variant 1: `basis` = `"choice_group.total_weight"`
 
-oneOf variant 1: The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
+oneOf with basis: "choice_group.total_weight": The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
 
 - Required: `unit`.
 - Constraints for `basis`: Values: `"choice_group.total_weight"`.
 
 ### DeliveryPricingStrategy.tiered fields 1 variant 2
 
-oneOf variant 2: The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`..
+oneOf with basis: "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "choice_group.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts": The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`..
 
 - Condition: not (present(`unit`)).
 - Optional: `unit`.

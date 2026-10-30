@@ -18,14 +18,14 @@ Request input.
 | `order_id` | Conditional | string | Order to refund. May be combined with payment_intent_id to select a payment on that order. Required for named targets unless payment_intent_id belongs to an order. minLength: `1`. |
 | `payment_intent_id` | Conditional | string | Payment to refund. May be combined with its order_id. Named targets require a payment on an order. minLength: `1`. |
 | `reason` | Optional | string | Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's refund email has no reason line. Values: [12 declared values](CreateCreditNoteRefundRequestInput.md#createcreditnoterefundrequestinput-reason-values). |
-| `reason_message` | Optional | string | minLength: `1`. |
+| `reason_message` | Optional | string | Optional note explaining the refund, up to 1,024 characters. minLength: `1`. |
 | `refund_type` | Required | string | Required amount mode: full refunds the full remaining amount; amount requires amount_money and permits named targets and tender_allocations within that amount; targets refunds named line_items, charges, or tax_breakdown_refunds without amount_money. Full and targets do not accept tender_allocations. Gift card loads support full and amount only. Values: `"full"`, `"amount"`, `"targets"`. |
 | `tax_breakdown_refunds` | Conditional | Array of [RefundTaxBreakdownRefundInInput](../models/RefundTaxBreakdownRefundInInput.md#refundtaxbreakdownrefundininput) | Named order tax breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value must fit within amount_money; Flint allocates the rest. Requires commerce.refunds.tax_overrides.write. |
 | `tender_allocations` | Conditional | Array of [RefundTenderAllocationRequestInput](../models/RefundTenderAllocationRequestInput.md#refundtenderallocationrequestinput) | Exhaustive allocations to original tenders. Allowed only with refund_type amount. Amounts must sum to the required amount_money. Selected line-item, charge and flat-tax components must be covered by their original tenders. Additional untargeted value follows the default tender order. Destinations default to original. Select new_gift_card when the original card is closed or cannot accept the full credit within its balance cap. For gift card redemptions made outside a Flint order, send the allocations without order_id. minItems: `1`. maxItems: `21`. |
 
 ### CreateRefundRequestInput variant 1: `refund_type` = `"full"`
 
-oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf variant 1.
+oneOf group 1 with refund_type: "full": The `full` variant of `CreateRefundRequest`.; anyOf variant 1.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -36,7 +36,7 @@ oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf var
 
 ### CreateRefundRequestInput variant 2: `refund_type` = `"full"`
 
-oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf variant 2.
+oneOf group 1 with refund_type: "full": The `full` variant of `CreateRefundRequest`.; anyOf variant 2.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -47,7 +47,7 @@ oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf var
 
 ### CreateRefundRequestInput variant 3: `refund_type` = `"full"`
 
-oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf variant 3.
+oneOf group 1 with refund_type: "full": The `full` variant of `CreateRefundRequest`.; anyOf variant 3.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -58,7 +58,7 @@ oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf var
 
 ### CreateRefundRequestInput variant 4: `refund_type` = `"full"`
 
-oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf variant 4.
+oneOf group 1 with refund_type: "full": The `full` variant of `CreateRefundRequest`.; anyOf variant 4.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -69,7 +69,7 @@ oneOf group 1 variant 1: The `full` variant of `CreateRefundRequest`.; anyOf var
 
 ### CreateRefundRequestInput variant 5: `refund_type` = `"amount"`
 
-oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf variant 1.
+oneOf group 1 with refund_type: "amount": The `amount` variant of `CreateRefundRequest`.; anyOf variant 1.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -79,7 +79,7 @@ oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf v
 
 ### CreateRefundRequestInput variant 6: `refund_type` = `"amount"`
 
-oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf variant 2.
+oneOf group 1 with refund_type: "amount": The `amount` variant of `CreateRefundRequest`.; anyOf variant 2.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -89,7 +89,7 @@ oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf v
 
 ### CreateRefundRequestInput variant 7: `refund_type` = `"amount"`
 
-oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf variant 3.
+oneOf group 1 with refund_type: "amount": The `amount` variant of `CreateRefundRequest`.; anyOf variant 3.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -99,7 +99,7 @@ oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf v
 
 ### CreateRefundRequestInput variant 8: `refund_type` = `"amount"`
 
-oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf variant 4.
+oneOf group 1 with refund_type: "amount": The `amount` variant of `CreateRefundRequest`.; anyOf variant 4.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -109,7 +109,7 @@ oneOf group 1 variant 2: The `amount` variant of `CreateRefundRequest`.; anyOf v
 
 ### CreateRefundRequestInput variant 9: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 1.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 1.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -120,7 +120,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 10: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 2.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 2.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -131,7 +131,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 11: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 3.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 3.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -142,7 +142,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 12: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 4.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 1 variant 4.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -153,7 +153,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 13: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 2 variant 1.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 2 variant 1.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -165,7 +165,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 14: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 2 variant 2.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 2 variant 2.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -177,7 +177,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 15: `refund_type` = `"targets"`
 
-oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf group 2 variant 3.
+oneOf group 1 with refund_type: "targets": The `targets` variant of `CreateRefundRequest`.; anyOf group 2 variant 3.
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -189,7 +189,7 @@ oneOf group 1 variant 3: The `targets` variant of `CreateRefundRequest`.; anyOf 
 
 ### CreateRefundRequestInput variant 16
 
-anyOf group 2 variant 1.
+anyOf group 2 with refund_type: "full".
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -198,7 +198,7 @@ anyOf group 2 variant 1.
 
 ### CreateRefundRequestInput variant 17
 
-anyOf group 2 variant 2.
+anyOf group 2 with refund_type: "amount".
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).
@@ -207,7 +207,7 @@ anyOf group 2 variant 2.
 
 ### CreateRefundRequestInput variant 18
 
-anyOf group 2 variant 3.
+anyOf group 2 with refund_type: "targets".
 
 - Condition: not (present(`destinations`, `tender_allocations`)).
 - Condition: not (present(`destinations`, `gift_card_load_id`)).

@@ -20,7 +20,7 @@ Response model.
 | `financial_summary` | Required | [ReturnFinancialSummary](../models/ReturnFinancialSummary.md#returnfinancialsummary) | The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer. |
 | `handoff_requirements` | Required | Array of [BuyerReturnHandoffRequirement](../models/BuyerReturnHandoffRequirement.md#buyerreturnhandoffrequirement) |  |
 | `initiated_by` | Required | string | Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`. |
-| `line_items` | Required | Array of [BuyerReturnLineItem](../models/BuyerReturnLineItem.md#buyerreturnlineitem) | `line_items[]`: [field definitions](../models/MeCancelReturnResponse200.md#mecancelreturnresponse200dataline_items). |
+| `line_items` | Required | Array of [BuyerReturnLineItem](../models/BuyerReturnLineItem.md#buyerreturnlineitem) | `line_items[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedataline_items). |
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#buyerreturn-merchandise_status-values). |
 | `metadata` | Required | object | Always empty for buyer credentials. maxProperties: `0`. |
 | `order_id` | Required | string |  |
@@ -31,7 +31,7 @@ Response model.
 | `status` | Required | string | Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Items values: `"cancel"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `version` | Required | integer | Format: `int64`. minimum: `0`. |
 
 #### BuyerReturn merchandise_status values
 
@@ -48,5 +48,5 @@ Response model.
 
 ### BuyerReturn.line_items[]
 
-Field definitions: [MeCancelReturnResponse200.data.line_items[]](../models/MeCancelReturnResponse200.md#mecancelreturnresponse200dataline_items).
+Field definitions: [BuyerReturnResponse.data.line_items[]](../models/BuyerReturnResponse.md#buyerreturnresponsedataline_items).
 

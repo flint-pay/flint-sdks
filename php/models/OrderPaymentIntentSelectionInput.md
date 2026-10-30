@@ -16,7 +16,7 @@ Request input.
 
 ### OrderPaymentIntentSelectionInput variant 1: `credential_type` = `"token"`
 
-oneOf variant 1: The `token` variant of `OrderPaymentIntentSelection`..
+oneOf with credential_type: "token": The `token` variant of `OrderPaymentIntentSelection`..
 
 - Required: `token`.
 - Undeclared: `payment_method_id`, `stripe`.
@@ -24,7 +24,7 @@ oneOf variant 1: The `token` variant of `OrderPaymentIntentSelection`..
 
 ### OrderPaymentIntentSelectionInput variant 2: `credential_type` = `"payment_method"`
 
-oneOf variant 2: The `payment_method` variant of `OrderPaymentIntentSelection`..
+oneOf with credential_type: "payment_method": The `payment_method` variant of `OrderPaymentIntentSelection`..
 
 - Required: `payment_method_id`.
 - Undeclared: `token`, `stripe`.
@@ -32,7 +32,7 @@ oneOf variant 2: The `payment_method` variant of `OrderPaymentIntentSelection`..
 
 ### OrderPaymentIntentSelectionInput variant 3: `credential_type` = `"stripe_confirmation_token"`
 
-oneOf variant 3: The `stripe_confirmation_token` variant of `OrderPaymentIntentSelection`..
+oneOf with credential_type: "stripe_confirmation_token": The `stripe_confirmation_token` variant of `OrderPaymentIntentSelection`..
 
 - Required: `stripe`.
 - Undeclared: `token`, `payment_method_id`.
@@ -40,7 +40,7 @@ oneOf variant 3: The `stripe_confirmation_token` variant of `OrderPaymentIntentS
 
 ### OrderPaymentIntentSelectionInput variant 4: `credential_type` = `"attached"`
 
-oneOf variant 4: Confirm using the payment source already attached..
+oneOf with credential_type: "attached": Confirm using the payment source already attached..
 
 - Undeclared: `token`, `payment_method_id`, `stripe`.
 - Constraints for `credential_type`: Values: `"attached"`.

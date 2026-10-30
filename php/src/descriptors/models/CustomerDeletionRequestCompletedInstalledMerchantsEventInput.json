@@ -1,0 +1,1 @@
+{"shared":"CustomerDeletionRequestCompletedInstalledMerchantsEvent","dependencies":["CustomerDeletionRequest","CustomerDeletionRequestCompletedInstalledMerchantsEvent","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec359","SharedCodec949","SharedCodec950"]}

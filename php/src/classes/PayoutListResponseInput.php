@@ -10,25 +10,25 @@ namespace Flint;
 final class PayoutListResponseInput extends Model {
     /** @param array{'data': list<PayoutInput|array<array-key, mixed>|\stdClass>, 'meta'?: MoneyMovementListMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutListResponseInput')); }
-    /** Shape $ (Value): Array of {@see PayoutInput}. Shape $[] (Value): {@see PayoutInput}. Funds sent from a merchant balance to a payout destination.
+    /**  [] (Value): {@see PayoutInput}. Funds sent from a merchant balance to a payout destination.
      * @return list<PayoutInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Shape $ (Value): {@see MoneyMovementListMetaInput}. Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history.
+    /** Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history.
      * @return MoneyMovementListMetaInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().
      */
     public function getMeta(): mixed { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** Shape $ (Value): string.
+    /** next_page_token
      * @return string
      * @throws SdkError When next_page_token is omitted; use hasNextPageToken() or valueOrDefault().
      */
     public function getNextPageToken(): string { return $this->get('next_page_token'); }
     public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
-    /** Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      * @return string
      * @throws SdkError When request_id is omitted; use hasRequestId() or valueOrDefault().
      */

@@ -18,98 +18,98 @@ namespace Flint;
  * @property-read list<string> $redirect_uris
  * @property-read string $status
  * @property-read ?string $updated_at
- * @property-read string $version
+ * @property-read int $version
  * @property-read string|null $client_secret
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppWithSecret extends Model {
-    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|null, 'created_at'?: string, 'default_requested_permissions': list<string>, 'name': string, 'partner_app_id': string, 'permission_manifest': list<mixed>, 'previous_secret_expires_at'?: string, 'redirect_uris': list<string>, 'status': string, 'updated_at'?: string, 'version': string, 'client_secret': string|null, ...}|object $values */
+    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|null, 'created_at'?: string, 'default_requested_permissions': list<string>, 'name': string, 'partner_app_id': string, 'permission_manifest': list<mixed>, 'previous_secret_expires_at'?: string, 'redirect_uris': list<string>, 'status': string, 'updated_at'?: string, 'version': int, 'client_secret': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppWithSecret')); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /** Every Flint scope the app can hold: the union of required_scopes across the manifest. An install grants only the scopes of the permissions the merchant approves. [] (Value): string.
      * @return list<string>
      */
     public function getAllowedScopes(): array { return $this->get('allowed_scopes'); }
     public function hasAllowedScopes(): bool { return $this->has('allowed_scopes'); }
-    /** Shape $ (Value): string.
+    /** API version for requests the app makes with its install tokens that send no Flint-Version header.
      * @return string
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getApiVersionChangedAt(): ?string { return $this->get('api_version_changed_at'); }
     public function hasApiVersionChangedAt(): bool { return $this->has('api_version_changed_at'); }
-    /** Shape $ (Value): string.
+    /** Version the app used before its last upgrade. Present while a rollback is available. To roll back, send it as api_version.
      * @return ?string
      */
     public function getApiVersionPrevious(): ?string { return $this->get('api_version_previous'); }
     public function hasApiVersionPrevious(): bool { return $this->has('api_version_previous'); }
-    /** Shape $ (Value): string.
+    /** Public identifier the app sends as client_id in OAuth authorization and token requests. Doesn't change.
      * @return string
      */
     public function getClientId(): string { return $this->get('client_id'); }
     public function hasClientId(): bool { return $this->has('client_id'); }
-    /** Shape $ (Value): boolean.
+    /** Whether the app can authenticate with a client secret. When false, it authenticates with a registered credential.
      * @return bool
      */
     public function getClientSecretEnabled(): bool { return $this->get('client_secret_enabled'); }
     public function hasClientSecretEnabled(): bool { return $this->has('client_secret_enabled'); }
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|null
      */
     public function getClientSecretLastUsedAt(): string|null { return $this->get('client_secret_last_used_at'); }
     public function hasClientSecretLastUsedAt(): bool { return $this->has('client_secret_last_used_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /** IDs of the permissions requested when an authorization request sends no scope. Defaults to every permission in the manifest that isn't optional. [] (Value): string.
      * @return list<string>
      */
     public function getDefaultRequestedPermissions(): array { return $this->get('default_requested_permissions'); }
     public function hasDefaultRequestedPermissions(): bool { return $this->has('default_requested_permissions'); }
-    /** Shape $ (Value): string.
+    /** The app's name, shown to merchants on the consent screen.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string.
+    /** partner_app_id
      * @return string
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** Shape $ (Value): Array of {@see PartnerAppPermissionManifestEntry}. Shape $[] (Value): {@see PartnerAppPermissionManifestEntry}. One permission a partner app can request, with a title, a description, and the Flint scopes it grants.
+    /** Permissions the app can request from merchants. Each lists the Flint scopes it grants. [] (Value): {@see PartnerAppPermissionManifestEntry}. One permission a partner app can request, with a title, a description, and the Flint scopes it grants.
      * @return list<PartnerAppPermissionManifestEntry>
      */
     public function getPermissionManifest(): array { return $this->get('permission_manifest'); }
     public function hasPermissionManifest(): bool { return $this->has('permission_manifest'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getPreviousSecretExpiresAt(): ?string { return $this->get('previous_secret_expires_at'); }
     public function hasPreviousSecretExpiresAt(): bool { return $this->has('previous_secret_expires_at'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /** Redirect URIs the app can use after authorization. Each is an absolute HTTPS URL, or HTTP on localhost or a loopback address, with no fragment. [] (Value): string.
      * @return list<string>
      */
     public function getRedirectUris(): array { return $this->get('redirect_uris'); }
     public function hasRedirectUris(): bool { return $this->has('redirect_uris'); }
-    /** Shape $ (Value): string.  Value enum: "active", "archived".
+    /** Value enum: "active", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     * @return string
+    /** Starts at 1 and increases by 1 each time the app is updated, its client secret is rotated, or it is deleted. Send it as expected_version to apply an update only to the version you read. Format: uint64. minimum: 1.
+     * @return int
      */
-    public function getVersion(): string { return $this->get('version'); }
+    public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** Shape $ (Value): string or null. One-time client secret returned when enabled at creation. Null when client_secret_enabled is false.
+    /** One-time client secret returned when enabled at creation. Null when client_secret_enabled is false.
      * @return string|null
      */
     public function getClientSecret(): string|null { return $this->get('client_secret'); }

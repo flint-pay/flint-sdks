@@ -7,7 +7,7 @@ namespace Flint;
 final class PaymentClientAction extends Model {
     /** @param array{'stripe': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentClientAction')); }
-    /** Shape $ (Value): {@see StripePaymentClientAction}. Stripe.js initialization context plus one flow-specific authority object. Exactly one of payment_intent or setup_intent is present.
+    /** Stripe.js initialization context plus one flow-specific authority object. Exactly one of payment_intent or setup_intent is present.
      * @return StripePaymentClientAction
      */
     public function getStripe(): StripePaymentClientAction { return $this->get('stripe'); }

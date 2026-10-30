@@ -98,11 +98,56 @@ export function parameterSource(op, parameter, settings) {
     const name = parameter.name.toLowerCase();
     if (settings.apiVersion?.header.toLowerCase() === name)
         return 'api-version';
+    if (op.idempotency?.header.toLowerCase() === name)
+        return 'idempotency';
     if (op.authModes?.some((mode) => settings.authentication?.[mode]?.schemes.some((scheme) => scheme.header.toLowerCase() === name)) ||
         (settings.auth?.header.toLowerCase() === name &&
             (op.authenticated || op.optionalAuthentication)))
         return 'authentication';
     return 'input';
+}
+/** Local validation wording is serialized into both target runtimes. */
+export const VALIDATION_MESSAGES = {
+    required: '{param} is required',
+    discriminator: '{param} is required: one of {allowed}',
+    enum: '{param} must be one of {allowed}; received {value}{suggestion}',
+    unknown: '{param} is not a field of {where}{suggestion}',
+    notAllowed: "{param} can't be sent: {reason}",
+    invalid: '{param} must be {expectation}',
+    minimum: '{param} must be at least {limit}; received a number',
+    maximum: '{param} must be at most {limit}; received a number',
+    exclusiveMinimum: '{param} must be greater than {limit}; received a number',
+    exclusiveMaximum: '{param} must be less than {limit}; received a number',
+    multipleOf: '{param} must be a multiple of {limit}; received a number',
+    minLength: '{param} must be a string with at least {limit} characters; received a string of length {length}',
+    maxLength: '{param} must be a string with at most {limit} characters; received a string of length {length}',
+    minItems: '{param} must be an array with at least {limit} items; received an array of length {length}',
+    maxItems: '{param} must be an array with at most {limit} items; received an array of length {length}',
+    minProperties: '{param} must be an object with at least {limit} fields; received an object with {length} fields',
+    maxProperties: '{param} must be an object with at most {limit} fields; received an object with {length} fields',
+    pattern: '{param} must be a string matching the required pattern; received a string',
+    uniqueItems: '{param} must be an array of unique items; received an array',
+    contains: '{param} must be an array containing the required shape; received an array',
+    union: '{param} matches none of its {count} shapes; closest is {shape}: {failure}',
+};
+/** Envelope defaults shared by compilation, documentation and both executors. */
+export const ERROR_FIELDS = {
+    code: 'code',
+    message: 'message',
+    type: 'type',
+    param: 'param',
+    details: 'details',
+    remediation: 'remediation',
+    errorSource: 'error_source',
+    docUrl: 'doc_url',
+    requestId: 'request_id',
+    requestLogUrl: 'request_log_url',
+};
+export function errorMapping(errors) {
+    return {
+        objectPath: errors?.objectPath ?? 'error',
+        fields: { ...ERROR_FIELDS, ...errors?.fields },
+    };
 }
 /** Shared defaults also rendered into the PHP dynamic-contract adapter. */
 export const RETRY_DEFAULTS = {
@@ -199,6 +244,7 @@ export function compileRuntimePlan(contract) {
                     return {
                         ...parameter,
                         codec: root(schema),
+                        ...(schema['x-sdk-query-array-items'] ? { scalarArray: true } : {}),
                         ...(parameterSource(op, parameter, contract) === 'authentication'
                             ? { source: 'authentication' }
                             : {}),
@@ -308,11 +354,24 @@ export function assertRuntimePlan(value, historical = false) {
         throw new Error('Unsupported compiled retry semantics');
     if (plan.errors !== undefined) {
         const errors = record(plan.errors, 'errors');
+        if (errors.objectPath !== undefined &&
+            (typeof errors.objectPath !== 'string' ||
+                (errors.objectPath !== '' &&
+                    !/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/.test(errors.objectPath))))
+            throw new Error('Invalid compiled error objectPath');
+        if (errors.fields !== undefined)
+            for (const [key, path] of Object.entries(record(errors.fields, 'errors.fields')))
+                if (!Object.hasOwn(ERROR_FIELDS, key) ||
+                    typeof path !== 'string' ||
+                    !/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/.test(path))
+                    throw new Error('Invalid compiled error field mapping');
+        if (errors.inProgressCodes !== undefined &&
+            (!Array.isArray(errors.inProgressCodes) ||
+                errors.inProgressCodes.some((code) => typeof code !== 'string' || !code.trim())))
+            throw new Error('Invalid compiled in-progress codes');
         if (errors.retry !== undefined) {
             const retry = record(errors.retry, 'errors.retry');
-            if (typeof errors.codePath !== 'string' ||
-                !errors.codePath ||
-                typeof retry.path !== 'string' ||
+            if (typeof retry.path !== 'string' ||
                 !/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/.test(retry.path) ||
                 !Array.isArray(retry.retryValues) ||
                 !retry.retryValues.length ||
@@ -382,6 +441,14 @@ export function assertRuntimePlan(value, historical = false) {
             typeof op.verb !== 'string' ||
             !Array.isArray(op.parameters))
             throw new Error('Invalid compiled operation');
+        if (op.defaults !== undefined) {
+            const defaults = record(op.defaults, `${op.id}.defaults`);
+            if (!Object.keys(defaults).length ||
+                Object.entries(defaults).some(([name, value]) => !['timeoutMs', 'deadlineMs'].includes(name) ||
+                    !Number.isSafeInteger(value) ||
+                    Number(value) <= 0))
+                throw new Error('Invalid compiled operation defaults');
+        }
         if (!legacyRetry || op.retry !== undefined) {
             const retry = record(op.retry, `${op.id}.retry`);
             if ((!legacyRetry && op.replay !== 'safe' && op.replay !== 'idempotency') ||
@@ -437,11 +504,22 @@ export function assertRuntimePlan(value, historical = false) {
                     (!['authentication', 'request-option'].includes(String(field.source)) ||
                         field.in !== 'header')))
                 throw new Error(`${op.id}: invalid compiled parameter`);
+            if (field.scalarArray !== undefined &&
+                (field.scalarArray !== true ||
+                    field.in !== 'query' ||
+                    field.explode === false ||
+                    (field.style !== undefined && field.style !== 'form')))
+                throw new Error('Invalid compiled scalar query array');
             if (field.source === 'request-option') {
                 const option = compileRequestOption(field['x-flint-request-option'], String(op.id) + '.parameter.' + String(field.name));
                 const names = record(field.requestOption, 'requestOption');
+                // Saved 7.x plans retain the PHP spelling that shipped. Do not normalize
+                // it: compatibility comparison must still report the public rename.
+                const historicalPhpName = historical &&
+                    field['x-flint-request-option'] === 'client_request_id' &&
+                    names.php === 'client_request_id';
                 if (names.node !== option.node ||
-                    names.php !== option.php ||
+                    (names.php !== option.php && !historicalPhpName) ||
                     field.required ||
                     stable(field.codec) !== stable(option.codec))
                     throw new Error('Invalid compiled request option');

@@ -8,13 +8,13 @@ namespace Flint;
 final class InventoryActionRequiredInput extends Model {
     /** @param array{'inventory_reservation_line_ids': list<string>, 'reason': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryActionRequiredInput')); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return list<string>
      * @throws SdkError When inventory_reservation_line_ids is omitted; use hasInventoryReservationLineIds() or valueOrDefault().
      */
     public function getInventoryReservationLineIds(): array { return $this->get('inventory_reservation_line_ids'); }
     public function hasInventoryReservationLineIds(): bool { return $this->has('inventory_reservation_line_ids'); }
-    /** Shape $ (Value): string.  Value enum: "inventory_shortage", "hold_expired", "payment_pending", "other".
+    /** Value enum: "inventory_shortage", "hold_expired", "payment_pending", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */

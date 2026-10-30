@@ -10,25 +10,25 @@ namespace Flint;
 final class DeliveryPlanInput extends Model {
     /** @param array{'complete_by_at'?: string|\DateTimeInterface, 'first_arrival_at'?: string|\DateTimeInterface, 'planned_delivery_count'?: int, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPlanInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When complete_by_at is omitted; use hasCompleteByAt() or valueOrDefault().
      */
     public function getCompleteByAt(): string|\DateTimeInterface { return $this->get('complete_by_at'); }
     public function hasCompleteByAt(): bool { return $this->has('complete_by_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When first_arrival_at is omitted; use hasFirstArrivalAt() or valueOrDefault().
      */
     public function getFirstArrivalAt(): string|\DateTimeInterface { return $this->get('first_arrival_at'); }
     public function hasFirstArrivalAt(): bool { return $this->has('first_arrival_at'); }
-    /** Shape $ (Value): integer.
+    /** planned_delivery_count
      * @return int
      * @throws SdkError When planned_delivery_count is omitted; use hasPlannedDeliveryCount() or valueOrDefault().
      */
     public function getPlannedDeliveryCount(): int { return $this->get('planned_delivery_count'); }
     public function hasPlannedDeliveryCount(): bool { return $this->has('planned_delivery_count'); }
-    /** Shape $ (Value): string.  Value enum: "single_delivery", "multiple_deliveries".
+    /** Value enum: "single_delivery", "multiple_deliveries".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

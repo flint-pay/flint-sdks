@@ -1,0 +1,1 @@
+{"shared":"FulfillmentEventCreatedMerchantEvent","dependencies":["CheckoutBuyerContact","FulfillmentEvent","FulfillmentEventCreatedMerchantEvent","MoneyValue","PricingAmounts","SettlementAmounts","SharedCodec12","SharedCodec13","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec574","SignedMoney"]}

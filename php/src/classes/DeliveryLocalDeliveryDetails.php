@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryLocalDeliveryDetails extends Model {
     /** @param array{'instructions'?: string, 'service_level'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocalDeliveryDetails')); }
-    /** Shape $ (Value): string.
+    /** instructions
      * @return ?string
      */
     public function getInstructions(): ?string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** Shape $ (Value): string.
+    /** service_level
      * @return ?string
      */
     public function getServiceLevel(): ?string { return $this->get('service_level'); }

@@ -1,11 +1,10 @@
 import { Client } from "@flintpay/node";
-const baseUrl = process.env.API_BASE_URL;
-if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
 const customerToken = process.env.CUSTOMER_TOKEN;
 if (!customerToken) throw new Error("Set CUSTOMER_TOKEN: this call requires a credential");
 const client = new Client({
   baseUrl,
-  allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
   customerToken,
 });
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -15,12 +14,12 @@ const result = await client.me.createReturn(
   {
     line_items: [
       {
-        order_line_item_id: "example",
-        requested_quantity: "100",
-        return_reason_id: "example",
+        order_line_item_id: "li_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        requested_quantity: 1,
+        return_reason_id: "rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       },
     ],
-    order_id: "example",
+    order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   },
   { idempotencyKey: idempotencyKey },
 );
