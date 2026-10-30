@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/f42a6b8cf1a48e8c46ab2d1d8b2825d29e64780c/sdk-config.schema.json",
+  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/c5e0e964c5096a5267f251e91acaf9870f3e4f37/sdk-config.schema.json",
   "version": "8.0.0-beta.1",
   "npm": {
     "name": "@flintpay/node",

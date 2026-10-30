@@ -1803,7 +1803,7 @@
     "responses": [],
     "error": {
       "name": "ConfigurationError",
-      "code": "credential_invalid",
+      "code": "credential_missing",
       "outcome": "not_sent"
     },
     "attempts": 0

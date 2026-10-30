@@ -541,7 +541,7 @@
     "source": "web/apps/developers/src/generated/openapi.json",
     "sourceSha256": "3f72152493c007aa7b0f517bdd713788b25700f95fd2149e6e1d2c97e417c6ac",
     "apiVersion": "2026-09-07",
-    "generatorRevision": "f42a6b8cf1a48e8c46ab2d1d8b2825d29e64780c",
+    "generatorRevision": "c5e0e964c5096a5267f251e91acaf9870f3e4f37",
     "sdkVersion": "8.0.0-beta.1",
     "basis": "Unmodified public versioned export (-version 2026-09-07) from a detached clean Flint origin/main worktree. Prior release and fixture evidence is preserved in previousFullSpec and the top-level historical records.",
     "operationCount": 621,

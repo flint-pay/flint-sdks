@@ -16989,7 +16989,7 @@
   "php/src/classes/ImageRequestInput.php": "ba66f4d3ee4d9b2e942814066d95b36aaaf80478c5a98680ae0c13689ff90b45",
   "php/src/classes/InitialGiftCardFundingInput.php": "edb12f85d34d2d9b8b37f5329208b82935468bfa593f656e818c190d5ef16690",
   "php/src/classes/InlineModifierGroupRequestInput.php": "7435d91e34466dda7536a12dacc07550e41b0fdbb1943b868003d6bf162599ae",
-  "php/src/classes/Internal/DescriptorSource.php": "2bbf60ccbd620c1fbc7b303d20f701c0b73ab4de02037a5dfeae27a5762ba48b",
+  "php/src/classes/Internal/DescriptorSource.php": "a73e692859d6eb4bf6a1db8f4a7d265720dd93f8f6a1fce53ef30e130622699a",
   "php/src/classes/InventoryActionRequired.php": "ba2779f76982bb00ec32048fe7b373f04e0b096f4043a98d5d7982ff9f6d5d5a",
   "php/src/classes/InventoryActionRequiredInput.php": "750003d3c36b261c0e36f81bf5499cb65e1a4465bdba5ef11e185a16f3a2537f",
   "php/src/classes/InventoryAdjustment.php": "b2d38626773a21b194539451fd83195c3924f3a130a00f4892208bb0fd44a0c1",
