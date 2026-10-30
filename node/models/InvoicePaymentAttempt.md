@@ -13,7 +13,7 @@ An attempt to collect payment for an invoice.
 | `canceled_at` | Optional | string | When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: `date-time`. |
 | `cancellation_requested_at` | Optional | string | When cancellation of this attempt was last requested. It stays set when the payment processor refuses the cancellation or the payment settles first, so read status and canceled_at for the outcome. Format: `date-time`. |
 | `checkout_session_id` | Optional | string | The hosted or embedded checkout session the buyer pays through. Absent for automatic charges. |
-| `expected_amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `expected_amount_money`: [field definitions](../models/IncomingWebhook05f1b45d6cf6Payload.md#incomingwebhook05f1b45d6cf6payloaddataobjectexpected_amount_money). |
+| `expected_amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `expected_amount_money`: [field definitions](../models/InvoicePaymentAttempt.md#invoicepaymentattemptexpected_amount_money). |
 | `expires_at` | Optional | string | When a checkout attempt expires, matching its checkout session. Absent for automatic charges. Format: `date-time`. |
 | `invoice_id` | Required | string | The invoice this attempt collects. |
 | `invoice_payment_attempt_id` | Required | string | Flint invoice payment attempt ID. |
@@ -28,5 +28,7 @@ An attempt to collect payment for an invoice.
 
 ### InvoicePaymentAttempt.expected_amount_money
 
-Field definitions: [IncomingWebhook05f1b45d6cf6Payload.data.object.expected_amount_money](../models/IncomingWebhook05f1b45d6cf6Payload.md#incomingwebhook05f1b45d6cf6payloaddataobjectexpected_amount_money).
+The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

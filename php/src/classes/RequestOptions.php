@@ -16,17 +16,18 @@ final class RequestOptions
         public readonly ?int $maxPages = null,
         public readonly ?int $maxItems = null,
         public readonly ?string $authMode = null,
-        public readonly ?array $credentials = null,
+        public readonly array|string|Omitted|null $credentials = Omitted::Value,
         public readonly ?int $streamIdleTimeoutMs = null,
         public readonly ?int $streamLifetimeMs = null,
-        public readonly string|CredentialProvider|\Closure|null $apiKey = null,
-        public readonly string|CredentialProvider|\Closure|null $checkoutToken = null,
-        public readonly string|CredentialProvider|\Closure|null $customerToken = null,
-        public readonly string|CredentialProvider|\Closure|null $invoiceToken = null,
-        public readonly string|CredentialProvider|\Closure|null $onboardingToken = null,
-        public readonly string|CredentialProvider|\Closure|null $token = null,
-        public readonly ?string $client_request_id = null,
-    ) {}
+        public readonly string|CredentialProvider|\Closure|Omitted|null $apiKey = Omitted::Value,
+        public readonly string|CredentialProvider|\Closure|Omitted|null $checkoutToken = Omitted::Value,
+        public readonly string|CredentialProvider|\Closure|Omitted|null $customerToken = Omitted::Value,
+        public readonly string|CredentialProvider|\Closure|Omitted|null $invoiceToken = Omitted::Value,
+        public readonly string|CredentialProvider|\Closure|Omitted|null $onboardingToken = Omitted::Value,
+        public readonly string|CredentialProvider|\Closure|Omitted|null $token = Omitted::Value,
+        public readonly ?string $clientRequestId = null,
+        mixed ...$unknown,
+    ) { if ($unknown) throw new \Flint\Errors\ConfigurationError("Unknown request option " . array_key_first($unknown), code: "invalid_option"); }
     public function __debugInfo(): array
     {
         return [
@@ -57,7 +58,7 @@ final class RequestOptions
             $this->invoiceToken,
             $this->onboardingToken,
             $this->token,
-            $this->client_request_id,
+            $this->clientRequestId,
         );
     }
 }

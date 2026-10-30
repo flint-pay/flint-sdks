@@ -2,73 +2,6 @@
 
 # invoices
 
-### invoices.assessLateFee
-
-Assesses the frozen late fee policy once per invoice or overdue schedule entry. The issued document remains unchanged.
-
-`POST /v1/invoices/{invoice_id}/late-fees`
-
-Signature: `assessLateFee(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput) | The request body for: Assess an invoice late fee. |
-
-Body model: [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput).
-
-#### invoices.assessLateFee body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_schedule_entry_id` | Optional | string | minLength: `1`. |
-
-#### Response
-
-Returned payload: [Invoice](../models/Invoice.md#invoice).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `assessLateFeeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->invoices->assessLateFee('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/invoices-assessLateFee.php)
-
 ### invoices.cancelPaymentAttempt
 
 Cancels an active invoice payment attempt and its payment intent. A processing ACH debit can be canceled only until the payment processor sends it to the bank; after that the request returns 409 ACTION_NOT_ALLOWED with reason in_progress and the attempt stays processing. Safe to retry with the same Idempotency-Key. Accepts an empty body or {}.
@@ -92,9 +25,8 @@ cancelPaymentAttempt(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `invoice_payment_attempt_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `invoice_payment_attempt_id` | Required | string | Flint invoice payment attempt ID. |
 
 #### Response
 
@@ -102,19 +34,19 @@ Returned payload: [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#inv
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -122,9 +54,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelPaymentAttemptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -134,7 +66,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->cancelPaymentAttempt('example', 'example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->cancelPaymentAttempt('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-cancelPaymentAttempt.php)
@@ -151,18 +83,14 @@ Signature: `collect(string|Model $invoice_id, array|Model $params, ?RequestOptio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
 | `body` | Required | [CollectInvoiceRequestInput](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput) | The request body for: Collect invoice. |
 
 Body model: [CollectInvoiceRequestInput](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput).
 
 #### invoices.collect body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_schedule_entry_id` | Optional | string | minLength: `1`. |
-| `payment_method_id` | Optional | string | minLength: `1`. |
+Field definitions: [shared fields](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput).
 
 #### Response
 
@@ -170,21 +98,21 @@ Returned payload: [CollectInvoiceResult](../models/CollectInvoiceResult.md#colle
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -192,9 +120,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `collectWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -204,7 +132,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->collect('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->collect('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-collect.php)
@@ -221,7 +149,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateInvoiceRequestInput](../models/CreateInvoiceRequestInput.md#createinvoicerequestinput) | The request body for: Create invoice. |
 
 Body model: [CreateInvoiceRequestInput](../models/CreateInvoiceRequestInput.md#createinvoicerequestinput).
@@ -249,25 +176,17 @@ Body model: [CreateInvoiceRequestInput](../models/CreateInvoiceRequestInput.md#c
 | `service_date` | Optional | string | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Format: `date`. minLength: `1`. |
 | `type` | Required | string | Selects the type branch. Values: `"order"`, `"quick_pay"`. |
 
-#### invoices.create body oneOf variant 1
+#### invoices.create with `type: "order"`
 
 The `order` variant of `CreateInvoiceRequest`.
 
 Body model: [CreateInvoiceRequestOrderInput](../models/CreateInvoiceRequestOrderInput.md#createinvoicerequestorderinput).
 
-#### invoices.create body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateInvoiceRequestOrderInput.md#createinvoicerequestorderinput). Models: [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequestInput.md#invoicecollectionrequestinput), [CreateInvoiceIssueRequestInput](../models/CreateInvoiceIssueRequestInput.md#createinvoiceissuerequestinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequestInput.md#invoicepaymentduerequestinput), [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequestInput.md#createinvoicequickpayrequestinput), [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput).
-
-#### invoices.create body oneOf variant 2
+#### invoices.create with `type: "quick_pay"`
 
 The `quick_pay` variant of `CreateInvoiceRequest`.
 
 Body model: [CreateInvoiceRequestQuickPayInput](../models/CreateInvoiceRequestQuickPayInput.md#createinvoicerequestquickpayinput).
-
-#### invoices.create body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateInvoiceRequestQuickPayInput.md#createinvoicerequestquickpayinput). Models: [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequestInput.md#invoicecollectionrequestinput), [CreateInvoiceIssueRequestInput](../models/CreateInvoiceIssueRequestInput.md#createinvoiceissuerequestinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequestInput.md#invoicepaymentduerequestinput), [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequestInput.md#createinvoicequickpayrequestinput), [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput).
 
 #### Response
 
@@ -275,21 +194,21 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -297,9 +216,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -311,7 +230,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->invoices->create([
   'type' => 'order',
-  'order_id' => 'example',
+  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -319,7 +238,7 @@ $result = $client->invoices->create([
 
 ### invoices.createCheckoutSession
 
-Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request returns 409 ACTION_NOT_ALLOWED with reason configuration_required when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/invoices/{invoice_id}/checkout-sessions`
 
@@ -329,8 +248,7 @@ Signature: `createCheckoutSession(string|Model $invoice_id, array|Model|null $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
 | `body` | Optional | [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequestInput.md#invoicecheckoutsessionrequestinput) | The request body for: Create an invoice checkout session for the current buyer; Get or create invoice checkout collection. |
 
 #### Response
@@ -339,20 +257,20 @@ Returned payload: [InvoiceCheckoutSessionResult](../models/InvoiceCheckoutSessio
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -360,13 +278,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-Deprecated aliases: getOrCreateCheckoutSession.
 
 #### Example
 
@@ -374,10 +290,149 @@ Deprecated aliases: getOrCreateCheckoutSession.
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->createCheckoutSession('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->createCheckoutSession('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-createCheckoutSession.php)
+
+### invoices.createLateFee
+
+Assesses the frozen late fee policy once per invoice or overdue schedule entry. The issued document remains unchanged.
+
+`POST /v1/invoices/{invoice_id}/late-fees`
+
+Signature: `createLateFee(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string | Invoice ID. |
+| `body` | Required | [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput) | The request body for: Assess an invoice late fee. |
+
+Body model: [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput).
+
+#### invoices.createLateFee body fields
+
+Field definitions: [shared fields](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput).
+
+#### Response
+
+Returned payload: [Invoice](../models/Invoice.md#invoice).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->invoices->createLateFee('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/invoices-createLateFee.php)
+
+### invoices.createManualPayment
+
+Applies an offline/manual payment to an issued invoice. Recording is rejected with OPERATION_IN_PROGRESS while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same Idempotency-Key.
+
+`POST /v1/invoices/{invoice_id}/manual-payments`
+
+Signature: `createManualPayment(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `body` | Required | [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManualPaymentRequestInput.md#createinvoicemanualpaymentrequestinput) | The request body for: Create invoice manual payment. |
+
+Body model: [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManualPaymentRequestInput.md#createinvoicemanualpaymentrequestinput).
+
+#### invoices.createManualPayment body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `expected_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
+| `note` | Optional | string | minLength: `1`. maxLength: `4096`. |
+| `payment_reference` | Optional | string | Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. |
+| `received_at` | Optional | string | When the payment was received. Defaults to now. Format: `date-time`. minLength: `1`. |
+
+#### Response
+
+Returned payload: [InvoiceManualPaymentResult](../models/InvoiceManualPaymentResult.md#invoicemanualpaymentresult).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->invoices->createManualPayment('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'amount_money' => (object) [
+    'amount' => '100',
+    'currency' => 'USD',
+  ],
+], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/invoices-createManualPayment.php)
 
 ### invoices.get
 
@@ -391,8 +446,8 @@ Signature: `get(string|Model $invoice_id, array|Model|null $params = null, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"customer"`, `"order"`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: customer, order. Expansion requires commerce.invoices.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
 
 #### Response
 
@@ -400,16 +455,16 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -417,14 +472,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->invoices->get('example', [], new RequestOptions());
+$result = $client->invoices->get('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-get.php)
@@ -452,8 +507,8 @@ getManualPayment(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `invoice_manual_payment_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `invoice_manual_payment_id` | Required | string | Flint invoice manual payment ID. |
 
 #### Response
 
@@ -461,16 +516,16 @@ Returned payload: [InvoiceManualPayment](../models/InvoiceManualPayment.md#invoi
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -478,14 +533,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getManualPaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->invoices->getManualPayment('example', 'example', [], new RequestOptions());
+$result = $client->invoices->getManualPayment('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'omp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-getManualPayment.php)
@@ -513,8 +568,8 @@ getPaymentAttempt(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `invoice_payment_attempt_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `invoice_payment_attempt_id` | Required | string | Flint invoice payment attempt ID. |
 
 #### Response
 
@@ -522,16 +577,16 @@ Returned payload: [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#inv
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -539,14 +594,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPaymentAttemptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->invoices->getPaymentAttempt('example', 'example', [], new RequestOptions());
+$result = $client->invoices->getPaymentAttempt('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-getPaymentAttempt.php)
@@ -563,7 +618,7 @@ Signature: `getPDF(string|Model $invoice_id, array|Model|null $params = null, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
 
 #### Response
 
@@ -571,16 +626,16 @@ Response body (inside Result.data): null.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -593,7 +648,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->invoices->getPDF('example', [], new RequestOptions());
+$result = $client->invoices->getPDF('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-getPDF.php)
@@ -610,8 +665,7 @@ Signature: `issue(string|Model $invoice_id, array|Model $params, ?RequestOptions
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
 | `body` | Required | [IssueInvoiceRequestInput](../models/IssueInvoiceRequestInput.md#issueinvoicerequestinput) | The request body for: Issue invoice. |
 
 Body model: [IssueInvoiceRequestInput](../models/IssueInvoiceRequestInput.md#issueinvoicerequestinput).
@@ -626,21 +680,21 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -648,9 +702,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `issueWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -660,7 +714,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->issue('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->issue('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'delivery_mode' => 'email',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-issue.php)
@@ -677,46 +733,46 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `customer_id` | Optional | string |  |
-| `order_id` | Optional | string |  |
-| `subscription_id` | Optional | string |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `invoice_number` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `collection_mode` | Optional | Array of string | minItems: `1`. Items values: `"buyer_initiated"`, `"automatic"`, `"external"`. |
-| `issued_after` | Optional | string | Format: `date-time`. |
-| `issued_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `due_after` | Optional | string | Format: `date-time`. |
-| `due_before` | Optional | string | Format: `date-time`. |
-| `is_overdue` | Optional | boolean |  |
-| `has_outstanding_balance` | Optional | boolean |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_at"`, `"invoice_number"`, `"outstanding_money"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `query` | Optional | string |  |
-| `expand` | Optional | Array of string | Items values: `"customer"`, `"order"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by invoice status. Repeat the parameter or pass comma-separated values to match multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `customer_id` | Optional | string | Filter by Flint customer ID. |
+| `order_id` | Optional | string | Filter by Flint order ID. |
+| `subscription_id` | Optional | string | Exact-match filter on the backing order subscription ID. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `invoice_number` | Optional | string | Exact, byte-sensitive whole invoice number. Preserves casing, accents, and whitespace; drafts without a number do not match. minLength: `1`. maxLength: `255`. |
+| `collection_mode` | Optional | Array of string or string | Filter by the effective collection mode. Repeat the parameter or pass comma-separated values to match multiple modes. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"buyer_initiated"`, `"automatic"`, `"external"`. Values: `"buyer_initiated"`, `"automatic"`, `"external"`. |
+| `issued_after` | Optional | string | Inclusive lower bound on issued_at. Format: `date-time`. |
+| `issued_before` | Optional | string | Exclusive upper bound on issued_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `due_after` | Optional | string | Inclusive lower bound on due_at. Format: `date-time`. |
+| `due_before` | Optional | string | Exclusive upper bound on due_at. Format: `date-time`. |
+| `is_overdue` | Optional | boolean | Filter by whether the invoice is overdue. |
+| `has_outstanding_balance` | Optional | boolean | Filter by whether outstanding_money is greater than zero. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_at"`, `"invoice_number"`, `"outstanding_money"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `query` | Optional | string | Search across invoice_id, invoice_number, external_reference_id, recipient_email, reference, po_number, and the customer name and email on the invoice. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as inv_01. |
+| `expand` | Optional | Array of string or string | Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
 
 #### Response
 
-Returned payload: [InvoicesListResponse200](../models/InvoicesListResponse200.md#invoiceslistresponse200).
+Returned payload: [InvoiceListResponse](../models/InvoiceListResponse.md#invoicelistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -724,11 +780,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -750,11 +806,11 @@ Signature: `listActivities(string|Model $invoice_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `activity_type` | Optional | Array of string | minItems: `1`. Items values: [25 declared values](#invoiceslistactivities-input-activity_type--values). |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `activity_type` | Optional | Array of string or string | Filter by activity_type. The output-only catch-all other is not accepted. Repeat the parameter or pass comma-separated values to OR multiple types. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [25 declared values](#invoiceslistactivities-input-activity_type--values). Values: [25 declared values](#invoiceslistactivities-input-activity_type--values). |
 
 #### invoices.listActivities input activity_type [] values
 
@@ -786,20 +842,20 @@ Signature: `listActivities(string|Model $invoice_id, array|Model|null $params = 
 
 #### Response
 
-Returned payload: [InvoicesListActivitiesResponse200](../models/InvoicesListActivitiesResponse200.md#invoiceslistactivitiesresponse200).
+Returned payload: [InvoiceActivityListResponse](../models/InvoiceActivityListResponse.md#invoiceactivitylistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -807,16 +863,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listActivitiesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listActivitiesItems`, `listActivitiesPages`, `listActivitiesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listActivitiesItems`, `listActivitiesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->invoices->listActivities('example', [], new RequestOptions());
+$result = $client->invoices->listActivities('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listActivities.php)
@@ -833,26 +889,26 @@ Signature: `listDeliveryAttempts(string|Model $invoice_id, array|Model|null $par
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [InvoicesListDeliveryAttemptsResponse200](../models/InvoicesListDeliveryAttemptsResponse200.md#invoiceslistdeliveryattemptsresponse200).
+Returned payload: [InvoiceDeliveryAttemptListResponse](../models/InvoiceDeliveryAttemptListResponse.md#invoicedeliveryattemptlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -860,23 +916,23 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listDeliveryAttemptsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listDeliveryAttemptsItems`, `listDeliveryAttemptsPages`, `listDeliveryAttemptsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listDeliveryAttemptsItems`, `listDeliveryAttemptsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->invoices->listDeliveryAttempts('example', [], new RequestOptions());
+$result = $client->invoices->listDeliveryAttempts('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listDeliveryAttempts.php)
 
 ### invoices.listManualPayments
 
-Lists every manual payment, including reversed payments, ordered by received_at descending with invoice_manual_payment_id descending as the tiebreaker. Default order: received_at descending, then invoice_manual_payment_id descending.
+Lists every manual payment, including reversed payments. Default order: received_at descending, then invoice_manual_payment_id descending.
 
 `GET /v1/invoices/{invoice_id}/manual-payments`
 
@@ -886,27 +942,27 @@ Signature: `listManualPayments(string|Model $invoice_id, array|Model|null $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
 
 #### Response
 
-Returned payload: [InvoicesListManualPaymentsResponse200](../models/InvoicesListManualPaymentsResponse200.md#invoiceslistmanualpaymentsresponse200).
+Returned payload: [InvoiceManualPaymentListResponse](../models/InvoiceManualPaymentListResponse.md#invoicemanualpaymentlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -914,16 +970,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listManualPaymentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listManualPaymentsItems`, `listManualPaymentsPages`, `listManualPaymentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listManualPaymentsItems`, `listManualPaymentsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->invoices->listManualPayments('example', [], new RequestOptions());
+$result = $client->invoices->listManualPayments('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listManualPayments.php)
@@ -938,24 +994,24 @@ Signature: `listPaymentAttempts(string|Model $invoice_id, array|Model|null $para
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-13).
+Field definitions: [shared fields](#request-fields-14).
 
 #### Response
 
-Returned payload: [InvoicesListPaymentAttemptsResponse200](../models/InvoicesListPaymentAttemptsResponse200.md#invoiceslistpaymentattemptsresponse200).
+Returned payload: [InvoicePaymentAttemptListResponse](../models/InvoicePaymentAttemptListResponse.md#invoicepaymentattemptlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -963,16 +1019,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPaymentAttemptsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`, `listPaymentAttemptsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->invoices->listPaymentAttempts('example', [], new RequestOptions());
+$result = $client->invoices->listPaymentAttempts('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listPaymentAttempts.php)
@@ -989,8 +1045,7 @@ Signature: `markUncollectible(string|Model $invoice_id, array|Model|null $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
 | `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
@@ -999,19 +1054,19 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1019,9 +1074,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `markUncollectibleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1031,90 +1086,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->markUncollectible('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->markUncollectible('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-markUncollectible.php)
 
-### invoices.recordManualPayment
-
-Applies an offline/manual payment to an issued invoice. Recording is rejected with OPERATION_IN_PROGRESS while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same Idempotency-Key.
-
-`POST /v1/invoices/{invoice_id}/manual-payments`
-
-Signature: `recordManualPayment(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManualPaymentRequestInput.md#createinvoicemanualpaymentrequestinput) | The request body for: Create invoice manual payment. |
-
-Body model: [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManualPaymentRequestInput.md#createinvoicemanualpaymentrequestinput).
-
-#### invoices.recordManualPayment body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValueInput](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer string | Expected version of the invoice. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `note` | Optional | string | minLength: `1`. maxLength: `4096`. |
-| `payment_reference` | Optional | string | Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. |
-| `received_at` | Optional | string | When the payment was received. Defaults to now. Format: `date-time`. minLength: `1`. |
-
-#### Response
-
-Returned payload: [InvoiceManualPaymentResult](../models/InvoiceManualPaymentResult.md#invoicemanualpaymentresult).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `recordManualPaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->invoices->recordManualPayment('example', [
-  'amount_money' => (object) [
-    'amount' => '100',
-    'currency' => 'USD',
-  ],
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/invoices-recordManualPayment.php)
-
 ### invoices.regeneratePublicLink
 
-Revokes the current buyer-access link and all checkout credentials derived from it, then returns a new public_url. The current checkout session and its payment lineage are preserved. Returns 409 CUSTOMER_DELETION_PROCESSING if the customer is being deleted or was deleted. Safe to retry with the same Idempotency-Key.
+Revokes the current buyer-access link and all checkout credentials derived from it, then returns a new public_url. The current checkout session and its payment lineage are preserved. Returns 409 ACTION_NOT_ALLOWED with details[0].reason in_progress when the invoice's customer is being deleted or has been deleted. Safe to retry with the same Idempotency-Key.
 
 `POST /v1/invoices/{invoice_id}/regenerate-public-link`
 
@@ -1122,7 +1101,7 @@ Signature: `regeneratePublicLink(string|Model $invoice_id, array|Model|null $par
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-15). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](#request-fields-16). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -1130,19 +1109,19 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1150,9 +1129,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `regeneratePublicLinkWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1162,7 +1141,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->regeneratePublicLink('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->regeneratePublicLink('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-regeneratePublicLink.php)
@@ -1189,9 +1168,8 @@ reverseManualPayment(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `invoice_manual_payment_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `invoice_manual_payment_id` | Required | string | Flint invoice manual payment ID. |
 | `body` | Required | [ReverseInvoiceManualPaymentRequestInput](../models/ReverseInvoiceManualPaymentRequestInput.md#reverseinvoicemanualpaymentrequestinput) | The request body for: Reverse manual invoice payment. |
 
 Body model: [ReverseInvoiceManualPaymentRequestInput](../models/ReverseInvoiceManualPaymentRequestInput.md#reverseinvoicemanualpaymentrequestinput).
@@ -1206,19 +1184,19 @@ Returned payload: [InvoiceManualPaymentResult](../models/InvoiceManualPaymentRes
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1226,9 +1204,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `reverseManualPaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1238,7 +1216,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->reverseManualPayment('example', 'example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->reverseManualPayment('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'omp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'reversal_note' => 'Payment returned by bank',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-reverseManualPayment.php)
@@ -1255,8 +1235,7 @@ Signature: `sendReminder(string|Model $invoice_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
 
 #### Response
 
@@ -1264,18 +1243,18 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1283,9 +1262,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `sendReminderWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1295,7 +1274,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->sendReminder('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->sendReminder('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-sendReminder.php)
@@ -1312,8 +1291,7 @@ Signature: `update(string|Model $invoice_id, array|Model $params, ?RequestOption
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Flint invoice ID. |
 | `body` | Required | [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequestInput.md#updateinvoicerequestinput) | The request body for: Update invoice. |
 
 Body model: [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequestInput.md#updateinvoicerequestinput).
@@ -1328,19 +1306,19 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1348,9 +1326,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1360,22 +1338,24 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->update('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'memo' => 'Updated delivery instructions',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-update.php)
 
-### invoices.voidResource
+### invoices.void
 
 Voids an unpaid invoice so the associated order can be edited or collected again. An invoice with an issued credit note against it cannot be voided until that credit note is voided.
 
 `POST /v1/invoices/{invoice_id}/void`
 
-Signature: `voidResource(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+Signature: `void(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null)`
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-15). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](#request-fields-16). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -1383,19 +1363,19 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1403,9 +1383,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `voidResourceWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1415,10 +1395,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->voidResource('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->void('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
-[Complete runnable example](../examples/invoices-voidResource.php)
+[Complete runnable example](../examples/invoices-void.php)
 
 ### invoices.waiveLateFee
 
@@ -1432,9 +1412,8 @@ Signature: `waiveLateFee(string|Model $invoice_id, string|Model $invoice_late_fe
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `invoice_late_fee_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `invoice_id` | Required | string | Invoice ID. |
+| `invoice_late_fee_id` | Required | string | Invoice late fee ID. |
 | `body` | Required | [WaiveInvoiceLateFeeRequestInput](../models/WaiveInvoiceLateFeeRequestInput.md#waiveinvoicelatefeerequestinput) | The request body for: Waive an unpaid invoice late fee. |
 
 Body model: [WaiveInvoiceLateFeeRequestInput](../models/WaiveInvoiceLateFeeRequestInput.md#waiveinvoicelatefeerequestinput).
@@ -1451,19 +1430,19 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1471,9 +1450,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `waiveLateFeeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1483,8 +1462,8 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->waiveLateFee('example', 'example', [
-  'reason_message' => 'example',
+$result = $client->invoices->waiveLateFee('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'reason_message' => 'Courtesy waiver',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 

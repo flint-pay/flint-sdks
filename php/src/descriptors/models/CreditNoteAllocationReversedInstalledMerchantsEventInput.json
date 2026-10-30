@@ -1,0 +1,1 @@
+{"shared":"CreditNoteAllocationReversedInstalledMerchantsEvent","dependencies":["CreditNoteAllocation","CreditNoteAllocationReversedInstalledMerchantsEvent","MoneyValue","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec337","SharedCodec949","SharedCodec950"]}

@@ -23,7 +23,7 @@ No additional constraints.
 
 ### CheckoutBuyerFields variant 2
 
-anyOf variant 2: Declared schema CheckoutBuyerFieldsRequestRequest. What checkout asks the buyer for. Each field you leave out uses your checkout settings..
+anyOf variant 2: Declared schema CheckoutBuyerFieldsRequest. What checkout asks the buyer for. Each field you leave out uses your checkout settings..
 
 No additional constraints.
 

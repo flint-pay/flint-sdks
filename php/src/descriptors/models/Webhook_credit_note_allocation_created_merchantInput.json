@@ -1,1 +1,0 @@
-{"shared":"Webhook_credit_note_allocation_created_merchant","dependencies":["CreditNoteAllocation","MerchantWebhookEnvelope","MoneyValue","SharedCodec413","SharedCodec414","SharedCodec742","Webhook_credit_note_allocation_created_merchant"]}

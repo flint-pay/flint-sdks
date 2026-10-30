@@ -8,12 +8,12 @@ namespace Flint;
 final class CustomerReceivables extends Model {
     /** @param array{'balances': list<mixed>, 'observed_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerReceivables')); }
-    /** Shape $ (Value): Array of {@see CustomerReceivableBalance}. Shape $[] (Value): {@see CustomerReceivableBalance}. A customer's outstanding and overdue amounts in one currency.
+    /**  [] (Value): {@see CustomerReceivableBalance}. A customer's outstanding and overdue amounts in one currency.
      * @return list<CustomerReceivableBalance>
      */
     public function getBalances(): array { return $this->get('balances'); }
     public function hasBalances(): bool { return $this->has('balances'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getObservedAt(): string { return $this->get('observed_at'); }

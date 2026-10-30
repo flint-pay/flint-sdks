@@ -12,9 +12,7 @@ Signature:
 
 ```typescript
 get(inventory_movement_id: InputValue<string>,
- params?: {
-  "expand"?: InputValue<Array<"inventory_item">>
-},
+ params?: InventoryMovementsGetParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -22,8 +20,8 @@ get(inventory_movement_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expand` | Optional | Array of string | Items values: `"inventory_item"`. |
-| `inventory_movement_id` | Required | string |  |
+| `expand` | Optional | Array of string or string | Supported expansions: inventory_item. Include the full inventory item with expand=inventory_item. Requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Pass expand=inventory_item. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
+| `inventory_movement_id` | Required | string | Flint inventory movement ID. |
 
 #### Response
 
@@ -31,16 +29,16 @@ Returned payload: [InventoryMovement](../models/InventoryMovement.md#inventorymo
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -48,14 +46,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.inventoryMovements.get("example", {}, {  });
+const result = await client.inventoryMovements.get("invm_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/inventoryMovements-get.mjs)
@@ -66,88 +64,44 @@ List inventory movements, oldest recorded first. Send expand=inventory_item to r
 
 `GET /v1/inventory-movements`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "inventory_item_id"?: InputValue<string>;
-  "location_id"?: InputValue<string>;
-  "type"?: InputValue<Array<"adjustment" |
-    "count_applied" |
-    "reservation_consumed" |
-    "reservation_committed" |
-    "reservation_commitment_released" |
-    "reservation_expired" |
-    "reservation_held" |
-    "reservation_hold_released" |
-    "reservation_reallocated_in" |
-    "reservation_reallocated_out" |
-    "return_received" |
-    "safety_stock_change" |
-    "transfer_departed" |
-    "transfer_received" |
-    "transfer_returned" |
-    "transfer_lost">>;
-  "reason"?: InputValue<Array<"received" |
-    "returned" |
-    "sold" |
-    "theft" |
-    "loss" |
-    "condition_changed" |
-    "counted" |
-    "correction">>;
-  "idempotency_key"?: InputValue<string>;
-  "return_id"?: InputValue<string>;
-  "return_disposition_id"?: InputValue<string>;
-  "sort_direction"?: InputValue<"asc" | "desc">;
-  "expand"?: InputValue<Array<"inventory_item">>;
-  "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
-  "external_source_id"?: InputValue<string>;
-  "external_actor_id"?: InputValue<string>;
-  "occurred_after"?: InputValue<string | globalThis.Date>;
-  "occurred_before"?: InputValue<string | globalThis.Date>;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>;
-  "source_reference_type"?: InputValue<Array<"fulfillment" |
-    "inventory_adjustment" |
-    "inventory_count" |
-    "inventory_level" |
-    "inventory_receipt" |
-    "inventory_reservation" |
-    "inventory_transfer">>;
-  "source_reference_id"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: InventoryMovementsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `inventory_item_id` | Optional | string |  |
-| `location_id` | Optional | string |  |
-| `type` | Optional | Array of string | minItems: `1`. Items values: [16 declared values](../models/InventoryMovement.md#inventorymovement-type-values). |
-| `reason` | Optional | Array of string | minItems: `1`. Items values: `"received"`, `"returned"`, `"sold"`, `"theft"`, `"loss"`, `"condition_changed"`, `"counted"`, `"correction"`. |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `return_id` | Optional | string |  |
-| `return_disposition_id` | Optional | string |  |
-| `sort_direction` | Optional | string | Default: `"asc"`. Values: `"asc"`, `"desc"`. |
-| `expand` | Optional | Array of string | Items values: `"inventory_item"`. |
-| `source_system_type` | Optional | Array of string | minItems: `1`. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
-| `external_source_id` | Optional | string |  |
-| `external_actor_id` | Optional | string |  |
-| `occurred_after` | Optional | string | Format: `date-time`. |
-| `occurred_before` | Optional | string | Format: `date-time`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `source_reference_type` | Optional | Array of string | minItems: `1`. Items values: [7 declared values](#inventorymovementslist-input-source_reference_type--values). |
-| `source_reference_id` | Optional | string |  |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `inventory_item_id` | Optional | string | Filter by inventory item. |
+| `location_id` | Optional | string | Filter by Location. |
+| `type` | Optional | Array of string or string | Filter by movement type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [16 declared values](../models/InventoryMovement.md#inventorymovement-type-values). Values: [16 declared values](../models/InventoryMovement.md#inventorymovement-type-values). |
+| `reason` | Optional | Array of string or string | Filter adjustment movements by the adjustment reason. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"received"`, `"returned"`, `"sold"`, `"theft"`, `"loss"`, `"condition_changed"`, `"counted"`, `"correction"`. Values: `"received"`, `"returned"`, `"sold"`, `"theft"`, `"loss"`, `"condition_changed"`, `"counted"`, `"correction"`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `return_id` | Optional | string | Filter by the customer Return that produced the movement. |
+| `return_disposition_id` | Optional | string | Filter by the Return disposition that produced the movement. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to asc. Default: `"asc"`. Values: `"asc"`, `"desc"`. |
+| `expand` | Optional | Array of string or string | Supported expansions: inventory_item. The expansion resolves with one batched lookup per page. Expansion requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Pass expand=inventory_item. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
+| `source_system_type` | Optional | Array of string or string | Filter by source-system type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
+| `external_source_id` | Optional | string | Filter by external source ID. |
+| `external_actor_id` | Optional | string | Filter by external actor ID. |
+| `occurred_after` | Optional | string | Inclusive lower bound on occurred_at. Format: `date-time`. |
+| `occurred_before` | Optional | string | Exclusive upper bound on occurred_at. Format: `date-time`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `source_reference_type` | Optional | Array of string or string | Filter by source_reference.resource_type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [7 declared values](#inventorymovementslist-input-source_reference_type--values). Values: [7 declared values](#inventorymovementslist-input-source_reference_type-values). |
+| `source_reference_id` | Optional | string | Filter by source_reference.resource_id. |
 
 #### inventoryMovements.list input source_reference_type [] values
+
+- `"fulfillment"`
+- `"inventory_adjustment"`
+- `"inventory_count"`
+- `"inventory_level"`
+- `"inventory_receipt"`
+- `"inventory_reservation"`
+- `"inventory_transfer"`
+
+#### inventoryMovements.list input source_reference_type values
 
 - `"fulfillment"`
 - `"inventory_adjustment"`
@@ -163,16 +117,16 @@ Returned payload: [InventoryMovementListResponse](../models/InventoryMovementLis
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -180,11 +134,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 

@@ -16,7 +16,7 @@
 
 ### InvoicePaymentDuePaymentTerms variant 1: `type` = `"payment_terms"`
 
-anyOf variant 1: Declared schema InvoicePaymentDueInputPaymentTerms. The `payment_terms` variant of `InvoicePaymentDueInput`..
+anyOf InvoicePaymentDueInputPaymentTerms: Declared schema InvoicePaymentDueInputPaymentTerms. The `payment_terms` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (present(`due_at`)).
 - Constraints for `due_at`: When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any other type. minLength: `1`.
@@ -25,7 +25,7 @@ anyOf variant 1: Declared schema InvoicePaymentDueInputPaymentTerms. The `paymen
 
 ### InvoicePaymentDuePaymentTerms variant 2: `type` = `"payment_terms"`
 
-anyOf variant 2: Declared schema InvoicePaymentDuePaymentTerms. The `payment_terms` variant of `InvoicePaymentDue`..
+anyOf InvoicePaymentDuePaymentTerms: Declared schema InvoicePaymentDuePaymentTerms. The `payment_terms` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`due_at`)).
 - Constraints for `due_at`: The due date set with type date. Present only with date. The top-level due_at is the effective due date for every type.

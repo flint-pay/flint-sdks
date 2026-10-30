@@ -18,7 +18,7 @@ A flat application method whose type selects its effect fields.
 | `recurrence` | Optional | [PromotionRecurrence](../models/PromotionRecurrence.md#promotionrecurrence) | Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever. |
 | `type` | Required | string |  |
 | `amount_off_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_off_money`: [field definitions](../models/PromotionAmountOffMethod.md#promotionamountoffmethodamount_off_money). |
-| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `buy_min_quantity` | Conditional | integer | Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `get_percent_off` | Conditional | number | Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items free. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Conditional | integer | Maximum number of reward units discounted per application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
@@ -28,7 +28,7 @@ A flat application method whose type selects its effect fields.
 
 ### PromotionApplicationMethodRequest variant 1: `type` = `"percent_off"`
 
-oneOf variant 1: The `percent_off` variant of `PromotionApplicationMethodInput`..
+oneOf with type: "percent_off": The `percent_off` variant of `PromotionApplicationMethodInput`..
 
 - Required: `percent_off`.
 - Optional: `discounted_item_rules`, `max_discounted_quantity`.
@@ -37,7 +37,7 @@ oneOf variant 1: The `percent_off` variant of `PromotionApplicationMethodInput`.
 
 ### PromotionApplicationMethodRequest variant 2: `type` = `"amount_off"`
 
-oneOf variant 2: The `amount_off` variant of `PromotionApplicationMethodInput`..
+oneOf with type: "amount_off": The `amount_off` variant of `PromotionApplicationMethodInput`..
 
 - Required: `amount_off_money`.
 - Optional: `currency_options`, `discounted_item_rules`.
@@ -46,7 +46,7 @@ oneOf variant 2: The `amount_off` variant of `PromotionApplicationMethodInput`..
 
 ### PromotionApplicationMethodRequest variant 3: `type` = `"buy_x_get_y"`
 
-oneOf variant 3: The `buy_x_get_y` variant of `PromotionApplicationMethodInput`..
+oneOf with type: "buy_x_get_y": The `buy_x_get_y` variant of `PromotionApplicationMethodInput`..
 
 - Required: `buy_min_quantity`, `discounted_item_rules`, `get_percent_off`, `get_quantity`, `qualifying_item_rules`.
 - Optional: `max_applications_per_order`, `reward_selection`.
@@ -59,5 +59,5 @@ Field definitions: [PromotionAmountOffMethod.amount_off_money](../models/Promoti
 
 ### PromotionApplicationMethodRequest variant 2.currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

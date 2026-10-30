@@ -1,24 +1,20 @@
 {
-  "profiles": ["full-common-sdk.json"],
+  "profiles": [
+    "full-common-sdk.json"
+  ],
   "include": [
     "advanceOnboarding",
-    "authorizePartnerInstall",
     "createDemoSession",
     "createMerchantAccountSession",
     "createOnboardingAPIKey",
-    "createPartnerApp",
     "createSandbox",
     "createSandboxAPIKey",
     "deleteSandbox",
     "getMerchant",
     "getOnboardingState",
     "getOpenAPISpec",
-    "getPartnerApp",
-    "getPartnerAppInstall",
     "getPaymentLinkPublic",
     "getSandbox",
-    "listPartnerAppInstalls",
-    "listPartnerApps",
     "listSandboxes",
     "previewPartnerInstallAuthorization",
     "refreshCustomerSession",
@@ -27,32 +23,27 @@
     "resetSandbox",
     "resolvePaymentLink",
     "startOnboarding",
-    "updatePartnerApp",
     "verifyOnboardingEmail"
   ],
   "auth": {
     "modes": {
       "onboarding": {
-        "schemes": ["OnboardingSessionBearer"],
+        "schemes": [
+          "OnboardingSessionBearer"
+        ],
         "operations": [
           "advanceOnboarding",
           "createMerchantAccountSession",
           "createOnboardingAPIKey",
-          "createPartnerApp",
           "createSandbox",
           "createSandboxAPIKey",
           "deleteSandbox",
           "getMerchant",
           "getOnboardingState",
-          "getPartnerApp",
-          "getPartnerAppInstall",
           "getSandbox",
-          "listPartnerAppInstalls",
-          "listPartnerApps",
           "listSandboxes",
           "refreshMerchantAccountSession",
-          "resetSandbox",
-          "updatePartnerApp"
+          "resetSandbox"
         ]
       }
     },

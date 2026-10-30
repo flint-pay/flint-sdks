@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_session` | Required | [CheckoutSessionInput](../models/CheckoutSessionInput.md#checkoutsessioninput) | A session in which a buyer completes an order's payment. |
-| `delivery_selection` | Required | [DeliverySelectionInput](../models/DeliverySelectionInput.md#deliveryselectioninput) | The delivery choice selected for a checkout or order. |
-| `inventory_reservation` | Optional | [DeliveryInventoryReservationSummaryInput](../models/DeliveryInventoryReservationSummaryInput.md#deliveryinventoryreservationsummaryinput) | The inventory reservation held for a delivery selection: its owner, status, expiry, and the next action required. |
-| `order` | Required | [OrderInput](../models/OrderInput.md#orderinput) | A customer's purchase and its payment and fulfillment progress. |
+| `checkout_session` | Required | [CheckoutSessionInput](../models/CheckoutSessionInput.md#checkoutsessioninput) | The checkout session after the selection. A session in which a buyer completes an order's payment. |
+| `delivery_selection` | Required | [DeliverySelectionInput](../models/DeliverySelectionInput.md#deliveryselectioninput) | The selection now on the checkout. The delivery choice selected for a checkout or order. |
+| `inventory_reservation` | Optional | [DeliveryInventoryReservationSummaryInput](../models/DeliveryInventoryReservationSummaryInput.md#deliveryinventoryreservationsummaryinput) | The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, expiry, and the next action required. |
+| `order` | Required | [OrderInput](../models/OrderInput.md#orderinput) | The order after the selection, with delivery charges applied and tax recalculated. Render totals from it instead of reading the order again. When tax still needs input, order.tax.status says so. A customer's purchase and its payment and fulfillment progress. |
 

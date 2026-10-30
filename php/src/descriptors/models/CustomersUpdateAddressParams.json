@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3840"},"dependencies":["AddressRequest","SharedCodec0","SharedCodec1","SharedCodec3840","UpdateCustomerAddressRequest"]}

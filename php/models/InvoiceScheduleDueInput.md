@@ -13,21 +13,21 @@ Request input.
 
 ### InvoiceScheduleDueInput variant 1: `type` = `"at_issue"`
 
-oneOf variant 1: The `at_issue` variant of `InvoiceScheduleDue`..
+oneOf with type: "at_issue": The `at_issue` variant of `InvoiceScheduleDue`..
 
 - Optional: `due_at`.
 - Constraints for `type`: Values: `"at_issue"`.
 
 ### InvoiceScheduleDueInput variant 2: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoiceScheduleDue`..
+oneOf with type: "date": The `date` variant of `InvoiceScheduleDue`..
 
 - Required: `due_at`.
 - Constraints for `type`: Values: `"date"`.
 
 ### InvoiceScheduleDueInput variant 3: `type` = `"invoice_due_date"`
 
-oneOf variant 3: The `invoice_due_date` variant of `InvoiceScheduleDue`..
+oneOf with type: "invoice_due_date": The `invoice_due_date` variant of `InvoiceScheduleDue`..
 
 - Optional: `due_at`.
 - Constraints for `type`: Values: `"invoice_due_date"`.

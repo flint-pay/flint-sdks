@@ -6,5 +6,5 @@ A tax identifier printed on documents, with its country, optional region, identi
 
 Request input.
 
-Fields, types, descriptions and enum values: [DocumentTaxIDRequestRequestInput](../models/DocumentTaxIDRequestRequestInput.md#documenttaxidrequestrequestinput).
+Fields, types, descriptions and enum values: [DocumentTaxIDRequestInput](../models/DocumentTaxIDRequestInput.md#documenttaxidrequestinput).
 

@@ -13,7 +13,7 @@ Sparse Location update. Omitted fields stay unchanged. address and coordinate ar
 | `address` | Optional | [AddressRequest](../models/AddressRequest.md#addressrequest) | Complete replacement postal address, validated as on create. Requires coordinate in the same request, including null to clear it. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `coordinate` | Optional | [LocationCoordinate](../models/LocationCoordinate.md#locationcoordinate) or null | Complete replacement coordinate. Send null to clear both coordinate and coordinate_source. A non-null value requires coordinate_source in the same request. `coordinate`: [declared alternatives](../models/UpdateLocationRequest.md#updatelocationrequestcoordinate). |
 | `coordinate_source` | Optional | string or null | Source of the coordinate sent in the same request. A non-null coordinate requires merchant_supplied or geocoded. Send null only with coordinate: null to clear both fields. Values: `"merchant_supplied"`, `"geocoded"`, `null`. |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `inventory_allocation_enabled` | Optional | boolean | Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory.allocation.write in addition to the route scope. |
 | `metadata` | Optional | [MetadataPatchRequest](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
@@ -32,7 +32,7 @@ Complete replacement coordinate. Send null to clear both coordinate and coordina
 
 ### UpdateLocationRequest.coordinate variant 1
 
-anyOf variant 1: A latitude and longitude for a merchant location..
+anyOf LocationCoordinateRequest: A latitude and longitude for a merchant location..
 
 - Required: `latitude`, `longitude`.
 

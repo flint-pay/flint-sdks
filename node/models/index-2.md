@@ -1,9 +1,20 @@
 [Model index](../MODELS.md)
 
-# BuyerInstructionsConfig – CallerSuppliedDeliveryOutcomeRequestAvailable
+# BuyerFulfillmentEvent to BuyerSubscriptionPreview
 
+- [BuyerFulfillmentEvent](BuyerFulfillmentEvent.md)
+- [BuyerFulfillmentEventListResponse](BuyerFulfillmentEventListResponse.md)
+- [BuyerFulfillmentLineItem](BuyerFulfillmentLineItem.md)
+- [BuyerFulfillmentListResponse](BuyerFulfillmentListResponse.md)
+- [BuyerFulfillmentOutcome](BuyerFulfillmentOutcome.md)
+- [BuyerFulfillmentResponse](BuyerFulfillmentResponse.md)
+- [BuyerGiftCard](BuyerGiftCard.md)
+- [BuyerGiftCardListResponse](BuyerGiftCardListResponse.md)
+- [BuyerGiftCardResponse](BuyerGiftCardResponse.md)
+- [BuyerGiftCardTransaction](BuyerGiftCardTransaction.md)
+- [BuyerGiftCardTransactionListResponse](BuyerGiftCardTransactionListResponse.md)
 - [BuyerInstructionsConfig](BuyerInstructionsConfig.md)
-- [BuyerInstructionsConfigRequestRequestInput](BuyerInstructionsConfigRequestRequestInput.md)
+- [BuyerInstructionsConfigRequestInput](BuyerInstructionsConfigRequestInput.md)
 - [BuyerInvoice](BuyerInvoice.md)
 - [BuyerInvoiceCheckoutSessionResponse](BuyerInvoiceCheckoutSessionResponse.md)
 - [BuyerInvoiceCheckoutSessionResult](BuyerInvoiceCheckoutSessionResult.md)
@@ -91,15 +102,4 @@
 - [BuyerSubscriptionPlanLineItemCustom](BuyerSubscriptionPlanLineItemCustom.md)
 - [BuyerSubscriptionPlanLineItemVariant](BuyerSubscriptionPlanLineItemVariant.md)
 - [BuyerSubscriptionPreview](BuyerSubscriptionPreview.md)
-- [BuyerSubscriptionPreviewResponse](BuyerSubscriptionPreviewResponse.md)
-- [BuyerSubscriptionRenewalResult](BuyerSubscriptionRenewalResult.md)
-- [BuyerSubscriptionRenewalResultResponse](BuyerSubscriptionRenewalResultResponse.md)
-- [BuyerSubscriptionResponse](BuyerSubscriptionResponse.md)
-- [BuyerSubscriptionServiceLocation](BuyerSubscriptionServiceLocation.md)
-- [BuyerTip](BuyerTip.md)
-- [CallerSuppliedDeliveryMethodResultRequest](CallerSuppliedDeliveryMethodResultRequest.md)
-- [CallerSuppliedDeliveryMethodResultRequestInput](CallerSuppliedDeliveryMethodResultRequestInput.md)
-- [CallerSuppliedDeliveryOutcomeRequest](CallerSuppliedDeliveryOutcomeRequest.md)
-- [CallerSuppliedDeliveryOutcomeRequestInput](CallerSuppliedDeliveryOutcomeRequestInput.md)
-- [CallerSuppliedDeliveryOutcomeRequestAvailable](CallerSuppliedDeliveryOutcomeRequestAvailable.md)
 

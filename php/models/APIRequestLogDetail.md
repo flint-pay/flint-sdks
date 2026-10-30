@@ -19,20 +19,20 @@ Response model.
 | `expand` | Optional | Array of string | Normalized expand paths Flint applied. Absent when the request did not use expand. |
 | `http_method` | Required | string |  |
 | `ip_address` | Optional | string | The integration caller's IP address. Absent for buyer-side callers. |
-| `latency_milliseconds` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `latency_milliseconds` | Required | integer | Format: `int64`. |
 | `path` | Required | string |  |
 | `query_params` | Required | Array of [APIRequestLogQueryParam](../models/APIRequestLogQueryParam.md#apirequestlogqueryparam) |  |
 | `recommended_action` | Optional | string | The next step to resolve this failure. |
 | `reference_url` | Optional | string | A Flint guide that explains this failure. Absent when no guide applies. Format: `uri`. |
 | `reproduction` | Required | [APIRequestLogReproduction](../models/APIRequestLogReproduction.md#apirequestlogreproduction) | A reproduction of the captured request. Replaying a non-GET request changes data. Replay with a sandbox key. |
-| `request_body` | Optional | Alternative shapes (see declared variants) | The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. `request_body`: [declared alternatives](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200datarequest_body). |
+| `request_body` | Optional | Alternative shapes (see declared variants) | The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. `request_body`: [declared alternatives](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatarequest_body). |
 | `request_headers` | Optional | Map of string | Request headers as received, keyed by header name. Sensitive values read [REDACTED]. |
 | `request_id` | Required | string | Records created before server-minted request IDs keep their original ID. maxLength: `128`. |
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). `resource_type`: [field definitions](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200dataresource_type). |
-| `response_body` | Optional | Alternative shapes (see declared variants) | The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. `response_body`: [declared alternatives](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200datarequest_body). |
+| `resource_type` | Optional | string | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). `resource_type`: [field definitions](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedataresource_type). |
+| `response_body` | Optional | Alternative shapes (see declared variants) | The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. `response_body`: [declared alternatives](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatarequest_body). |
 | `response_content_type` | Optional | string |  |
 | `retry` | Optional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string |  |
@@ -42,13 +42,13 @@ Response model.
 
 ### APIRequestLogDetail.request_body
 
-Declared alternatives: [DeveloperGetCurrentAPIKeyRequestLogResponse200.data.request_body](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200datarequest_body).
+Declared alternatives: [APIRequestLogDetailResponse.data.request_body](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatarequest_body).
 
 ### APIRequestLogDetail.resource_type
 
-Field definitions: [DeveloperGetCurrentAPIKeyRequestLogResponse200.data.resource_type](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200dataresource_type).
+Field definitions: [APIRequestLogDetailResponse.data.resource_type](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedataresource_type).
 
 ### APIRequestLogDetail.response_body
 
-Declared alternatives: [DeveloperGetCurrentAPIKeyRequestLogResponse200.data.request_body](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200datarequest_body).
+Declared alternatives: [APIRequestLogDetailResponse.data.request_body](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatarequest_body).
 

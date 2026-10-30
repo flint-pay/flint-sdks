@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryTransitTimeRule extends Model {
     /** @param array{'handling_days': mixed, 'transit_days': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryTransitTimeRule')); }
-    /** Shape $ (Value): {@see DeliveryBusinessDayRange}. A minimum and maximum number of business days, used in transit time estimates.
+    /** A minimum and maximum number of business days, used in transit time estimates.
      * @return DeliveryBusinessDayRange
      */
     public function getHandlingDays(): DeliveryBusinessDayRange { return $this->get('handling_days'); }
     public function hasHandlingDays(): bool { return $this->has('handling_days'); }
-    /** Shape $ (Value): {@see DeliveryBusinessDayRange}. A minimum and maximum number of business days, used in transit time estimates.
+    /** A minimum and maximum number of business days, used in transit time estimates.
      * @return DeliveryBusinessDayRange
      */
     public function getTransitDays(): DeliveryBusinessDayRange { return $this->get('transit_days'); }

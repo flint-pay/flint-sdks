@@ -7,7 +7,7 @@ namespace Flint;
 final class InventoryReservationOwnerRequestInput extends Model {
     /** @param array{'key': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationOwnerRequestInput')); }
-    /** Shape $ (Value): string. Your stable identifier for what holds the stock, such as a cart ID. One active reservation per key. minLength: 1.
+    /** Your stable identifier for what holds the stock, such as a cart ID. One active reservation per key. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
      */

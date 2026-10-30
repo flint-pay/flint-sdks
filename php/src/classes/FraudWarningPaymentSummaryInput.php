@@ -10,25 +10,25 @@ namespace Flint;
 final class FraudWarningPaymentSummaryInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'email': string, 'last4': string, 'payment_method_brand': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FraudWarningPaymentSummaryInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.
+    /** email
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string.
+    /** last4
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Shape $ (Value): string.  Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa", "unknown".
+    /** Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa", "unknown".
      * @return string
      * @throws SdkError When payment_method_brand is omitted; use hasPaymentMethodBrand() or valueOrDefault().
      */

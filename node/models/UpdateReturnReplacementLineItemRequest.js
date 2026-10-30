@@ -1,12 +1,13 @@
-import { d3168 as c0 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d5202 as c1, d5203 as c2, d5204 as c3, d5205 as c4, d5206 as c5 } from '../descriptors/data/243.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d5230 as c6, d5231 as c7, d5232 as c8, d5239 as c10 } from '../descriptors/data/245.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d3435 as c9 } from '../descriptors/data/142.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d5239 as d5239 } from '../descriptors/data/245.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4281 as c0 } from '../descriptors/data/180.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6596 as c1, d6597 as c2, d6598 as c3, d6599 as c4, d6600 as c5 } from '../descriptors/data/312.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6634 as c6, d6635 as c7, d6636 as c8 } from '../descriptors/data/314.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4602 as c9 } from '../descriptors/data/198.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4204 as c10 } from '../descriptors/data/175.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d4204 as d4204 } from '../descriptors/data/175.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5239;
+const read = d4204;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec1175"]:c1(),["SharedCodec1176"]:c2(),["SharedCodec1177"]:c3(),["SharedCodec1178"]:c4(),["SharedCodec1179"]:c5(),["SharedCodec1311"]:c6(),["SharedCodec1312"]:c7(),["SharedCodec1313"]:c8(),["SharedCodec52"]:c9(),["UpdateReturnReplacementLineItemRequest"]:c10()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec1204"]:c1(),["SharedCodec1205"]:c2(),["SharedCodec1206"]:c3(),["SharedCodec1207"]:c4(),["SharedCodec1208"]:c5(),["SharedCodec1425"]:c6(),["SharedCodec1426"]:c7(),["SharedCodec1427"]:c8(),["SharedCodec85"]:c9(),["UpdateReturnReplacementLineItemRequest"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateReturnReplacementLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

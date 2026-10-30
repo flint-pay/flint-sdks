@@ -14,7 +14,7 @@ Signature: `get(string|Model $report_download_id, array|Model|null $params = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `report_download_id` | Required | string |  |
+| `report_download_id` | Required | string | Flint report download ID. |
 
 #### Response
 
@@ -22,16 +22,17 @@ Response body (inside Result.data): null.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -44,7 +45,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->reportDownloads->get('example', [], new RequestOptions());
+$result = $client->reportDownloads->get('rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/reportDownloads-get.php)

@@ -14,7 +14,7 @@ Request input.
 
 ### IssueSandboxAPIKeyRequestInput variant 1: `access` = `"full"`
 
-oneOf variant 1: The `full` variant of `IssueSandboxAPIKeyRequest`..
+oneOf with access: "full": The `full` variant of `IssueSandboxAPIKeyRequest`..
 
 - Condition: not (present(`scopes`)).
 - Optional: `scopes`.
@@ -22,7 +22,7 @@ oneOf variant 1: The `full` variant of `IssueSandboxAPIKeyRequest`..
 
 ### IssueSandboxAPIKeyRequestInput variant 2: `access` = `"read_only"`
 
-oneOf variant 2: The `read_only` variant of `IssueSandboxAPIKeyRequest`..
+oneOf with access: "read_only": The `read_only` variant of `IssueSandboxAPIKeyRequest`..
 
 - Condition: not (present(`scopes`)).
 - Optional: `scopes`.
@@ -30,7 +30,7 @@ oneOf variant 2: The `read_only` variant of `IssueSandboxAPIKeyRequest`..
 
 ### IssueSandboxAPIKeyRequestInput variant 3: `access` = `"restricted"`
 
-oneOf variant 3: The `restricted` variant of `IssueSandboxAPIKeyRequest`..
+oneOf with access: "restricted": The `restricted` variant of `IssueSandboxAPIKeyRequest`..
 
 - Required: `scopes`.
 - Constraints for `access`: Values: `"restricted"`.

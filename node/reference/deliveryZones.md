@@ -8,20 +8,12 @@ Delivery zones define versioned geographic eligibility. Creation publishes immut
 
 `POST /v1/delivery-zones`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateDeliveryZoneRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `create(params: DeliveryZonesCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateDeliveryZoneRequestInput](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequest) | The request body for: Create delivery zone. |
 
 Body model: [CreateDeliveryZoneRequestInput](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequest).
@@ -41,19 +33,19 @@ Returned payload: [DeliveryZone](../models/DeliveryZone.md#deliveryzone).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -61,9 +53,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -78,19 +70,20 @@ const result = await client.deliveryZones.create({configuration: {country: {valu
 
 [Complete runnable example](../examples/deliveryZones-create.mjs)
 
-### deliveryZones.get
+### deliveryZones.delete
 
-Returns the current revision and lifecycle state for one delivery zone.
+Retires the delivery zone after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects.
 
-`GET /v1/delivery-zones/{delivery_zone_id}`
+`DELETE /v1/delivery-zones/{delivery_zone_id}`
 
-Signature: `get(delivery_zone_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `delete(delivery_zone_id: InputValue<string>, params?: DeliveryZonesDeleteParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_zone_id` | Required | string |  |
+| `delivery_zone_id` | Required | string | Flint delivery zone ID. |
+| `expected_version` | Optional | integer | Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -98,16 +91,17 @@ Returned payload: [DeliveryZone](../models/DeliveryZone.md#deliveryzone).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -115,14 +109,68 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.deliveryZones.get("example", {}, {  });
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.deliveryZones.delete("dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/deliveryZones-delete.mjs)
+
+### deliveryZones.get
+
+Returns the current revision and lifecycle state for one delivery zone.
+
+`GET /v1/delivery-zones/{delivery_zone_id}`
+
+Signature: `get(delivery_zone_id: InputValue<string>, params?: DeliveryZonesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_zone_id` | Required | string | Flint delivery zone ID. |
+
+#### Response
+
+Returned payload: [DeliveryZone](../models/DeliveryZone.md#deliveryzone).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.deliveryZones.get("dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryZones-get.mjs)
@@ -133,23 +181,18 @@ Returns delivery zones in a stable, cursor-paginated order. Archived resources a
 
 `GET /v1/delivery-zones`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "query"?: InputValue<string>;
-  "external_reference_id"?: InputValue<string>;
-  "status"?: InputValue<Array<"active" | "archived">>;
-  "delivery_method_id"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: DeliveryZonesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
-Field definitions: [shared fields](deliveryLocationSets.md#request-fields-2).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `query` | Optional | string | Search across delivery_zone_id, name, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as dzone_01. maxLength: `255`. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `delivery_method_id` | Optional | string | Filter by an active current method that references this resource. |
 
 #### Response
 
@@ -157,16 +200,16 @@ Returned payload: [DeliveryZoneListResponse](../models/DeliveryZoneListResponse.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -174,11 +217,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -188,94 +231,19 @@ const result = await client.deliveryZones.list({}, {  });
 
 [Complete runnable example](../examples/deliveryZones-list.mjs)
 
-### deliveryZones.remove
-
-Retires the delivery zone after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects.
-
-`DELETE /v1/delivery-zones/{delivery_zone_id}`
-
-Signature:
-
-```typescript
-remove(delivery_zone_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery_zone_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [DeliveryZone](../models/DeliveryZone.md#deliveryzone).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.deliveryZones.remove("example", {}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/deliveryZones-remove.mjs)
-
 ### deliveryZones.update
 
 Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version. Archived resources can't be changed; create a new resource instead.
 
 `PATCH /v1/delivery-zones/{delivery_zone_id}`
 
-Signature:
-
-```typescript
-update(delivery_zone_id: InputValue<string>,
- params: (InputValue<UpdateDeliveryZoneRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `update(delivery_zone_id: InputValue<string>, params: DeliveryZonesUpdateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_zone_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `delivery_zone_id` | Required | string | Flint delivery zone ID. |
 | `body` | Required | [UpdateDeliveryZoneRequestInput](../models/UpdateDeliveryZoneRequest.md#updatedeliveryzonerequest) | The request body for: Update delivery zone. |
 
 Body model: [UpdateDeliveryZoneRequestInput](../models/UpdateDeliveryZoneRequest.md#updatedeliveryzonerequest).
@@ -285,63 +253,55 @@ Body model: [UpdateDeliveryZoneRequestInput](../models/UpdateDeliveryZoneRequest
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | minLength: `1`. |
 
-#### deliveryZones.update body anyOf variant 1
+#### deliveryZones.update: variant 1
 
 
-
-#### deliveryZones.update body anyOf variant 1 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Required | string | minLength: `1`. |
 
-#### deliveryZones.update body anyOf variant 2
+#### deliveryZones.update: variant 2
 
 
-
-#### deliveryZones.update body anyOf variant 2 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | minLength: `1`. |
 
-#### deliveryZones.update body anyOf variant 3
+#### deliveryZones.update: variant 3
 
 
-
-#### deliveryZones.update body anyOf variant 3 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Required | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | minLength: `1`. |
 
-#### deliveryZones.update body anyOf variant 4
+#### deliveryZones.update: variant 4
 
 
-
-#### deliveryZones.update body anyOf variant 4 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Required | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | minLength: `1`. |
@@ -352,19 +312,19 @@ Returned payload: [DeliveryZone](../models/DeliveryZone.md#deliveryzone).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -372,9 +332,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -384,7 +344,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryZones.update("example", {name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryZones.update("dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Standard delivery"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/deliveryZones-update.mjs)

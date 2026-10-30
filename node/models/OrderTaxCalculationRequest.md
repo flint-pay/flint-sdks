@@ -16,13 +16,13 @@ How tax is calculated on an order: automatically, or externally with the tax com
 
 ### OrderTaxCalculationRequest variant 1: `mode` = `"automatic"`
 
-oneOf variant 1: The `automatic` variant of `OrderTaxCalculationInput`..
+oneOf with mode: "automatic": The `automatic` variant of `OrderTaxCalculationInput`..
 
 - Constraints for `mode`: Values: `"automatic"`.
 
 ### OrderTaxCalculationRequest variant 2: `mode` = `"external"`
 
-oneOf variant 2: The `external` variant of `OrderTaxCalculationInput`..
+oneOf with mode: "external": The `external` variant of `OrderTaxCalculationInput`..
 
 - Constraints for `mode`: Values: `"external"`.
 

@@ -1,1 +1,0 @@
-{"shared":"Webhook_return_disposition_updated_installed_merchants","dependencies":["MetadataMap","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","ReturnActor","ReturnDisposition","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec839","WebhookEventSourceInstalledMerchants","Webhook_return_disposition_updated_installed_merchants"]}

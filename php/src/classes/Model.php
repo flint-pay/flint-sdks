@@ -3,6 +3,60 @@ declare(strict_types=1);
 namespace Flint;
 class Model implements \JsonSerializable
 {
+    private const RESPONSE_OBJECT_CODEC = '{"value":{"kind":"object"},"nullable":false,"objectOnlyAlternative":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"extra":true}';
+    private ?ResponseInfo $responseInfo = null;
+    private ?array $inspectionCodec = null;
+    private array $inspectionPath = [];
+    private array $inspectionDefinitions = [];
+    public function lastResponse(): ?ResponseInfo
+    {
+        return $this->responseInfo;
+    }
+    /** @internal Attach only the model returned by a payload call. */
+    public static function responsePayload(Result $result, array $path): mixed
+    {
+        $value = $result->data;
+        foreach ($path as $key) {
+            if ($value instanceof self && $value->has($key)) {
+                $value = $value->get($key);
+            } elseif (is_array($value) && array_key_exists($key, $value)) {
+                $value = $value[$key];
+            } elseif ($value instanceof \stdClass && property_exists($value, $key)) {
+                $value = $value->{$key};
+            } else {
+                throw SdkError::create(
+                    'protocol',
+                    'Missing configured response payload: ' . implode('.', $path),
+                    'response',
+                    false,
+                    $result->internalMeta(),
+                    raw: $result->raw,
+                    errorCode: 'missing_payload',
+                );
+            }
+        }
+        if (!($value instanceof self) && (is_object($value) || is_array($value))) {
+            [$fields, $codec, $definitions] = $result->inspectionContext();
+            $value = new self(
+                $value,
+                [],
+                response: true,
+                redactFields: $fields,
+                compiled: json_decode(
+                    self::RESPONSE_OBJECT_CODEC,
+                    true,
+                    flags: JSON_THROW_ON_ERROR,
+                ),
+            );
+            $value->inspectionCodec = $codec;
+            $value->inspectionPath = $path;
+            $value->inspectionDefinitions = $definitions;
+        }
+        if ($value instanceof self) {
+            $value->responseInfo = $result->lastResponse();
+        }
+        return $value;
+    }
     private array $hydrated = [];
     private array $copyOnRead = [];
     private readonly bool $response;
@@ -34,6 +88,7 @@ class Model implements \JsonSerializable
         }
         $normalized = Codec::execute($values, $codec, [
             'mode' => $response ? 'response' : 'request',
+            'redactFields' => $redactFields,
         ]);
         // Store public values: unwrap nested models and exact wire-number wrappers,
         // while retaining the normalized distinction between objects and lists.
@@ -337,7 +392,26 @@ class Model implements \JsonSerializable
     }
     public function __debugInfo(): array
     {
-        $redacted = Codec::redactPlan($this->values, $this->codec, $this->redactFields);
+        $source = $this->values;
+        if ($this->inspectionCodec !== null) {
+            foreach (array_reverse($this->inspectionPath) as $key) {
+                $source = (object) [$key => $source];
+            }
+        }
+        $redacted = Codec::redactPlan(
+            $source,
+            $this->inspectionCodec ?? $this->codec,
+            $this->redactFields,
+            $this->inspectionDefinitions,
+        );
+        if ($this->inspectionCodec !== null) {
+            foreach ($this->inspectionPath as $key) {
+                if (!is_object($redacted) || !property_exists($redacted, $key)) {
+                    break;
+                }
+                $redacted = $redacted->{$key};
+            }
+        }
         return is_array($redacted) || is_object($redacted)
             ? (array) $redacted
             : ['value' => $redacted];

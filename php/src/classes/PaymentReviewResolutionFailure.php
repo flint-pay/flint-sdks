@@ -8,12 +8,12 @@ namespace Flint;
 final class PaymentReviewResolutionFailure extends Model {
     /** @param array{'failed_at': string, 'refund_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewResolutionFailure')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getFailedAt(): string { return $this->get('failed_at'); }
     public function hasFailedAt(): bool { return $this->has('failed_at'); }
-    /** Shape $ (Value): string.
+    /** refund_id
      * @return string
      */
     public function getRefundId(): string { return $this->get('refund_id'); }

@@ -19,7 +19,7 @@ An API request recorded in this resource's timeline.
 | `error_summary` | Optional | string | A short explanation of why the request failed. Absent for successful requests. |
 | `error_type` | Optional | string | The error envelope's `type` for this response. Values: [11 declared values](APIRequestLog.md#apirequestlog-error_type-values). |
 | `http_method` | Required | string |  |
-| `latency_milliseconds` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `latency_milliseconds` | Required | integer | Format: `int64`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `path` | Required | string |  |
 | `recommended_action` | Optional | string | The next action to resolve the failure. Absent when no action applies. |

@@ -16,6 +16,6 @@ Request input.
 | `inspection_location_id` | Required | string | Location where the returned merchandise was inspected. Must match the receipt receiving_location_id. minLength: `1`. |
 | `line_items` | Required | Array of [ReturnInspectionLineItemRequestInput](../models/ReturnInspectionLineItemRequestInput.md#returninspectionlineitemrequestinput) | minItems: `1`. |
 | `return_receipt_id` | Required | string | minLength: `1`. |
-| `source_system` | Optional | [ReturnSourceSystemInput](../models/ReturnSourceSystemInput.md#returnsourcesysteminput) | The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
+| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
 | `supersedes_return_inspection_id` | Optional | string | minLength: `1`. |
 

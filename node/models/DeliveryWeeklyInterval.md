@@ -23,7 +23,7 @@ No additional constraints.
 
 ### DeliveryWeeklyInterval variant 2
 
-anyOf variant 2: Declared schema DeliveryWeeklyIntervalRequestRequest. A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule..
+anyOf variant 2: Declared schema DeliveryWeeklyIntervalRequest. A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule..
 
 No additional constraints.
 

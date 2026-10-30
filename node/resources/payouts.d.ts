@@ -1,24 +1,21 @@
-import type { InputValue } from '../runtime.js';
-import type { CancelPayoutRequestInput } from '../declarations/types-3.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreatePayoutRequestInput } from '../declarations/types-9.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     Payout,
     PayoutListResponse,
     PayoutResponse,
-    PayoutsCancelInput,
-    PayoutsCreateInput,
-    PayoutsGetInput,
-    PayoutsListInput
-} from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    PayoutsCancelParams,
+    PayoutsCreateParams,
+    PayoutsGetParams,
+    PayoutsListParams
+} from '../declarations/types-43.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -28,202 +25,91 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CancelPayoutRequestInput } from '../declarations/types-3.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    PayoutsCancelParams,
     Payout,
     PayoutResponse,
+    PayoutsCreateParams,
+    PayoutsGetParams,
+    PayoutsListParams,
     PayoutListResponse,
-    PayoutsCancelInput,
-    PayoutsCreateInput,
-    PayoutsGetInput,
-    PayoutsListInput,
     PayoutTraceID
-} from '../declarations/types-39.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { CreatePayoutRequestInput } from '../declarations/types-9.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-43.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CancelPayoutRequestInput } from '../declarations/types-3.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type {
-    MoneyValue,
-    NextAction,
-    NextActionMerchantAccountSession,
-    MoneyValueInput,
-    MoneyMovementListMeta,
-    MoneyMovementHistoryMeta
-} from '../declarations/types-33.js';
-export type { MetadataMap, MetadataRequestInput } from '../declarations/types-32.js';
-export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-18.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export { makeCancelPayoutRequest } from '../declarations/types-65.js';
-export { makeCreatePayoutRequest } from '../declarations/types-68.js';
-export { makeMetadataRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-35.js';
+export type { MetadataMap, MetadataRequestInput } from '../declarations/types-34.js';
+export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-21.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { CreatePayoutRequestInput } from '../declarations/types-9.js';
+export { makeCancelPayoutRequest } from '../declarations/types-62.js';
+export { makeCreatePayoutRequest } from '../declarations/types-64.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
 export interface PayoutsResource {
     /**
  * Cancels an eligible payout before it leaves Flint-controlled processing and returns the
  * resulting payout.
- * @see reference/payouts.md#payoutscancel
- * POST /v1/payouts/{payout_id}/cancel
+ *
+ * `POST /v1/payouts/{payout_id}/cancel`
+ * @param payout_id Flint payout ID.
+ * @see https://developers.withflintpay.com/docs/api/money-movement#cancelPayout
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.payouts.cancel("example", undefined, { idempotencyKey: idempotencyKey })
+ * client.payouts.cancel("po_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    cancel(payout_id: InputValue<string>, params?: (InputValue<CancelPayoutRequestInput> | {})
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Payout>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/payouts.md#payoutscancel
-     */
-    cancelWithResponse(payout_id: InputValue<string>, params?: (InputValue<CancelPayoutRequestInput> | {})
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PayoutResponse>>;
+    cancel(payout_id: InputValue<string>, params?: PayoutsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Payout, PayoutResponse>>;
     /**
  * Creates a payout from an available balance to an eligible payout destination. Safe to retry with
  * the same Idempotency-Key.
- * @see reference/payouts.md#payoutscreate
- * POST /v1/payouts
+ *
+ * `POST /v1/payouts`
+ * @see https://developers.withflintpay.com/docs/api/money-movement#createPayout
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.payouts.create({amount_money: {amount: "100", currency: "USD"}}, { idempotencyKey:
  * idempotencyKey })
  */
-    create(params: (InputValue<CreatePayoutRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<Payout>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/payouts.md#payoutscreate
-     */
-    createWithResponse(params: (InputValue<CreatePayoutRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PayoutResponse>>;
+    create(params: PayoutsCreateParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Payout, PayoutResponse>>;
     /**
  * Returns one payout by ID, with optional related payout and payout destination expansions.
- * @see reference/payouts.md#payoutsget
- * GET /v1/payouts/{payout_id}
+ *
+ * `GET /v1/payouts/{payout_id}`
+ * @param payout_id Flint payout ID.
+ * @see https://developers.withflintpay.com/docs/api/money-movement#getPayout
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.payouts.get("example")
+ * client.payouts.get("po_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(payout_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Payout>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/payouts.md#payoutsget
-     */
-    getWithResponse(payout_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PayoutResponse>>;
+    get(payout_id: InputValue<string>, params?: PayoutsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Payout, PayoutResponse>>;
     /**
  * Returns a paginated list of payouts with optional filters for status, currency, destination,
  * method, and timing. Default order: created_at descending, then payout_id descending.
- * @see reference/payouts.md#payoutslist
- * GET /v1/payouts
+ *
+ * `GET /v1/payouts`
+ * @see https://developers.withflintpay.com/docs/api/money-movement#listPayouts
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.payouts.list()
  */
-    list(params?: {
-        "idempotency_key"?: InputValue<string>;
-        "currency"?: InputValue<string>;
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-        "method"?: InputValue<Array<"standard" | "instant" | "other">>;
-        "balance_source_type"?: InputValue<Array<"card" | "bank_account">>;
-        "payout_destination_id"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "in_transit" | "paid" | "failed" | "canceled">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "arrival_date_from"?: InputValue<string>;
-        "arrival_date_to"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PayoutListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/payouts.md#payoutslist
-     */
-    listWithResponse(params?: {
-        "idempotency_key"?: InputValue<string>;
-        "currency"?: InputValue<string>;
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-        "method"?: InputValue<Array<"standard" | "instant" | "other">>;
-        "balance_source_type"?: InputValue<Array<"card" | "bank_account">>;
-        "payout_destination_id"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "in_transit" | "paid" | "failed" | "canceled">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "arrival_date_from"?: InputValue<string>;
-        "arrival_date_to"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PayoutListResponse>>;
+    list(params?: PayoutsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PayoutListResponse, PayoutListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/payouts.md#payoutslist
+     * @see https://developers.withflintpay.com/docs/api/money-movement#listPayouts
      */
-    listPages(params?: {
-        "idempotency_key"?: InputValue<string>;
-        "currency"?: InputValue<string>;
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-        "method"?: InputValue<Array<"standard" | "instant" | "other">>;
-        "balance_source_type"?: InputValue<Array<"card" | "bank_account">>;
-        "payout_destination_id"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "in_transit" | "paid" | "failed" | "canceled">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "arrival_date_from"?: InputValue<string>;
-        "arrival_date_to"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PayoutListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/payouts.md#payoutslist
-     */
-    listPagesWithResponse(params?: {
-        "idempotency_key"?: InputValue<string>;
-        "currency"?: InputValue<string>;
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-        "method"?: InputValue<Array<"standard" | "instant" | "other">>;
-        "balance_source_type"?: InputValue<Array<"card" | "bank_account">>;
-        "payout_destination_id"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "in_transit" | "paid" | "failed" | "canceled">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "arrival_date_from"?: InputValue<string>;
-        "arrival_date_to"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PayoutListResponse>>;
+    listPages(params?: PayoutsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<PayoutListResponse, PayoutListResponse>>;
     /** Iterate items lazily.
-     * @see reference/payouts.md#payoutslist
+     * @see https://developers.withflintpay.com/docs/api/money-movement#listPayouts
      */
-    listItems(params?: {
-        "idempotency_key"?: InputValue<string>;
-        "currency"?: InputValue<string>;
-        "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
-        "method"?: InputValue<Array<"standard" | "instant" | "other">>;
-        "balance_source_type"?: InputValue<Array<"card" | "bank_account">>;
-        "payout_destination_id"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "in_transit" | "paid" | "failed" | "canceled">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "arrival_date_from"?: InputValue<string>;
-        "arrival_date_to"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Payout>;
+    listItems(params?: PayoutsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Payout>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -10,12 +10,12 @@ An estimated renewal discount from a promotion or credit for a subscription plan
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `name` | Required | string |  |
 | `promotion_id` | Required | string or null | Promotion ID for a promotion discount; null for unused-time credit. |
 | `source` | Required | string | Values: `"promotion"`, `"plan_change_credit"`. |
 
 ### SubscriptionRenewalEstimateDiscount.discount_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

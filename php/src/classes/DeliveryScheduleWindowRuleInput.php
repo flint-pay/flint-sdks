@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryScheduleWindowRuleInput extends Model {
     /** @param array{'availability': DeliveryAvailabilityInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryScheduleWindowRuleInput')); }
-    /** Shape $ (Value): {@see DeliveryAvailabilityInput}. When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
+    /** When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
      * @return DeliveryAvailabilityInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When availability is omitted; use hasAvailability() or valueOrDefault().
      */

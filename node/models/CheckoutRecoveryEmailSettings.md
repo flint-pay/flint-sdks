@@ -21,7 +21,7 @@ No additional constraints.
 
 ### CheckoutRecoveryEmailSettings variant 2
 
-anyOf variant 2: Declared schema CheckoutRecoveryEmailSettingsRequestRequest. Checkout reminder email settings. On update, an omitted field keeps its value..
+anyOf variant 2: Declared schema CheckoutRecoveryEmailSettingsRequest. Checkout reminder email settings. On update, an omitted field keeps its value..
 
 No additional constraints.
 

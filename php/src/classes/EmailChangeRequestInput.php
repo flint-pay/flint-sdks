@@ -13,43 +13,43 @@ namespace Flint;
 final class EmailChangeRequestInput extends Model {
     /** @param array{'confirmed': bool, 'created_at': string|\DateTimeInterface, 'current_email_confirmation_required': bool, 'customer_id': string, 'email_change_request_id': string, 'expires_at': string|\DateTimeInterface, 'new_email': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequestInput')); }
-    /** Shape $ (Value): boolean.
+    /** confirmed
      * @return bool
      * @throws SdkError When confirmed is omitted; use hasConfirmed() or valueOrDefault().
      */
     public function getConfirmed(): bool { return $this->get('confirmed'); }
     public function hasConfirmed(): bool { return $this->has('confirmed'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): boolean.
+    /** current_email_confirmation_required
      * @return bool
      * @throws SdkError When current_email_confirmation_required is omitted; use hasCurrentEmailConfirmationRequired() or valueOrDefault().
      */
     public function getCurrentEmailConfirmationRequired(): bool { return $this->get('current_email_confirmation_required'); }
     public function hasCurrentEmailConfirmationRequired(): bool { return $this->has('current_email_confirmation_required'); }
-    /** Shape $ (Value): string.
+    /** customer_id
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Shape $ (Value): string.
+    /** email_change_request_id
      * @return string
      * @throws SdkError When email_change_request_id is omitted; use hasEmailChangeRequestId() or valueOrDefault().
      */
     public function getEmailChangeRequestId(): string { return $this->get('email_change_request_id'); }
     public function hasEmailChangeRequestId(): bool { return $this->has('email_change_request_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Shape $ (Value): string.
+    /** new_email
      * @return string
      * @throws SdkError When new_email is omitted; use hasNewEmail() or valueOrDefault().
      */

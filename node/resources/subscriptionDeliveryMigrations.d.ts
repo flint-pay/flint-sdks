@@ -1,25 +1,23 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateSubscriptionDeliveryMigrationRequestInput } from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-47.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
     SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationResponse,
-    SubscriptionDeliveryMigrationsCreateInput,
-    SubscriptionDeliveryMigrationsGetInput,
-    SubscriptionDeliveryMigrationsListFailuresInput,
-    SubscriptionDeliveryMigrationsListInput
-} from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    SubscriptionDeliveryMigrationsCreateParams,
+    SubscriptionDeliveryMigrationsGetParams,
+    SubscriptionDeliveryMigrationsListFailuresParams,
+    SubscriptionDeliveryMigrationsListParams
+} from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -29,187 +27,105 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-10.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    SubscriptionDeliveryMigrationsCreateParams,
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
+    SubscriptionDeliveryMigrationsGetParams,
+    SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationFailure,
+    SubscriptionDeliveryMigrationsListParams,
     SubscriptionDeliveryMigrationListResponse,
-    SubscriptionDeliveryMigrationsCreateInput,
-    SubscriptionDeliveryMigrationsGetInput,
-    SubscriptionDeliveryMigrationsListFailuresInput,
-    SubscriptionDeliveryMigrationsListInput,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-48.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-54.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion.
- * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationscreate
- * POST /v1/subscription-delivery-migrations
+ *
+ * `POST /v1/subscription-delivery-migrations`
+ * @see
+ * https://developers.withflintpay.com/docs/api/subscriptions#createSubscriptionDeliveryMigration
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionDeliveryMigrations.create({from_delivery_method_id: "example",
- * to_delivery_method_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.subscriptionDeliveryMigrations.create({from_delivery_method_id:
+ * "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV", to_delivery_method_id: "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateSubscriptionDeliveryMigrationRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SubscriptionDeliveryMigration>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationscreate
-     */
-    createWithResponse(params: (InputValue<CreateSubscriptionDeliveryMigrationRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
+    create(params: SubscriptionDeliveryMigrationsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionDeliveryMigration, SubscriptionDeliveryMigrationResponse>>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion.
- * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationsget
- * GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}
+ *
+ * `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}`
+ * @param subscription_delivery_migration_id Subscription delivery migration ID.
+ * @see https://developers.withflintpay.com/docs/api/subscriptions#getSubscriptionDeliveryMigration
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptionDeliveryMigrations.get("example")
+ * client.subscriptionDeliveryMigrations.get("sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionDeliveryMigration>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationsget
-     */
-    getWithResponse(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
+    get(subscription_delivery_migration_id: InputValue<string>, params?: SubscriptionDeliveryMigrationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionDeliveryMigration, SubscriptionDeliveryMigrationResponse>>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion. Default order: subscription_id ascending; this key
  * uniquely orders the results.
- * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
- * GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures
+ *
+ * `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures`
+ * @param subscription_delivery_migration_id Subscription delivery migration ID.
+ * @see
+ * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrationFailures
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptionDeliveryMigrations.listFailures("example")
+ * client.subscriptionDeliveryMigrations.listFailures("sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listFailures(subscription_delivery_migration_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "reason"?: InputValue<Array<"method_not_offered"
-            | "destination_not_served"
-            | "rate_unavailable"
-            | "method_unavailable"
-            | "no_longer_applicable"
-            | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionDeliveryMigrationFailureListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
-     */
-    listFailuresWithResponse(subscription_delivery_migration_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "reason"?: InputValue<Array<"method_not_offered"
-            | "destination_not_served"
-            | "rate_unavailable"
-            | "method_unavailable"
-            | "no_longer_applicable"
-            | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationFailureListResponse>>;
+    listFailures(subscription_delivery_migration_id: InputValue<string>, params?: SubscriptionDeliveryMigrationsListFailuresParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionDeliveryMigrationFailureListResponse, SubscriptionDeliveryMigrationFailureListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
+     * @see
+     * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrationFailures
      */
-    listFailuresPages(subscription_delivery_migration_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "reason"?: InputValue<Array<"method_not_offered"
-            | "destination_not_served"
-            | "rate_unavailable"
-            | "method_unavailable"
-            | "no_longer_applicable"
-            | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationFailureListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
-     */
-    listFailuresPagesWithResponse(subscription_delivery_migration_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "reason"?: InputValue<Array<"method_not_offered"
-            | "destination_not_served"
-            | "rate_unavailable"
-            | "method_unavailable"
-            | "no_longer_applicable"
-            | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<SubscriptionDeliveryMigrationFailureListResponse>>;
+    listFailuresPages(subscription_delivery_migration_id: InputValue<string>, params?: SubscriptionDeliveryMigrationsListFailuresParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<SubscriptionDeliveryMigrationFailureListResponse, SubscriptionDeliveryMigrationFailureListResponse>>;
     /** Iterate items lazily.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
+     * @see
+     * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrationFailures
      */
-    listFailuresItems(subscription_delivery_migration_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "reason"?: InputValue<Array<"method_not_offered"
-            | "destination_not_served"
-            | "rate_unavailable"
-            | "method_unavailable"
-            | "no_longer_applicable"
-            | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationFailure>;
+    listFailuresItems(subscription_delivery_migration_id: InputValue<string>, params?: SubscriptionDeliveryMigrationsListFailuresParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationFailure>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion. Default order: created_at descending, then
  * subscription_delivery_migration_id descending.
- * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
- * GET /v1/subscription-delivery-migrations
+ *
+ * `GET /v1/subscription-delivery-migrations`
+ * @see
+ * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrations
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.subscriptionDeliveryMigrations.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "from_delivery_method_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionDeliveryMigrationListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "from_delivery_method_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationListResponse>>;
+    list(params?: SubscriptionDeliveryMigrationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionDeliveryMigrationListResponse, SubscriptionDeliveryMigrationListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
+     * @see
+     * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrations
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "from_delivery_method_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "from_delivery_method_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<SubscriptionDeliveryMigrationListResponse>>;
+    listPages(params?: SubscriptionDeliveryMigrationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<SubscriptionDeliveryMigrationListResponse, SubscriptionDeliveryMigrationListResponse>>;
     /** Iterate items lazily.
-     * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
+     * @see
+     * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrations
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "from_delivery_method_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigration>;
+    listItems(params?: SubscriptionDeliveryMigrationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigration>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

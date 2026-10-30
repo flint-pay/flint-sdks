@@ -10,7 +10,7 @@ The error returned for a failed request: `type`, `code`, `message`, `remediation
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Stable Flint error code. Each operation lists its codes in x-flint-error-codes, and each error response lists the codes it can carry at that status. Values: [43 declared values](../ERRORS.md#provider-error-codes). |
+| `code` | Required | string | Stable Flint error code. Each operation lists its codes in x-flint-error-codes, and each error response lists the codes it can carry at that status. Values: [43 declared values](../ERRORS.md#flint-error-codes). |
 | `details` | Optional | Array of [ErrorDetail](../models/ErrorDetail.md#errordetail) | Individual failures belonging to this error. Present on every validation error and every error carrying facts. On non-validation errors the first item repeats the top-level code and param. Facts appear only in typed detail fields; param contains public request field paths. |
 | `doc_url` | Required | string | Error reference at https://developers.withflintpay.com/docs/errors# followed by the lowercase error code. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |

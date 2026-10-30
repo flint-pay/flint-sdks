@@ -24,7 +24,7 @@ No additional constraints.
 
 ### CustomerAccountRouteTemplates variant 2
 
-anyOf variant 2: Declared schema CustomerAccountRouteTemplatesRequestRequest. Route templates for a merchant-hosted customer account: email preferences, invoice, order, return, and subscription pages. Send null to clear one..
+anyOf variant 2: Declared schema CustomerAccountRouteTemplatesRequest. Route templates for a merchant-hosted customer account: email preferences, invoice, order, return, and subscription pages. Send null to clear one..
 
 No additional constraints.
 

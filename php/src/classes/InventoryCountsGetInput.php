@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $inventory_count_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountsGetInput extends Model {
     /** @param array{'inventory_count_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint inventory count ID. Example: "invc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When inventory_count_id is omitted; use hasInventoryCountId() or valueOrDefault().
      */

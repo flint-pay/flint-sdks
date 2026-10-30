@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateGiftCardFundingDispositionRequestInput extends Model {
     /** @param array{'disposition'?: string, 'dispute_id': string, 'reason_message': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateGiftCardFundingDispositionRequestInput')); }
-    /** Shape $ (Value): string. Default: "honor_value". Value enum: "honor_value".
+    /** Default: "honor_value". Value enum: "honor_value".
      * @return string
      * @throws SdkError When disposition is omitted; use hasDisposition() or valueOrDefault().
      */
     public function getDisposition(): string { return $this->get('disposition'); }
     public function hasDisposition(): bool { return $this->has('disposition'); }
-    /** Shape $ (Value): string. The lost dispute on the payment that funded the gift card value. minLength: 1. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** The lost dispute on the payment that funded the gift card value. minLength: 1. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Shape $ (Value): string. Your reason for honoring the gift card value despite the confirmed funding loss. minLength: 1. maxLength: 200.
+    /** Your reason for honoring the gift card value despite the confirmed funding loss. minLength: 1. maxLength: 200.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

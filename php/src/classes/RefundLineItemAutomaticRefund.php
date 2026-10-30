@@ -10,22 +10,22 @@ namespace Flint;
 final class RefundLineItemAutomaticRefund extends Model {
     /** @param array{'discount_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAutomaticRefund')); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTaxMoney(): MoneyValue { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }

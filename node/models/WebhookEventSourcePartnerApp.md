@@ -16,13 +16,13 @@
 
 ### WebhookEventSourcePartnerApp variant 1: `type` = `"partner_app"`
 
-anyOf variant 1: Declared schema PartnerWebhookEnvelopeSourcePartnerApp. The partner_app source of a partner webhook event..
+anyOf PartnerWebhookEnvelopeSourcePartnerApp: Declared schema PartnerWebhookEnvelopeSourcePartnerApp. The partner_app source of a partner webhook event..
 
 No additional constraints.
 
 ### WebhookEventSourcePartnerApp variant 2: `type` = `"partner_app"`
 
-anyOf variant 2: Declared schema WebhookEventSourcePartnerApp. The partner_app source of a partner webhook event..
+anyOf WebhookEventSourcePartnerApp: Declared schema WebhookEventSourcePartnerApp. The partner_app source of a partner webhook event..
 
 No additional constraints.
 

@@ -8,13 +8,13 @@ namespace Flint;
 final class PromotionRecurrenceRepeatingInput extends Model {
     /** @param array{'period_count': int, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionRecurrenceRepeatingInput')); }
-    /** Shape $ (Value): integer. Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+    /** Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
      * @return int
      * @throws SdkError When period_count is omitted; use hasPeriodCount() or valueOrDefault().
      */
     public function getPeriodCount(): int { return $this->get('period_count'); }
     public function hasPeriodCount(): bool { return $this->has('period_count'); }
-    /** Shape $ (Value): string. Use once for the first charged payment, repeating for a fixed number of charged payments, or forever for every payment. period_count is required only for repeating. Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
+    /** Use once for the first charged payment, repeating for a fixed number of charged payments, or forever for every payment. period_count is required only for repeating. Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

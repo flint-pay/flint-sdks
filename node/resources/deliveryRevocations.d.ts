@@ -1,22 +1,20 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     DeliveryRevocation,
     DeliveryRevocationListResponse,
     DeliveryRevocationResponse,
-    DeliveryRevocationsGetInput,
-    DeliveryRevocationsListInput,
-    DeliveryRevocationsRevokeDeliveryDependencyInput
-} from '../declarations/types-16.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { RevokeDeliveryDependencyRequestInput } from '../declarations/types-45.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    DeliveryRevocationsCreateParams,
+    DeliveryRevocationsGetParams,
+    DeliveryRevocationsListParams
+} from '../declarations/types-19.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -26,15 +24,13 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    DeliveryRevocationsGetParams,
     DeliveryRevocation,
     DeliveryRevocationResponse,
+    DeliveryRevocationsListParams,
     DeliveryRevocationListResponse,
-    DeliveryRevocationsGetInput,
-    DeliveryRevocationsListInput,
-    DeliveryRevocationsRevokeDeliveryDependencyInput,
+    DeliveryRevocationsCreateParams,
     DeliveryRevocationImpact,
     DeliveryRevocationTarget,
     DeliveryRevocationTargetLocationGeography,
@@ -43,8 +39,15 @@ export type {
     DeliveryRevocationTargetDeliveryRateCallbackRevision,
     DeliveryRevocationTargetDeliveryMethod,
     DeliveryRevocationTargetDeliveryMethodRevision
-} from '../declarations/types-16.js';
-export type { SdkResponse } from '../declarations/types-46.js';
+} from '../declarations/types-19.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type {
     RevokeDeliveryDependencyRequestInput,
     RevokeDeliveryDependencyTargetInput,
@@ -54,168 +57,68 @@ export type {
     RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput,
     RevokeDeliveryDependencyTargetDeliveryMethodInput,
     RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput
-} from '../declarations/types-45.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+} from '../declarations/types-51.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export {
     makeRevokeDeliveryDependencyRequest,
     makeRevokeDeliveryDependencyTarget,
     makeRevokeDeliveryDependencyTargetDeliveryMethod,
     makeRevokeDeliveryDependencyTargetDeliveryMethodRevision,
     makeRevokeDeliveryDependencyTargetDeliveryRateCallback,
-    makeRevokeDeliveryDependencyTargetDeliveryRateCallbackRevision
-} from '../declarations/types-75.js';
-export {
+    makeRevokeDeliveryDependencyTargetDeliveryRateCallbackRevision,
     makeRevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKey,
     makeRevokeDeliveryDependencyTargetLocationGeography
-} from '../declarations/types-76.js';
+} from '../declarations/types-72.js';
 export interface DeliveryRevocationsResource {
     /**
  * Returns one permanent delivery revocation and its estimated impact at creation time.
- * @see reference/deliveryRevocations.md#deliveryrevocationsget
- * GET /v1/delivery-revocations/{delivery_revocation_id}
+ *
+ * `GET /v1/delivery-revocations/{delivery_revocation_id}`
+ * @param delivery_revocation_id Flint delivery revocation ID.
+ * @see https://developers.withflintpay.com/docs/api/delivery-revocations#getDeliveryRevocation
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.deliveryRevocations.get("example")
+ * client.deliveryRevocations.get("drev_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(delivery_revocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryRevocation>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRevocations.md#deliveryrevocationsget
-     */
-    getWithResponse(delivery_revocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryRevocationResponse>>;
+    get(delivery_revocation_id: InputValue<string>, params?: DeliveryRevocationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryRevocation, DeliveryRevocationResponse>>;
     /**
  * Returns permanent delivery revocations, newest first by created_at and delivery_revocation_id.
  * Default order: created_at descending, then delivery_revocation_id descending.
- * @see reference/deliveryRevocations.md#deliveryrevocationslist
- * GET /v1/delivery-revocations
+ *
+ * `GET /v1/delivery-revocations`
+ * @see https://developers.withflintpay.com/docs/api/delivery-revocations#listDeliveryRevocations
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.deliveryRevocations.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "target_type"?: InputValue<Array<"location_geography"
-            | "delivery_rate_callback_signing_key"
-            | "delivery_rate_callback"
-            | "delivery_rate_callback_revision"
-            | "delivery_method"
-            | "delivery_method_revision">>;
-        "reason"?: InputValue<Array<"unsafe_configuration"
-            | "location_unavailable"
-            | "credential_compromise"
-            | "legal_requirement"
-            | "other">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryRevocationListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRevocations.md#deliveryrevocationslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "target_type"?: InputValue<Array<"location_geography"
-            | "delivery_rate_callback_signing_key"
-            | "delivery_rate_callback"
-            | "delivery_rate_callback_revision"
-            | "delivery_method"
-            | "delivery_method_revision">>;
-        "reason"?: InputValue<Array<"unsafe_configuration"
-            | "location_unavailable"
-            | "credential_compromise"
-            | "legal_requirement"
-            | "other">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryRevocationListResponse>>;
+    list(params?: DeliveryRevocationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryRevocationListResponse, DeliveryRevocationListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/deliveryRevocations.md#deliveryrevocationslist
+     * @see
+     * https://developers.withflintpay.com/docs/api/delivery-revocations#listDeliveryRevocations
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "target_type"?: InputValue<Array<"location_geography"
-            | "delivery_rate_callback_signing_key"
-            | "delivery_rate_callback"
-            | "delivery_rate_callback_revision"
-            | "delivery_method"
-            | "delivery_method_revision">>;
-        "reason"?: InputValue<Array<"unsafe_configuration"
-            | "location_unavailable"
-            | "credential_compromise"
-            | "legal_requirement"
-            | "other">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRevocationListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/deliveryRevocations.md#deliveryrevocationslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "target_type"?: InputValue<Array<"location_geography"
-            | "delivery_rate_callback_signing_key"
-            | "delivery_rate_callback"
-            | "delivery_rate_callback_revision"
-            | "delivery_method"
-            | "delivery_method_revision">>;
-        "reason"?: InputValue<Array<"unsafe_configuration"
-            | "location_unavailable"
-            | "credential_compromise"
-            | "legal_requirement"
-            | "other">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryRevocationListResponse>>;
+    listPages(params?: DeliveryRevocationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<DeliveryRevocationListResponse, DeliveryRevocationListResponse>>;
     /** Iterate items lazily.
-     * @see reference/deliveryRevocations.md#deliveryrevocationslist
+     * @see
+     * https://developers.withflintpay.com/docs/api/delivery-revocations#listDeliveryRevocations
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "target_type"?: InputValue<Array<"location_geography"
-            | "delivery_rate_callback_signing_key"
-            | "delivery_rate_callback"
-            | "delivery_rate_callback_revision"
-            | "delivery_method"
-            | "delivery_method_revision">>;
-        "reason"?: InputValue<Array<"unsafe_configuration"
-            | "location_unavailable"
-            | "credential_compromise"
-            | "legal_requirement"
-            | "other">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRevocation>;
+    listItems(params?: DeliveryRevocationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRevocation>;
     /**
  * Permanently fences one exact method, endpoint, signing key, revision, or Location geography
  * version. Issued quotes are revoked immediately. Current selections are released the next time
  * they are read. Stable method and callback-endpoint targets require expected_version so a
  * concurrent publication cannot broaden the revocation.
- * @see reference/deliveryRevocations.md#deliveryrevocationsrevokedeliverydependency
- * POST /v1/delivery-revocations
+ *
+ * `POST /v1/delivery-revocations`
+ * @see https://developers.withflintpay.com/docs/api/delivery-revocations#revokeDeliveryDependency
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRevocations.revokeDeliveryDependency({reason: "unsafe_configuration", target:
- * {target_type: "location_geography", location_id: "example", location_geography_version: "1"}}, {
- * idempotencyKey: idempotencyKey })
+ * client.deliveryRevocations.create({reason: "unsafe_configuration", target:
+ * {location_geography_version: 1, location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX", target_type:
+ * "location_geography"}}, { idempotencyKey: idempotencyKey })
  */
-    revokeDeliveryDependency(params: (InputValue<RevokeDeliveryDependencyRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DeliveryRevocation>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/deliveryRevocations.md#deliveryrevocationsrevokedeliverydependency
-     */
-    revokeDeliveryDependencyWithResponse(params: (InputValue<RevokeDeliveryDependencyRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRevocationResponse>>;
+    create(params: DeliveryRevocationsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRevocation, DeliveryRevocationResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

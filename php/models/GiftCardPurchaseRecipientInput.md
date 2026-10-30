@@ -6,5 +6,5 @@ The recipient of a purchased gift card: `email`, optional `name` and `message`, 
 
 Request input.
 
-Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseRecipient](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseRecipient.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantgiftcardpurchaserecipient).
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseRecipient](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseRecipient.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchaserecipient).
 

@@ -8,12 +8,12 @@ namespace Flint;
 final class PaymentMethodDomainPaymentOptionStatus extends Model {
     /** @param array{'payment_option': string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainPaymentOptionStatus')); }
-    /** Shape $ (Value): string.  Value enum: "apple_pay", "google_pay".
+    /** Value enum: "apple_pay", "google_pay".
      * @return string
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
-    /** Shape $ (Value): string.  Value enum: "active", "inactive", "unavailable".
+    /** Value enum: "active", "inactive", "unavailable".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

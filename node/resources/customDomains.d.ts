@@ -1,23 +1,21 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateCustomDomainRequestInput } from '../declarations/types-6.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     CustomDomain,
     CustomDomainListResponse,
     CustomDomainResponse,
-    CustomDomainsCreateInput,
-    CustomDomainsGetInput,
-    CustomDomainsListInput,
-    CustomDomainsRemoveInput
-} from '../declarations/types-11.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    CustomDomainsCreateParams,
+    CustomDomainsDeleteParams,
+    CustomDomainsGetParams
+} from '../declarations/types-12.js';
+import type { CustomDomainsListParams, CustomDomainsValidateParams } from '../declarations/types-13.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -27,27 +25,27 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateCustomDomainRequestInput } from '../declarations/types-6.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    CustomDomainsCreateParams,
     CustomDomain,
     CustomDomainResponse,
+    CustomDomainsDeleteParams,
+    CustomDomainsGetParams,
     CustomDomainListResponse,
-    CustomDomainsCreateInput,
-    CustomDomainsRemoveInput,
-    CustomDomainsGetInput,
-    CustomDomainsListInput,
     Credentials,
     CustomDomainDNSRecord
-} from '../declarations/types-11.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-12.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { CustomDomainsListParams, CustomDomainsValidateParams } from '../declarations/types-13.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateCustomDomainRequestInput } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateCustomDomainRequest } from '../declarations/types-66.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeCreateCustomDomainRequest } from '../declarations/types-63.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface CustomDomainsResource {
     /**
  * Configures a checkout or customer account hostname in this environment. Remove an existing
@@ -59,106 +57,77 @@ export interface CustomDomainsResource {
  * the requested hostname; use a matching domain's custom_domain_id to retrieve its current state.
  * Do not switch keys or wait for key retention to expire to create again. Contact support with the
  * request_id if the outcome is still unclear.
- * @see reference/customDomains.md#customdomainscreate
- * POST /v1/custom-domains
+ *
+ * `POST /v1/custom-domains`
+ * @see https://developers.withflintpay.com/docs/api/custom-domains#createCustomDomain
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.customDomains.create({type: "checkout", hostname: "example"}, { idempotencyKey:
  * idempotencyKey })
  */
-    create(params: (InputValue<CreateCustomDomainRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<CustomDomain>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/customDomains.md#customdomainscreate
-     */
-    createWithResponse(params: (InputValue<CreateCustomDomainRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomDomainResponse>>;
+    create(params: CustomDomainsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
     /**
  * Archives the hostname and starts its redirect retention window. Repeating the request returns
  * the archived domain unchanged.
- * @see reference/customDomains.md#customdomainsremove
- * DELETE /v1/custom-domains/{custom_domain_id}
+ *
+ * `DELETE /v1/custom-domains/{custom_domain_id}`
+ * @param custom_domain_id Flint custom domain ID.
+ * @see https://developers.withflintpay.com/docs/api/custom-domains#deleteCustomDomain
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customDomains.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.customDomains.delete("cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    remove(custom_domain_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<CustomDomain>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/customDomains.md#customdomainsremove
-     */
-    removeWithResponse(custom_domain_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomDomainResponse>>;
+    delete(custom_domain_id: InputValue<string>, params?: CustomDomainsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
     /**
  * Returns a custom domain, including archived domains.
- * @see reference/customDomains.md#customdomainsget
- * GET /v1/custom-domains/{custom_domain_id}
+ *
+ * `GET /v1/custom-domains/{custom_domain_id}`
+ * @param custom_domain_id Flint custom domain ID.
+ * @see https://developers.withflintpay.com/docs/api/custom-domains#getCustomDomain
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.customDomains.get("example")
+ * client.customDomains.get("cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CustomDomain>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/customDomains.md#customdomainsget
-     */
-    getWithResponse(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CustomDomainResponse>>;
+    get(custom_domain_id: InputValue<string>, params?: CustomDomainsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
     /**
  * Returns domains ordered by created_at descending, then custom_domain_id descending. Default
  * order: created_at descending, then custom_domain_id descending.
- * @see reference/customDomains.md#customdomainslist
- * GET /v1/custom-domains
+ *
+ * `GET /v1/custom-domains`
+ * @see https://developers.withflintpay.com/docs/api/custom-domains#listCustomDomains
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.customDomains.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"checkout" | "customer_account">>;
-        "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CustomDomainListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/customDomains.md#customdomainslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"checkout" | "customer_account">>;
-        "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CustomDomainListResponse>>;
+    list(params?: CustomDomainsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomDomainListResponse, CustomDomainListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/customDomains.md#customdomainslist
+     * @see https://developers.withflintpay.com/docs/api/custom-domains#listCustomDomains
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"checkout" | "customer_account">>;
-        "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomDomainListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/customDomains.md#customdomainslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"checkout" | "customer_account">>;
-        "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<CustomDomainListResponse>>;
+    listPages(params?: CustomDomainsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<CustomDomainListResponse, CustomDomainListResponse>>;
     /** Iterate items lazily.
-     * @see reference/customDomains.md#customdomainslist
+     * @see https://developers.withflintpay.com/docs/api/custom-domains#listCustomDomains
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "type"?: InputValue<Array<"checkout" | "customer_account">>;
-        "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomDomain>;
+    listItems(params?: CustomDomainsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomDomain>;
+    /**
+ * Starts provider and DNS checks for this domain. Send no body or an empty JSON object. Checks are
+ * limited to once every 60 seconds per domain; rate limited responses include Retry-After.
+ *
+ * `POST /v1/custom-domains/{custom_domain_id}/validate`
+ * @param custom_domain_id Flint custom domain ID.
+ * @see https://developers.withflintpay.com/docs/api/custom-domains#validateCustomDomain
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.customDomains.validate("cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    validate(custom_domain_id: InputValue<string>, params?: CustomDomainsValidateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1,8 +1,25 @@
-# Provider error codes
+# Flint error codes
 
 [Runtime error reference](RUNTIME.md#error-reference)
 
-Inspect the provider code together with status and kind; retry only when the operation permits it. Declared values:
+ApiError exposes code, type, param, details (always an array), remediation, errorSource, docUrl, requestId, requestLogUrl and the redacted decoded body. Object values keep wire names. remediation.retry is one of same_request, after_refresh or none. Unknown codes, types, sources and detail reasons remain extensible. Envelope paths follow errors.objectPath and errors.fields. OAuth errors use error/error_description; missing envelopes use http_error. body, raw and headers are omitted from inspection.
+
+Object path: "error".
+
+| Property | Object-relative path |
+| --- | --- |
+| code | code |
+| message | message |
+| type | type |
+| param | param |
+| details | details |
+| remediation | remediation |
+| errorSource | error_source |
+| docUrl | doc_url |
+| requestId | request_id |
+| requestLogUrl | request_log_url |
+
+Inspect the error code together with status and class; retry only when the operation permits it. Declared values:
 
 - `"ACTION_NOT_ALLOWED"`
 - `"ALREADY_EXISTS"`

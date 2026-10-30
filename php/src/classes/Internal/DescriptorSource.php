@@ -118,27 +118,28 @@ final class DescriptorSource
     {
         \Flint\Model::assertRepresentation($plan);
         $this->modelNames ??= array_fill_keys($this->read('models'), true);
-        $visit = function (array $node) use (&$visit): void {
-            if ($node['kind'] === 'entity' && !isset($this->modelNames[$node['name']])) {
-                throw new \InvalidArgumentException('Unknown PHP entity ' . $node['name']);
+        $this->representationReferences($plan);
+    }
+    private function representationReferences(array $node): void
+    {
+        if ($node['kind'] === 'entity' && !isset($this->modelNames[$node['name']])) {
+            throw new \InvalidArgumentException('Unknown PHP entity ' . $node['name']);
+        }
+        foreach (['value', 'extra'] as $key) {
+            if (isset($node[$key])) {
+                $this->representationReferences($node[$key]);
             }
-            foreach (['value', 'extra'] as $key) {
-                if (isset($node[$key])) {
-                    $visit($node[$key]);
-                }
+        }
+        foreach (['fields', 'variants'] as $key) {
+            foreach ($node[$key] ?? [] as $child) {
+                $this->representationReferences($child);
             }
-            foreach (['fields', 'variants'] as $key) {
-                foreach ($node[$key] ?? [] as $child) {
-                    $visit($child);
-                }
-            }
-        };
-        $visit($plan);
+        }
     }
     public function validateAll(): void
     {
-        // Each resource group and the models load into a fresh source, so peak
-        // memory follows the largest group rather than the whole contract.
+        // Validate independent groups without retaining earlier models/codecs.
+        // Peak memory follows the largest resource, model or webhook group.
         $groups = [];
         foreach ($this->routes as $id => $resource) {
             if (!is_string($resource)) {
@@ -151,11 +152,14 @@ final class DescriptorSource
             foreach ($ids as $id) {
                 $source->operation($id);
             }
+            unset($source);
+        }
+        foreach ($this->read('models') as $name) {
+            $source = new self($this->directory, $this->hasWebhook);
+            $source->model($name);
+            unset($source);
         }
         $source = new self($this->directory, $this->hasWebhook);
-        foreach ($source->read('models') as $name) {
-            $source->model($name);
-        }
         $source->webhook();
     }
     public function settings(): array
@@ -170,7 +174,10 @@ final class DescriptorSource
     {
         $resource = $this->routes[$id] ?? null;
         if (!is_string($resource)) {
-            \Flint\Codec::fail('operation', 'operation is not included in this SDK');
+            throw new \Flint\Errors\ConfigurationError(
+                'operation is not included in this SDK',
+                code: 'operation_unavailable',
+            );
         }
         if (!isset($this->loaded[$resource])) {
             $group = $this->read('resources/' . rawurlencode($resource));

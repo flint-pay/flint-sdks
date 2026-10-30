@@ -1,1784 +1,2301 @@
-import type { MetadataMap } from './types-32.js';
-import type { DeliveryPostalCodeCondition, DeliveryPostalCodeConditionInput } from './types-14.js';
-import type { DeliveryRadiusCondition, DeliveryRadiusConditionInput } from './types-15.js';
-import type { DeliveryStateCondition, DeliveryStateConditionInput } from './types-16.js';
-import type { DeliveryCountryConditionInput, DeliveryLocationSetsListInput } from './types-13.js';
-import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-42.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateDeliveryZoneRequestInput, CreateDemoSessionRequestInput, CreateDeviceRequestInput } from './types-6.js';
-import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-51.js';
 import type {
-    CreatePartnerAppCredentialRequestInput,
-    CreatePartnerAppRequestInput,
-    CreateOrderDiscount,
-    CreateOrderDiscountInput
-} from './types-8.js';
-import type { IssueSandboxAPIKeyRequestInput } from './types-30.js';
-import type { CreateSandboxRequestInput } from './types-10.js';
-import type { RotatePartnerAppSecretRequestInput } from './types-46.js';
-import type { UpdatePartnerAppRequestInput } from './types-52.js';
-import type { Settings } from './types-47.js';
-import type { TaxConnection } from './types-50.js';
-import type { PromotionCandidate } from './types-40.js';
-import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-18.js';
-import type { MoneyValue } from './types-33.js';
-/** Shape $ (Value): {@link DeliveryZone}. A geographic area served by a delivery method. */
-export type DeliveryZone = {
+    DeliveryCalculatedPricingStrategyRequestInput,
+    DeliveryCallbackPricingStrategyRequestInput,
+    DeliveryCallerSuppliedPricingStrategyRequestInput,
+    DeliveryCalculatedPricingStrategy,
+    DeliveryCallbackPricingStrategyRequest,
+    DeliveryCallerSuppliedPricingStrategyRequest
+} from './types-14.js';
+import type {
+    DeliveryFixedPricingStrategyRequestInput,
+    DeliveryFixedPricingStrategy,
+    DeliveryExternalPricingStrategy
+} from './types-15.js';
+import type {
+    DeliveryRateTablePricingStrategyCreateRequestInput,
+    DeliveryRateTablePricingStrategyCreateRequest,
+    DeliveryRateTablePricingStrategy,
+    DeliveryRateTablePricingStrategyRequest,
+    DeliveryRateTablePricingStrategyRequestInput
+} from './types-18.js';
+import type { DeliveryTieredPricingStrategyRequestInput, DeliveryTieredPricingStrategy } from './types-19.js';
+import type {
+    DeliveryPricingStrategyCreateInputCalculated,
+    DeliveryPricingStrategyCreateInputCallback,
+    DeliveryPricingStrategyCreateInputCallerSupplied,
+    DeliveryPricingStrategyCreateInputFixed,
+    DeliveryPricingStrategyCreateInputRateTable,
+    DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput,
+    DeliveryPricingStrategyCreateInputCallerSuppliedInput,
+    DeliveryPricingStrategyCreateInputFixedInput
+} from './types-16.js';
+import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { ResponseMeta } from './types-48.js';
+/** The `rate_table` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputRateTableInput = ({
     /**
-     * Shape $ (Value): {@link DeliveryZoneConfiguration}. Current geographic eligibility
-     * conditions. A reusable geographic predicate containing only country, state, postal_code, and
-     * radius conditions.
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
      */
-    "configuration": DeliveryZoneConfiguration;
-    /** Shape $ (Value): string. Time the zone was created. Format: date-time. */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "rate_table". */
+    "type": "rate_table";
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": ("rate_table") & ("rate_table");
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `tiered` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputTiered = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+    /** Value enum: "tiered". */
+    "type": "tiered" | (string & {});
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": unknown;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+}));
+/** The `tiered` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputTieredInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "tiered". */
+    "type": "tiered";
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": ("tiered") & ("tiered");
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})));
+/**
+ * The pricing strategy you supply when creating a delivery method. Set `type` and the matching
+ * property.
+ */
+export type DeliveryPricingStrategyCreateRequest = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
+})
+    & ((Exclude<DeliveryPricingStrategyCreateInputCalculated & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallback & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallerSupplied & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputFixed & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputRateTable & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputTiered & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * The pricing strategy you supply when creating a delivery method. Set `type` and the matching
+ * property.
+ */
+export type DeliveryPricingStrategyCreateRequestInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied";
+})
+    & ((Exclude<DeliveryPricingStrategyCreateInputCalculatedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallbackInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallerSuppliedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputFixedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputRateTableInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputTieredInput & object, readonly unknown[]>));
+/** The `fixed` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyFixed = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed": DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": unknown;
+    /** A fixed delivery price, by currency. */
+    "fixed": DeliveryFixedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCalculated = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "calculated". */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": unknown;
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCalculatedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "calculated". */
+    "type": "calculated";
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": ("calculated") & ("calculated");
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+})
+    & (({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `callback` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallback = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "callback". */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": unknown;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+}));
+/** The `callback` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallbackInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "callback". */
+    "type": "callback";
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": ("callback") & ("callback");
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallerSupplied = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied" | (string & {});
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": unknown;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+}));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallerSuppliedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied";
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": ("caller_supplied") & ("caller_supplied");
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `fixed` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputFixed = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": unknown;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+}));
+/** The `fixed` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputFixedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed". */
+    "type": "fixed";
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": ("fixed") & ("fixed");
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `rate_table` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputRateTable = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "rate_table". */
+    "type": "rate_table" | (string & {});
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": unknown;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequest;
+}));
+/** The `rate_table` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputRateTableInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "rate_table". */
+    "type": "rate_table";
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": ("rate_table") & ("rate_table");
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `tiered` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputTiered = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+    /** Value enum: "tiered". */
+    "type": "tiered" | (string & {});
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": unknown;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+}));
+/** The `tiered` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputTieredInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "tiered". */
+    "type": "tiered";
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": ("tiered") & ("tiered");
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})));
+/** The `rate_table` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyRateTable = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table": DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "rate_table". */
+    "type": "rate_table" | (string & {});
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": unknown;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table": DeliveryRateTablePricingStrategy;
+}));
+/**
+ * The pricing strategy you supply when updating a delivery method. Set `type` and the matching
+ * property.
+ */
+export type DeliveryPricingStrategyRequest = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
+})
+    & ((Exclude<DeliveryPricingStrategyInputCalculated & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputCallback & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputCallerSupplied & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputFixed & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputRateTable & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputTiered & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * The pricing strategy you supply when updating a delivery method. Set `type` and the matching
+ * property.
+ */
+export type DeliveryPricingStrategyRequestInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied";
+})
+    & ((Exclude<DeliveryPricingStrategyInputCalculatedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputCallbackInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputCallerSuppliedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputFixedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputRateTableInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyInputTieredInput & object, readonly unknown[]>));
+/** The `tiered` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyTiered = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+    /** Value enum: "tiered". */
+    "type": "tiered" | (string & {});
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": unknown;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+}));
+/**
+ * One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to
+ * `to`, with a price per currency.
+ */
+export type DeliveryPricingTierBand = {
+    /**
+     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /** Format: int64. */
+    "from": number;
+    /** Format: int64. */
+    "to"?: number;
+};
+/**
+ * One band of a tiered pricing strategy you supply, covering values of the strategy's `basis` from
+ * `from` to `to`, with a price per currency.
+ */
+export type DeliveryPricingTierBandRequestInput = {
+    /**
+     *  * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+    /** Format: int64. */
+    "from": number;
+    /** Format: int64. */
+    "to"?: number;
+};
+/** Reusable delivery rules assigned to catalog items. */
+export type DeliveryProfile = {
+    /**
+     * Current delivery requirement and grouping policy. Whether delivery planning applies to items
+     * under a delivery profile, and if so the allowed delivery types, resolution mode, origin
+     * policy, packing rules, weight, and dimensions.
+     */
+    "configuration": DeliveryProfileConfiguration;
+    /** Time the profile was created. Format: date-time. */
     "created_at": string;
-    /** Shape $ (Value): string. Immutable revision used for new quotes. */
-    "current_delivery_zone_revision_id": string;
-    /** Shape $ (Value): string. Stable delivery zone ID. */
-    "delivery_zone_id": string;
+    /** Immutable revision used for new line-item snapshots. */
+    "current_delivery_profile_revision_id": string;
+    /** Stable delivery profile ID. */
+    "delivery_profile_id": string;
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
+     * Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks
+     * for a delivery profile, such as how many active Locations have no compatible delivery method
+     * and how many countries its zones name.
      */
+    "diagnostics"?: DeliveryProfileDiagnostics;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
     "external_reference_id"?: string;
+    /** True only when this profile is the current physical catalog default. */
+    "is_default": boolean;
     /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them.
+     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      */
     "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. Merchant-facing zone name. */
+    /** Merchant-facing profile name. */
     "name": string;
-    /** Shape $ (Value): string. Current zone lifecycle status. Value enum: "active", "archived". */
+    /** Current profile lifecycle status. Value enum: "active", "archived". */
     "status": "active" | "archived" | (string & {});
-    /** Shape $ (Value): string. Time the zone last changed. Format: date-time. */
+    /** Time the profile last changed. Format: date-time. */
     "updated_at": string;
+    /** Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type DeliveryProfileActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.activated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.activated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_profile.activated";
+});
+/**
+ * The `delivery_profile.activated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): integer string. Optimistic-concurrency version for zone writes. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
      */
-    "version": `${bigint}`;
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.activated". */
+    "event_type"?: "delivery_profile.activated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_profile.activated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type DeliveryProfileActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
+     */
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.activated". */
+    "event_type"?: "delivery_profile.activated";
+});
+export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_profile.archived";
+});
+/**
+ * The `delivery_profile.archived` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
+     */
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.archived". */
+    "event_type"?: "delivery_profile.archived";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_profile.archived` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type DeliveryProfileArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
+     */
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.archived". */
+    "event_type"?: "delivery_profile.archived";
+});
+/**
+ * Result of assigning a delivery profile to catalog items that had none, with counts of the
+ * product variants and bundle components updated.
+ */
+export type DeliveryProfileAssignment = {
+    /** Number of previously unconfigured catalog records updated. Format: int64. minimum: 0. */
+    "bundle_components_updated": number;
+    /** Delivery profile assigned to each updated catalog item. */
+    "delivery_profile_id": string;
+    /** Number of previously unconfigured catalog records updated. Format: int64. minimum: 0. */
+    "product_variants_updated": number;
+};
+/** A response containing `DeliveryProfileAssignment` data. */
+export type DeliveryProfileAssignmentResponse = {
+    /**
+     * Result of assigning a delivery profile to catalog items that had none, with counts of the
+     * product variants and bundle components updated.
+     */
+    "data": DeliveryProfileAssignment;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link DeliveryZoneCondition}. Eligibility condition that matches when the
- * destination or buyer location falls inside the delivery zone `delivery_zone_id`.
+ * Whether delivery planning applies to items under a delivery profile, and if so the allowed
+ * delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
  */
-export type DeliveryZoneCondition = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_zone_id": string;
+export type DeliveryProfileConfiguration = {
     /**
-     * Shape $ (Value): string. Address facts tested by this condition. destination_address is the
-     * shipping destination. buyer_location is the buyer's current pickup or local-delivery
-     * location. Default: "destination_address". Value enum: "destination_address",
-     * "buyer_location".
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. [] enum: "shipment",
+     * "pickup", "local_delivery", "digital", "service". [] (Value): string. Value enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service".
      */
-    "subject"?: "destination_address" | "buyer_location" | (string & {});
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Where items under a delivery profile ship or
+     * leave from: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicy;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
+     */
+    "requirement": "none" | "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
 };
-/**
- * Shape $ (Value): {@link DeliveryZoneConditionInput}. Eligibility condition that matches when the
- * destination or buyer location falls inside the delivery zone `delivery_zone_id`.
- */
-export type DeliveryZoneConditionInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_zone_id": string;
+/** The `manual` variant of `DeliveryProfileConfigurationInputRequired`. */
+export type DeliveryProfileConfigurationInputManual = ({
     /**
-     * Shape $ (Value): string. Address facts tested by this condition. destination_address is the
-     * shipping destination. buyer_location is the buyer's current pickup or local-delivery
-     * location. Default: "destination_address". Value enum: "destination_address",
-     * "buyer_location".
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      */
-    "subject"?: "destination_address" | "buyer_location";
-};
-/**
- * Shape $ (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate containing
- * only country, state, postal_code, and radius conditions.
- */
-export type DeliveryZoneConfiguration = ({
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfiguration}. minItems: 1. maxItems: 100.
-     * Shape $[] (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
      */
-    "all"?: Array<DeliveryZoneConfiguration>;
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfiguration}. minItems: 1. maxItems: 100.
-     * Shape $[] (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
      */
-    "any"?: Array<DeliveryZoneConfiguration>;
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
     /**
-     * Shape $ (Value): {@link DeliveryStateCondition}. A delivery eligibility condition that
-     * matches when the address country is one of `values`.
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
      */
-    "country"?: DeliveryStateCondition;
+    "requirement": "required" | (string & {});
     /**
-     * Shape $ (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "manual".
      */
-    "not"?: DeliveryZoneConfiguration;
+    "resolution_mode": "manual" | (string & {});
     /**
-     * Shape $ (Value): {@link DeliveryPostalCodeCondition}. A delivery eligibility condition that
-     * matches the address postal code against exact or prefix `values`.
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
      */
-    "postal_code"?: DeliveryPostalCodeCondition;
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusCondition}. Eligibility condition that matches when
-     * the destination or buyer location is within `maximum_distance` of an origin, measured in a
-     * straight line.
-     */
-    "radius"?: DeliveryRadiusCondition;
-    /**
-     * Shape $ (Value): {@link DeliveryStateCondition}. Eligibility condition that matches when the
-     * destination or buyer location is in one of the listed states or provinces, given as ISO
-     * 3166-2 codes.
-     */
-    "state"?: DeliveryStateCondition;
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
 })
     & (({
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfiguration}. minItems: 1. maxItems: 100.
-     * Shape $[] (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * minItems: 1. uniqueItems: true. [] enum: "digital", "service". [] (Value): string. Value
+     * enum: "digital", "service".
      */
-    "all": Array<DeliveryZoneConfiguration>;
-})
-    | ({
+    "allowed_types": Array<"digital" | "service" | (string & {})>;
+    /** Value enum: "required". */
+    "requirement": unknown;
+    /** Value enum: "manual". */
+    "resolution_mode": unknown;
+}));
+/** The `manual` variant of `DeliveryProfileConfigurationInputRequired`. */
+export type DeliveryProfileConfigurationInputManualInput = ({
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfiguration}. minItems: 1. maxItems: 100.
-     * Shape $[] (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      */
-    "any": Array<DeliveryZoneConfiguration>;
-})
-    | ({
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
     /**
-     * Shape $ (Value): {@link DeliveryZoneConfiguration}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
      */
-    "not": DeliveryZoneConfiguration;
-})
-    | ({
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
     /**
-     * Shape $ (Value): {@link DeliveryStateCondition}. A delivery eligibility condition that
-     * matches when the address country is one of `values`.
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
      */
-    "country": DeliveryStateCondition;
-})
-    | ({
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
     /**
-     * Shape $ (Value): {@link DeliveryStateCondition}. Eligibility condition that matches when the
-     * destination or buyer location is in one of the listed states or provinces, given as ISO
-     * 3166-2 codes.
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
      */
-    "state": DeliveryStateCondition;
-})
-    | ({
+    "requirement": "required";
     /**
-     * Shape $ (Value): {@link DeliveryPostalCodeCondition}. A delivery eligibility condition that
-     * matches the address postal code against exact or prefix `values`.
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "manual".
      */
-    "postal_code": DeliveryPostalCodeCondition;
-})
-    | ({
+    "resolution_mode": "manual";
     /**
-     * Shape $ (Value): {@link DeliveryRadiusCondition}. Eligibility condition that matches when
-     * the destination or buyer location is within `maximum_distance` of an origin, measured in a
-     * straight line.
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
      */
-    "radius": DeliveryRadiusCondition;
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
 })
+    & (({
+    /**
+     * minItems: 1. uniqueItems: true. [] enum: "digital", "service". [] (Value): string. Value
+     * enum: "digital", "service".
+     */
+    "allowed_types": Array<"digital" | "service">;
+    /** Value enum: "required". */
+    "requirement": "required";
+    /** Value enum: "manual". */
+    "resolution_mode": "manual";
+})
+    & (({
+    "origin_policy"?: never;
+})
+    & ({
+    "combination_policy"?: never;
+})
+    & ({
+    "splitting_policy"?: never;
+})));
+/** The `none` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputNone = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none".
+     */
+    "requirement": "none" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & (({
+    /** Value enum: "none". */
+    "requirement": unknown;
+}));
+/** The `none` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputNoneInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none".
+     */
+    "requirement": "none";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & (({
+    /** Value enum: "none". */
+    "requirement": "none";
+})
+    & (({
+    "resolution_mode"?: never;
+})
+    & ({
+    "allowed_types"?: never;
+})
+    & ({
+    "origin_policy"?: never;
+})
+    & ({
+    "combination_policy"?: never;
+})
+    & ({
+    "splitting_policy"?: never;
+})));
+/** The `quote` variant of `DeliveryProfileConfigurationInputRequired`. */
+export type DeliveryProfileConfigurationInputQuote = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote".
+     */
+    "resolution_mode": "quote" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & ({
+    /**
+     * minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | (string & {})>;
+    /** Value enum: "required". */
+    "requirement": unknown;
+    /** Value enum: "quote". */
+    "resolution_mode": unknown;
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequest;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed" | (string & {});
+});
+/** The `quote` variant of `DeliveryProfileConfigurationInputRequired`. */
+export type DeliveryProfileConfigurationInputQuoteInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote".
+     */
+    "resolution_mode": "quote";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed";
+})
+    & ({
+    /**
+     * minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery">;
+    /** Value enum: "required". */
+    "requirement": "required";
+    /** Value enum: "quote". */
+    "resolution_mode": "quote";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed";
+});
+/** The `required` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputRequired = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode": "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & ((Exclude<DeliveryProfileConfigurationInputQuote & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputManual & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `required` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputRequiredInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode": "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & ((Exclude<DeliveryProfileConfigurationInputQuoteInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputManualInput & object, readonly unknown[]>));
+/**
+ * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
+ * are allowed depends on `requirement` and `resolution_mode`.
+ */
+export type DeliveryProfileConfigurationRequest = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
+     */
+    "requirement"?: "none" | "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & ((Exclude<DeliveryProfileConfigurationInputNone & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputRequired & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
- * containing only country, state, postal_code, and radius conditions.
+ * Delivery planning settings you supply when creating or updating a delivery profile. Which fields
+ * are allowed depends on `requirement` and `resolution_mode`.
  */
-export type DeliveryZoneConfigurationInput = {
+export type DeliveryProfileConfigurationRequestInput = ({
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      */
-    "all": Array<DeliveryZoneConfigurationInput>;
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
      */
-    "any"?: Array<DeliveryZoneConfigurationInput>;
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
     /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
      */
-    "country"?: DeliveryCountryConditionInput;
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
     /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none", "required".
      */
-    "not"?: DeliveryZoneConfigurationInput;
+    "requirement"?: "none" | "required";
     /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
      */
-    "postal_code"?: DeliveryPostalCodeConditionInput;
+    "resolution_mode"?: "quote" | "manual";
     /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
      */
-    "radius"?: DeliveryRadiusConditionInput;
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & ((Exclude<DeliveryProfileConfigurationInputNoneInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileConfigurationInputRequiredInput & object, readonly unknown[]>));
+export type DeliveryProfileCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_profile.created";
+});
+/**
+ * The `delivery_profile.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
      */
-    "state"?: DeliveryStateConditionInput;
-}
-    | {
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.created". */
+    "event_type"?: "delivery_profile.created";
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "all"?: Array<DeliveryZoneConfigurationInput>;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_profile.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryProfileCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
      */
-    "any": Array<DeliveryZoneConfigurationInput>;
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.created". */
+    "event_type"?: "delivery_profile.created";
+});
+export type DeliveryProfileDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.deactivated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.deactivated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_profile.deactivated";
+});
+/**
+ * The `delivery_profile.deactivated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
      */
-    "country"?: DeliveryCountryConditionInput;
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.deactivated". */
+    "event_type"?: "delivery_profile.deactivated";
     /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "not"?: DeliveryZoneConfigurationInput;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_profile.deactivated` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type DeliveryProfileDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
      */
-    "postal_code"?: DeliveryPostalCodeConditionInput;
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.deactivated". */
+    "event_type"?: "delivery_profile.deactivated";
+});
+/**
+ * Read-only coverage checks for a delivery profile, such as how many active Locations have no
+ * compatible delivery method and how many countries its zones name.
+ */
+export type DeliveryProfileDiagnostics = {
+    /** Number of active delivery methods whose type is allowed by this profile. minimum: 0. */
+    "active_method_definitions_count": number;
     /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
+     * True when this is the physical catalog default and every active physical catalog obligation
+     * uses it.
      */
-    "radius"?: DeliveryRadiusConditionInput;
+    "covers_all_items": boolean;
     /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
+     * Number of active Locations that no active delivery method compatible with this profile can
+     * use as an origin. minimum: 0.
      */
-    "state"?: DeliveryStateConditionInput;
-}
-    | {
+    "locations_without_rates_count": number;
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
+     * Up to 20 active Location IDs that no compatible active delivery method can use as an origin.
+     * Use locations_without_rates_count for the complete count. [] (Value): string.
      */
-    "all"?: Array<DeliveryZoneConfigurationInput>;
+    "unassigned_locations": Array<string>;
+    /** True when more matching Locations exist than are returned in unassigned_locations. */
+    "unassigned_locations_truncated": boolean;
     /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
+     * Number of distinct countries explicitly named by zones referenced from compatible active
+     * delivery methods. minimum: 0.
      */
-    "any"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not": DeliveryZoneConfigurationInput;
-    /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionInput;
-}
-    | {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country": DeliveryCountryConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationInput;
-    /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionInput;
-}
-    | {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationInput;
-    /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
-     */
-    "state": DeliveryStateConditionInput;
-}
-    | {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationInput;
-    /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code": DeliveryPostalCodeConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionInput;
-}
-    | {
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryZoneConfigurationInput}. minItems: 1. maxItems:
-     * 100. Shape $[] (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic
-     * predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationInput>;
-    /**
-     * Shape $ (Value): {@link DeliveryCountryConditionInput}. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationInput;
-    /**
-     * Shape $ (Value): {@link DeliveryPostalCodeConditionInput}. A delivery eligibility condition
-     * that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryRadiusConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is within `maximum_distance` of an origin, measured
-     * in a straight line.
-     */
-    "radius": DeliveryRadiusConditionInput;
-    /**
-     * Shape $ (Value): {@link DeliveryStateConditionInput}. Eligibility condition that matches
-     * when the destination or buyer location is in one of the listed states or provinces, given as
-     * ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionInput;
+    "zone_country_count": number;
 };
-/** Shape $ (Value): {@link DeliveryZoneListResponse}. A page of `DeliveryZone` objects. */
-export type DeliveryZoneListResponse = {
+/** A page of `DeliveryProfile` objects. */
+export type DeliveryProfileListResponse = {
+    /**  [] (Value): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog items. */
+    "data": Array<DeliveryProfile>;
     /**
-     * Shape $ (Value): Array of {@link DeliveryZone}. Shape $[] (Value): {@link DeliveryZone}. A
-     * geographic area served by a delivery method.
-     */
-    "data": Array<DeliveryZone>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
     "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** Shape $ (Value): {@link DeliveryZoneResponse}. A response containing `DeliveryZone` data. */
-export type DeliveryZoneResponse = {
-    /** Shape $ (Value): {@link DeliveryZone}. A geographic area served by a delivery method. */
-    "data": DeliveryZone;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryZonesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateDeliveryZoneRequestInput}. The request body for: Create
-     * delivery zone.
-     */
-    "body": InputValue<CreateDeliveryZoneRequestInput>;
-};
-export type DeliveryZonesGetInput = {
-    /** Shape $ (Value): string. */
-    "delivery_zone_id": InputValue<string>;
-};
-export type DeliveryZonesListInput = DeliveryLocationSetsListInput;
-export type DeliveryZonesRemoveInput = {
-    /** Shape $ (Value): string. */
-    "delivery_zone_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeliveryZonesUpdateInput = {
-    /** Shape $ (Value): string. */
-    "delivery_zone_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateDeliveryZoneRequestInput}. The request body for: Update
-     * delivery zone.
-     */
-    "body": InputValue<UpdateDeliveryZoneRequestInput>;
-};
 /**
- * Shape $ (Value): {@link DemoSession}. A demo session with its sandbox, API key, and expiry,
- * returned when you create or reset a demo session.
+ * Where items under a delivery profile ship or leave from: a fixed Location (`location_id`),
+ * inventory routing, or the origin set on the delivery method.
  */
-export type DemoSession = {
-    /**
-     * Shape $ (Value): {@link DemoSessionAPIKey}. The API key issued for a demo session, with its
-     * `secret_key` and the scopes it grants.
-     */
-    "api_key": DemoSessionAPIKey;
-    /** Shape $ (Value): string. */
-    "demo_session_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "expires_at": string;
-    /** Shape $ (Value): string. */
-    "sandbox_id": string;
-};
-/**
- * Shape $ (Value): {@link DemoSessionAPIKey}. The API key issued for a demo session, with its
- * `secret_key` and the scopes it grants.
- */
-export type DemoSessionAPIKey = {
-    /**
-     * Shape $ (Value): Array of string. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Shape $ (Value): string. */
-    "secret_key": string;
-};
-/** Shape $ (Value): {@link DemoSessionResponse}. A response containing `DemoSession` data. */
-export type DemoSessionResponse = {
-    /**
-     * Shape $ (Value): {@link DemoSession}. A demo session with its sandbox, API key, and expiry,
-     * returned when you create or reset a demo session.
-     */
-    "data": DemoSession;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DemoSessionsCreateInput = {
-    /** Shape $ (Value): string. */
-    "Flint-Challenge-Token": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateDemoSessionRequestInput}. The request body for: Create demo
-     * session.
-     */
-    "body": InputValue<CreateDemoSessionRequestInput>;
-};
-export type DemoSessionsResetInput = {
-    /** Shape $ (Value): string. */
-    "demo_session_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "Flint-Challenge-Token": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link ResetDemoSessionRequestInput}. The request body for: Reset demo
-     * session.
-     */
-    "body": InputValue<ResetDemoSessionRequestInput>;
-};
-export type DeveloperCreatePartnerAppCredentialInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreatePartnerAppCredentialRequestInput}. An immutable public key,
-     * JWKS URL, or workload identity credential for partner app client authentication.
-     */
-    "body": InputValue<CreatePartnerAppCredentialRequestInput>;
-};
-export type DeveloperCreatePartnerAppInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreatePartnerAppRequestInput}. The request body for: Create partner
-     * app.
-     */
-    "body": InputValue<CreatePartnerAppRequestInput>;
-};
-export type DeveloperCreateSandboxAPIKeyInput = {
-    /** Shape $ (Value): string. */
-    "sandbox_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link IssueSandboxAPIKeyRequestInput}. The request body for: Issue sandbox
-     * test key.
-     */
-    "body": InputValue<IssueSandboxAPIKeyRequestInput>;
-};
-export type DeveloperCreateSandboxInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link CreateSandboxRequestInput}. The request body for: Create sandbox. */
-    "body": InputValue<CreateSandboxRequestInput>;
-};
-export type DeveloperDeletePartnerAppCredentialInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_credential_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperDeletePartnerAppInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperDeleteSandboxInput = {
-    /** Shape $ (Value): string. */
-    "sandbox_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperGetAuthContextInput = {};
-export type DeveloperGetCurrentAPIKeyRequestLogInput = {
-    /** Shape $ (Value): string. */
-    "api_request_log_id": InputValue<string>;
-};
-export type DeveloperGetPartnerAppCredentialInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_credential_id": InputValue<string>;
-};
-export type DeveloperGetPartnerAppInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-};
-export type DeveloperGetPartnerAppInstallInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": InputValue<string>;
-};
-export type DeveloperGetResourceTimelineInput = {
-    /** Shape $ (Value): string. */
-    "resource_id": InputValue<string>;
-    /**
-     * Shape $ (Value): string. Value enum: "balance", "balance_transaction", "bundle", "category",
-     * "checkout_session", "credit_note", "credit_note_allocation", "customer", "dispute",
-     * "fraud_warning", "inventory_count", "inventory_level", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer", "invoice",
-     * "invoice_payment_term", "merchant_billing_balance", "merchant_billing_invoice", "modifier",
-     * "modifier_group", "modifier_set", "order", "payment_intent", "payment_link",
-     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_variant", "promotion", "promotion_code", "refund",
-     * "return", "return_activity", "return_disposition", "return_inspection", "return_receipt",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "subscription",
-     * "subscription_plan".
-     */
-    "resource_type"?: InputValue<"balance"
-        | "balance_transaction"
-        | "bundle"
-        | "category"
-        | "checkout_session"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "customer"
-        | "dispute"
-        | "fraud_warning"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "invoice"
-        | "invoice_payment_term"
-        | "merchant_billing_balance"
-        | "merchant_billing_invoice"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "refund"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_receipt"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "subscription"
-        | "subscription_plan">;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "requests", "webhooks", "attempts",
-     * "image_mutations". Shape $[] (Value): string. Value enum: "requests", "webhooks",
-     * "attempts", "image_mutations".
-     */
-    "include"?: InputValue<Array<"requests" | "webhooks" | "attempts" | "image_mutations">>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_before"?: InputValue<string | globalThis.Date>;
-};
-export type DeveloperGetSandboxInput = {
-    /** Shape $ (Value): string. */
-    "sandbox_id": InputValue<string>;
-};
-/**
- * Shape $ (Value): {@link DeveloperInitialAPIKeyRequest}. The request body for: Create onboarding
- * API key.
- */
-export type DeveloperInitialAPIKeyRequest = {
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "scopes"?: Array<string>;
-};
-/**
- * Shape $ (Value): {@link DeveloperInitialAPIKeyRequestInput}. The request body for: Create
- * onboarding API key.
- */
-export type DeveloperInitialAPIKeyRequestInput = DeveloperInitialAPIKeyRequest;
-export type DeveloperListCurrentAPIKeyRequestLogsInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "api_key", "user",
-     * "partner_app_install", "checkout_session", "customer_session", "invoice",
-     * "workload_identity". Shape $[] (Value): string. Value enum: "api_key", "user",
-     * "partner_app_install", "checkout_session", "customer_session", "invoice",
-     * "workload_identity".
-     */
-    "caller_type"?: InputValue<Array<"api_key"
-        | "user"
-        | "partner_app_install"
-        | "checkout_session"
-        | "customer_session"
-        | "invoice"
-        | "workload_identity">>;
-    /** Shape $ (Value): string. */
-    "caller_id"?: InputValue<string>;
-    /** Shape $ (Value): string. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "request_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 128. pattern: ^[\x21-\x7E]+$. */
-    "client_request_id"?: InputValue<string>;
-    /** Shape $ (Value): string. pattern: ^[0-9a-f]{32}$. */
-    "client_trace_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "GET", "HEAD", "POST", "PUT",
-     * "PATCH", "DELETE", "OPTIONS", "CONNECT", "TRACE". Shape $[] (Value): string. Value enum:
-     * "GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "CONNECT", "TRACE".
-     */
-    "http_method"?: InputValue<Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE">>;
-    /** Shape $ (Value): string. */
-    "path_query"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "api_key", "api_request_log",
-     * "balance", "balance_transaction", "bundle", "bundle_component", "category",
-     * "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
-     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
-     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
-     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
-     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
-     * "inventory_adjustment", "inventory_allocation_policy",
-     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
-     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
-     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
-     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
-     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
-     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
-     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
-     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
-     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity". Shape $[]
-     * (Value): string. Value enum: "api_key", "api_request_log", "balance", "balance_transaction",
-     * "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_credential", "partner_app_install", "payment_intent", "payment_link",
-     * "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_connection", "tax_registration", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity".
-     */
-    "resource_type"?: InputValue<Array<"api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_verification"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "feedback_report"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "organization"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_connection"
-        | "tax_registration"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity">>;
-    /** Shape $ (Value): string. */
-    "resource_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "success", "client_error",
-     * "server_error". Shape $[] (Value): string. Value enum: "success", "client_error",
-     * "server_error".
-     */
-    "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-};
-export type DeveloperListPartnerAppCredentialsInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-};
-export type DeveloperListPartnerAppInstallsInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "pending_exchange", "active",
-     * "revoked". Shape $[] (Value): string. Value enum: "pending_exchange", "active", "revoked".
-     */
-    "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-};
-export type DeveloperListPartnerAppsInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "archived">>;
-};
-export type DeveloperListSandboxesInput = DeveloperListPartnerAppsInput;
-export type DeveloperResetSandboxInput = DeveloperDeleteSandboxInput;
-export type DeveloperRevokePartnerAppInstallInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperRevokePartnerEnvironmentGrantInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "environment_grant_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperRotatePartnerAppSecretInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link RotatePartnerAppSecretRequestInput}. The request body for: Rotate
-     * partner app secret.
-     */
-    "body"?: InputValue<RotatePartnerAppSecretRequestInput>;
-};
-export type DeveloperUpdatePartnerAppInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdatePartnerAppRequestInput}. The request body for: Update partner
-     * app. minProperties: 1.
-     */
-    "body": InputValue<UpdatePartnerAppRequestInput>;
-};
-/** Shape $ (Value): {@link Device}. A registered device used to accept payments. */
-export type Device = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "device_id": string;
-    /** Shape $ (Value): string. */
-    "hardware_fingerprint"?: string;
-    /** Shape $ (Value): string. */
+export type DeliveryProfileOriginPolicy = {
     "location_id"?: string;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: string;
-    /**
-     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them.
-     */
-    "metadata"?: MetadataMap;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /** Shape $ (Value): string.  Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Persisted device configuration version. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
+    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
+    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
 };
-/** Shape $ (Value): {@link DeviceListResponse}. A page of `Device` objects. */
-export type DeviceListResponse = {
+/** The `fixed_location` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputFixedLocation = ({
+    /** minLength: 1. */
+    "location_id": string;
+    /** Value enum: "fixed_location". */
+    "type": "fixed_location" | (string & {});
+})
+    & ({
+    /** Value enum: "fixed_location". */
+    "type": unknown;
+    /** minLength: 1. */
+    "location_id": string;
+});
+/** The `fixed_location` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputFixedLocationInput = ({
+    /** minLength: 1. */
+    "location_id": string;
+    /** Value enum: "fixed_location". */
+    "type": "fixed_location";
+})
+    & ({
+    /** Value enum: "fixed_location". */
+    "type": "fixed_location";
+    /** minLength: 1. */
+    "location_id": string;
+});
+/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "inventory_routing". */
+    "type": "inventory_routing" | (string & {});
+})
+    & (({
+    /** Value enum: "inventory_routing". */
+    "type": unknown;
+}));
+/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "inventory_routing". */
+    "type": "inventory_routing";
+})
+    & (({
+    /** Value enum: "inventory_routing". */
+    "type": "inventory_routing";
+})
+    & (({
+    "location_id"?: never;
+})));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "method_origin". */
+    "type": "method_origin" | (string & {});
+})
+    & (({
+    /** Value enum: "method_origin". */
+    "type": unknown;
+}));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    /** Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    "location_id"?: never;
+})));
+/**
+ * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
+ * routing, or the origin set on the delivery method.
+ */
+export type DeliveryProfileOriginPolicyRequest = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
+    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
+})
+    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocation & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRouting & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputMethodOrigin & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
+ * routing, or the origin set on the delivery method.
+ */
+export type DeliveryProfileOriginPolicyRequestInput = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
+    "type": "fixed_location" | "inventory_routing" | "method_origin";
+})
+    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocationInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRoutingInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputMethodOriginInput & object, readonly unknown[]>));
+/** A response containing `DeliveryProfile` data. */
+export type DeliveryProfileResponse = {
+    /** Reusable delivery rules assigned to catalog items. */
+    "data": DeliveryProfile;
     /**
-     * Shape $ (Value): Array of {@link Device}. Shape $[] (Value): {@link Device}. A registered
-     * device used to accept payments.
-     */
-    "data": Array<Device>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** Shape $ (Value): {@link DeviceResponse}. A response containing `Device` data. */
-export type DeviceResponse = {
-    /** Shape $ (Value): {@link Device}. A registered device used to accept payments. */
-    "data": Device;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DevicesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link CreateDeviceRequestInput}. The request body for: Create device. */
-    "body": InputValue<CreateDeviceRequestInput>;
-};
-export type DevicesGetInput = {
-    /** Shape $ (Value): string. */
-    "device_id": InputValue<string>;
-};
-export type DevicesListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "archived">>;
-    /** Shape $ (Value): string. */
-    "location_id"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "hardware_fingerprint"?: InputValue<string>;
-    /**
-     * Shape $ (Value): string. Default: "created_at". Value enum: "name", "created_at",
-     * "updated_at".
-     */
-    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-};
-export type DevicesRemoveInput = {
-    /** Shape $ (Value): string. */
-    "device_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DevicesUpdateInput = {
-    /** Shape $ (Value): string. */
-    "device_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link UpdateDeviceRequestInput}. The request body for: Update device. */
-    "body": InputValue<UpdateDeviceRequestInput>;
-};
+export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_profile.updated";
+});
 /**
- * Shape $ (Value): {@link DigitalFulfillmentDetails}. Details of a digital fulfillment: when it
- * was delivered (`delivered_at`) and its `delivery_url`.
+ * The `delivery_profile.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type DigitalFulfillmentDetails = {
+export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Shape $ (Value): string. When the digital goods were delivered, in RFC3339 format. Format:
-     * date-time.
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
      */
-    "delivered_at"?: string;
-    /** Shape $ (Value): string. URL where the recipient can access the delivered digital goods. */
-    "delivery_url"?: string;
-};
-/**
- * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
- * `height` in the given `unit`.
- */
-export type Dimensions = {
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.updated". */
+    "event_type"?: "delivery_profile.updated";
     /**
-     * Shape $ (Value): number. Distance along this dimension, in the specified unit. maximum:
-     * 100000. exclusiveMinimum: 0. multipleOf: 0.001.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "height": number;
-    /**
-     * Shape $ (Value): number. Distance along this dimension, in the specified unit. maximum:
-     * 100000. exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "length": number;
-    /**
-     * Shape $ (Value): string. Length unit for length, width, and height. Use millimeter,
-     * centimeter, or inch. Value enum: "millimeter", "centimeter", "inch".
-     */
-    "unit": "millimeter" | "centimeter" | "inch" | (string & {});
-    /**
-     * Shape $ (Value): number. Distance along this dimension, in the specified unit. maximum:
-     * 100000. exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "width": number;
-};
-/**
- * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`, and
- * `height` in the given `unit`.
- */
-export type DimensionsInput = {
-    /**
-     * Shape $ (Value): number. Distance along this dimension, in the specified unit. maximum:
-     * 100000. exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "height": number;
-    /**
-     * Shape $ (Value): number. Distance along this dimension, in the specified unit. maximum:
-     * 100000. exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "length": number;
-    /**
-     * Shape $ (Value): string. Length unit for length, width, and height. Use millimeter,
-     * centimeter, or inch. Value enum: "millimeter", "centimeter", "inch".
-     */
-    "unit": "millimeter" | "centimeter" | "inch";
-    /**
-     * Shape $ (Value): number. Distance along this dimension, in the specified unit. maximum:
-     * 100000. exclusiveMinimum: 0. multipleOf: 0.001.
-     */
-    "width": number;
-};
-/**
- * Shape $ (Value): {@link DisconnectTaxConnectionRequest}. The request body for: Disconnect
- * automatic tax.
- */
-export type DisconnectTaxConnectionRequest = {
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Omit to apply the
-     * change to the current resource. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Choose turn_off to stop adding tax to new orders that inherit the
-     * default, or keep to leave the default unchanged. Keep refuses those orders and holds
-     * subscription renewals until automatic tax is reconnected or the default is turned off.
-     * Neither choice turns tax on. Value enum: "turn_off", "keep".
-     */
-    "tax_default_behavior": "turn_off" | "keep" | (string & {});
-};
-/**
- * Shape $ (Value): {@link DisconnectTaxConnectionRequestInput}. The request body for: Disconnect
- * automatic tax.
- */
-export type DisconnectTaxConnectionRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Omit to apply the
-     * change to the current resource. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Choose turn_off to stop adding tax to new orders that inherit the
-     * default, or keep to leave the default unchanged. Keep refuses those orders and holds
-     * subscription renewals until automatic tax is reconnected or the default is turned off.
-     * Neither choice turns tax on. Value enum: "turn_off", "keep".
-     */
-    "tax_default_behavior": "turn_off" | "keep";
-};
-/**
- * Shape $ (Value): {@link DisconnectTaxConnectionResponse}. A response containing
- * `DisconnectTaxConnectionResult` data.
- */
-export type DisconnectTaxConnectionResponse = {
-    /**
-     * Shape $ (Value): {@link DisconnectTaxConnectionResult}. The disconnected automatic tax
-     * connection and merchant settings after the requested default-tax change.
-     */
-    "data": DisconnectTaxConnectionResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link DisconnectTaxConnectionResult}. The disconnected automatic tax
- * connection and merchant settings after the requested default-tax change.
- */
-export type DisconnectTaxConnectionResult = {
-    /**
-     * Shape $ (Value): {@link Settings}. Merchant settings, as returned by GET /v1/settings. The
-     * settings for one scope (organization, merchant, location, or device), grouped by area such
-     * as checkout, tax, receipts, and tipping.
-     */
-    "settings": Settings;
-    /**
-     * Shape $ (Value): {@link TaxConnection}. The connection changed by this operation. Its
-     * version is the expected_version target. The environment's automatic sales tax connection.
-     * Before a record exists, identity, version and timestamps are omitted. Read-time
-     * business-detail changes and provider pauses do not advance version or send webhooks.
-     * Status_reason and supported_actions can also change with the clock as registrations end,
-     * without a version change or webhook.
-     */
-    "tax_connection": TaxConnection;
-};
-/**
- * Shape $ (Value): {@link DiscountPreview}. Promotions evaluated for an order, grouped into those
- * that were applied, those that are available, and those that were skipped.
- */
-export type DiscountPreview = {
-    /**
-     * Shape $ (Value): Array of {@link PromotionCandidate}. Shape $[] (Value): {@link
-     * PromotionCandidate}. A promotion considered for an order, with its discount amounts, its
-     * stacking rules, and why it was or was not applied.
-     */
-    "applied": Array<PromotionCandidate>;
-    /**
-     * Shape $ (Value): Array of {@link PromotionCandidate}. Shape $[] (Value): {@link
-     * PromotionCandidate}. A promotion considered for an order, with its discount amounts, its
-     * stacking rules, and why it was or was not applied.
-     */
-    "available": Array<PromotionCandidate>;
-    /**
-     * Shape $ (Value): Array of {@link PromotionCandidate}. Shape $[] (Value): {@link
-     * PromotionCandidate}. A promotion considered for an order, with its discount amounts, its
-     * stacking rules, and why it was or was not applied.
-     */
-    "skipped": Array<PromotionCandidate>;
-};
-/**
- * Shape $ (Value): {@link DiscountPreviewRequest}. The request body for: Create discount preview.
- */
-export type DiscountPreviewRequest = {
-    /**
-     * Shape $ (Value): {@link CreateOrderDiscount}. A discount to apply when creating an order:
-     * either a manual discount or a reference to a promotion.
-     */
-    "discount"?: CreateOrderDiscount;
-    /**
-     * Shape $ (Value): string. The order to evaluate. Checkout session credentials can use only
-     * their own order. minLength: 1.
-     */
-    "order_id": string;
-};
-/**
- * Shape $ (Value): {@link DiscountPreviewRequestInput}. The request body for: Create discount
- * preview.
- */
-export type DiscountPreviewRequestInput = {
-    /**
-     * Shape $ (Value): {@link CreateOrderDiscountInput}. A discount to apply when creating an
-     * order: either a manual discount or a reference to a promotion.
-     */
-    "discount"?: CreateOrderDiscountInput;
-    /**
-     * Shape $ (Value): string. The order to evaluate. Checkout session credentials can use only
-     * their own order. minLength: 1.
-     */
-    "order_id": string;
-};
-/**
- * Shape $ (Value): {@link DiscountPreviewResponse}. A response containing `DiscountPreview` data.
- */
-export type DiscountPreviewResponse = {
-    /**
-     * Shape $ (Value): {@link DiscountPreview}. Promotions evaluated for an order, grouped into
-     * those that were applied, those that are available, and those that were skipped.
-     */
-    "data": DiscountPreview;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DiscountPreviewsCreateInput = {
-    /**
-     * Shape $ (Value): {@link DiscountPreviewRequestInput}. The request body for: Create discount
-     * preview.
-     */
-    "body": InputValue<DiscountPreviewRequestInput>;
-};
-/** Shape $ (Value): {@link Dispute}. A challenge to a collected payment. */
-export type Dispute = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): boolean. Whether this dispute has an evidence response window. It stays
-     * true after the window closes or a decision is made. Use is_action_required to know whether a
-     * response is needed now.
-     */
-    "can_respond_with_evidence": boolean;
-    /**
-     * Shape $ (Value): string. Value enum: "inquiry", "chargeback", "compliance", "resolution",
-     * "block", "other", "bank_return".
-     */
-    "case_type": "inquiry"
-        | "chargeback"
-        | "compliance"
-        | "resolution"
-        | "block"
-        | "other"
-        | "bank_return"
-        | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): {@link ExpandedCustomerSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
-     * when the customer is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** Shape $ (Value): string. */
-    "customer_id"?: string;
-    /** Shape $ (Value): string. */
-    "dispute_id": string;
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time. */
-    "evidence_due_at": string | null;
-    /** Shape $ (Value): integer. Format: int32. */
-    "evidence_submission_count": number;
-    /** Shape $ (Value): string. */
-    "fraud_warning_id"?: string;
-    /**
-     * Shape $ (Value): boolean. Whether evidence is saved for this dispute, submitted or not.
-     * evidence_submission_count says whether it was submitted.
-     */
-    "has_evidence": boolean;
-    /** Shape $ (Value): boolean. */
-    "is_action_required": boolean;
-    /** Shape $ (Value): boolean. */
-    "is_evidence_deadline_passed": boolean;
-    /** Shape $ (Value): string. */
-    "merchant_id": string;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): {@link ExpandedPaymentIntentSummary} or null. Shape $.anyOf[1] (Value):
-     * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-     * status, and capture method, returned when the payment intent is expanded. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-    /** Shape $ (Value): string. */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string or null. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null.
-     */
-    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null;
-    /**
-     * Shape $ (Value): string. Value enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other".
-     */
-    "reason": "fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Why a response is unavailable when can_respond_with_evidence is
-     * false. Absent when no reason is reported. Current values are bank_return_not_contestable and
-     * response_window_unavailable. response_window_unavailable means no evidence deadline was
-     * supplied. Value enum: "bank_return_not_contestable", "response_window_unavailable".
-     */
-    "response_unavailable_reason"?: "bank_return_not_contestable" | "response_window_unavailable" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "inquiry_needs_response", "inquiry_under_review",
-     * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
-     */
-    "status": "inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Recorded time of the current status. On first observation this is
-     * the dispute creation time. Later status changes use the provider event time when available,
-     * or the time Flint observed the change. This may not be the exact decision or submission
-     * time. Format: date-time.
-     */
-    "status_changed_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-};
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});

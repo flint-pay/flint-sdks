@@ -28,5 +28,5 @@ An assessment of the condition of returned items.
 | `superseded_by_return_inspection_id` | Optional | string |  |
 | `supersedes_return_inspection_id` | Optional | string |  |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `version` | Required | integer | Format: `int64`. minimum: `1`. |
 

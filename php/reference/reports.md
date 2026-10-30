@@ -14,7 +14,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateReportRequestInput](../models/CreateReportRequestInput.md#createreportrequestinput) | The request body for: Create a report. |
 
 Body model: [CreateReportRequestInput](../models/CreateReportRequestInput.md#createreportrequestinput).
@@ -31,7 +30,7 @@ Body model: [CreateReportRequestInput](../models/CreateReportRequestInput.md#cre
 
 #### Response
 
-Returned payload: [ReportsCreateResponse201DataPending](../models/ReportsCreateResponse201DataPending.md#reportscreateresponse201datapending)|[ReportsCreateResponse201DataSucceeded](../models/ReportsCreateResponse201DataSucceeded.md#reportscreateresponse201datasucceeded)|[ReportsCreateResponse201DataFailed](../models/ReportsCreateResponse201DataFailed.md#reportscreateresponse201datafailed)|\stdClass.
+Returned payload: [ReportResponseDataPending](../models/ReportResponseDataPending.md#reportresponsedatapending)|[ReportResponseDataSucceeded](../models/ReportResponseDataSucceeded.md#reportresponsedatasucceeded)|[ReportResponseDataFailed](../models/ReportResponseDataFailed.md#reportresponsedatafailed)|Model.
 
 ##### Response variant 1
 
@@ -42,7 +41,7 @@ A report generated from the merchant's activity.
 | `created_at` | Required | string | When the report was requested. Format: `date-time`. |
 | `currency` | Required | string | Currency the report covers. A report never combines currencies. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `download` | Optional | object | Link to download the generated report. Present only when status is succeeded. A temporary link for downloading a generated report. |
-| `failure_reason` | Optional | string | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. |
+| `failure_reason` | Optional | string | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Treat an unknown value like generation_failed. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. |
 | `interval_end_at` | Required | string | Exclusive interval end instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `interval_start_at` | Required | string | Inclusive interval start instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `report_id` | Required | string | Stable identifier of the report. pattern: `^rep_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -59,7 +58,7 @@ A report generated from the merchant's activity.
 | `created_at` | Required | string | When the report was requested. Format: `date-time`. |
 | `currency` | Required | string | Currency the report covers. A report never combines currencies. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `download` | Required | object | Link to download the generated report. Present only when status is succeeded. A temporary link for downloading a generated report. |
-| `failure_reason` | Optional | string | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. |
+| `failure_reason` | Optional | string | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Treat an unknown value like generation_failed. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. |
 | `interval_end_at` | Required | string | Exclusive interval end instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `interval_start_at` | Required | string | Inclusive interval start instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `report_id` | Required | string | Stable identifier of the report. pattern: `^rep_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -76,7 +75,7 @@ A report generated from the merchant's activity.
 | `created_at` | Required | string | When the report was requested. Format: `date-time`. |
 | `currency` | Required | string | Currency the report covers. A report never combines currencies. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `download` | Optional | object | Link to download the generated report. Present only when status is succeeded. A temporary link for downloading a generated report. |
-| `failure_reason` | Required | string | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. |
+| `failure_reason` | Required | string | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Treat an unknown value like generation_failed. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. |
 | `interval_end_at` | Required | string | Exclusive interval end instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `interval_start_at` | Required | string | Inclusive interval start instant. Each report type matches its own occurrence time. Format: `date-time`. |
 | `report_id` | Required | string | Stable identifier of the report. pattern: `^rep_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -86,19 +85,19 @@ A report generated from the merchant's activity.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -106,9 +105,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -140,11 +139,11 @@ Signature: `get(string|Model $report_id, array|Model|null $params = null, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `report_id` | Required | string |  |
+| `report_id` | Required | string | Flint report ID. |
 
 #### Response
 
-Returned payload: [ReportsGetResponse200DataPending](../models/ReportsGetResponse200DataPending.md#reportsgetresponse200datapending)|[ReportsGetResponse200DataSucceeded](../models/ReportsGetResponse200DataSucceeded.md#reportsgetresponse200datasucceeded)|[ReportsGetResponse200DataFailed](../models/ReportsGetResponse200DataFailed.md#reportsgetresponse200datafailed)|\stdClass.
+Returned payload: [ReportResponseDataPending](../models/ReportResponseDataPending.md#reportresponsedatapending)|[ReportResponseDataSucceeded](../models/ReportResponseDataSucceeded.md#reportresponsedatasucceeded)|[ReportResponseDataFailed](../models/ReportResponseDataFailed.md#reportresponsedatafailed)|Model.
 
 ##### Response variant 1
 
@@ -166,16 +165,16 @@ Field definitions: [shared fields](#response-variant-3).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -183,23 +182,23 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Polling: `getWait`, `getWaitWithResponse`; state `data.status`; success `succeeded`; failure `failed`. [Polling deadlines](../RUNTIME.md#pagination-and-polling).
+Polling: `getWait`; state `data.status`; success `succeeded`; failure `failed`. [Polling deadlines](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->reports->get('example', [], new RequestOptions());
+$result = $client->reports->get('rep_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/reports-get.php)
 
 ### reports.list
 
-Lists reports newest first by created_at, with report_id descending as the tiebreak, using opaque pagination. Default order: created_at descending, then report_id descending.
+Lists reports using opaque pagination. Default order: created_at descending, then report_id descending.
 
 `GET /v1/reports`
 
@@ -209,27 +208,27 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `report_type` | Optional | Array of string | minItems: `1`. Items values: [10 declared values](../models/CreateReportRequestInput.md#createreportrequestinput-report_type-values). |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"succeeded"`, `"failed"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `report_type` | Optional | Array of string or string | Return reports with any of these report types. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](../models/CreateReportRequestInput.md#createreportrequestinput-report_type-values). Values: [10 declared values](../models/CreateReportRequestInput.md#createreportrequestinput-report_type-values). |
+| `status` | Optional | Array of string or string | Return reports in any of these statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"succeeded"`, `"failed"`. Values: `"pending"`, `"succeeded"`, `"failed"`. |
 
 #### Response
 
-Returned payload: [ReportsListResponse200](../models/ReportsListResponse200.md#reportslistresponse200).
+Returned payload: [ReportListResponse](../models/ReportListResponse.md#reportlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -237,11 +236,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 

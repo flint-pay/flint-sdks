@@ -16,7 +16,7 @@ Request input.
 
 ### CreatePartnerAppCredentialRequestInput variant 1: `type` = `"public_key"`
 
-oneOf variant 1: The `public_key` variant of `CreatePartnerAppCredentialRequest`..
+oneOf with type: "public_key": The `public_key` variant of `CreatePartnerAppCredentialRequest`..
 
 - Required: `public_key`.
 - Undeclared: `jwks_url`, `workload_identity`.
@@ -24,7 +24,7 @@ oneOf variant 1: The `public_key` variant of `CreatePartnerAppCredentialRequest`
 
 ### CreatePartnerAppCredentialRequestInput variant 2: `type` = `"jwks_url"`
 
-oneOf variant 2: The `jwks_url` variant of `CreatePartnerAppCredentialRequest`..
+oneOf with type: "jwks_url": The `jwks_url` variant of `CreatePartnerAppCredentialRequest`..
 
 - Required: `jwks_url`.
 - Undeclared: `public_key`, `workload_identity`.
@@ -32,7 +32,7 @@ oneOf variant 2: The `jwks_url` variant of `CreatePartnerAppCredentialRequest`..
 
 ### CreatePartnerAppCredentialRequestInput variant 3: `type` = `"workload_identity"`
 
-oneOf variant 3: The `workload_identity` variant of `CreatePartnerAppCredentialRequest`..
+oneOf with type: "workload_identity": The `workload_identity` variant of `CreatePartnerAppCredentialRequest`..
 
 - Required: `workload_identity`.
 - Undeclared: `public_key`, `jwks_url`.

@@ -29,14 +29,14 @@ Which line items receive the discount. Required for service_charge promotions, a
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1
 
-oneOf variant 1.
+oneOf All.
 
 - Required: `all`.
 - Undeclared: `any`.
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 2
 
-oneOf variant 2.
+oneOf Any.
 
 - Required: `any`.
 - Undeclared: `all`.
@@ -54,7 +54,7 @@ oneOf variant 2.
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 1
 
-oneOf variant 1: One condition in a promotion rule group, which tests an attribute with an operator and values..
+oneOf PromotionRule: One condition in a promotion rule group, which tests an attribute with an operator and values..
 
 - Required: `attribute`, `operator`.
 - Optional: `currency_options`, `values`.
@@ -62,14 +62,14 @@ oneOf variant 1: One condition in a promotion rule group, which tests an attribu
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 2
 
-oneOf variant 2: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 1.
+oneOf PromotionRuleGroup: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf All.
 
 - Required: `all`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 3
 
-oneOf variant 2: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 2.
+oneOf PromotionRuleGroup: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf Any.
 
 - Required: `any`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.
@@ -82,28 +82,28 @@ Field definitions: [shared fields](PromotionRuleValueInput.md#promotionrulevalue
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 1.values[] variant 1
 
-oneOf variant 1.
+oneOf String.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: string. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 1.values[] variant 2
 
-oneOf variant 2.
+oneOf Number.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: number. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 1.values[] variant 3
 
-oneOf variant 3.
+oneOf Boolean.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: boolean. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 1.values[] variant 4
 
-oneOf variant 4: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+oneOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 
@@ -120,7 +120,7 @@ oneOf variant 4: Monetary amount represented as integer minor units plus an ISO 
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 2.all[] variant 1
 
-oneOf variant 1: One condition in a promotion rule group, which tests an attribute with an operator and values..
+oneOf PromotionRule: One condition in a promotion rule group, which tests an attribute with an operator and values..
 
 - Required: `attribute`, `operator`.
 - Optional: `currency_options`, `values`.
@@ -128,14 +128,14 @@ oneOf variant 1: One condition in a promotion rule group, which tests an attribu
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 2.all[] variant 2
 
-oneOf variant 2; oneOf variant 1.
+oneOf PromotionRuleGroup; oneOf All.
 
 - Required: `all`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
 
 ### PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[] variant 2.all[] variant 3
 
-oneOf variant 2; oneOf variant 2.
+oneOf PromotionRuleGroup; oneOf Any.
 
 - Required: `any`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.
@@ -168,7 +168,7 @@ Field definitions: [shared fields](PromotionRecurrenceInput.md#promotionrecurren
 
 ### PromotionApplicationMethodPercentOff.recurrence variant 1: `type` = `"once"`
 
-oneOf variant 1: The `once` variant of `PromotionRecurrence`..
+oneOf with type: "once": The `once` variant of `PromotionRecurrence`..
 
 - Condition: not (present(`period_count`)).
 - Optional: `period_count`.
@@ -176,14 +176,14 @@ oneOf variant 1: The `once` variant of `PromotionRecurrence`..
 
 ### PromotionApplicationMethodPercentOff.recurrence variant 2: `type` = `"repeating"`
 
-oneOf variant 2: The `repeating` variant of `PromotionRecurrence`..
+oneOf with type: "repeating": The `repeating` variant of `PromotionRecurrence`..
 
 - Required: `period_count`.
 - Constraints for `type`: Apply the promotion to period_count charged subscription payments. Values: `"repeating"`.
 
 ### PromotionApplicationMethodPercentOff.recurrence variant 3: `type` = `"forever"`
 
-oneOf variant 3: The `forever` variant of `PromotionRecurrence`..
+oneOf with type: "forever": The `forever` variant of `PromotionRecurrence`..
 
 - Condition: not (present(`period_count`)).
 - Optional: `period_count`.

@@ -14,9 +14,24 @@ Request input.
 | `disclosure` | Required | [TaxConnectionDisclosureInput](../models/TaxConnectionDisclosureInput.md#taxconnectiondisclosureinput) | Current statements the seller must agree to before connecting. Ordered seller disclosure rendered with the merchant's effective automatic tax fee. |
 | `seller_attestation` | Required | [TaxConnectionSellerAttestationInput](../models/TaxConnectionSellerAttestationInput.md#taxconnectionsellerattestationinput) or null | Recorded seller agreement, or null before a connect records one. |
 | `status` | Required | string | Whether automatic tax is connected and can calculate tax. Values: `"not_connected"`, `"provisioning"`, `"active"`, `"attention_required"`, `"disabled"`. |
-| `status_reason` | Required | string or null | Machine-readable detail for not_connected or attention_required, or null when no reason applies. Unknown reasons normalize to other. Values: [12 declared values](IncomingWebhookc788fdf2b14cPayloadInput.md#incomingwebhookc788fdf2b14cpayloadinputdataobject-status_reason-values). |
+| `status_reason` | Required | string or null | Machine-readable detail for not_connected or attention_required, or null when no reason applies. Unknown reasons normalize to other. Values: [12 declared values](#taxconnectioninput-status_reason-values). |
 | `supported_actions` | Required | Array of string | Lists connect when setup can complete and disconnect when automatic tax can be turned off, for credentials that can write settings; otherwise empty. Webhook snapshots describe the connection state independently of a receiving credential. Items values: `"connect"`, `"disconnect"`. |
 | `tax_connection_id` | Optional | string | Flint tax connection ID. Present once the first registration or connection creates a record. |
 | `updated_at` | Optional | string | When the connection record's public state last changed. Format: `date-time`. |
-| `version` | Optional | integer string | Current resource version. Send as expected_version to reject a write based on an older version. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Optional | integer | Current resource version. Send as expected_version to reject a write based on an older version. Format: `uint64`. minimum: `1`. |
+
+#### TaxConnectionInput status_reason values
+
+- `"not_offered"`
+- `"onboarding_required"`
+- `"tax_category_required"`
+- `"registration_required"`
+- `"temporarily_unavailable"`
+- `"setup_incomplete"`
+- `"registration_rejected"`
+- `"business_details_changed"`
+- `"support_required"`
+- `"disconnected"`
+- `"other"`
+- `null`
 

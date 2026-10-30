@@ -4,7 +4,7 @@
 
 ### inventoryAllocationPolicies.create
 
-Create an allocation policy with its routing configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the relevant resource or inventory movement list.
+Create an allocation policy with its routing configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory allocation policies and identify the matching policy.
 
 `POST /v1/inventory-allocation-policies`
 
@@ -14,7 +14,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateInventoryAllocationPolicyRequestInput](../models/CreateInventoryAllocationPolicyRequestInput.md#createinventoryallocationpolicyrequestinput) | The request body for: Create inventory allocation policy. |
 
 Body model: [CreateInventoryAllocationPolicyRequestInput](../models/CreateInventoryAllocationPolicyRequestInput.md#createinventoryallocationpolicyrequestinput).
@@ -29,19 +28,19 @@ Returned payload: [InventoryAllocationPolicy](../models/InventoryAllocationPolic
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -49,9 +48,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -66,16 +65,75 @@ $result = $client->inventoryAllocationPolicies->create([
     'location_groups' => [
       (object) [
         'group_priority' => 1,
-        'location_id' => 'example',
+        'location_id' => 'loc_01K0P7W6A4N9F3J2T8Q5R1C6XM',
       ],
     ],
-    'splitting_behavior' => 'single_location',
+    'maximum_locations_per_assignment' => 3,
+    'splitting_behavior' => 'split_when_required',
+    'within_group_order' => 'location_id_ascending',
   ],
-  'name' => 'example',
+  'name' => 'US retail routing',
+  'status' => 'active',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/inventoryAllocationPolicies-create.php)
+
+### inventoryAllocationPolicies.delete
+
+Retire an allocation policy. The policy is archived: it stays readable by ID and appears in lists only when you filter by status archived.
+
+`DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
+
+Signature: `delete(string|Model $inventory_allocation_policy_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `expected_version` | Optional | integer | Current resource version used as a concurrency fence. Format: `uint64`. minimum: `1`. |
+
+#### Response
+
+Returned payload: [InventoryAllocationPolicy](../models/InventoryAllocationPolicy.md#inventoryallocationpolicy).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->inventoryAllocationPolicies->delete('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/inventoryAllocationPolicies-delete.php)
 
 ### inventoryAllocationPolicies.get
 
@@ -89,7 +147,7 @@ Signature: `get(string|Model $inventory_allocation_policy_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string |  |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
 
 #### Response
 
@@ -97,16 +155,16 @@ Returned payload: [InventoryAllocationPolicy](../models/InventoryAllocationPolic
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -114,14 +172,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->inventoryAllocationPolicies->get('example', [], new RequestOptions());
+$result = $client->inventoryAllocationPolicies->get('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/inventoryAllocationPolicies-get.php)
@@ -149,8 +207,8 @@ getRevision(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string |  |
-| `inventory_allocation_policy_revision_id` | Required | string |  |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `inventory_allocation_policy_revision_id` | Required | string | Flint inventory allocation policy revision ID. |
 
 #### Response
 
@@ -158,16 +216,16 @@ Returned payload: [InventoryAllocationPolicyRevision](../models/InventoryAllocat
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -175,14 +233,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getRevisionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->inventoryAllocationPolicies->getRevision('example', 'example', [], new RequestOptions());
+$result = $client->inventoryAllocationPolicies->getRevision('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'invpv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/inventoryAllocationPolicies-getRevision.php)
@@ -199,28 +257,28 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"inactive"`, `"archived"`. |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `query` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `query` | Optional | string | Search allocation policy ID, external reference ID, or name. maxLength: `255`. |
 
 #### Response
 
-Returned payload: [InventoryAllocationPoliciesListResponse200](../models/InventoryAllocationPoliciesListResponse200.md#inventoryallocationpolicieslistresponse200).
+Returned payload: [InventoryAllocationPolicyListResponse](../models/InventoryAllocationPolicyListResponse.md#inventoryallocationpolicylistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -228,11 +286,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -254,29 +312,29 @@ Signature: `listRevisions(string|Model $inventory_allocation_policy_id, array|Mo
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 
 #### Response
 
-Returned payload: [InventoryAllocationPoliciesListRevisionsResponse200](../models/InventoryAllocationPoliciesListRevisionsResponse200.md#inventoryallocationpolicieslistrevisionsresponse200).
+Returned payload: [InventoryAllocationPolicyRevisionListResponse](../models/InventoryAllocationPolicyRevisionListResponse.md#inventoryallocationpolicyrevisionlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -284,80 +342,23 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listRevisionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listRevisionsItems`, `listRevisionsPages`, `listRevisionsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listRevisionsItems`, `listRevisionsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->inventoryAllocationPolicies->listRevisions('example', [], new RequestOptions());
+$result = $client->inventoryAllocationPolicies->listRevisions('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/inventoryAllocationPolicies-listRevisions.php)
 
-### inventoryAllocationPolicies.remove
-
-Retire an allocation policy. The policy is archived: it stays readable by ID and appears in lists only when you filter by status archived.
-
-`DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
-
-Signature: `remove(string|Model $inventory_allocation_policy_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [InventoryAllocationPolicy](../models/InventoryAllocationPolicy.md#inventoryallocationpolicy).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->inventoryAllocationPolicies->remove('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/inventoryAllocationPolicies-remove.php)
-
 ### inventoryAllocationPolicies.update
 
-Update policy fields, availability, or atomically replace its routing configuration. expected_version is optional and enforced when sent, and is required when replacing configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the relevant resource or inventory movement list.
+Update policy fields, availability, or atomically replace its routing configuration. expected_version is optional and enforced when sent, and is required when replacing configuration. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory allocation policy by ID.
 
 `PATCH /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
 
@@ -367,8 +368,7 @@ Signature: `update(string|Model $inventory_allocation_policy_id, array|Model $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `inventory_allocation_policy_id` | Required | string | Flint inventory allocation policy ID. |
 | `body` | Required | [UpdateInventoryAllocationPolicyRequestInput](../models/UpdateInventoryAllocationPolicyRequestInput.md#updateinventoryallocationpolicyrequestinput) | The request body for: Update inventory allocation policy. |
 
 Body model: [UpdateInventoryAllocationPolicyRequestInput](../models/UpdateInventoryAllocationPolicyRequestInput.md#updateinventoryallocationpolicyrequestinput).
@@ -383,19 +383,19 @@ Returned payload: [InventoryAllocationPolicy](../models/InventoryAllocationPolic
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -403,9 +403,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -415,7 +415,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->inventoryAllocationPolicies->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->inventoryAllocationPolicies->update('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'name' => 'Warehouse allocation',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/inventoryAllocationPolicies-update.php)

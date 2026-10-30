@@ -15,7 +15,7 @@ Request input.
 
 ### InventoryRoutingSourceRequestInput variant 1: `type` = `"fixed_location"`
 
-oneOf variant 1: The `fixed_location` variant of `InventoryRoutingSourceInput`..
+oneOf with type: "fixed_location": The `fixed_location` variant of `InventoryRoutingSourceInput`..
 
 - Required: `location_id`.
 - Undeclared: `inventory_allocation_policy_id`, `inventory_allocation_policy_revision_id`.
@@ -23,7 +23,7 @@ oneOf variant 1: The `fixed_location` variant of `InventoryRoutingSourceInput`..
 
 ### InventoryRoutingSourceRequestInput variant 2: `type` = `"policy"`
 
-oneOf variant 2: The `policy` variant of `InventoryRoutingSourceInput`..
+oneOf with type: "policy": The `policy` variant of `InventoryRoutingSourceInput`..
 
 - Required: `inventory_allocation_policy_id`.
 - Undeclared: `location_id`, `inventory_allocation_policy_revision_id`.
@@ -31,7 +31,7 @@ oneOf variant 2: The `policy` variant of `InventoryRoutingSourceInput`..
 
 ### InventoryRoutingSourceRequestInput variant 3: `type` = `"policy_revision"`
 
-oneOf variant 3: The `policy_revision` variant of `InventoryRoutingSourceInput`..
+oneOf with type: "policy_revision": The `policy_revision` variant of `InventoryRoutingSourceInput`..
 
 - Required: `inventory_allocation_policy_revision_id`.
 - Undeclared: `location_id`, `inventory_allocation_policy_id`.

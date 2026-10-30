@@ -9,17 +9,17 @@ namespace Flint;
 final class CheckoutSubscriptionRecurringShipping extends Model {
     /** @param array{'delivery_method_name': string, 'price_type': string, 'shipping_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionRecurringShipping')); }
-    /** Shape $ (Value): string.
+    /** delivery_method_name
      * @return string
      */
     public function getDeliveryMethodName(): string { return $this->get('delivery_method_name'); }
     public function hasDeliveryMethodName(): bool { return $this->has('delivery_method_name'); }
-    /** Shape $ (Value): string.  Value enum: "fixed", "quoted".
+    /** Value enum: "fixed", "quoted".
      * @return string
      */
     public function getPriceType(): string { return $this->get('price_type'); }
     public function hasPriceType(): bool { return $this->has('price_type'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getShippingMoney(): ?MoneyValue { return $this->get('shipping_money'); }

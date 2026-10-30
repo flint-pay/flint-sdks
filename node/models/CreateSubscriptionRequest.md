@@ -37,7 +37,7 @@ Where a subscription's service is delivered: a saved customer address by ID, or 
 
 ### CreateSubscriptionRequest.service_location variant 1: `type` = `"customer_address"`
 
-oneOf variant 1: The `customer_address` variant of `SubscriptionServiceLocationInput`..
+oneOf with type: "customer_address": The `customer_address` variant of `SubscriptionServiceLocationInput`..
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
@@ -45,7 +45,7 @@ oneOf variant 1: The `customer_address` variant of `SubscriptionServiceLocationI
 
 ### CreateSubscriptionRequest.service_location variant 2: `type` = `"address"`
 
-oneOf variant 2: The `address` variant of `SubscriptionServiceLocationInput`..
+oneOf with type: "address": The `address` variant of `SubscriptionServiceLocationInput`..
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.

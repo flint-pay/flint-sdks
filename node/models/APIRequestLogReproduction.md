@@ -22,19 +22,19 @@ A reproduction of the captured request. Replaying a non-GET request changes data
 
 ### APIRequestLogReproduction.body variant 1
 
-anyOf variant 1.
+oneOf variant 1.
 
 - Value shape: object. The captured request body to resend. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. 
 
 ### APIRequestLogReproduction.body variant 2
 
-anyOf variant 2.
+oneOf variant 2.
 
 - Value shape: Array of any. The captured request body to resend. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. 
 
 ### APIRequestLogReproduction.body variant 3
 
-anyOf variant 3.
+oneOf variant 3.
 
 - Value shape: string. The captured request body to resend. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. 
 

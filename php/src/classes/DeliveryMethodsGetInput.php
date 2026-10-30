@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $delivery_method_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsGetInput extends Model {
     /** @param array{'delivery_method_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint delivery method ID. Example: "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */

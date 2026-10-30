@@ -2,25 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $customer_verification_id
  * @property-read array{'code': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerVerificationsConfirmInput extends Model {
-    /** @param array{'customer_verification_id': string, 'Idempotency-Key'?: string, 'body': array{'code': string}|object}|object $values */
+    /** @param array{'customer_verification_id': string, 'body': array{'code': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerVerificationsConfirmInput')); }
-    /** Shape $ (Value): string.
+    /** Flint customer verification ID. Example: "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When customer_verification_id is omitted; use hasCustomerVerificationId() or valueOrDefault().
      */
     public function getCustomerVerificationId(): string { return $this->get('customer_verification_id'); }
     public function hasCustomerVerificationId(): bool { return $this->has('customer_verification_id'); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Confirm a customer email verification.
+    /** The request body for: Confirm a customer email verification.
      * @return array{'code': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

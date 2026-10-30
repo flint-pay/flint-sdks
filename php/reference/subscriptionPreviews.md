@@ -8,7 +8,7 @@ Estimates the next renewal or a plan change, or evaluates a proposed subscriptio
 
 `POST /v1/subscription-previews`
 
-Signature: `create(SubscriptionPreviewsCreateInput|array $input, ?RequestOptions $options = null)`
+Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
@@ -18,62 +18,39 @@ Signature: `create(SubscriptionPreviewsCreateInput|array $input, ?RequestOptions
 
 Body model: [CreateSubscriptionPreviewRequestInput](../models/CreateSubscriptionPreviewRequestInput.md#createsubscriptionpreviewrequestinput).
 
-#### subscriptionPreviews.create body oneOf variant 1
+#### subscriptionPreviews.create with `mode: "delivery_options"`
 
 The `delivery_options` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
 
-#### subscriptionPreviews.create body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput). Models: [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput).
-
-#### subscriptionPreviews.create body oneOf variant 2
+#### subscriptionPreviews.create with `mode: "create"`
 
 The `create` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestCreateInput](../models/CreateSubscriptionPreviewRequestCreateInput.md#createsubscriptionpreviewrequestcreateinput).
 
-#### subscriptionPreviews.create body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateSubscriptionPreviewRequestCreateInput.md#createsubscriptionpreviewrequestcreateinput). Models: [CreateSubscriptionRequestInput](../models/CreateSubscriptionRequestInput.md#createsubscriptionrequestinput).
-
-#### subscriptionPreviews.create body oneOf variant 3
+#### subscriptionPreviews.create with `mode: "delivery_method_update"`
 
 The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput](../models/CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput.md#createsubscriptionpreviewrequestdeliverymethodupdateinput).
 
-#### subscriptionPreviews.create body oneOf variant 3 fields
-
-Field definitions: [shared fields](../models/CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput.md#createsubscriptionpreviewrequestdeliverymethodupdateinput). Models: [UpdateDeliveryMethodRequestInput](../models/UpdateDeliveryMethodRequestInput.md#updatedeliverymethodrequestinput).
-
-#### subscriptionPreviews.create body oneOf variant 4
+#### subscriptionPreviews.create with `mode: "next_renewal"`
 
 The `next_renewal` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestNextRenewalInput](../models/CreateMeSubscriptionPreviewRequestNextRenewalInput.md#createmesubscriptionpreviewrequestnextrenewalinput).
 
-#### subscriptionPreviews.create body oneOf variant 4 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `mode` | Required | string | Values: `"next_renewal"`. |
-| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
-
-#### subscriptionPreviews.create body oneOf variant 5
+#### subscriptionPreviews.create with `mode: "plan_change"`
 
 The `plan_change` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestPlanChangeInput](../models/CreateSubscriptionPreviewRequestPlanChangeInput.md#createsubscriptionpreviewrequestplanchangeinput).
 
-#### subscriptionPreviews.create body oneOf variant 5 fields
-
-Field definitions: [shared fields](../models/CreateSubscriptionPreviewRequestPlanChangeInput.md#createsubscriptionpreviewrequestplanchangeinput).
-
 #### Response
 
-Returned payload: [SubscriptionPreviewsCreateResponse200DataCreate](../models/SubscriptionPreviewsCreateResponse200DataCreate.md#subscriptionpreviewscreateresponse200datacreate)|[SubscriptionPreviewsCreateResponse200DataDeliveryOptions](../models/SubscriptionPreviewsCreateResponse200DataCreate.md#subscriptionpreviewscreateresponse200datacreate)|[SubscriptionPreviewsCreateResponse200DataDeliveryMethodUpdate](../models/SubscriptionPreviewsCreateResponse200DataDeliveryMethodUpdate.md#subscriptionpreviewscreateresponse200datadeliverymethodupdate)|[SubscriptionPreviewsCreateResponse200DataNextRenewal](../models/MeCreateSubscriptionPreviewResponse200DataNextRenewal.md#mecreatesubscriptionpreviewresponse200datanextrenewal)|[SubscriptionPreviewsCreateResponse200DataPlanChange](../models/SubscriptionPreviewsCreateResponse200DataPlanChange.md#subscriptionpreviewscreateresponse200dataplanchange)|\stdClass.
+Returned payload: [SubscriptionPreviewResponseDataCreate](../models/SubscriptionPreviewResponseDataCreate.md#subscriptionpreviewresponsedatacreate)|[SubscriptionPreviewResponseDataDeliveryOptions](../models/SubscriptionPreviewResponseDataCreate.md#subscriptionpreviewresponsedatacreate)|[SubscriptionPreviewResponseDataDeliveryMethodUpdate](../models/SubscriptionPreviewResponseDataDeliveryMethodUpdate.md#subscriptionpreviewresponsedatadeliverymethodupdate)|[SubscriptionPreviewResponseDataNextRenewal](../models/BuyerSubscriptionPreviewResponseDataNextRenewal.md#buyersubscriptionpreviewresponsedatanextrenewal)|[SubscriptionPreviewResponseDataPlanChange](../models/SubscriptionPreviewResponseDataPlanChange.md#subscriptionpreviewresponsedataplanchange)|Model.
 
 ##### Response variant 1
 
@@ -116,30 +93,30 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
 | `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`. |
-| `credit_money` | Required | [MoneyValue](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
+| `credit_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
 | `mode` | Required | string | Values: `"plan_change"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `recurring_subtotal_money` | Required | [MoneyValue](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `recurring_subtotal_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. |
 | `subscription_id` | Required | string |  |
 | `subscription_plan_id` | Required | string |  |
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -147,7 +124,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -155,10 +132,8 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 
 ```php
 $result = $client->subscriptionPreviews->create([
-  'body' => (object) [
-    'mode' => 'next_renewal',
-    'subscription_id' => 'sub_00000000000000000000000000',
-  ],
+  'mode' => 'next_renewal',
+  'subscription_id' => 'sub_00000000000000000000000000',
 ], new RequestOptions());
 ```
 

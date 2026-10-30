@@ -1,1 +1,1 @@
-{"shared":"ResponseWarning","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}
+{"shared":"ResponseWarning","dependencies":["MoneyValue","NextAction","ReadinessMerchantAccountSession","ResourceType","ResponseWarning","SharedCodec2","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876"]}

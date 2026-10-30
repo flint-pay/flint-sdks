@@ -29,5 +29,5 @@ Request input.
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
 | `subscription_plan_id` | Optional | string |  |
 | `theme` | Optional | [ThemeConfigInput](../models/ThemeConfigInput.md#themeconfiginput) | Colors and title applied to a payment link's checkout page. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 

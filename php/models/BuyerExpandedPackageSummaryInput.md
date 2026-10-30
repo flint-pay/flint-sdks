@@ -22,7 +22,7 @@ Request input.
 | `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `tracking_url` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `updated_at` | Optional | string | When the package was last updated, in RFC3339 format. Format: `date-time`. |
-| `version` | Required | integer string | Monotonic package version for expected_version checks. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Monotonic package version for expected_version checks. Format: `uint64`. minimum: `1`. |
 
 #### BuyerExpandedPackageSummaryInput supported_actions [] values
 

@@ -11,11 +11,11 @@ The part of a line item refund that applies to one modifier, by quantity or amou
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allocation_basis` | Required | string | Values: `"quantity"`, `"amount"`. |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `modifier_group_name` | Required | string |  |
 | `name` | Required | string |  |
 | `order_line_item_modifier_id` | Optional | string |  |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `refund_line_item_modifier_allocation_id` | Required | string |  |
 | `show_on_fulfillment` | Required | boolean |  |
 | `show_on_receipt` | Required | boolean |  |
@@ -24,5 +24,5 @@ The part of a line item refund that applies to one modifier, by quantity or amou
 
 ### RefundLineItemModifierAllocation.amount_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

@@ -15,17 +15,17 @@ Response model.
 
 Merchant settings, as returned by GET /v1/settings. The settings for one scope (organization, merchant, location, or device), grouped by area such as checkout, tax, receipts, and tipping.
 
-Field definitions: [shared fields](SettingsGetEffectiveResponse200.md#settingsgeteffectiveresponse200data).
+Field definitions: [shared fields](SettingsResponse.md#settingsresponsedata).
 
 ### DisconnectTaxConnectionResult.settings.metadata
 
-Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
+Field definitions: [CancelReturnResponse.data.metadata](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata).
 
 ### DisconnectTaxConnectionResult.settings.tax_identity
 
-Declared alternatives: [CustomersCreateResponse200.data.tax_identity](../models/CustomersCreateResponse200.md#customerscreateresponse200datatax_identity).
+Declared alternatives: [CustomerResponse.data.tax_identity](../models/CustomerResponse.md#customerresponsedatatax_identity).
 
 ### DisconnectTaxConnectionResult.settings.tipping
 
-Field definitions: [SettingsGetEffectiveResponse200.data.tipping](../models/SettingsGetEffectiveResponse200.md#settingsgeteffectiveresponse200datatipping).
+Field definitions: [SettingsResponse.data.tipping](../models/SettingsResponse.md#settingsresponsedatatipping).
 

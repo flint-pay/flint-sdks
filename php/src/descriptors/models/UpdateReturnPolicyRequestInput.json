@@ -1,1 +1,1 @@
-{"shared":"UpdateReturnPolicyRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","UpdateReturnPolicyRequest"]}
+{"shared":"UpdateReturnPolicyRequest","dependencies":["SharedCodec1350","SharedCodec1353","UpdateReturnPolicyRequest"]}

@@ -24,17 +24,15 @@ No additional constraints.
 
 ### CustomerAccountSettings variant 2
 
-anyOf variant 2: Declared schema CustomerAccountSettingsRequestRequest. Customer account settings: hosted mode, merchant account URL, presentation, route templates, and what buyers may do to their own subscriptions..
+anyOf variant 2: Declared schema CustomerAccountSettingsRequest. Customer account settings: hosted mode, merchant account URL, presentation, route templates, and what buyers may do to their own subscriptions..
 
 No additional constraints.
 
 ### CustomerAccountSettings variant 1.presentation
 
-Patch object: fields you send are applied, fields you omit are unchanged. How a customer account is presented: its account name and custom domain. Send null to clear a value.
+Patch object: fields you send are applied, fields you omit are unchanged. How the Flint-hosted customer account is presented. The account's hostname is a custom domain; manage it with /v1/custom-domains. Send null to clear a value.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `account_name` | Optional | string or null | Send null to clear it. minLength: `1`. |
+Field definitions: [shared fields](CustomerAccountPresentation.md#customeraccountpresentation).
 
 ### CustomerAccountSettings variant 1.route_templates
 
@@ -44,11 +42,9 @@ Field definitions: [shared fields](CustomerAccountRouteTemplates.md#customeracco
 
 ### CustomerAccountSettings variant 2.presentation
 
-Patch object: fields you send are applied, fields you omit are unchanged. How a customer account is presented: its account name and custom domain. Send null to clear a value.
+Patch object: fields you send are applied, fields you omit are unchanged. How the Flint-hosted customer account is presented. The account's hostname is a custom domain; manage it with /v1/custom-domains. Send null to clear a value.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `account_name` | Optional | string or null | Send null to clear it. minLength: `1`. |
+Field definitions: [shared fields](CustomerAccountPresentation.md#customeraccountpresentation).
 
 ### CustomerAccountSettings variant 2.route_templates
 

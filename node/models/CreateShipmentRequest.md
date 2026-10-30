@@ -20,7 +20,7 @@ The request body for: Create shipment.
 
 ### CreateShipmentRequest variant 1: `direction` = `"outbound"`
 
-oneOf variant 1: The `outbound` variant of `CreateShipmentRequest`..
+oneOf with direction: "outbound": The `outbound` variant of `CreateShipmentRequest`..
 
 - Condition: not (present(`return_id`)).
 - Condition: not (present(`return_line_items`)).
@@ -29,7 +29,7 @@ oneOf variant 1: The `outbound` variant of `CreateShipmentRequest`..
 
 ### CreateShipmentRequest variant 2: `direction` = `"return"`
 
-oneOf variant 2: The `return` variant of `CreateShipmentRequest`..
+oneOf with direction: "return": The `return` variant of `CreateShipmentRequest`..
 
 - Condition: not (present(`packages`)).
 - Required: `return_id`, `return_line_items`.
@@ -43,5 +43,5 @@ Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLine
 
 A return line and the quantity placed in a return shipment or package.
 
-Field definitions: [shared fields](ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
+Field definitions: [shared fields](ReturnShipmentLineItemAllocationRequestInput.md#returnshipmentlineitemallocationrequestinput).
 

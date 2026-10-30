@@ -17,7 +17,7 @@ Request input.
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Required | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
 | `options` | Required | Array of [CreateProductOptionRequestInput](../models/CreateProductOptionRequestInput.md#createproductoptionrequestinput) | Options and values that distinguish this product's variants. Send with variants instead of default_variant. minItems: `1`. |
-| `product_type` | Required | string | Kind of goods or service this product represents. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
+| `product_type` | Required | string | Kind of goods or service this product represents. New variants of digital products store digital_goods when line_item_tax_category is omitted; explicit categories are preserved. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Whether the product is active or inactive. An inactive product's variants cannot be sold. Default: `"active"`. Values: `"active"`, `"inactive"`. |
 | `variant_mode` | Required | string | Selects the variant mode branch. Values: `"optioned"`. |
 | `variants` | Required | Array of [ProductVariantRequestInput](../models/ProductVariantRequestInput.md#productvariantrequestinput) | Independent variants to create with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`. minItems: `1`. maxItems: `100`. |

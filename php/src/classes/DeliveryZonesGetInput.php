@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $delivery_zone_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesGetInput extends Model {
     /** @param array{'delivery_zone_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZonesGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint delivery zone ID. Example: "dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */

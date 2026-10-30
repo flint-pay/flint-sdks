@@ -29,18 +29,18 @@ One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and perc
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `calculation_type` | Optional | string | Default: `"percentage"`. Values: `"percentage"`. |
-| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `jurisdiction` | Required | [TaxJurisdiction](../models/TaxJurisdiction.md#taxjurisdiction) | A taxing jurisdiction with its level, such as state or city, name, state, and country. `jurisdiction`: [field definitions](../models/OrderChargeTaxAssignment.md#orderchargetaxassignmentcalculationcomponentsjurisdiction). |
 | `percent` | Required | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
 | `tax_type` | Required | string | Values: `"sales_tax"`, `"use_tax"`. |
 
 ### OrderChargeTaxAssignment.calculation.components[].flat_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### OrderChargeTaxAssignment.calculation.components[].jurisdiction
 
 A taxing jurisdiction with its level, such as state or city, name, state, and country.
 
-Field definitions: [shared fields](TaxJurisdictionRequestRequestInput.md#taxjurisdictionrequestrequestinput).
+Field definitions: [shared fields](TaxJurisdictionRequestInput.md#taxjurisdictionrequestinput).
 

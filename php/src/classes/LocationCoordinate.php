@@ -8,12 +8,12 @@ namespace Flint;
 final class LocationCoordinate extends Model {
     /** @param array{'latitude': float, 'longitude': float, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationCoordinate')); }
-    /** Shape $ (Value): number. Latitude between -90 and 90. Responses always include this field, including 0.
+    /** Latitude between -90 and 90. Responses always include this field, including 0.
      * @return float
      */
     public function getLatitude(): float { return $this->get('latitude'); }
     public function hasLatitude(): bool { return $this->has('latitude'); }
-    /** Shape $ (Value): number. Longitude between -180 and 180. Responses always include this field, including 0.
+    /** Longitude between -180 and 180. Responses always include this field, including 0.
      * @return float
      */
     public function getLongitude(): float { return $this->get('longitude'); }

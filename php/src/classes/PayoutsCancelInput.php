@@ -2,25 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $payout_id
  * @property-read array{}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsCancelInput extends Model {
-    /** @param array{'payout_id': string, 'Idempotency-Key'?: string, 'body'?: array{}|object}|object $values */
+    /** @param array{'payout_id': string, 'body'?: array{}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsCancelInput')); }
-    /** Shape $ (Value): string.
+    /** Flint payout ID. Example: "po_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When payout_id is omitted; use hasPayoutId() or valueOrDefault().
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Cancel a payout.
+    /** The request body for: Cancel a payout.
      * @return array{}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

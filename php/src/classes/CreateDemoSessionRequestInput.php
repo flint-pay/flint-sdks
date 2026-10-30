@@ -7,7 +7,7 @@ namespace Flint;
 final class CreateDemoSessionRequestInput extends Model {
     /** @param array{'template'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDemoSessionRequestInput')); }
-    /** Shape $ (Value): string. Omit to use quickstart. An explicit empty or unsupported template is invalid. Default: "quickstart". Value enum: "quickstart".
+    /** Omit to use quickstart. An explicit empty or unsupported template is invalid. Default: "quickstart". Value enum: "quickstart".
      * @return string
      * @throws SdkError When template is omitted; use hasTemplate() or valueOrDefault().
      */

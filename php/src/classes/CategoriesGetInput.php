@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $category_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesGetInput extends Model {
     /** @param array{'category_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoriesGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint category ID. Example: "ctg_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When category_id is omitted; use hasCategoryId() or valueOrDefault().
      */

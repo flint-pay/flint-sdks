@@ -26,121 +26,121 @@ namespace Flint;
 final class FulfillmentNotificationInput extends Model {
     /** @param array{'channel': string, 'created_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'failed_at'?: string|\DateTimeInterface, 'fulfillment_event_id'?: string, 'fulfillment_id': string, 'fulfillment_notification_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'notification_type': string, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'package_id'?: string, 'recipient_customer_id'?: string, 'recipient_email'?: string, 'sent_at'?: string|\DateTimeInterface, 'shipment_id'?: string, 'status': string, 'suppression_reason'?: string, 'trigger_type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentNotificationInput')); }
-    /** Shape $ (Value): string.  Value enum: "email".
+    /** How Flint sends this notification. - `email`: Sends the notification to recipient_email. Value enum: "email".
      * @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When failed_at is omitted; use hasFailedAt() or valueOrDefault().
      */
     public function getFailedAt(): string|\DateTimeInterface { return $this->get('failed_at'); }
     public function hasFailedAt(): bool { return $this->has('failed_at'); }
-    /** Shape $ (Value): string.
+    /** fulfillment_event_id
      * @return string
      * @throws SdkError When fulfillment_event_id is omitted; use hasFulfillmentEventId() or valueOrDefault().
      */
     public function getFulfillmentEventId(): string { return $this->get('fulfillment_event_id'); }
     public function hasFulfillmentEventId(): bool { return $this->has('fulfillment_event_id'); }
-    /** Shape $ (Value): string.
+    /** fulfillment_id
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Shape $ (Value): string.
+    /** fulfillment_notification_id
      * @return string
      * @throws SdkError When fulfillment_notification_id is omitted; use hasFulfillmentNotificationId() or valueOrDefault().
      */
     public function getFulfillmentNotificationId(): string { return $this->get('fulfillment_notification_id'); }
     public function hasFulfillmentNotificationId(): bool { return $this->has('fulfillment_notification_id'); }
-    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string.  Value enum: "fulfillment_ready", "fulfillment_dispatched", "fulfillment_completed", "fulfillment_canceled", "fulfillment_failed", "fulfillment_no_show", "fulfillment_shipped", "fulfillment_delivered", "shipment_shipped", "shipment_out_for_delivery", "shipment_delivered", "shipment_delivery_attempted", "shipment_exception", "shipment_returned".
+    /** The buyer update this notification communicates. - `fulfillment_ready`: The fulfillment is ready for pickup. - `fulfillment_dispatched`: The fulfillment was dispatched. - `fulfillment_completed`: The fulfillment was completed. - `fulfillment_canceled`: The fulfillment was canceled. - `fulfillment_failed`: The fulfillment failed. - `fulfillment_no_show`: A service appointment was missed. - `fulfillment_shipped`: The fulfillment was shipped. - `fulfillment_delivered`: The fulfillment was delivered. - `shipment_shipped`: A shipment was shipped. - `shipment_out_for_delivery`: A shipment is out for delivery. - `shipment_delivered`: A shipment was delivered. - `shipment_delivery_attempted`: A carrier attempted to deliver a shipment. - `shipment_exception`: A shipment has a delivery exception. - `shipment_returned`: A shipment was returned. Value enum: "fulfillment_ready", "fulfillment_dispatched", "fulfillment_completed", "fulfillment_canceled", "fulfillment_failed", "fulfillment_no_show", "fulfillment_shipped", "fulfillment_delivered", "shipment_shipped", "shipment_out_for_delivery", "shipment_delivered", "shipment_delivery_attempted", "shipment_exception", "shipment_returned".
      * @return string
      * @throws SdkError When notification_type is omitted; use hasNotificationType() or valueOrDefault().
      */
     public function getNotificationType(): string { return $this->get('notification_type'); }
     public function hasNotificationType(): bool { return $this->has('notification_type'); }
-    /** Shape $ (Value): {@see ExpandedOrderSummaryInput} or null. Shape $.anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
      * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Shape $ (Value): string.
+    /** order_id
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Shape $ (Value): string.
+    /** package_id
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */
     public function getPackageId(): string { return $this->get('package_id'); }
     public function hasPackageId(): bool { return $this->has('package_id'); }
-    /** Shape $ (Value): string.
+    /** recipient_customer_id
      * @return string
      * @throws SdkError When recipient_customer_id is omitted; use hasRecipientCustomerId() or valueOrDefault().
      */
     public function getRecipientCustomerId(): string { return $this->get('recipient_customer_id'); }
     public function hasRecipientCustomerId(): bool { return $this->has('recipient_customer_id'); }
-    /** Shape $ (Value): string.
+    /** recipient_email
      * @return string
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
      */
     public function getRecipientEmail(): string { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When sent_at is omitted; use hasSentAt() or valueOrDefault().
      */
     public function getSentAt(): string|\DateTimeInterface { return $this->get('sent_at'); }
     public function hasSentAt(): bool { return $this->has('sent_at'); }
-    /** Shape $ (Value): string.
+    /** shipment_id
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "sent", "failed", "suppressed".
+    /** Value enum: "pending", "sent", "failed", "suppressed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string.  Value enum: "source_suppressed", "default_suppressed", "recipient_missing", "template_not_configured", "merchant_managed_email", "recipient_unsubscribed".
+    /** Why Flint chose not to send this notification. - `source_suppressed`: The originating request suppressed buyer messaging. - `default_suppressed`: The configured default suppressed buyer messaging. - `recipient_missing`: No usable recipient was available. - `template_not_configured`: No notification template was configured. - `merchant_managed_email`: The merchant's integration owns this email. - `recipient_unsubscribed`: The recipient opted out of this notification. Value enum: "source_suppressed", "default_suppressed", "recipient_missing", "template_not_configured", "merchant_managed_email", "recipient_unsubscribed".
      * @return string
      * @throws SdkError When suppression_reason is omitted; use hasSuppressionReason() or valueOrDefault().
      */
     public function getSuppressionReason(): string { return $this->get('suppression_reason'); }
     public function hasSuppressionReason(): bool { return $this->has('suppression_reason'); }
-    /** Shape $ (Value): string.  Value enum: "fulfillment_status_updated", "fulfillment_event_created".
+    /** What created this notification. - `fulfillment_status_updated`: Created by a fulfillment status transition. - `fulfillment_event_created`: Created by a fulfillment timeline event. Value enum: "fulfillment_status_updated", "fulfillment_event_created".
      * @return string
      * @throws SdkError When trigger_type is omitted; use hasTriggerType() or valueOrDefault().
      */
     public function getTriggerType(): string { return $this->get('trigger_type'); }
     public function hasTriggerType(): bool { return $this->has('trigger_type'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -1,1 +1,1 @@
-{"shared":"PayoutDestinationResponse","dependencies":["MetadataMap","MoneyValue","NextAction","NextActionMerchantAccountSession","PayoutDestination","PayoutDestinationResponse","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}
+{"shared":"PayoutDestinationResponse","dependencies":["MetadataMap","MoneyValue","NextAction","PayoutDestination","PayoutDestinationResponse","ReadinessMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec2","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876"]}

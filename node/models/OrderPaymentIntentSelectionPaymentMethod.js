@@ -1,7 +1,7 @@
-import { d864 as c0 } from '../descriptors/data/40.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d864 as d864 } from '../descriptors/data/40.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d958 as c0 } from '../descriptors/data/44.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d958 as d958 } from '../descriptors/data/44.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d864;
+const read = d958;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["OrderPaymentIntentSelectionPaymentMethod"]:c0()}); }
 export { codec as _validate };

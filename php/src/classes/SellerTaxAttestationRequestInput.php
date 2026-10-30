@@ -7,7 +7,7 @@ namespace Flint;
 final class SellerTaxAttestationRequestInput extends Model {
     /** @param array{'disclosure_version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SellerTaxAttestationRequestInput')); }
-    /** Shape $ (Value): string. Current disclosure version from GET /v1/tax-connection. Send only after the seller agrees to every rendered statement. minLength: 1.
+    /** Current disclosure version from GET /v1/tax-connection. Send only after the seller agrees to every rendered statement. minLength: 1.
      * @return string
      * @throws SdkError When disclosure_version is omitted; use hasDisclosureVersion() or valueOrDefault().
      */

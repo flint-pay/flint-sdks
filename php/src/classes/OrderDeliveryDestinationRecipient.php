@@ -8,12 +8,12 @@ namespace Flint;
 final class OrderDeliveryDestinationRecipient extends Model {
     /** @param array{'name'?: string, 'phone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRecipient')); }
-    /** Shape $ (Value): string. maxLength: 255.
+    /** maxLength: 255.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. maxLength: 30.
+    /** maxLength: 30.
      * @return ?string
      */
     public function getPhone(): ?string { return $this->get('phone'); }

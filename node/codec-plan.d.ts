@@ -41,6 +41,7 @@ export type ValueInstruction = {
     label: string;
 };
 export interface CodecPlan {
+    readonly label?: string;
     readonly value: ValueInstruction;
     readonly nullable: boolean;
     /** Unmatched alternatives require objects only for the legacy literal type: 'object' form. */
@@ -96,8 +97,8 @@ export interface CodecPlan {
     readonly definitions?: Readonly<Record<string, CodecPlan>>;
 }
 export declare const CODEC_FORMAT = 1;
-export declare const CODEC_SEMANTICS = "4";
-export declare function valueInstruction(type: string | undefined, format?: string): ValueInstruction;
+export declare const CODEC_SEMANTICS = "5";
+export declare function valueInstruction(type: string | undefined, format?: string, integers?: 'number' | 'exact' | undefined): ValueInstruction;
 export declare function wireKind(value: ValueInstruction): string | undefined;
 export declare function exactValue(value: ValueInstruction): boolean;
 /** Pure direction derivation, shared with public-type compilation. */

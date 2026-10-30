@@ -9,17 +9,17 @@ namespace Flint;
 final class ProductVariantMatch extends Model {
     /** @param array{'name'?: string, 'sku'?: string, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantMatch')); }
-    /** Shape $ (Value): string. Name of the matching variant, when set.
+    /** Name of the matching variant, when set.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Stock keeping unit of the matching variant, when set.
+    /** Stock keeping unit of the matching variant, when set.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Shape $ (Value): string. Identifier of the variant that matched the product list's variant filters or query.
+    /** Identifier of the variant that matched the product list's variant filters or query.
      * @return string
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

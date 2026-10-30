@@ -11,27 +11,27 @@ namespace Flint;
 final class PaymentAttemptGiftCardRedemption extends Model {
     /** @param array{'amount_money': mixed, 'gift_card_id': string, 'gift_card_redemption_id': string, 'last4': string, 'tip_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentAttemptGiftCardRedemption')); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.
+    /** gift_card_id
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Shape $ (Value): string.
+    /** gift_card_redemption_id
      * @return string
      */
     public function getGiftCardRedemptionId(): string { return $this->get('gift_card_redemption_id'); }
     public function hasGiftCardRedemptionId(): bool { return $this->has('gift_card_redemption_id'); }
-    /** Shape $ (Value): string. Last four characters of the card's current code.
+    /** Last four characters of the card's current code.
      * @return string
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTipMoney(): MoneyValue { return $this->get('tip_money'); }

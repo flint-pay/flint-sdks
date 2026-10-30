@@ -7,7 +7,7 @@ namespace Flint;
 final class RiskAttributeRegistryInput extends Model {
     /** @param array{'attributes': list<RiskAttributeInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskAttributeRegistryInput')); }
-    /** Shape $ (Value): Array of {@see RiskAttributeInput}. Shape $[] (Value): {@see RiskAttributeInput}. One attribute a risk rule can test, with its value type, allowed operators, and whether it is currently available.
+    /**  [] (Value): {@see RiskAttributeInput}. One attribute a risk rule can test, with its value type, allowed operators, and whether it is currently available.
      * @return list<RiskAttributeInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When attributes is omitted; use hasAttributes() or valueOrDefault().
      */

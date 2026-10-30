@@ -13,37 +13,37 @@ namespace Flint;
 final class OnboardingVerifyEmailResult extends Model {
     /** @param array{'can_issue_api_key': bool, 'default_sandbox_id'?: string, 'merchant': mixed, 'merchant_created': bool, 'onboarding_session_expires_at': string, 'onboarding_session_token': string, 'user': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailResult')); }
-    /** Shape $ (Value): boolean. Whether the merchant has no external API key and a default sandbox exists.
+    /** Whether the merchant has no external API key and a default sandbox exists.
      * @return bool
      */
     public function getCanIssueApiKey(): bool { return $this->get('can_issue_api_key'); }
     public function hasCanIssueApiKey(): bool { return $this->has('can_issue_api_key'); }
-    /** Shape $ (Value): string.
+    /** default_sandbox_id
      * @return ?string
      */
     public function getDefaultSandboxId(): ?string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** Shape $ (Value): {@see Merchant}. The business accepting payments.
+    /** The business accepting payments.
      * @return Merchant
      */
     public function getMerchant(): Merchant { return $this->get('merchant'); }
     public function hasMerchant(): bool { return $this->has('merchant'); }
-    /** Shape $ (Value): boolean.
+    /** merchant_created
      * @return bool
      */
     public function getMerchantCreated(): bool { return $this->get('merchant_created'); }
     public function hasMerchantCreated(): bool { return $this->has('merchant_created'); }
-    /** Shape $ (Value): string. Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to get a new one. Format: date-time.
+    /** Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to get a new one. Format: date-time.
      * @return string
      */
     public function getOnboardingSessionExpiresAt(): string { return $this->get('onboarding_session_expires_at'); }
     public function hasOnboardingSessionExpiresAt(): bool { return $this->has('onboarding_session_expires_at'); }
-    /** Shape $ (Value): string.
+    /** onboarding_session_token
      * @return string
      */
     public function getOnboardingSessionToken(): string { return $this->get('onboarding_session_token'); }
     public function hasOnboardingSessionToken(): bool { return $this->has('onboarding_session_token'); }
-    /** Shape $ (Value): {@see User}. A user with access to merchant accounts.
+    /** A user with access to merchant accounts.
      * @return User
      */
     public function getUser(): User { return $this->get('user'); }

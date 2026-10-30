@@ -14,7 +14,7 @@ Request input.
 
 ### InventoryReservationOwnerInput variant 1: `type` = `"merchant"`
 
-oneOf variant 1: The `merchant` variant of `InventoryReservationOwner`..
+oneOf with type: "merchant": The `merchant` variant of `InventoryReservationOwner`..
 
 - Required: `key`.
 - Undeclared: `order_id`.
@@ -22,7 +22,7 @@ oneOf variant 1: The `merchant` variant of `InventoryReservationOwner`..
 
 ### InventoryReservationOwnerInput variant 2: `type` = `"order"`
 
-oneOf variant 2: The `order` variant of `InventoryReservationOwner`..
+oneOf with type: "order": The `order` variant of `InventoryReservationOwner`..
 
 - Optional: `order_id`.
 - Undeclared: `key`.

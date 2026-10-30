@@ -9,19 +9,19 @@ namespace Flint;
 final class RefundTaxBreakdownRefundInput extends Model {
     /** @param array{'order_charge_id'?: string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTaxBreakdownRefundInput')); }
-    /** Shape $ (Value): string.
+    /** order_charge_id
      * @return string
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** Shape $ (Value): string.
+    /** tax_breakdown_id
      * @return string
      * @throws SdkError When tax_breakdown_id is omitted; use hasTaxBreakdownId() or valueOrDefault().
      */
     public function getTaxBreakdownId(): string { return $this->get('tax_breakdown_id'); }
     public function hasTaxBreakdownId(): bool { return $this->has('tax_breakdown_id'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax_money is omitted; use hasTaxMoney() or valueOrDefault().
      */

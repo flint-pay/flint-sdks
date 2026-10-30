@@ -23,7 +23,7 @@ No additional constraints.
 
 ### BuyerInstructionsConfig variant 2
 
-anyOf variant 2: Declared schema BuyerInstructionsConfigRequestRequest. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection..
+anyOf variant 2: Declared schema BuyerInstructionsConfigRequest. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection..
 
 No additional constraints.
 

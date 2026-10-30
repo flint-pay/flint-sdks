@@ -14,8 +14,7 @@ Signature: `cancel(string|Model $gift_card_notification_id, array|Model|null $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_notification_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `gift_card_notification_id` | Required | string | Flint resource ID. |
 | `body` | Optional | [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequestInput.md#cancelgiftcardnotificationrequestinput) | The request body for: Cancel a gift card notification. |
 
 Body model: [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequestInput.md#cancelgiftcardnotificationrequestinput).
@@ -26,19 +25,19 @@ Returned payload: [GiftCardNotification](../models/GiftCardNotification.md#giftc
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -46,9 +45,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -58,7 +57,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->giftCardNotifications->cancel('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->giftCardNotifications->cancel('gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/giftCardNotifications-cancel.php)
@@ -75,7 +74,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateGiftCardNotificationRequestInput](../models/CreateGiftCardNotificationRequestInput.md#creategiftcardnotificationrequestinput) | The request body for: Send a gift card notification. |
 
 Body model: [CreateGiftCardNotificationRequestInput](../models/CreateGiftCardNotificationRequestInput.md#creategiftcardnotificationrequestinput).
@@ -90,19 +88,19 @@ Returned payload: [GiftCardNotification](../models/GiftCardNotification.md#giftc
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -110,9 +108,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -123,7 +121,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardNotifications->create([
-  'gift_card_id' => 'example',
+  'gift_card_id' => 'gc_01ARZ3NDEKTSV4RRFFQ69G5FAV',
   'recipient' => (object) [
     'email' => 'example@example.invalid',
   ],
@@ -144,7 +142,7 @@ Signature: `get(string|Model $gift_card_notification_id, array|Model|null $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_notification_id` | Required | string |  |
+| `gift_card_notification_id` | Required | string | Flint resource ID. |
 
 #### Response
 
@@ -152,17 +150,17 @@ Returned payload: [GiftCardNotification](../models/GiftCardNotification.md#giftc
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -170,14 +168,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->giftCardNotifications->get('example', [], new RequestOptions());
+$result = $client->giftCardNotifications->get('gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/giftCardNotifications-get.php)
@@ -194,29 +192,29 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `gift_card_id` | Optional | string | maxLength: `255`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items: maxLength: `255`. Items values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unconfirmed"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `gift_card_id` | Optional | string | Exact, case-sensitive filter. maxLength: `255`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unconfirmed"`. Values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unconfirmed"`. |
 
 #### Response
 
-Returned payload: [GiftCardNotificationsListResponse200](../models/GiftCardNotificationsListResponse200.md#giftcardnotificationslistresponse200).
+Returned payload: [GiftCardNotificationListResponse](../models/GiftCardNotificationListResponse.md#giftcardnotificationlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -224,11 +222,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 

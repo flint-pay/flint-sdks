@@ -20,13 +20,13 @@ Request input.
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `cancellation_details` | Optional | [SubscriptionCancellationDetailsInput](../models/SubscriptionCancellationDetailsInput.md#subscriptioncancellationdetailsinput) | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and payment-related cancellations. The cancellation request behind a scheduled or completed cancellation. |
 | `cancellation_reason` | Optional | string | Why the subscription is canceled or scheduled to cancel. Uses cancellation_details.requested_by when recorded, payment_failed for a canceled subscription without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Values: `"buyer"`, `"merchant"`, `"payment_failed"`, `"other"`. |
-| `completed_cycles` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `completed_cycles` | Required | integer | Format: `uint64`. minimum: `0`. |
 | `contract_end_at` | Optional | string | When the recorded contract term ends. Does not move when the subscription pauses or changes plan. Flint does not stop the buyer from canceling earlier. Format: `date-time`. |
 | `contract_start_at` | Optional | string | When the recorded contract term started. Does not move when the subscription pauses or changes plan. Format: `date-time`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `current_period_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `current_period_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null |  |
+| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Required | string |  |
 | `delivery` | Optional | [SubscriptionDeliveryInput](../models/SubscriptionDeliveryInput.md#subscriptiondeliveryinput) | Saved delivery preference with the current delivery method display. Write responses use the same display as GET: fixed shipping reflects the current method configuration, and quoted shipping shows the last paid shipping amount when available. A subscription's saved delivery preference: method, destination, recipient, shipping cost, and who last changed it. |
 | `delivery_hold` | Optional | [SubscriptionDeliveryHoldInput](../models/SubscriptionDeliveryHoldInput.md#subscriptiondeliveryholdinput) | Current delivery issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or destination no longer works, and who can fix it. |
@@ -44,7 +44,7 @@ Request input.
 | `outstanding_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Unpaid balance of the failed renewal order, including tax, shipping and discounts, after payments and credits. Present only while status is past_due and a positive balance remains. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `pause_reason` | Optional | string | Why the subscription is paused: merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause during or after a delivery hold, and payment_failed when renewal payment retries ran out and your dunning settings pause the subscription. Omitted when the subscription is not paused. Values: `"buyer"`, `"delivery_action_required"`, `"merchant"`, `"payment_failed"`. |
 | `paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `payment_method` | Optional | [ExpandedPaymentMethodSummaryInput](../models/ExpandedPaymentMethodSummaryInput.md#expandedpaymentmethodsummaryinput) or null |  |
+| `payment_method` | Optional | [ExpandedPaymentMethodSummaryInput](../models/ExpandedPaymentMethodSummaryInput.md#expandedpaymentmethodsummaryinput) or null | Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. |
 | `payment_method_id` | Required | string | The saved payment method renewals charge. Change it with PATCH. |
 | `promotions` | Required | Array of [SubscriptionPromotionInput](../models/SubscriptionPromotionInput.md#subscriptionpromotioninput) | Recurring promotions applying to the next charged cycle. Empty when none apply; signup-only and exhausted promotions are excluded. |
 | `quantity` | Required | integer | How many of each line the subscription bills each period, as a whole number; fractional quantities are not supported. A change applies from the next renewal that has not been paid. Format: `int32`. |
@@ -57,12 +57,13 @@ Request input.
 | `starts_at` | Optional | string | When a scheduled start's first billing period begins. Present only until that first payment succeeds. Format: `date-time`. |
 | `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
 | `subscription_id` | Required | string |  |
-| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryInput](../models/ExpandedSubscriptionPlanSummaryInput.md#expandedsubscriptionplansummaryinput) or null |  |
+| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryInput](../models/ExpandedSubscriptionPlanSummaryInput.md#expandedsubscriptionplansummaryinput) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
 | `subscription_plan_id` | Optional | string | Subscription plan ID. Omitted when terms_type is subscription_offer. |
 | `supported_actions` | Required | Array of string | Merchant actions allowed by the subscription's state. A route can still refuse a listed action for a transient reason, such as a renewal already in progress, with its own error. Items values: `"cancel"`, `"pause"`, `"resume"`, `"skip_cycle"`, `"renew"`, `"retry_payment"`, `"change_plan"`. |
 | `terms_type` | Required | string | Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Values: `"subscription_plan"`, `"subscription_offer"`. |
+| `test_clock_id` | Optional | string | ID of the test clock the subscription's customer was created on. The subscription bills at the clock's time. Present only when the customer is on a test clock. Included only in merchant responses and omitted from buyer responses. |
 | `trial_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `upcoming_delivery_hold` | Optional | [SubscriptionUpcomingDeliveryHoldInput](../models/SubscriptionUpcomingDeliveryHoldInput.md#subscriptionupcomingdeliveryholdinput) | Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an upcoming renewal that will hold the subscription's delivery, and who can fix it. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `0`. |
 

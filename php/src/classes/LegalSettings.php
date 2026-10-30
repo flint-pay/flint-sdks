@@ -11,27 +11,27 @@ namespace Flint;
 final class LegalSettings extends Model {
     /** @param array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LegalSettings')); }
-    /** Shape $ (Value): string.
+    /** contract_url
      * @return ?string
      */
     public function getContractUrl(): ?string { return $this->get('contract_url'); }
     public function hasContractUrl(): bool { return $this->has('contract_url'); }
-    /** Shape $ (Value): string.
+    /** refund_policy_url
      * @return ?string
      */
     public function getRefundPolicyUrl(): ?string { return $this->get('refund_policy_url'); }
     public function hasRefundPolicyUrl(): bool { return $this->has('refund_policy_url'); }
-    /** Shape $ (Value): boolean.
+    /** require_terms_of_service
      * @return ?bool
      */
     public function getRequireTermsOfService(): ?bool { return $this->get('require_terms_of_service'); }
     public function hasRequireTermsOfService(): bool { return $this->has('require_terms_of_service'); }
-    /** Shape $ (Value): string.
+    /** shipping_policy_url
      * @return ?string
      */
     public function getShippingPolicyUrl(): ?string { return $this->get('shipping_policy_url'); }
     public function hasShippingPolicyUrl(): bool { return $this->has('shipping_policy_url'); }
-    /** Shape $ (Value): string.
+    /** terms_of_service_url
      * @return ?string
      */
     public function getTermsOfServiceUrl(): ?string { return $this->get('terms_of_service_url'); }

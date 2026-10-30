@@ -11,27 +11,27 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingCalculatedCallerSupplied extends Model {
     /** @param array{'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'maximum_fee_currency_options': \stdClass, 'minimum_fee_currency_options': \stdClass, 'preview_enabled'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCalculatedCallerSupplied')); }
-    /** Shape $ (Value): string.
+    /** delivery_rate_callback_id
      * @return ?string
      */
     public function getDeliveryRateCallbackId(): ?string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** Shape $ (Value): string.
+    /** delivery_rate_callback_revision_id
      * @return ?string
      */
     public function getDeliveryRateCallbackRevisionId(): ?string { return $this->get('delivery_rate_callback_revision_id'); }
     public function hasDeliveryRateCallbackRevisionId(): bool { return $this->has('delivery_rate_callback_revision_id'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMaximumFeeCurrencyOptionsValue} and {@see MoneyValue}). Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMaximumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMaximumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMaximumFeeCurrencyOptionsValue>
      */
     public function getMaximumFeeCurrencyOptions(): array { return $this->get('maximum_fee_currency_options'); }
     public function hasMaximumFeeCurrencyOptions(): bool { return $this->has('maximum_fee_currency_options'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMinimumFeeCurrencyOptionsValue} and {@see MoneyValue}). Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMinimumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMinimumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, DeliveryMethodConfigurationPricingCalculatedCallerSuppliedMinimumFeeCurrencyOptionsValue>
      */
     public function getMinimumFeeCurrencyOptions(): array { return $this->get('minimum_fee_currency_options'); }
     public function hasMinimumFeeCurrencyOptions(): bool { return $this->has('minimum_fee_currency_options'); }
-    /** Shape $ (Value): boolean.
+    /** preview_enabled
      * @return ?bool
      */
     public function getPreviewEnabled(): ?bool { return $this->get('preview_enabled'); }

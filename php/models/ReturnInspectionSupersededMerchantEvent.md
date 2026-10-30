@@ -1,0 +1,31 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## ReturnInspectionSupersededMerchantEvent
+
+The `return_inspection.superseded` webhook payload for the `merchant` event source.
+
+Fields shared by merchant webhook payloads.
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `data` | Required | [ReturnInspectionSupersededMerchantEventData](../models/ReturnInspectionSupersededMerchantEventData.md#returninspectionsupersededmerchanteventdata) | `data`: [field definitions](../models/ReturnInspectionSupersededMerchantEvent.md#returninspectionsupersededmerchanteventdata-fields-1). |
+| `event_type` | Required | string | Values: `"return_inspection.superseded"`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
+| `request` | Required | [ReturnInspectionSupersededMerchantEventRequest](../models/ReturnInspectionSupersededMerchantEventRequest.md#returninspectionsupersededmerchanteventrequest) or null |  |
+| `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
+| `webhook_event_id` | Required | string |  |
+
+### ReturnInspectionSupersededMerchantEvent.data fields 1
+
+Field definitions: [shared fields](ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1).
+
+### ReturnInspectionSupersededMerchantEvent.data fields 1.object
+
+Field definitions: [ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.object](../models/ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1object).
+

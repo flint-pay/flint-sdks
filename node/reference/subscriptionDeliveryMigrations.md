@@ -8,20 +8,12 @@ Each subscription is previewed before its delivery method changes. Progress and 
 
 `POST /v1/subscription-delivery-migrations`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateSubscriptionDeliveryMigrationRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `create(params: SubscriptionDeliveryMigrationsCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateSubscriptionDeliveryMigrationRequestInput](../models/CreateSubscriptionDeliveryMigrationRequest.md#createsubscriptiondeliverymigrationrequest) | The request body for: Move subscribers to another delivery method. |
 
 Body model: [CreateSubscriptionDeliveryMigrationRequestInput](../models/CreateSubscriptionDeliveryMigrationRequest.md#createsubscriptiondeliverymigrationrequest).
@@ -36,19 +28,19 @@ Returned payload: [SubscriptionDeliveryMigration](../models/SubscriptionDelivery
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -56,9 +48,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -68,7 +60,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.subscriptionDeliveryMigrations.create({from_delivery_method_id: "example", to_delivery_method_id: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.subscriptionDeliveryMigrations.create({from_delivery_method_id: "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV", to_delivery_method_id: "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/subscriptionDeliveryMigrations-create.mjs)
@@ -79,13 +71,19 @@ Each subscription is previewed before its delivery method changes. Progress and 
 
 `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}`
 
-Signature: `get(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature:
+
+```typescript
+get(subscription_delivery_migration_id: InputValue<string>,
+ params?: SubscriptionDeliveryMigrationsGetParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_delivery_migration_id` | Required | string |  |
+| `subscription_delivery_migration_id` | Required | string | Subscription delivery migration ID. |
 
 #### Response
 
@@ -93,16 +91,16 @@ Returned payload: [SubscriptionDeliveryMigration](../models/SubscriptionDelivery
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -110,14 +108,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.subscriptionDeliveryMigrations.get("example", {}, {  });
+const result = await client.subscriptionDeliveryMigrations.get("sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/subscriptionDeliveryMigrations-get.mjs)
@@ -128,26 +126,16 @@ Each subscription is previewed before its delivery method changes. Progress and 
 
 `GET /v1/subscription-delivery-migrations`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "from_delivery_method_id"?: InputValue<string>;
-  "status"?: InputValue<Array<"pending" | "running" | "completed">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: SubscriptionDeliveryMigrationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `from_delivery_method_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"running"`, `"completed"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `from_delivery_method_id` | Optional | string | Filter by the delivery method subscriptions are moving from. |
+| `status` | Optional | Array of string or string | Filter by migration status: pending, running, or completed. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"running"`, `"completed"`. Values: `"pending"`, `"running"`, `"completed"`. |
 
 #### Response
 
@@ -155,16 +143,16 @@ Returned payload: [SubscriptionDeliveryMigrationListResponse](../models/Subscrip
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -172,11 +160,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -196,16 +184,7 @@ Signature:
 
 ```typescript
 listFailures(subscription_delivery_migration_id: InputValue<string>,
- params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "reason"?: InputValue<Array<"method_not_offered" |
-    "destination_not_served" |
-    "rate_unavailable" |
-    "method_unavailable" |
-    "no_longer_applicable" |
-    "not_movable">>
-},
+ params?: SubscriptionDeliveryMigrationsListFailuresParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -213,10 +192,10 @@ listFailures(subscription_delivery_migration_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_delivery_migration_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `reason` | Optional | Array of string | minItems: `1`. Items values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
+| `subscription_delivery_migration_id` | Required | string | Subscription delivery migration ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `reason` | Optional | Array of string or string | Filter by the reason a subscription could not be moved. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
 
 #### Response
 
@@ -224,16 +203,16 @@ Returned payload: [SubscriptionDeliveryMigrationFailureListResponse](../models/S
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -241,16 +220,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listFailuresWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listFailuresItems`, `listFailuresPages`, `listFailuresPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listFailuresItems`, `listFailuresPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```typescript
-const result = await client.subscriptionDeliveryMigrations.listFailures("example", {}, {  });
+const result = await client.subscriptionDeliveryMigrations.listFailures("sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/subscriptionDeliveryMigrations-listFailures.mjs)

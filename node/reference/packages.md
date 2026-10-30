@@ -8,22 +8,13 @@ Adds an order line quantity to a package. Total active package item quantities c
 
 `POST /v1/packages/{package_id}/items`
 
-Signature:
-
-```typescript
-createItem(package_id: InputValue<string>,
- params: (InputValue<CreatePackageItemRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `createItem(package_id: InputValue<string>, params: PackagesCreateItemParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `package_id` | Required | string | Flint package ID. |
 | `body` | Required | [CreatePackageItemRequestInput](../models/CreatePackageItemRequest.md#createpackageitemrequest) | The request body for: Create package item. |
 
 Body model: [CreatePackageItemRequestInput](../models/CreatePackageItemRequest.md#createpackageitemrequest).
@@ -34,7 +25,7 @@ Body model: [CreatePackageItemRequestInput](../models/CreatePackageItemRequest.m
 | --- | --- | --- | --- |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `order_line_item_id` | Required | string | minLength: `1`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 
 #### Response
 
@@ -42,19 +33,19 @@ Returned payload: [PackageItem](../models/PackageItem.md#packageitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -62,9 +53,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -74,7 +65,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.createItem("example", {order_line_item_id: "example", quantity: "100"}, { idempotencyKey: idempotencyKey });
+const result = await client.packages.createItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {metadata: {slot: "A"}, order_line_item_id: "li_01KEZF7C0003GP5Y88KW1687AP", quantity: 1}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/packages-createItem.mjs)
@@ -90,10 +81,7 @@ Signature:
 ```typescript
 deleteItem(package_id: InputValue<string>,
  package_item_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: PackagesDeleteItemParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -101,10 +89,9 @@ deleteItem(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `package_item_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `package_id` | Required | string | Flint package ID. |
+| `package_item_id` | Required | string | Flint package item ID. |
+| `expected_version` | Optional | integer | Optional item version last read by the caller. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -112,17 +99,17 @@ Returned payload: [PackageItem](../models/PackageItem.md#packageitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -130,9 +117,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -142,7 +129,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.packages.deleteItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/packages-deleteItem.mjs)
@@ -153,22 +140,14 @@ Retrieves one package by ID.
 
 `GET /v1/packages/{package_id}`
 
-Signature:
-
-```typescript
-get(package_id: InputValue<string>,
- params?: {
-  "expand"?: InputValue<Array<"order">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `get(package_id: InputValue<string>, params?: PackagesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"order"`. |
+| `package_id` | Required | string | Flint package ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: order. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
 
 #### Response
 
@@ -176,17 +155,17 @@ Returned payload: [Package](../models/Package.md#package).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -194,14 +173,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.packages.get("example", {}, {  });
+const result = await client.packages.get("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/packages-get.mjs)
@@ -217,9 +196,7 @@ Signature:
 ```typescript
 getItem(package_id: InputValue<string>,
  package_item_id: InputValue<string>,
- params?: {
-  "expand"?: InputValue<Array<"order">>
-},
+ params?: PackagesGetItemParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -227,9 +204,9 @@ getItem(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `package_item_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"order"`. |
+| `package_id` | Required | string | Flint package ID. |
+| `package_item_id` | Required | string | Flint package item ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: order. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
 
 #### Response
 
@@ -237,17 +214,17 @@ Returned payload: [PackageItem](../models/PackageItem.md#packageitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -255,14 +232,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.packages.getItem("example", "example", {}, {  });
+const result = await client.packages.getItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/packages-getItem.mjs)
@@ -273,59 +250,28 @@ Lists package records, newest created first. Default order: created_at descendin
 
 `GET /v1/packages`
 
-Signature:
-
-```typescript
-list(params?: {
-  "shipment_id"?: InputValue<string>;
-  "fulfillment_id"?: InputValue<string>;
-  "order_id"?: InputValue<string>;
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "external_system"?: InputValue<string>;
-  "external_reference_id"?: InputValue<string>;
-  "query"?: InputValue<string>;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>;
-  "status"?: InputValue<Array<"created" |
-    "packed" |
-    "shipped" |
-    "in_transit" |
-    "out_for_delivery" |
-    "delivered" |
-    "delivery_attempted" |
-    "exception" |
-    "returned" |
-    "voided">>;
-  "tracking_number"?: InputValue<string>;
-  "carrier"?: InputValue<string>;
-  "updated_after"?: InputValue<string | globalThis.Date>;
-  "updated_before"?: InputValue<string | globalThis.Date>;
-  "expand"?: InputValue<Array<"order">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: PackagesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `shipment_id` | Optional | string |  |
-| `fulfillment_id` | Optional | string |  |
-| `order_id` | Optional | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `external_system` | Optional | string |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `query` | Optional | string |  |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
-| `tracking_number` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `carrier` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `expand` | Optional | Array of string | Items values: `"order"`. |
+| `shipment_id` | Optional | string | Optional shipment ID filter. |
+| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. |
+| `order_id` | Optional | string | Optional order ID filter. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `external_system` | Optional | string | Filter by external system identifier. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `query` | Optional | string | Search across package ID, external reference ID, and tracking number. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as pkg_01. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `status` | Optional | Array of string or string | Filter by package status. Values within this filter are combined with OR. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
+| `tracking_number` | Optional | string | Byte-sensitive full tracking-number match. Whitespace and commas are literal; combine with carrier to identify a carrier-specific tracking number. minLength: `1`. maxLength: `255`. |
+| `carrier` | Optional | string | Byte-sensitive full carrier match. Whitespace and commas are literal. minLength: `1`. maxLength: `255`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `expand` | Optional | Array of string or string | Supported expansions: order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
 
 #### Response
 
@@ -333,16 +279,16 @@ Returned payload: [PackageListResponse](../models/PackageListResponse.md#package
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -350,11 +296,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -374,11 +320,7 @@ Signature:
 
 ```typescript
 listPackageItems(package_id: InputValue<string>,
- params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "expand"?: InputValue<Array<"order">>
-},
+ params?: PackagesListPackageItemsParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -386,10 +328,10 @@ listPackageItems(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `expand` | Optional | Array of string | Items values: `"order"`. |
+| `package_id` | Required | string | Flint package ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `expand` | Optional | Array of string or string | Supported expansions: order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
 
 #### Response
 
@@ -397,17 +339,17 @@ Returned payload: [PackageItemListResponse](../models/PackageItemListResponse.md
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -415,16 +357,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPackageItemsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPackageItemsItems`, `listPackageItemsPages`, `listPackageItemsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listPackageItemsItems`, `listPackageItemsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```typescript
-const result = await client.packages.listPackageItems("example", {}, {  });
+const result = await client.packages.listPackageItems("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/packages-listPackageItems.mjs)
@@ -435,97 +377,64 @@ Performs one action from the package's supported_actions. mark_shipped accepts c
 
 `POST /v1/packages/{package_id}/transitions`
 
-Signature: `transition(input: PackagesTransitionInput, options?: RequestOptions)`
+Signature: `transition(package_id: InputValue<string>, params: PackagesTransitionParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `package_id` | Required | string | Flint package ID. |
 | `body` | Required | [PackageTransitionRequestInput](../models/PackageTransitionRequest.md#packagetransitionrequest) | The request body for: Transition package. |
 
 Body model: [PackageTransitionRequestInput](../models/PackageTransitionRequest.md#packagetransitionrequest).
 
-#### packages.transition body oneOf variant 1
+#### packages.transition with `action: "mark_delivered"`
 
 The `mark_delivered` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkDeliveredInput](../models/PackageTransitionRequestMarkDelivered.md#packagetransitionrequestmarkdelivered).
 
-#### packages.transition body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkDelivered.md#packagetransitionrequestmarkdelivered).
-
-#### packages.transition body oneOf variant 2
+#### packages.transition with `action: "mark_delivery_attempted"`
 
 The `mark_delivery_attempted` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkDeliveryAttemptedInput](../models/PackageTransitionRequestMarkDeliveryAttempted.md#packagetransitionrequestmarkdeliveryattempted).
 
-#### packages.transition body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkDeliveryAttempted.md#packagetransitionrequestmarkdeliveryattempted).
-
-#### packages.transition body oneOf variant 3
+#### packages.transition with `action: "mark_exception"`
 
 The `mark_exception` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkExceptionInput](../models/PackageTransitionRequestMarkException.md#packagetransitionrequestmarkexception).
 
-#### packages.transition body oneOf variant 3 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkException.md#packagetransitionrequestmarkexception).
-
-#### packages.transition body oneOf variant 4
+#### packages.transition with `action: "mark_in_transit"`
 
 The `mark_in_transit` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkInTransitInput](../models/PackageTransitionRequestMarkInTransit.md#packagetransitionrequestmarkintransit).
 
-#### packages.transition body oneOf variant 4 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkInTransit.md#packagetransitionrequestmarkintransit).
-
-#### packages.transition body oneOf variant 5
+#### packages.transition with `action: "mark_out_for_delivery"`
 
 The `mark_out_for_delivery` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkOutForDeliveryInput](../models/PackageTransitionRequestMarkOutForDelivery.md#packagetransitionrequestmarkoutfordelivery).
 
-#### packages.transition body oneOf variant 5 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkOutForDelivery.md#packagetransitionrequestmarkoutfordelivery).
-
-#### packages.transition body oneOf variant 6
+#### packages.transition with `action: "mark_packed"`
 
 The `mark_packed` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkPackedInput](../models/PackageTransitionRequestMarkPacked.md#packagetransitionrequestmarkpacked).
 
-#### packages.transition body oneOf variant 6 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkPacked.md#packagetransitionrequestmarkpacked).
-
-#### packages.transition body oneOf variant 7
+#### packages.transition with `action: "mark_returned"`
 
 The `mark_returned` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkReturnedInput](../models/PackageTransitionRequestMarkReturned.md#packagetransitionrequestmarkreturned).
 
-#### packages.transition body oneOf variant 7 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkReturned.md#packagetransitionrequestmarkreturned).
-
-#### packages.transition body oneOf variant 8
+#### packages.transition with `action: "mark_shipped"`
 
 The `mark_shipped` variant of `PackageTransitionRequest`.
 
 Body model: [PackageTransitionRequestMarkShippedInput](../models/PackageTransitionRequestMarkShipped.md#packagetransitionrequestmarkshipped).
-
-#### packages.transition body oneOf variant 8 fields
-
-Field definitions: [shared fields](../models/PackageTransitionRequestMarkShipped.md#packagetransitionrequestmarkshipped).
 
 #### Response
 
@@ -533,19 +442,19 @@ Returned payload: [Package](../models/Package.md#package).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -553,9 +462,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `transitionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -565,7 +474,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.transition({package_id: "example", body: {action: "mark_delivered"}}, { idempotencyKey: idempotencyKey });
+const result = await client.packages.transition("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "mark_out_for_delivery", buyer_notification_behavior: "send", expected_delivery_at: "2026-05-15T18:00:00Z", expected_version: 3}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/packages-transition.mjs)
@@ -576,22 +485,13 @@ Updates non-lifecycle package fields such as carrier, tracking, expected_deliver
 
 `PATCH /v1/packages/{package_id}`
 
-Signature:
-
-```typescript
-update(package_id: InputValue<string>,
- params: (InputValue<UpdatePackageRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `update(package_id: InputValue<string>, params: PackagesUpdateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `package_id` | Required | string | Flint package ID. |
 | `body` | Required | [UpdatePackageRequestInput](../models/UpdatePackageRequest.md#updatepackagerequest) | The request body for: Update package. |
 
 Body model: [UpdatePackageRequestInput](../models/UpdatePackageRequest.md#updatepackagerequest).
@@ -603,10 +503,10 @@ Body model: [UpdatePackageRequestInput](../models/UpdatePackageRequest.md#update
 | `carrier` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `dimensions` | Optional | [DimensionsInput](../models/Dimensions.md#dimensions) or null |  |
 | `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. |
-| `expected_version` | Optional | integer string | Optional resource version last read by the caller. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `external_system` | Optional | string or null | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: `1`. |
-| `label_url` | Optional | string or null | Merchant or integration supplied HTTPS shipping-label URL for authenticated merchant workflows. Non-Flint URLs must include external_system for provenance. Flint does not currently manage label file hosting or buyer-facing label downloads. Send null to clear it. minLength: `1`. |
+| `label_url` | Optional | string or null | HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require external_system for provenance. Flint does not host the label file. Send null to clear it. minLength: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `service_code` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `status_reason` | Optional | string or null | Send null to clear it. minLength: `1`. |
@@ -620,19 +520,19 @@ Returned payload: [Package](../models/Package.md#package).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -640,9 +540,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -652,7 +552,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.update("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.packages.update("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {tracking_number: "SYNTHETIC-TRACKING-001"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/packages-update.mjs)
@@ -668,9 +568,7 @@ Signature:
 ```typescript
 updateItem(package_id: InputValue<string>,
  package_item_id: InputValue<string>,
- params: (InputValue<UpdatePackageItemRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params: PackagesUpdateItemParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -678,9 +576,8 @@ updateItem(package_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `package_item_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `package_id` | Required | string | Flint package ID. |
+| `package_item_id` | Required | string | Flint package item ID. |
 | `body` | Required | [UpdatePackageItemRequestInput](../models/UpdatePackageItemRequest.md#updatepackageitemrequest) | The request body for: Update package item. |
 
 Body model: [UpdatePackageItemRequestInput](../models/UpdatePackageItemRequest.md#updatepackageitemrequest).
@@ -689,9 +586,9 @@ Body model: [UpdatePackageItemRequestInput](../models/UpdatePackageItemRequest.m
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 
 #### Response
 
@@ -699,19 +596,19 @@ Returned payload: [PackageItem](../models/PackageItem.md#packageitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -719,9 +616,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -731,43 +628,29 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.updateItem("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.packages.updateItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/packages-updateItem.mjs)
 
-### packages.voidResource
+### packages.void
 
 Voids a package before carrier handoff and appends a package timeline event. Voided package items no longer count against fulfillment package allocation capacity. expected_version is optional and rejects a stale resource version when supplied. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
 
 `POST /v1/packages/{package_id}/void`
 
-Signature:
-
-```typescript
-voidResource(package_id: InputValue<string>,
- params?: (InputValue<VoidPackageRequestInput> | {
-  "buyer_notification_behavior"?: never;
-  "expected_version"?: never;
-  "occurred_at"?: never;
-  "reason_message"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `void(package_id: InputValue<string>, params?: PackagesVoidParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `package_id` | Required | string | Flint package ID. |
 | `body` | Optional | [VoidPackageRequestInput](../models/VoidPackageRequest.md#voidpackagerequest) | The request body for: Void package. |
 
 Body model: [VoidPackageRequestInput](../models/VoidPackageRequest.md#voidpackagerequest).
 
-#### packages.voidResource body fields
+#### packages.void body fields
 
 Field definitions: [shared fields](../models/VoidPackageRequest.md#voidpackagerequest).
 
@@ -777,19 +660,19 @@ Returned payload: [Package](../models/Package.md#package).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -797,9 +680,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `voidResourceWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -809,8 +692,8 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.packages.voidResource("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.packages.void("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/packages-voidResource.mjs)
+[Complete runnable example](../examples/packages-void.mjs)
 

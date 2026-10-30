@@ -19,13 +19,13 @@
 
 ### WebhookEventSourceInstalledMerchants variant 1: `type` = `"installed_merchants"`
 
-anyOf variant 1: Declared schema PartnerWebhookEnvelopeSourceInstalledMerchants. The installed_merchants source of a partner webhook event..
+anyOf PartnerWebhookEnvelopeSourceInstalledMerchants: Declared schema PartnerWebhookEnvelopeSourceInstalledMerchants. The installed_merchants source of a partner webhook event..
 
 No additional constraints.
 
 ### WebhookEventSourceInstalledMerchants variant 2: `type` = `"installed_merchants"`
 
-anyOf variant 2: Declared schema WebhookEventSourceInstalledMerchants. The installed_merchants source of a partner webhook event..
+anyOf WebhookEventSourceInstalledMerchants: Declared schema WebhookEventSourceInstalledMerchants. The installed_merchants source of a partner webhook event..
 
 No additional constraints.
 

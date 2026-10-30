@@ -20,5 +20,5 @@ Request input.
 | `subscription_offer_id` | Required | string |  |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `variant_ids` | Required | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. uniqueItems: `true`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `0`. |
 

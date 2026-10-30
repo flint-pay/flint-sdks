@@ -7,7 +7,7 @@ namespace Flint;
 final class FulfillmentChargeLink extends Model {
     /** @param array{'order_charge_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentChargeLink')); }
-    /** Shape $ (Value): string. Order charge associated with this fulfillment.
+    /** Order charge associated with this fulfillment.
      * @return string
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }

@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `mode` | Required | string | Selects an inline draft or a stored risk rule. Values: `"inline"`. |
+| `mode` | Required | string | What to check: a rule in this request, or a saved rule. Values: `"inline"`. |
 | `predicate` | Required | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
 | `risk_rule_id` | Optional | string | minLength: `1`. |
 

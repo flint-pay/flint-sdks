@@ -13,43 +13,43 @@ namespace Flint;
 final class ProductOptionValueInput extends Model {
     /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'option_value_id': string, 'position': int, 'status'?: string, 'updated_at'?: string|\DateTimeInterface, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductOptionValueInput')); }
-    /** Shape $ (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string. Stable identifier of the option value.
+    /** Stable identifier of the option value.
      * @return string
      * @throws SdkError When option_value_id is omitted; use hasOptionValueId() or valueOrDefault().
      */
     public function getOptionValueId(): string { return $this->get('option_value_id'); }
     public function hasOptionValueId(): bool { return $this->has('option_value_id'); }
-    /** Shape $ (Value): integer. Display order among the option's values, starting at zero. Format: int32.
+    /** Display order among the option's values, starting at zero. Format: int32.
      * @return int
      * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Shape $ (Value): string. Option value lifecycle status. Only active values can be newly selected by active variants. Value enum: "active", "inactive", "archived".
+    /** Option value lifecycle status. Only active values can be newly selected by active variants. Value enum: "active", "inactive", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): string. Option value shown to buyers, such as Medium.
+    /** Option value shown to buyers, such as Medium.
      * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

@@ -24,7 +24,7 @@ A configured shipping, pickup, local delivery, or service option.
 | `subscription_counts` | Required | [SubscriptionCounts](../models/SubscriptionCounts.md#subscriptioncounts) | Counts of subscriptions by status: active, past due, and paused. |
 | `type` | Required | string | Delivery mode this method offers. Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
 | `updated_at` | Required | string | Time the method last changed. Format: `date-time`. |
-| `version` | Required | integer string | Optimistic-concurrency version for method writes. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Optimistic-concurrency version for method writes. Format: `uint64`. minimum: `1`. |
 
 ### DeliveryMethod.metadata
 

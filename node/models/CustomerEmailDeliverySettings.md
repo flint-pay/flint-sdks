@@ -25,7 +25,7 @@ No additional constraints.
 
 ### CustomerEmailDeliverySettings variant 2
 
-anyOf variant 2: Declared schema CustomerEmailDeliverySettingsRequestRequest. For each kind of customer email, whether Flint sends it or the merchant sends it..
+anyOf variant 2: Declared schema CustomerEmailDeliverySettingsRequest. For each kind of customer email, whether Flint sends it or the merchant sends it..
 
 No additional constraints.
 

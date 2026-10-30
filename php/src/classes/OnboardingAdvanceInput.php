@@ -2,18 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read array{'country'?: string, 'profile'?: mixed, 'requested_capabilities'?: list<string>}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingAdvanceInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'body': array{'country'?: string, 'profile'?: mixed, 'requested_capabilities'?: list<string>}|object}|object $values */
+    /** @param array{'body': array{'country'?: string, 'profile'?: mixed, 'requested_capabilities'?: list<string>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingAdvanceInput')); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Advance onboarding flow.
+    /** The request body for: Advance onboarding flow. Example: {"country":"US","profile":{"support_email":"help@example.com","website_url":"https://withflintpay.com"},"requested_capabilities":["accept_card_payments","receive_payouts"]}.
      * @return array{'country'?: string, 'profile'?: mixed, 'requested_capabilities'?: list<string>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -9,15 +9,15 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string | Creation timestamp. Format: `date-time`. |
-| `fulfillment_id` | Required | string |  |
-| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
-| `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null |  |
-| `order_id` | Required | string |  |
-| `order_line_item_id` | Required | string |  |
-| `package_id` | Required | string |  |
-| `package_item_id` | Required | string |  |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `shipment_id` | Required | string |  |
+| `fulfillment_id` | Required | string | Fulfillment containing this package item. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
+| `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
+| `order_id` | Required | string | Order containing the allocated line item. |
+| `order_line_item_id` | Required | string | Order line whose quantity this package item allocates. |
+| `package_id` | Required | string | Package containing this item. |
+| `package_item_id` | Required | string | Unique identifier for this package allocation. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `shipment_id` | Required | string | Shipment containing the package. |
 | `updated_at` | Optional | string | Last update timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Persisted item version, independent of package shipment and capacity guards. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Persisted item version, independent of package shipment and capacity guards. Format: `uint64`. minimum: `1`. |
 

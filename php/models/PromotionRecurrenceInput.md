@@ -13,7 +13,7 @@ Request input.
 
 ### PromotionRecurrenceInput variant 1: `type` = `"once"`
 
-oneOf variant 1: The `once` variant of `PromotionRecurrence`..
+oneOf with type: "once": The `once` variant of `PromotionRecurrence`..
 
 - Condition: not (present(`period_count`)).
 - Optional: `period_count`.
@@ -21,14 +21,14 @@ oneOf variant 1: The `once` variant of `PromotionRecurrence`..
 
 ### PromotionRecurrenceInput variant 2: `type` = `"repeating"`
 
-oneOf variant 2: The `repeating` variant of `PromotionRecurrence`..
+oneOf with type: "repeating": The `repeating` variant of `PromotionRecurrence`..
 
 - Required: `period_count`.
 - Constraints for `type`: Apply the promotion to period_count charged subscription payments. Values: `"repeating"`.
 
 ### PromotionRecurrenceInput variant 3: `type` = `"forever"`
 
-oneOf variant 3: The `forever` variant of `PromotionRecurrence`..
+oneOf with type: "forever": The `forever` variant of `PromotionRecurrence`..
 
 - Condition: not (present(`period_count`)).
 - Optional: `period_count`.

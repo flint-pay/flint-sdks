@@ -7,7 +7,7 @@ namespace Flint;
 final class AddRiskListItemsResult extends Model {
     /** @param array{'additions': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddRiskListItemsResult')); }
-    /** Shape $ (Value): Array of {@see RiskListItemAddition}. Shape $[] (Value): {@see RiskListItemAddition}. The risk list item matched or created for one requested value, and its creation outcome.
+    /**  [] (Value): {@see RiskListItemAddition}. The risk list item matched or created for one requested value, and its creation outcome.
      * @return list<RiskListItemAddition>
      */
     public function getAdditions(): array { return $this->get('additions'); }

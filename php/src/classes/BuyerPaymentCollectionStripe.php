@@ -10,22 +10,22 @@ namespace Flint;
 final class BuyerPaymentCollectionStripe extends Model {
     /** @param array{'account_id'?: string, 'elements'?: mixed, 'publishable_key'?: string, 'return_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentCollectionStripe')); }
-    /** Shape $ (Value): string. Stripe account to use when initializing the payment client.
+    /** Stripe account to use when initializing the payment client.
      * @return ?string
      */
     public function getAccountId(): ?string { return $this->get('account_id'); }
     public function hasAccountId(): bool { return $this->has('account_id'); }
-    /** Shape $ (Value): {@see BuyerPaymentCollectionStripeElements}. Stripe Elements configuration for the available payment methods and amounts. Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to submit_to through Flint.
+    /** Stripe Elements configuration for the available payment methods and amounts. Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to submit_to through Flint.
      * @return ?BuyerPaymentCollectionStripeElements
      */
     public function getElements(): ?BuyerPaymentCollectionStripeElements { return $this->get('elements'); }
     public function hasElements(): bool { return $this->has('elements'); }
-    /** Shape $ (Value): string. Publishable Stripe key for initializing the payment client.
+    /** Publishable Stripe key for initializing the payment client.
      * @return ?string
      */
     public function getPublishableKey(): ?string { return $this->get('publishable_key'); }
     public function hasPublishableKey(): bool { return $this->has('publishable_key'); }
-    /** Shape $ (Value): string. URL the buyer returns to after a redirect payment step.
+    /** URL the buyer returns to after a redirect payment step.
      * @return ?string
      */
     public function getReturnUrl(): ?string { return $this->get('return_url'); }

@@ -18,7 +18,7 @@ Response model.
 | `invoices` | Optional | [InvoiceSettings](../models/InvoiceSettings.md#invoicesettings) | Merchant defaults for invoices, including numbering prefixes, default memo and footer, collection mode, reminders, and autopay retries. |
 | `legal` | Optional | [LegalSettings](../models/LegalSettings.md#legalsettings) | Merchant legal links and terms settings: contract, refund policy, shipping policy, and terms of service URLs, and whether buyers must accept the terms. |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata). |
 | `payment_limits` | Optional | [PaymentLimitSettings](../models/PaymentLimitSettings.md#paymentlimitsettings) | Optional merchant limits that can lower Flint's payment-option and surface policy limits. |
 | `promotions` | Optional | [PromotionSettings](../models/PromotionSettings.md#promotionsettings) | Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order. |
 | `receipts` | Optional | [ReceiptSettings](../models/ReceiptSettings.md#receiptsettings) | Receipt settings: whether receipts are emailed automatically, whether they are itemized, and the header and footer text. |
@@ -26,15 +26,15 @@ Response model.
 | `subscriptions` | Optional | [SubscriptionSettings](../models/SubscriptionSettings.md#subscriptionsettings) | Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email. |
 | `tax` | Optional | [TaxSettings](../models/TaxSettings.md#taxsettings) | Tax settings: whether tax is calculated by default and the default tax categories for line items and delivery charges. |
 | `tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null |  |
-| `tipping` | Optional | [TippingSettings](../models/TippingSettings.md#tippingsettings) | Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips are allowed. `tipping`: [field definitions](../models/SettingsGetEffectiveResponse200.md#settingsgeteffectiveresponse200datatipping). |
+| `tipping` | Optional | [TippingSettings](../models/TippingSettings.md#tippingsettings) | Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips are allowed. `tipping`: [field definitions](../models/SettingsResponse.md#settingsresponsedatatipping). |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 
 ### Settings.metadata
 
-Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
+Field definitions: [CancelReturnResponse.data.metadata](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata).
 
 ### Settings.tipping
 
-Field definitions: [SettingsGetEffectiveResponse200.data.tipping](../models/SettingsGetEffectiveResponse200.md#settingsgeteffectiveresponse200datatipping).
+Field definitions: [SettingsResponse.data.tipping](../models/SettingsResponse.md#settingsresponsedatatipping).
 

@@ -9,19 +9,19 @@ namespace Flint;
 final class CreditNoteAllocationResultInput extends Model {
     /** @param array{'credit_note': CreditNoteInput|array<array-key, mixed>|\stdClass, 'credit_note_allocation': CreditNoteAllocationInput|array<array-key, mixed>|\stdClass, 'invoice': InvoiceInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocationResultInput')); }
-    /** Shape $ (Value): {@see CreditNoteInput}. The credit note with its recomputed available_money and allocated_money. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
+    /** The credit note with its recomputed available_money and allocated_money. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
      * @return CreditNoteInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When credit_note is omitted; use hasCreditNote() or valueOrDefault().
      */
     public function getCreditNote(): mixed { return $this->get('credit_note'); }
     public function hasCreditNote(): bool { return $this->has('credit_note'); }
-    /** Shape $ (Value): {@see CreditNoteAllocationInput}. The allocation that was created or reversed. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+    /** The allocation that was created or reversed. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
      * @return CreditNoteAllocationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When credit_note_allocation is omitted; use hasCreditNoteAllocation() or valueOrDefault().
      */
     public function getCreditNoteAllocation(): mixed { return $this->get('credit_note_allocation'); }
     public function hasCreditNoteAllocation(): bool { return $this->has('credit_note_allocation'); }
-    /** Shape $ (Value): {@see InvoiceInput}. The invoice with its recomputed outstanding balance and status. A bill issued to a customer.
+    /** The invoice with its recomputed outstanding balance and status. A bill issued to a customer.
      * @return InvoiceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
      */

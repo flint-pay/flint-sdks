@@ -8,12 +8,12 @@ namespace Flint;
 final class PayoutTraceID extends Model {
     /** @param array{'status': string, 'value'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutTraceID')); }
-    /** Shape $ (Value): string. Whether a bank trace ID is available. Unmapped trace states are returned as unsupported. Value enum: "pending", "available", "unsupported".
+    /** Whether a bank trace ID is available. Unmapped trace states are returned as unsupported. Value enum: "pending", "available", "unsupported".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. The bank's trace number for the deposit, when Flint has it.
+    /** The bank's trace number for the deposit, when Flint has it.
      * @return ?string
      */
     public function getValue(): ?string { return $this->get('value'); }

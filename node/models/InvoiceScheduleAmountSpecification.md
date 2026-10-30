@@ -16,7 +16,7 @@ How much a payment schedule entry collects: a fixed amount, a percentage of the 
 
 ### InvoiceScheduleAmountSpecification variant 1: `type` = `"fixed"`
 
-oneOf variant 1: The `fixed` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 ### InvoiceScheduleAmountSpecification variant 2: `type` = `"percentage"`
 
-oneOf variant 2: The `percentage` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `percent`.
@@ -34,7 +34,7 @@ oneOf variant 2: The `percentage` variant of `InvoiceScheduleAmountSpecification
 
 ### InvoiceScheduleAmountSpecification variant 3: `type` = `"remaining_balance"`
 
-oneOf variant 3: The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (at least one(present(`amount_money`); present(`percent`))).
 - Optional: `amount_money`, `percent`.

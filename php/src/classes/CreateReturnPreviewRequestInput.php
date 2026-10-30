@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateReturnPreviewRequestInput extends Model {
     /** @param array{'eligibility': CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'resolution'?: CreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass}|object|array{'eligibility'?: CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'resolution': CreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewRequestInput')); }
-    /** Shape $ (Value): {@see CreateReturnEligibilityPreviewRequestInput}. A request to preview which items of an order can be returned, given an order and a selection.
+    /** A request to preview which items of an order can be returned, given an order and a selection.
      * @return CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When eligibility is omitted; use hasEligibility() or valueOrDefault().
      */
     public function getEligibility(): mixed { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
-    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution".
+    /** Value enum: "eligibility", "resolution".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Shape $ (Value): {@see CreateReturnResolutionPreviewRequestInput}. A request to preview the amounts of a return resolution for a return, selected by `resolution_type`: refund, exchange, replacement, no monetary action, or correction.
+    /** A request to preview the amounts of a return resolution for a return, selected by `resolution_type`: refund, exchange, replacement, no monetary action, or correction.
      * @return CreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resolution is omitted; use hasResolution() or valueOrDefault().
      */

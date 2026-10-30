@@ -27,7 +27,7 @@ Request input.
 
 ### BuyerSubscriptionPlanLineItemInput variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `BuyerSubscriptionPlanLineItem`..
+oneOf with type: "variant": The `variant` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`))).
 - Required: `variant_id`.
@@ -36,7 +36,7 @@ oneOf variant 1: The `variant` variant of `BuyerSubscriptionPlanLineItem`..
 
 ### BuyerSubscriptionPlanLineItemInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
+oneOf with type: "bundle": The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`))).
 - Required: `bundle_id`.
@@ -45,7 +45,7 @@ oneOf variant 2: The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
 
 ### BuyerSubscriptionPlanLineItemInput variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `BuyerSubscriptionPlanLineItem`..
+oneOf with type: "custom": The `custom` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.

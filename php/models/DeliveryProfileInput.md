@@ -18,5 +18,5 @@ Request input.
 | `name` | Required | string | Merchant-facing profile name. |
 | `status` | Required | string | Current profile lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the profile last changed. Format: `date-time`. |
-| `version` | Required | integer string | Optimistic-concurrency version for profile writes. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Optimistic-concurrency version for profile writes. Format: `uint64`. minimum: `1`. |
 

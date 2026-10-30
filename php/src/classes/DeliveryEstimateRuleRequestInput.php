@@ -3,25 +3,25 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass $schedule_window
- * @property-read DeliveryTransitTimeRuleRequestRequestInput|array<array-key, mixed>|\stdClass $transit_time
+ * @property-read DeliveryTransitTimeRuleRequestInput|array<array-key, mixed>|\stdClass $transit_time
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryEstimateRuleRequestInput extends Model {
-    /** @param array{'schedule_window'?: DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleRequestRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
+    /** @param array{'schedule_window'?: DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryEstimateRuleRequestInput')); }
-    /** Shape $ (Value): {@see DeliveryScheduleWindowRuleRequestInput}. Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule.
+    /** Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule.
      * @return DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When schedule_window is omitted; use hasScheduleWindow() or valueOrDefault().
      */
     public function getScheduleWindow(): mixed { return $this->get('schedule_window'); }
     public function hasScheduleWindow(): bool { return $this->has('schedule_window'); }
-    /** Shape $ (Value): {@see DeliveryTransitTimeRuleRequestRequestInput}. Estimate rule giving a delivery method's handling time and transit time as ranges of business days.
-     * @return DeliveryTransitTimeRuleRequestRequestInput|array<array-key, mixed>|\stdClass
+    /** Estimate rule giving a delivery method's handling time and transit time as ranges of business days.
+     * @return DeliveryTransitTimeRuleRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When transit_time is omitted; use hasTransitTime() or valueOrDefault().
      */
     public function getTransitTime(): mixed { return $this->get('transit_time'); }
     public function hasTransitTime(): bool { return $this->has('transit_time'); }
-    /** Shape $ (Value): string.  Value enum: "none", "transit_time", "schedule_window".
+    /** Value enum: "none", "transit_time", "schedule_window".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

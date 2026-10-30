@@ -1,3075 +1,1835 @@
-import type { MoneyValueInput, MoneyValue } from './types-33.js';
+import type { MoneyValue } from './types-35.js';
+import type { PaymentCollection, PaymentErrorSummary, PartnerWebhookEnvelope } from './types-40.js';
+import type { BrandingSettings, BuyerAction } from './types-1.js';
+import type { CheckoutSettings, ConfigurationVersionRequestInput } from './types-5.js';
+import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-13.js';
+import type { FulfillmentSettings } from './types-22.js';
+import type { InventorySettings } from './types-28.js';
+import type { InvoiceSettings } from './types-31.js';
+import type { LegalSettings } from './types-32.js';
+import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-34.js';
+import type { PaymentLimitSettings } from './types-41.js';
+import type { PromotionSettings } from './types-45.js';
+import type { ReceiptSettings } from './types-46.js';
 import type {
-    OrderLineItemModifierRequestInput,
-    OrderLineItemTaxInput,
-    OrderLineItemModifierRequest,
-    OrderLineItemTax
-} from './types-34.js';
-import type { UpdateSubscriptionPlanLineItemInputBundle } from './types-52.js';
-import type { ImageRequest, ImageRequestInput } from './types-21.js';
-import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-27.js';
-import type { MetadataPatchRequest, MetadataPatchRequestInput, MerchantWebhookEnvelope } from './types-32.js';
-import type {
-    SubscriptionIntervalOption,
-    SubscriptionIntervalOptionInput,
-    SubscriptionDeliveryRequest,
-    SubscriptionDeliveryRequestInput
-} from './types-48.js';
-import type {
-    SubscriptionBillingScheduleUpdateRequest,
-    SubscriptionBillingScheduleUpdateRequestInput,
-    Shipment
-} from './types-47.js';
-import type { WebhookSigningMethod, WebhookSigningMethodInput, WebhookEventSource } from './types-57.js';
-import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-65.js';
-import type { KnownWebhookEvent } from './types-30.js';
-import type { ResponseMeta, ResendWebhookDeliveryRequestInput, ResourceType } from './types-42.js';
-import type { Package } from './types-36.js';
+    SubscriptionSettings,
+    SubscriptionPromotion,
+    SubscriptionServiceLocation,
+    SubscriptionUpcomingDeliveryHold,
+    SubscriptionSnapshotMetrics,
+    SubscriptionWindowMetrics
+} from './types-56.js';
+import type { TaxIdentity, TaxSettings, TippingSettings } from './types-57.js';
+import type { ResponseMeta } from './types-48.js';
 import type { InputValue } from '../runtime.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-60.js';
 import type {
-    CreateWebhookDeliveryRequestInput,
-    CreateWebhookEndpointRequestInput,
-    CreateWebhookTestEventRequestInput
-} from './types-10.js';
-import type { RotateWebhookSecretRequestInput } from './types-46.js';
-import type { BalanceTransaction, Balance, Bundle } from './types-0.js';
-import type { PartnerWebhookEnvelope } from './types-37.js';
-import type { Category } from './types-3.js';
-import type { CheckoutSession } from './types-4.js';
+    ExpandedOrderSummary,
+    ExpandedPackageSummary,
+    ExpandedCustomerSummary,
+    ExpandedPaymentMethodSummary,
+    ExpandedSubscriptionPlanSummary
+} from './types-21.js';
+import type { ReturnResolutionLineItemRequest } from './types-50.js';
+import type { PackageCreateRequestInput } from './types-38.js';
+import type { Dimensions, DimensionsInput } from './types-20.js';
+import type { Weight, WeightInput } from './types-61.js';
+import type {
+    SubscriptionCancellationDetails,
+    SubscriptionDelivery,
+    SubscriptionDeliveryHold,
+    SubscriptionIntervalOption
+} from './types-54.js';
+import type { SubscriptionInventoryWait, SubscriptionLineItem } from './types-55.js';
 /**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemInputBundleInput}. The `bundle` variant of
- * `UpdateSubscriptionPlanLineItemInput`.
+ * A payment intent on an order the caller can pick, with its amount, status, and last payment
+ * error.
  */
-export type UpdateSubscriptionPlanLineItemInputBundleInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
+export type SelectableOrderPaymentIntent = {
     /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequestInput}. Shape $[] (Value):
-     * {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional):
-     * {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it
-     * for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are
-     * 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an
-     * opaque resource reference; accepted spellings follow resource ID validation. minLength: 1.
-     * Shape $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain
-     * during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
-     * modifier group on an order line item. Shape $[].type (Required): string. Selects the type
-     * branch. Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. Shape $[].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+    "amount_money": MoneyValue;
     /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * Most recent payment failure, when one is recorded. A summary of why a payment attempt
+     * failed, with a normalized error code, a message, the failure time, and remediation.
      */
-    "quantity"?: number;
+    "last_payment_error"?: PaymentErrorSummary;
     /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
+     * Client setup details for collecting this payment. Client-side details for collecting payment
+     * from the buyer, such as the Stripe settings to initialize Stripe.js.
      */
-    "subscription_plan_line_item_id"?: string;
+    "payment_collection"?: PaymentCollection;
+    /** Flint payment intent ID. */
+    "payment_intent_id": string;
     /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired".
      */
-    "swap_variant_ids"?: Array<string>;
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
     /**
-     * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
-     * taxable.
+     * Portion of this payment's amount allocated to a tip. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "tax"?: OrderLineItemTaxInput;
-    /** Shape $ (Value): string.  Value enum: "bundle". */
-    "type": "bundle";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "bundle". */
-    "type": ("bundle") & ("bundle");
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})));
+    "tip_money": MoneyValue;
+};
+/** An option and value chosen for a product variant, such as size Large. */
+export type SelectedProductOption = {
+    /** Identifier of the selected product option. */
+    "option_id": string;
+    /** Name of the selected product option. */
+    "option_name": string;
+    /** Identifier of the selected option value. */
+    "option_value_id": string;
+    /** Selected value of the product option. */
+    "value": string;
+};
 /**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemInputCustom}. The `custom` variant of
- * `UpdateSubscriptionPlanLineItemInput`.
+ * The seller's agreement to the current automatic sales tax disclosure, recorded when connect
+ * succeeds.
  */
-export type UpdateSubscriptionPlanLineItemInputCustom = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
+export type SellerTaxAttestationRequest = {
     /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequest}. Shape $[] (Value): {@link
-     * OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog
-     * modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): {@link
-     * MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
-     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
-     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
-     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
-     * resource reference; accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
-     * group on an order line item. Shape $[].type (Required): string. Selects the type branch.
-     * Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`.
-     * Shape $[].oneOf[2] (Value): {@link OrderLineItemModifierInputText}. The `text` variant of
-     * `OrderLineItemModifierInput`.
+     * Current disclosure version from GET /v1/tax-connection. Send only after the seller agrees to
+     * every rendered statement. minLength: 1.
      */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
+    "disclosure_version": string;
+};
+/**
+ * The seller's agreement to the current automatic sales tax disclosure, recorded when connect
+ * succeeds.
+ */
+export type SellerTaxAttestationRequestInput = SellerTaxAttestationRequest;
+/** The request body for: Send an order receipt. */
+export type SendOrderReceiptRequest = {
     /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * Receipt email, limited to 254 characters (Unicode code points) after trimming surrounding
+     * whitespace. Format: email. minLength: 1. maxLength: 254.
      */
-    "quantity"?: number;
+    "email"?: string;
+};
+/** The request body for: Send an order receipt. */
+export type SendOrderReceiptRequestInput = SendOrderReceiptRequest;
+/** The request body for: Send a payment receipt. */
+export type SendPaymentIntentReceiptRequestInput = {
     /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
+     * Email address that receives the receipt. Omit to use the order's receipt address for an
+     * order-owned intent, or receipt_email then the customer's email for a standalone intent.
+     * Format: email. minLength: 1. maxLength: 254.
      */
-    "subscription_plan_line_item_id"?: string;
+    "email"?: string;
+};
+/**
+ * Details of a service fulfillment: the scheduled start and end, timezone, completion time, and
+ * notes.
+ */
+export type ServiceFulfillmentDetails = {
+    /** When the service was completed, in RFC3339 format. Format: date-time. */
+    "completed_at"?: string;
+    /** Additional instructions or notes for performing the service. */
+    "notes"?: string;
+    /** Scheduled end of the service, in RFC3339 format. Format: date-time. */
+    "scheduled_end_at"?: string;
+    /** Scheduled start of the service, in RFC3339 format. Format: date-time. */
+    "scheduled_start_at"?: string;
+    /** Timezone used to display the service appointment. */
+    "timezone"?: string;
+};
+/**
+ * The settings for one scope (organization, merchant, location, or device), grouped by area such
+ * as checkout, tax, receipts, and tipping.
+ */
+export type Settings = {
     /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * A merchant's branding settings: colors, corner radius, and font family. Checkout uses them
+     * as its default theme.
      */
-    "swap_variant_ids"?: Array<string>;
+    "branding"?: BrandingSettings;
     /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
+     * Merchant defaults for checkout: custom domain, delivery methods, expiration, payment
+     * options, required contact fields, promotion codes, recovery email, and saved payment
+     * details.
      */
-    "tax"?: OrderLineItemTax;
-    /** Shape $ (Value): string.  Value enum: "custom". */
-    "type": "custom" | (string & {});
+    "checkout"?: CheckoutSettings;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * Customer account settings: hosted mode, merchant account URL, presentation, route templates,
+     * and what buyers may do to their own subscriptions.
+     */
+    "customer_account"?: CustomerAccountSettings;
+    /** For each kind of customer email, whether Flint sends it or the merchant sends it. */
+    "customer_email_delivery"?: CustomerEmailDeliverySettings;
+    /**
+     * Merchant fulfillment settings, including whether fulfillments require approval
+     * (`approval_required`).
+     */
+    "fulfillment"?: FulfillmentSettings;
+    /**
+     * Inventory settings: the `low_stock_threshold` and how inventory failures are handled for
+     * each order source.
+     */
+    "inventory"?: InventorySettings;
+    /**
+     * Merchant defaults for invoices, including numbering prefixes, default memo and footer,
+     * collection mode, reminders, and autopay retries.
+     */
+    "invoices"?: InvoiceSettings;
+    /**
+     * Merchant legal links and terms settings: contract, refund policy, shipping policy, and terms
+     * of service URLs, and whether buyers must accept the terms.
+     */
+    "legal"?: LegalSettings;
+    "merchant_id"?: string;
+    /**
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Optional merchant limits that can lower Flint's payment-option and surface policy limits. */
+    "payment_limits"?: PaymentLimitSettings;
+    /**
+     * Merchant promotion settings: whether automatic promotions and codes are enabled, and how
+     * many promotions can apply to one order.
+     */
+    "promotions"?: PromotionSettings;
+    /**
+     * Receipt settings: whether receipts are emailed automatically, whether they are itemized, and
+     * the header and footer text.
+     */
+    "receipts"?: ReceiptSettings;
+    "settings_id": string;
+    /**
+     * Subscription settings: the default billing schedule owner, dunning retry days and end
+     * action, and the backorder email.
+     */
+    "subscriptions"?: SubscriptionSettings;
+    /**
+     * Tax settings: whether tax is calculated by default and the default tax categories for line
+     * items and delivery charges.
+     */
+    "tax"?: TaxSettings;
+    /**
+     *  anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
+     * invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned
+     * collection in display order; replacing the array requires the parent's expected_version.
+     * Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
+     * add one. anyOf[2] (Value): null.
+     */
+    "tax_identity": ((TaxIdentity) | (null));
+    /**
+     * Tipping settings: percent and fixed tip options, the preselected tip, and whether custom
+     * tips are allowed.
+     */
+    "tipping"?: TippingSettings;
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /** Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type SettingsGetEffectiveParams = {};
+export type SettingsGetParams = {};
+/** A response containing `Settings` data. */
+export type SettingsResponse = {
+    /**
+     * The settings for one scope (organization, merchant, location, or device), grouped by area
+     * such as checkout, tax, receipts, and tipping.
+     */
+    "data": Settings;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SettingsUpdateParams = (InputValue<UpdateSettingsRequestInput>);
+/**
+ * How much of an order has been paid, refunded, credited, written off, and settled as tips, and
+ * what balance and outstanding amount remain.
+ */
+export type SettlementAmounts = {
+    /**
+     * outstanding_money minus credit_money. Negative when the order holds money beyond its total
+     * that has not been returned. Signed monetary amount represented as integer minor units plus
      * an ISO 4217 currency code.
      */
-    "unit_price_money": MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
+    "balance_money": MoneyValue;
+    /**
+     * Money collected beyond the order total and not yet refunded. Write-offs do not create
+     * credit. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "credit_money": MoneyValue;
+    /**
+     * Payments collected for the order minus money refunded to the buyer. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "net_collected_money": MoneyValue;
+    /**
+     * What is still left to collect: the order total minus paid_money and written_off_money, never
+     * below zero. Refunds return money already collected and do not add to it. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "outstanding_money": MoneyValue;
+    /**
+     * Settled payments and applied return credit. Excludes written-off invoice balances. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "paid_money": MoneyValue;
+    /**
+     * Money returned to the buyer from what this order collected. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Portion of the collected money settled as tips. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "settled_tip_money": MoneyValue;
+    /**
+     * Invoice debt no longer owed. Reduces outstanding_money without increasing paid_money,
+     * net_collected_money, or credit_money. Cannot be refunded or used to fund an exchange.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "written_off_money": MoneyValue;
+};
+/** A shipment carrying fulfilled order items. */
+export type Shipment = {
+    /** Creation timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** When the shipment was delivered, in RFC3339 format. Format: date-time. */
+    "delivered_at"?: string;
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound", "return".
+     */
+    "direction": "outbound" | "return" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries.
+     */
+    "external_system"?: string;
+    /** Fulfillment associated with this shipment. */
+    "fulfillment_id": string;
+    /**
+     * Carrier handoff timestamp for outbound and return shipments, using the recorded shipped_at
+     * when no separate handoff timestamp exists. For return shipments, this can satisfy an
+     * after_handoff execution gate for the declared return_line_items. Format: date-time.
+     */
+    "handed_off_at"?: string;
+    /**
+     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** Order whose items are transported by the shipment. */
+    "order_id": string;
+    /**
+     * Total number of packages attached to the shipment, including voided packages. Format: int32.
+     * minimum: 0.
+     */
+    "package_count": number;
+    /**
+     * Summaries of the shipment's packages in creation order, returned when the packages
+     * relationship is expanded or when the shipment is created with packages. [] (Value): {@link
+     * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking, status,
+     * and supported actions, returned when the package is expanded.
+     */
+    "packages"?: Array<ExpandedPackageSummary>;
+    /** Return associated with this shipment, when its direction is return. */
+    "return_id"?: string;
+    /**
+     * Return lines and quantities allocated to this return shipment. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
+     * or package.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Stable identifier of the shipment. */
+    "shipment_id": string;
+    /** When the shipment was shipped, in RFC3339 format. Format: date-time. */
+    "shipped_at"?: string;
+    /**
+     * Read-only shipment state derived from the shipment's package states. An empty shipment
+     * remains a created draft. - `created`: The shipment leg exists but has not been packed or
+     * handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. -
+     * `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving
+     * the shipment through its network. - `out_for_delivery`: The shipment is on its final
+     * delivery route. - `delivered`: The carrier reported successful delivery. -
+     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
+     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
+     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
+     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
+     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     */
+    "status": "created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided"
+        | (string & {});
+    /** Last update timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /** Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type ShipmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Shipment;
+    };
+    "event_type"?: "shipment.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Shipment;
+    };
+    "event_type"?: "shipment.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "shipment.created";
+});
+/**
+ * The `shipment.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ShipmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Shipment}. A shipment carrying fulfilled order items. */
+    "data"?: {
+        /** A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Value enum: "shipment.created". */
+    "event_type"?: "shipment.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `shipment.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ShipmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Shipment}. A shipment carrying fulfilled order items. */
+    "data"?: {
+        /** A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Value enum: "shipment.created". */
+    "event_type"?: "shipment.created";
+});
+/**
+ * Details of a shipment fulfillment: the shipping window, timezone, and when the shipment was
+ * handed to the carrier.
+ */
+export type ShipmentFulfillmentDetails = {
+    /** When the shipment was handed to the carrier. Format: date-time. */
+    "shipped_at"?: string;
+    /**
+     * IANA zone the shipping window was entered in, used for display. window_start_at and
+     * window_end_at are absolute timestamps, so this does not change the window. maxLength: 255.
+     */
+    "timezone"?: string;
+    /** End of the scheduled shipping window. Format: date-time. */
+    "window_end_at"?: string;
+    /** Start of the scheduled shipping window. Format: date-time. */
+    "window_start_at"?: string;
+};
+/** A page of `Shipment` objects. */
+export type ShipmentListResponse = {
+    /**  [] (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
+    "data": Array<Shipment>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Shipment` data. */
+export type ShipmentResponse = {
+    /** A shipment carrying fulfilled order items. */
+    "data": Shipment;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type ShipmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Shipment;
+    };
+    "event_type"?: "shipment.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Shipment;
+    };
+    "event_type"?: "shipment.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "shipment.updated";
+});
+/**
+ * The `shipment.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Shipment}. A shipment carrying fulfilled order items. */
+    "data"?: {
+        /** A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Value enum: "shipment.updated". */
+    "event_type"?: "shipment.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `shipment.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Shipment}. A shipment carrying fulfilled order items. */
+    "data"?: {
+        /** A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Value enum: "shipment.updated". */
+    "event_type"?: "shipment.updated";
+});
+export type ShipmentsCreatePackageParams = (PackageCreateRequestInput);
+export type ShipmentsGetParams = {
+    /**
+     * Supported expansions: order, packages. Expansion requires commerce.orders.read. Limits: at
+     * most 10 unique expand paths per request. To-many expansions are capped at 20 related objects
+     * per path. Repeat expand, for example expand=order&expand=packages, or pass one
+     * comma-separated value. [] enum: "order", "packages". Value enum: "order", "packages".
+     * anyOf[1] (Value): Array of string. [] enum: "order", "packages". anyOf[1][] (Value): string.
+     * Value enum: "order", "packages". anyOf[2] (Value): string. Value enum: "order", "packages".
+     */
+    "expand"?: InputValue<("order" | "packages") | readonly ("order" | "packages")[]>;
+};
+export type ShipmentsListParams = {
+    /** Optional order ID filter. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /** Optional fulfillment ID filter. Example: "ful_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Filter by external system identifier. */
+    "external_system"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Search across shipment ID and external reference ID. Text fields match any part of the
+     * value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and
+     * need the type prefix, such as shp_01.
+     */
+    "query"?: InputValue<string>;
+    /** Filter by linked Return ID. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "return_id"?: InputValue<string>;
+    /**
+     * Inclusive lower bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "handed_off_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "handed_off_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by package-derived shipment status. Values within this filter are combined with OR.
+     * Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "created", "packed", "shipped",
+     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
+     * "returned", "voided". Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "created", "packed", "shipped",
+     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
+     * "returned", "voided". anyOf[1][] (Value): string. Value enum: "created", "packed",
+     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
+     * "returned", "voided". anyOf[2] (Value): string. Value enum: "created", "packed", "shipped",
+     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
+     * "returned", "voided".
+     */
+    "status"?: InputValue<("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")
+        | readonly ("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")[]>;
+    /**
+     * Filter by shipment direction. Values within this filter are combined with OR. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "outbound", "return". Value enum: "outbound", "return".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "outbound", "return". anyOf[1][]
+     * (Value): string. Value enum: "outbound", "return". anyOf[2] (Value): string. Value enum:
+     * "outbound", "return".
+     */
+    "direction"?: InputValue<("outbound" | "return") | readonly ("outbound" | "return")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Supported expansions: order. Include the requested related resources using scoped batch
+     * reads for this page. Each relationship requires its existing target read scopes. Expansion
+     * changes the representation without changing pagination tokens. Limits: at most 10 unique
+     * expand paths per request. Pass expand=order. [] enum: "order". Value enum: "order". anyOf[1]
+     * (Value): Array of string. [] enum: "order". anyOf[1][] (Value): string. Value enum: "order".
+     * anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+};
+export type ShipmentsUpdateParams = (InputValue<UpdateShipmentRequestInput>);
+export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>);
+/** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+export type SignedMoneyRequestInput = {
+    /**
+     * Signed amount in the currency's minor unit, such as cents for USD. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
+     */
+    "amount": `${bigint}` | bigint;
+    /**
+     * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
+     */
+    "currency": string;
+};
+/** The request body for: Simulate a dispute outcome. */
+export type SimulateDisputeRequest = {
+    /**
+     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
+     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
+     */
+    "outcome": "won" | "lost" | "inquiry_closed" | "escalated" | (string & {});
+};
+/** The request body for: Simulate a dispute outcome. */
+export type SimulateDisputeRequestInput = {
+    /**
+     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
+     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
+     */
+    "outcome": "won" | "lost" | "inquiry_closed" | "escalated";
+};
+/**
+ * The single package created with a shipment fulfillment. It receives the submitted fulfillment
+ * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
+ */
+export type SinglePackageCreateInputCreated = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** minLength: 1. */
+    "carrier"?: string;
+    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+    "dimensions"?: Dimensions;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1.
+     */
+    "expected_delivery_at"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. */
+    "service_code"?: string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1.
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created".
+     */
+    "status": "created" | (string & {});
+    /** minLength: 1. */
+    "status_reason"?: string;
+    /** minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "weight"?: Weight;
+});
+/**
+ * The single package created with a shipment fulfillment. It receives the submitted fulfillment
+ * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
+ */
+export type SinglePackageCreateInputCreatedInput = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** minLength: 1. */
+    "carrier"?: string;
+    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+    "dimensions"?: DimensionsInput;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1.
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. */
+    "service_code"?: string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1.
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created".
+     */
+    "status": "created";
+    /** minLength: 1. */
+    "status_reason"?: string;
+    /** minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "weight"?: WeightInput;
 })
     & (({
-    /** Shape $ (Value): string.  Value enum: "custom". */
-    "type": "custom" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
+    "shipped_at"?: never;
+}))
+    & (({
+    "buyer_notification_behavior"?: never;
 }));
 /**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemInputCustomInput}. The `custom` variant of
- * `UpdateSubscriptionPlanLineItemInput`.
+ * The single package created with a shipment fulfillment. It receives the submitted fulfillment
+ * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
  */
-export type UpdateSubscriptionPlanLineItemInputCustomInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
+export type SinglePackageCreateInputShipped = ({
     /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequestInput}. Shape $[] (Value):
-     * {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional):
-     * {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it
-     * for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are
-     * 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an
-     * opaque resource reference; accepted spellings follow resource ID validation. minLength: 1.
-     * Shape $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain
-     * during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
-     * modifier group on an order line item. Shape $[].type (Required): string. Selects the type
-     * branch. Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. Shape $[].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
      */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** minLength: 1. */
+    "carrier"?: string;
+    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+    "dimensions"?: Dimensions;
     /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1.
      */
-    "quantity"?: number;
+    "expected_delivery_at"?: string | null;
     /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255.
      */
-    "subscription_plan_line_item_id"?: string;
+    "external_reference_id"?: string;
     /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
      */
-    "swap_variant_ids"?: Array<string>;
+    "external_system"?: string;
     /**
-     * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
-     * taxable.
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
      */
-    "tax"?: OrderLineItemTaxInput;
-    /** Shape $ (Value): string.  Value enum: "custom". */
-    "type": "custom";
+    "label_url"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
-    "unit_price_money": MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "custom". */
-    "type": ("custom") & ("custom");
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
+    "metadata"?: MetadataMap;
+    /** minLength: 1. */
+    "service_code"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1.
      */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "bundle_id"?: never;
-})));
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "shipped".
+     */
+    "status": "shipped" | (string & {});
+    /** minLength: 1. */
+    "status_reason"?: string;
+    /** minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "weight"?: Weight;
+});
 /**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemInputVariant}. The `variant` variant of
- * `UpdateSubscriptionPlanLineItemInput`.
+ * The single package created with a shipment fulfillment. It receives the submitted fulfillment
+ * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
  */
-export type UpdateSubscriptionPlanLineItemInputVariant = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
+export type SinglePackageCreateInputShippedInput = ({
     /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequest}. Shape $[] (Value): {@link
-     * OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog
-     * modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): {@link
-     * MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
-     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
-     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
-     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
-     * resource reference; accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
-     * group on an order line item. Shape $[].type (Required): string. Selects the type branch.
-     * Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`.
-     * Shape $[].oneOf[2] (Value): {@link OrderLineItemModifierInputText}. The `text` variant of
-     * `OrderLineItemModifierInput`.
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
      */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** minLength: 1. */
+    "carrier"?: string;
+    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+    "dimensions"?: DimensionsInput;
     /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1.
      */
-    "quantity"?: number;
+    "expected_delivery_at"?: string | globalThis.Date | null;
     /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255.
      */
-    "subscription_plan_line_item_id"?: string;
+    "external_reference_id"?: string;
     /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
      */
-    "swap_variant_ids"?: Array<string>;
+    "external_system"?: string;
     /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
      */
-    "tax"?: OrderLineItemTax;
-    /** Shape $ (Value): string.  Value enum: "variant". */
-    "type": "variant" | (string & {});
+    "label_url"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. */
+    "service_code"?: string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1.
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "shipped".
+     */
+    "status": "shipped";
+    /** minLength: 1. */
+    "status_reason"?: string;
+    /** minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "weight"?: WeightInput;
 })
     & (({
-    /** Shape $ (Value): string.  Value enum: "variant". */
-    "type": "variant" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
+    "return_line_items"?: never;
 }));
 /**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemInputVariantInput}. The `variant` variant
- * of `UpdateSubscriptionPlanLineItemInput`.
+ * The single package created with a shipment fulfillment. It receives the submitted fulfillment
+ * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
  */
-export type UpdateSubscriptionPlanLineItemInputVariantInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
+export type SinglePackageCreateRequest = ({
     /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequestInput}. Shape $[] (Value):
-     * {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional):
-     * {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it
-     * for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are
-     * 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an
-     * opaque resource reference; accepted spellings follow resource ID validation. minLength: 1.
-     * Shape $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain
-     * during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
-     * modifier group on an order line item. Shape $[].type (Required): string. Selects the type
-     * branch. Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. Shape $[].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
      */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** minLength: 1. */
+    "carrier"?: string;
+    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+    "dimensions"?: Dimensions;
     /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1.
      */
-    "quantity"?: number;
+    "expected_delivery_at"?: string | null;
     /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255.
      */
-    "subscription_plan_line_item_id"?: string;
+    "external_reference_id"?: string;
     /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
      */
-    "swap_variant_ids"?: Array<string>;
+    "external_system"?: string;
     /**
-     * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
-     * taxable.
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
      */
-    "tax"?: OrderLineItemTaxInput;
-    /** Shape $ (Value): string.  Value enum: "variant". */
-    "type": "variant";
+    "label_url"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
+    "metadata"?: MetadataMap;
+    /** minLength: 1. */
+    "service_code"?: string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1.
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped" | (string & {});
+    /** minLength: 1. */
+    "status_reason"?: string;
+    /** minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "weight"?: Weight;
 })
-    & (({
-    /** Shape $ (Value): string.  Value enum: "variant". */
-    "type": ("variant") & ("variant");
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})));
-/**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemRequest}. A line item to keep or add when
- * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing one.
- */
-export type UpdateSubscriptionPlanLineItemRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequest}. Shape $[] (Value): {@link
-     * OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog
-     * modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): {@link
-     * MetadataMap}. Caller-owned key-value data for a new or replaced map. Omit it for no
-     * metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
-     * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't
-     * be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
-     * resource reference; accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
-     * group on an order line item. Shape $[].type (Required): string. Selects the type branch.
-     * Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`.
-     * Shape $[].oneOf[2] (Value): {@link OrderLineItemModifierInputText}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /** Shape $ (Value): string.  Value enum: "variant", "bundle", "custom". */
-    "type": "variant" | "bundle" | "custom" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((Exclude<UpdateSubscriptionPlanLineItemInputVariant & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputBundle & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputCustom & object, readonly unknown[]>)
+    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
+    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemRequestInput}. A line item to keep or add
- * when updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
- * one.
+ * The single package created with a shipment fulfillment. It receives the submitted fulfillment
+ * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
  */
-export type UpdateSubscriptionPlanLineItemRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
+export type SinglePackageCreateRequestInput = ({
     /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequestInput}. Shape $[] (Value):
-     * {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional):
-     * {@link MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it
-     * for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are
-     * 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an
-     * opaque resource reference; accepted spellings follow resource ID validation. minLength: 1.
-     * Shape $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain
-     * during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
-     * modifier group on an order line item. Shape $[].type (Required): string. Selects the type
-     * branch. Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@link
-     * OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. Shape $[].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
      */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** minLength: 1. */
+    "carrier"?: string;
+    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
+    "dimensions"?: DimensionsInput;
     /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1.
      */
-    "quantity"?: number;
+    "expected_delivery_at"?: string | globalThis.Date | null;
     /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255.
      */
-    "subscription_plan_line_item_id"?: string;
+    "external_reference_id"?: string;
     /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
      */
-    "swap_variant_ids"?: Array<string>;
+    "external_system"?: string;
     /**
-     * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
-     * taxable.
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
      */
-    "tax"?: OrderLineItemTaxInput;
-    /** Shape $ (Value): string.  Value enum: "variant", "bundle", "custom". */
-    "type": "variant" | "bundle" | "custom";
+    "label_url"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. */
+    "service_code"?: string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1.
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped";
+    /** minLength: 1. */
+    "status_reason"?: string;
+    /** minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "weight"?: WeightInput;
 })
-    & ((Exclude<UpdateSubscriptionPlanLineItemInputVariantInput & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputBundleInput & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputCustomInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link UpdateSubscriptionPlanRequest}. The request body for: Update
- * subscription plan.
- */
-export type UpdateSubscriptionPlanRequest = ({
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count"?: number;
+    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
+    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
+/** The request body for: Skip subscription cycle. */
+export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
+/** The request body for: Skip subscription cycle. */
+export type SkipSubscriptionCycleRequest = {
+    /** Format: uint64. minimum: 1. */
+    "expected_version"?: number;
     /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. Omission leaves the choices
-     * unchanged. Send [] to reset to the plan’s default billing interval and count. Null is
-     * invalid. maxItems: 12. uniqueItems: true. Shape $[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a
-     * subscription plan.
+     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Flint's skip
+     * email to the buyer says the buyer skipped for buyer, and that the store skipped otherwise.
+     * Default: "merchant". Value enum: "buyer", "merchant", "integration".
+     */
+    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
+};
+/** The request body for: Skip subscription cycle. */
+export type SkipSubscriptionCycleRequestInput = {
+    /** Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Flint's skip
+     * email to the buyer says the buyer skipped for buyer, and that the store skipped otherwise.
+     * Default: "merchant". Value enum: "buyer", "merchant", "integration".
+     */
+    "initiated_by"?: "buyer" | "merchant" | "integration";
+};
+/**
+ * One-time client authority for the named Stripe object. This payload always names the Stripe.js
+ * call and carries its client secret.
+ */
+export type StripeClientAuthority = {
+    /** Stripe client secret for the named PaymentIntent or SetupIntent. */
+    "client_secret": string;
+    /**
+     * Stripe.js operation to perform now. confirm_setup applies to client_setup. Standalone
+     * PaymentIntents use payment_collection plus server confirmation instead of initial
+     * confirm_payment authority. Value enum: "confirm_payment", "confirm_setup".
+     */
+    "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
+};
+/**
+ * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
+ * setup_collection is guidance instead and never carries a secret.
+ */
+export type StripeClientSetup = {
+    /** Stripe.js initialization context and SetupIntent setup authority. */
+    "stripe"?: StripeClientSetupStripe;
+};
+/** Stripe.js initialization context and SetupIntent setup authority. */
+export type StripeClientSetupStripe = {
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. */
+    "account_id"?: string;
+    /**
+     * Stripe publishable key for the active Flint payment mode; use this with account_id when
+     * loading Stripe.js.
+     */
+    "publishable_key"?: string;
+    /**
+     * One-time client authority for the named Stripe object. This payload always names the
+     * Stripe.js call and carries its client secret.
+     */
+    "setup_intent"?: StripeClientAuthority;
+};
+/**
+ * Stripe.js initialization context plus one flow-specific authority object. Exactly one of
+ * payment_intent or setup_intent is present.
+ */
+export type StripePaymentClientAction = {
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. */
+    "account_id": string;
+    /**
+     * PaymentIntent authority for an order payment authentication action. The client action for a
+     * Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
+     */
+    "payment_intent"?: StripeSetupIntentClientAction;
+    /**
+     * Stripe publishable key for the active Flint payment mode; use this with account_id when
+     * loading Stripe.js.
+     */
+    "publishable_key": string;
+    /**
+     * SetupIntent authority for a saved-payment-method authentication action. The client action
+     * for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`.
+     */
+    "setup_intent"?: StripeSetupIntentClientAction;
+};
+/**
+ * The client action for a Stripe setup intent: the client secret to pass to Stripe.js
+ * `handleNextAction`.
+ */
+export type StripeSetupIntentClientAction = {
+    /** SetupIntent client secret to pass to Stripe.js handleNextAction. */
+    "client_secret": string;
+    /**
+     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
+     * "handle_next_action".
+     */
+    "stripe_js_call": "handle_next_action" | (string & {});
+};
+/**
+ * The subscription offer and billing interval an order line was bought under, with the recurring
+ * amount.
+ */
+export type SubscribedLine = {
+    /** Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /** Format: int32. */
+    "billing_interval_count": number;
+    /**
+     * Line amount for the first renewal, including modifiers and recurring discounts, before
+     * shipping and tax. Signup-only discounts are excluded. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "recurring_amount_money"?: MoneyValue;
+    "subscription_offer_id": string;
+};
+/**
+ * Makes an order line a subscription purchase, with the subscription offer and billing interval.
+ */
+export type SubscribedLineRequest = {
+    /** Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /** Format: int32. minimum: 1. maximum: 365. */
+    "billing_interval_count": number;
+    /** Active subscription offer for this catalog variant. minLength: 1. */
+    "subscription_offer_id": string;
+};
+/**
+ * Makes an order line a subscription purchase, with the subscription offer and billing interval.
+ */
+export type SubscribedLineRequestInput = {
+    /** Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
+    /** Format: int32. minimum: 1. maximum: 365. */
+    "billing_interval_count": number;
+    /** Active subscription offer for this catalog variant. minLength: 1. */
+    "subscription_offer_id": string;
+};
+/** A customer's recurring purchase. */
+export type Subscription = {
+    /**
+     * True while an active or trialing subscription on an external billing schedule has no next
+     * billing date.
+     */
+    "awaiting_billing_schedule"?: boolean;
+    /**
+     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
+     * schedules. Format: int32. minimum: 1. maximum: 31.
+     */
+    "billing_anchor_day"?: number;
+    /**
+     * How often the subscription bills now. Read with billing_interval_count: monthly with a count
+     * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
+     * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Number of billing_interval units between charges. Changes with billing_interval. Format:
+     * int32.
+     */
+    "billing_interval_count": number;
+    /**
+     * maxItems: 12. uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing
+     * interval, such as every 2 months, offered by a subscription plan.
      */
     "billing_interval_options"?: Array<SubscriptionIntervalOption>;
     /**
-     * Shape $ (Value): integer. A commitment period you agree with the buyer, 1 to 120 months.
-     * Flint shows it at checkout and records it on each new subscription (contract_start_at,
-     * contract_end_at). Flint does not stop the buyer from canceling earlier. Format: int32.
-     * minimum: 1. maximum: 120.
+     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
+     * uses dates you supply. Change it with billing_schedule on PATCH
+     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
      */
-    "contract_term_months"?: number;
+    "billing_schedule_owner": "flint" | "external" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "billing_schedule_waiting_started_at"?: string;
     /**
-     * Shape $ (Value): string or null. Omission leaves this field unchanged. Null clears it.
-     * minLength: 1.
+     * What the buyer can do with the subscription, in this order: cancel, pause, resume,
+     * reactivate, update_payment_method, retry_payment, update_delivery, skip,
+     * update_billing_interval, update_quantity, swap_items, then renew, under the store's buyer
+     * policy. The available cancel and pause actions carry the choices they accept. A buyer's read
+     * or change through a customer session on /v1/me, or in Flint's buyer account, lists all
+     * twelve every time; a merchant read gets an empty list. update_payment_method is required
+     * while a payment is past due, due by next_retry_at when a retry is scheduled, and when the
+     * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
+     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
+     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
+     * and the first available action as the primary action on the resource's page in your account.
      */
-    "description"?: string | null;
+    "buyer_actions": Array<BuyerAction>;
     /**
-     * Shape $ (Value): {@link MoneyValue}. A fee you agree the buyer owes for canceling before the
-     * contract term ends. Flint shows it at checkout and records it on each new subscription, but
-     * never charges it. To collect it, charge the buyer yourself, for example with an order on
-     * their saved payment method. Requires contract_term_months. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
+     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
+     */
+    "cancel_at_period_end": boolean;
+    /** RFC3339 timestamp. Format: date-time. */
+    "canceled_at"?: string;
+    /**
+     * Who asked to cancel, when, and why. Present once a cancellation is requested, whether it
+     * takes effect at the end of the billing period or right away. Omitted when no one asked, and
+     * removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and
+     * payment-related cancellations. The cancellation request behind a scheduled or completed
+     * cancellation.
+     */
+    "cancellation_details"?: SubscriptionCancellationDetails;
+    /**
+     * Why the subscription is canceled or scheduled to cancel. Uses
+     * cancellation_details.requested_by when recorded, payment_failed for a canceled subscription
+     * without a requester, and other for a scheduled cancellation without a requester. Omitted
+     * otherwise. Value enum: "buyer", "merchant", "payment_failed", "other".
+     */
+    "cancellation_reason"?: "buyer" | "merchant" | "payment_failed" | "other" | (string & {});
+    /** Format: uint64. minimum: 0. */
+    "completed_cycles": number;
+    /**
+     * When the recorded contract term ends. Does not move when the subscription pauses or changes
+     * plan. Flint does not stop the buyer from canceling earlier. Format: date-time.
+     */
+    "contract_end_at"?: string;
+    /**
+     * When the recorded contract term started. Does not move when the subscription pauses or
+     * changes plan. Format: date-time.
+     */
+    "contract_start_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "current_period_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "current_period_start_at"?: string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    "customer_id": string;
+    /**
+     * Saved delivery preference with the current delivery method display. Write responses use the
+     * same display as GET: fixed shipping reflects the current method configuration, and quoted
+     * shipping shows the last paid shipping amount when available. A subscription's saved delivery
+     * preference: method, destination, recipient, shipping cost, and who last changed it.
+     */
+    "delivery"?: SubscriptionDelivery;
+    /**
+     * Current delivery issue that blocks collection. Mutually exclusive with
+     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
+     * destination no longer works, and who can fix it.
+     */
+    "delivery_hold"?: SubscriptionDeliveryHold;
+    /**
+     * The fee in the recorded contract terms. Present whenever those terms include a fee. It
+     * applies only to a cancellation before contract_end_at. Flint never charges it. Later plan
+     * changes do not change this fee. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "early_termination_fee_money"?: MoneyValue;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
     /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * replacing an owned collection. Required when any of these fields is present: images,
-     * line_items. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
+     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
+     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
+     * invoice involved and when the wait started.
      */
-    "expected_version"?: `${bigint}`;
+    "inventory_wait"?: SubscriptionInventoryWait;
     /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission leaves this field unchanged. Null clears it. minLength: 1. maxLength: 255.
+     * Latest renewal payment failure, present only while status is past_due and the latest payment
+     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
+     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
+     * and remediation.
      */
-    "external_reference_id"?: string | null;
+    "last_payment_error"?: PaymentErrorSummary;
     /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
+     * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line
+     * takes that variant's current catalog price, which then stays until the line changes again.
+     * [] (Value): {@link SubscriptionLineItem}. An item included in a customer's recurring
+     * purchase.
      */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Shape $ (Value): {@link InventoryRoutingSourceRequest}. Replaces the plan's routing source.
-     * Subscriptions and payment links that already exist keep the source they copied. It can't be
-     * cleared. Where you want inventory routed from: a fixed Location, an inventory allocation
-     * policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
-    /**
-     * Shape $ (Value): Array of {@link UpdateSubscriptionPlanLineItemRequest}. Replaces all owned
-     * plan line items atomically. Requires expected_version. Omission leaves items unchanged; an
-     * empty array or null is invalid. Include subscription_plan_line_item_id to retain an item;
-     * omit it for a new server-generated ID. Omitted members are removed. Existing subscriptions
-     * keep their snapshots. Retained catalog items with the same source keep their catalog
-     * snapshot; omitted modifiers keep their recorded choices. minItems: 1. Shape $[] (Value):
-     * {@link UpdateSubscriptionPlanLineItemRequest}. A line item to keep or add when updating a
-     * subscription plan. Include `subscription_plan_line_item_id` to keep an existing one.
-     */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequest>;
-    /**
-     * Shape $ (Value): {@link MetadataPatchRequest} or null. Caller-owned metadata. Omit this
-     * field to leave metadata unchanged. Send an object to merge by key, set a key to null to
-     * remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes
-     * no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. This operation also limits
-     * the metadata object you send, before merging: at most 50 keys, counting null deletions, each
-     * key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. Shape
-     * $.anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each
-     * key sets a value, a null value deletes the key, and an empty object makes no change; send
-     * null for the whole field to clear all caller-owned metadata. The resulting map is limited
-     * the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
-     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
-     * UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is
-     * not itself the stored-map limit. Values can't be empty strings, and keys starting with
-     * flint_ are reserved for Flint. Shape $.anyOf[1].* (Value): string or null. minLength: 1.
-     * maxLength: 4096. Shape $.anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of integer. Omission leaves the choices unchanged. Send [] to reset
-     * to [1]. Null is invalid. maxItems: 10. uniqueItems: true. Shape $[] (Value): integer.
-     * minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
-     * with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are
-     * read-only and their status is set only by DELETE
-     * /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. Omission leaves the delivery methods unchanged. Send [] to
-     * remove all delivery methods. Null is invalid. Shape $[] (Value): string. minLength: 1.
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /** Shape $ (Value): integer. Format: int32. */
-    "trial_period_days"?: number;
-});
-/**
- * Shape $ (Value): {@link UpdateSubscriptionPlanRequestInput}. The request body for: Update
- * subscription plan.
- */
-export type UpdateSubscriptionPlanRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOptionInput}. Omission leaves the
-     * choices unchanged. Send [] to reset to the plan’s default billing interval and count. Null
-     * is invalid. maxItems: 12. uniqueItems: true. Shape $[] (Value): {@link
-     * SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, offered by a
-     * subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>;
-    /**
-     * Shape $ (Value): integer. A commitment period you agree with the buyer, 1 to 120 months.
-     * Flint shows it at checkout and records it on each new subscription (contract_start_at,
-     * contract_end_at). Flint does not stop the buyer from canceling earlier. Format: int32.
-     * minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /**
-     * Shape $ (Value): string or null. Omission leaves this field unchanged. Null clears it.
-     * minLength: 1.
-     */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. A fee you agree the buyer owes for canceling
-     * before the contract term ends. Flint shows it at checkout and records it on each new
-     * subscription, but never charges it. To collect it, charge the buyer yourself, for example
-     * with an order on their saved payment method. Requires contract_term_months. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * replacing an owned collection. Required when any of these fields is present: images,
-     * line_items. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission leaves this field unchanged. Null clears it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): {@link InventoryRoutingSourceRequestInput}. Replaces the plan's routing
-     * source. Subscriptions and payment links that already exist keep the source they copied. It
-     * can't be cleared. Where you want inventory routed from: a fixed Location, an inventory
-     * allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * Shape $ (Value): Array of {@link UpdateSubscriptionPlanLineItemRequestInput}. Replaces all
-     * owned plan line items atomically. Requires expected_version. Omission leaves items
-     * unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id to
-     * retain an item; omit it for a new server-generated ID. Omitted members are removed. Existing
-     * subscriptions keep their snapshots. Retained catalog items with the same source keep their
-     * catalog snapshot; omitted modifiers keep their recorded choices. minItems: 1. Shape $[]
-     * (Value): {@link UpdateSubscriptionPlanLineItemRequestInput}. A line item to keep or add when
-     * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
-     * one.
-     */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>;
-    /**
-     * Shape $ (Value): {@link MetadataPatchRequestInput} or null. Caller-owned metadata. Omit this
-     * field to leave metadata unchanged. Send an object to merge by key, set a key to null to
-     * remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes
-     * no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. This operation also limits
-     * the metadata object you send, before merging: at most 50 keys, counting null deletions, each
-     * key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. Shape
-     * $.anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each
-     * key sets a value, a null value deletes the key, and an empty object makes no change; send
-     * null for the whole field to clear all caller-owned metadata. The resulting map is limited
-     * the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
-     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
-     * UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is
-     * not itself the stored-map limit. Values can't be empty strings, and keys starting with
-     * flint_ are reserved for Flint. Shape $.anyOf[1].* (Value): string or null. minLength: 1.
-     * maxLength: 4096. Shape $.anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of integer. Omission leaves the choices unchanged. Send [] to reset
-     * to [1]. Null is invalid. maxItems: 10. uniqueItems: true. Shape $[] (Value): integer.
-     * minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
-     * with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are
-     * read-only and their status is set only by DELETE
-     * /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): Array of string. Omission leaves the delivery methods unchanged. Send [] to
-     * remove all delivery methods. Null is invalid. Shape $[] (Value): string. minLength: 1.
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /** Shape $ (Value): integer. Format: int32. */
-    "trial_period_days"?: number;
-});
-/**
- * Shape $ (Value): {@link UpdateSubscriptionRequest}. The request body for: Update subscription.
- */
-export type UpdateSubscriptionRequest = ({
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequest}. A closed owner-specific
-     * billing schedule update.
-     */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequest;
-    /** Shape $ (Value): boolean.  Value enum: false. */
-    "cancel_at_period_end"?: boolean;
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryRequest}. The delivery preference to set on a
-     * subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link MetadataPatchRequest} or null. Caller-owned metadata. Omit this
-     * field to leave metadata unchanged. Send an object to merge by key, set a key to null to
-     * remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes
-     * no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. This operation also limits
-     * the metadata object you send, before merging: at most 50 keys, counting null deletions, each
-     * key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. Shape
-     * $.anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each
-     * key sets a value, a null value deletes the key, and an empty object makes no change; send
-     * null for the whole field to clear all caller-owned metadata. The resulting map is limited
-     * the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
-     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
-     * UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is
-     * not itself the stored-map limit. Values can't be empty strings, and keys starting with
-     * flint_ are reserved for Flint. Shape $.anyOf[1].* (Value): string or null. minLength: 1.
-     * maxLength: 4096. Shape $.anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** Shape $ (Value): string. minLength: 1. */
-    "payment_method_id"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 100.
-     */
-    "quantity"?: number;
-});
-/**
- * Shape $ (Value): {@link UpdateSubscriptionRequestInput}. The request body for: Update
- * subscription.
- */
-export type UpdateSubscriptionRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** Shape $ (Value): integer. minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequestInput}. A closed
-     * owner-specific billing schedule update.
-     */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequestInput;
-    /** Shape $ (Value): boolean.  Value enum: false. */
-    "cancel_at_period_end"?: false;
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryRequestInput}. The delivery preference to set on
-     * a subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link MetadataPatchRequestInput} or null. Caller-owned metadata. Omit this
-     * field to leave metadata unchanged. Send an object to merge by key, set a key to null to
-     * remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes
-     * no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. This operation also limits
-     * the metadata object you send, before merging: at most 50 keys, counting null deletions, each
-     * key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. Shape
-     * $.anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each
-     * key sets a value, a null value deletes the key, and an empty object makes no change; send
-     * null for the whole field to clear all caller-owned metadata. The resulting map is limited
-     * the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
-     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
-     * UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is
-     * not itself the stored-map limit. Values can't be empty strings, and keys starting with
-     * flint_ are reserved for Flint. Shape $.anyOf[1].* (Value): string or null. minLength: 1.
-     * maxLength: 4096. Shape $.anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** Shape $ (Value): string. minLength: 1. */
-    "payment_method_id"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 100.
-     */
-    "quantity"?: number;
-});
-/**
- * Shape $ (Value): {@link UpdateTaxRegistrationRequest}. Update at least one of
- * registration_number, start_date or end_date. Pending and rejected registrations allow all three
- * fields; registration_number and start_date require a connection that is not active. Scheduled
- * and active registrations allow only end_date. A pending or rejected registration whose
- * tax-account copy exists or may have been created cannot change start_date; delete it and create
- * it again. Ended registrations cannot be changed. A version fence by itself is not a change.
- */
-export type UpdateTaxRegistrationRequest = ({
-    /**
-     * Shape $ (Value): string or null. Last day the registration applies, inclusive. Must be on or
-     * after start_date and today (UTC). Send null to clear the end date before the registration
-     * has ended. Format: date. minLength: 1.
-     */
-    "end_date"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Omit to apply the
-     * change to the current resource. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. First day the registration applies, inclusive. Flint checks it
-     * against each sale's local date. Status and validation use the UTC date. May be up to 365
-     * days in the future. Format: date. minLength: 1.
-     */
-    "start_date"?: string;
-})
-    & ((unknown)
-    | ({
-    /**
-     * Shape $ (Value): string. First day the registration applies, inclusive. Flint checks it
-     * against each sale's local date. Status and validation use the UTC date. May be up to 365
-     * days in the future. Format: date. minLength: 1.
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Last day the registration applies, inclusive. Must be on or
-     * after start_date and today (UTC). Send null to clear the end date before the registration
-     * has ended. Format: date. minLength: 1.
-     */
-    "end_date": string | null;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateTaxRegistrationRequestInput}. Update at least one of
- * registration_number, start_date or end_date. Pending and rejected registrations allow all three
- * fields; registration_number and start_date require a connection that is not active. Scheduled
- * and active registrations allow only end_date. A pending or rejected registration whose
- * tax-account copy exists or may have been created cannot change start_date; delete it and create
- * it again. Ended registrations cannot be changed. A version fence by itself is not a change.
- */
-export type UpdateTaxRegistrationRequestInput = ({
-    /**
-     * Shape $ (Value): string or null. Last day the registration applies, inclusive. Must be on or
-     * after start_date and today (UTC). Send null to clear the end date before the registration
-     * has ended. Format: date. minLength: 1.
-     */
-    "end_date"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Omit to apply the
-     * change to the current resource. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Seller's tax registration number. Write-only; responses return only
-     * its last four characters. minLength: 1. maxLength: 255.
-     */
-    "registration_number"?: string;
-    /**
-     * Shape $ (Value): string. First day the registration applies, inclusive. Flint checks it
-     * against each sale's local date. Status and validation use the UTC date. May be up to 365
-     * days in the future. Format: date. minLength: 1.
-     */
-    "start_date"?: string;
-})
-    & (({
-    /**
-     * Shape $ (Value): string. Seller's tax registration number. Write-only; responses return only
-     * its last four characters. minLength: 1. maxLength: 255.
-     */
-    "registration_number": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. First day the registration applies, inclusive. Flint checks it
-     * against each sale's local date. Status and validation use the UTC date. May be up to 365
-     * days in the future. Format: date. minLength: 1.
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Last day the registration applies, inclusive. Must be on or
-     * after start_date and today (UTC). Send null to clear the end date before the registration
-     * has ended. Format: date. minLength: 1.
-     */
-    "end_date": string | null;
-}));
-/**
- * Shape $ (Value): {@link UpdateWebhookEndpointRequest}. The request body for: Update webhook
- * endpoint.
- */
-export type UpdateWebhookEndpointRequest = ({
-    /**
-     * Shape $ (Value): string. Set default to follow the merchant default, or a supported
-     * YYYY-MM-DD version to pin this endpoint. Omit to leave unchanged. Null is not accepted.
-     * Switching between a pin and default clears the rollback offer. minLength: 1.
-     */
-    "api_version"?: string;
-    /**
-     * Shape $ (Value): string or null. Endpoint description. Omit to leave unchanged; null clears
-     * it. Send null to clear it. minLength: 1. maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): Array of string. Event types to deliver. Send ["*"] for every type the
-     * endpoint's event_sources deliver, including types added later; * must be the only entry and
-     * is not available with installed_merchants. At least one entry is required. Use only current
-     * event type names; previous and removed names are rejected. Stored subscriptions map previous
-     * names permanently and drop removed names on read. See the [changelog](/docs/changelog).
-     * minItems: 1. Shape $[] (Value): string. minLength: 1.
-     */
-    "enabled_events"?: Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Event sources this endpoint receives. Defaults to
-     * merchant. Use partner_app for app lifecycle events and installed_merchants for events from
-     * merchants that installed the partner app. [] enum: "merchant", "partner_app",
-     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Apply api_version only if this matches the resource's current
-     * api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted.
-     * minLength: 1.
-     */
-    "expected_api_version"?: string;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * enabled_events, event_sources, installed_merchant_modes, or signing_methods is present,
-     * including an empty array. Optional for scalar updates. Use an integer string (decimal
-     * digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of string. Modes of installed-merchant events this endpoint receives.
-     * Required when event_sources includes installed_merchants and omitted otherwise. Partner app
-     * lifecycle events are delivered regardless of these modes. minItems: 1. maxItems: 2.
-     * uniqueItems: true. [] enum: "test", "live". Shape $[] (Value): string. Value enum: "test",
-     * "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Partner app that owns partner_app or installed_merchants event
-     * sources. minLength: 1.
-     */
-    "partner_app_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link WebhookSigningMethod}. Replaces the signing methods.
-     * Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has
-     * been issued. Omit to leave unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt",
-     * "hmac". Shape $[] (Value): {@link WebhookSigningMethod}. jwt uses Flint's public JWKS. hmac
-     * uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethod>;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "url"?: string;
-});
-/**
- * Shape $ (Value): {@link UpdateWebhookEndpointRequestInput}. The request body for: Update webhook
- * endpoint.
- */
-export type UpdateWebhookEndpointRequestInput = ({
-    /**
-     * Shape $ (Value): string. Set default to follow the merchant default, or a supported
-     * YYYY-MM-DD version to pin this endpoint. Omit to leave unchanged. Null is not accepted.
-     * Switching between a pin and default clears the rollback offer. minLength: 1.
-     */
-    "api_version"?: string;
-    /**
-     * Shape $ (Value): string or null. Endpoint description. Omit to leave unchanged; null clears
-     * it. Send null to clear it. minLength: 1. maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): Array of string. Event types to deliver. Send ["*"] for every type the
-     * endpoint's event_sources deliver, including types added later; * must be the only entry and
-     * is not available with installed_merchants. At least one entry is required. Use only current
-     * event type names; previous and removed names are rejected. Stored subscriptions map previous
-     * names permanently and drop removed names on read. See the [changelog](/docs/changelog).
-     * minItems: 1. Shape $[] (Value): string. minLength: 1.
-     */
-    "enabled_events"?: Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Event sources this endpoint receives. Defaults to
-     * merchant. Use partner_app for app lifecycle events and installed_merchants for events from
-     * merchants that installed the partner app. [] enum: "merchant", "partner_app",
-     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
-    /**
-     * Shape $ (Value): string. Apply api_version only if this matches the resource's current
-     * api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted.
-     * minLength: 1.
-     */
-    "expected_api_version"?: string;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * enabled_events, event_sources, installed_merchant_modes, or signing_methods is present,
-     * including an empty array. Optional for scalar updates. Use an integer string (decimal
-     * digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of string. Modes of installed-merchant events this endpoint receives.
-     * Required when event_sources includes installed_merchants and omitted otherwise. Partner app
-     * lifecycle events are delivered regardless of these modes. minItems: 1. maxItems: 2.
-     * uniqueItems: true. [] enum: "test", "live". Shape $[] (Value): string. Value enum: "test",
-     * "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live">;
-    /**
-     * Shape $ (Value): string. Partner app that owns partner_app or installed_merchants event
-     * sources. minLength: 1.
-     */
-    "partner_app_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link WebhookSigningMethodInput}. Replaces the signing methods.
-     * Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has
-     * been issued. Omit to leave unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt",
-     * "hmac". Shape $[] (Value): {@link WebhookSigningMethodInput}. jwt uses Flint's public JWKS.
-     * hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): string. minLength: 1. */
-    "url"?: string;
-});
-/**
- * Shape $ (Value): {@link UpdateWorkloadIdentityRequest}. The request body for: Update a workload
- * identity.
- */
-export type UpdateWorkloadIdentityRequest = ({
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentityClaimConditionRequest}. Bounded value
-     * array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared
-     * issuers require tenant pinning. maxItems: 10. uniqueItems: true. Shape $[] (Value): {@link
-     * WorkloadIdentityClaimConditionRequest}. A condition to match one top-level scalar claim in
-     * the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
-    /**
-     * Shape $ (Value): integer string. Version most recently read. Required when claim_conditions
-     * or scopes is supplied; optional for scalar updates. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of string. Complete scope set to grant. Machine callers may grant
-     * only scopes they hold in the same environment. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob" | (string & {});
-});
-/**
- * Shape $ (Value): {@link UpdateWorkloadIdentityRequestInput}. The request body for: Update a
- * workload identity.
- */
-export type UpdateWorkloadIdentityRequestInput = ({
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentityClaimConditionRequestInput}. Bounded value
-     * array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared
-     * issuers require tenant pinning. maxItems: 10. uniqueItems: true. Shape $[] (Value): {@link
-     * WorkloadIdentityClaimConditionRequestInput}. A condition to match one top-level scalar claim
-     * in the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
-    /**
-     * Shape $ (Value): integer string. Version most recently read. Required when claim_conditions
-     * or scopes is supplied; optional for scalar updates. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of string. Complete scope set to grant. Machine callers may grant
-     * only scopes they hold in the same environment. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob";
-});
-/** Shape $ (Value): {@link User}. A user with access to merchant accounts. */
-export type User = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "default_merchant_id"?: string;
-    /** Shape $ (Value): string. */
-    "email": string;
-    /** Shape $ (Value): string. */
-    "first_name": string;
-    /** Shape $ (Value): string. */
-    "last_name": string;
-    /** Shape $ (Value): string.  Value enum: "active", "deactivated". */
-    "status": "active" | "deactivated" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Shape $ (Value): string. */
-    "user_id": string;
-};
-export type VerifiedWebhook = {
-    known: true;
-    event: KnownWebhookEvent;
-}
-    | {
-    known: false;
-    event: unknown;
-    reason: "unknown_event" | "unmatched_envelope";
-};
-/**
- * Shape $ (Value): {@link VerifyReturnReceiptLineItemRequest}. The request body for: Verify return
- * receipt line item.
- */
-export type VerifyReturnReceiptLineItemRequest = {
-    /**
-     * Shape $ (Value): integer string. Optional version of the return receipt. A stale value
-     * returns VERSION_CONFLICT with the receipt ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id": string;
-    /**
-     * Shape $ (Value): string. Value enum: "order_match_confirmed", "sku_match_confirmed",
-     * "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "verification_reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link VerifyReturnReceiptLineItemRequestInput}. The request body for: Verify
- * return receipt line item.
- */
-export type VerifyReturnReceiptLineItemRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Optional version of the return receipt. A stale value
-     * returns VERSION_CONFLICT with the receipt ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id": string;
-    /**
-     * Shape $ (Value): string. Value enum: "order_match_confirmed", "sku_match_confirmed",
-     * "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "verification_reason_message"?: string;
-};
-/** Shape $ (Value): {@link VoidPackageRequest}. The request body for: Void package. */
-export type VoidPackageRequest = {
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Optional resource version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. Void event timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /** Shape $ (Value): string. Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** Shape $ (Value): {@link VoidPackageRequestInput}. The request body for: Void package. */
-export type VoidPackageRequestInput = {
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Optional resource version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. Void event timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** Shape $ (Value): {@link VoidShipmentRequestInput}. The request body for: Void shipment. */
-export type VoidShipmentRequestInput = VoidPackageRequestInput;
-/**
- * Shape $ (Value): {@link VoidShipmentResponse}. A response containing `VoidShipmentResult` data.
- */
-export type VoidShipmentResponse = {
-    /**
-     * Shape $ (Value): {@link VoidShipmentResult}. The voided shipment and its affected packages.
-     * The shipment is the primary resource and expected_version target.
-     */
-    "data": VoidShipmentResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link VoidShipmentResult}. The voided shipment and its affected packages. The
- * shipment is the primary resource and expected_version target.
- */
-export type VoidShipmentResult = {
-    /**
-     * Shape $ (Value): Array of {@link Package}. Shape $[] (Value): {@link Package}. A package
-     * within a shipment.
-     */
-    "packages": Array<Package>;
-    /** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
-    "shipment": Shipment;
-};
-/**
- * Shape $ (Value): {@link WaiveInvoiceLateFeeRequest}. The request body for: Waive an unpaid
- * invoice late fee.
- */
-export type WaiveInvoiceLateFeeRequest = {
-    /** Shape $ (Value): string. Your note explaining this action. minLength: 1. maxLength: 4096. */
-    "reason_message": string;
-};
-/**
- * Shape $ (Value): {@link WaiveInvoiceLateFeeRequestInput}. The request body for: Waive an unpaid
- * invoice late fee.
- */
-export type WaiveInvoiceLateFeeRequestInput = WaiveInvoiceLateFeeRequest;
-/**
- * Shape $ (Value): {@link WaiveReturnLineInspectionRequest}. The request body for: Waive return
- * line inspection.
- */
-export type WaiveReturnLineInspectionRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "trusted_in_store_handoff",
-     * "merchant_review", "other".
-     */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link WaiveReturnLineInspectionRequestInput}. The request body for: Waive
- * return line inspection.
- */
-export type WaiveReturnLineInspectionRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "trusted_in_store_handoff",
-     * "merchant_review", "other".
-     */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-};
-export type WebhookDeliveriesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateWebhookDeliveryRequestInput}. The request body for: Create
-     * webhook delivery.
-     */
-    "body": InputValue<CreateWebhookDeliveryRequestInput>;
-};
-export type WebhookDeliveriesGetInput = {
-    /** Shape $ (Value): string. */
-    "webhook_delivery_id": InputValue<string>;
-};
-export type WebhookDeliveriesListAttemptsInput = {
-    /** Shape $ (Value): string. */
-    "webhook_delivery_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-};
-export type WebhookDeliveriesResendInput = {
-    /** Shape $ (Value): string. */
-    "webhook_delivery_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link ResendWebhookDeliveryRequestInput}. The request body for: Resend
-     * webhook delivery.
-     */
-    "body"?: InputValue<ResendWebhookDeliveryRequestInput>;
-};
-/**
- * Shape $ (Value): {@link WebhookDelivery}. An attempt to deliver an event to a webhook endpoint.
- */
-export type WebhookDelivery = {
-    /**
-     * Shape $ (Value): integer. Attempts made by Flint's automatic schedule. Manual resends and
-     * the first attempt of a delivery you create don't count. Format: int32.
-     */
-    "automatic_attempt_count": number;
-    /**
-     * Shape $ (Value): string. When the delivery was created: when Flint prepared the event, or
-     * when you created it. Format: date-time.
-     */
-    "created_at": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "delivered_at"?: string;
-    /**
-     * Shape $ (Value): string. The kind of failure on the most recent failed attempt. Absent
-     * before any attempt, and when delivered or suppressed. Value enum: "webhook_timeout",
-     * "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target",
-     * "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx",
-     * "server_error", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "server_error"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. A concise explanation of the failed attempt. Absent before any
-     * attempt, and when delivered or suppressed.
-     */
-    "error_summary"?: string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "last_response_code"?: number;
-    /** Shape $ (Value): integer. Maximum automatic attempts. Format: int32. */
-    "max_attempts": number;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "next_retry_at"?: string;
-    /** Shape $ (Value): string. The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /**
-     * Shape $ (Value): boolean. Whether sending this delivery again without changing your endpoint
-     * is likely to succeed. While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** Shape $ (Value): string.  Value enum: "pending", "delivered", "failed", "suppressed". */
-    "status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
-    /**
-     * Shape $ (Value): string. Why this delivery was suppressed. Present exactly when status is
-     * suppressed. Suppressed deliveries have no failure explanation. Value enum:
-     * "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing",
-     * "event_not_allowed".
-     */
-    "suppression_reason"?: "endpoint_inactive"
-        | "endpoint_deleted"
-        | "authorization_revoked"
-        | "scope_missing"
-        | "event_not_allowed"
-        | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /** Shape $ (Value): string. */
-    "webhook_delivery_id": string;
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": string;
-    /** Shape $ (Value): string. */
-    "webhook_event_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookDeliveryAction}. The result of a webhook delivery action, such as
- * a resend: the delivery, attempt, status, and any error details.
- */
-export type WebhookDeliveryAction = {
-    /** Shape $ (Value): integer. Format: int32. */
-    "attempt_number": number;
-    /** Shape $ (Value): string.  Value enum: "queued", "sending", "delivered", "failed". */
-    "attempt_status": "queued" | "sending" | "delivered" | "failed" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "completed_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "pending", "delivered", "failed", "suppressed". */
-    "delivery_status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "automatic_delivery", "automatic_retry",
-     * "manual_resend", "manual_delivery", "test_event".
-     */
-    "delivery_trigger": "automatic_delivery"
-        | "automatic_retry"
-        | "manual_resend"
-        | "manual_delivery"
-        | "test_event"
-        | (string & {});
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "duration_milliseconds"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. The kind of failure on the most recent failed attempt. Absent
-     * before any attempt, and when delivered or suppressed. Value enum: "webhook_timeout",
-     * "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target",
-     * "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx",
-     * "server_error", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "server_error"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. A concise explanation of the failed attempt. Absent before any
-     * attempt, and when delivered or suppressed.
-     */
-    "error_summary"?: string;
-    /** Shape $ (Value): string. The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /**
-     * Shape $ (Value): string. Receiver response body excerpt. Omitted unless the caller can read
-     * the event's resource.
-     */
-    "response_body_excerpt"?: string;
-    /**
-     * Shape $ (Value): string. Receiver response content type. Omitted unless the caller can read
-     * the event's resource.
-     */
-    "response_content_type"?: string;
-    /**
-     * Shape $ (Value): Map of string. Receiver response headers, keyed by lowercase header name.
-     * Repeated values are joined with ", ". Sensitive values read [REDACTED]. Absent when no
-     * response was received, after the 14-day response-detail retention, or unless the caller can
-     * read the event's resource. Shape $.* (Value): string.
-     */
-    "response_headers"?: Record<string, string>;
-    /**
-     * Shape $ (Value): boolean. Whether sending this delivery again without changing your endpoint
-     * is likely to succeed. While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "started_at"?: string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "status_code"?: number;
-    /** Shape $ (Value): string. */
-    "webhook_delivery_attempt_id": string;
-    /** Shape $ (Value): string. */
-    "webhook_delivery_id": string;
-    /** Shape $ (Value): string. */
-    "webhook_event_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookDeliveryActionResponse}. A response containing
- * `WebhookDeliveryAction` data.
- */
-export type WebhookDeliveryActionResponse = {
-    /**
-     * Shape $ (Value): {@link WebhookDeliveryAction}. The result of a webhook delivery action,
-     * such as a resend: the delivery, attempt, status, and any error details.
-     */
-    "data": WebhookDeliveryAction;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookDeliveryAttempt}. One attempt to deliver a webhook event to an
- * endpoint, with its status, timing, response code, and error details.
- */
-export type WebhookDeliveryAttempt = {
-    /**
-     * Shape $ (Value): string. API version used for this delivery attempt. Omitted when the
-     * version was not recorded or payload rendering failed. Format: date.
-     */
-    "api_version"?: string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "attempt_number": number;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "completed_at"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "automatic_delivery", "automatic_retry",
-     * "manual_resend", "manual_delivery", "test_event".
-     */
-    "delivery_trigger": "automatic_delivery"
-        | "automatic_retry"
-        | "manual_resend"
-        | "manual_delivery"
-        | "test_event"
-        | (string & {});
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "duration_milliseconds"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. The kind of failure on the most recent failed attempt. Absent
-     * before any attempt, and when delivered or suppressed. Value enum: "webhook_timeout",
-     * "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target",
-     * "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx",
-     * "server_error", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "server_error"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. A concise explanation of the failed attempt. Absent before any
-     * attempt, and when delivered or suppressed.
-     */
-    "error_summary"?: string;
-    /** Shape $ (Value): string. The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /**
-     * Shape $ (Value): string. Receiver response body excerpt. Omitted unless the caller can read
-     * the event's resource.
-     */
-    "response_body_excerpt"?: string;
-    /**
-     * Shape $ (Value): string. Receiver response content type. Omitted unless the caller can read
-     * the event's resource.
-     */
-    "response_content_type"?: string;
-    /**
-     * Shape $ (Value): Map of string. Receiver response headers, keyed by lowercase header name.
-     * Repeated values are joined with ", ". Sensitive values read [REDACTED]. Absent when no
-     * response was received, after the 14-day response-detail retention, or unless the caller can
-     * read the event's resource. Shape $.* (Value): string.
-     */
-    "response_headers"?: Record<string, string>;
-    /**
-     * Shape $ (Value): boolean. Whether sending this delivery again without changing your endpoint
-     * is likely to succeed. While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "started_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "queued", "sending", "delivered", "failed". */
-    "status": "queued" | "sending" | "delivered" | "failed" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
-    "status_code"?: number;
-    /** Shape $ (Value): string. */
-    "webhook_delivery_attempt_id": string;
-    /** Shape $ (Value): string. */
-    "webhook_delivery_id": string;
-    /** Shape $ (Value): string. */
-    "webhook_event_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookDeliveryAttemptListResponse}. A page of `WebhookDeliveryAttempt`
- * objects.
- */
-export type WebhookDeliveryAttemptListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link WebhookDeliveryAttempt}. Shape $[] (Value): {@link
-     * WebhookDeliveryAttempt}. One attempt to deliver a webhook event to an endpoint, with its
-     * status, timing, response code, and error details.
-     */
-    "data": Array<WebhookDeliveryAttempt>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Shape $ (Value): {@link WebhookDeliveryListResponse}. A page of `WebhookDelivery` objects. */
-export type WebhookDeliveryListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link WebhookDelivery}. Shape $[] (Value): {@link
-     * WebhookDelivery}. An attempt to deliver an event to a webhook endpoint.
-     */
-    "data": Array<WebhookDelivery>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookDeliveryResponse}. A response containing `WebhookDelivery` data.
- */
-export type WebhookDeliveryResponse = {
-    /**
-     * Shape $ (Value): {@link WebhookDelivery}. An attempt to deliver an event to a webhook
-     * endpoint.
-     */
-    "data": WebhookDelivery;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookEndpoint}. A merchant webhook endpoint belongs to the live mode
- * or sandbox of the credential that created it and receives only that environment's events.
- * Partner endpoints select sources with event_sources and installed_merchant_modes.
- */
-export type WebhookEndpoint = ({
-    /**
-     * Shape $ (Value): string. A dated API version pins this endpoint. The value default follows
-     * the endpoint owner's merchant default at delivery time, including retries. Deliveries never
-     * use a newer version than the event's recorded version.
-     */
-    "api_version": string;
-    /** Shape $ (Value): string. When api_version last changed. Format: date-time. */
-    "api_version_changed_at"?: string;
-    /**
-     * Shape $ (Value): string. Version this endpoint used before its last upgrade. Present while a
-     * rollback is available. To roll back, send it as api_version.
-     */
-    "api_version_previous"?: string;
-    /**
-     * Shape $ (Value): string. When the rollback offer for api_version_previous ends. You can
-     * still set any supported version afterward. Format: date-time.
-     */
-    "api_version_rollback_expires_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of string. Subscribed event types. ["*"] includes every type the
-     * endpoint's event_sources deliver, including types added later; * is not available with
-     * installed_merchants. Stored subscriptions map previous names permanently and drop removed
-     * names on read. Empty when no current subscriptions remain. See the
-     * [changelog](/docs/changelog). Shape $[] (Value): string. minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Event sources this endpoint receives. Defaults to
-     * merchant. Use partner_app for app lifecycle events and installed_merchants for events from
-     * merchants that installed the partner app. [] enum: "merchant", "partner_app",
-     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Shape $ (Value): Array of string. Modes of installed-merchant events this endpoint receives.
-     * Required when event_sources includes installed_merchants and omitted otherwise. Partner app
-     * lifecycle events are delivered regardless of these modes. minItems: 1. maxItems: 2.
-     * uniqueItems: true. [] enum: "test", "live". Shape $[] (Value): string. Value enum: "test",
-     * "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Partner app that owns partner_app or installed_merchants event
-     * sources.
-     */
-    "partner_app_id"?: string;
-    /**
-     * Shape $ (Value): string. When the replaced signing secret stops signing deliveries. Present
-     * only during a rotation overlap. Until then each delivery carries a signature from both
-     * secrets. Format: date-time.
-     */
-    "previous_secret_expires_at"?: string;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac".
-     * Shape $[] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and
-     * Standard Webhooks v1. Value enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Availability of this endpoint. Deleted is returned only by DELETE.
-     * Value enum: "active", "inactive", "deleted".
-     */
-    "status": "active" | "inactive" | "deleted" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Shape $ (Value): string. */
-    "url": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": string;
-});
-/** Shape $ (Value): {@link WebhookEndpointListResponse}. A page of `WebhookEndpoint` objects. */
-export type WebhookEndpointListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link WebhookEndpoint}. Shape $[] (Value): {@link
-     * WebhookEndpoint}. A merchant webhook endpoint belongs to the live mode or sandbox of the
-     * credential that created it and receives only that environment's events. Partner endpoints
-     * select sources with event_sources and installed_merchant_modes.
-     */
-    "data": Array<WebhookEndpoint>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookEndpointResponse}. A response containing `WebhookEndpoint` data.
- */
-export type WebhookEndpointResponse = {
-    /**
-     * Shape $ (Value): {@link WebhookEndpoint}. A merchant webhook endpoint belongs to the live
-     * mode or sandbox of the credential that created it and receives only that environment's
-     * events. Partner endpoints select sources with event_sources and installed_merchant_modes.
-     */
-    "data": WebhookEndpoint;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link WebhookEndpointWithSecret}. A webhook endpoint with its one-time signing
- * secret, returned when the endpoint is created or its secret is rotated. A merchant webhook
- * endpoint belongs to the live mode or sandbox of the credential that created it and receives only
- * that environment's events. Partner endpoints select sources with event_sources and
- * installed_merchant_modes.
- */
-export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): string. One-time signing secret. Present on create only when hmac is
-     * enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
-     */
-    "secret"?: string;
-});
-/**
- * Shape $ (Value): {@link WebhookEndpointWithSecretResponse}. A response containing
- * `WebhookEndpointWithSecret` data.
- */
-export type WebhookEndpointWithSecretResponse = {
-    /**
-     * Shape $ (Value): {@link WebhookEndpointWithSecret}. A webhook endpoint with its one-time
-     * signing secret, returned when the endpoint is created or its secret is rotated. A merchant
-     * webhook endpoint belongs to the live mode or sandbox of the credential that created it and
-     * receives only that environment's events. Partner endpoints select sources with event_sources
-     * and installed_merchant_modes.
-     */
-    "data": WebhookEndpointWithSecret;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type WebhookEndpointsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateWebhookEndpointRequestInput}. The request body for: Create
-     * webhook endpoint.
-     */
-    "body": InputValue<CreateWebhookEndpointRequestInput>;
-};
-export type WebhookEndpointsCreateWebhookTestEventInput = {
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateWebhookTestEventRequestInput}. The request body for: Create
-     * webhook test event.
-     */
-    "body": InputValue<CreateWebhookTestEventRequestInput>;
-};
-export type WebhookEndpointsGetInput = {
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": InputValue<string>;
-};
-export type WebhookEndpointsListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "merchant", "partner_app",
-     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
-     */
-    "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
-    /** Shape $ (Value): string. */
-    "partner_app_id"?: InputValue<string>;
-};
-export type WebhookEndpointsRemoveInput = {
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type WebhookEndpointsRotateWebhookSecretInput = {
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link RotateWebhookSecretRequestInput}. The request body for: Rotate
-     * webhook secret.
-     */
-    "body"?: InputValue<RotateWebhookSecretRequestInput>;
-};
-export type WebhookEndpointsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "webhook_endpoint_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateWebhookEndpointRequestInput}. The request body for: Update
-     * webhook endpoint.
-     */
-    "body": InputValue<UpdateWebhookEndpointRequestInput>;
-};
-/** Shape $ (Value): {@link WebhookEvent}. An event prepared for delivery to webhook endpoints. */
-export type WebhookEvent = {
-    /** Shape $ (Value): string. */
-    "api_request_log_id"?: string;
-    /**
-     * Shape $ (Value): string. API version of the event data. Stored data follows the same
-     * versioning rules as webhook deliveries. Format: date.
-     */
-    "api_version": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): object. The delivered envelope's data, including its
-     * payload-version-specific shape. Omitted from list responses and from detail responses when
-     * the caller lacks read access to the attributed resource or the payload has expired after 14
-     * days.
-     */
-    "data"?: {
-        [key: string]: unknown;
-    };
-    /** Shape $ (Value): string.  Value enum: "merchant", "partner_app", "installed_merchants". */
-    "event_source"?: "merchant" | "partner_app" | "installed_merchants" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated".
-     */
-    "event_type": "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | (string & {});
-    /** Shape $ (Value): string. */
+    "line_items": Array<SubscriptionLineItem>;
     "merchant_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "test", "live". */
-    "mode"?: "test" | "live" | (string & {});
-    /** Shape $ (Value): string. */
-    "partner_app_id"?: string;
     /**
-     * Shape $ (Value): integer. Envelope payload version. Present only while the stored payload is
-     * retained. Value enum: 1, 2.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
      */
-    "payload_version"?: number;
+    "metadata"?: MetadataMap;
     /**
-     * Shape $ (Value): object or null. Originating merchant request, or null for a background
-     * event. The idempotency key is included only on an authorized detail read while the payload
-     * is retained. Omitted for partner events. Shape $.id (Required): string. Shape
-     * $.idempotency_key (Optional): string. The Idempotency-Key the originating request sent.
-     * Absent when it sent none.
+     * The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is
+     * past_due. Format: date-time.
      */
-    "request"?: {
-        /** Shape $ (Value): string. */
-        "id": string;
-        /**
-         * Shape $ (Value): string. The Idempotency-Key the originating request sent. Absent when
-         * it sent none.
-         */
-        "idempotency_key"?: string;
-    }
-        | null;
-    /** Shape $ (Value): string. */
-    "resource_id"?: string;
+    "missed_billing_at"?: string;
     /**
-     * Shape $ (Value): {@link ResourceType}. Public resource type: the resource's ID field name
-     * without `_id`. Clients must accept values added in future releases. Value enum: "api_key",
-     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
-     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
-     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
-     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
-     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
-     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
-     * "inventory_adjustment", "inventory_allocation_policy",
-     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
-     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
-     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
-     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
-     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
-     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
-     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
-     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
-     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
+     * while a trialing or active subscription has a billing date and isn't set to cancel at the
+     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
+     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
+     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
+     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
+     * awaiting a date reports awaiting_billing_schedule. Format: date-time.
      */
-    "resource_type"?: ResourceType;
+    "next_billing_at"?: string;
     /**
-     * Shape $ (Value): {@link WebhookEventSource}. Partner envelope source. Present only for
-     * partner events while the stored payload is retained. The source of a partner webhook event,
-     * selected by type.
+     * Recorded automatic payment retry time. Null when no retry time is available. Format:
+     * date-time.
      */
-    "source"?: WebhookEventSource;
-    /** Shape $ (Value): boolean. */
-    "test": boolean;
-    /** Shape $ (Value): string. */
-    "webhook_event_id": string;
+    "next_retry_at": string | null;
+    /**
+     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
+     * delivery destination after preference changes and cancellation. Absent when no such renewal
+     * order exists. Only renewal orders count; the signup order is not included.
+     */
+    "open_renewal_order_id"?: string;
+    /**
+     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
+     * payments and credits. Present only while status is past_due and a positive balance remains.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "outstanding_money"?: MoneyValue;
+    /**
+     * Why the subscription is paused: merchant for a pause made with your API key or dashboard,
+     * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
+     * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
+     * settings pause the subscription. Omitted when the subscription is not paused. Value enum:
+     * "buyer", "delivery_action_required", "merchant", "payment_failed".
+     */
+    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "paused_at"?: string;
+    /**
+     * Present only when `expand` includes `payment_method`; `null` when expanded and there is no
+     * related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
+     * method's summary fields, including type, status, and card details, returned when the payment
+     * method is expanded. anyOf[2] (Value): null.
+     */
+    "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+    /** The saved payment method renewals charge. Change it with PATCH. */
+    "payment_method_id": string;
+    /**
+     * Recurring promotions applying to the next charged cycle. Empty when none apply; signup-only
+     * and exhausted promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A
+     * recurring promotion applied to a subscription, including its recurrence and remaining
+     * discounted cycles.
+     */
+    "promotions": Array<SubscriptionPromotion>;
+    /**
+     * How many of each line the subscription bills each period, as a whole number; fractional
+     * quantities are not supported. A change applies from the next renewal that has not been paid.
+     * Format: int32.
+     */
+    "quantity": number;
+    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
+    "quantity_options"?: Array<number>;
+    /**
+     * What one billing period's items cost before discounts, shipping, and tax: each line's price
+     * with modifiers, times quantity. It changes when items, quantity, or the plan change; editing
+     * the plan doesn't change it. For the next charge, use a subscription preview in next_renewal
+     * mode. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "recurring_subtotal_money": ((MoneyValue) | (null));
+    /**
+     * When Flint accepted a pending resume request. Set only while paused with a resume Flint has
+     * not applied yet. Clears when Flint resumes the subscription or refuses the request. Format:
+     * date-time.
+     */
+    "resume_requested_at": string | null;
+    /**
+     * When the scheduled cancellation takes effect: trial_end_at while trialing,
+     * current_period_end_at while active, or next_retry_at while past_due. Null when
+     * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
+     */
+    "scheduled_cancel_at": string | null;
+    /**
+     * When a pause with a length (pause_duration_cycles) resumes on its own: that many billing
+     * intervals after paused_at. Null when the subscription is not paused or the pause has no
+     * length, such as a pause until you resume it or the pause Flint starts when a delivery hold
+     * runs out. Format: date-time.
+     */
+    "scheduled_resume_at": string | null;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. The address where a subscription's service is delivered, with the saved customer
+     * address it came from.
+     */
+    "service_location"?: SubscriptionServiceLocation;
+    /**
+     * When a scheduled start's first billing period begins. Present only until that first payment
+     * succeeds. Format: date-time.
+     */
+    "starts_at"?: string;
+    /**
+     * Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
+     * "scheduled".
+     */
+    "status": "trialing"
+        | "active"
+        | "paused"
+        | "past_due"
+        | "canceled"
+        | "incomplete"
+        | "scheduled"
+        | (string & {});
+    "subscription_id": string;
+    /**
+     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
+     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. anyOf[2] (Value): null.
+     */
+    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    /** Subscription plan ID. Omitted when terms_type is subscription_offer. */
+    "subscription_plan_id"?: string;
+    /**
+     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
+     * action for a transient reason, such as a renewal already in progress, with its own error. []
+     * enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan". []
+     * (Value): string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew",
+     * "retry_payment", "change_plan".
+     */
+    "supported_actions": Array<"cancel"
+        | "pause"
+        | "resume"
+        | "skip_cycle"
+        | "renew"
+        | "retry_payment"
+        | "change_plan"
+        | (string & {})>;
+    /**
+     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
+     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
+     * "subscription_offer".
+     */
+    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
+    /**
+     * ID of the test clock the subscription's customer was created on. The subscription bills at
+     * the clock's time. Present only when the customer is on a test clock. Included only in
+     * merchant responses and omitted from buyer responses.
+     */
+    "test_clock_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "trial_end_at"?: string;
+    /**
+     * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
+     * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
+     * subscription's delivery, and who can fix it.
+     */
+    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /** Format: uint64. minimum: 0. */
+    "version": number;
 };
-export type WebhookEventBalanceTransactionCreated = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type SubscriptionActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": BalanceTransaction;
+        "object": Subscription;
     };
-    "event_type"?: "balance_transaction.created" | (string & {});
+    "event_type"?: "subscription.activated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.activated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.activated";
+});
+/**
+ * The `subscription.activated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Subscription}. A customer's recurring purchase. */
+    "data"?: {
+        /** A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Value enum: "subscription.activated". */
+    "event_type"?: "subscription.activated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `subscription.activated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Subscription}. A customer's recurring purchase. */
+    "data"?: {
+        /** A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Value enum: "subscription.activated". */
+    "event_type"?: "subscription.activated";
+});
+/**
+ * The verification state of a subscription's delivery address: `verified`, `unverified`,
+ * `needs_review`, or `unverifiable`.
+ */
+export type SubscriptionAddressVerification = {
+    /** Value enum: "verified", "unverified", "needs_review", "unverifiable". */
+    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
+};
+/**
+ * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
+ * Amounts and payments_count use currency; customer and subscription counts span currencies.
+ */
+export type SubscriptionAnalytics = {
+    /**
+     * Currencies of subscription payments selected by succeeded activity created_at in the period,
+     * plus current active and past_due billing snapshots, regardless of the currency filter. The
+     * half-open period [period_start_at, period_end_at) includes its start and excludes its end.
+     * Amounts and payments_count use currency; customer and subscription counts span currencies.
+     * [] (Value): string.
+     */
+    "currencies": Array<string>;
+    /**
+     * ISO 4217 currency for amounts and payment counts. Defaults to the merchant's default
+     * currency. The half-open period [period_start_at, period_end_at) includes its start and
+     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
+     * span currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Exclusive resolved end instant. Omitted or future request ends resolve to the request time
+     * truncated to the second. The half-open period [period_start_at, period_end_at) includes its
+     * start and excludes its end. Amounts and payments_count use currency; customer and
+     * subscription counts span currencies. Format: date-time.
+     */
+    "period_end_at": string;
+    /**
+     * Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its
+     * start and excludes its end. Amounts and payments_count use currency; customer and
+     * subscription counts span currencies. Format: date-time.
+     */
+    "period_start_at": string;
+    /**
+     * Current persisted subscription state at computation time, cached briefly. Independent of the
+     * requested period end. The half-open period [period_start_at, period_end_at) includes its
+     * start and excludes its end. Amounts and payments_count use currency; customer and
+     * subscription counts span currencies. The half-open period [period_start_at, period_end_at)
+     * includes its start and excludes its end. Amounts and payments_count use currency; customer
+     * and subscription counts span currencies.
+     */
+    "snapshot_metrics": SubscriptionSnapshotMetrics;
+    /**
+     * Subscription creation, cancellation, and payment success metrics selected within the
+     * requested period. The half-open period [period_start_at, period_end_at) includes its start
+     * and excludes its end. Amounts and payments_count use currency; customer and subscription
+     * counts span currencies. The half-open period [period_start_at, period_end_at) includes its
+     * start and excludes its end. Amounts and payments_count use currency; customer and
+     * subscription counts span currencies.
+     */
+    "window_metrics": SubscriptionWindowMetrics;
+};
+/** A response containing `SubscriptionAnalytics` data. */
+export type SubscriptionAnalyticsResponse = {
+    /**
+     * The half-open period [period_start_at, period_end_at) includes its start and excludes its
+     * end. Amounts and payments_count use currency; customer and subscription counts span
+     * currencies.
+     */
+    "data": SubscriptionAnalytics;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The `external` variant of `SubscriptionBillingScheduleInput`. */
+export type SubscriptionBillingScheduleInputExternal = {
+    /** Value enum: "external". */
+    "owner": "external" | (string & {});
+};
+/** The `external` variant of `SubscriptionBillingScheduleInput`. */
+export type SubscriptionBillingScheduleInputExternalInput = {
+    /** Value enum: "external". */
+    "owner": "external";
+};
+/** The `flint` variant of `SubscriptionBillingScheduleInput`. */
+export type SubscriptionBillingScheduleInputFlint = {
+    /** Value enum: "flint". */
+    "owner": "flint" | (string & {});
+};
+/** The `flint` variant of `SubscriptionBillingScheduleInput`. */
+export type SubscriptionBillingScheduleInputFlintInput = {
+    /** Value enum: "flint". */
+    "owner": "flint";
+};
+/** Who owns the billing schedule when creating a subscription: Flint or an external system. */
+export type SubscriptionBillingScheduleRequest = ({
+    /** Value enum: "flint", "external". */
+    "owner": "flint" | "external" | (string & {});
 })
-    & {
-    "event_type": "balance_transaction.created";
-});
-export type WebhookEventBalanceTransactionUpdated = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": BalanceTransaction;
-    };
-    "event_type"?: "balance_transaction.updated" | (string & {});
+    & ((Exclude<SubscriptionBillingScheduleInputFlint & object, readonly unknown[]>)
+    | (Exclude<SubscriptionBillingScheduleInputExternal & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Who owns the billing schedule when creating a subscription: Flint or an external system. */
+export type SubscriptionBillingScheduleRequestInput = ({
+    /** Value enum: "flint", "external". */
+    "owner": "flint" | "external";
 })
-    & {
-    "event_type": "balance_transaction.updated";
-});
-export type WebhookEventBalanceUpdated = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Balance;
-    };
-    "event_type"?: "balance.updated" | (string & {});
-})
-    & {
-    "event_type": "balance.updated";
-});
-export type WebhookEventBundleArchived = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Bundle;
-    };
-    "event_type"?: "bundle.archived" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Bundle;
-    };
-    "event_type"?: "bundle.archived" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "bundle.archived";
-});
-export type WebhookEventBundleCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Bundle;
-    };
-    "event_type"?: "bundle.created" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Bundle;
-    };
-    "event_type"?: "bundle.created" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "bundle.created";
-});
-export type WebhookEventBundleUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Bundle;
-    };
-    "event_type"?: "bundle.updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Bundle;
-    };
-    "event_type"?: "bundle.updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "bundle.updated";
-});
-export type WebhookEventCategoryCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.created" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.created" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "category.created";
-});
-export type WebhookEventCategoryDeleted = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.deleted" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.deleted" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "category.deleted";
-});
-export type WebhookEventCategoryUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "category.updated";
-});
-export type WebhookEventCheckoutSessionClosed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": CheckoutSession;
-    };
-    "event_type"?: "checkout_session.closed" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": CheckoutSession;
-    };
-    "event_type"?: "checkout_session.closed" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "checkout_session.closed";
-});
+    & ((Exclude<SubscriptionBillingScheduleInputFlintInput & object, readonly unknown[]>)
+    | (Exclude<SubscriptionBillingScheduleInputExternalInput & object, readonly unknown[]>));
+/** The `external` variant of `SubscriptionBillingScheduleUpdateInput`. */
+export type SubscriptionBillingScheduleUpdateInputExternal = {
+    /**
+     * Future date at which Flint attempts the next charge. Omit to preserve the date or send null
+     * to clear it. Format: date-time. minLength: 1.
+     */
+    "next_billing_at"?: string | null;
+    /** Value enum: "external". */
+    "owner": "external" | (string & {});
+};
+/** The `external` variant of `SubscriptionBillingScheduleUpdateInput`. */
+export type SubscriptionBillingScheduleUpdateInputExternalInput = {
+    /**
+     * Future date at which Flint attempts the next charge. Omit to preserve the date or send null
+     * to clear it. Format: date-time. minLength: 1.
+     */
+    "next_billing_at"?: string | globalThis.Date | null;
+    /** Value enum: "external". */
+    "owner": "external";
+};

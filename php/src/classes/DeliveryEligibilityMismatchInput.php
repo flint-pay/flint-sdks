@@ -10,25 +10,25 @@ namespace Flint;
 final class DeliveryEligibilityMismatchInput extends Model {
     /** @param array{'condition': string, 'expression_path': string, 'field'?: string, 'negated'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryEligibilityMismatchInput')); }
-    /** Shape $ (Value): string. The configured eligibility condition family that did not match. Value enum: "zone", "country", "state", "postal_code", "radius", "window_time", "subscription_purchase", "customer_segment", "customer_merchant_verified", "customer_has_email", "customer_has_phone".
+    /** The configured eligibility condition family that did not match. Value enum: "zone", "country", "state", "postal_code", "radius", "window_time", "subscription_purchase", "customer_segment", "customer_merchant_verified", "customer_has_email", "customer_has_phone".
      * @return string
      * @throws SdkError When condition is omitted; use hasCondition() or valueOrDefault().
      */
     public function getCondition(): string { return $this->get('condition'); }
     public function hasCondition(): bool { return $this->has('condition'); }
-    /** Shape $ (Value): string. The condition's path in the configured eligibility expression, starting at $.
+    /** The condition's path in the configured eligibility expression, starting at $.
      * @return string
      * @throws SdkError When expression_path is omitted; use hasExpressionPath() or valueOrDefault().
      */
     public function getExpressionPath(): string { return $this->get('expression_path'); }
     public function hasExpressionPath(): bool { return $this->has('expression_path'); }
-    /** Shape $ (Value): string. The eligibility fact evaluated by the condition. Buyer fact values are not included.
+    /** The eligibility fact evaluated by the condition. Buyer fact values are not included.
      * @return string
      * @throws SdkError When field is omitted; use hasField() or valueOrDefault().
      */
     public function getField(): string { return $this->get('field'); }
     public function hasField(): bool { return $this->has('field'); }
-    /** Shape $ (Value): boolean. Whether the condition matched inside a not expression and therefore rejected the method.
+    /** Whether the condition matched inside a not expression and therefore rejected the method.
      * @return bool
      * @throws SdkError When negated is omitted; use hasNegated() or valueOrDefault().
      */

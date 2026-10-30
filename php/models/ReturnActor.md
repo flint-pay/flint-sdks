@@ -6,5 +6,5 @@ Who performed a return action: a buyer, merchant, integration, or the system, wi
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnPreviewsCreateResponse200DataEligibilityResolutionAdjustmentsItemWaivedBy](../models/ReturnPreviewsCreateResponse200DataEligibilityResolutionAdjustmentsItemWaivedBy.md#returnpreviewscreateresponse200dataeligibilityresolutionadjustmentsitemwaivedby).
+Fields, types, descriptions and enum values: [CreateReturnPreviewResponseDataEligibilityResolutionAdjustmentsItemWaivedBy](../models/CreateReturnPreviewResponseDataEligibilityResolutionAdjustmentsItemWaivedBy.md#createreturnpreviewresponsedataeligibilityresolutionadjustmentsitemwaivedby).
 

@@ -1,14 +1,13 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateRiskPreviewRequestInput } from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { RiskPreview, RiskPreviewResponse, RiskPreviewsCreateInput, SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+import type { WithResponseInfo } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { RiskPreview, RiskPreviewResponse, RiskPreviewsCreateParams } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -19,17 +18,9 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
-    CreateRiskPreviewRequestInput,
-    CreateRiskPreviewRequestInlineInput,
-    CreateRiskPreviewRequestStoredRuleInput
-} from '../declarations/types-10.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
-export type {
+    RiskPreviewsCreateParams,
     RiskPreview,
-    SdkResponse,
     RiskPreviewResponse,
-    RiskPreviewsCreateInput,
     RiskPredicateNodeInput,
     RiskPredicateNodeAllInput,
     RiskPredicateNodeAnyInput,
@@ -41,18 +32,26 @@ export type {
     RiskPredicateNodeIsMissingInput,
     RiskRuleAnalysis,
     RiskRuleIssue
-} from '../declarations/types-46.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { MoneyValueInput, NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+} from '../declarations/types-52.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type {
+    CreateRiskPreviewRequestInput,
+    CreateRiskPreviewRequestInlineInput,
+    CreateRiskPreviewRequestStoredRuleInput
+} from '../declarations/types-11.js';
+export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseWarning, ResponseMeta } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export {
     makeCreateRiskPreviewRequest,
     makeCreateRiskPreviewRequestInline,
     makeCreateRiskPreviewRequestStoredRule
-} from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+} from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export {
     makeRiskPredicateNode,
     makeRiskPredicateNodeAll,
@@ -63,28 +62,27 @@ export {
     makeRiskPredicateNodeIsMissing,
     makeRiskPredicateNodeMoneyComparison,
     makeRiskPredicateNodeNot
-} from '../declarations/types-76.js';
+} from '../declarations/types-72.js';
 export interface RiskPreviewsResource {
     /**
- * Validates a draft rule, or an existing rule by risk_rule_id, without saving anything. An invalid
- * rule has is_valid: false and its problems in issues. The warnings array says how the change
- * would affect evaluation. Requires risk.read. Rule content issues return 200 with is_valid false,
- * every issue in order, analysis null, and empty warnings. Valid rules return analysis and any
- * warnings. When risk_rule_id is omitted, action and predicate are required. Malformed requests
- * return 400; a missing risk_rule_id resource returns 404. Proposing action or predicate changes
- * to a system rule returns 409 ACTION_NOT_ALLOWED with reason managed_externally. List reference
- * issues are included at the list_alias path. A new rule at the active-rule limit receives a
- * risk_rule_limit_reached warning.
- * @see reference/riskPreviews.md#riskpreviewscreate
- * POST /v1/risk-previews
+ * Validates a rule without saving anything. Send mode inline with action and predicate to check a
+ * draft; add risk_rule_id to check them as an edit to that rule. Send mode stored_rule with
+ * risk_rule_id, and no action or predicate, to check the saved rule as it is. Requires risk.read.
+ * Rule content issues return 200 with is_valid false, every issue in order, analysis null, and
+ * empty warnings. A valid rule returns analysis and any warnings about how the change would affect
+ * evaluation. List reference issues are reported at the list_alias path. A new rule at the
+ * active-rule limit gets a risk_rule_limit_reached warning. A malformed request returns 400, and
+ * an unknown risk_rule_id returns 404. Proposing a different action or predicate for a Flint
+ * default rule returns 409 ACTION_NOT_ALLOWED with reason managed_externally.
+ *
+ * `POST /v1/risk-previews`
+ * @see https://developers.withflintpay.com/docs/api/risk-controls#createRiskPreview
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.riskPreviews.create({mode: "stored_rule", risk_rule_id: "rr_example"})
+ * client.riskPreviews.create({mode: "stored_rule", risk_rule_id:
+ * "rule_01ARZ3NDEKTSV4RRFFQ69G5FAV"})
  */
-    create(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskPreview>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/riskPreviews.md#riskpreviewscreate
-     */
-    createWithResponse(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskPreviewResponse>>;
+    create(params: RiskPreviewsCreateParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<RiskPreview, RiskPreviewResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

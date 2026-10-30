@@ -6,5 +6,5 @@
 
 Response model.
 
-Fields, types, descriptions and enum values: [GiftCardProductConfigurationFaceValueMoney](../models/GiftCardProductConfigurationFaceValueMoney.md#giftcardproductconfigurationfacevaluemoney).
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney).
 

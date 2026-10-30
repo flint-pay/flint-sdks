@@ -14,8 +14,7 @@ Signature: `cancelReturn(string|Model $return_id, array|Model $params, ?RequestO
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_id` | Required | string | Flint return id. |
 | `body` | Required | [CancelReturnRequestInput](../models/CancelReturnRequestInput.md#cancelreturnrequestinput) | The request body for: Cancel one of the current buyer's Returns; Cancel return. |
 
 #### Response
@@ -24,18 +23,18 @@ Returned payload: [BuyerReturn](../models/BuyerReturn.md#buyerreturn).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -43,9 +42,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelReturnWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -55,7 +54,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->cancelReturn('example', [
+$result = $client->me->cancelReturn('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'reason' => 'buyer_request',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -74,8 +73,7 @@ Signature: `cancelSubscription(string|Model $subscription_id, array|Model $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Flint subscription ID. |
 | `body` | Required | [CancelSubscriptionRequestInput](../models/CancelSubscriptionRequestInput.md#cancelsubscriptionrequestinput) | The request body for: Cancel one of the current buyer's subscriptions; Cancel subscription. |
 
 #### Response
@@ -84,20 +82,20 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -105,9 +103,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -117,7 +115,10 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->cancelSubscription('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->cancelSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'cancel_immediately' => false,
+  'cancellation_reason_code' => 'too_expensive',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-cancelSubscription.php)
@@ -134,8 +135,7 @@ Signature: `confirmEmailChangeRequest(string|Model $email_change_request_id, arr
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email_change_request_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `email_change_request_id` | Required | string | Flint email change request ID. |
 | `body` | Required | [ConfirmEmailChangeRequestInput](../models/ConfirmEmailChangeRequestInput.md#confirmemailchangerequestinput) | The request body for: Confirm an email change. |
 
 Body model: [ConfirmEmailChangeRequestInput](../models/ConfirmEmailChangeRequestInput.md#confirmemailchangerequestinput).
@@ -153,19 +153,19 @@ Returned payload: [EmailChangeRequest](../models/EmailChangeRequestInput.md#emai
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -173,9 +173,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `confirmEmailChangeRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -185,7 +185,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->confirmEmailChangeRequest('example', [
+$result = $client->me->confirmEmailChangeRequest('cecr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'new_email_code' => '123456',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -204,7 +204,6 @@ Signature: `createAddress(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateCustomerAddressRequestInput](../models/CreateCustomerAddressRequestInput.md#createcustomeraddressrequestinput) | The request body for: Create a customer address; Create an address for the current buyer. |
 
 #### Response
@@ -213,19 +212,19 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -233,9 +232,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -269,9 +268,7 @@ Signature: `createDeletionRequest(array|Model|null $params = null, ?RequestOptio
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+No request fields.
 
 #### Response
 
@@ -279,18 +276,18 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInp
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -298,9 +295,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createDeletionRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -327,7 +324,6 @@ Signature: `createEmailChangeRequest(array|Model $params, ?RequestOptions $optio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateEmailChangeRequestInput](../models/CreateEmailChangeRequestInput.md#createemailchangerequestinput) | The request body for: Request an email change. |
 
 Body model: [CreateEmailChangeRequestInput](../models/CreateEmailChangeRequestInput.md#createemailchangerequestinput).
@@ -344,19 +340,19 @@ Returned payload: [EmailChangeRequest](../models/EmailChangeRequestInput.md#emai
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -364,9 +360,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createEmailChangeRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -395,8 +391,7 @@ Signature: `createFlintWalletStoreSetup(string|Model $flint_wallet_card_id, arra
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `flint_wallet_card_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `flint_wallet_card_id` | Required | string | The card's handle at this store. |
 
 #### Response
 
@@ -404,18 +399,18 @@ Returned payload: [BuyerFlintWalletStoreSetup](../models/BuyerFlintWalletStoreSe
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -423,9 +418,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createFlintWalletStoreSetupWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -435,14 +430,14 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->createFlintWalletStoreSetup('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->createFlintWalletStoreSetup('fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-createFlintWalletStoreSetup.php)
 
 ### me.createInvoiceCheckoutSession
 
-Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request returns 409 ACTION_NOT_ALLOWED with reason configuration_required when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/me/invoices/{invoice_id}/checkout-sessions`
 
@@ -450,7 +445,7 @@ Signature: `createInvoiceCheckoutSession(string|Model $invoice_id, array|Model|n
 
 #### Request fields
 
-Field definitions: [shared fields](invoices.md#request-fields-4). Models: [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequestInput.md#invoicecheckoutsessionrequestinput).
+Field definitions: [shared fields](invoices.md#request-fields-3). Models: [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequestInput.md#invoicecheckoutsessionrequestinput).
 
 #### Response
 
@@ -458,20 +453,20 @@ Returned payload: [BuyerInvoiceCheckoutSessionResult](../models/BuyerInvoiceChec
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -479,9 +474,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createInvoiceCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -491,10 +486,79 @@ Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#au
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->createInvoiceCheckoutSession('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->createInvoiceCheckoutSession('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-createInvoiceCheckoutSession.php)
+
+### me.createPaymentMethod
+
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Starts saving a payment method for the buyer and returns the client setup to confirm in the browser. The payment method is pending until setup succeeds.
+
+`POST /v1/me/payment-methods`
+
+Signature: `createPaymentMethod(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [SaveMePaymentMethodRequestInput](../models/SaveMePaymentMethodRequestInput.md#savemepaymentmethodrequestinput) | The request body for: Create a payment method for the current buyer. |
+
+Body model: [SaveMePaymentMethodRequestInput](../models/SaveMePaymentMethodRequestInput.md#savemepaymentmethodrequestinput).
+
+#### me.createPaymentMethod body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `type` | Optional | string | Values: `"card"`. |
+
+#### Response
+
+Returned payload: [BuyerPaymentMethodWithSetup](../models/BuyerPaymentMethodWithSetup.md#buyerpaymentmethodwithsetup).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->me->createPaymentMethod([
+  'type' => 'card',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/me-createPaymentMethod.php)
 
 ### me.createReturn
 
@@ -508,14 +572,16 @@ Signature: `createReturn(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [BuyerCreateReturnRequestInput](../models/BuyerCreateReturnRequestInput.md#buyercreatereturnrequestinput) | The request body for: Create a Return for the current buyer. |
 
 Body model: [BuyerCreateReturnRequestInput](../models/BuyerCreateReturnRequestInput.md#buyercreatereturnrequestinput).
 
 #### me.createReturn body fields
 
-Field definitions: [shared fields](../models/BuyerCreateReturnRequestInput.md#buyercreatereturnrequestinput). Models: [ReturnLineItemRequestInput](../models/ReturnLineItemRequestInput.md#returnlineitemrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `line_items` | Required | Array of [ReturnLineItemRequestInput](../models/ReturnLineItemRequestInput.md#returnlineitemrequestinput) | minItems: `1`. maxItems: `100`. Items: An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants. |
+| `order_id` | Required | string | minLength: `1`. |
 
 #### Response
 
@@ -523,18 +589,18 @@ Returned payload: [BuyerReturn](../models/BuyerReturn.md#buyerreturn).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -542,9 +608,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createReturnWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -557,12 +623,12 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->me->createReturn([
   'line_items' => [
     (object) [
-      'order_line_item_id' => 'example',
-      'requested_quantity' => '100',
-      'return_reason_id' => 'example',
+      'order_line_item_id' => 'li_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'requested_quantity' => 1,
+      'return_reason_id' => 'rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV',
     ],
   ],
-  'order_id' => 'example',
+  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -592,29 +658,21 @@ Body model: [BuyerCreateReturnPreviewRequestInput](../models/BuyerCreateReturnPr
 | `mode` | Required | string | Values: `"eligibility"`, `"resolution"`. |
 | `resolution` | Optional | [BuyerCreateReturnResolutionPreviewRequestInput](../models/BuyerCreateReturnResolutionPreviewRequestInput.md#buyercreatereturnresolutionpreviewrequestinput) | The buyer's proposed resolution type, returned quantities, and replacement items to preview for a Return. |
 
-#### me.createReturnPreview body oneOf variant 1
+#### me.createReturnPreview with `mode: "eligibility"`
 
 The `eligibility` variant of `BuyerCreateReturnPreviewRequest`.
 
 Body model: [BuyerCreateReturnPreviewRequestEligibilityInput](../models/BuyerCreateReturnPreviewRequestEligibilityInput.md#buyercreatereturnpreviewrequesteligibilityinput).
 
-#### me.createReturnPreview body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/BuyerCreateReturnPreviewRequestEligibilityInput.md#buyercreatereturnpreviewrequesteligibilityinput). Models: [CreateReturnEligibilityPreviewRequestInput](../models/CreateReturnEligibilityPreviewRequestInput.md#createreturneligibilitypreviewrequestinput), [BuyerCreateReturnResolutionPreviewRequestInput](../models/BuyerCreateReturnResolutionPreviewRequestInput.md#buyercreatereturnresolutionpreviewrequestinput).
-
-#### me.createReturnPreview body oneOf variant 2
+#### me.createReturnPreview with `mode: "resolution"`
 
 The `resolution` variant of `BuyerCreateReturnPreviewRequest`.
 
 Body model: [BuyerCreateReturnPreviewRequestResolutionInput](../models/BuyerCreateReturnPreviewRequestResolutionInput.md#buyercreatereturnpreviewrequestresolutioninput).
 
-#### me.createReturnPreview body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/BuyerCreateReturnPreviewRequestResolutionInput.md#buyercreatereturnpreviewrequestresolutioninput). Models: [CreateReturnEligibilityPreviewRequestInput](../models/CreateReturnEligibilityPreviewRequestInput.md#createreturneligibilitypreviewrequestinput), [BuyerCreateReturnResolutionPreviewRequestInput](../models/BuyerCreateReturnResolutionPreviewRequestInput.md#buyercreatereturnresolutionpreviewrequestinput).
-
 #### Response
 
-Returned payload: [MeCreateReturnPreviewResponse200DataEligibility](../models/MeCreateReturnPreviewResponse200DataEligibility.md#mecreatereturnpreviewresponse200dataeligibility)|[MeCreateReturnPreviewResponse200DataResolution](../models/MeCreateReturnPreviewResponse200DataResolution.md#mecreatereturnpreviewresponse200dataresolution)|\stdClass.
+Returned payload: [BuyerReturnPreviewResponseDataEligibility](../models/BuyerReturnPreviewResponseDataEligibility.md#buyerreturnpreviewresponsedataeligibility)|[BuyerReturnPreviewResponseDataResolution](../models/BuyerReturnPreviewResponseDataResolution.md#buyerreturnpreviewresponsedataresolution)|Model.
 
 ##### Response variant 1
 
@@ -638,18 +696,18 @@ The `resolution` variant of `BuyerReturnPreview`.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -657,7 +715,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createReturnPreviewWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -667,7 +725,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 $result = $client->me->createReturnPreview([
   'mode' => 'eligibility',
   'eligibility' => (object) [
-    'order_id' => 'example',
+    'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
     'selection' => (object) [
       'selection_type' => 'all_remaining_fulfilled',
     ],
@@ -689,8 +747,7 @@ Signature: `createReturnResolutionCheckoutSession(string|Model $return_resolutio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 | `body` | Optional | [GetOrCreateReturnResolutionCheckoutSessionRequestInput](../models/GetOrCreateReturnResolutionCheckoutSessionRequestInput.md#getorcreatereturnresolutioncheckoutsessionrequestinput) | The request body for: Create a Return resolution checkout session for the current buyer; Get or create return resolution checkout session. |
 
 #### Response
@@ -699,19 +756,19 @@ Returned payload: [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessio
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -719,9 +776,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createReturnResolutionCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -731,7 +788,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->createReturnResolutionCheckoutSession('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->createReturnResolutionCheckoutSession('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-createReturnResolutionCheckoutSession.php)
@@ -748,8 +805,7 @@ Signature: `createSubscriptionPaymentRetry(string|Model $subscription_id, array|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Flint subscription ID. |
 | `body` | Optional | object | maxProperties: `0`. |
 
 Body shape: object.
@@ -760,19 +816,19 @@ Returned payload: [BuyerSubscriptionPaymentRetry](../models/BuyerSubscriptionPay
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -780,9 +836,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createSubscriptionPaymentRetryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -792,7 +848,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->createSubscriptionPaymentRetry('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->createSubscriptionPaymentRetry('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-createSubscriptionPaymentRetry.php)
@@ -803,7 +859,7 @@ Estimates a buyer's next subscription renewal, or lists delivery methods and rat
 
 `POST /v1/me/subscription-previews`
 
-Signature: `createSubscriptionPreview(MeCreateSubscriptionPreviewInput|array $input, ?RequestOptions $options = null)`
+Signature: `createSubscriptionPreview(array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
@@ -813,32 +869,21 @@ Signature: `createSubscriptionPreview(MeCreateSubscriptionPreviewInput|array $in
 
 Body model: [CreateMeSubscriptionPreviewRequestInput](../models/CreateMeSubscriptionPreviewRequestInput.md#createmesubscriptionpreviewrequestinput).
 
-#### me.createSubscriptionPreview body oneOf variant 1
+#### me.createSubscriptionPreview with `mode: "delivery_options"`
 
 The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`.
 
 Body model: [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
 
-#### me.createSubscriptionPreview body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput). Models: [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput).
-
-#### me.createSubscriptionPreview body oneOf variant 2
+#### me.createSubscriptionPreview with `mode: "next_renewal"`
 
 The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`.
 
 Body model: [CreateMeSubscriptionPreviewRequestNextRenewalInput](../models/CreateMeSubscriptionPreviewRequestNextRenewalInput.md#createmesubscriptionpreviewrequestnextrenewalinput).
 
-#### me.createSubscriptionPreview body oneOf variant 2 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `mode` | Required | string | Values: `"next_renewal"`. |
-| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
-
 #### Response
 
-Returned payload: [MeCreateSubscriptionPreviewResponse200DataDeliveryOptions](../models/MeCreateSubscriptionPreviewResponse200DataDeliveryOptions.md#mecreatesubscriptionpreviewresponse200datadeliveryoptions)|[MeCreateSubscriptionPreviewResponse200DataNextRenewal](../models/MeCreateSubscriptionPreviewResponse200DataNextRenewal.md#mecreatesubscriptionpreviewresponse200datanextrenewal)|\stdClass.
+Returned payload: [BuyerSubscriptionPreviewResponseDataDeliveryOptions](../models/BuyerSubscriptionPreviewResponseDataDeliveryOptions.md#buyersubscriptionpreviewresponsedatadeliveryoptions)|[BuyerSubscriptionPreviewResponseDataNextRenewal](../models/BuyerSubscriptionPreviewResponseDataNextRenewal.md#buyersubscriptionpreviewresponsedatanextrenewal)|Model.
 
 ##### Response variant 1
 
@@ -865,19 +910,19 @@ A preview of a subscription's next renewal and its estimated pricing.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -885,7 +930,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createSubscriptionPreviewWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -893,10 +938,8 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 
 ```php
 $result = $client->me->createSubscriptionPreview([
-  'body' => (object) [
-    'mode' => 'next_renewal',
-    'subscription_id' => 'sub_00000000000000000000000000',
-  ],
+  'mode' => 'next_renewal',
+  'subscription_id' => 'sub_00000000000000000000000000',
 ], new RequestOptions());
 ```
 
@@ -914,9 +957,8 @@ Signature: `deleteAddress(string|Model $customer_address_id, array|Model|null $p
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_address_id` | Required | string | Flint customer address ID. |
+| `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -924,18 +966,17 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -943,9 +984,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -955,10 +996,67 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->deleteAddress('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->deleteAddress('caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-deleteAddress.php)
+
+### me.deletePaymentMethod
+
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived.
+
+`DELETE /v1/me/payment-methods/{payment_method_id}`
+
+Signature: `deletePaymentMethod(string|Model $payment_method_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `payment_method_id` | Required | string | Flint payment method ID. |
+
+#### Response
+
+Returned payload: [BuyerPaymentMethod](../models/BuyerPaymentMethod.md#buyerpaymentmethod).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->me->deletePaymentMethod('pm_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/me-deletePaymentMethod.php)
 
 ### me.get
 
@@ -978,17 +1076,17 @@ Returned payload: [BuyerCustomer](../models/BuyerCustomer.md#buyercustomer).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -996,7 +1094,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1020,7 +1118,7 @@ Signature: `getAddress(string|Model $customer_address_id, array|Model|null $para
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string |  |
+| `customer_address_id` | Required | string | Flint customer address ID. |
 
 #### Response
 
@@ -1028,17 +1126,17 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1046,14 +1144,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getAddress('example', [], new RequestOptions());
+$result = $client->me->getAddress('caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getAddress.php)
@@ -1070,8 +1168,8 @@ Signature: `getCreditNote(string|Model $invoice_id, string|Model $credit_note_id
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `credit_note_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `credit_note_id` | Required | string | Flint credit note ID. |
 
 #### Response
 
@@ -1079,17 +1177,17 @@ Returned payload: [BuyerCreditNote](../models/BuyerCreditNote.md#buyercreditnote
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1097,21 +1195,21 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getCreditNoteWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getCreditNote('example', 'example', [], new RequestOptions());
+$result = $client->me->getCreditNote('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getCreditNote.php)
 
 ### me.getCreditNotePDF
 
-Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and shows the credited lines, totals, and the invoice it corrects. It uses your current branding, so a later download can differ in logo or colors, but not in content.
 
 `GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf`
 
@@ -1121,8 +1219,8 @@ Signature: `getCreditNotePDF(string|Model $invoice_id, string|Model $credit_note
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `credit_note_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `credit_note_id` | Required | string | Flint credit note ID. |
 
 #### Response
 
@@ -1130,18 +1228,18 @@ Response body (inside Result.data): null.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1154,7 +1252,7 @@ Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#au
 #### Example
 
 ```php
-$result = $client->me->getCreditNotePDF('example', 'example', [], new RequestOptions());
+$result = $client->me->getCreditNotePDF('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getCreditNotePDF.php)
@@ -1171,7 +1269,7 @@ Signature: `getDeletionRequest(string|Model $customer_deletion_request_id, array
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_deletion_request_id` | Required | string |  |
+| `customer_deletion_request_id` | Required | string | Flint customer deletion request ID. |
 
 #### Response
 
@@ -1179,17 +1277,17 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInp
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1197,21 +1295,21 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getDeletionRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getDeletionRequest('example', [], new RequestOptions());
+$result = $client->me->getDeletionRequest('cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getDeletionRequest.php)
 
 ### me.getEmailPreferences
 
-Uses the customer identity fixed by the customer session. Returns which of the merchant's optional email categories the customer's current email receives in the selected merchant environment. A category the buyer never changed is on. Email preferences exist only for a customer with an email: without one, the read answers 404 with CUSTOMER_EMAIL_REQUIRED. Receipts and other transactional email always send.
+Uses the customer identity fixed by the customer session. Returns which of the merchant's optional email categories the customer's current email receives in the selected merchant environment. A category the buyer never changed is on. Email preferences exist only for a customer with an email: without one, the read returns 404 RESOURCE_NOT_FOUND. Receipts and other transactional email always send.
 
 `GET /v1/me/email-preferences`
 
@@ -1227,17 +1325,17 @@ Returned payload: [CustomerEmailPreferences](../models/CustomerEmailPreferencesI
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1245,7 +1343,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getEmailPreferencesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1269,7 +1367,7 @@ Signature: `getFulfillment(string|Model $fulfillment_id, array|Model|null $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string |  |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. |
 
 #### Response
 
@@ -1277,16 +1375,16 @@ Returned payload: [BuyerFulfillment](../models/BuyerFulfillment.md#buyerfulfillm
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1294,14 +1392,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getFulfillmentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getFulfillment('example', [], new RequestOptions());
+$result = $client->me->getFulfillment('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getFulfillment.php)
@@ -1318,7 +1416,7 @@ Signature: `getGiftCard(string|Model $gift_card_id, array|Model|null $params = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_id` | Required | string |  |
+| `gift_card_id` | Required | string | Flint gift card ID. |
 
 #### Response
 
@@ -1326,16 +1424,16 @@ Returned payload: [BuyerGiftCard](../models/BuyerGiftCard.md#buyergiftcard).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1343,14 +1441,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getGiftCard('example', [], new RequestOptions());
+$result = $client->me->getGiftCard('gc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getGiftCard.php)
@@ -1367,7 +1465,7 @@ Signature: `getInvoice(string|Model $invoice_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
 
 #### Response
 
@@ -1375,17 +1473,17 @@ Returned payload: [BuyerInvoice](../models/BuyerInvoice.md#buyerinvoice).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1393,14 +1491,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getInvoiceWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getInvoice('example', [], new RequestOptions());
+$result = $client->me->getInvoice('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getInvoice.php)
@@ -1417,7 +1515,7 @@ Signature: `getInvoicePDF(string|Model $invoice_id, array|Model|null $params = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
 
 #### Response
 
@@ -1425,17 +1523,17 @@ Response body (inside Result.data): null.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1448,7 +1546,7 @@ Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#au
 #### Example
 
 ```php
-$result = $client->me->getInvoicePDF('example', [], new RequestOptions());
+$result = $client->me->getInvoicePDF('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getInvoicePDF.php)
@@ -1465,7 +1563,7 @@ Signature: `getOrder(string|Model $order_id, array|Model|null $params = null, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
+| `order_id` | Required | string | Flint order ID. |
 
 #### Response
 
@@ -1473,18 +1571,18 @@ Returned payload: [BuyerOrder](../models/BuyerOrder.md#buyerorder).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1492,14 +1590,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getOrderWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getOrder('example', [], new RequestOptions());
+$result = $client->me->getOrder('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getOrder.php)
@@ -1516,7 +1614,7 @@ Signature: `getPackage(string|Model $package_id, array|Model|null $params = null
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `package_id` | Required | string |  |
+| `package_id` | Required | string | Flint package ID. |
 
 #### Response
 
@@ -1524,16 +1622,16 @@ Returned payload: [BuyerPackage](../models/BuyerPackage.md#buyerpackage).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1541,14 +1639,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPackageWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getPackage('example', [], new RequestOptions());
+$result = $client->me->getPackage('pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getPackage.php)
@@ -1565,7 +1663,7 @@ Signature: `getPaymentIntent(string|Model $payment_intent_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_intent_id` | Required | string |  |
+| `payment_intent_id` | Required | string | Flint payment intent ID. |
 
 #### Response
 
@@ -1573,16 +1671,16 @@ Returned payload: [BuyerPaymentIntent](../models/BuyerPaymentIntent.md#buyerpaym
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1590,16 +1688,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPaymentIntentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-Deprecated aliases: getPayment.
 
 #### Example
 
 ```php
-$result = $client->me->getPaymentIntent('example', [], new RequestOptions());
+$result = $client->me->getPaymentIntent('pi_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getPaymentIntent.php)
@@ -1616,7 +1712,7 @@ Signature: `getPaymentMethod(string|Model $payment_method_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string |  |
+| `payment_method_id` | Required | string | Flint payment method ID. |
 
 #### Response
 
@@ -1624,17 +1720,17 @@ Returned payload: [BuyerPaymentMethod](../models/BuyerPaymentMethod.md#buyerpaym
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1642,14 +1738,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getPaymentMethod('example', [], new RequestOptions());
+$result = $client->me->getPaymentMethod('pm_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getPaymentMethod.php)
@@ -1666,7 +1762,7 @@ Signature: `getRefund(string|Model $refund_id, array|Model|null $params = null, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `refund_id` | Required | string |  |
+| `refund_id` | Required | string | Flint refund ID. |
 
 #### Response
 
@@ -1674,16 +1770,16 @@ Returned payload: [BuyerRefund](../models/BuyerRefund.md#buyerrefund).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1691,14 +1787,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getRefundWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getRefund('example', [], new RequestOptions());
+$result = $client->me->getRefund('ref_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getRefund.php)
@@ -1715,7 +1811,7 @@ Signature: `getReturn(string|Model $return_id, array|Model|null $params = null, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_id` | Required | string |  |
+| `return_id` | Required | string | Flint return id. |
 
 #### Response
 
@@ -1723,16 +1819,16 @@ Returned payload: [BuyerReturn](../models/BuyerReturn.md#buyerreturn).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1740,14 +1836,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getReturnWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getReturn('example', [], new RequestOptions());
+$result = $client->me->getReturn('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getReturn.php)
@@ -1764,7 +1860,7 @@ Signature: `getReturnResolution(string|Model $return_resolution_id, array|Model|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 
 #### Response
 
@@ -1772,16 +1868,16 @@ Returned payload: [BuyerReturnResolution](../models/BuyerReturnResolution.md#buy
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1789,14 +1885,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getReturnResolutionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getReturnResolution('example', [], new RequestOptions());
+$result = $client->me->getReturnResolution('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getReturnResolution.php)
@@ -1813,7 +1909,7 @@ Signature: `getShipment(string|Model $shipment_id, array|Model|null $params = nu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `shipment_id` | Required | string |  |
+| `shipment_id` | Required | string | Flint shipment ID. |
 
 #### Response
 
@@ -1821,16 +1917,16 @@ Returned payload: [BuyerShipment](../models/BuyerShipment.md#buyershipment).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1838,14 +1934,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getShipmentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getShipment('example', [], new RequestOptions());
+$result = $client->me->getShipment('shp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getShipment.php)
@@ -1862,7 +1958,7 @@ Signature: `getSubscription(string|Model $subscription_id, array|Model|null $par
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
+| `subscription_id` | Required | string | Flint subscription ID. |
 
 #### Response
 
@@ -1870,18 +1966,18 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1889,14 +1985,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getSubscription('example', [], new RequestOptions());
+$result = $client->me->getSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getSubscription.php)
@@ -1924,8 +2020,8 @@ getSubscriptionPaymentRetry(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `subscription_payment_retry_id` | Required | string |  |
+| `subscription_id` | Required | string | Flint subscription ID. |
+| `subscription_payment_retry_id` | Required | string | Flint subscription payment retry ID. |
 
 #### Response
 
@@ -1933,17 +2029,17 @@ Returned payload: [BuyerSubscriptionPaymentRetry](../models/BuyerSubscriptionPay
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -1951,14 +2047,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getSubscriptionPaymentRetryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->me->getSubscriptionPaymentRetry('example', 'example', [], new RequestOptions());
+$result = $client->me->getSubscriptionPaymentRetry('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'spr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-getSubscriptionPaymentRetry.php)
@@ -1973,28 +2069,25 @@ Signature: `listAddresses(array|Model|null $params = null, ?RequestOptions $opti
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+Field definitions: [shared fields](feedbackReports.md#request-fields-2).
 
 #### Response
 
-Returned payload: [MeListAddressesResponse200](../models/CustomersListAddressesResponse200.md#customerslistaddressesresponse200).
+Returned payload: [CustomerAddressListResponse](../models/CustomerAddressListResponse.md#customeraddresslistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2002,11 +2095,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listAddressesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listAddressesItems`, `listAddressesPages`, `listAddressesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listAddressesItems`, `listAddressesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2028,27 +2121,28 @@ Signature: `listCreditNotes(string|Model $invoice_id, array|Model|null $params =
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"issued"`, `"void"`. Values: `"issued"`, `"void"`. |
 
 #### Response
 
-Returned payload: [MeListCreditNotesResponse200](../models/MeListCreditNotesResponse200.md#melistcreditnotesresponse200).
+Returned payload: [BuyerCreditNoteListResponse](../models/BuyerCreditNoteListResponse.md#buyercreditnotelistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2056,16 +2150,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listCreditNotesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listCreditNotesItems`, `listCreditNotesPages`, `listCreditNotesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listCreditNotesItems`, `listCreditNotesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->me->listCreditNotes('example', [], new RequestOptions());
+$result = $client->me->listCreditNotes('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-listCreditNotes.php)
@@ -2082,27 +2176,27 @@ Signature: `listDeletionRequests(array|Model|null $params = null, ?RequestOption
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [MeListDeletionRequestsResponse200](../models/CustomerDeletionRequestsListResponse200.md#customerdeletionrequestslistresponse200).
+Returned payload: [CustomerDeletionRequestListResponse](../models/CustomerDeletionRequestListResponse.md#customerdeletionrequestlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2110,11 +2204,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listDeletionRequestsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listDeletionRequestsItems`, `listDeletionRequestsPages`, `listDeletionRequestsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listDeletionRequestsItems`, `listDeletionRequestsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2138,20 +2232,20 @@ No request fields.
 
 #### Response
 
-Returned payload: [MeListFlintWalletCardsResponse200](../models/MeListFlintWalletCardsResponse200.md#melistflintwalletcardsresponse200).
+Returned payload: [BuyerFlintWalletCardListResponse](../models/BuyerFlintWalletCardListResponse.md#buyerflintwalletcardlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2159,11 +2253,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listFlintWalletCardsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-Deprecated aliases: listFlintWalletPaymentMethods.
 
 #### Example
 
@@ -2185,30 +2277,30 @@ Signature: `listFulfillmentEvents(array|Model $params, ?RequestOptions $options 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `fulfillment_id` | Optional | string |  |
-| `shipment_id` | Optional | string |  |
-| `package_id` | Optional | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `order_id` | Required | string | Required buyer-owned order ID. |
+| `fulfillment_id` | Optional | string | Filter by fulfillment ID. |
+| `shipment_id` | Optional | string | Filter by shipment ID. |
+| `package_id` | Optional | string | Filter by package ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [MeListFulfillmentEventsResponse200](../models/MeListFulfillmentEventsResponse200.md#melistfulfillmenteventsresponse200).
+Returned payload: [BuyerFulfillmentEventListResponse](../models/BuyerFulfillmentEventListResponse.md#buyerfulfillmenteventlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2216,17 +2308,17 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listFulfillmentEventsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listFulfillmentEventsItems`, `listFulfillmentEventsPages`, `listFulfillmentEventsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listFulfillmentEventsItems`, `listFulfillmentEventsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
 $result = $client->me->listFulfillmentEvents([
-  'order_id' => 'example',
+  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions());
 ```
 
@@ -2244,16 +2336,16 @@ Signature: `listFulfillments(array|Model|null $params = null, ?RequestOptions $o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `order_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: [13 declared values](#melistfulfillments-input-status--values). |
-| `type` | Optional | Array of string | minItems: `1`. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `order_id` | Optional | string | Filter by order ID. |
+| `status` | Optional | Array of string or string | Filter by buyer-visible status. Held fulfillments match their pre-hold status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [13 declared values](#melistfulfillments-input-status--values). Values: [13 declared values](#melistfulfillments-input-status-values). |
+| `type` | Optional | Array of string or string | Filter by fulfillment type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 
 #### me.listFulfillments input status [] values
 
@@ -2271,23 +2363,39 @@ Signature: `listFulfillments(array|Model|null $params = null, ?RequestOptions $o
 - `"dispatched"`
 - `"no_show"`
 
+#### me.listFulfillments input status values
+
+- `"pending"`
+- `"in_progress"`
+- `"ready"`
+- `"completed"`
+- `"canceled"`
+- `"failed"`
+- `"scheduled"`
+- `"accepted"`
+- `"preparing"`
+- `"picked"`
+- `"packed"`
+- `"dispatched"`
+- `"no_show"`
+
 #### Response
 
-Returned payload: [MeListFulfillmentsResponse200](../models/MeListFulfillmentsResponse200.md#melistfulfillmentsresponse200).
+Returned payload: [BuyerFulfillmentListResponse](../models/BuyerFulfillmentListResponse.md#buyerfulfillmentlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2295,11 +2403,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listFulfillmentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listFulfillmentsItems`, `listFulfillmentsPages`, `listFulfillmentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listFulfillmentsItems`, `listFulfillmentsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2321,25 +2429,26 @@ Signature: `listGiftCards(array|Model|null $params = null, ?RequestOptions $opti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [MeListGiftCardsResponse200](../models/MeListGiftCardsResponse200.md#melistgiftcardsresponse200).
+Returned payload: [BuyerGiftCardListResponse](../models/BuyerGiftCardListResponse.md#buyergiftcardlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2347,11 +2456,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listGiftCardsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listGiftCardsItems`, `listGiftCardsPages`, `listGiftCardsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listGiftCardsItems`, `listGiftCardsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2373,26 +2482,26 @@ Signature: `listGiftCardTransactions(string|Model $gift_card_id, array|Model|nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `gift_card_id` | Required | string | Flint gift card ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [MeListGiftCardTransactionsResponse200](../models/MeListGiftCardTransactionsResponse200.md#melistgiftcardtransactionsresponse200).
+Returned payload: [BuyerGiftCardTransactionListResponse](../models/BuyerGiftCardTransactionListResponse.md#buyergiftcardtransactionlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2400,16 +2509,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listGiftCardTransactionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listGiftCardTransactionsItems`, `listGiftCardTransactionsPages`, `listGiftCardTransactionsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listGiftCardTransactionsItems`, `listGiftCardTransactionsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->me->listGiftCardTransactions('example', [], new RequestOptions());
+$result = $client->me->listGiftCardTransactions('gc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-listGiftCardTransactions.php)
@@ -2426,36 +2535,36 @@ Signature: `listInvoices(array|Model|null $params = null, ?RequestOptions $optio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
-| `order_id` | Optional | string |  |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `due_after` | Optional | string | Format: `date-time`. |
-| `due_before` | Optional | string | Format: `date-time`. |
-| `is_overdue` | Optional | boolean |  |
-| `has_outstanding_balance` | Optional | boolean |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_at"`, `"invoice_number"`, `"outstanding_money"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by invoice status. Repeat the parameter or pass comma-separated values to match multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. Values: `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
+| `order_id` | Optional | string | Filter by Flint order ID. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `due_after` | Optional | string | Inclusive lower bound on due_at. Format: `date-time`. |
+| `due_before` | Optional | string | Exclusive upper bound on due_at. Format: `date-time`. |
+| `is_overdue` | Optional | boolean | Filter by whether the invoice is overdue. |
+| `has_outstanding_balance` | Optional | boolean | Filter by whether outstanding_money is greater than zero. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_at"`, `"invoice_number"`, `"outstanding_money"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 
 #### Response
 
-Returned payload: [MeListInvoicesResponse200](../models/MeListInvoicesResponse200.md#melistinvoicesresponse200).
+Returned payload: [BuyerInvoiceListResponse](../models/BuyerInvoiceListResponse.md#buyerinvoicelistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2463,11 +2572,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listInvoicesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listInvoicesItems`, `listInvoicesPages`, `listInvoicesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listInvoicesItems`, `listInvoicesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2489,29 +2598,29 @@ Signature: `listOrderActivities(string|Model $order_id, array|Model|null $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `activity_type` | Optional | Array of string | minItems: `1`. Items values: [27 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). |
+| `order_id` | Required | string | Flint order ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `activity_type` | Optional | Array of string or string | Filter by activity type. Repeat the parameter or pass comma-separated values to OR multiple types. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [27 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). Values: [27 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). |
 
 #### Response
 
-Returned payload: [MeListOrderActivitiesResponse200](../models/MeListOrderActivitiesResponse200.md#melistorderactivitiesresponse200).
+Returned payload: [OrderActivityListResponse](../models/OrderActivityListResponse.md#orderactivitylistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2519,16 +2628,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listOrderActivitiesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listOrderActivitiesItems`, `listOrderActivitiesPages`, `listOrderActivitiesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listOrderActivitiesItems`, `listOrderActivitiesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->me->listOrderActivities('example', [], new RequestOptions());
+$result = $client->me->listOrderActivities('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-listOrderActivities.php)
@@ -2545,45 +2654,45 @@ Signature: `listOrders(array|Model|null $params = null, ?RequestOptions $options
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `closed_reason` | Optional | Array of string | minItems: `1`. Items values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"open"`, `"closed"`. |
-| `payment_status` | Optional | Array of string | minItems: `1`. Items values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
-| `refund_status` | Optional | Array of string | minItems: `1`. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. |
-| `fulfillment_status` | Optional | Array of string | minItems: `1`. Items values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. |
-| `order_number` | Optional | string |  |
-| `origin` | Optional | Array of string | minItems: `1`. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
-| `query` | Optional | string |  |
-| `subscription_id` | Optional | string |  |
-| `subscription_delivery_changed` | Optional | boolean |  |
-| `min_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `max_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `closed_reason` | Optional | Array of string or string | Why a closed order closed. Repeated keys and comma-separated values match any reason. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
+| `status` | Optional | Array of string or string | Order status: open or closed. Repeated keys and comma-separated values are both accepted. Selecting open and closed includes both statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"closed"`. Values: `"open"`, `"closed"`. |
+| `payment_status` | Optional | Array of string or string | Filter by settled collection status. Repeat the parameter or pass comma-separated values to match any of several statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unpaid"`, `"partially_paid"`, `"paid"`. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
+| `refund_status` | Optional | Array of string or string | Filter by refund progress. Repeated keys and comma-separated values are both accepted to match any status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
+| `fulfillment_status` | Optional | Array of string or string | Filter by aggregate order fulfillment status. Repeated keys and comma-separated values are both accepted to match any status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. |
+| `order_number` | Optional | string | Filter by merchant-visible order number. |
+| `origin` | Optional | Array of string or string | Separate subscription renewal purchases (subscription) from orders placed through other channels. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
+| `query` | Optional | string | Search across order_id, order number, buyer note, and line item names. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01. |
+| `subscription_id` | Optional | string | Filter by subscription ID. |
+| `subscription_delivery_changed` | Optional | boolean | Filter by whether the subscriber changed delivery after this order was paid. |
+| `min_amount` | Optional | integer | Inclusive lower bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
+| `max_amount` | Optional | integer | Inclusive upper bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"settlement_amounts.outstanding_money"`, `"pricing_amounts.total_money"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by order_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"settlement_amounts.outstanding_money"`, `"pricing_amounts.total_money"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 
 #### Response
 
-Returned payload: [MeListOrdersResponse200](../models/MeListOrdersResponse200.md#melistordersresponse200).
+Returned payload: [BuyerOrderListResponse](../models/BuyerOrderListResponse.md#buyerorderlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2591,11 +2700,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listOrdersWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listOrdersItems`, `listOrdersPages`, `listOrdersPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listOrdersItems`, `listOrdersPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2617,31 +2726,32 @@ Signature: `listPackages(array|Model|null $params = null, ?RequestOptions $optio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `shipment_id` | Optional | string |  |
-| `fulfillment_id` | Optional | string |  |
-| `order_id` | Optional | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
+| `shipment_id` | Optional | string | Optional shipment ID filter. |
+| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. |
+| `order_id` | Optional | string | Optional order ID filter. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `status` | Optional | Array of string or string | Filter by package status. Values within this filter are combined with OR. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
 
 #### Response
 
-Returned payload: [MeListPackagesResponse200](../models/MeListPackagesResponse200.md#melistpackagesresponse200).
+Returned payload: [BuyerPackageListResponse](../models/BuyerPackageListResponse.md#buyerpackagelistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2649,11 +2759,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPackagesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPackagesItems`, `listPackagesPages`, `listPackagesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listPackagesItems`, `listPackagesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2675,40 +2785,40 @@ Signature: `listPaymentIntents(array|Model|null $params = null, ?RequestOptions 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `order_id` | Optional | string |  |
-| `invoice_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
-| `payment_flow` | Optional | Array of string | minItems: `1`. Items values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
-| `min_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `max_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `order_id` | Optional | string | Filter by order ID. |
+| `invoice_id` | Optional | string | Filter by invoice ID. |
+| `status` | Optional | Array of string or string | Filter by payment intent status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
+| `payment_flow` | Optional | Array of string or string | Filter by immutable payment flow. Repeat or comma-separate values. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
+| `min_amount` | Optional | integer | Inclusive lower bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
+| `max_amount` | Optional | integer | Inclusive upper bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `refund_status` | Optional | Array of string | minItems: `1`. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"amount_money"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
+| `refund_status` | Optional | Array of string or string | Exact match on refund_status. Repeat keys or comma-separate values to match any selected status. Combined with dispute_status, both filters must match. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"amount_money"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 
 #### Response
 
-Returned payload: [MeListPaymentIntentsResponse200](../models/MeListPaymentIntentsResponse200.md#melistpaymentintentsresponse200).
+Returned payload: [BuyerPaymentIntentListResponse](../models/BuyerPaymentIntentListResponse.md#buyerpaymentintentlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2716,13 +2826,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPaymentIntentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPaymentIntentsItems`, `listPaymentIntentsPages`, `listPaymentIntentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
-
-Deprecated aliases: listPayments.
+Pagination: `listPaymentIntentsItems`, `listPaymentIntentsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2744,31 +2852,31 @@ Signature: `listPaymentMethods(array|Model|null $params = null, ?RequestOptions 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `type` | Optional | Array of string | minItems: `1`. Items values: `"card"`. |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. |
-| `usage` | Optional | Array of string | minItems: `1`. Items values: `"on_session"`, `"off_session"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `type` | Optional | Array of string or string | Filter by payment method type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"card"`. Values: `"card"`. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. Values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. |
+| `usage` | Optional | Array of string or string | Filter by usage: off_session payment methods can be charged without the buyer; on_session ones were saved by buyers for faster checkout. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"on_session"`, `"off_session"`. Values: `"on_session"`, `"off_session"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 
 #### Response
 
-Returned payload: [MeListPaymentMethodsResponse200](../models/MeListPaymentMethodsResponse200.md#melistpaymentmethodsresponse200).
+Returned payload: [BuyerPaymentMethodListResponse](../models/BuyerPaymentMethodListResponse.md#buyerpaymentmethodlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2776,11 +2884,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPaymentMethodsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPaymentMethodsItems`, `listPaymentMethodsPages`, `listPaymentMethodsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listPaymentMethodsItems`, `listPaymentMethodsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2802,38 +2910,38 @@ Signature: `listRefunds(array|Model|null $params = null, ?RequestOptions $option
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `order_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. |
-| `min_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `max_amount` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `order_id` | Optional | string | Filter by order ID. |
+| `status` | Optional | Array of string or string | Filter by refund status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. Values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. |
+| `min_amount` | Optional | integer | Inclusive lower bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
+| `max_amount` | Optional | integer | Inclusive upper bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `return_id` | Optional | string |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"amount_money"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
+| `return_id` | Optional | string | Filter by linked Return ID. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by refund_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"amount_money"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 
 #### Response
 
-Returned payload: [MeListRefundsResponse200](../models/MeListRefundsResponse200.md#melistrefundsresponse200).
+Returned payload: [BuyerRefundListResponse](../models/BuyerRefundListResponse.md#buyerrefundlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2841,11 +2949,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listRefundsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listRefundsItems`, `listRefundsPages`, `listRefundsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listRefundsItems`, `listRefundsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2857,7 +2965,7 @@ $result = $client->me->listRefunds([], new RequestOptions());
 
 ### me.listReturns
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's Returns. Filter by order, return number, reason, status, decision, merchandise, resolution, or creation and update time. Newest first: created_at descending, with return_id descending as the tiebreak. Default order: created_at descending, then return_id descending.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's Returns. Filter by order, return number, reason, status, decision, merchandise, resolution, or creation and update time. Default order: created_at descending, then return_id descending.
 
 `GET /v1/me/returns`
 
@@ -2867,20 +2975,20 @@ Signature: `listReturns(array|Model|null $params = null, ?RequestOptions $option
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `decision_status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `merchandise_status` | Optional | Array of string | minItems: `1`. Items values: [10 declared values](#melistreturns-input-merchandise_status--values). |
-| `order_id` | Optional | string |  |
-| `page_size` | Optional | integer | Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `resolution_status` | Optional | Array of string | minItems: `1`. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
-| `return_number` | Optional | string |  |
-| `return_reason_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `decision_status` | Optional | Array of string or string | Filter by decision status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#melistreturns-input-merchandise_status--values). Values: [10 declared values](#melistreturns-input-merchandise_status-values). |
+| `order_id` | Optional | string | Filter by order id. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `return_number` | Optional | string | Filter by return number. |
+| `return_reason_id` | Optional | string | Filter by return reason id. |
+| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 
 #### me.listReturns input merchandise_status [] values
 
@@ -2895,22 +3003,35 @@ Signature: `listReturns(array|Model|null $params = null, ?RequestOptions $option
 - `"resolved"`
 - `"exception"`
 
+#### me.listReturns input merchandise_status values
+
+- `"not_required"`
+- `"awaiting_handoff"`
+- `"in_transit"`
+- `"partially_received"`
+- `"inspection_required"`
+- `"partially_inspected"`
+- `"inspection_review_required"`
+- `"disposition_required"`
+- `"resolved"`
+- `"exception"`
+
 #### Response
 
-Returned payload: [MeListReturnsResponse200](../models/MeListReturnsResponse200.md#melistreturnsresponse200).
+Returned payload: [BuyerReturnListResponse](../models/BuyerReturnListResponse.md#buyerreturnlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2918,11 +3039,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listReturnsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listReturnsItems`, `listReturnsPages`, `listReturnsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listReturnsItems`, `listReturnsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -2944,33 +3065,34 @@ Signature: `listShipments(array|Model|null $params = null, ?RequestOptions $opti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Optional | string |  |
-| `fulfillment_id` | Optional | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `return_id` | Optional | string |  |
-| `handed_off_after` | Optional | string | Format: `date-time`. |
-| `handed_off_before` | Optional | string | Format: `date-time`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
+| `order_id` | Optional | string | Optional order ID filter. |
+| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `return_id` | Optional | string | Filter by linked Return ID. |
+| `handed_off_after` | Optional | string | Inclusive lower bound on handed_off_at. Format: `date-time`. |
+| `handed_off_before` | Optional | string | Exclusive upper bound on handed_off_at. Format: `date-time`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `status` | Optional | Array of string or string | Filter by package-derived shipment status. Values within this filter are combined with OR. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
 
 #### Response
 
-Returned payload: [MeListShipmentsResponse200](../models/MeListShipmentsResponse200.md#melistshipmentsresponse200).
+Returned payload: [BuyerShipmentListResponse](../models/BuyerShipmentListResponse.md#buyershipmentlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -2978,11 +3100,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listShipmentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listShipmentsItems`, `listShipmentsPages`, `listShipmentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listShipmentsItems`, `listShipmentsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -3004,27 +3126,27 @@ Signature: `listSubscriptionPaymentRetries(string|Model $subscription_id, array|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `subscription_id` | Required | string | Flint subscription ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
 
 #### Response
 
-Returned payload: [MeListSubscriptionPaymentRetriesResponse200](../models/MeListSubscriptionPaymentRetriesResponse200.md#melistsubscriptionpaymentretriesresponse200).
+Returned payload: [BuyerSubscriptionPaymentRetryListResponse](../models/BuyerSubscriptionPaymentRetryListResponse.md#buyersubscriptionpaymentretrylistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3032,16 +3154,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listSubscriptionPaymentRetriesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listSubscriptionPaymentRetriesItems`, `listSubscriptionPaymentRetriesPages`, `listSubscriptionPaymentRetriesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listSubscriptionPaymentRetriesItems`, `listSubscriptionPaymentRetriesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```php
-$result = $client->me->listSubscriptionPaymentRetries('example', [], new RequestOptions());
+$result = $client->me->listSubscriptionPaymentRetries('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/me-listSubscriptionPaymentRetries.php)
@@ -3058,41 +3180,41 @@ Signature: `listSubscriptions(array|Model|null $params = null, ?RequestOptions $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
-| `billing_schedule_owner` | Optional | Array of string | minItems: `1`. Items values: `"flint"`, `"external"`. |
-| `cancel_at_period_end` | Optional | boolean |  |
-| `delivery_method_id` | Optional | string |  |
-| `hold_reason` | Optional | Array of string | minItems: `1`. Items values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
-| `subscription_plan_id` | Optional | string |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `next_billing_after` | Optional | string | Format: `date-time`. |
-| `next_billing_before` | Optional | string | Format: `date-time`. |
-| `needs_attention` | Optional | boolean |  |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by subscription status. Repeat the parameter or pass comma-separated values to match multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
+| `billing_schedule_owner` | Optional | Array of string or string | Separate subscriptions scheduled by Flint (flint) from those whose billing dates the store supplies (external). Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"flint"`, `"external"`. Values: `"flint"`, `"external"`. |
+| `cancel_at_period_end` | Optional | boolean | When true, returns subscriptions scheduled to cancel at the end of the current period that are not yet canceled. When false, returns every other subscription. |
+| `delivery_method_id` | Optional | string | Filter by the subscription's selected delivery method. |
+| `hold_reason` | Optional | Array of string or string | Find subscriptions needing a new delivery method, address, or rate by the current delivery_hold reason. Does not match upcoming delivery issues. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `subscription_plan_id` | Optional | string | Filter by Flint subscription plan ID. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by subscription_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `next_billing_after` | Optional | string | Inclusive lower bound on next_billing_at. Format: `date-time`. |
+| `next_billing_before` | Optional | string | Exclusive upper bound on next_billing_at. Format: `date-time`. |
+| `needs_attention` | Optional | boolean | Load subscriptions needing your attention. True matches subscriptions with a delivery hold, an upcoming delivery hold, or a delivery-action-required pause, plus past_due subscriptions and active or incomplete subscriptions whose billing date passed more than 24 hours ago without payment. False is the exact complement. Other filters still apply. |
 
 #### Response
 
-Returned payload: [MeListSubscriptionsResponse200](../models/MeListSubscriptionsResponse200.md#melistsubscriptionsresponse200).
+Returned payload: [BuyerSubscriptionListResponse](../models/BuyerSubscriptionListResponse.md#buyersubscriptionlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3100,11 +3222,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listSubscriptionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listSubscriptionsItems`, `listSubscriptionsPages`, `listSubscriptionsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listSubscriptionsItems`, `listSubscriptionsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -3126,8 +3248,7 @@ Signature: `pauseSubscription(string|Model $subscription_id, array|Model $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Flint subscription ID. |
 | `body` | Required | [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequestInput.md#pausesubscriptionrequestinput) | The request body for: Pause one of the current buyer's subscriptions; Pause subscription. |
 
 #### Response
@@ -3136,20 +3257,20 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3157,9 +3278,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `pauseSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3169,7 +3290,9 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->pauseSubscription('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->pauseSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'pause_duration_cycles' => 2,
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-pauseSubscription.php)
@@ -3186,8 +3309,7 @@ Signature: `removeGiftCard(string|Model $gift_card_id, array|Model|null $params 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `gift_card_id` | Required | string | Flint gift card ID. |
 
 #### Response
 
@@ -3195,17 +3317,17 @@ Returned payload: [BuyerGiftCard](../models/BuyerGiftCard.md#buyergiftcard).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3213,9 +3335,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `removeGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3225,69 +3347,10 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->removeGiftCard('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->removeGiftCard('gc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-removeGiftCard.php)
-
-### me.removePaymentMethod
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived.
-
-`DELETE /v1/me/payment-methods/{payment_method_id}`
-
-Signature: `removePaymentMethod(string|Model $payment_method_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `payment_method_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [BuyerPaymentMethod](../models/BuyerPaymentMethod.md#buyerpaymentmethod).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removePaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->me->removePaymentMethod('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/me-removePaymentMethod.php)
 
 ### me.renewSubscription
 
@@ -3301,8 +3364,7 @@ Signature: `renewSubscription(string|Model $subscription_id, array|Model $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Subscription ID. |
 | `body` | Required | [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput) | The request body for: Renew subscription now. |
 
 #### Response
@@ -3311,21 +3373,21 @@ Returned payload: [BuyerSubscriptionRenewalResult](../models/BuyerSubscriptionRe
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3333,9 +3395,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `renewSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3345,7 +3407,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->renewSubscription('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->renewSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-renewSubscription.php)
@@ -3362,8 +3424,7 @@ Signature: `resumeSubscription(string|Model $subscription_id, array|Model|null $
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Flint subscription ID. |
 | `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
@@ -3372,21 +3433,21 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3394,9 +3455,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `resumeSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3406,7 +3467,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->resumeSubscription('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->resumeSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-resumeSubscription.php)
@@ -3421,9 +3482,7 @@ Signature: `revokeSession(array|Model|null $params = null, ?RequestOptions $opti
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+No request fields.
 
 #### Response
 
@@ -3431,16 +3490,16 @@ Returned payload: [CustomerSession](../models/CustomerSessionInput.md#customerse
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3448,9 +3507,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `revokeSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3477,7 +3536,6 @@ Signature: `saveGiftCard(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [SaveMeGiftCardRequestInput](../models/SaveMeGiftCardRequestInput.md#savemegiftcardrequestinput) | The request body for: Save a gift card to your account. |
 
 Body model: [SaveMeGiftCardRequestInput](../models/SaveMeGiftCardRequestInput.md#savemegiftcardrequestinput).
@@ -3491,25 +3549,17 @@ Body model: [SaveMeGiftCardRequestInput](../models/SaveMeGiftCardRequestInput.md
 | `grant_id` | Optional | string | minLength: `1`. |
 | `recipient_access_token` | Optional | string | minLength: `1`. |
 
-#### me.saveGiftCard body oneOf variant 1
+#### me.saveGiftCard with `credential_type: "code"`
 
 The `code` variant of `SaveMeGiftCardRequest`.
 
 Body model: [SaveMeGiftCardRequestCodeInput](../models/SaveMeGiftCardRequestCodeInput.md#savemegiftcardrequestcodeinput).
 
-#### me.saveGiftCard body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/SaveMeGiftCardRequestCodeInput.md#savemegiftcardrequestcodeinput).
-
-#### me.saveGiftCard body oneOf variant 2
+#### me.saveGiftCard with `credential_type: "recipient_access"`
 
 The `recipient_access` variant of `SaveMeGiftCardRequest`.
 
 Body model: [SaveMeGiftCardRequestRecipientAccessInput](../models/SaveMeGiftCardRequestRecipientAccessInput.md#savemegiftcardrequestrecipientaccessinput).
-
-#### me.saveGiftCard body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/SaveMeGiftCardRequestRecipientAccessInput.md#savemegiftcardrequestrecipientaccessinput).
 
 #### Response
 
@@ -3517,18 +3567,18 @@ Returned payload: [BuyerGiftCard](../models/BuyerGiftCard.md#buyergiftcard).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3536,9 +3586,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `saveGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3556,74 +3606,6 @@ $result = $client->me->saveGiftCard([
 
 [Complete runnable example](../examples/me-saveGiftCard.php)
 
-### me.savePaymentMethod
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Starts saving a payment method for the buyer and returns the client setup to confirm in the browser. The payment method is pending until setup succeeds.
-
-`POST /v1/me/payment-methods`
-
-Signature: `savePaymentMethod(array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [SaveMePaymentMethodRequestInput](../models/SaveMePaymentMethodRequestInput.md#savemepaymentmethodrequestinput) | The request body for: Create a payment method for the current buyer. |
-
-Body model: [SaveMePaymentMethodRequestInput](../models/SaveMePaymentMethodRequestInput.md#savemepaymentmethodrequestinput).
-
-#### me.savePaymentMethod body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `type` | Optional | string | Values: `"card"`. |
-
-#### Response
-
-Returned payload: [BuyerPaymentMethodWithSetup](../models/BuyerPaymentMethodWithSetup.md#buyerpaymentmethodwithsetup).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `savePaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->me->savePaymentMethod([], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/me-savePaymentMethod.php)
-
 ### me.sendOrderReceipt
 
 Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient.
@@ -3636,8 +3618,7 @@ Signature: `sendOrderReceipt(string|Model $order_id, array|Model|null $params = 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `order_id` | Required | string | Flint order ID. |
 
 #### Response
 
@@ -3645,18 +3626,18 @@ Returned payload: [BuyerOrder](../models/BuyerOrder.md#buyerorder).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3664,9 +3645,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `sendOrderReceiptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3676,7 +3657,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->sendOrderReceipt('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->sendOrderReceipt('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-sendOrderReceipt.php)
@@ -3693,8 +3674,7 @@ Signature: `skipSubscriptionCycle(string|Model $subscription_id, array|Model $pa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Subscription ID. |
 | `body` | Required | [SkipMeSubscriptionCycleRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput) | The request body for: Skip subscription cycle. |
 
 Body model: [SkipMeSubscriptionCycleRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
@@ -3703,7 +3683,7 @@ Body model: [SkipMeSubscriptionCycleRequestInput](../models/SkipMeSubscriptionCy
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -3711,19 +3691,19 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3731,9 +3711,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `skipSubscriptionCycleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3743,7 +3723,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->skipSubscriptionCycle('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->skipSubscriptionCycle('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-skipSubscriptionCycle.php)
@@ -3760,7 +3740,6 @@ Signature: `update(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [UpdateMeRequestInput](../models/UpdateMeRequestInput.md#updatemerequestinput) | The request body for: Update the current buyer profile. minProperties: `1`. |
 
 Body model: [UpdateMeRequestInput](../models/UpdateMeRequestInput.md#updatemerequestinput).
@@ -3775,19 +3754,19 @@ Returned payload: [BuyerCustomer](../models/BuyerCustomer.md#buyercustomer).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3795,9 +3774,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3808,7 +3787,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->me->update([
-  'default_payment_method_id' => 'example',
+  'name' => 'Jordan Example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -3826,8 +3805,7 @@ Signature: `updateAddress(string|Model $customer_address_id, array|Model $params
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_address_id` | Required | string | Flint customer address ID. |
 | `body` | Required | [UpdateCustomerAddressRequestInput](../models/UpdateCustomerAddressRequestInput.md#updatecustomeraddressrequestinput) | The request body for: Update a customer address; Update one of the current buyer's addresses. minProperties: `1`. |
 
 #### Response
@@ -3836,19 +3814,19 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3856,9 +3834,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3868,7 +3846,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->updateAddress('caddr_example', [
+$result = $client->me->updateAddress('caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'label' => 'Home',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -3877,7 +3855,7 @@ $result = $client->me->updateAddress('caddr_example', [
 
 ### me.updateEmailPreferences
 
-Uses the customer identity fixed by the customer session. Turns the optional email categories in the body on or off for the customer's current email at this merchant in the selected merchant environment, and leaves the others as they are. The setting follows the email address, so it also covers guest checkouts with the same email. A customer without an email has no email preferences, and the change answers 404 with CUSTOMER_EMAIL_REQUIRED.
+Uses the customer identity fixed by the customer session. Turns the optional email categories in the body on or off for the customer's current email at this merchant in the selected merchant environment, and leaves the others as they are. The setting follows the email address, so it also covers guest checkouts with the same email. A customer without an email has no email preferences, and the change returns 404 RESOURCE_NOT_FOUND.
 
 `PATCH /v1/me/email-preferences`
 
@@ -3887,7 +3865,6 @@ Signature: `updateEmailPreferences(array|Model $params, ?RequestOptions $options
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [UpdateCustomerEmailPreferencesRequestInput](../models/UpdateCustomerEmailPreferencesRequestInput.md#updatecustomeremailpreferencesrequestinput) | The request body for: Update the current buyer's email preferences. minProperties: `1`. |
 
 Body model: [UpdateCustomerEmailPreferencesRequestInput](../models/UpdateCustomerEmailPreferencesRequestInput.md#updatecustomeremailpreferencesrequestinput).
@@ -3902,19 +3879,19 @@ Returned payload: [CustomerEmailPreferences](../models/CustomerEmailPreferencesI
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3922,9 +3899,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateEmailPreferencesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3935,7 +3912,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->me->updateEmailPreferences([
-  'checkout_reminders' => true,
+  'checkout_reminders' => false,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -3953,8 +3930,7 @@ Signature: `updateSubscription(string|Model $subscription_id, array|Model $param
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Flint subscription ID. |
 | `body` | Required | [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequestInput.md#updatemesubscriptionrequestinput) | The request body for: Update subscription. |
 
 Body model: [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequestInput.md#updatemesubscriptionrequestinput).
@@ -3969,19 +3945,19 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -3989,9 +3965,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4001,7 +3977,9 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->updateSubscription('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->updateSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'quantity' => 2,
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/me-updateSubscription.php)
@@ -4028,16 +4006,18 @@ updateSubscriptionLineItem(string|
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `subscription_line_item_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `subscription_id` | Required | string | Subscription ID. |
+| `subscription_line_item_id` | Required | string | Subscription line item ID. |
 | `body` | Required | [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequestInput.md#updatemesubscriptionlineitemrequestinput) | The request body for: Swap subscription variant. |
 
 Body model: [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequestInput.md#updatemesubscriptionlineitemrequestinput).
 
 #### me.updateSubscriptionLineItem body fields
 
-Field definitions: [shared fields](../models/UpdateMeSubscriptionLineItemRequestInput.md#updatemesubscriptionlineitemrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
+| `variant_id` | Required | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -4045,20 +4025,20 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -4066,9 +4046,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateSubscriptionLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4078,7 +4058,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->updateSubscriptionLineItem('example', 'example', [
+$result = $client->me->updateSubscriptionLineItem('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'sli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'variant_id' => 'var_00000000000000000000000000',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

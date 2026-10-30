@@ -10,25 +10,25 @@ namespace Flint;
 final class BundleListResponseInput extends Model {
     /** @param array{'data': list<BundleInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleListResponseInput')); }
-    /** Shape $ (Value): Array of {@see BundleInput}. The requested bundle data. Shape $[] (Value): {@see BundleInput}. A group of items sold together.
+    /** The requested bundle data. [] (Value): {@see BundleInput}. Several variants sold as one line at the bundle's price. A bundle line takes its components' shared taxability and tax category; all components must share both stored values. An unset category uses the merchant default and equals only another unset category.
      * @return list<BundleInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Shape $ (Value): {@see ResponseMetaInput}. Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ResponseMetaInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().
      */
     public function getMeta(): mixed { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** Shape $ (Value): string. Token for the next page. Omitted when there are no more results.
+    /** Token for the next page. Omitted when there are no more results.
      * @return string
      * @throws SdkError When next_page_token is omitted; use hasNextPageToken() or valueOrDefault().
      */
     public function getNextPageToken(): string { return $this->get('next_page_token'); }
     public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
-    /** Shape $ (Value): string. Identifier of this API request, useful when contacting support. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+    /** Identifier of this API request, useful when contacting support. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      * @return string
      * @throws SdkError When request_id is omitted; use hasRequestId() or valueOrDefault().
      */

@@ -1,20 +1,19 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     FulfillmentNotification,
     FulfillmentNotificationListResponse,
     FulfillmentNotificationResponse,
-    FulfillmentNotificationsGetInput,
-    FulfillmentNotificationsListInput
-} from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    FulfillmentNotificationsGetParams,
+    FulfillmentNotificationsListParams
+} from '../declarations/types-22.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -24,183 +23,59 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    FulfillmentNotificationsGetParams,
     FulfillmentNotification,
     FulfillmentNotificationResponse,
+    FulfillmentNotificationsListParams,
     FulfillmentNotificationListResponse,
-    FulfillmentNotificationsGetInput,
-    FulfillmentNotificationsListInput
-} from '../declarations/types-19.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
+    FulfillmentEventsGetParams
+} from '../declarations/types-22.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { MetadataMap } from '../declarations/types-32.js';
-export type { ExpandedOrderSummary } from '../declarations/types-18.js';
-export type { PricingAmounts } from '../declarations/types-39.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
-export type { SettlementAmounts } from '../declarations/types-47.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { MetadataMap } from '../declarations/types-34.js';
+export type { ExpandedOrderSummary } from '../declarations/types-21.js';
+export type { CheckoutBuyerContact } from '../declarations/types-4.js';
+export type { PricingAmounts } from '../declarations/types-43.js';
+export type { MoneyValue, NextAction } from '../declarations/types-35.js';
+export type { SettlementAmounts } from '../declarations/types-53.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface FulfillmentNotificationsResource {
     /**
  * Retrieves one fulfillment notification audit record by ID.
- * @see reference/fulfillmentNotifications.md#fulfillmentnotificationsget
- * GET /v1/fulfillment-notifications/{fulfillment_notification_id}
+ *
+ * `GET /v1/fulfillment-notifications/{fulfillment_notification_id}`
+ * @param fulfillment_notification_id Flint fulfillment notification ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#getFulfillmentNotification
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.fulfillmentNotifications.get("example")
+ * client.fulfillmentNotifications.get("fnt_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(fulfillment_notification_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<FulfillmentNotification>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/fulfillmentNotifications.md#fulfillmentnotificationsget
-     */
-    getWithResponse(fulfillment_notification_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FulfillmentNotificationResponse>>;
+    get(fulfillment_notification_id: InputValue<string>, params?: FulfillmentNotificationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<FulfillmentNotification, FulfillmentNotificationResponse>>;
     /**
  * Returns persisted fulfillment notification audit records. Results default to newest created
  * first. Default order: created_at descending, then fulfillment_notification_id descending.
- * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
- * GET /v1/fulfillment-notifications
+ *
+ * `GET /v1/fulfillment-notifications`
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#listFulfillmentNotifications
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.fulfillmentNotifications.list()
  */
-    list(params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "fulfillment_event_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "channel"?: InputValue<Array<"email">>;
-        "status"?: InputValue<Array<"pending" | "sent" | "failed" | "suppressed">>;
-        "notification_type"?: InputValue<Array<"fulfillment_canceled"
-            | "fulfillment_completed"
-            | "fulfillment_delivered"
-            | "fulfillment_dispatched"
-            | "fulfillment_failed"
-            | "fulfillment_no_show"
-            | "fulfillment_ready"
-            | "fulfillment_shipped"
-            | "shipment_delivered"
-            | "shipment_delivery_attempted"
-            | "shipment_exception"
-            | "shipment_out_for_delivery"
-            | "shipment_returned"
-            | "shipment_shipped">>;
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<FulfillmentNotificationListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
-     */
-    listWithResponse(params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "fulfillment_event_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "channel"?: InputValue<Array<"email">>;
-        "status"?: InputValue<Array<"pending" | "sent" | "failed" | "suppressed">>;
-        "notification_type"?: InputValue<Array<"fulfillment_canceled"
-            | "fulfillment_completed"
-            | "fulfillment_delivered"
-            | "fulfillment_dispatched"
-            | "fulfillment_failed"
-            | "fulfillment_no_show"
-            | "fulfillment_ready"
-            | "fulfillment_shipped"
-            | "shipment_delivered"
-            | "shipment_delivery_attempted"
-            | "shipment_exception"
-            | "shipment_out_for_delivery"
-            | "shipment_returned"
-            | "shipment_shipped">>;
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FulfillmentNotificationListResponse>>;
+    list(params?: FulfillmentNotificationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<FulfillmentNotificationListResponse, FulfillmentNotificationListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
+     * @see https://developers.withflintpay.com/docs/api/fulfillment#listFulfillmentNotifications
      */
-    listPages(params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "fulfillment_event_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "channel"?: InputValue<Array<"email">>;
-        "status"?: InputValue<Array<"pending" | "sent" | "failed" | "suppressed">>;
-        "notification_type"?: InputValue<Array<"fulfillment_canceled"
-            | "fulfillment_completed"
-            | "fulfillment_delivered"
-            | "fulfillment_dispatched"
-            | "fulfillment_failed"
-            | "fulfillment_no_show"
-            | "fulfillment_ready"
-            | "fulfillment_shipped"
-            | "shipment_delivered"
-            | "shipment_delivery_attempted"
-            | "shipment_exception"
-            | "shipment_out_for_delivery"
-            | "shipment_returned"
-            | "shipment_shipped">>;
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FulfillmentNotificationListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
-     */
-    listPagesWithResponse(params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "fulfillment_event_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "channel"?: InputValue<Array<"email">>;
-        "status"?: InputValue<Array<"pending" | "sent" | "failed" | "suppressed">>;
-        "notification_type"?: InputValue<Array<"fulfillment_canceled"
-            | "fulfillment_completed"
-            | "fulfillment_delivered"
-            | "fulfillment_dispatched"
-            | "fulfillment_failed"
-            | "fulfillment_no_show"
-            | "fulfillment_ready"
-            | "fulfillment_shipped"
-            | "shipment_delivered"
-            | "shipment_delivery_attempted"
-            | "shipment_exception"
-            | "shipment_out_for_delivery"
-            | "shipment_returned"
-            | "shipment_shipped">>;
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<FulfillmentNotificationListResponse>>;
+    listPages(params?: FulfillmentNotificationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<FulfillmentNotificationListResponse, FulfillmentNotificationListResponse>>;
     /** Iterate items lazily.
-     * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
+     * @see https://developers.withflintpay.com/docs/api/fulfillment#listFulfillmentNotifications
      */
-    listItems(params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "fulfillment_event_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "channel"?: InputValue<Array<"email">>;
-        "status"?: InputValue<Array<"pending" | "sent" | "failed" | "suppressed">>;
-        "notification_type"?: InputValue<Array<"fulfillment_canceled"
-            | "fulfillment_completed"
-            | "fulfillment_delivered"
-            | "fulfillment_dispatched"
-            | "fulfillment_failed"
-            | "fulfillment_no_show"
-            | "fulfillment_ready"
-            | "fulfillment_shipped"
-            | "shipment_delivered"
-            | "shipment_delivery_attempted"
-            | "shipment_exception"
-            | "shipment_out_for_delivery"
-            | "shipment_returned"
-            | "shipment_shipped">>;
-        "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FulfillmentNotification>;
+    listItems(params?: FulfillmentNotificationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FulfillmentNotification>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

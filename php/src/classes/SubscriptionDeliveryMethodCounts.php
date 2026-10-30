@@ -8,12 +8,12 @@ namespace Flint;
 final class SubscriptionDeliveryMethodCounts extends Model {
     /** @param array{'delivery_method_id': string, 'subscription_counts': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMethodCounts')); }
-    /** Shape $ (Value): string.
+    /** delivery_method_id
      * @return string
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Shape $ (Value): {@see SubscriptionCounts}. Counts of subscriptions by status: active, past due, and paused.
+    /** Counts of subscriptions by status: active, past due, and paused.
      * @return SubscriptionCounts
      */
     public function getSubscriptionCounts(): SubscriptionCounts { return $this->get('subscription_counts'); }

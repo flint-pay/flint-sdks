@@ -15,7 +15,7 @@ Which order lines to check for return eligibility: all remaining fulfilled lines
 
 ### ReturnEligibilitySelection variant 1: `selection_type` = `"all_remaining_fulfilled"`
 
-oneOf variant 1: The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`..
+oneOf with selection_type: "all_remaining_fulfilled": The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`..
 
 - Condition: not (present(`line_items`)).
 - Optional: `line_items`.
@@ -23,7 +23,7 @@ oneOf variant 1: The `all_remaining_fulfilled` variant of `ReturnEligibilitySele
 
 ### ReturnEligibilitySelection variant 2: `selection_type` = `"line_items"`
 
-oneOf variant 2: The `line_items` variant of `ReturnEligibilitySelection`..
+oneOf with selection_type: "line_items": The `line_items` variant of `ReturnEligibilitySelection`..
 
 - Required: `line_items`.
 - Constraints for `line_items`: minItems: `1`.

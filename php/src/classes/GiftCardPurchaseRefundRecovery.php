@@ -9,17 +9,17 @@ namespace Flint;
 final class GiftCardPurchaseRefundRecovery extends Model {
     /** @param array{'created_at': string, 'destination': string, 'destinations': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundRecovery')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.  Value enum: "original", "replacement".
+    /** Value enum: "original", "replacement".
      * @return string
      */
     public function getDestination(): string { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /** Shape $ (Value): Array of {@see GiftCardPurchaseRefundRecoveryDestination}. Shape $[] (Value): {@see GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered value in a gift card purchase refund recovery, with the amount.
+    /**  [] (Value): {@see GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered value in a gift card purchase refund recovery, with the amount.
      * @return list<GiftCardPurchaseRefundRecoveryDestination>
      */
     public function getDestinations(): array { return $this->get('destinations'); }

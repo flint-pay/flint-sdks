@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $webhook_endpoint_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsGetInput extends Model {
     /** @param array{'webhook_endpoint_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint webhook endpoint ID. Example: "whep_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */

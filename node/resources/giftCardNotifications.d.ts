@@ -1,24 +1,21 @@
-import type { InputValue } from '../runtime.js';
-import type { CancelGiftCardNotificationRequestInput } from '../declarations/types-3.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateGiftCardNotificationRequestInput } from '../declarations/types-7.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     GiftCardNotification,
     GiftCardNotificationListResponse,
     GiftCardNotificationResponse,
-    GiftCardNotificationsCancelInput,
-    GiftCardNotificationsCreateInput,
-    GiftCardNotificationsGetInput,
-    GiftCardNotificationsListInput
-} from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    GiftCardNotificationsCancelParams,
+    GiftCardNotificationsCreateParams,
+    GiftCardNotificationsGetParams,
+    GiftCardNotificationsListParams
+} from '../declarations/types-24.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -28,153 +25,97 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-3.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    GiftCardNotificationsCancelParams,
     GiftCardNotification,
     GiftCardNotificationResponse,
+    GiftCardNotificationsCreateParams,
+    GiftCardNotificationsGetParams,
+    GiftCardNotificationsListParams,
     GiftCardNotificationListResponse,
-    GiftCardNotificationsCancelInput,
-    GiftCardNotificationsCreateInput,
-    GiftCardNotificationsGetInput,
-    GiftCardNotificationsListInput,
     GiftCardNotificationDelivery,
     GiftCardNotificationDeliveryAttempt,
     GiftCardNotificationDeliveryEvent,
+    GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput
-} from '../declarations/types-20.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-7.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-24.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-3.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { GiftCardPurchaseRecipient } from '../declarations/types-21.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCancelGiftCardNotificationRequest } from '../declarations/types-65.js';
-export { makeCreateGiftCardNotificationRequest } from '../declarations/types-67.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/types-71.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-8.js';
+export { makeCancelGiftCardNotificationRequest } from '../declarations/types-62.js';
+export { makeCreateGiftCardNotificationRequest } from '../declarations/types-63.js';
+export { makeGiftCardNotificationRecipient } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface GiftCardNotificationsResource {
     /**
  * Cancels a notification before sending starts or after confirmed failure. A sending or
  * unconfirmed notification cannot be canceled. Gift card value is preserved.
- * @see reference/giftCardNotifications.md#giftcardnotificationscancel
- * POST /v1/gift-card-notifications/{gift_card_notification_id}/cancel
+ *
+ * `POST /v1/gift-card-notifications/{gift_card_notification_id}/cancel`
+ * @param gift_card_notification_id Flint resource ID.
+ * @see https://developers.withflintpay.com/docs/api/gift-cards#cancelGiftCardNotification
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardNotifications.cancel("example", undefined, { idempotencyKey: idempotencyKey })
+ * client.giftCardNotifications.cancel("gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * idempotencyKey: idempotencyKey })
  */
-    cancel(gift_card_notification_id: InputValue<string>, params?: (InputValue<CancelGiftCardNotificationRequestInput> | {})
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<GiftCardNotification>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/giftCardNotifications.md#giftcardnotificationscancel
-     */
-    cancelWithResponse(gift_card_notification_id: InputValue<string>, params?: (InputValue<CancelGiftCardNotificationRequestInput> | {})
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GiftCardNotificationResponse>>;
+    cancel(gift_card_notification_id: InputValue<string>, params?: GiftCardNotificationsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GiftCardNotification, GiftCardNotificationResponse>>;
     /**
  * Creates a recipient email notification, immediately or up to 90 days from now. A resend creates
  * a new resource with resend_of_notification_id. An unconfirmed send must be resolved before
  * another send is requested. Sending does not change gift card value or order fulfillment.
- * @see reference/giftCardNotifications.md#giftcardnotificationscreate
- * POST /v1/gift-card-notifications
+ *
+ * `POST /v1/gift-card-notifications`
+ * @see https://developers.withflintpay.com/docs/api/gift-cards#createGiftCardNotification
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardNotifications.create({gift_card_id: "example", recipient: {email:
- * "example@example.invalid"}}, { idempotencyKey: idempotencyKey })
+ * client.giftCardNotifications.create({gift_card_id: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV", recipient:
+ * {email: "example@example.invalid"}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateGiftCardNotificationRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<GiftCardNotification>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/giftCardNotifications.md#giftcardnotificationscreate
-     */
-    createWithResponse(params: (InputValue<CreateGiftCardNotificationRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GiftCardNotificationResponse>>;
+    create(params: GiftCardNotificationsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GiftCardNotification, GiftCardNotificationResponse>>;
     /**
  * Retrieves a notification and its sending outcome. Sent means the sending provider accepted the
  * message; it does not mean the recipient read it.
- * @see reference/giftCardNotifications.md#giftcardnotificationsget
- * GET /v1/gift-card-notifications/{gift_card_notification_id}
+ *
+ * `GET /v1/gift-card-notifications/{gift_card_notification_id}`
+ * @param gift_card_notification_id Flint resource ID.
+ * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardNotification
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.giftCardNotifications.get("example")
+ * client.giftCardNotifications.get("gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(gift_card_notification_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardNotification>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/giftCardNotifications.md#giftcardnotificationsget
-     */
-    getWithResponse(gift_card_notification_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardNotificationResponse>>;
+    get(gift_card_notification_id: InputValue<string>, params?: GiftCardNotificationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCardNotification, GiftCardNotificationResponse>>;
     /**
  * Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or
  * recipient access tokens are returned. Default order: gift_card_notification_id descending; this
  * key uniquely orders the results.
- * @see reference/giftCardNotifications.md#giftcardnotificationslist
- * GET /v1/gift-card-notifications
+ *
+ * `GET /v1/gift-card-notifications`
+ * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardNotifications
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.giftCardNotifications.list()
  */
-    list(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "gift_card_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardNotificationListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/giftCardNotifications.md#giftcardnotificationslist
-     */
-    listWithResponse(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "gift_card_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardNotificationListResponse>>;
+    list(params?: GiftCardNotificationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCardNotificationListResponse, GiftCardNotificationListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/giftCardNotifications.md#giftcardnotificationslist
+     * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardNotifications
      */
-    listPages(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "gift_card_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardNotificationListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/giftCardNotifications.md#giftcardnotificationslist
-     */
-    listPagesWithResponse(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "gift_card_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardNotificationListResponse>>;
+    listPages(params?: GiftCardNotificationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<GiftCardNotificationListResponse, GiftCardNotificationListResponse>>;
     /** Iterate items lazily.
-     * @see reference/giftCardNotifications.md#giftcardnotificationslist
+     * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardNotifications
      */
-    listItems(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "gift_card_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardNotification>;
+    listItems(params?: GiftCardNotificationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardNotification>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1,14 +1,13 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { GiftCardTransaction, GiftCardTransactionListResponse, GiftCardTransactionsListInput } from '../declarations/types-21.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+import type { WithResponseInfo } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { GiftCardTransaction, GiftCardTransactionListResponse, GiftCardTransactionsListParams } from '../declarations/types-24.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -18,179 +17,38 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta, ResourceReference, ResourceType } from '../declarations/types-42.js';
-export type { GiftCardTransactionListResponse, GiftCardTransaction, GiftCardTransactionsListInput } from '../declarations/types-21.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+export type { GiftCardTransactionsListParams, GiftCardTransactionListResponse, GiftCardTransaction } from '../declarations/types-24.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning, ResourceType } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface GiftCardTransactionsResource {
     /**
  * Lists immutable financial entries across the merchant in ascending merchant_sequence order.
  * Per-card sequences and balance snapshots support reconciliation. Reservations and code
  * replacement never create financial debits. Default order: merchant_sequence ascending; this key
  * uniquely orders the results.
- * @see reference/giftCardTransactions.md#giftcardtransactionslist
- * GET /v1/gift-card-transactions
+ *
+ * `GET /v1/gift-card-transactions`
+ * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardTransactions
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.giftCardTransactions.list()
  */
-    list(params?: {
-        "cash_out_reference"?: InputValue<string>;
-        "gift_card_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "posted_after"?: InputValue<string | globalThis.Date>;
-        "posted_before"?: InputValue<string | globalThis.Date>;
-        "source_id"?: InputValue<string>;
-        "source_type"?: InputValue<Array<"gift_card_funding_disposition"
-            | "gift_card_load"
-            | "gift_card_redemption"
-            | "purchase_refund_allocation"
-            | "refund"
-            | "refund_allocation">>;
-        "transaction_type"?: InputValue<Array<"load"
-            | "import"
-            | "redeem"
-            | "refund"
-            | "refund_transfer"
-            | "adjustment"
-            | "cash_out"
-            | "purchase_reversal"
-            | "funding_loss_accepted"
-            | "purchase_refund_recovery"
-            | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardTransactionListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/giftCardTransactions.md#giftcardtransactionslist
-     */
-    listWithResponse(params?: {
-        "cash_out_reference"?: InputValue<string>;
-        "gift_card_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "posted_after"?: InputValue<string | globalThis.Date>;
-        "posted_before"?: InputValue<string | globalThis.Date>;
-        "source_id"?: InputValue<string>;
-        "source_type"?: InputValue<Array<"gift_card_funding_disposition"
-            | "gift_card_load"
-            | "gift_card_redemption"
-            | "purchase_refund_allocation"
-            | "refund"
-            | "refund_allocation">>;
-        "transaction_type"?: InputValue<Array<"load"
-            | "import"
-            | "redeem"
-            | "refund"
-            | "refund_transfer"
-            | "adjustment"
-            | "cash_out"
-            | "purchase_reversal"
-            | "funding_loss_accepted"
-            | "purchase_refund_recovery"
-            | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardTransactionListResponse>>;
+    list(params?: GiftCardTransactionsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCardTransactionListResponse, GiftCardTransactionListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/giftCardTransactions.md#giftcardtransactionslist
+     * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardTransactions
      */
-    listPages(params?: {
-        "cash_out_reference"?: InputValue<string>;
-        "gift_card_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "posted_after"?: InputValue<string | globalThis.Date>;
-        "posted_before"?: InputValue<string | globalThis.Date>;
-        "source_id"?: InputValue<string>;
-        "source_type"?: InputValue<Array<"gift_card_funding_disposition"
-            | "gift_card_load"
-            | "gift_card_redemption"
-            | "purchase_refund_allocation"
-            | "refund"
-            | "refund_allocation">>;
-        "transaction_type"?: InputValue<Array<"load"
-            | "import"
-            | "redeem"
-            | "refund"
-            | "refund_transfer"
-            | "adjustment"
-            | "cash_out"
-            | "purchase_reversal"
-            | "funding_loss_accepted"
-            | "purchase_refund_recovery"
-            | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardTransactionListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/giftCardTransactions.md#giftcardtransactionslist
-     */
-    listPagesWithResponse(params?: {
-        "cash_out_reference"?: InputValue<string>;
-        "gift_card_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "posted_after"?: InputValue<string | globalThis.Date>;
-        "posted_before"?: InputValue<string | globalThis.Date>;
-        "source_id"?: InputValue<string>;
-        "source_type"?: InputValue<Array<"gift_card_funding_disposition"
-            | "gift_card_load"
-            | "gift_card_redemption"
-            | "purchase_refund_allocation"
-            | "refund"
-            | "refund_allocation">>;
-        "transaction_type"?: InputValue<Array<"load"
-            | "import"
-            | "redeem"
-            | "refund"
-            | "refund_transfer"
-            | "adjustment"
-            | "cash_out"
-            | "purchase_reversal"
-            | "funding_loss_accepted"
-            | "purchase_refund_recovery"
-            | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardTransactionListResponse>>;
+    listPages(params?: GiftCardTransactionsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<GiftCardTransactionListResponse, GiftCardTransactionListResponse>>;
     /** Iterate items lazily.
-     * @see reference/giftCardTransactions.md#giftcardtransactionslist
+     * @see https://developers.withflintpay.com/docs/api/gift-cards#listGiftCardTransactions
      */
-    listItems(params?: {
-        "cash_out_reference"?: InputValue<string>;
-        "gift_card_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "posted_after"?: InputValue<string | globalThis.Date>;
-        "posted_before"?: InputValue<string | globalThis.Date>;
-        "source_id"?: InputValue<string>;
-        "source_type"?: InputValue<Array<"gift_card_funding_disposition"
-            | "gift_card_load"
-            | "gift_card_redemption"
-            | "purchase_refund_allocation"
-            | "refund"
-            | "refund_allocation">>;
-        "transaction_type"?: InputValue<Array<"load"
-            | "import"
-            | "redeem"
-            | "refund"
-            | "refund_transfer"
-            | "adjustment"
-            | "cash_out"
-            | "purchase_reversal"
-            | "funding_loss_accepted"
-            | "purchase_refund_recovery"
-            | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardTransaction>;
+    listItems(params?: GiftCardTransactionsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardTransaction>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

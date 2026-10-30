@@ -8,12 +8,12 @@ namespace Flint;
 final class CreateRefundResultGiftCardCodesItem extends Model {
     /** @param array{'code': string, 'gift_card_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRefundResultGiftCardCodesItem')); }
-    /** Shape $ (Value): string.
+    /** code
      * @return string
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Shape $ (Value): string.
+    /** gift_card_id
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }

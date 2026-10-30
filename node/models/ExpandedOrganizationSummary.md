@@ -16,5 +16,5 @@ An organization's summary fields, such as its name, status, and parent, returned
 | `parent_organization_id` | Optional | string |  |
 | `status` | Required | string | Current status. Archived: deleted. API keys can no longer read or list the organization. Values: `"active"`, `"archived"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 

@@ -28,133 +28,133 @@ namespace Flint;
 final class DeliverySelectionChoiceResourceInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'delivery_choice_group_id': string, 'delivery_method_id': string, 'delivery_option_id': string, 'delivery_plan': DeliveryPlanInput|array<array-key, mixed>|\stdClass, 'delivery_window_id'?: string, 'description'?: string, 'discount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'input'?: DeliverySelectionInstructionsRequestInput|array<array-key, mixed>|\stdClass, 'local_delivery'?: DeliveryLocalDeliveryDetailsInput|array<array-key, mixed>|\stdClass, 'merchant_reference'?: string, 'name': string, 'order_charge_id'?: string|null, 'pickup'?: DeliveryPickupDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: DeliveryShipmentDetailsInput|array<array-key, mixed>|\stdClass, 'stable_key': string, 'tax_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'timezone'?: string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionChoiceResourceInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string.
+    /** delivery_choice_group_id
      * @return string
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): string { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** Shape $ (Value): string.
+    /** delivery_method_id
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Shape $ (Value): string.
+    /** delivery_option_id
      * @return string
      * @throws SdkError When delivery_option_id is omitted; use hasDeliveryOptionId() or valueOrDefault().
      */
     public function getDeliveryOptionId(): string { return $this->get('delivery_option_id'); }
     public function hasDeliveryOptionId(): bool { return $this->has('delivery_option_id'); }
-    /** Shape $ (Value): {@see DeliveryPlanInput}. Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
+    /** Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
      * @return DeliveryPlanInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_plan is omitted; use hasDeliveryPlan() or valueOrDefault().
      */
     public function getDeliveryPlan(): mixed { return $this->get('delivery_plan'); }
     public function hasDeliveryPlan(): bool { return $this->has('delivery_plan'); }
-    /** Shape $ (Value): string.
+    /** delivery_window_id
      * @return string
      * @throws SdkError When delivery_window_id is omitted; use hasDeliveryWindowId() or valueOrDefault().
      */
     public function getDeliveryWindowId(): string { return $this->get('delivery_window_id'); }
     public function hasDeliveryWindowId(): bool { return $this->has('delivery_window_id'); }
-    /** Shape $ (Value): string.
+    /** description
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Always present with an API key or dashboard credential. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Always present with an API key or dashboard credential. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When discount_money is omitted; use hasDiscountMoney() or valueOrDefault().
      */
     public function getDiscountMoney(): mixed { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Shape $ (Value): {@see DeliverySelectionInstructionsRequestInput}. Buyer input for a selected delivery option: a `delivery_window_id` where the option uses delivery windows, and optional `instructions`.
+    /** Buyer input for a selected delivery option: a `delivery_window_id` where the option uses delivery windows, and optional `instructions`.
      * @return DeliverySelectionInstructionsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When input is omitted; use hasInput() or valueOrDefault().
      */
     public function getInput(): mixed { return $this->get('input'); }
     public function hasInput(): bool { return $this->has('input'); }
-    /** Shape $ (Value): {@see DeliveryLocalDeliveryDetailsInput}. Details of a local delivery option: instructions and service level.
+    /** Details of a local delivery option: instructions and service level.
      * @return DeliveryLocalDeliveryDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When local_delivery is omitted; use hasLocalDelivery() or valueOrDefault().
      */
     public function getLocalDelivery(): mixed { return $this->get('local_delivery'); }
     public function hasLocalDelivery(): bool { return $this->has('local_delivery'); }
-    /** Shape $ (Value): string.
+    /** merchant_reference
      * @return string
      * @throws SdkError When merchant_reference is omitted; use hasMerchantReference() or valueOrDefault().
      */
     public function getMerchantReference(): string { return $this->get('merchant_reference'); }
     public function hasMerchantReference(): bool { return $this->has('merchant_reference'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string or null. Always present with an API key or dashboard credential. Null when the choice has no order charge.
+    /** Always present with an API key or dashboard credential. Null when the choice has no order charge.
      * @return string|null
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */
     public function getOrderChargeId(): string|null { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** Shape $ (Value): {@see DeliveryPickupDetailsInput}. Pickup details of a delivery option: the pickup mode and the pickup location.
+    /** Pickup details of a delivery option: the pickup mode and the pickup location.
      * @return DeliveryPickupDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When pickup is omitted; use hasPickup() or valueOrDefault().
      */
     public function getPickup(): mixed { return $this->get('pickup'); }
     public function hasPickup(): bool { return $this->has('pickup'); }
-    /** Shape $ (Value): {@see DeliveryShipmentDetailsInput}. Shipment-specific details of a delivery option or choice: the `service_level` and buyer `instructions`.
+    /** Shipment-specific details of a delivery option or choice: the `service_level` and buyer `instructions`.
      * @return DeliveryShipmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When shipment is omitted; use hasShipment() or valueOrDefault().
      */
     public function getShipment(): mixed { return $this->get('shipment'); }
     public function hasShipment(): bool { return $this->has('shipment'); }
-    /** Shape $ (Value): string.
+    /** stable_key
      * @return string
      * @throws SdkError When stable_key is omitted; use hasStableKey() or valueOrDefault().
      */
     public function getStableKey(): string { return $this->get('stable_key'); }
     public function hasStableKey(): bool { return $this->has('stable_key'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Always present with an API key or dashboard credential. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Always present with an API key or dashboard credential. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax_money is omitted; use hasTaxMoney() or valueOrDefault().
      */
     public function getTaxMoney(): mixed { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Shape $ (Value): string. IANA timezone for displaying window_start_at and window_end_at. Example: "America/New_York".
+    /** IANA timezone for displaying window_start_at and window_end_at. Example: "America/New_York".
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Shape $ (Value): string.  Value enum: "shipment", "pickup", "local_delivery".
+    /** Value enum: "shipment", "pickup", "local_delivery".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

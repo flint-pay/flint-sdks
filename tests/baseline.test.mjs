@@ -12,6 +12,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { createHash } from "node:crypto";
 
 const root = resolve(import.meta.dirname, "..");
 test("clean checkouts reconstruct the latest earlier release from Git, preserving the original inputs", () => {
@@ -46,7 +47,37 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
     put(".tools/sdk-generator/dist/version.js", comparator);
     put(
       ".tools/sdk-generator/dist/cli.js",
-      `import fs from 'node:fs'; import path from 'node:path'; const [action,api,config,out] = process.argv.slice(2); fs.mkdirSync(out,{recursive:true}); fs.writeFileSync(path.join(out,'.sdk-generator.json'),JSON.stringify({api:fs.readFileSync(api,'utf8'),config:fs.readFileSync(config,'utf8')})); fs.writeFileSync(path.join(out,'artifact.txt'),'published SDK'); const count='.generated/baseline-builds.txt'; fs.writeFileSync(count,String(Number(fs.existsSync(count)?fs.readFileSync(count,'utf8'):0)+1));`,
+      `import fs from 'node:fs';
+import path from 'node:path';
+const [action,api,config,out] = process.argv.slice(2);
+const version = JSON.parse(fs.readFileSync(path.join(path.dirname(config),'spec/profiles/full-common-sdk.json'))).version;
+const record = {
+  api: fs.readFileSync(api,'utf8'),
+  config: fs.readFileSync(config,'utf8'),
+  interface: { version },
+  compiled: { version, synthetic: true },
+  baseline: { kind: 'draft' },
+};
+fs.mkdirSync(out,{recursive:true});
+fs.writeFileSync(path.join(out,'.sdk-generator.json'),JSON.stringify(record));
+fs.writeFileSync(path.join(out,'artifact.txt'),'published SDK');
+const count='.generated/baseline-builds.txt';
+fs.writeFileSync(count,String(Number(fs.existsSync(count)?fs.readFileSync(count,'utf8'):0)+1));`,
+    );
+    put(
+      ".tools/sdk-generator/dist/index.js",
+      `import fs from 'node:fs';
+import path from 'node:path';
+export function setCompatibilityBaseline(output, mode) {
+  if (mode !== 'released') throw new Error('Expected released adoption');
+  if (fs.existsSync('.generated/fail-baseline-adoption')) throw new Error('Synthetic baseline adoption failure');
+  const file = path.join(output,'.sdk-generator.json');
+  const record = JSON.parse(fs.readFileSync(file));
+  record.baseline = { kind: 'released', interface: record.interface, compiled: record.compiled };
+  fs.writeFileSync(file,JSON.stringify(record));
+  const count='.generated/baseline-adoptions.txt';
+  fs.writeFileSync(count,String(Number(fs.existsSync(count)?fs.readFileSync(count,'utf8'):0)+1));
+}`,
     );
     put(".gitignore", ".tools/\n.generated/\n");
     put("sdk.lock.json", { generator: { revision: "a".repeat(40) } });
@@ -75,6 +106,16 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
       readFileSync(join(dir, ".generated/sdk/.sdk-generator.json")),
     );
     assert.equal(record.api, '{"original":"second"}\n');
+    assert.deepEqual(record.interface, { version: "0.2.0-beta.2" });
+    assert.deepEqual(record.baseline, {
+      kind: "released",
+      interface: record.interface,
+      compiled: record.compiled,
+    });
+    assert.equal(
+      readFileSync(join(dir, ".generated/baseline-adoptions.txt"), "utf8"),
+      "1",
+    );
     assert.equal(run(process.execPath, ["scripts/baseline.mjs"]), ""); // retained baseline
     const cached = join(
       dir,
@@ -83,6 +124,9 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
       "sdk/.sdk-generator.json",
     );
     assert.deepEqual(JSON.parse(readFileSync(cached)), record);
+    const recordHash = () =>
+      createHash("sha256").update(readFileSync(cached)).digest("hex");
+    assert.equal(marker.recordHash, recordHash());
     // Candidate records and package files must never become the next baseline,
     // including when the unpublished candidate's version changes.
     for (const version of ["0.2.0", "0.2.1"]) {
@@ -114,8 +158,61 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
       readFileSync(join(dir, ".generated/baseline-builds.txt"), "utf8"),
       "1",
     );
+    // Upgrade a hash-verified old draft cache without adopting the working draft.
+    const draft = { ...record, baseline: { kind: "draft" } };
+    writeFileSync(cached, JSON.stringify(draft));
+    const draftHash = recordHash();
+    put(".generated/baseline.json", { ...marker, recordHash: draftHash });
+    const candidate = {
+      api: '{"candidate":"unpublished"}',
+      baseline: { kind: "draft" },
+    };
+    put(".generated/sdk/.sdk-generator.json", candidate);
+    put(".generated/fail-baseline-adoption", "fail");
+    const adoptionFailure = spawnSync(
+      process.execPath,
+      ["scripts/baseline.mjs"],
+      {
+        cwd: dir,
+        encoding: "utf8",
+      },
+    );
+    assert.notEqual(adoptionFailure.status, 0);
+    assert.match(adoptionFailure.stderr, /Synthetic baseline adoption failure/);
+    assert.deepEqual(JSON.parse(readFileSync(cached)), draft);
+    assert.equal(
+      JSON.parse(readFileSync(join(dir, ".generated/baseline.json")))
+        .recordHash,
+      draftHash,
+    );
+    assert.deepEqual(
+      JSON.parse(readFileSync(join(dir, ".generated/sdk/.sdk-generator.json"))),
+      candidate,
+    );
+    rmSync(join(dir, ".generated/fail-baseline-adoption"));
+    run(process.execPath, ["scripts/baseline.mjs"]);
+    assert.deepEqual(JSON.parse(readFileSync(cached)), record);
+    assert.deepEqual(
+      JSON.parse(readFileSync(join(dir, ".generated/sdk/.sdk-generator.json"))),
+      record,
+    );
+    const migratedMarker = JSON.parse(
+      readFileSync(join(dir, ".generated/baseline.json")),
+    );
+    assert.equal(migratedMarker.recordHash, recordHash());
+    assert.notEqual(migratedMarker.recordHash, draftHash);
+    assert.equal(migratedMarker.tag, marker.tag);
+    assert.equal(migratedMarker.commit, marker.commit);
+    assert.equal(
+      readFileSync(join(dir, ".generated/baseline-builds.txt"), "utf8"),
+      "3",
+    );
+    assert.equal(
+      readFileSync(join(dir, ".generated/baseline-adoptions.txt"), "utf8"),
+      "2",
+    );
     // A changed private record cannot silently redefine the published contract.
-    writeFileSync(cached, JSON.stringify({ ...record, api: "changed cache" }));
+    writeFileSync(cached, JSON.stringify({ ...draft, api: "changed cache" }));
     const failure = spawnSync(process.execPath, ["scripts/baseline.mjs"], {
       cwd: dir,
       encoding: "utf8",

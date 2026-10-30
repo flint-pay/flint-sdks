@@ -1,13 +1,13 @@
-import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
+import { responsePayload as _sdkPayload, payloadPages as _sdkPayloadPages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { configuredDefaultCredentials, configuredWorkloadIdentityCredentials } from '../runtime.js';
 export function defaultCredentials() { return configuredDefaultCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, "https://api.withflintpay.com" ?? undefined); }
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import r0 from '../descriptors/resources/invoices.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import settings from '../descriptors/settings.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceCheckoutSession"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
@@ -18,110 +18,79 @@ this.invoices = Object.freeze({
       cancelPaymentAttempt: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("cancelInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [
-  "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelInvoicePaymentAttempt", result, path))),
-      cancelPaymentAttemptWithResponse: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("cancelInvoicePaymentAttempt", _sdkRequestInput([
-  "invoice_id",
-  "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [
-  "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
+], [invoice_id, invoice_payment_attempt_id], [], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelInvoicePaymentAttempt", result, path))),
       collect: async (invoice_id, params, options) => this.#runtime.request("collectInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("collectInvoice", result, path))),
-      collectWithResponse: async (invoice_id, params, options) => this.#runtime.request("collectInvoice", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      create: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoice", result, path))),
-      createWithResponse: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [invoice_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("collectInvoice", result, path))),
+      create: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoice", result, path))),
       createCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceCheckoutSession", result, path))),
-      createCheckoutSessionWithResponse: async (invoice_id, params, options) => this.#runtime.request("createInvoiceCheckoutSession", _sdkRequestInput([
+], [invoice_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceCheckoutSession", result, path))),
+      createLateFee: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
-      getOrCreateCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createInvoiceCheckoutSession", _sdkRequestInput([
+], [invoice_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceLateFee", result, path))),
+      createManualPayment: async (invoice_id, params, options) => this.#runtime.request("createInvoiceManualPayment", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceCheckoutSession", result, path))),
-      getOrCreateCheckoutSessionWithResponse: async (invoice_id, params, options) => this.#runtime.request("createInvoiceCheckoutSession", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
-      assessLateFee: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceLateFee", result, path))),
-      assessLateFeeWithResponse: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      recordManualPayment: async (invoice_id, params, options) => this.#runtime.request("createInvoiceManualPayment", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceManualPayment", result, path))),
-      recordManualPaymentWithResponse: async (invoice_id, params, options) => this.#runtime.request("createInvoiceManualPayment", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [invoice_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceManualPayment", result, path))),
       get: async (invoice_id, params, options) => this.#runtime.request("getInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoice", result, path))),
-      getWithResponse: async (invoice_id, params, options) => this.#runtime.request("getInvoice", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "expand"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoice", result, path))),
       getManualPayment: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("getInvoiceManualPayment", _sdkRequestInput([
   "invoice_id",
   "invoice_manual_payment_id"
-], [invoice_id, invoice_manual_payment_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoiceManualPayment", result, path))),
-      getManualPaymentWithResponse: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("getInvoiceManualPayment", _sdkRequestInput([
-  "invoice_id",
-  "invoice_manual_payment_id"
-], [invoice_id, invoice_manual_payment_id], [], false, false, params), options).then(_sdkResponse),
+], [invoice_id, invoice_manual_payment_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoiceManualPayment", result, path))),
       getPaymentAttempt: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("getInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoicePaymentAttempt", result, path))),
-      getPaymentAttemptWithResponse: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("getInvoicePaymentAttempt", _sdkRequestInput([
-  "invoice_id",
-  "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [], false, false, params), options).then(_sdkResponse),
+], [invoice_id, invoice_payment_attempt_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoicePaymentAttempt", result, path))),
       getPDF: async (invoice_id, params, options) => this.#runtime.request("getInvoicePDF", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [], false, false, params), options),
+], [invoice_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       issue: async (invoice_id, params, options) => this.#runtime.request("issueInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("issueInvoice", result, path))),
-      issueWithResponse: async (invoice_id, params, options) => this.#runtime.request("issueInvoice", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [invoice_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("issueInvoice", result, path))),
       listActivities: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -129,15 +98,10 @@ this.invoices = Object.freeze({
   "page_token",
   "sort_direction",
   "activity_type"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceActivities", result, path))),
-      listActivitiesWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "sort_direction",
-  "activity_type"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceActivities", result, path))),
       listActivitiesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -145,15 +109,10 @@ this.invoices = Object.freeze({
   "page_token",
   "sort_direction",
   "activity_type"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceActivities", result, path)),
-      listActivitiesPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "sort_direction",
-  "activity_type"
-], false, false, params), options)),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceActivities", result, path)),
       listActivitiesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -161,107 +120,97 @@ this.invoices = Object.freeze({
   "page_token",
   "sort_direction",
   "activity_type"
-], false, false, params), options),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listDeliveryAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path))),
-      listDeliveryAttemptsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path))),
       listDeliveryAttemptsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path)),
-      listDeliveryAttemptsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceDeliveryAttempts", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token"
-], false, false, params), options)),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path)),
       listDeliveryAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listManualPayments: async (invoice_id, params, options) => this.#runtime.request("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path))),
-      listManualPaymentsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceManualPayments", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "idempotency_key"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path))),
       listManualPaymentsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path)),
-      listManualPaymentsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceManualPayments", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "idempotency_key"
-], false, false, params), options)),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path)),
       listManualPaymentsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listPaymentAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentAttempts", result, path))),
-      listPaymentAttemptsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "idempotency_key"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentAttempts", result, path))),
       listPaymentAttemptsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentAttempts", result, path)),
-      listPaymentAttemptsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoicePaymentAttempts", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "idempotency_key"
-], false, false, params), options)),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentAttempts", result, path)),
       listPaymentAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       list: async (params, options) => this.#runtime.request("listInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -287,33 +236,10 @@ this.invoices = Object.freeze({
   "sort_direction",
   "query",
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoices", result, path))),
-      listWithResponse: async (params, options) => this.#runtime.request("listInvoices", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status",
-  "idempotency_key",
-  "customer_id",
-  "order_id",
-  "subscription_id",
-  "external_reference_id",
-  "invoice_number",
-  "collection_mode",
-  "issued_after",
-  "issued_before",
-  "updated_after",
-  "updated_before",
-  "created_after",
-  "created_before",
-  "due_after",
-  "due_before",
-  "is_overdue",
-  "has_outstanding_balance",
-  "sort_by",
-  "sort_direction",
-  "query",
-  "expand"
-], false, false, params), options).then(_sdkResponse),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoices", result, path))),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -339,33 +265,10 @@ this.invoices = Object.freeze({
   "sort_direction",
   "query",
   "expand"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoices", result, path)),
-      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInvoices", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status",
-  "idempotency_key",
-  "customer_id",
-  "order_id",
-  "subscription_id",
-  "external_reference_id",
-  "invoice_number",
-  "collection_mode",
-  "issued_after",
-  "issued_before",
-  "updated_after",
-  "updated_before",
-  "created_after",
-  "created_before",
-  "due_after",
-  "due_before",
-  "is_overdue",
-  "has_outstanding_balance",
-  "sort_by",
-  "sort_direction",
-  "query",
-  "expand"
-], false, false, params), options)),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoices", result, path)),
       listItems: (params, options) => this.#runtime.items("listInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -391,81 +294,61 @@ this.invoices = Object.freeze({
   "sort_direction",
   "query",
   "expand"
-], false, false, params), options),
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       markUncollectible: async (invoice_id, params, options) => this.#runtime.request("markInvoiceUncollectible", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("markInvoiceUncollectible", result, path))),
-      markUncollectibleWithResponse: async (invoice_id, params, options) => this.#runtime.request("markInvoiceUncollectible", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
+], [invoice_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("markInvoiceUncollectible", result, path))),
       regeneratePublicLink: async (invoice_id, params, options) => this.#runtime.request("regenerateInvoicePublicLink", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("regenerateInvoicePublicLink", result, path))),
-      regeneratePublicLinkWithResponse: async (invoice_id, params, options) => this.#runtime.request("regenerateInvoicePublicLink", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
+], [invoice_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("regenerateInvoicePublicLink", result, path))),
       reverseManualPayment: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("reverseInvoiceManualPayment", _sdkRequestInput([
   "invoice_id",
   "invoice_manual_payment_id"
-], [invoice_id, invoice_manual_payment_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reverseInvoiceManualPayment", result, path))),
-      reverseManualPaymentWithResponse: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("reverseInvoiceManualPayment", _sdkRequestInput([
-  "invoice_id",
-  "invoice_manual_payment_id"
-], [invoice_id, invoice_manual_payment_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [invoice_id, invoice_manual_payment_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reverseInvoiceManualPayment", result, path))),
       sendReminder: async (invoice_id, params, options) => this.#runtime.request("sendInvoiceReminder", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("sendInvoiceReminder", result, path))),
-      sendReminderWithResponse: async (invoice_id, params, options) => this.#runtime.request("sendInvoiceReminder", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
+], [invoice_id], [], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("sendInvoiceReminder", result, path))),
       update: async (invoice_id, params, options) => this.#runtime.request("updateInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInvoice", result, path))),
-      updateWithResponse: async (invoice_id, params, options) => this.#runtime.request("updateInvoice", _sdkRequestInput([
+], [invoice_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInvoice", result, path))),
+      void: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      voidResource: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("voidInvoice", result, path))),
-      voidResourceWithResponse: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
+], [invoice_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("voidInvoice", result, path))),
       waiveLateFee: async (invoice_id, invoice_late_fee_id, params, options) => this.#runtime.request("waiveInvoiceLateFee", _sdkRequestInput([
   "invoice_id",
   "invoice_late_fee_id"
-], [invoice_id, invoice_late_fee_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("waiveInvoiceLateFee", result, path))),
-      waiveLateFeeWithResponse: async (invoice_id, invoice_late_fee_id, params, options) => this.#runtime.request("waiveInvoiceLateFee", _sdkRequestInput([
-  "invoice_id",
-  "invoice_late_fee_id"
-], [invoice_id, invoice_late_fee_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+], [invoice_id, invoice_late_fee_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("waiveInvoiceLateFee", result, path))),
     });
 }
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }

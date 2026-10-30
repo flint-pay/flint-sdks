@@ -8,13 +8,13 @@ namespace Flint;
 final class TaxConnectionDisclosureInput extends Model {
     /** @param array{'statements': list<TaxDisclosureStatementInput|array<array-key, mixed>|\stdClass>, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionDisclosureInput')); }
-    /** Shape $ (Value): Array of {@see TaxDisclosureStatementInput}. Statements in display order. The seller must agree to every statement. Shape $[] (Value): {@see TaxDisclosureStatementInput}. One statement of the seller disclosure.
+    /** Statements in display order. The seller must agree to every statement. [] (Value): {@see TaxDisclosureStatementInput}. One statement of the seller disclosure.
      * @return list<TaxDisclosureStatementInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When statements is omitted; use hasStatements() or valueOrDefault().
      */
     public function getStatements(): array { return $this->get('statements'); }
     public function hasStatements(): bool { return $this->has('statements'); }
-    /** Shape $ (Value): string. Opaque version of the exact rendered statements. Do not parse it.
+    /** Opaque version of the exact rendered statements. Do not parse it.
      * @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

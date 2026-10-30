@@ -14,7 +14,7 @@ Request input.
 | `attributes_used` | Required | Array of string |  |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Required | [ResourceReferenceInput](../models/ResourceReferenceInput.md#resourcereferenceinput) or null | The credential that created this rule. Null when Flint created it, as for Flint's default rules. The reference may name an API key in the other mode. |
-| `description` | Required | string |  |
+| `description` | Required | string | Your note on what the rule is for. Leading and trailing whitespace is trimmed. |
 | `issues` | Required | Array of [RiskRuleIssueInput](../models/RiskRuleIssueInput.md#riskruleissueinput) | Problems that stop Flint from evaluating this rule. Empty when the rule can run. An active rule with issues is skipped on every payment and protects nothing until you fix it. An inactive rule with issues can't be activated until you fix it. |
 | `origin` | Required | string | Values: `"system_default"`, `"merchant"`. |
 | `predicate` | Required | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
@@ -22,5 +22,5 @@ Request input.
 | `stage` | Required | string | Values: `"pre_authorization"`, `"post_authorization"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Increases on every change to the rule. Send it as expected_version to avoid overwriting someone else's change. Format: `int64`. |
 

@@ -2,22 +2,24 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $bundle_id
- * @property-read list<string> $expand
+ * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class BundlesGetInput extends Model {
-    /** @param array{'bundle_id': string, 'expand'?: list<string>}|object $values */
+    /** @param array{'bundle_id': string, 'expand'?: list<string>|string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundlesGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint bundle ID. Example: "bun_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Shape $ (Value): Array of string.  [] enum: "modifier_set". Shape $[] (Value): string.  Value enum: "modifier_set".
-     * @return list<string>
+    /** Supported expansions: modifier_set. Expand the attached modifier set. Limits: at most 10 unique expand paths per request. Pass expand=modifier_set. [] enum: "modifier_set". Value enum: "modifier_set". anyOf[1] (Value): Array of string.  [] enum: "modifier_set". anyOf[1][] (Value): string.  Value enum: "modifier_set". anyOf[2] (Value): string.  Value enum: "modifier_set".
+     * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
-    public function getExpand(): array { return $this->get('expand'); }
+    public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
 }

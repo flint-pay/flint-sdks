@@ -1,25 +1,25 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateReturnReasonRequestInput } from '../declarations/types-9.js';
-import type { GetReturnReasonResponse } from '../declarations/types-20.js';
-import type { ListReturnReasonsResponse } from '../declarations/types-30.js';
-import type { RequestOptions } from '../declarations/types-42.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { CreateReturnReasonResponse } from '../declarations/types-10.js';
+import type { DeleteReturnReasonResponse } from '../declarations/types-14.js';
+import type { GetReturnReasonResponse } from '../declarations/types-23.js';
+import type { ListReturnReasonsResponse } from '../declarations/types-32.js';
+import type { RequestOptions } from '../declarations/types-47.js';
 import type {
     ReturnReason,
-    ReturnReasonsCreateInput,
-    ReturnReasonsGetInput,
-    ReturnReasonsListInput,
-    ReturnReasonsRemoveInput,
-    ReturnReasonsUpdateInput
-} from '../declarations/types-44.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { UpdateReturnReasonRequestInput } from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    ReturnReasonsCreateParams,
+    ReturnReasonsDeleteParams,
+    ReturnReasonsGetParams,
+    ReturnReasonsListParams,
+    ReturnReasonsUpdateParams
+} from '../declarations/types-49.js';
+import type { UpdateReturnReasonResponse } from '../declarations/types-59.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -29,177 +29,110 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateReturnReasonRequestInput, CreateReturnReasonRequest } from '../declarations/types-9.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    ReturnReasonsCreateParams,
     ReturnReason,
-    ReturnReasonsCreateInput,
-    ReturnReasonsRemoveInput,
-    ReturnReasonsGetInput,
-    ReturnReasonsListInput,
-    ReturnReasonsUpdateInput
-} from '../declarations/types-44.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { GetReturnReasonResponse } from '../declarations/types-20.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ListReturnReasonsResponse } from '../declarations/types-30.js';
-export type { UpdateReturnReasonRequestInput } from '../declarations/types-52.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+    ReturnReasonsDeleteParams,
+    ReturnReasonsGetParams,
+    ReturnReasonsListParams,
+    ReturnReasonsUpdateParams
+} from '../declarations/types-49.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { CreateReturnReasonResponse, CreateReturnReasonRequestInput, CreateReturnReasonRequest } from '../declarations/types-10.js';
+export type { DeleteReturnReasonResponse } from '../declarations/types-14.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { GetReturnReasonResponse } from '../declarations/types-23.js';
+export type { ListReturnReasonsResponse } from '../declarations/types-32.js';
+export type { UpdateReturnReasonResponse, UpdateReturnReasonRequestInput } from '../declarations/types-59.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeCreateReturnReasonRequest } from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeUpdateReturnReasonRequest } from '../declarations/types-78.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeCreateReturnReasonRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeUpdateReturnReasonRequest } from '../declarations/types-74.js';
 export interface ReturnReasonsResource {
     /**
  * Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection
  * findings, decline reasons, and Refund reasons. Flint handles and all existing merchant handles,
  * including archived reasons, are reserved. A conflicting handle returns 409 ALREADY_EXISTS.
- * @see reference/returnReasons.md#returnreasonscreate
- * POST /v1/return-reasons
+ *
+ * `POST /v1/return-reasons`
+ * @see https://developers.withflintpay.com/docs/api/return-reasons#createReturnReason
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.returnReasons.create({handle: "example", name: "example"}, { idempotencyKey:
  * idempotencyKey })
  */
-    create(params: (InputValue<CreateReturnReasonRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnReason>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returnReasons.md#returnreasonscreate
-     */
-    createWithResponse(params: (InputValue<CreateReturnReasonRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnReasonResponse>>;
+    create(params: ReturnReasonsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnReason, CreateReturnReasonResponse>>;
     /**
- * Retire a Return reason so buyers can no longer select it. Returns that already recorded it keep
- * the frozen reason name. Flint reasons cannot be archived; set status to inactive instead.
- * Archived merchant handles remain reserved.
- * @see reference/returnReasons.md#returnreasonsremove
- * DELETE /v1/return-reasons/{return_reason_id}
+ * Archive a Return reason so it can't be selected on new Return lines. Returns that recorded it
+ * keep its name and handle. Flint reasons can't be archived; set status to inactive instead. An
+ * archived reason's handle stays reserved.
+ *
+ * `DELETE /v1/return-reasons/{return_reason_id}`
+ * @param return_reason_id Flint return reason id.
+ * @see https://developers.withflintpay.com/docs/api/return-reasons#deleteReturnReason
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnReasons.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.returnReasons.delete("rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    remove(return_reason_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnReason>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returnReasons.md#returnreasonsremove
-     */
-    removeWithResponse(return_reason_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnReasonResponse>>;
+    delete(return_reason_id: InputValue<string>, params?: ReturnReasonsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnReason, DeleteReturnReasonResponse>>;
     /**
  * Retrieve one Return reason with its handle, category handles, and status.
- * @see reference/returnReasons.md#returnreasonsget
- * GET /v1/return-reasons/{return_reason_id}
+ *
+ * `GET /v1/return-reasons/{return_reason_id}`
+ * @param return_reason_id Flint return reason id.
+ * @see https://developers.withflintpay.com/docs/api/return-reasons#getReturnReason
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returnReasons.get("example")
+ * client.returnReasons.get("rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnReason>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returnReasons.md#returnreasonsget
-     */
-    getWithResponse(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnReasonResponse>>;
+    get(return_reason_id: InputValue<string>, params?: ReturnReasonsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnReason, GetReturnReasonResponse>>;
     /**
- * List Return reasons, including Flint-provided defaults and merchant-defined reasons. Newest
- * first: created_at descending, with return_reason_id descending as the tiebreak. Flint reasons
- * have a created_at of 1970-01-01T00:00:00Z, so they follow your own. Default order: created_at
- * descending, then return_reason_id descending.
- * @see reference/returnReasons.md#returnreasonslist
- * GET /v1/return-reasons
+ * List Return reasons, including Flint-provided defaults and merchant-defined reasons. Flint
+ * reasons have a created_at of 1970-01-01T00:00:00Z, so they follow your own. Default order:
+ * created_at descending, then return_reason_id descending.
+ *
+ * `GET /v1/return-reasons`
+ * @see https://developers.withflintpay.com/docs/api/return-reasons#listReturnReasons
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.returnReasons.list()
  */
-    list(params?: {
-        "external_reference_id"?: InputValue<string>;
-        "handle"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "source"?: InputValue<Array<"flint" | "merchant">>;
-        "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnReasonsResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returnReasons.md#returnreasonslist
-     */
-    listWithResponse(params?: {
-        "external_reference_id"?: InputValue<string>;
-        "handle"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "source"?: InputValue<Array<"flint" | "merchant">>;
-        "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnReasonsResponse>>;
+    list(params?: ReturnReasonsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ListReturnReasonsResponse, ListReturnReasonsResponse>>;
     /** Iterate pages lazily.
-     * @see reference/returnReasons.md#returnreasonslist
+     * @see https://developers.withflintpay.com/docs/api/return-reasons#listReturnReasons
      */
-    listPages(params?: {
-        "external_reference_id"?: InputValue<string>;
-        "handle"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "source"?: InputValue<Array<"flint" | "merchant">>;
-        "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnReasonsResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/returnReasons.md#returnreasonslist
-     */
-    listPagesWithResponse(params?: {
-        "external_reference_id"?: InputValue<string>;
-        "handle"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "source"?: InputValue<Array<"flint" | "merchant">>;
-        "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnReasonsResponse>>;
+    listPages(params?: ReturnReasonsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ListReturnReasonsResponse, ListReturnReasonsResponse>>;
     /** Iterate items lazily.
-     * @see reference/returnReasons.md#returnreasonslist
+     * @see https://developers.withflintpay.com/docs/api/return-reasons#listReturnReasons
      */
-    listItems(params?: {
-        "external_reference_id"?: InputValue<string>;
-        "handle"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "source"?: InputValue<Array<"flint" | "merchant">>;
-        "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnReason>;
+    listItems(params?: ReturnReasonsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnReason>;
     /**
  * Update a Return reason. Send null to clear description. A present category_handles array
  * replaces the existing set. Set status to active or inactive to control availability. Flint
  * reasons accept only status and expected_version; create your own reason to use different
  * wording. Use DELETE to archive a merchant reason.
- * @see reference/returnReasons.md#returnreasonsupdate
- * PATCH /v1/return-reasons/{return_reason_id}
+ *
+ * `PATCH /v1/return-reasons/{return_reason_id}`
+ * @param return_reason_id Flint return reason id.
+ * @see https://developers.withflintpay.com/docs/api/return-reasons#updateReturnReason
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnReasons.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.returnReasons.update("rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Wrong size"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    update(return_reason_id: InputValue<string>, params: (InputValue<UpdateReturnReasonRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnReason>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returnReasons.md#returnreasonsupdate
-     */
-    updateWithResponse(return_reason_id: InputValue<string>, params: (InputValue<UpdateReturnReasonRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnReasonResponse>>;
+    update(return_reason_id: InputValue<string>, params: ReturnReasonsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnReason, UpdateReturnReasonResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

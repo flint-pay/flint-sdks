@@ -16,7 +16,7 @@ Request input.
 
 ### CreateSandboxRequestInput variant 1: `access` = `"full"`, `issue_test_key` = `true`
 
-oneOf variant 1; oneOf variant 1.
+oneOf Test key; oneOf Full.
 
 - Condition: not (present(`scopes`)).
 - Required: `access`, `issue_test_key`.
@@ -26,7 +26,7 @@ oneOf variant 1; oneOf variant 1.
 
 ### CreateSandboxRequestInput variant 2: `access` = `"read_only"`, `issue_test_key` = `true`
 
-oneOf variant 1; oneOf variant 2.
+oneOf Test key; oneOf Read only.
 
 - Condition: not (present(`scopes`)).
 - Required: `access`, `issue_test_key`.
@@ -36,7 +36,7 @@ oneOf variant 1; oneOf variant 2.
 
 ### CreateSandboxRequestInput variant 3: `access` = `"restricted"`, `issue_test_key` = `true`
 
-oneOf variant 1; oneOf variant 3.
+oneOf Test key; oneOf Restricted.
 
 - Required: `access`, `issue_test_key`, `scopes`.
 - Constraints for `access`: Values: `"restricted"`.
@@ -44,7 +44,7 @@ oneOf variant 1; oneOf variant 3.
 
 ### CreateSandboxRequestInput variant 4: `issue_test_key` = `false`
 
-oneOf variant 2.
+oneOf No test key.
 
 - Condition: not (at least one(present(`access`); present(`scopes`); present(`test_key_name`))).
 - Optional: `access`, `issue_test_key`, `scopes`.

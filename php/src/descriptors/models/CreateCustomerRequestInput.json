@@ -1,1 +1,1 @@
-{"shared":"CreateCustomerRequest","dependencies":["AddressRequest","CreateCustomerRequest","DocumentTaxIDRequestRequest","MetadataRequest","SharedCodec0","SharedCodec1","SharedCodec94","SharedCodec993","TaxIdentityPatch"]}
+{"shared":"CreateCustomerRequest","dependencies":["CreateCustomerRequest","DocumentTaxIDRequest","MetadataRequest","SharedCodec0","SharedCodec1","SharedCodec151","SharedCodec841","SharedCodec842","TaxIdentityPatch"]}

@@ -11,8 +11,7 @@ import {
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { sha256, npmPackResult } from "../scripts/packages.mjs";
-import { operationNames } from "../.tools/sdk-generator/dist/naming.js";
+import { sha256, npmPackResult, composerManifest } from "../scripts/packages.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const json = (p) => JSON.parse(readFileSync(p, "utf8"));
@@ -30,6 +29,37 @@ function run(command, args, cwd) {
   );
   return result.stdout;
 }
+
+test("Git and Composer archives share exclusions and contain only the public PHP package", () => {
+  const attributes = readFileSync(join(root, ".gitattributes"), "utf8")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"))
+    .map((line) => {
+      const match = /^(\S+)\s+export-ignore$/.exec(line);
+      assert.ok(match, `Unexpected archive attribute: ${line}`);
+      return match[1];
+    });
+  const excludes = composerManifest(json(join(root, "php/composer.json"))).archive.exclude;
+  assert.deepEqual(attributes.toSorted(), excludes.toSorted());
+  assert.deepEqual(json(join(root, "composer.json")).archive.exclude, excludes);
+  for (const path of ["/AGENTS.md", "/CLAUDE.md", "/claude", "/CONTRIBUTING.md"])
+    assert.ok(excludes.includes(path), `Missing private repository exclusion: ${path}`);
+  assert.ok(!excludes.includes("/MIGRATION.md"));
+
+  const dir = mkdtempSync(join(tmpdir(), "flint-sdk-source-archive-"));
+  try {
+    const archive = join(dir, "source.tar");
+    run("git", ["archive", "--format=tar", `--output=${archive}`, "HEAD"], root);
+    const entries = run("tar", ["-tf", archive], root).split("\n").filter(Boolean);
+    assert.deepEqual([...new Set(entries.map((path) => path.split("/")[0]))].sort(), [
+      "CHANGELOG.md", "LICENSE", "MIGRATION.md", "README.md", "composer.json", "php",
+    ]);
+    assert.ok(entries.includes("php/src/Client.php"));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
 
 test(
   "npm and root Composer archives install and expose the full public SDK",
@@ -86,18 +116,11 @@ test(
           operation.operationId ? [operation.operationId] : [],
         ),
       );
-      const operations = new Map(
-        Object.values(api.paths).flatMap((item) =>
-          Object.values(item).flatMap((operation) =>
-            operation.operationId ? [[operation.operationId, operation]] : [],
-          ),
-        ),
-      );
       const cases = json(join(root, "tests/full-model-cases.json"));
       const config = json(join(root, "sdk.json"));
-      const naming = json(
-        join(root, "spec/profiles/full-common-sdk.json"),
-      ).operations;
+      const common = json(join(root, "spec/profiles/full-common-sdk.json"));
+      const naming = common.operations;
+      const approvedNames = json(join(root, "tests/release-names.json"));
       const selected = new Set(
         config.profiles.flatMap((path) => json(join(root, path)).include),
       );
@@ -105,39 +128,25 @@ test(
         operationIds.filter((id) => !selected.has(id)).sort(),
         [
           "authorizeCLIDevice",
+          "authorizePartnerInstall",
           "exchangeOAuthToken",
           "listCLIContexts",
           "reauthorizeCLIDevice",
           "revokeOAuthToken",
         ],
-        "Only form-encoded CLI OAuth operations are excluded from the SDK packages",
+        "Only the reviewed CLI/OAuth operations are excluded from the SDK packages",
       );
       assert.ok(
         [...selected].every((id) => operationIds.includes(id)),
         "Selected SDK operation missing from the pinned API",
       );
-      const expectedMethods = operationIds
-        .filter((id) => selected.has(id))
-        .flatMap((id) => {
-          const { resource, method } = {
-            ...operationNames(id, operations.get(id).tags),
-            ...naming[id],
-          };
-          const methods = [method, ...(naming[id].aliases ?? [])].map(
-            (name) => [resource, name],
-          );
-          if (
-            (config.operations?.[id]?.response?.return ??
-              naming[id].response?.return) !== "result"
-          )
-            methods.push([resource, method + "WithResponse"]);
-          if (naming[id].pagination)
-            methods.push(
-              [resource, method + "Items"],
-              [resource, method + "Pages"],
-            );
-          return methods;
-        });
+      const expectedMethods = [...selected].flatMap((id) => {
+        const [resource, method] = approvedNames[id].split(".");
+        const methods = [[resource, method]];
+        if (naming[id]?.pagination ?? common.defaults?.pagination)
+          methods.push([resource, method + "Items"], [resource, method + "Pages"]);
+        return methods;
+      });
       writeFileSync(
         join(consumer, "check.mjs"),
         `
@@ -145,7 +154,10 @@ import assert from 'node:assert/strict';
 import * as sdk from '@flintpay/node';
 const client = new sdk.Client({ baseUrl: 'https://api.example.invalid' });
 const expected = ${JSON.stringify(expectedMethods)};
-for (const [resource, method] of expected) assert.equal(typeof client[resource]?.[method], 'function', resource + '.' + method);
+for (const [resource, method] of expected) {
+  assert.equal(typeof client[resource]?.[method], 'function', resource + '.' + method);
+  assert.equal(client[resource]?.[method + 'WithResponse'], undefined, resource + '.' + method + 'WithResponse');
+}
 for (const scenario of ${JSON.stringify(cases)}) {
   const make = () => sdk['make' + scenario.model](scenario.value);
   if (scenario.valid) make(); else assert.throws(make, scenario.name);
@@ -229,6 +241,7 @@ $client = new \\Flint\\Client(new \\Flint\\ClientOptions(baseUrl: 'https://api.e
 $expected = json_decode('${JSON.stringify(expectedMethods)}', true);
 foreach ($expected as [$resource, $method]) {
   if (!method_exists($client->$resource, $method)) throw new \\RuntimeException('Missing operation: ' . $resource . '.' . $method);
+  if (method_exists($client->$resource, $method . 'WithResponse')) throw new \\RuntimeException('Removed companion: ' . $resource . '.' . $method . 'WithResponse');
 }
 $client->close();
 echo "Installed root Composer package: all operations passed.\\n";
@@ -242,16 +255,16 @@ echo "Installed root Composer package: all operations passed.\\n";
           "check-attr",
           "export-ignore",
           "--",
-          "node/package.json",
-          "spec/openapi.json",
-          ".generated/sdk/.sdk-generator.json",
+          "node",
+          "spec",
+          ".generated",
           "php/src/Client.php",
           "composer.json",
         ],
         root,
       );
-      assert.match(attributes, /node\/package.json: export-ignore: set/);
-      assert.match(attributes, /spec\/openapi.json: export-ignore: set/);
+      assert.match(attributes, /node: export-ignore: set/);
+      assert.match(attributes, /spec: export-ignore: set/);
       assert.match(
         attributes,
         /php\/src\/Client.php: export-ignore: unspecified/,

@@ -38,6 +38,6 @@ An attempt to deliver an event to a webhook endpoint.
 - `"webhook_redirect"`
 - `"webhook_http_4xx"`
 - `"webhook_http_5xx"`
-- `"server_error"`
+- `"webhook_payload_render"`
 - `"webhook_delivery"`
 

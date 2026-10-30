@@ -1,1 +1,0 @@
-{"shared":"Webhook_payout_paid_merchant","dependencies":["ExpandedPayoutDestinationSummary","ExpandedPayoutSummary","MerchantWebhookEnvelope","MetadataMap","MoneyValue","Payout","PayoutTraceID","SharedCodec1089","SharedCodec1090","SharedCodec1091","SharedCodec36","SharedCodec413","SharedCodec414","SharedCodec756","SignedMoney","Webhook_payout_paid_merchant"]}

@@ -14,7 +14,7 @@ Response model.
 | `gift_card_id` | Required | string |  |
 | `gift_card_transaction_id` | Required | string |  |
 | `posted_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `sequence` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `sequence` | Required | integer | Format: `int64`. |
 | `transaction_type` | Required | string | Values: [11 declared values](#buyergiftcardtransaction-transaction_type-values). |
 
 #### BuyerGiftCardTransaction transaction_type values

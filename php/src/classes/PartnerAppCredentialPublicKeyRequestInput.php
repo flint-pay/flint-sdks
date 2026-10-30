@@ -7,7 +7,7 @@ namespace Flint;
 final class PartnerAppCredentialPublicKeyRequestInput extends Model {
     /** @param array{'jwk': array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialPublicKeyRequestInput')); }
-    /** Shape $ (Value): object. A public JSON Web Key. Private key and symmetric key members are rejected.
+    /** A public JSON Web Key. Private key and symmetric key members are rejected.
      * @return array<array-key, mixed>|\stdClass
      * @throws SdkError When jwk is omitted; use hasJwk() or valueOrDefault().
      */

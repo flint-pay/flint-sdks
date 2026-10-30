@@ -14,7 +14,7 @@ Send only application_method fields to change. Omitted fields keep their stored 
 | `amount_off_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_off_money`: [field definitions](../models/PromotionAmountOffMethod.md#promotionamountoffmethodamount_off_money). |
 | `buy_min_quantity` | Optional | integer | Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `calculation_basis` | Optional | string or null | Basis for merchandise promotion calculations. Omit for service_charge promotions because service-charge discounts are calculated from the targeted charges. Send null to clear it. Values: `"subtotal_pre_tax"`, `"subtotal_post_tax"`, `null`. |
-| `currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `discounted_item_rules` | Optional | [PromotionRuleGroupRequest](../models/PromotionRuleGroupRequest.md#promotionrulegrouprequest) or null | Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. `discounted_item_rules`: [declared alternatives](../models/PromotionApplicationMethodPatch.md#promotionapplicationmethodpatchdiscounted_item_rules). |
 | `get_percent_off` | Optional | number | Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items free. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Optional | integer | Maximum number of reward units discounted per application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
@@ -32,7 +32,7 @@ Field definitions: [PromotionAmountOffMethod.amount_off_money](../models/Promoti
 
 ### PromotionApplicationMethodPatch.currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### PromotionApplicationMethodPatch.discounted_item_rules
 
@@ -45,14 +45,14 @@ Which line items receive the discount. Required for service_charge promotions, a
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1
 
-anyOf variant 1: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 1.
+anyOf PromotionRuleGroupRequest: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf All.
 
 - Required: `all`.
 - Undeclared: `any`.
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 2
 
-anyOf variant 1: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 2.
+anyOf PromotionRuleGroupRequest: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf Any.
 
 - Required: `any`.
 - Undeclared: `all`.
@@ -69,7 +69,7 @@ anyOf variant 2.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `attribute` | Conditional | string | Field the rule tests. The attribute fixes the value type and the operators that are legal for it: money attributes accept comparison operators but not eq or in, booleans accept eq only, and so on. The full attribute/type/operator matrix is machine-readable in x-flint-rule-attributes on this schema. metadata.&lt;key> reads a string from the customer's metadata and accepts the string operators. A disallowed operator is rejected at create time with INVALID_OPERATOR, whose message names the operators allowed for the attribute. minLength: `1`. |
-| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `operator` | Conditional | string | Comparison to apply to the attribute. The attribute determines which operators are allowed. Values: `"eq"`, `"ne"`, `"gt"`, `"gte"`, `"lt"`, `"lte"`, `"in"`, `"contains"`, `"is_defined"`. |
 | `values` | Conditional | Array of [PromotionRuleValue](../models/PromotionRuleValue.md#promotionrulevalue) | Comparison values with the type required by the attribute. Omit for is_defined, which tests whether the attribute is present. `values[]`: [declared alternatives](../models/PromotionApplicationMethodPatch.md#promotionapplicationmethodpatchdiscounted_item_rules-variant-1all-variant-1values). |
 | `all` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroupRequest](../models/PromotionRuleGroupRequest.md#promotionrulegrouprequest)) | Rules and nested groups that must all match. minItems: `1`. `all[]`: [declared alternatives](../models/PromotionApplicationMethodPatch.md#promotionapplicationmethodpatchdiscounted_item_rules-variant-1all-variant-2all). |
@@ -77,7 +77,7 @@ anyOf variant 2.
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1
 
-oneOf variant 1: One condition you set in a promotion rule group, which tests an attribute with an operator and values..
+oneOf PromotionRuleRequest: One condition you set in a promotion rule group, which tests an attribute with an operator and values..
 
 - Required: `attribute`, `operator`.
 - Optional: `currency_options`, `values`.
@@ -85,21 +85,21 @@ oneOf variant 1: One condition you set in a promotion rule group, which tests an
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 2
 
-oneOf variant 2; oneOf variant 1.
+oneOf PromotionRuleGroupRequest; oneOf All.
 
 - Required: `all`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 3
 
-oneOf variant 2; oneOf variant 2.
+oneOf PromotionRuleGroupRequest; oneOf Any.
 
 - Required: `any`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1.currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1.values[]
 
@@ -109,28 +109,28 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1.values[] variant 1
 
-oneOf variant 1.
+oneOf String.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: string. Rule comparison value. Use a primitive string, number, boolean, or a money object. minLength: `1`. 
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1.values[] variant 2
 
-oneOf variant 2.
+oneOf Number.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: number. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1.values[] variant 3
 
-oneOf variant 3.
+oneOf Boolean.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: boolean. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 1.values[] variant 4
 
-oneOf variant 4: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+oneOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 
@@ -139,7 +139,7 @@ oneOf variant 4: Monetary amount represented as integer minor units plus an ISO 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `attribute` | Conditional | string | Field the rule tests. The attribute fixes the value type and the operators that are legal for it: money attributes accept comparison operators but not eq or in, booleans accept eq only, and so on. The full attribute/type/operator matrix is machine-readable in x-flint-rule-attributes on this schema. metadata.&lt;key> reads a string from the customer's metadata and accepts the string operators. A disallowed operator is rejected at create time with INVALID_OPERATOR, whose message names the operators allowed for the attribute. minLength: `1`. |
-| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `operator` | Conditional | string | Comparison to apply to the attribute. The attribute determines which operators are allowed. Values: `"eq"`, `"ne"`, `"gt"`, `"gte"`, `"lt"`, `"lte"`, `"in"`, `"contains"`, `"is_defined"`. |
 | `values` | Conditional | Array of [PromotionRuleValue](../models/PromotionRuleValue.md#promotionrulevalue) | Comparison values with the type required by the attribute. Omit for is_defined, which tests whether the attribute is present. `values[]`: [declared alternatives](../models/PromotionApplicationMethodPatch.md#promotionapplicationmethodpatchdiscounted_item_rules-variant-1all-variant-1values). |
 | `all` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroupRequest](../models/PromotionRuleGroupRequest.md#promotionrulegrouprequest)) | Rules and nested groups that must all match. minItems: `1`. `all[]`: [field definitions](../models/PromotionApplicationMethodPatch.md#promotionapplicationmethodpatchdiscounted_item_rules-variant-1all). |
@@ -147,7 +147,7 @@ oneOf variant 4: Monetary amount represented as integer minor units plus an ISO 
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 2.all[] variant 1
 
-oneOf variant 1: One condition you set in a promotion rule group, which tests an attribute with an operator and values..
+oneOf PromotionRuleRequest: One condition you set in a promotion rule group, which tests an attribute with an operator and values..
 
 - Required: `attribute`, `operator`.
 - Optional: `currency_options`, `values`.
@@ -155,21 +155,21 @@ oneOf variant 1: One condition you set in a promotion rule group, which tests an
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 2.all[] variant 2
 
-oneOf variant 2: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 1.
+oneOf PromotionRuleGroupRequest: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf All.
 
 - Required: `all`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 2.all[] variant 3
 
-oneOf variant 2: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 2.
+oneOf PromotionRuleGroupRequest: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf Any.
 
 - Required: `any`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 2.all[] variant 1.currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 
 ### PromotionApplicationMethodPatch.discounted_item_rules variant 1.all[] variant 2.all[] variant 1.values[]
 

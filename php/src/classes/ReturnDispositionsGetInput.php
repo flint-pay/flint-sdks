@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $return_disposition_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionsGetInput extends Model {
     /** @param array{'return_disposition_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint return disposition id. Example: "retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */

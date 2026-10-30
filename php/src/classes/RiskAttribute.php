@@ -15,47 +15,47 @@ namespace Flint;
 final class RiskAttribute extends Model {
     /** @param array{'available_from': string, 'enum_values'?: list<string>, 'is_available': bool, 'is_nullable': bool, 'missing_value_behavior': string, 'name': string, 'operators': list<string>, 'unavailable_reason'?: string, 'value_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskAttribute')); }
-    /** Shape $ (Value): string.  Value enum: "pre_authorization", "post_authorization".
+    /** Value enum: "pre_authorization", "post_authorization".
      * @return string
      */
     public function getAvailableFrom(): string { return $this->get('available_from'); }
     public function hasAvailableFrom(): bool { return $this->has('available_from'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return ?list<string>
      */
     public function getEnumValues(): ?array { return $this->get('enum_values'); }
     public function hasEnumValues(): bool { return $this->has('enum_values'); }
-    /** Shape $ (Value): boolean. Whether the attribute can be used in rules in this environment.
+    /** Whether the attribute can be used in rules in this environment.
      * @return bool
      */
     public function getIsAvailable(): bool { return $this->get('is_available'); }
     public function hasIsAvailable(): bool { return $this->has('is_available'); }
-    /** Shape $ (Value): boolean. Whether the attribute can be missing from a payment.
+    /** Whether the attribute can be missing from a payment.
      * @return bool
      */
     public function getIsNullable(): bool { return $this->get('is_nullable'); }
     public function hasIsNullable(): bool { return $this->has('is_nullable'); }
-    /** Shape $ (Value): string.  Value enum: "not_applicable_except_is_missing".
+    /** Value enum: "not_applicable_except_is_missing".
      * @return string
      */
     public function getMissingValueBehavior(): string { return $this->get('missing_value_behavior'); }
     public function hasMissingValueBehavior(): bool { return $this->has('missing_value_behavior'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): Array of string. Operators accepted by this attribute. [] enum: "eq", "neq", "gt", "gte", "lt", "lte", "in", "in_list", "is_missing". Shape $[] (Value): string.  Value enum: "eq", "neq", "gt", "gte", "lt", "lte", "in", "in_list", "is_missing".
+    /** Operators accepted by this attribute. [] enum: "eq", "neq", "gt", "gte", "lt", "lte", "in", "in_list", "is_missing". [] (Value): string.  Value enum: "eq", "neq", "gt", "gte", "lt", "lte", "in", "in_list", "is_missing".
      * @return list<string>
      */
     public function getOperators(): array { return $this->get('operators'); }
     public function hasOperators(): bool { return $this->has('operators'); }
-    /** Shape $ (Value): string.  Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
+    /** Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
      * @return ?string
      */
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** Shape $ (Value): string.  Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address", "boolean", "integer".
+    /** Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address", "boolean", "integer".
      * @return string
      */
     public function getValueType(): string { return $this->get('value_type'); }

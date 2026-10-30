@@ -8,13 +8,13 @@ namespace Flint;
 final class ProductPriceRangeInput extends Model {
     /** @param array{'max_unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'min_unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductPriceRangeInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Highest unit price among the product's active variants. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Highest unit price among the product's active variants. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When max_unit_price_money is omitted; use hasMaxUnitPriceMoney() or valueOrDefault().
      */
     public function getMaxUnitPriceMoney(): mixed { return $this->get('max_unit_price_money'); }
     public function hasMaxUnitPriceMoney(): bool { return $this->has('max_unit_price_money'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Lowest unit price among the product's active variants. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Lowest unit price among the product's active variants. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When min_unit_price_money is omitted; use hasMinUnitPriceMoney() or valueOrDefault().
      */

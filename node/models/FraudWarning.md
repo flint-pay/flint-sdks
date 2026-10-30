@@ -11,12 +11,12 @@ A notice that a payment may be fraudulent.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `dispute` | Optional | [Dispute](../models/Dispute.md#dispute) or null |  |
-| `dispute_id` | Required | string or null |  |
+| `dispute` | Optional | [Dispute](../models/Dispute.md#dispute) or null | Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. |
+| `dispute_id` | Required | string or null | The dispute that opened on this payment after the warning. `null` until one opens. |
 | `fraud_type` | Required | string | Values: [7 declared values](#fraudwarning-fraud_type-values). |
 | `fraud_warning_id` | Required | string |  |
-| `is_actionable` | Required | boolean |  |
-| `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null |  |
+| `is_actionable` | Required | boolean | true until the payment is refunded in full, a dispute opens on it, or the card network marks the warning resolved; after that it stays false. A partial refund doesn't change it. |
+| `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Required | string |  |
 | `payment_summary` | Required | [FraudWarningPaymentSummary](../models/FraudWarningPaymentSummary.md#fraudwarningpaymentsummary) | Payment details shown on a public fraud warning: amount, buyer email, card brand, and last four digits. |
 | `reported_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |

@@ -1,0 +1,1 @@
+{"shared":"InventoryReservationReleasedMerchantEvent","dependencies":["InventoryActionRequired","InventoryReservation","InventoryReservationLine","InventoryReservationOwner","InventoryReservationReleasedMerchantEvent","InventoryRoutingSource","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec659","SharedCodec660","SharedCodec662"]}

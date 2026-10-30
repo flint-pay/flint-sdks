@@ -7,7 +7,7 @@ namespace Flint;
 final class RiskPredicateNodeAnyInput extends Model {
     /** @param array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskPredicateNodeAnyInput')); }
-    /** Shape $ (Value): Array of {@see RiskPredicateNodeInput}. minItems: 1. maxItems: 50. Shape $[] (Value): {@see RiskPredicateNodeInput}. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+    /** minItems: 1. maxItems: 50. [] (Value): {@see RiskPredicateNodeInput}. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
      * @return list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When any is omitted; use hasAny() or valueOrDefault().
      */

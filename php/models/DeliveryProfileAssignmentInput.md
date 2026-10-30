@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `bundle_components_updated` | Required | integer string | Number of previously unconfigured catalog records updated. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `bundle_components_updated` | Required | integer | Number of previously unconfigured catalog records updated. Format: `int64`. minimum: `0`. |
 | `delivery_profile_id` | Required | string | Delivery profile assigned to each updated catalog item. |
-| `product_variants_updated` | Required | integer string | Number of previously unconfigured catalog records updated. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `product_variants_updated` | Required | integer | Number of previously unconfigured catalog records updated. Format: `int64`. minimum: `0`. |
 

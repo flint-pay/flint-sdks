@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $subscription_delivery_migration_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionDeliveryMigrationsGetInput extends Model {
     /** @param array{'subscription_delivery_migration_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMigrationsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Subscription delivery migration ID. Example: "sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When subscription_delivery_migration_id is omitted; use hasSubscriptionDeliveryMigrationId() or valueOrDefault().
      */

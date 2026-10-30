@@ -8,12 +8,12 @@ namespace Flint;
 final class Weight extends Model {
     /** @param array{'unit': string, 'value': float, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Weight')); }
-    /** Shape $ (Value): string. Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce", "pound".
+    /** Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce", "pound".
      * @return string
      */
     public function getUnit(): string { return $this->get('unit'); }
     public function hasUnit(): bool { return $this->has('unit'); }
-    /** Shape $ (Value): number. Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf: 0.001.
+    /** Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf: 0.001.
      * @return float
      */
     public function getValue(): float { return $this->get('value'); }

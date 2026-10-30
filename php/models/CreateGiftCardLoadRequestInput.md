@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `consideration_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | `consideration_money`: [declared alternatives](../models/CreateGiftCardLoadRequestInput.md#creategiftcardloadrequestinputconsideration_money). |
-| `expected_version` | Optional | integer string | The gift card version last read. The command changes this card only when its current version matches. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | The gift card version last read. The command changes this card only when its current version matches. Format: `int64`. minimum: `1`. |
 | `source` | Required | [GiftCardFundingSourceInput](../models/GiftCardFundingSourceInput.md#giftcardfundingsourceinput) | Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it. `source`: [declared alternatives](../models/CreateGiftCardLoadRequestInput.md#creategiftcardloadrequestinputsource). |
 | `source_created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `value_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `value_money`: [field definitions](../models/CreateGiftCardLoadRequestInput.md#creategiftcardloadrequestinputvalue_money). |
@@ -45,7 +45,7 @@ Where the value of a gift card load came from, such as an external payment, a Fl
 
 ### CreateGiftCardLoadRequestInput.source variant 1: `funding_source_type` = `"external_payment"`
 
-oneOf variant 1: The `external_payment` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "external_payment": The `external_payment` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`order_manual_payment_id`)).
 - Condition: not (at least one(present(`payment_intent_id`); present(`order_id`))).
@@ -55,7 +55,7 @@ oneOf variant 1: The `external_payment` variant of `GiftCardFundingSource`..
 
 ### CreateGiftCardLoadRequestInput.source variant 2: `funding_source_type` = `"flint_payment"`
 
-oneOf variant 2: The `flint_payment` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "flint_payment": The `flint_payment` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`order_manual_payment_id`)).
 - Required: `payment_intent_id`.
@@ -64,7 +64,7 @@ oneOf variant 2: The `flint_payment` variant of `GiftCardFundingSource`..
 
 ### CreateGiftCardLoadRequestInput.source variant 3: `funding_source_type` = `"import"`
 
-oneOf variant 4: The `import` variant of `GiftCardFundingSource`..
+oneOf with funding_source_type: "import": The `import` variant of `GiftCardFundingSource`..
 
 - Condition: not (present(`order_manual_payment_id`)).
 - Condition: not (at least one(present(`payment_intent_id`); present(`order_id`))).

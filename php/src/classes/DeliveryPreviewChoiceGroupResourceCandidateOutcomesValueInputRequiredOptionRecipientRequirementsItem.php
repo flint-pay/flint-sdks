@@ -9,17 +9,17 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionRecipientRequirementsItem extends Model {
     /** @param array{'field': string, 'format'?: string, 'required': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionRecipientRequirementsItem')); }
-    /** Shape $ (Value): string.  Value enum: "name", "email", "phone".
+    /** Value enum: "name", "email", "phone".
      * @return string
      */
     public function getField(): string { return $this->get('field'); }
     public function hasField(): bool { return $this->has('field'); }
-    /** Shape $ (Value): string.  Value enum: "text", "email", "e164".
+    /** Value enum: "text", "email", "e164".
      * @return ?string
      */
     public function getFormat(): ?string { return $this->get('format'); }
     public function hasFormat(): bool { return $this->has('format'); }
-    /** Shape $ (Value): boolean.
+    /** required
      * @return bool
      */
     public function getRequired(): bool { return $this->get('required'); }

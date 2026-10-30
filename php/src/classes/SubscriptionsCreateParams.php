@@ -1,0 +1,79 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read int $billing_anchor_day
+ * @property-read SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass $billing_schedule
+ * @property-read SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass $billing_start
+ * @property-read string $customer_id
+ * @property-read array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $delivery
+ * @property-read string $external_reference_id
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
+ * @property-read string $payment_method_id
+ * @property-read array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $service_location
+ * @property-read array{'billing_interval'?: string, 'billing_interval_count'?: int, 'quantity'?: int, 'subscription_plan_id': string, 'type': string}|object|array{'billing_interval': string, 'billing_interval_count': int, 'line_items': list<array{'quantity'?: int, 'subscription_offer_id': string, 'variant_id': string}|object>, 'type': string}|object $terms
+ * Presence-aware input; omitted fields throw when accessed. */
+final class SubscriptionsCreateParams extends Model {
+    /** @param array{'billing_anchor_day'?: int, 'billing_schedule'?: SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass, 'billing_start': SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass, 'customer_id': string, 'delivery'?: array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_method_id'?: string, 'service_location'?: array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'terms': array{'billing_interval'?: string, 'billing_interval_count'?: int, 'quantity'?: int, 'subscription_plan_id': string, 'type': string}|object|array{'billing_interval': string, 'billing_interval_count': int, 'line_items': list<array{'quantity'?: int, 'subscription_offer_id': string, 'variant_id': string}|object>, 'type': string}|object}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsCreateParams')); }
+    /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
+     * @return int
+     * @throws SdkError When billing_anchor_day is omitted; use hasBillingAnchorDay() or valueOrDefault().
+     */
+    public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
+    public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
+    /** Who owns the billing schedule when creating a subscription: Flint or an external system.
+     * @return SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When billing_schedule is omitted; use hasBillingSchedule() or valueOrDefault().
+     */
+    public function getBillingSchedule(): mixed { return $this->get('billing_schedule'); }
+    public function hasBillingSchedule(): bool { return $this->has('billing_schedule'); }
+    /** How billing begins. Send exactly one closed tagged-union branch.
+     * @return SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When billing_start is omitted; use hasBillingStart() or valueOrDefault().
+     */
+    public function getBillingStart(): mixed { return $this->get('billing_start'); }
+    public function hasBillingStart(): bool { return $this->has('billing_start'); }
+    /** minLength: 1. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * @return string
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
+     * @return array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object
+     * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
+     */
+    public function getDelivery(): array|object { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+     */
+    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+     */
+    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** minLength: 1. Example: "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * @return string
+     * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
+     */
+    public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
+    public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+    /** Where a subscription's service is delivered: a saved customer address by ID, or a new address.
+     * @return array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object
+     * @throws SdkError When service_location is omitted; use hasServiceLocation() or valueOrDefault().
+     */
+    public function getServiceLocation(): mixed { return $this->get('service_location'); }
+    public function hasServiceLocation(): bool { return $this->has('service_location'); }
+    /** Subscription terms from either a subscription plan or subscription offers, selected by `type`.
+     * @return array{'billing_interval'?: string, 'billing_interval_count'?: int, 'quantity'?: int, 'subscription_plan_id': string, 'type': string}|object|array{'billing_interval': string, 'billing_interval_count': int, 'line_items': list<array{'quantity'?: int, 'subscription_offer_id': string, 'variant_id': string}|object>, 'type': string}|object
+     * @throws SdkError When terms is omitted; use hasTerms() or valueOrDefault().
+     */
+    public function getTerms(): mixed { return $this->get('terms'); }
+    public function hasTerms(): bool { return $this->has('terms'); }
+}

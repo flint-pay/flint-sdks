@@ -19,7 +19,7 @@ Creates an outbound shipment with one package using `packaging: single_package`,
 
 ### FulfillmentPackagingRequest variant 1: `packaging` = `"single_package"`
 
-oneOf variant 1: The `single_package` variant of `FulfillmentPackagingInput`..
+oneOf with packaging: "single_package": The `single_package` variant of `FulfillmentPackagingInput`..
 
 - Condition: not (present(`packages`)).
 - Required: `package`.
@@ -28,7 +28,7 @@ oneOf variant 1: The `single_package` variant of `FulfillmentPackagingInput`..
 
 ### FulfillmentPackagingRequest variant 2: `packaging` = `"itemized"`
 
-oneOf variant 2: The `itemized` variant of `FulfillmentPackagingInput`..
+oneOf with packaging: "itemized": The `itemized` variant of `FulfillmentPackagingInput`..
 
 - Condition: not (present(`package`)).
 - Required: `packages`.

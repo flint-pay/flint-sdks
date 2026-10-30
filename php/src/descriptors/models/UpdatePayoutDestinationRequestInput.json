@@ -1,1 +1,1 @@
-{"shared":"UpdatePayoutDestinationRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","UpdatePayoutDestinationRequest"]}
+{"shared":"UpdatePayoutDestinationRequest","dependencies":["SharedCodec1350","SharedCodec1353","UpdatePayoutDestinationRequest"]}

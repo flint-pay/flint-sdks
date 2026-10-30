@@ -1,1 +1,1 @@
-{"shared":"BuyerPaymentCollection","dependencies":["BuyerErrorRemediation","BuyerPaymentCollection","BuyerPaymentCollectionStripe","BuyerPaymentCollectionStripeElements","BuyerPaymentErrorSummary","BuyerSelectableOrderPaymentIntent","MoneyValue","SharedCodec31","SharedCodec32","SharedCodec33"]}
+{"shared":"BuyerPaymentCollection","dependencies":["BuyerPaymentCollection","BuyerPaymentCollectionStripe","BuyerPaymentCollectionStripeElements","BuyerPaymentErrorSummary","MoneyValue","SharedCodec53","SharedCodec54","SharedCodec55","SharedCodec56"]}

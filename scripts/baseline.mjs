@@ -88,10 +88,14 @@ if (
 ) {
   if (sha256(readFileSync(baselineRecord)) !== json(marker).recordHash)
     throw new Error("Cached published SDK baseline record has changed.");
-  // The working output contains the last candidate. A version bump starts a
-  // new comparison in the generator, so always restore the published release.
-  restoreBaseline();
-  process.exit(0);
+  if (json(baselineRecord).baseline?.kind === "released") {
+    // The working output contains the last candidate. A version bump starts a
+    // new comparison in the generator, so always restore the published release.
+    restoreBaseline();
+    process.exit(0);
+  }
+  // Older caches reconstructed a draft, which suppresses compatibility checks.
+  // Rebuild trusted inputs below, then adopt through the original generator.
 }
 const paths = run("git", [
   "ls-tree",
@@ -153,6 +157,14 @@ try {
     join(source, "sdk.json"),
     stage,
   ]);
+  const { setCompatibilityBaseline } = await import(
+    pathToFileURL(join(previousGenerator, "dist/index.js"))
+  );
+  setCompatibilityBaseline(stage, "released");
+  if (json(join(stage, ".sdk-generator.json")).baseline?.kind !== "released")
+    throw new Error(
+      "The pinned generator did not adopt the published SDK baseline.",
+    );
   replaceDirectory(stage, baselineOutput);
   restoreBaseline();
   writeFileSync(

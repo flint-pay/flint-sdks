@@ -1,62 +1,50 @@
-import type { InputValue } from '../runtime.js';
-import type { AccessLink, AccessLinkResponse, AddReturnLineItemRequestInput } from '../declarations/types-0.js';
-import type { CancelReturnLineItemRequestInput, CancelReturnRequestInput } from '../declarations/types-3.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CompleteReturnRequestInput } from '../declarations/types-5.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { AccessLink, AccessLinkResponse, AddReturnLineItemResponse } from '../declarations/types-0.js';
+import type { CancelReturnLineItemResponse } from '../declarations/types-3.js';
+import type { CancelReturnResponse } from '../declarations/types-4.js';
+import type { ClientOptions, CompleteReturnResponse } from '../declarations/types-5.js';
+import type { CreateReturnDispositionResponse, CreateReturnInspectionResponse, CreateReturnReceiptResponse } from '../declarations/types-10.js';
+import type { CreateReturnResolutionResponse, CreateReturnResponse } from '../declarations/types-11.js';
+import type { DecideReturnResponse, DeleteReturnLineItemResponse } from '../declarations/types-14.js';
+import type { GetReturnLineItemResponse, GetReturnResponse } from '../declarations/types-23.js';
+import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-32.js';
+import type { ProcessExistingReturnResponse } from '../declarations/types-44.js';
+import type { ReopenReturnResponse, RequestOptions } from '../declarations/types-47.js';
+import type { ReturnActivity, ReturnDisposition, ReturnInspection } from '../declarations/types-48.js';
+import type { ReturnLineItem, ReturnProcessResult, ReturnReceipt } from '../declarations/types-49.js';
+import type { ReturnResolution, ReturnResource } from '../declarations/types-50.js';
 import type {
-    CreateReturnDispositionRequestInput,
-    CreateReturnInspectionRequestInput,
-    CreateReturnReceiptRequestInput,
-    CreateReturnRequestInput
-} from '../declarations/types-9.js';
-import type { CreateReturnResolutionRequestInput } from '../declarations/types-10.js';
-import type { DecideReturnRequestInput } from '../declarations/types-12.js';
-import type {
-    GetReturnDispositionResponse,
-    GetReturnInspectionResponse,
-    GetReturnLineItemResponse,
-    GetReturnReceiptResponse,
-    GetReturnResolutionResponse,
-    GetReturnResponse
-} from '../declarations/types-20.js';
-import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-30.js';
-import type { ProcessExistingReturnRequestInput, ProcessExistingReturnResponse } from '../declarations/types-39.js';
-import type { ReopenReturnRequestInput, RequestOptions } from '../declarations/types-42.js';
-import type { ReturnActivity, ReturnDisposition, ReturnInspection, ReturnLineItem } from '../declarations/types-43.js';
-import type { ReturnProcessResult, ReturnReceipt, ReturnResolution, ReturnResource } from '../declarations/types-44.js';
-import type {
-    ReturnsAddLineItemInput,
-    ReturnsCancelInput,
-    ReturnsCancelLineItemInput,
-    ReturnsCompleteInput,
-    ReturnsCreateAccessLinkInput,
-    ReturnsCreateDispositionInput,
-    ReturnsCreateInput,
-    ReturnsCreateInspectionInput,
-    ReturnsCreateReceiptInput,
-    ReturnsCreateResolutionInput,
-    ReturnsDecideInput,
-    ReturnsDeleteLineItemInput,
-    ReturnsGetInput,
-    ReturnsGetLineItemInput,
-    ReturnsListActivitiesInput,
-    ReturnsListInput,
-    ReturnsListLineItemsInput,
-    ReturnsProcessExistingInput,
-    ReturnsReopenInput,
-    ReturnsUpdateInput,
-    ReturnsUpdateLineItemInput,
-    ReturnsWaiveLineInspectionInput
-} from '../declarations/types-45.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput } from '../declarations/types-52.js';
-import type { WaiveReturnLineInspectionRequestInput } from '../declarations/types-53.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    ReturnsCancelLineItemParams,
+    ReturnsCancelParams,
+    ReturnsCompleteParams,
+    ReturnsCreateAccessLinkParams,
+    ReturnsCreateDispositionParams,
+    ReturnsCreateInspectionParams,
+    ReturnsCreateLineItemParams,
+    ReturnsCreateParams,
+    ReturnsCreateReceiptParams,
+    ReturnsCreateResolutionParams,
+    ReturnsDecideParams,
+    ReturnsDeleteLineItemParams,
+    ReturnsGetLineItemParams,
+    ReturnsGetParams,
+    ReturnsListActivitiesParams,
+    ReturnsListLineItemsParams,
+    ReturnsListParams,
+    ReturnsProcessParams,
+    ReturnsReopenParams,
+    ReturnsUpdateLineItemParams,
+    ReturnsUpdateParams,
+    ReturnsWaiveLineItemInspectionParams
+} from '../declarations/types-51.js';
+import type { UpdateReturnLineItemResponse } from '../declarations/types-59.js';
+import type { UpdateReturnResponse, WaiveReturnLineInspectionResponse } from '../declarations/types-60.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -66,29 +54,52 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CancelReturnRequestInput, CancelReturnLineItemRequestInput, CategoryReference } from '../declarations/types-3.js';
+export type {
+    ReturnsCancelParams,
+    ReturnsCancelLineItemParams,
+    ReturnsCompleteParams,
+    ReturnsCreateParams,
+    ReturnsCreateAccessLinkParams,
+    ReturnsCreateDispositionParams,
+    ReturnsCreateInspectionParams,
+    ReturnsCreateLineItemParams,
+    ReturnsCreateReceiptParams,
+    ReturnsCreateResolutionParams,
+    ReturnsDecideParams,
+    ReturnsDeleteLineItemParams,
+    ReturnsGetParams,
+    ReturnsGetLineItemParams,
+    ReturnsListActivitiesParams,
+    ReturnsListLineItemsParams,
+    ReturnsListParams,
+    ReturnsProcessParams,
+    ReturnsReopenParams,
+    ReturnsUpdateParams,
+    ReturnsUpdateLineItemParams,
+    ReturnsWaiveLineItemInspectionParams,
+    ReturnUnverifiedItemInput
+} from '../declarations/types-51.js';
 export type {
     RequestOptions,
-    ReopenReturnRequestInput,
-    ResponseMeta,
+    ReopenReturnResponse,
     ResourceReference,
-    ResourceType,
-    RefundLineItemModifierAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery
-} from '../declarations/types-42.js';
+    RefundUnissuedGiftCardRecovery,
+    ReopenReturnRequestInput
+} from '../declarations/types-47.js';
 export type {
     ReturnResource,
-    ReturnReceipt,
     ReturnResolution,
-    ReturnProcessResult,
     ReturnResolutionLineItemRequest,
+    ReturnSourceSystemRequestInput,
+    ReturnSourceSystem,
     ReturnReceiptLineItemRequestInput,
     ReturnReceiptLineItemInputMatchedInput,
     ReturnReceiptLineItemInputUnverifiedInput,
     ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItem,
+    ReturnUnverifiedItem,
     ReturnResolutionAdjustmentRequestInput,
     ReturnResolutionLineItemRequestInput,
     ReturnReplacementLineItemRequestInput,
@@ -98,106 +109,91 @@ export type {
     ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
     ReturnResolutionLineItem,
-    ReturnReplacementLineItem,
-    ReturnReason,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnProcessReceiptRequestInput
-} from '../declarations/types-44.js';
-export type { SdkResponse } from '../declarations/types-46.js';
+    ReturnReplacementLineItem
+} from '../declarations/types-50.js';
+export type { CancelReturnResponse, CancelReturnRequestInput, CheckoutBuyerContact, CategoryReference } from '../declarations/types-4.js';
+export type { CancelReturnLineItemResponse, CancelReturnLineItemRequestInput } from '../declarations/types-3.js';
+export type { CompleteReturnResponse, ClientOptions, CompleteReturnRequestInput } from '../declarations/types-5.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { CreateReturnResponse, CreateReturnResolutionResponse, CreateReturnResolutionRequestStandardInput } from '../declarations/types-11.js';
 export type {
-    GetReturnResponse,
-    GetReturnDispositionResponse,
-    GetReturnInspectionResponse,
-    GetReturnReceiptResponse,
-    GetReturnResolutionResponse,
-    GetReturnLineItemResponse
-} from '../declarations/types-20.js';
-export type { CompleteReturnRequestInput } from '../declarations/types-5.js';
-export type {
-    CreateReturnRequestInput,
-    CreateReturnDispositionRequestInput,
-    CreateReturnInspectionRequestInput,
-    CreateReturnReceiptRequestInput,
-    CreateReturnDispositionRequestReceiptLineInput,
-    CreateReturnDispositionRequestInspectionLineInput
-} from '../declarations/types-9.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { AccessLink, AccessLinkResponse, AddReturnLineItemRequestInput, AuthMode, Address } from '../declarations/types-0.js';
+    AccessLink,
+    AccessLinkResponse,
+    AddReturnLineItemResponse,
+    AuthMode,
+    Address,
+    AddReturnLineItemRequestInput
+} from '../declarations/types-0.js';
 export type {
     ReturnDisposition,
     ReturnInspection,
-    ReturnLineItem,
     ReturnActivity,
     ReturnActor,
     ReturnCompletionBlocker,
     ReturnFinancialSummary,
     ReturnHandoffRequirement,
     ReturnHandoffDestination,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceType
+} from '../declarations/types-48.js';
+export type {
+    CreateReturnDispositionResponse,
+    CreateReturnInspectionResponse,
+    CreateReturnReceiptResponse,
+    CreateReturnRequestInput,
+    CreateReturnDispositionRequestInput,
+    CreateReturnDispositionRequestReceiptLineInput,
+    CreateReturnDispositionRequestInspectionLineInput,
+    CreateReturnInspectionRequestInput,
+    CreateReturnReceiptRequestInput,
+    CreateReturnResolutionRequestInput,
+    CreateReturnResolutionRequestCorrectionInput
+} from '../declarations/types-10.js';
+export type {
+    ReturnReceipt,
+    ReturnLineItem,
+    ReturnProcessResult,
     ReturnPolicyEvaluation,
     ReturnPolicyEvaluationLineItem,
     ReturnPolicyAdjustmentProposal,
-    ResponseWarning,
     ReturnLineItemRequestInput,
     ReturnInspectionLineItemRequestInput,
     ReturnInspectionLineItem,
     ReturnLineDecisionInput,
     ReturnLineItemEligibility,
     ReturnLineItemDecisionProposal,
-    ReturnLineItemValue
-} from '../declarations/types-43.js';
+    ReturnReason,
+    ReturnLineItemValue,
+    ReturnProcessDecisionInput,
+    ReturnProcessDispositionRequestInput,
+    ReturnProcessInspectionRequestInput,
+    ReturnProcessResolutionRequestInput,
+    ReturnProcessReceiptRequestInput
+} from '../declarations/types-49.js';
+export type { DecideReturnResponse, DeleteReturnLineItemResponse, DecideReturnRequestInput } from '../declarations/types-14.js';
 export type {
-    CreateReturnResolutionRequestInput,
-    CreateReturnResolutionRequestStandardInput,
-    CreateReturnResolutionRequestCorrectionInput
-} from '../declarations/types-10.js';
-export type { DecideReturnRequestInput } from '../declarations/types-12.js';
-export type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-30.js';
+    GetReturnResponse,
+    GetReturnLineItemResponse,
+    GetReturnDispositionResponse,
+    GetReturnInspectionResponse,
+    GetReturnReceiptResponse,
+    GetReturnResolutionResponse
+} from '../declarations/types-23.js';
+export type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-32.js';
 export type {
-    ProcessExistingReturnRequestInput,
     ProcessExistingReturnResponse,
-    PricingAmounts,
-    PaymentSourceSummary,
-    PaymentSourceAchDebitSummary,
-    PaymentSourceCardSummary,
-    PaymentRefund,
-    PickupFulfillmentDetails,
+    ProcessExistingReturnRequestInput,
     ProcessExistingReturnLineItemRequestInput
-} from '../declarations/types-39.js';
-export type { UpdateReturnRequestInput, UpdateReturnLineItemRequestInput } from '../declarations/types-52.js';
-export type { WaiveReturnLineInspectionRequestInput } from '../declarations/types-53.js';
+} from '../declarations/types-44.js';
 export type {
-    ReturnsCancelInput,
-    ReturnsCancelLineItemInput,
-    ReturnsCompleteInput,
-    ReturnsCreateInput,
-    ReturnsCreateAccessLinkInput,
-    ReturnsCreateDispositionInput,
-    ReturnsCreateInspectionInput,
-    ReturnsAddLineItemInput,
-    ReturnsCreateReceiptInput,
-    ReturnsCreateResolutionInput,
-    ReturnsDecideInput,
-    ReturnsDeleteLineItemInput,
-    ReturnsGetInput,
-    ReturnsGetLineItemInput,
-    ReturnsListActivitiesInput,
-    ReturnsListLineItemsInput,
-    ReturnsListInput,
-    ReturnsProcessExistingInput,
-    ReturnsReopenInput,
-    ReturnsUpdateInput,
-    ReturnsUpdateLineItemInput,
-    ReturnsWaiveLineInspectionInput,
-    ReturnSourceSystemInput,
-    ReturnSourceSystem,
-    ReturnUnverifiedItemInput,
-    ReturnUnverifiedItem
-} from '../declarations/types-45.js';
-export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
-export type { Credentials } from '../declarations/types-11.js';
+    UpdateReturnResponse,
+    WaiveReturnLineInspectionResponse,
+    UpdateReturnRequestInput,
+    WaiveReturnLineInspectionRequestInput
+} from '../declarations/types-60.js';
+export type { UpdateReturnLineItemResponse, UpdateReturnLineItemRequestInput } from '../declarations/types-59.js';
+export type { Credentials } from '../declarations/types-12.js';
 export type {
     BuyerAction,
     BuyerCancelActionOptions,
@@ -211,35 +207,41 @@ export type {
     ExpandedOrderSummary,
     ExpandedShipmentSummary,
     ExpandedPaymentIntentSummary,
+    Fulfillment,
+    FulfillmentChargeLink,
     ExpandedPackageSummary
-} from '../declarations/types-18.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-33.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
-export type { SettlementAmounts, SelectedProductOption, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from '../declarations/types-47.js';
-export type { Image } from '../declarations/types-21.js';
-export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-34.js';
-export type { TextModifierRequest } from '../declarations/types-50.js';
+} from '../declarations/types-21.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-35.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
 export type {
+    PricingAmounts,
+    PaymentSourceSummary,
+    PaymentSourceAchDebitSummary,
+    PaymentSourceCardSummary,
+    PickupFulfillmentDetails
+} from '../declarations/types-43.js';
+export type { SettlementAmounts, SelectedProductOption, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from '../declarations/types-53.js';
+export type { Image } from '../declarations/types-25.js';
+export type { OrderLineItemModifier } from '../declarations/types-37.js';
+export type { TextModifierRequest } from '../declarations/types-57.js';
+export type {
+    ReadinessMerchantAccountSession,
     Refund,
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,
     RefundLineItemAdjustment,
     RefundAdjustmentReason,
-    RefundLineItemAutomaticRefund
-} from '../declarations/types-41.js';
-export type {
-    Fulfillment,
-    FulfillmentHold,
-    FulfillmentChargeLink,
-    FulfillmentLineItem,
-    FulfillmentOutcome,
-    FulfillmentRecipient
-} from '../declarations/types-19.js';
-export type { DigitalFulfillmentDetails } from '../declarations/types-17.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-13.js';
-export type { MeCancelReturnInput } from '../declarations/types-31.js';
-export { makeAddReturnLineItemRequest, makeCancelReturnLineItemRequest, makeCancelReturnRequest } from '../declarations/types-65.js';
-export { makeCompleteReturnRequest } from '../declarations/types-66.js';
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation
+} from '../declarations/types-46.js';
+export type { PaymentRefund } from '../declarations/types-42.js';
+export type { OrderGiftCardAllocation } from '../declarations/types-36.js';
+export type { FulfillmentHold, FulfillmentLineItem, FulfillmentOutcome, FulfillmentRecipient } from '../declarations/types-22.js';
+export type { DigitalFulfillmentDetails } from '../declarations/types-20.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-15.js';
+export type { MeCancelReturnParams } from '../declarations/types-33.js';
+export { makeAddReturnLineItemRequest } from '../declarations/types-61.js';
+export { makeCancelReturnLineItemRequest, makeCancelReturnRequest, makeCompleteReturnRequest } from '../declarations/types-62.js';
 export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
@@ -249,17 +251,19 @@ export {
     makeCreateReturnRequest,
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
-    makeCreateReturnResolutionRequestStandard
-} from '../declarations/types-68.js';
-export { makeDecideReturnRequest } from '../declarations/types-69.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeProcessExistingReturnLineItemRequest, makeProcessExistingReturnRequest } from '../declarations/types-74.js';
+    makeCreateReturnResolutionRequestStandard,
+    makeDecideReturnRequest
+} from '../declarations/types-65.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeProcessExistingReturnLineItemRequest } from '../declarations/types-70.js';
 export {
+    makeProcessExistingReturnRequest,
     makeReopenReturnRequest,
     makeReturnInspectionLineItemRequest,
     makeReturnLineDecision,
-    makeReturnLineItemRequest,
+    makeReturnLineItemRequest
+} from '../declarations/types-71.js';
+export {
     makeReturnProcessDecision,
     makeReturnProcessDispositionRequest,
     makeReturnProcessInspectionRequest,
@@ -275,96 +279,78 @@ export {
     makeReturnReplacementLineItemRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest,
-    makeReturnSourceSystem,
+    makeReturnSourceSystemRequest,
     makeReturnUnverifiedItem
-} from '../declarations/types-75.js';
-export { makeTextModifierRequest, makeUpdateReturnLineItemRequest } from '../declarations/types-77.js';
-export { makeUpdateReturnRequest, makeWaiveReturnLineInspectionRequest } from '../declarations/types-78.js';
+} from '../declarations/types-72.js';
+export { makeTextModifierRequest } from '../declarations/types-73.js';
+export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest } from '../declarations/types-74.js';
+export { makeWaiveReturnLineInspectionRequest } from '../declarations/types-75.js';
 export interface ReturnsResource {
     /**
  * Cancel a Return before any merchandise or value work commits. Cancellation is refused once a
  * receipt, inspection, disposition, or resolution exists.
- * @see reference/returns.md#returnscancel
- * POST /v1/returns/{return_id}/cancel
+ *
+ * `POST /v1/returns/{return_id}/cancel`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#cancelReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.cancel("example", {reason: "buyer_request"}, { idempotencyKey: idempotencyKey })
+ * client.returns.cancel("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason: "buyer_request"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    cancel(return_id: InputValue<string>, params: (InputValue<CancelReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscancel
-     */
-    cancelWithResponse(return_id: InputValue<string>, params: (InputValue<CancelReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    cancel(return_id: InputValue<string>, params: ReturnsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, CancelReturnResponse>>;
     /**
  * Cancel approved quantity on a Return line item. Quantity already received, inspected,
  * dispositioned, or reserved by a resolution, including a failed one, cannot be canceled, and the
  * conflict response names what is blocking it. Omit handback_quantity to lower the expected
  * handback only as far as the canceled quantity requires. An explicit value cannot leave more
  * merchandise expected than the remaining approved quantity.
- * @see reference/returns.md#returnscancellineitem
- * POST /v1/returns/{return_id}/line-items/{return_line_item_id}/cancel
+ *
+ * `POST /v1/returns/{return_id}/line-items/{return_line_item_id}/cancel`
+ * @param return_id Flint return id.
+ * @param return_line_item_id Flint return line item id.
+ * @see https://developers.withflintpay.com/docs/api/returns#cancelReturnLineItem
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.cancelLineItem("example", "example", {quantity: "100", reason: "buyer_request"},
- * { idempotencyKey: idempotencyKey })
+ * client.returns.cancelLineItem("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1, reason: "buyer_request"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    cancelLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<CancelReturnLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscancellineitem
-     */
-    cancelLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<CancelReturnLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    cancelLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: ReturnsCancelLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, CancelReturnLineItemResponse>>;
     /**
  * Complete a Return whose completion_mode is manual. The call fails while completion_blockers is
  * non-empty. Automatic Returns complete themselves when the final blocker clears.
- * @see reference/returns.md#returnscomplete
- * POST /v1/returns/{return_id}/complete
+ *
+ * `POST /v1/returns/{return_id}/complete`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#completeReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.complete("example", {}, { idempotencyKey: idempotencyKey })
+ * client.returns.complete("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    complete(return_id: InputValue<string>, params: (InputValue<CompleteReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscomplete
-     */
-    completeWithResponse(return_id: InputValue<string>, params: (InputValue<CompleteReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    complete(return_id: InputValue<string>, params: ReturnsCompleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, CompleteReturnResponse>>;
     /**
  * Create a requested Return. Every line needs the return_reason_id of an active reason. With an
  * API key, a Return that no policy matches stays available for merchant review rather than failing
  * creation.
- * @see reference/returns.md#returnscreate
- * POST /v1/returns
+ *
+ * `POST /v1/returns`
+ * @see https://developers.withflintpay.com/docs/api/returns#createReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.create({line_items: [{order_line_item_id: "example", requested_quantity: "100",
- * return_reason_id: "example"}], order_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.returns.create({line_items: [{order_line_item_id: "li_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * requested_quantity: 1, return_reason_id: "rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV"}], order_id:
+ * "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<CreateReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscreate
-     */
-    createWithResponse(params: (InputValue<CreateReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnResponse>>;
+    create(params: ReturnsCreateParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnResource, CreateReturnResponse>>;
     /**
  * Creates the link Flint's email about a Return carries, to put in buyer email or messages you
  * send yourself. It opens the Return and its order in your Flint-hosted customer account without a
@@ -373,601 +359,240 @@ export interface ReturnsResource {
  * credential. Flint returns it only in this response and in a retry with the same Idempotency-Key,
  * so send it only to the buyer and keep it out of logs. A call with a new key creates another
  * link; earlier links keep working until they expire. When customer_account.mode is
- * merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for a Return whose order has no
- * customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}).
- * Idempotency is scoped to the merchant, credential, environment, and this resource's route. A
- * replay returns the original link without extending its lifetime or replenishing its opens.
- * Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint
- * cannot retain a result after minting, contact support with X-Request-Id before sending a new
- * request.
- * @see reference/returns.md#returnscreateaccesslink
- * POST /v1/returns/{return_id}/access-links
+ * merchant_hosted it returns 409 ACTION_NOT_ALLOWED with reason merchant_hosted_customer_accounts,
+ * and for a Return whose order has no customer, 409 ACTION_NOT_ALLOWED with reason
+ * configuration_required. Send no request body or an empty object ({}). Idempotency is scoped to
+ * the merchant, credential, environment, and this resource's route. A replay returns the original
+ * link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each
+ * call creates a new link and has no replay result. If Flint cannot retain a result after minting,
+ * contact support with X-Request-Id before sending a new request.
+ *
+ * `POST /v1/returns/{return_id}/access-links`
+ * @param return_id Flint return ID.
+ * @see https://developers.withflintpay.com/docs/api/returns#createReturnAccessLink
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey })
+ * client.returns.createAccessLink("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    createAccessLink(return_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<AccessLink>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscreateaccesslink
-     */
-    createAccessLinkWithResponse(return_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<AccessLinkResponse>>;
+    createAccessLink(return_id: InputValue<string>, params?: ReturnsCreateAccessLinkParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<AccessLink, AccessLinkResponse>>;
     /**
  * Record an auditable merchandise disposition from either a receipt line or an inspection line.
  * Read dispositions with `GET /v1/return-dispositions?return_id=` or expand `return_dispositions`
- * on `GET /v1/returns/{return_id}`.
- * @see reference/returns.md#returnscreatedisposition
- * POST /v1/returns/{return_id}/dispositions
+ * on `client.returns.get`.
+ *
+ * `POST /v1/returns/{return_id}/dispositions`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/return-dispositions#createReturnDisposition
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createDisposition("example", {disposition_type: "sellable", occurred_at:
- * "2026-01-01T00:00:00Z", quantity: "100", reason: "inspection_result",
- * return_receipt_line_item_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.returns.createDisposition("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {disposition_type:
+ * "sellable", occurred_at: "2026-01-01T00:00:00Z", quantity: 1, reason: "inspection_result",
+ * return_receipt_line_item_id: "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    createDisposition(return_id: InputValue<string>, params: (InputValue<CreateReturnDispositionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnDisposition>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscreatedisposition
-     */
-    createDispositionWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnDispositionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnDispositionResponse>>;
+    createDisposition(return_id: InputValue<string>, params: ReturnsCreateDispositionParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnDisposition, CreateReturnDispositionResponse>>;
     /**
  * Record an immutable inspection observation. Corrections supersede an earlier inspection instead
  * of editing physical history. Read inspections with `GET /v1/return-inspections?return_id=` or
- * expand `return_inspections` on `GET /v1/returns/{return_id}`.
- * @see reference/returns.md#returnscreateinspection
- * POST /v1/returns/{return_id}/inspections
+ * expand `return_inspections` on `client.returns.get`.
+ *
+ * `POST /v1/returns/{return_id}/inspections`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/return-inspections#createReturnInspection
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createInspection("example", {inspected_at: "2026-01-01T00:00:00Z",
- * inspection_location_id: "example", line_items: [{acceptance_status: "accepted", condition:
- * "new", quantity: "100", return_receipt_line_item_id: "example"}], return_receipt_id: "example"},
+ * client.returns.createInspection("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {inspected_at:
+ * "2026-01-01T00:00:00Z", inspection_location_id: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV", line_items:
+ * [{acceptance_status: "accepted", condition: "new", quantity: 1, return_receipt_line_item_id:
+ * "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV"}], return_receipt_id: "retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV"},
  * { idempotencyKey: idempotencyKey })
  */
-    createInspection(return_id: InputValue<string>, params: (InputValue<CreateReturnInspectionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnInspection>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscreateinspection
-     */
-    createInspectionWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnInspectionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnInspectionResponse>>;
+    createInspection(return_id: InputValue<string>, params: ReturnsCreateInspectionParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnInspection, CreateReturnInspectionResponse>>;
     /**
  * Add a line item to a requested Return. The response is the updated Return, not the new line.
- * @see reference/returns.md#returnsaddlineitem
- * POST /v1/returns/{return_id}/line-items
+ *
+ * `POST /v1/returns/{return_id}/line-items`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#createReturnLineItem
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.addLineItem("example", {line_item: {order_line_item_id: "example",
- * requested_quantity: "100", return_reason_id: "example"}}, { idempotencyKey: idempotencyKey })
+ * client.returns.createLineItem("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {line_item: {order_line_item_id:
+ * "li_01ARZ3NDEKTSV4RRFFQ69G5FAV", requested_quantity: 1, return_reason_id:
+ * "rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV"}}, { idempotencyKey: idempotencyKey })
  */
-    addLineItem(return_id: InputValue<string>, params: (InputValue<AddReturnLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsaddlineitem
-     */
-    addLineItemWithResponse(return_id: InputValue<string>, params: (InputValue<AddReturnLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    createLineItem(return_id: InputValue<string>, params: ReturnsCreateLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, AddReturnLineItemResponse>>;
     /**
  * Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt
  * instead of editing physical history. Read receipts with `GET /v1/return-receipts?return_id=` or
- * expand `return_receipts` on `GET /v1/returns/{return_id}`.
- * @see reference/returns.md#returnscreatereceipt
- * POST /v1/returns/{return_id}/receipts
+ * expand `return_receipts` on `client.returns.get`.
+ *
+ * `POST /v1/returns/{return_id}/receipts`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/return-receipts#createReturnReceipt
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createReceipt("example", {line_items: [{type: "matched", quantity: "100",
- * return_line_item_id: "example"}], received_at: "2026-01-01T00:00:00Z", receiving_location_id:
- * "example"}, { idempotencyKey: idempotencyKey })
+ * client.returns.createReceipt("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {line_items: [{type: "matched",
+ * quantity: 1, return_line_item_id: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV"}], received_at:
+ * "2026-01-01T00:00:00Z", receiving_location_id: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    createReceipt(return_id: InputValue<string>, params: (InputValue<CreateReturnReceiptRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnReceipt>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscreatereceipt
-     */
-    createReceiptWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnReceiptRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnReceiptResponse>>;
+    createReceipt(return_id: InputValue<string>, params: ReturnsCreateReceiptParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnReceipt, CreateReturnReceiptResponse>>;
     /**
  * Propose a buyer-value outcome for approved quantity. Creating a resolution reserves line value.
  * Confirmation is what freezes it and starts its effects. Read resolutions with `GET
- * /v1/return-resolutions?return_id=` or expand `return_resolutions` on `GET
- * /v1/returns/{return_id}`.
- * @see reference/returns.md#returnscreateresolution
- * POST /v1/returns/{return_id}/resolutions
+ * /v1/return-resolutions?return_id=` or expand `return_resolutions` on `client.returns.get`.
+ *
+ * `POST /v1/returns/{return_id}/resolutions`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/return-resolutions#createReturnResolution
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createResolution("example", {line_items: [{quantity: "1", return_line_item_id:
- * "rtli_example"}], resolution_type: "refund"}, { idempotencyKey: idempotencyKey })
+ * client.returns.createResolution("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {line_items: [{quantity: 1,
+ * return_line_item_id: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV"}], resolution_type: "refund"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    createResolution(return_id: InputValue<string>, params: (InputValue<CreateReturnResolutionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnscreateresolution
-     */
-    createResolutionWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnResolutionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    createResolution(return_id: InputValue<string>, params: ReturnsCreateResolutionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResolution, CreateReturnResolutionResponse>>;
     /**
  * Record one decision for every requested line atomically, then open the Return. To defer a line,
- * decline its quantity or remove it with DELETE
- * /v1/returns/{return_id}/line-items/{return_line_item_id} and open a separate Return for it. Omit
- * completion_mode to use the shared pinned policy mode, or automatic when none sets a mode;
- * disagreeing policies require an explicit completion_mode. completion_blockers reports uncovered
- * approved quantity as resolution_not_selected alongside blockers for unfinished resolutions.
- * Start from each buildable pinned policy proposal or the no-policy defaults, replace every
- * supplied decision field, fill release_timing, and validate the result. When an automatic refund
- * can no longer run through the original payment's provider, the request fails with 409
+ * decline its quantity or remove it with `client.returns.deleteLineItem` and open a separate
+ * Return for it. Omit completion_mode to use the shared pinned policy mode, or automatic when none
+ * sets a mode; disagreeing policies require an explicit completion_mode. completion_blockers
+ * reports uncovered approved quantity as resolution_not_selected alongside blockers for unfinished
+ * resolutions. Start from each buildable pinned policy proposal or the no-policy defaults, replace
+ * every supplied decision field, fill release_timing, and validate the result. When an automatic
+ * refund can no longer run through the original payment's provider, the request fails with 409
  * ACTION_NOT_ALLOWED; send automatic_resolution_type as null to resolve manually, or choose
  * no_monetary_action.
- * @see reference/returns.md#returnsdecide
- * POST /v1/returns/{return_id}/decide
+ *
+ * `POST /v1/returns/{return_id}/decide`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#decideReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.decide("ret_00000000000000000000000000", {line_items: [{approved_quantity: "1",
+ * client.returns.decide("ret_00000000000000000000000000", {line_items: [{approved_quantity: 1,
  * receiving_location_id: "loc_00000000000000000000000000", return_line_item_id:
  * "retli_00000000000000000000000000"}]}, { idempotencyKey: idempotencyKey })
  */
-    decide(return_id: InputValue<string>, params: (InputValue<DecideReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsdecide
-     */
-    decideWithResponse(return_id: InputValue<string>, params: (InputValue<DecideReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    decide(return_id: InputValue<string>, params: ReturnsDecideParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, DecideReturnResponse>>;
     /**
  * Remove a line item from a requested Return. Send optional expected_version as one query
  * parameter to fence against the parent Return version. The response is the updated Return.
- * @see reference/returns.md#returnsdeletelineitem
- * DELETE /v1/returns/{return_id}/line-items/{return_line_item_id}
+ *
+ * `DELETE /v1/returns/{return_id}/line-items/{return_line_item_id}`
+ * @param return_id Flint return id.
+ * @param return_line_item_id Flint return line item id.
+ * @see https://developers.withflintpay.com/docs/api/returns#deleteReturnLineItem
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.deleteLineItem("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.returns.deleteLineItem("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsdeletelineitem
-     */
-    deleteLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    deleteLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: ReturnsDeleteLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, DeleteReturnLineItemResponse>>;
     /**
  * Retrieve a Return with its line items, policy evaluation, financial summary, and completion
  * blockers. Supports expand for the order, customer, receipts, inspections, dispositions,
  * resolutions, shipments, and each line item's reason and fulfillment.
- * @see reference/returns.md#returnsget
- * GET /v1/returns/{return_id}
+ *
+ * `GET /v1/returns/{return_id}`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#getReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returns.get("example")
+ * client.returns.get("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(return_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"customer"
-            | "line_items.fulfillment"
-            | "line_items.return_reason"
-            | "order"
-            | "return_dispositions"
-            | "return_inspections"
-            | "return_receipts"
-            | "return_resolutions"
-            | "shipments">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsget
-     */
-    getWithResponse(return_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"customer"
-            | "line_items.fulfillment"
-            | "line_items.return_reason"
-            | "order"
-            | "return_dispositions"
-            | "return_inspections"
-            | "return_receipts"
-            | "return_resolutions"
-            | "shipments">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnResponse>>;
+    get(return_id: InputValue<string>, params?: ReturnsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnResource, GetReturnResponse>>;
     /**
  * Retrieve one Return line item, including its quantity counters and the reason the buyer selected.
- * @see reference/returns.md#returnsgetlineitem
- * GET /v1/returns/{return_id}/line-items/{return_line_item_id}
+ *
+ * `GET /v1/returns/{return_id}/line-items/{return_line_item_id}`
+ * @param return_id Flint return id.
+ * @param return_line_item_id Flint return line item id.
+ * @see https://developers.withflintpay.com/docs/api/returns#getReturnLineItem
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returns.getLineItem("example", "example")
+ * client.returns.getLineItem("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnLineItem>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsgetlineitem
-     */
-    getLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnLineItemResponse>>;
+    getLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: ReturnsGetLineItemParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnLineItem, GetReturnLineItemResponse>>;
     /**
  * Read the merchant history of a Return for timelines and audit. Read the referenced resources for
  * current state. Activities are newest first by default; use sort_direction=asc for chronological
- * order. Newest first: created_at descending, with return_activity_id descending as the tiebreak.
- * Default order: created_at descending, then return_activity_id descending.
- * @see reference/returns.md#returnslistactivities
- * GET /v1/returns/{return_id}/activities
+ * order. Default order: created_at descending, then return_activity_id descending.
+ *
+ * `GET /v1/returns/{return_id}/activities`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#listReturnActivities
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returns.listActivities("example")
+ * client.returns.listActivities("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listActivities(return_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnActivitiesResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnslistactivities
-     */
-    listActivitiesWithResponse(return_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnActivitiesResponse>>;
+    listActivities(return_id: InputValue<string>, params?: ReturnsListActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ListReturnActivitiesResponse, ListReturnActivitiesResponse>>;
     /** Iterate pages lazily.
-     * @see reference/returns.md#returnslistactivities
+     * @see https://developers.withflintpay.com/docs/api/returns#listReturnActivities
      */
-    listActivitiesPages(return_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnActivitiesResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/returns.md#returnslistactivities
-     */
-    listActivitiesPagesWithResponse(return_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnActivitiesResponse>>;
+    listActivitiesPages(return_id: InputValue<string>, params?: ReturnsListActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ListReturnActivitiesResponse, ListReturnActivitiesResponse>>;
     /** Iterate items lazily.
-     * @see reference/returns.md#returnslistactivities
+     * @see https://developers.withflintpay.com/docs/api/returns#listReturnActivities
      */
-    listActivitiesItems(return_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnActivity>;
+    listActivitiesItems(return_id: InputValue<string>, params?: ReturnsListActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnActivity>;
     /**
  * List the line items on a Return with their quantity counters, eligibility, frozen display
- * identity, and return value. Newest first: created_at descending, with return_line_item_id
- * descending as the tiebreak. Default order: created_at descending, then return_line_item_id
+ * identity, and return value. Default order: created_at descending, then return_line_item_id
  * descending.
- * @see reference/returns.md#returnslistlineitems
- * GET /v1/returns/{return_id}/line-items
+ *
+ * `GET /v1/returns/{return_id}/line-items`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#listReturnLineItems
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returns.listLineItems("example")
+ * client.returns.listLineItems("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listLineItems(return_id: InputValue<string>, params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_line_item_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnLineItemsResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnslistlineitems
-     */
-    listLineItemsWithResponse(return_id: InputValue<string>, params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_line_item_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnLineItemsResponse>>;
+    listLineItems(return_id: InputValue<string>, params?: ReturnsListLineItemsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ListReturnLineItemsResponse, ListReturnLineItemsResponse>>;
     /** Iterate pages lazily.
-     * @see reference/returns.md#returnslistlineitems
+     * @see https://developers.withflintpay.com/docs/api/returns#listReturnLineItems
      */
-    listLineItemsPages(return_id: InputValue<string>, params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_line_item_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnLineItemsResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/returns.md#returnslistlineitems
-     */
-    listLineItemsPagesWithResponse(return_id: InputValue<string>, params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_line_item_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnLineItemsResponse>>;
+    listLineItemsPages(return_id: InputValue<string>, params?: ReturnsListLineItemsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ListReturnLineItemsResponse, ListReturnLineItemsResponse>>;
     /** Iterate items lazily.
-     * @see reference/returns.md#returnslistlineitems
+     * @see https://developers.withflintpay.com/docs/api/returns#listReturnLineItems
      */
-    listLineItemsItems(return_id: InputValue<string>, params?: {
-        "fulfillment_id"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_line_item_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
-        "return_reason_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnLineItem>;
+    listLineItemsItems(return_id: InputValue<string>, params?: ReturnsListLineItemsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnLineItem>;
     /**
  * List Returns for the merchant, filtered by order, customer, status, decision, merchandise,
  * resolution, or creation window. Filter by idempotency_key to recover a create whose response
- * never arrived. Newest first: created_at descending, with return_id descending as the tiebreak.
- * Set sort_direction to asc for oldest first, with return_id ascending as the tiebreak. Default
- * order: created_at descending, then return_id descending.
- * @see reference/returns.md#returnslist
- * GET /v1/returns
+ * never arrived. Set sort_direction to asc for oldest first. Default order: created_at descending,
+ * then return_id descending.
+ *
+ * `GET /v1/returns`
+ * @see https://developers.withflintpay.com/docs/api/returns#listReturns
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.returns.list()
  */
-    list(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "customer_id"?: InputValue<string>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "external_reference_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "receiving_location_id"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
-        "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnsResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnslist
-     */
-    listWithResponse(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "customer_id"?: InputValue<string>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "external_reference_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "receiving_location_id"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
-        "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnsResponse>>;
+    list(params?: ReturnsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ListReturnsResponse, ListReturnsResponse>>;
     /** Iterate pages lazily.
-     * @see reference/returns.md#returnslist
+     * @see https://developers.withflintpay.com/docs/api/returns#listReturns
      */
-    listPages(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "customer_id"?: InputValue<string>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "external_reference_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "receiving_location_id"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
-        "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnsResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/returns.md#returnslist
-     */
-    listPagesWithResponse(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "customer_id"?: InputValue<string>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "external_reference_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "receiving_location_id"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
-        "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnsResponse>>;
+    listPages(params?: ReturnsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ListReturnsResponse, ListReturnsResponse>>;
     /** Iterate items lazily.
-     * @see reference/returns.md#returnslist
+     * @see https://developers.withflintpay.com/docs/api/returns#listReturns
      */
-    listItems(params?: {
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "customer_id"?: InputValue<string>;
-        "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
-        "external_reference_id"?: InputValue<string>;
-        "idempotency_key"?: InputValue<string>;
-        "merchandise_status"?: InputValue<Array<"not_required"
-            | "awaiting_handoff"
-            | "in_transit"
-            | "partially_received"
-            | "inspection_required"
-            | "partially_inspected"
-            | "inspection_review_required"
-            | "disposition_required"
-            | "resolved"
-            | "exception">>;
-        "order_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "receiving_location_id"?: InputValue<string>;
-        "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>;
-        "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction">>;
-        "return_number"?: InputValue<string>;
-        "return_reason_id"?: InputValue<string>;
-        "sort_by"?: InputValue<"created_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
-        "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnResource>;
+    listItems(params?: ReturnsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnResource>;
     /**
  * Record decisions, receipts, inspections, dispositions, and resolutions for an existing requested
  * or open Return in one request. On a requested Return, send one decision for every requested
@@ -977,117 +602,95 @@ export interface ReturnsResource {
  * completion_mode to keep committed values, or send those values unchanged; changed values return
  * 409 ACTION_NOT_ALLOWED with reason field_locked. completion_blockers includes
  * resolution_not_selected for any uncovered approved quantity alongside blockers for unfinished
- * resolutions. Refunds, payments, replacement orders, and inventory updates complete
- * asynchronously. expected_version is optional and checked only when sent. If the Return has
- * changed since that version, the request fails with VERSION_CONFLICT. When an automatic refund
- * can no longer run through the original payment's provider, the request fails with 409
+ * resolutions. A line can be processed here only while it has no receipt, inspection, disposition,
+ * or resolution. For each line, received_quantity must equal its committed
+ * return_required_quantity. Send inspection exactly when the line requires inspection, with
+ * acceptance_status accepted. Refunds, payments, replacement orders, and inventory updates
+ * complete asynchronously. expected_version is optional and checked only when sent. If the Return
+ * has changed since that version, the request fails with VERSION_CONFLICT. When an automatic
+ * refund can no longer run through the original payment's provider, the request fails with 409
  * ACTION_NOT_ALLOWED; send automatic_resolution_type as null to resolve manually, or choose
  * no_monetary_action. Requires Idempotency-Key and all three scopes: commerce.returns.write,
  * commerce.returns.operations.write, and commerce.returns.resolutions.write.
- * @see reference/returns.md#returnsprocessexisting
- * POST /v1/returns/{return_id}/process
+ *
+ * `POST /v1/returns/{return_id}/process`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#processReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.processExisting("example", {line_items: [{return_line_item_id: "example"}]}, {
- * idempotencyKey: idempotencyKey })
+ * client.returns.process("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {line_items: [{return_line_item_id:
+ * "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV"}]}, { idempotencyKey: idempotencyKey })
  */
-    processExisting(return_id: InputValue<string>, params: (InputValue<ProcessExistingReturnRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnProcessResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsprocessexisting
-     */
-    processExistingWithResponse(return_id: InputValue<string>, params: (InputValue<ProcessExistingReturnRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProcessExistingReturnResponse>>;
+    process(return_id: InputValue<string>, params: ReturnsProcessParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnProcessResult, ProcessExistingReturnResponse>>;
     /**
  * Reopen a completed Return to record late compensating facts. Reopening sets completion_mode to
  * manual, so complete the Return again with /complete once completion_blockers is empty. Confirmed
  * money movements are never edited backward, so a monetary fix is a new correction resolution.
- * @see reference/returns.md#returnsreopen
- * POST /v1/returns/{return_id}/reopen
+ *
+ * `POST /v1/returns/{return_id}/reopen`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#reopenReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.reopen("example", {reason: "linked_effect_changed"}, { idempotencyKey:
- * idempotencyKey })
+ * client.returns.reopen("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason: "linked_effect_changed"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    reopen(return_id: InputValue<string>, params: (InputValue<ReopenReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsreopen
-     */
-    reopenWithResponse(return_id: InputValue<string>, params: (InputValue<ReopenReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    reopen(return_id: InputValue<string>, params: ReturnsReopenParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, ReopenReturnResponse>>;
     /**
  * Update caller-owned fields on a Return. Only external_reference_id and metadata are writable.
  * Send optional expected_version to reject a stale Return version; every other change goes through
  * a decision, operation, or resolution command.
- * @see reference/returns.md#returnsupdate
- * PATCH /v1/returns/{return_id}
+ *
+ * `PATCH /v1/returns/{return_id}`
+ * @param return_id Flint return id.
+ * @see https://developers.withflintpay.com/docs/api/returns#updateReturn
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.returns.update("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV", {external_reference_id:
+ * "return-2026-001"}, { idempotencyKey: idempotencyKey })
  */
-    update(return_id: InputValue<string>, params: (InputValue<UpdateReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsupdate
-     */
-    updateWithResponse(return_id: InputValue<string>, params: (InputValue<UpdateReturnRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    update(return_id: InputValue<string>, params: ReturnsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, UpdateReturnResponse>>;
     /**
  * Update a requested Return line item. Send null to clear buyer_note or requested_resolution_type.
  * The response is the updated Return.
- * @see reference/returns.md#returnsupdatelineitem
- * PATCH /v1/returns/{return_id}/line-items/{return_line_item_id}
+ *
+ * `PATCH /v1/returns/{return_id}/line-items/{return_line_item_id}`
+ * @param return_id Flint return id.
+ * @param return_line_item_id Flint return line item id.
+ * @see https://developers.withflintpay.com/docs/api/returns#updateReturnLineItem
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.updateLineItem("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.returns.updateLineItem("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {buyer_note: "The size did not fit"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    updateLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<UpdateReturnLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnsupdatelineitem
-     */
-    updateLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<UpdateReturnLineItemRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    updateLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: ReturnsUpdateLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, UpdateReturnLineItemResponse>>;
     /**
  * Waive the inspection requirement on a Return line item so received quantity can be dispositioned
  * and resolved without an inspection observation. Received quantity on a waived line satisfies
  * after_inspection release timing.
- * @see reference/returns.md#returnswaivelineinspection
- * POST /v1/returns/{return_id}/line-items/{return_line_item_id}/waive-inspection
+ *
+ * `POST /v1/returns/{return_id}/line-items/{return_line_item_id}/waive-inspection`
+ * @param return_id Flint return id.
+ * @param return_line_item_id Flint return line item id.
+ * @see https://developers.withflintpay.com/docs/api/returns#waiveReturnLineItemInspection
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.waiveLineInspection("example", "example", {reason: "policy_override"}, {
- * idempotencyKey: idempotencyKey })
+ * client.returns.waiveLineItemInspection("ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason: "policy_override"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    waiveLineInspection(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<WaiveReturnLineInspectionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/returns.md#returnswaivelineinspection
-     */
-    waiveLineInspectionWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<WaiveReturnLineInspectionRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
+    waiveLineItemInspection(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: ReturnsWaiveLineItemInspectionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, WaiveReturnLineInspectionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

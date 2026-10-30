@@ -8,13 +8,13 @@ namespace Flint;
 final class ReturnEligibilitySelectionLineItemsInput extends Model {
     /** @param array{'line_items': list<ReturnEligibilityLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'selection_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnEligibilitySelectionLineItemsInput')); }
-    /** Shape $ (Value): Array of {@see ReturnEligibilityLineItemRequestInput}. minItems: 1. Shape $[] (Value): {@see ReturnEligibilityLineItemRequestInput}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line.
+    /** minItems: 1. [] (Value): {@see ReturnEligibilityLineItemRequestInput}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line.
      * @return list<ReturnEligibilityLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Shape $ (Value): string.  Value enum: "line_items".
+    /** Value enum: "line_items".
      * @return string
      * @throws SdkError When selection_type is omitted; use hasSelectionType() or valueOrDefault().
      */

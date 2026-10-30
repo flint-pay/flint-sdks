@@ -24,5 +24,5 @@ Request input.
 | `source` | Required | [GiftCardFundingSourceInput](../models/GiftCardFundingSourceInput.md#giftcardfundingsourceinput) | Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it. |
 | `source_created_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `value_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 

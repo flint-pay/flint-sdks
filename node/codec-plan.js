@@ -1,7 +1,7 @@
 export const CODEC_FORMAT = 1;
-// Native ordinary numbers and native date inputs; exact formats retain token semantics.
-export const CODEC_SEMANTICS = '4';
-export function valueInstruction(type, format) {
+// Opt-in safe integer counters; explicit exact components retain token semantics.
+export const CODEC_SEMANTICS = '5';
+export function valueInstruction(type, format, integers = undefined) {
     switch (type) {
         case undefined:
             return { kind: 'dynamic' };
@@ -13,7 +13,12 @@ export function valueInstruction(type, format) {
         case 'string':
             return { kind: format === 'date-time' ? 'date-time' : 'string' };
         case 'integer':
-            return { kind: format === 'int64' || format === 'uint64' ? 'exact-integer' : 'safe-integer' };
+            return {
+                kind: integers === 'exact' ||
+                    (integers !== 'number' && (format === 'int64' || format === 'uint64'))
+                    ? 'exact-integer'
+                    : 'safe-integer',
+            };
         case 'number':
             return { kind: format === 'decimal' ? 'decimal' : 'native-number' };
         default:
@@ -175,7 +180,7 @@ function compileNode(input, output, depth) {
         ...(input['x-sdk-number-input'] === 'explicit' ? { numberInput: 'explicit' } : {}),
         value: Array.isArray(input.type) && !input.type.some((type) => type !== 'null')
             ? { kind: 'null-array' }
-            : valueInstruction(kind, input.format),
+            : valueInstruction(kind, input.format, input['x-sdk-integer-mode']),
         nullable: input.type === undefined || kinds.includes('null'),
         ...(input.type === 'object' ? { objectOnlyAlternative: true } : {}),
         modelObjectInput: conjunctiveObject(input) ||
@@ -187,6 +192,11 @@ function compileNode(input, output, depth) {
         rejectInput: Boolean(input.readOnly),
         hiddenOutput: Boolean(input.writeOnly),
         sensitive: Boolean(input['x-sensitive'] || input.writeOnly),
+        ...(typeof input.title === 'string'
+            ? { label: input.title }
+            : typeof input['x-sdk-type-name'] === 'string'
+                ? { label: input['x-sdk-type-name'] }
+                : {}),
         checks,
         ...(range ? { range } : {}),
         ...(input.properties
@@ -307,6 +317,8 @@ export function assertCodecPlan(value, path = 'codec', depth = 0) {
         invalid('number input requires an exact numeric instruction');
     if (op.kind === 'opaque' && typeof op.label !== 'string')
         invalid('missing opaque label');
+    if (node.label !== undefined && typeof node.label !== 'string')
+        invalid('invalid label');
     for (const key of ['nullable', 'modelObjectInput', 'rejectInput', 'hiddenOutput', 'sensitive'])
         if (typeof node[key] !== 'boolean')
             invalid('missing boolean ' + key);

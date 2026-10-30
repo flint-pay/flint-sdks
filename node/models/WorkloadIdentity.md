@@ -26,7 +26,7 @@ A policy that grants API access to a workload authenticated by an external ident
 | `subject` | Required | string |  |
 | `subject_match` | Required | string | Values: `"exact"`, `"glob"`. |
 | `updated_at` | Required | string | Time the identity last changed. Format: `date-time`. |
-| `version` | Required | integer string | Positive concurrency version. Increases on policy and lifecycle changes. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `version` | Required | integer | Positive concurrency version. Increases on policy and lifecycle changes. Format: `int64`. minimum: `1`. |
 | `workload_identity_id` | Required | string |  |
 
 ### WorkloadIdentity.created_by

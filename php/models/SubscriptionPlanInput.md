@@ -32,5 +32,5 @@ Request input.
 | `subscription_plan_id` | Required | string |  |
 | `trial_period_days` | Optional | integer | Format: `int32`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `0`. |
 

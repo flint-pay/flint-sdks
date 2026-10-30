@@ -49,7 +49,7 @@ test("published Node client discovers merchant credentials and preserves explici
     process.env.FLINT_ACCESS_TOKEN = "synthetic-access-token";
     await assert.rejects(
       new Client({ transport }).invoices.getPDF("inv_synthetic"),
-      (error) => error.code === "ambiguous_credentials",
+      (error) => error.code === "credential_conflict",
     );
     assert.deepEqual(seen, [
       "Bearer synthetic-default-api-key",
@@ -76,7 +76,7 @@ $transport = function ($request) use (&$seen) {
 (new \\Flint\\Client(new \\Flint\\ClientOptions(transport: $transport, apiKey: 'synthetic-explicit-key')))->invoices->getPDF('inv_synthetic');
 try { (new \\Flint\\Client(new \\Flint\\ClientOptions(transport: $transport, ambientCredentials: false)))->invoices->getPDF('inv_synthetic'); exit(4); } catch (\\Flint\\SdkError $e) {}
 putenv('FLINT_ACCESS_TOKEN=synthetic-access-token');
-try { (new \\Flint\\Client(new \\Flint\\ClientOptions(transport: $transport)))->invoices->getPDF('inv_synthetic'); exit(5); } catch (\\Flint\\SdkError $e) { if ($e->errorCode !== 'ambiguous_credentials') exit(6); }
+try { (new \\Flint\\Client(new \\Flint\\ClientOptions(transport: $transport)))->invoices->getPDF('inv_synthetic'); exit(5); } catch (\\Flint\\SdkError $e) { if ($e->code !== 'credential_conflict' || $e->getCode() !== 'credential_conflict') exit(6); }
 if ($seen !== ['Bearer synthetic-default-api-key', 'Bearer synthetic-explicit-key']) exit(7);
 echo 'ok';`;
   const result = spawnSync("php", ["-r", source], {

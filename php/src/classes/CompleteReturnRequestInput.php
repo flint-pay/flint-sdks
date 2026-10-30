@@ -2,26 +2,26 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $expected_version
+ * @property-read int $expected_version
  * @property-read string $reason
  * @property-read string $reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class CompleteReturnRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'reason'?: string, 'reason_message'?: string}|object $values */
+    /** @param array{'expected_version'?: int, 'reason'?: string, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CompleteReturnRequestInput')); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     * @return string
+    /** Format: int64. minimum: 1.
+     * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
-    public function getExpectedVersion(): string { return $this->get('expected_version'); }
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Shape $ (Value): string.  Value enum: "manual_completion", "exception_waived", "other".
+    /** Value enum: "manual_completion", "exception_waived", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

@@ -24,7 +24,7 @@ The business accepting payments.
 | `logo` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) | An image attached to a resource, with its display properties and attachment metadata. |
 | `merchant_id` | Required | string |  |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BuyerRefund.md#buyerrefundmetadata). |
-| `organization` | Optional | [ExpandedOrganizationSummary](../models/ExpandedOrganizationSummary.md#expandedorganizationsummary) or null |  |
+| `organization` | Optional | [ExpandedOrganizationSummary](../models/ExpandedOrganizationSummary.md#expandedorganizationsummary) or null | Present only when `expand` includes `organization`; `null` when expanded and there is no related organization. |
 | `organization_id` | Required | string | The organization this merchant belongs to. Flint creates it with the merchant, and it can't be changed through the API. |
 | `phone` | Optional | string |  |
 | `readiness` | Required | [MerchantReadiness](../models/MerchantReadiness.md#merchantreadiness) | A merchant's readiness to accept payments and receive payouts, with per-capability status and outstanding requirements. |
@@ -34,7 +34,7 @@ The business accepting payments.
 | `support_phone` | Optional | string |  |
 | `support_url` | Optional | string |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `version` | Required | integer | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. Format: `int64`. minimum: `1`. |
 | `website_url` | Optional | string |  |
 
 ### Merchant.metadata

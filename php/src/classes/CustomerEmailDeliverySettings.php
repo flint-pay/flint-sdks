@@ -12,32 +12,32 @@ namespace Flint;
 final class CustomerEmailDeliverySettings extends Model {
     /** @param array{'dunning'?: string, 'fulfillment_updates'?: string, 'invoices'?: string, 'order_receipts'?: string, 'returns'?: string, 'subscription_lifecycle'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerEmailDeliverySettings')); }
-    /** Shape $ (Value): string.  Value enum: "flint_sends", "merchant_sends".
+    /** Value enum: "flint_sends", "merchant_sends".
      * @return ?string
      */
     public function getDunning(): ?string { return $this->get('dunning'); }
     public function hasDunning(): bool { return $this->has('dunning'); }
-    /** Shape $ (Value): string.  Value enum: "flint_sends", "merchant_sends".
+    /** Value enum: "flint_sends", "merchant_sends".
      * @return ?string
      */
     public function getFulfillmentUpdates(): ?string { return $this->get('fulfillment_updates'); }
     public function hasFulfillmentUpdates(): bool { return $this->has('fulfillment_updates'); }
-    /** Shape $ (Value): string.  Value enum: "flint_sends", "merchant_sends".
+    /** Value enum: "flint_sends", "merchant_sends".
      * @return ?string
      */
     public function getInvoices(): ?string { return $this->get('invoices'); }
     public function hasInvoices(): bool { return $this->has('invoices'); }
-    /** Shape $ (Value): string.  Value enum: "flint_sends", "merchant_sends".
+    /** Value enum: "flint_sends", "merchant_sends".
      * @return ?string
      */
     public function getOrderReceipts(): ?string { return $this->get('order_receipts'); }
     public function hasOrderReceipts(): bool { return $this->has('order_receipts'); }
-    /** Shape $ (Value): string.  Value enum: "flint_sends", "merchant_sends".
+    /** Value enum: "flint_sends", "merchant_sends".
      * @return ?string
      */
     public function getReturns(): ?string { return $this->get('returns'); }
     public function hasReturns(): bool { return $this->has('returns'); }
-    /** Shape $ (Value): string.  Value enum: "flint_sends", "merchant_sends".
+    /** Value enum: "flint_sends", "merchant_sends".
      * @return ?string
      */
     public function getSubscriptionLifecycle(): ?string { return $this->get('subscription_lifecycle'); }

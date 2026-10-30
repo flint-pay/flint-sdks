@@ -20,7 +20,7 @@ Response model.
 | `eligibility_rules` | Optional | Alternative shapes (see declared variants) | Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups. `eligibility_rules`: [declared alternatives](../models/Promotion.md#promotioneligibility_rules). |
 | `exclusivity` | Optional | [PromotionExclusivity](../models/PromotionExclusivity.md#promotionexclusivity) | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `max_uses` | Optional | integer string | Maximum number of redemptions across all codes and automatic applications. Omitted when there is no redemption limit. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `max_uses` | Optional | integer | Maximum number of redemptions across all codes and automatic applications. Omitted when there is no redemption limit. Format: `int64`. |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns the promotion. |
 | `metadata` | Optional | Map of string | Key-value data you attach to the promotion. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Promotion.md#promotionmetadata). |
 | `name` | Required | string | Internal promotion name for dashboards, searching, and reporting. |
@@ -30,8 +30,8 @@ Response model.
 | `status` | Required | string | Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `unavailable_reason` | Optional | string | Why available is false. Present only when available is false. Values: `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. |
 | `updated_at` | Optional | string | When the promotion was last updated, as an RFC3339 timestamp. Format: `date-time`. |
-| `uses_count` | Required | integer string | Number of times the promotion has been redeemed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `version` | Required | integer string | Persisted owned-state version. Clock-based availability and expanded resources do not advance this counter. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `uses_count` | Required | integer | Number of times the promotion has been redeemed. Format: `int64`. |
+| `version` | Required | integer | Persisted owned-state version. Clock-based availability and expanded resources do not advance this counter. Format: `uint64`. minimum: `1`. |
 
 ### Promotion.application_method
 
@@ -57,7 +57,7 @@ Discount effect and how it applies to eligible items or charges. A flat applicat
 
 ### Promotion.application_method variant 1: `type` = `"percent_off"`
 
-oneOf variant 1: The `percent_off` variant of `PromotionApplicationMethod`..
+oneOf with type: "percent_off": The `percent_off` variant of `PromotionApplicationMethod`..
 
 - Required: `percent_off`.
 - Optional: `discounted_item_rules`, `max_discounted_quantity`.
@@ -66,7 +66,7 @@ oneOf variant 1: The `percent_off` variant of `PromotionApplicationMethod`..
 
 ### Promotion.application_method variant 2: `type` = `"amount_off"`
 
-oneOf variant 2: The `amount_off` variant of `PromotionApplicationMethod`..
+oneOf with type: "amount_off": The `amount_off` variant of `PromotionApplicationMethod`..
 
 - Required: `amount_off_money`.
 - Optional: `currency_options`, `discounted_item_rules`.
@@ -75,7 +75,7 @@ oneOf variant 2: The `amount_off` variant of `PromotionApplicationMethod`..
 
 ### Promotion.application_method variant 3: `type` = `"buy_x_get_y"`
 
-oneOf variant 3: The `buy_x_get_y` variant of `PromotionApplicationMethod`..
+oneOf with type: "buy_x_get_y": The `buy_x_get_y` variant of `PromotionApplicationMethod`..
 
 - Required: `buy_min_quantity`, `discounted_item_rules`, `get_percent_off`, `get_quantity`, `qualifying_item_rules`.
 - Optional: `max_applications_per_order`, `reward_selection`.
@@ -102,14 +102,14 @@ Field definitions: [shared fields](PromotionApplicationMethodPercentOff.md#promo
 
 ### Promotion.eligibility_rules variant 1
 
-oneOf variant 1.
+oneOf All.
 
 - Required: `all`.
 - Undeclared: `any`.
 
 ### Promotion.eligibility_rules variant 2
 
-oneOf variant 2.
+oneOf Any.
 
 - Required: `any`.
 - Undeclared: `all`.

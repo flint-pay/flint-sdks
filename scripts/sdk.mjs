@@ -81,7 +81,9 @@ function cli(action, ...argv) {
 }
 function generate(check = false) {
   verifyInputs();
-  run(process.execPath, ["scripts/baseline.mjs"], { stdio: "inherit" });
+  run(process.execPath, ["--max-old-space-size=8192", "scripts/baseline.mjs"], {
+    stdio: "inherit",
+  });
   const report = cli("generate", "spec/openapi.json", "sdk.json", output);
   const desired = publishedFiles(output);
   const previous = existsSync("sdk-files.json") ? json("sdk-files.json") : {};

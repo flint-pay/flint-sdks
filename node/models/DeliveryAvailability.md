@@ -13,7 +13,7 @@
 | `blackout_intervals` | Optional | Array of [DeliveryBlackoutInterval](../models/DeliveryBlackoutInterval.md#deliveryblackoutinterval) | `blackout_intervals[]`: [field definitions](../models/DeliveryAvailability.md#deliveryavailability-variant-1blackout_intervals), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityblackout_intervals). |
 | `dst_disambiguation` | Optional | string | Default: `"earlier"`. Values: `"earlier"`, `"later"`. |
 | `maximum_scheduling_horizon_days` | Required | integer |  |
-| `preparation_lead_time_seconds` | Required | integer string | Notice the merchant needs before a window starts, in seconds. A buyer can choose a window until this long before it starts. Quotes offer only windows that can still be chosen, so a window already under way is not offered. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `preparation_lead_time_seconds` | Required | integer | Notice the merchant needs before a window starts, in seconds. A buyer can choose a window until this long before it starts. Quotes offer only windows that can still be chosen, so a window already under way is not offered. Format: `int64`. |
 | `same_day_cutoff_minute` | Optional | integer |  |
 | `timezone` | Required | string | minLength: `1`. |
 | `weekly_intervals` | Required | Array of [DeliveryWeeklyInterval](../models/DeliveryWeeklyInterval.md#deliveryweeklyinterval) | `weekly_intervals[]`: [field definitions](../models/DeliveryAvailability.md#deliveryavailability-variant-1weekly_intervals), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityweekly_intervals). |
@@ -26,7 +26,7 @@ No additional constraints.
 
 ### DeliveryAvailability variant 2
 
-anyOf variant 2: Declared schema DeliveryAvailabilityRequestRequest. When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book..
+anyOf variant 2: Declared schema DeliveryAvailabilityRequest. When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book..
 
 No additional constraints.
 

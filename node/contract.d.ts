@@ -5,6 +5,8 @@ export type Json = null | boolean | number | string | Json[] | {
     [key: string]: Json;
 };
 export type Schema = {
+    'x-sdk-integer-mode'?: 'number' | 'exact';
+    'x-sdk-query-array-items'?: Schema;
     'x-sdk-ref'?: string;
     /** Source component name for Node declarations; codecs retain their shared reference. */
     'x-sdk-type-name'?: string;
@@ -53,6 +55,7 @@ export type Schema = {
 };
 export interface Parameter {
     'x-flint-request-option'?: string;
+    description?: string;
     name: string;
     in: 'path' | 'query' | 'header';
     required?: boolean;
@@ -72,7 +75,12 @@ export interface Retry {
     baseDelayMs: number;
     maxDelayMs?: number;
 }
+export interface OperationDefaults {
+    timeoutMs?: number;
+    deadlineMs?: number;
+}
 export interface Capability {
+    defaults?: OperationDefaults;
     request?: RequestStyle;
     response?: ResponseReturn;
     stream?: {
@@ -81,6 +89,7 @@ export interface Capability {
         maxEventBytes?: number;
     };
     requestMediaType?: string;
+    namingReason?: string;
     resource?: string;
     method?: string;
     audiences?: string[];
@@ -110,6 +119,11 @@ export interface Capability {
         header: string;
     };
     example?: Record<string, unknown>;
+    exampleIdempotencyKey?: {
+        prefix: string;
+        variable: string;
+        example: string;
+    };
     deprecated?: string;
 }
 export interface Operation extends Capability {
@@ -196,14 +210,35 @@ export type Webhook = WebhookSigning & {
     typeField: string;
 };
 type DefaultCapability = 'idempotency' | 'retry' | 'pagination';
-export type CapabilityOverride = Omit<Capability, DefaultCapability>
+export type CapabilityOverride = Omit<Capability, DefaultCapability | 'request'>
+    & {
+    request?: {
+        style?: 'positional';
+    };
+}
     & {
     [K in DefaultCapability]?: {
         [P in keyof NonNullable<Capability[K]>]?: NonNullable<Capability[K]>[P] | null;
     }
         | false;
 };
+export type ErrorField = 'code'
+    | 'message'
+    | 'type'
+    | 'param'
+    | 'details'
+    | 'remediation'
+    | 'errorSource'
+    | 'docUrl'
+    | 'requestId'
+    | 'requestLogUrl';
 export interface Config {
+    integers?: 'exact' | 'number' | {
+        mode: 'exact' | 'number';
+        exactComponents?: string[];
+    };
+    operationNames?: 'tags' | 'path';
+    queryArrays?: 'scalar-or-array';
     $schema?: string;
     defaults?: {
         [K in DefaultCapability]?: Partial<NonNullable<Capability[K]>>;
@@ -260,13 +295,13 @@ export interface Config {
     };
     license?: string;
     errors?: {
-        codePath?: string;
+        objectPath?: string;
+        fields?: Partial<Record<ErrorField, string>>;
+        inProgressCodes?: string[];
         retry?: {
             path: string;
             retryValues: string[];
         };
-        messagePath?: string;
-        detailsPath?: string;
         requestIdHeader?: string;
     };
     documentation?: {
@@ -275,6 +310,21 @@ export interface Config {
         examples?: string[];
         /** Auth shortcut shown in README and operation examples where the operation permits it. */
         authShortcut?: string;
+        /** Noun phrase naming the described API in generated prose. Defaults to "the API". */
+        apiName?: string;
+        /**
+         * Absolute HTTPS URL template for each operation's `@see` link. Placeholders:
+         * `{operationId}`,
+         * `{tag}` (the operation's first OpenAPI tag) and `{tagSlug}` (that tag looked up in
+         * `tagSlugs`).
+         */
+        operationUrl?: string;
+        /**
+         * OpenAPI tag to documentation slug. Required for `{tagSlug}`; every included tag must be
+         * mapped.
+         */
+        tagSlugs?: Record<string, string>;
+        exampleValues?: Record<string, string>;
     };
     release?: {
         baseUrl?: string;
@@ -282,6 +332,8 @@ export interface Config {
     };
 }
 export interface Contract {
+    webhookTypeNames?: Record<string, string>;
+    webhookAudienceModels?: string[];
     /** Private compatibility proof captured before reference/composition inlining. */
     schemaUsage?: {
         fingerprint: string;
@@ -296,6 +348,8 @@ export interface Contract {
         schemas: string[];
     };
     defaultBaseUrl?: string;
+    /** Absolute documentation URL per operation ID, from `documentation.operationUrl`. */
+    referenceUrls?: Record<string, string>;
     title: string;
     apiVersion: string;
     operations: Operation[];

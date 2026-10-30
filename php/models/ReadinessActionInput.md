@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action_type` | Required | string | Values: [8 declared values](#readinessactioninput-action_type-values). |
-| `merchant_account_session` | Optional | [ReadinessMerchantAccountSessionInput](../models/ReadinessMerchantAccountSessionInput.md#readinessmerchantaccountsessioninput) | Settings for the merchant account session a `ReadinessAction` calls for: which components to show and which requirements to collect. |
+| `merchant_account_session` | Optional | [ReadinessMerchantAccountSessionInput](../models/ReadinessMerchantAccountSessionInput.md#readinessmerchantaccountsessioninput) | Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect. |
 | `owner` | Required | string | Values: `"integrator"`, `"merchant"`, `"flint"`. |
 | `required_fields` | Optional | Array of string |  |
 

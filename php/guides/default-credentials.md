@@ -1,8 +1,8 @@
-<!-- Package 7.0.0; API 2026-09-07 -->
+<!-- Package 8.0.0-beta.1; API 2026-09-07 -->
 
 # Default credentials
 
-The client discovers merchant credentials when no explicit credential is supplied. Set `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, or use workload identity. Setting both credential variables fails with `ambiguous_credentials`. Explicit credentials take precedence. Anonymous and buyer-scoped calls retain their existing authentication rules.
+The client discovers merchant credentials only when no credential option is passed on the client or request. Passing an empty credential, including `undefined` or `null`, fails with `ConfigurationError` (`credential_missing`) before sending. Set `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, or use workload identity. Setting both credential variables fails with `credential_conflict`. Explicit credentials take precedence. Anonymous and buyer-scoped calls retain their existing authentication rules.
 
 ## GitHub Actions
 
@@ -12,20 +12,18 @@ Node:
 
 ```js
 import { Client } from '@flintpay/node';
-const client = new Client({ baseUrl: 'https://api.staging.withflintpay.com' });
-const context = await client.developer.getAuthContext();
+const client = new Client();
+const context = await client.authContext.get();
 ```
 
 PHP:
 
 ```php
-$client = new \Flint\Client(new \Flint\ClientOptions(
-    baseUrl: 'https://api.staging.withflintpay.com',
-));
-$context = $client->developer->getAuthContext();
+$client = new \Flint\Client(new \Flint\ClientOptions());
+$context = $client->authContext->get();
 ```
 
-The default API URL is production. Choose staging explicitly when testing.
+The default API URL serves sandbox and live mode. Use a `flint_test_` key for your sandbox and a `flint_live_` key for live mode.
 
 ## Other token sources
 
@@ -38,3 +36,14 @@ The SDK validates the subject token audience and expiry before exchange. Access 
 Node exports `defaultCredentials()` and `workloadIdentityCredentials({ workloadIdentityId, source, audience, scope })`. PHP exposes the same functions in the `Flint` namespace and accepts an options array for `workloadIdentityCredentials`. Pass a provider through `apiKey` or a named bearer credential.
 
 For an app that serves multiple merchants, set `ambientCredentials: false` and pass each merchant's credentials explicitly. This prevents missing tenant credentials from using the app's own environment. The option disables automatic discovery; an explicitly supplied provider still runs.
+
+```js
+const client = new Client({ ambientCredentials: false });
+await client.orders.list(undefined, { apiKey: tenant.flintKey });
+```
+
+```php
+$client = new \Flint\Client(new \Flint\ClientOptions(ambientCredentials: false));
+$client->orders->list(null, new \Flint\RequestOptions(apiKey: $tenant->flintKey));
+```
+

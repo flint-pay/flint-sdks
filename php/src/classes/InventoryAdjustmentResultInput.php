@@ -8,13 +8,13 @@ namespace Flint;
 final class InventoryAdjustmentResultInput extends Model {
     /** @param array{'inventory_adjustment': InventoryAdjustmentInput|array<array-key, mixed>|\stdClass, 'inventory_levels': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentResultInput')); }
-    /** Shape $ (Value): {@see InventoryAdjustmentInput}. A recorded stock change with its reason and the quantity changes Flint computed.
+    /** A recorded stock change with its reason and the quantity changes Flint computed.
      * @return InventoryAdjustmentInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_adjustment is omitted; use hasInventoryAdjustment() or valueOrDefault().
      */
     public function getInventoryAdjustment(): mixed { return $this->get('inventory_adjustment'); }
     public function hasInventoryAdjustment(): bool { return $this->has('inventory_adjustment'); }
-    /** Shape $ (Value): Array of {@see InventoryLevelInput}. Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. Shape $[] (Value): {@see InventoryLevelInput}. The quantity state of one inventory item at one Location.
+    /** Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. [] (Value): {@see InventoryLevelInput}. The quantity state of one inventory item at one Location.
      * @return list<InventoryLevelInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When inventory_levels is omitted; use hasInventoryLevels() or valueOrDefault().
      */

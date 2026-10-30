@@ -26,5 +26,5 @@ Request input.
 | `superseded_by_return_receipt_id` | Optional | string |  |
 | `supersedes_return_receipt_id` | Optional | string |  |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `version` | Required | integer | Format: `int64`. minimum: `1`. |
 

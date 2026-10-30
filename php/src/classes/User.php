@@ -14,42 +14,42 @@ namespace Flint;
 final class User extends Model {
     /** @param array{'created_at'?: string, 'default_merchant_id'?: string, 'email': string, 'first_name': string, 'last_name': string, 'status': string, 'updated_at'?: string, 'user_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('User')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
+    /** default_merchant_id
      * @return ?string
      */
     public function getDefaultMerchantId(): ?string { return $this->get('default_merchant_id'); }
     public function hasDefaultMerchantId(): bool { return $this->has('default_merchant_id'); }
-    /** Shape $ (Value): string.
+    /** email
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string.
+    /** first_name
      * @return string
      */
     public function getFirstName(): string { return $this->get('first_name'); }
     public function hasFirstName(): bool { return $this->has('first_name'); }
-    /** Shape $ (Value): string.
+    /** last_name
      * @return string
      */
     public function getLastName(): string { return $this->get('last_name'); }
     public function hasLastName(): bool { return $this->has('last_name'); }
-    /** Shape $ (Value): string.  Value enum: "active", "deactivated".
+    /** Value enum: "active", "deactivated".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): string.
+    /** user_id
      * @return string
      */
     public function getUserId(): string { return $this->get('user_id'); }

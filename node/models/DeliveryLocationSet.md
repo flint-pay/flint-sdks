@@ -19,7 +19,7 @@ The locations available to a delivery method.
 | `name` | Required | string | Merchant-facing location set name. |
 | `status` | Required | string | Current location set lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the location set last changed. Format: `date-time`. |
-| `version` | Required | integer string | Optimistic-concurrency version for location set writes. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Optimistic-concurrency version for location set writes. Format: `uint64`. minimum: `1`. |
 
 ### DeliveryLocationSet.metadata
 

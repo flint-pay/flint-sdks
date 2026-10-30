@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `description` | Required | string |  |
-| `optional` | Optional | boolean |  |
+| `optional` | Optional | boolean | Whether the merchant can decline this permission when they approve the install. Defaults to false: the permission is required and is always granted. |
 | `permission_id` | Required | string |  |
 | `required_scopes` | Required | Array of string |  |
 | `title` | Required | string |  |
@@ -27,7 +27,7 @@ anyOf variant 1: Declared schema PartnerAppPermissionManifestEntry. One permissi
 
 ### PartnerAppPermissionManifestEntry variant 2
 
-anyOf variant 2: Declared schema PartnerAppPermissionManifestEntryRequestRequest. One permission a partner app can request, with a title, a description, and the Flint scopes it grants..
+anyOf variant 2: Declared schema PartnerAppPermissionManifestEntryRequest. One permission a partner app can request, with a title, a description, and the Flint scopes it grants..
 
 - Constraints for `description`: minLength: `1`.
 - Constraints for `permission_id`: minLength: `1`.
@@ -38,5 +38,8 @@ anyOf variant 2: Declared schema PartnerAppPermissionManifestEntryRequestRequest
 
 anyOf variant 3: Declared schema PartnerAuthorizePreviewPermission. One permission a partner app requests during authorization, with its title, description, and required scopes..
 
-- Constraints for `required_scopes`: Flint API scopes this permission grants. Flint defines them; the title and description come from the partner app.
+- Constraints for `description`: What the permission lets the app do, from the app's permission manifest.
+- Constraints for `permission_id`: ID of the permission in the app's permission manifest. Send it in the scope parameter to request this permission.
+- Constraints for `required_scopes`: Flint API scopes this permission grants, sorted. Flint defines them; the title and description come from the partner app.
+- Constraints for `title`: Short name of the permission, from the app's permission manifest.
 

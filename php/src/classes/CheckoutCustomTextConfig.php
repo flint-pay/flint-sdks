@@ -8,12 +8,12 @@ namespace Flint;
 final class CheckoutCustomTextConfig extends Model {
     /** @param array{'order_summary_message'?: string, 'shipping_address_label'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutCustomTextConfig')); }
-    /** Shape $ (Value): string.
+    /** order_summary_message
      * @return ?string
      */
     public function getOrderSummaryMessage(): ?string { return $this->get('order_summary_message'); }
     public function hasOrderSummaryMessage(): bool { return $this->has('order_summary_message'); }
-    /** Shape $ (Value): string.
+    /** shipping_address_label
      * @return ?string
      */
     public function getShippingAddressLabel(): ?string { return $this->get('shipping_address_label'); }

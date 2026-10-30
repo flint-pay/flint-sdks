@@ -20,7 +20,7 @@ Request input.
 | `completion_reason` | Optional | string | Values: `"manual_completion"`, `"exception_waived"`, `"other"`. |
 | `completion_reason_message` | Optional | string |  |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null |  |
+| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string |  |
 | `decision_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `decision_status` | Required | string | Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
@@ -31,7 +31,7 @@ Request input.
 | `line_items` | Required | Array of [ReturnLineItemInput](../models/ReturnLineItemInput.md#returnlineiteminput) |  |
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#returnresourceinput-merchandise_status-values). |
 | `metadata` | Required | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
-| `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null |  |
+| `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Optional | [ReturnPolicyEvaluationInput](../models/ReturnPolicyEvaluationInput.md#returnpolicyevaluationinput) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. |
 | `resolution_status` | Required | string | Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
@@ -50,7 +50,7 @@ Request input.
 | `status` | Required | string | Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Items values: `"cancel"`, `"complete"`, `"decide"`, `"reopen"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `version` | Required | integer | Format: `int64`. minimum: `0`. |
 
 #### ReturnResourceInput merchandise_status values
 

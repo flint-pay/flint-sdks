@@ -1,0 +1,8 @@
+{
+  "authorizeCLIDevice": "CLI browser authorization uses an application/x-www-form-urlencoded request body, which the generator does not support.",
+  "exchangeOAuthToken": "OAuth token exchange uses an application/x-www-form-urlencoded request body, which the generator does not support.",
+  "listCLIContexts": "CLI context selection uses an application/x-www-form-urlencoded request body, which the generator does not support.",
+  "reauthorizeCLIDevice": "CLI consent renewal uses an application/x-www-form-urlencoded request body, which the generator does not support.",
+  "revokeOAuthToken": "OAuth token revocation uses an application/x-www-form-urlencoded request body, which the generator does not support.",
+  "authorizePartnerInstall": "Browser redirect to the partner consent screen; API calls cannot complete browser authorization."
+}

@@ -1,0 +1,13 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem
+
+The quantity of one inventory item that each unit of a draft order line item uses, supplied when creating the line item.
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_item_id` | Required | string | minLength: `1`. |
+| `quantity_per_line_item_unit` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `1`. maximum: `9999`. |
+

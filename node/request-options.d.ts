@@ -3,7 +3,7 @@ import { type CodecPlan } from './codec-plan.js';
 export declare const REQUEST_OPTIONS: {
     readonly client_request_id: {
         readonly node: "clientRequestId";
-        readonly php: "client_request_id";
+        readonly php: "clientRequestId";
         readonly codec: {
             readonly value: {
                 readonly kind: "string";
@@ -16,6 +16,7 @@ export declare const REQUEST_OPTIONS: {
             };
             readonly phpPattern: "~^[\\x21-\\x7E]+(?![\\s\\S])~uD";
             readonly constraints: true;
+            readonly label?: string;
             readonly objectOnlyAlternative?: boolean;
             readonly nullableAlternative?: 0 | 1;
             readonly modelObjectInput: boolean;
@@ -56,7 +57,7 @@ export type RequestOptionName = keyof typeof REQUEST_OPTIONS;
 export type RequestOptionValues = Partial<Record<(typeof REQUEST_OPTIONS)[RequestOptionName]['node'], string>>;
 export declare function requestOption(value: unknown, path: string): {
     readonly node: "clientRequestId";
-    readonly php: "client_request_id";
+    readonly php: "clientRequestId";
     readonly codec: {
         readonly value: {
             readonly kind: "string";
@@ -69,6 +70,7 @@ export declare function requestOption(value: unknown, path: string): {
         };
         readonly phpPattern: "~^[\\x21-\\x7E]+(?![\\s\\S])~uD";
         readonly constraints: true;
+        readonly label?: string;
         readonly objectOnlyAlternative?: boolean;
         readonly nullableAlternative?: 0 | 1;
         readonly modelObjectInput: boolean;

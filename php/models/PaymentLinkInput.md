@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_fields` | Optional | [CheckoutBuyerFieldsInput](../models/CheckoutBuyerFieldsInput.md#checkoutbuyerfieldsinput) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
-| `checkout_session_expires_in_seconds` | Optional | integer string | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
+| `checkout_session_expires_in_seconds` | Optional | integer | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `completed_count` | Required | integer | Format: `int32`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `custom_fields` | Optional | Array of [PaymentLinkCustomFieldInput](../models/PaymentLinkCustomFieldInput.md#paymentlinkcustomfieldinput) |  |
@@ -38,7 +38,7 @@ Request input.
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve returns PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. |
 | `sales_summary` | Optional | [PaymentLinkSalesSummaryInput](../models/PaymentLinkSalesSummaryInput.md#paymentlinksalessummaryinput) | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. Paid-order sales totals for a payment link, computed on request. Paid means the order's collection has completed. Fully and partially refunded orders still count, and paid_totals reports the amount collected before refunds. Each order counts once even if it has multiple checkout sessions. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
-| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryInput](../models/ExpandedSubscriptionPlanSummaryInput.md#expandedsubscriptionplansummaryinput) or null |  |
+| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryInput](../models/ExpandedSubscriptionPlanSummaryInput.md#expandedsubscriptionplansummaryinput) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
 | `subscription_plan_id` | Optional | string |  |
 | `tax` | Optional | [CheckoutTaxConfigInput](../models/CheckoutTaxConfigInput.md#checkouttaxconfiginput) | Whether tax is collected for a checkout session or payment link. |
 | `theme` | Optional | [ThemeConfigInput](../models/ThemeConfigInput.md#themeconfiginput) | Colors and title applied to a payment link's checkout page. |
@@ -46,5 +46,5 @@ Request input.
 | `total_quantity_sold` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Required | string |  |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 

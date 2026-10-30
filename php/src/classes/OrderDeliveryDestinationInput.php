@@ -11,31 +11,31 @@ namespace Flint;
 final class OrderDeliveryDestinationInput extends Model {
     /** @param array{'address': AddressInput|array<array-key, mixed>|\stdClass, 'delivery_selection_id'?: string, 'frozen_at'?: string|\DateTimeInterface, 'recipient'?: OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass, 'source': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationInput')); }
-    /** Shape $ (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Shape $ (Value): string. Delivery selection that controls this destination, when checkout collected it.
+    /** Delivery selection that controls this destination, when checkout collected it.
      * @return string
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): string { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Shape $ (Value): string. Time payment froze this destination. Format: date-time.
+    /** Time payment froze this destination. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When frozen_at is omitted; use hasFrozenAt() or valueOrDefault().
      */
     public function getFrozenAt(): string|\DateTimeInterface { return $this->get('frozen_at'); }
     public function hasFrozenAt(): bool { return $this->has('frozen_at'); }
-    /** Shape $ (Value): {@see OrderDeliveryDestinationRecipientInput}. The name and phone number of the person receiving an order delivery.
+    /** The name and phone number of the person receiving an order delivery.
      * @return OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Shape $ (Value): string.  Value enum: "delivery_selection", "api", "dashboard".
+    /** Value enum: "delivery_selection", "api", "dashboard".
      * @return string
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */

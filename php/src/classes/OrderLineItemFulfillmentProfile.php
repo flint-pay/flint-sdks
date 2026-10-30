@@ -8,12 +8,12 @@ namespace Flint;
 final class OrderLineItemFulfillmentProfile extends Model {
     /** @param array{'allowed_types': list<string>, 'requirement': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemFulfillmentProfile')); }
-    /** Shape $ (Value): Array of string. Fulfillment types allowed for this item. Empty when fulfillment is not required. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". Shape $[] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** Fulfillment types allowed for this item. Empty when fulfillment is not required. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      * @return list<string>
      */
     public function getAllowedTypes(): array { return $this->get('allowed_types'); }
     public function hasAllowedTypes(): bool { return $this->has('allowed_types'); }
-    /** Shape $ (Value): string. Whether this item requires fulfillment. Value enum: "none", "required".
+    /** Whether this item requires fulfillment. Value enum: "none", "required".
      * @return string
      */
     public function getRequirement(): string { return $this->get('requirement'); }

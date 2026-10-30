@@ -13,7 +13,7 @@ Update at least one of registration_number, start_date or end_date. Pending and 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `end_date` | Conditional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Omit to apply the change to the current resource. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
 | `registration_number` | Conditional | string | Seller's tax registration number. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Conditional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 

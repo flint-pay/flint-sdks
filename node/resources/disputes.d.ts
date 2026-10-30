@@ -1,24 +1,24 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { Dispute } from '../declarations/types-17.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
+    Dispute,
     DisputeListResponse,
     DisputeResponse,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
-    DisputesAcceptInput,
-    DisputesCreateResponseSessionInput,
-    DisputesGetInput,
-    DisputesListInput
-} from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    DisputesAcceptParams,
+    DisputesCreateResponseSessionParams,
+    DisputesGetParams,
+    DisputesListParams,
+    DisputesSimulateParams
+} from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -28,35 +28,36 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
-export type { Dispute } from '../declarations/types-17.js';
-export type { SdkResponse } from '../declarations/types-46.js';
 export type {
+    DisputesAcceptParams,
+    Dispute,
     DisputeResponse,
+    DisputesCreateResponseSessionParams,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
+    DisputesGetParams,
+    DisputesListParams,
     DisputeListResponse,
-    DisputesAcceptInput,
-    DisputesCreateResponseSessionInput,
-    DisputesGetInput,
-    DisputesListInput,
-    ExpandedCustomerSummary,
-    ExpandedOrderSummary,
-    ExpandedPaymentIntentSummary,
+    DisputesSimulateParams,
     DisputeResponseSessionClientSession,
     DisputeResponseSessionStripe,
     DisputeResponseSessionStripeAccountSession,
     DisputeResponseSessionStripeComponent
-} from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
+} from '../declarations/types-20.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
-export type { PricingAmounts, PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-39.js';
-export type { SettlementAmounts } from '../declarations/types-47.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { MoneyValue, NextAction } from '../declarations/types-35.js';
+export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-21.js';
+export type { CheckoutBuyerContact } from '../declarations/types-4.js';
+export type { PricingAmounts, PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-43.js';
+export type { SettlementAmounts, SimulateDisputeRequestInput } from '../declarations/types-53.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeSimulateDisputeRequest } from '../declarations/types-72.js';
 export interface DisputesResource {
     /**
  * Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The
@@ -65,277 +66,88 @@ export interface DisputesResource {
  * payment or respond with evidence instead. Accepting can't be undone. Requires
  * `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the
  * same `Idempotency-Key`, or read the dispute: `status: lost` means it was accepted.
- * @see reference/disputes.md#disputesaccept
- * POST /v1/disputes/{dispute_id}/accept
+ *
+ * `POST /v1/disputes/{dispute_id}/accept`
+ * @param dispute_id Flint dispute ID.
+ * @see https://developers.withflintpay.com/docs/api/disputes#acceptDispute
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.disputes.accept("example", {}, { idempotencyKey: idempotencyKey })
+ * client.disputes.accept("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    accept(dispute_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Dispute>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/disputes.md#disputesaccept
-     */
-    acceptWithResponse(dispute_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DisputeResponse>>;
+    accept(dispute_id: InputValue<string>, params?: DisputesAcceptParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Dispute, DisputeResponse>>;
     /**
  * Creates a browser session for responding to or viewing a dispute with Stripe Connect. Requires
  * payments.disputes.write. Allowed for closed disputes; bank returns cannot be contested. Pass the
  * returned payment to setPayment or the React payment prop. Each completed retry creates a fresh
  * single-use client secret. Keep your API key on your server.
- * @see reference/disputes.md#disputescreateresponsesession
- * POST /v1/disputes/{dispute_id}/response-sessions
+ *
+ * `POST /v1/disputes/{dispute_id}/response-sessions`
+ * @param dispute_id Flint dispute ID.
+ * @see https://developers.withflintpay.com/docs/api/disputes#createDisputeResponseSession
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.disputes.createResponseSession("example", {}, { idempotencyKey: idempotencyKey })
+ * client.disputes.createResponseSession("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    createResponseSession(dispute_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<DisputeResponseSession>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/disputes.md#disputescreateresponsesession
-     */
-    createResponseSessionWithResponse(dispute_id: InputValue<string>, params?: {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DisputeResponseSessionResponse>>;
+    createResponseSession(dispute_id: InputValue<string>, params?: DisputesCreateResponseSessionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DisputeResponseSession, DisputeResponseSessionResponse>>;
     /**
  * Returns one dispute by ID, with optional customer, order, and payment intent expansions.
- * @see reference/disputes.md#disputesget
- * GET /v1/disputes/{dispute_id}
+ *
+ * `GET /v1/disputes/{dispute_id}`
+ * @param dispute_id Flint dispute ID.
+ * @see https://developers.withflintpay.com/docs/api/disputes#getDispute
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.disputes.get("example")
+ * client.disputes.get("du_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(dispute_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Dispute>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/disputes.md#disputesget
-     */
-    getWithResponse(dispute_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DisputeResponse>>;
+    get(dispute_id: InputValue<string>, params?: DisputesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Dispute, DisputeResponse>>;
     /**
  * Returns a paginated list of disputes for the authenticated merchant with optional payment,
  * customer, status, reason, case type, action required, and timing filters. Defaults to created_at
  * descending. The amount sort compares amount_money.amount in minor units. The evidence_due_at
  * sort places disputes without deadlines last in either direction. Default order: created_at
  * descending, then dispute_id descending.
- * @see reference/disputes.md#disputeslist
- * GET /v1/disputes
+ *
+ * `GET /v1/disputes`
+ * @see https://developers.withflintpay.com/docs/api/disputes#listDisputes
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.disputes.list()
  */
-    list(params?: {
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "customer_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"inquiry_needs_response"
-            | "inquiry_under_review"
-            | "inquiry_closed"
-            | "needs_response"
-            | "under_review"
-            | "won"
-            | "lost"
-            | "prevented"
-            | "other">>;
-        "reason"?: InputValue<Array<"fraudulent"
-            | "unrecognized"
-            | "duplicate"
-            | "product_not_received"
-            | "product_not_as_described"
-            | "refund_not_processed"
-            | "subscription_canceled"
-            | "noncompliant"
-            | "insufficient_funds"
-            | "debit_not_authorized"
-            | "bank_account_not_found"
-            | "other">>;
-        "case_type"?: InputValue<Array<"inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return">>;
-        "is_action_required"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "evidence_due_after"?: InputValue<string | globalThis.Date>;
-        "evidence_due_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DisputeListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/disputes.md#disputeslist
-     */
-    listWithResponse(params?: {
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "customer_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"inquiry_needs_response"
-            | "inquiry_under_review"
-            | "inquiry_closed"
-            | "needs_response"
-            | "under_review"
-            | "won"
-            | "lost"
-            | "prevented"
-            | "other">>;
-        "reason"?: InputValue<Array<"fraudulent"
-            | "unrecognized"
-            | "duplicate"
-            | "product_not_received"
-            | "product_not_as_described"
-            | "refund_not_processed"
-            | "subscription_canceled"
-            | "noncompliant"
-            | "insufficient_funds"
-            | "debit_not_authorized"
-            | "bank_account_not_found"
-            | "other">>;
-        "case_type"?: InputValue<Array<"inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return">>;
-        "is_action_required"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "evidence_due_after"?: InputValue<string | globalThis.Date>;
-        "evidence_due_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DisputeListResponse>>;
+    list(params?: DisputesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DisputeListResponse, DisputeListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/disputes.md#disputeslist
+     * @see https://developers.withflintpay.com/docs/api/disputes#listDisputes
      */
-    listPages(params?: {
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "customer_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"inquiry_needs_response"
-            | "inquiry_under_review"
-            | "inquiry_closed"
-            | "needs_response"
-            | "under_review"
-            | "won"
-            | "lost"
-            | "prevented"
-            | "other">>;
-        "reason"?: InputValue<Array<"fraudulent"
-            | "unrecognized"
-            | "duplicate"
-            | "product_not_received"
-            | "product_not_as_described"
-            | "refund_not_processed"
-            | "subscription_canceled"
-            | "noncompliant"
-            | "insufficient_funds"
-            | "debit_not_authorized"
-            | "bank_account_not_found"
-            | "other">>;
-        "case_type"?: InputValue<Array<"inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return">>;
-        "is_action_required"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "evidence_due_after"?: InputValue<string | globalThis.Date>;
-        "evidence_due_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DisputeListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/disputes.md#disputeslist
-     */
-    listPagesWithResponse(params?: {
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "customer_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"inquiry_needs_response"
-            | "inquiry_under_review"
-            | "inquiry_closed"
-            | "needs_response"
-            | "under_review"
-            | "won"
-            | "lost"
-            | "prevented"
-            | "other">>;
-        "reason"?: InputValue<Array<"fraudulent"
-            | "unrecognized"
-            | "duplicate"
-            | "product_not_received"
-            | "product_not_as_described"
-            | "refund_not_processed"
-            | "subscription_canceled"
-            | "noncompliant"
-            | "insufficient_funds"
-            | "debit_not_authorized"
-            | "bank_account_not_found"
-            | "other">>;
-        "case_type"?: InputValue<Array<"inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return">>;
-        "is_action_required"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "evidence_due_after"?: InputValue<string | globalThis.Date>;
-        "evidence_due_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DisputeListResponse>>;
+    listPages(params?: DisputesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<DisputeListResponse, DisputeListResponse>>;
     /** Iterate items lazily.
-     * @see reference/disputes.md#disputeslist
+     * @see https://developers.withflintpay.com/docs/api/disputes#listDisputes
      */
-    listItems(params?: {
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "order_id"?: InputValue<string>;
-        "customer_id"?: InputValue<string>;
-        "status"?: InputValue<Array<"inquiry_needs_response"
-            | "inquiry_under_review"
-            | "inquiry_closed"
-            | "needs_response"
-            | "under_review"
-            | "won"
-            | "lost"
-            | "prevented"
-            | "other">>;
-        "reason"?: InputValue<Array<"fraudulent"
-            | "unrecognized"
-            | "duplicate"
-            | "product_not_received"
-            | "product_not_as_described"
-            | "refund_not_processed"
-            | "subscription_canceled"
-            | "noncompliant"
-            | "insufficient_funds"
-            | "debit_not_authorized"
-            | "bank_account_not_found"
-            | "other">>;
-        "case_type"?: InputValue<Array<"inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return">>;
-        "is_action_required"?: InputValue<boolean>;
-        "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "evidence_due_after"?: InputValue<string | globalThis.Date>;
-        "evidence_due_before"?: InputValue<string | globalThis.Date>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Dispute>;
+    listItems(params?: DisputesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Dispute>;
+    /**
+ * Sandbox only. Simulates the card network's ruling on a dispute that needs a response. Flint
+ * submits Stripe's test evidence for the `outcome`, and the ruling arrives through the dispute's
+ * usual webhook events, as a real one would. Send `won` or `lost` for a chargeback in
+ * `needs_response`, and `inquiry_closed` or `escalated` for an inquiry in
+ * `inquiry_needs_response`. The response is the dispute after the evidence is submitted, usually
+ * `under_review` or `inquiry_under_review`. Stripe decides shortly after, with no fixed timing.
+ * Requires `payments.disputes.write`. If you don't receive a response, retry with the same
+ * `Idempotency-Key`, or read the dispute.
+ *
+ * `POST /v1/disputes/{dispute_id}/simulate`
+ * @param dispute_id Flint dispute ID.
+ * @see https://developers.withflintpay.com/docs/api/disputes#simulateDispute
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.disputes.simulate("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {outcome: "won"}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    simulate(dispute_id: InputValue<string>, params: DisputesSimulateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Dispute, DisputeResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

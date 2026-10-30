@@ -14,7 +14,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateWorkloadIdentityRequestInput](../models/CreateWorkloadIdentityRequestInput.md#createworkloadidentityrequestinput) | The request body for: Create a workload identity. |
 
 Body model: [CreateWorkloadIdentityRequestInput](../models/CreateWorkloadIdentityRequestInput.md#createworkloadidentityrequestinput).
@@ -37,19 +36,19 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -57,9 +56,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -70,14 +69,79 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->workloadIdentities->create([
-  'name' => 'example',
-  'issuer' => 'example',
-  'subject' => 'example',
-  'scopes' => [],
+  'claim_conditions' => [
+    (object) [
+      'claim' => 'repository_owner_id',
+      'match' => 'exact',
+      'value' => '123456',
+    ],
+  ],
+  'issuer' => 'https://token.actions.githubusercontent.com',
+  'name' => 'Production deploy',
+  'scopes' => [
+    'commerce.orders.read',
+  ],
+  'subject' => 'repo:acme/shop:ref:refs/heads/main',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/workloadIdentities-create.php)
+
+### workloadIdentities.delete
+
+Soft-archives the identity and returns it with status archived. The identity remains readable by ID and cannot be reactivated. Repeating DELETE without a stale fence returns the archived identity without changing its version.
+
+`DELETE /v1/workload-identities/{workload_identity_id}`
+
+Signature: `delete(string|Model $workload_identity_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `workload_identity_id` | Required | string | Flint workload identity ID. |
+| `expected_version` | Optional | integer | Optional version most recently read. Format: `int64`. minimum: `1`. |
+
+#### Response
+
+Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadidentity).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->workloadIdentities->delete('wid_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/workloadIdentities-delete.php)
 
 ### workloadIdentities.get
 
@@ -91,7 +155,7 @@ Signature: `get(string|Model $workload_identity_id, array|Model|null $params = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `workload_identity_id` | Required | string |  |
+| `workload_identity_id` | Required | string | Flint workload identity ID. |
 
 #### Response
 
@@ -99,16 +163,16 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -116,14 +180,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->workloadIdentities->get('example', [], new RequestOptions());
+$result = $client->workloadIdentities->get('wid_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/workloadIdentities-get.php)
@@ -140,31 +204,31 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"inactive"`, `"archived"`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"last_used_at"`, `"name"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by workload_identity_id. Default: `"created_at"`. Values: `"created_at"`, `"last_used_at"`, `"name"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 
 #### Response
 
-Returned payload: [WorkloadIdentitiesListResponse200](../models/WorkloadIdentitiesListResponse200.md#workloadidentitieslistresponse200).
+Returned payload: [WorkloadIdentityListResponse](../models/WorkloadIdentityListResponse.md#workloadidentitylistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -172,11 +236,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -185,63 +249,6 @@ $result = $client->workloadIdentities->list([], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/workloadIdentities-list.php)
-
-### workloadIdentities.remove
-
-Soft-archives the identity and returns it with status archived. The identity remains readable by ID and cannot be reactivated. Repeating DELETE without a stale fence returns the archived identity without changing its version.
-
-`DELETE /v1/workload-identities/{workload_identity_id}`
-
-Signature: `remove(string|Model $workload_identity_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `workload_identity_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadidentity).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->workloadIdentities->remove('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/workloadIdentities-remove.php)
 
 ### workloadIdentities.update
 
@@ -255,8 +262,7 @@ Signature: `update(string|Model $workload_identity_id, array|Model $params, ?Req
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `workload_identity_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `workload_identity_id` | Required | string | Flint workload identity ID. |
 | `body` | Required | [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentityRequestInput.md#updateworkloadidentityrequestinput) | The request body for: Update a workload identity. |
 
 Body model: [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentityRequestInput.md#updateworkloadidentityrequestinput).
@@ -266,7 +272,7 @@ Body model: [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentit
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `claim_conditions` | Optional | Array of [WorkloadIdentityClaimConditionRequestInput](../models/WorkloadIdentityClaimConditionRequestInput.md#workloadidentityclaimconditionrequestinput) | Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared issuers require tenant pinning. maxItems: `10`. uniqueItems: `true`. |
-| `expected_version` | Optional | integer string | Version most recently read. Required when claim_conditions or scopes is supplied; optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Version most recently read. Required when claim_conditions or scopes is supplied; optional for scalar updates. Format: `int64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
 | `scopes` | Optional | Array of string | Complete scope set to grant. Machine callers may grant only scopes they hold in the same environment. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
@@ -279,19 +285,19 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -299,9 +305,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -311,7 +317,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->workloadIdentities->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->workloadIdentities->update('wid_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'name' => 'Release deploy',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/workloadIdentities-update.php)

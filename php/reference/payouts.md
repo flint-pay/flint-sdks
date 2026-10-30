@@ -14,8 +14,7 @@ Signature: `cancel(string|Model $payout_id, array|Model|null $params = null, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payout_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `payout_id` | Required | string | Flint payout ID. |
 | `body` | Optional | [CancelPayoutRequestInput](../models/CancelPayoutRequestInput.md#cancelpayoutrequestinput) | The request body for: Cancel a payout. |
 
 Body model: [CancelPayoutRequestInput](../models/CancelPayoutRequestInput.md#cancelpayoutrequestinput).
@@ -26,20 +25,20 @@ Returned payload: [Payout](../models/Payout.md#payout).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -47,9 +46,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -59,7 +58,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->payouts->cancel('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->payouts->cancel('po_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/payouts-cancel.php)
@@ -76,7 +75,6 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreatePayoutRequestInput](../models/CreatePayoutRequestInput.md#createpayoutrequestinput) | The request body for: Create a payout. |
 
 Body model: [CreatePayoutRequestInput](../models/CreatePayoutRequestInput.md#createpayoutrequestinput).
@@ -85,7 +83,7 @@ Body model: [CreatePayoutRequestInput](../models/CreatePayoutRequestInput.md#cre
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValueInput](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) | Amount to send, above zero. It can't exceed what one balance source has in available_by_source_type. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Amount to send, above zero. It can't exceed what one balance source has in available_by_source_type. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `balance_source_type` | Optional | string | Balance source this payout draws from. Flint chooses the source when omitted. Values: `"card"`, `"bank_account"`. |
 | `description` | Optional | string | Your description of the payout, returned on the payout. minLength: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
@@ -100,20 +98,20 @@ Returned payload: [Payout](../models/Payout.md#payout).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -121,9 +119,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -155,8 +153,8 @@ Signature: `get(string|Model $payout_id, array|Model|null $params = null, ?Reque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payout_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
+| `payout_id` | Required | string | Flint payout ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: original_payout, payout_destination, reversed_by_payout. Expansion requires money_movement.payouts.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=original_payout&expand=payout_destination, or pass one comma-separated value. Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. Values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
 
 #### Response
 
@@ -164,16 +162,16 @@ Returned payload: [Payout](../models/Payout.md#payout).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -181,14 +179,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->payouts->get('example', [], new RequestOptions());
+$result = $client->payouts->get('po_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/payouts-get.php)
@@ -205,37 +203,37 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `expand` | Optional | Array of string | Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
-| `method` | Optional | Array of string | minItems: `1`. Items values: `"standard"`, `"instant"`, `"other"`. |
-| `balance_source_type` | Optional | Array of string | minItems: `1`. Items values: `"card"`, `"bank_account"`. |
-| `payout_destination_id` | Optional | string |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `query` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `arrival_date_from` | Optional | string | Format: `date`. |
-| `arrival_date_to` | Optional | string | Format: `date`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `expand` | Optional | Array of string or string | Supported expansions: original_payout, payout_destination, reversed_by_payout. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=original_payout&expand=payout_destination, or pass one comma-separated value. Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. Values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
+| `method` | Optional | Array of string or string | Optional payout method filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"standard"`, `"instant"`, `"other"`. Values: `"standard"`, `"instant"`, `"other"`. |
+| `balance_source_type` | Optional | Array of string or string | Optional Flint balance source type filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"card"`, `"bank_account"`. Values: `"card"`, `"bank_account"`. |
+| `payout_destination_id` | Optional | string | Optional payout destination ID filter. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `query` | Optional | string | Search across payout ID, external reference ID, description, and statement descriptor. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as po_01. |
+| `status` | Optional | Array of string or string | Optional payout status filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. Values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `arrival_date_from` | Optional | string | Inclusive lower bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: `date`. |
+| `arrival_date_to` | Optional | string | Exclusive upper bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: `date`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
-Returned payload: [PayoutsListResponse200](../models/PayoutsListResponse200.md#payoutslistresponse200).
+Returned payload: [PayoutListResponse](../models/PayoutListResponse.md#payoutlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -243,11 +241,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 

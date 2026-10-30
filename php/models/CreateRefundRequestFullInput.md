@@ -15,7 +15,7 @@ Request input.
 | `order_id` | Conditional | string | Order to refund. May be combined with payment_intent_id to select a payment on that order. Required for named targets unless payment_intent_id belongs to an order. minLength: `1`. |
 | `payment_intent_id` | Conditional | string | Payment to refund. May be combined with its order_id. Named targets require a payment on an order. minLength: `1`. |
 | `reason` | Optional | string | Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's refund email has no reason line. Values: [12 declared values](CreateCreditNoteRefundRequestInput.md#createcreditnoterefundrequestinput-reason-values). |
-| `reason_message` | Optional | string | minLength: `1`. |
+| `reason_message` | Optional | string | Optional note explaining the refund, up to 1,024 characters. minLength: `1`. |
 | `refund_type` | Required | string | Required amount mode: full refunds the full remaining amount; amount requires amount_money and permits named targets and tender_allocations within that amount; targets refunds named line_items, charges, or tax_breakdown_refunds without amount_money. Full and targets do not accept tender_allocations. Gift card loads support full and amount only. Values: `"full"`. |
 
 ### CreateRefundRequestFullInput variant 1: `refund_type` = `"full"`

@@ -14,42 +14,42 @@ namespace Flint;
 final class PricingAmounts extends Model {
     /** @param array{'additive_tax_money': mixed, 'charge_money': mixed, 'discount_money': mixed, 'inclusive_tax_money': mixed, 'requested_tip_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PricingAmounts')); }
-    /** Shape $ (Value): {@see MoneyValue}. Tax added on top of prices, included in total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Tax added on top of prices, included in total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAdditiveTaxMoney(): MoneyValue { return $this->get('additive_tax_money'); }
     public function hasAdditiveTaxMoney(): bool { return $this->has('additive_tax_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Total of the order's service charges after service-charge discounts. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total of the order's service charges after service-charge discounts. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getChargeMoney(): MoneyValue { return $this->get('charge_money'); }
     public function hasChargeMoney(): bool { return $this->has('charge_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Total of order and line-item discounts. Service-charge discounts, such as free shipping, are not included; they reduce charge_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total of order and line-item discounts. Service-charge discounts, such as free shipping, are not included; they reduce charge_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Tax already included in subtotal_money and charge_money. Informational; it is not added again to total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Tax already included in subtotal_money and charge_money. Informational; it is not added again to total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getInclusiveTaxMoney(): MoneyValue { return $this->get('inclusive_tax_money'); }
     public function hasInclusiveTaxMoney(): bool { return $this->has('inclusive_tax_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Tip money in the total: the requested tip before payment, and settled tips net of refunds after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Tip money in the total: the requested tip before payment, and settled tips net of refunds after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRequestedTipMoney(): MoneyValue { return $this->get('requested_tip_money'); }
     public function hasRequestedTipMoney(): bool { return $this->has('requested_tip_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with tax-inclusive prices include their tax here. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with tax-inclusive prices include their tax here. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Total tax, equal to additive_tax_money + inclusive_tax_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total tax, equal to additive_tax_money + inclusive_tax_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTaxMoney(): MoneyValue { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }

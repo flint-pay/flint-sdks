@@ -8,13 +8,13 @@ namespace Flint;
 final class SubscriptionBillingStartInputScheduledInput extends Model {
     /** @param array{'starts_at': string|\DateTimeInterface, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionBillingStartInputScheduledInput')); }
-    /** Shape $ (Value): string. Future instant when the first billing period starts. Format: date-time. minLength: 1.
+    /** Future instant when the first billing period starts. Format: date-time. minLength: 1.
      * @return string|\DateTimeInterface
      * @throws SdkError When starts_at is omitted; use hasStartsAt() or valueOrDefault().
      */
     public function getStartsAt(): string|\DateTimeInterface { return $this->get('starts_at'); }
     public function hasStartsAt(): bool { return $this->has('starts_at'); }
-    /** Shape $ (Value): string.  Value enum: "scheduled".
+    /** Value enum: "scheduled".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

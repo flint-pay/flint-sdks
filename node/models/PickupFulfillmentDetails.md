@@ -18,8 +18,8 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `location_name` | Optional | string | Name of the store or place where the buyer collects the order. |
 | `picked_up_at` | Optional | string | When the recipient collected the items, in RFC3339 format. Format: `date-time`. |
 | `pickup_mode` | Optional | string | How the buyer collects the items, such as in store or curbside. Values: `"in_store"`, `"curbside"`, `"locker"`, `"other"`. |
-| `pickup_window_duration_seconds` | Optional | integer string | Width of the promised pickup window, from 0 to 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
-| `prep_time_duration_seconds` | Optional | integer string | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
+| `pickup_window_duration_seconds` | Optional | integer | Width of the promised pickup window, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |
+| `prep_time_duration_seconds` | Optional | integer | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string | When the items became ready for pickup, in RFC3339 format. Format: `date-time`. |
 | `timezone` | Optional | string | Timezone used to display the pickup window. |
 | `vehicle_description` | Optional | string | Buyer vehicle description used for curbside handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `500`. |

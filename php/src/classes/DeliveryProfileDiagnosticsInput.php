@@ -12,37 +12,37 @@ namespace Flint;
 final class DeliveryProfileDiagnosticsInput extends Model {
     /** @param array{'active_method_definitions_count': int, 'covers_all_items': bool, 'locations_without_rates_count': int, 'unassigned_locations': list<string>, 'unassigned_locations_truncated': bool, 'zone_country_count': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileDiagnosticsInput')); }
-    /** Shape $ (Value): integer. Number of active delivery methods whose type is allowed by this profile. minimum: 0.
+    /** Number of active delivery methods whose type is allowed by this profile. minimum: 0.
      * @return int
      * @throws SdkError When active_method_definitions_count is omitted; use hasActiveMethodDefinitionsCount() or valueOrDefault().
      */
     public function getActiveMethodDefinitionsCount(): int { return $this->get('active_method_definitions_count'); }
     public function hasActiveMethodDefinitionsCount(): bool { return $this->has('active_method_definitions_count'); }
-    /** Shape $ (Value): boolean. True when this is the physical catalog default and every active physical catalog obligation uses it.
+    /** True when this is the physical catalog default and every active physical catalog obligation uses it.
      * @return bool
      * @throws SdkError When covers_all_items is omitted; use hasCoversAllItems() or valueOrDefault().
      */
     public function getCoversAllItems(): bool { return $this->get('covers_all_items'); }
     public function hasCoversAllItems(): bool { return $this->has('covers_all_items'); }
-    /** Shape $ (Value): integer. Number of active Locations that no active delivery method compatible with this profile can use as an origin. minimum: 0.
+    /** Number of active Locations that no active delivery method compatible with this profile can use as an origin. minimum: 0.
      * @return int
      * @throws SdkError When locations_without_rates_count is omitted; use hasLocationsWithoutRatesCount() or valueOrDefault().
      */
     public function getLocationsWithoutRatesCount(): int { return $this->get('locations_without_rates_count'); }
     public function hasLocationsWithoutRatesCount(): bool { return $this->has('locations_without_rates_count'); }
-    /** Shape $ (Value): Array of string. Up to 20 active Location IDs that no compatible active delivery method can use as an origin. Use locations_without_rates_count for the complete count. Shape $[] (Value): string.
+    /** Up to 20 active Location IDs that no compatible active delivery method can use as an origin. Use locations_without_rates_count for the complete count. [] (Value): string.
      * @return list<string>
      * @throws SdkError When unassigned_locations is omitted; use hasUnassignedLocations() or valueOrDefault().
      */
     public function getUnassignedLocations(): array { return $this->get('unassigned_locations'); }
     public function hasUnassignedLocations(): bool { return $this->has('unassigned_locations'); }
-    /** Shape $ (Value): boolean. True when more matching Locations exist than are returned in unassigned_locations.
+    /** True when more matching Locations exist than are returned in unassigned_locations.
      * @return bool
      * @throws SdkError When unassigned_locations_truncated is omitted; use hasUnassignedLocationsTruncated() or valueOrDefault().
      */
     public function getUnassignedLocationsTruncated(): bool { return $this->get('unassigned_locations_truncated'); }
     public function hasUnassignedLocationsTruncated(): bool { return $this->has('unassigned_locations_truncated'); }
-    /** Shape $ (Value): integer. Number of distinct countries explicitly named by zones referenced from compatible active delivery methods. minimum: 0.
+    /** Number of distinct countries explicitly named by zones referenced from compatible active delivery methods. minimum: 0.
      * @return int
      * @throws SdkError When zone_country_count is omitted; use hasZoneCountryCount() or valueOrDefault().
      */

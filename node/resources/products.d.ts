@@ -1,6 +1,5 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateProductRequestInput } from '../declarations/types-9.js';
+import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
 import type {
     Product,
     ProductListResponse,
@@ -9,33 +8,28 @@ import type {
     ProductOptionResponse,
     ProductResponse,
     ProductVariant,
-    ProductVariantListResponse
-} from '../declarations/types-39.js';
-import type {
-    ProductVariantRequestInput,
+    ProductVariantListResponse,
     ProductVariantResponse,
-    ProductsCreateInput,
-    ProductsCreateVariantInput,
-    ProductsDeleteVariantInput,
-    ProductsGetInput,
-    ProductsGetOptionInput,
-    ProductsGetVariantInput,
-    ProductsListInput,
-    ProductsListOptionsInput,
-    ProductsListVariantsInput,
-    ProductsRemoveInput,
-    ProductsUpdateInput,
-    ProductsUpdateVariantInput
-} from '../declarations/types-40.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+    ProductsCreateParams,
+    ProductsCreateVariantParams,
+    ProductsDeleteParams,
+    ProductsDeleteVariantParams,
+    ProductsGetOptionParams,
+    ProductsGetParams,
+    ProductsGetVariantParams,
+    ProductsListOptionsParams,
+    ProductsListParams,
+    ProductsListVariantsParams,
+    ProductsUpdateParams,
+    ProductsUpdateVariantParams
+} from '../declarations/types-44.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -46,54 +40,42 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
-    CreateProductRequestInput,
-    CreateProductOptionRequestInput,
-    CreateProductOptionValueRequestInput,
-    CreateProductRequestSimpleInput,
-    CreateProductRequestOptionedInput
-} from '../declarations/types-9.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
-export type {
+    ProductsCreateParams,
     Product,
     ProductResponse,
+    ProductsCreateVariantParams,
     ProductVariant,
+    ProductVariantResponse,
+    ProductsDeleteParams,
+    ProductsDeleteVariantParams,
+    ProductsGetParams,
+    ProductsGetOptionParams,
     ProductOption,
     ProductOptionResponse,
+    ProductsGetVariantParams,
+    ProductsListOptionsParams,
     ProductOptionListResponse,
+    ProductsListParams,
     ProductListResponse,
+    ProductsListVariantsParams,
     ProductVariantListResponse,
-    ProductPriceRange,
-    ProductOptionValue
-} from '../declarations/types-39.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type {
+    ProductsUpdateParams,
+    ProductsUpdateVariantParams,
     ProductVariantRequestInput,
-    ProductVariantResponse,
-    ProductsCreateInput,
-    ProductsCreateVariantInput,
-    ProductsRemoveInput,
-    ProductsDeleteVariantInput,
-    ProductsGetInput,
-    ProductsGetOptionInput,
-    ProductsGetVariantInput,
-    ProductsListOptionsInput,
-    ProductsListInput,
-    ProductsListVariantsInput,
-    ProductsUpdateInput,
-    ProductsUpdateVariantInput,
-    ProductVariantMatch,
     ProductVariantSelectedOptionRequestInput,
+    ProductVariantMatch,
+    ProductPriceRange,
+    ProductOptionValue,
     ProductVariantSelectedOptionRequest
-} from '../declarations/types-40.js';
-export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-65.js';
-export type {
-    UpdateProductRequestInput,
-    UpdateProductVariantRequestInput,
-    UpdateProductOptionRequestInput,
-    UpdateProductOptionValueRequestInput
-} from '../declarations/types-52.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-21.js';
+} from '../declarations/types-44.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
+export type { CreateProductRequestInput, CreateProductRequestSimpleInput, CreateProductRequestOptionedInput } from '../declarations/types-10.js';
+export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-24.js';
+export type { GiftCardCustomAmountBoundsRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-23.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-25.js';
+export type { InventoryItemCreateRequestInput } from '../declarations/types-26.js';
 export type {
     MetadataRequestInput,
     MetadataMap,
@@ -101,63 +83,64 @@ export type {
     Modifier,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-32.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { CategoryReference } from '../declarations/types-3.js';
+} from '../declarations/types-34.js';
+export type { DimensionsInput, Dimensions } from '../declarations/types-20.js';
 export type {
+    MoneyValueInput,
     ModifierSet,
     ModifierSetGroup,
     MoneyValue,
     ModifierOverride,
     ModifierSetGroupExisting,
     ModifierSetGroupInline,
-    NextAction,
-    NextActionMerchantAccountSession,
-    MoneyValueInput
-} from '../declarations/types-33.js';
-export type { TextModifierConfig } from '../declarations/types-50.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
+    NextAction
+} from '../declarations/types-35.js';
+export type { CreateProductOptionRequestInput, CreateProductOptionValueRequestInput } from '../declarations/types-9.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { CategoryReference } from '../declarations/types-4.js';
+export type { TextModifierConfig } from '../declarations/types-57.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { SelectedProductOption } from '../declarations/types-53.js';
 export type {
-    GiftCardProductConfigurationRequestRequestInput,
-    GiftCardCustomAmountBoundsRequestRequestInput,
-    GiftCardProductConfiguration,
-    GiftCardCustomAmountBounds
-} from '../declarations/types-20.js';
-export type { InventoryItemCreateRequestInput } from '../declarations/types-26.js';
-export type { DimensionsInput, Dimensions } from '../declarations/types-17.js';
-export type { SelectedProductOption } from '../declarations/types-47.js';
+    UpdateProductRequestInput,
+    UpdateProductOptionRequestInput,
+    UpdateProductOptionValueRequestInput,
+    UpdateProductVariantRequestInput
+} from '../declarations/types-59.js';
+export type { BundlesGetParams } from '../declarations/types-1.js';
 export {
     makeCreateProductOptionRequest,
     makeCreateProductOptionValueRequest,
     makeCreateProductRequest,
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
-} from '../declarations/types-68.js';
-export { makeDimensions } from '../declarations/types-70.js';
+} from '../declarations/types-64.js';
 export {
-    makeGiftCardCustomAmountBoundsRequestRequest,
-    makeGiftCardProductConfigurationRequestRequest,
+    makeDimensions,
+    makeGiftCardCustomAmountBoundsRequest,
+    makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
-    makeImageInputSourceURL,
-    makeImageRequest,
-    makeInventoryItemCreateRequest
-} from '../declarations/types-71.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
-export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-74.js';
+    makeImageInputSourceURL
+} from '../declarations/types-67.js';
+export { makeImageRequest, makeInventoryItemCreateRequest } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride, makeMoneyValue } from '../declarations/types-69.js';
+export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-71.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
     makeUpdateProductVariantRequest
-} from '../declarations/types-77.js';
-export { makeWeight } from '../declarations/types-78.js';
+} from '../declarations/types-74.js';
+export { makeWeight } from '../declarations/types-75.js';
 export interface ProductsResource {
     /**
  * Creates a product for the authenticated merchant.
- * @see reference/products.md#productscreate
- * POST /v1/products
+ *
+ * `POST /v1/products`
+ * @see https://developers.withflintpay.com/docs/api/products#createProduct
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
@@ -165,448 +148,185 @@ export interface ProductsResource {
  * name: "example", product_type: "physical", variant_mode: "simple"}, { idempotencyKey:
  * idempotencyKey })
  */
-    create(params: (InputValue<CreateProductRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Product>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productscreate
-     */
-    createWithResponse(params: (InputValue<CreateProductRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductResponse>>;
+    create(params: ProductsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
  * Create product variant. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
  * and current_status archived. The error identifies the archived resource; a create under an
  * archived parent identifies that parent.
- * @see reference/products.md#productscreatevariant
- * POST /v1/products/{product_id}/variants
+ *
+ * `POST /v1/products/{product_id}/variants`
+ * @param product_id Flint product ID.
+ * @see https://developers.withflintpay.com/docs/api/products#createProductVariant
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.createVariant("example", {unit_price_money: {amount: "100", currency: "USD"}}, {
- * idempotencyKey: idempotencyKey })
+ * client.products.createVariant("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", {unit_price_money: {amount:
+ * "100", currency: "USD"}}, { idempotencyKey: idempotencyKey })
  */
-    createVariant(product_id: InputValue<string>, params: (InputValue<ProductVariantRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ProductVariant>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productscreatevariant
-     */
-    createVariantWithResponse(product_id: InputValue<string>, params: (InputValue<ProductVariantRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductVariantResponse>>;
+    createVariant(product_id: InputValue<string>, params: ProductsCreateVariantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
     /**
  * Archives a product and returns its final state. Returns the archived resource exactly as GET
  * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
  * webhook, or checking references. When expected_version is present, it is compared before the
  * archived replay; a stale version returns 409 VERSION_CONFLICT with current_version.
- * @see reference/products.md#productsremove
- * DELETE /v1/products/{product_id}
+ *
+ * `DELETE /v1/products/{product_id}`
+ * @param product_id Flint product ID.
+ * @see https://developers.withflintpay.com/docs/api/products#deleteProduct
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.remove("example", {}, { idempotencyKey: idempotencyKey })
+ * client.products.delete("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(product_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Product>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsremove
-     */
-    removeWithResponse(product_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductResponse>>;
+    delete(product_id: InputValue<string>, params?: ProductsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
  * Retire product variant. Returns the archived resource exactly as GET returns it. Repeating
  * DELETE returns 200 without changing version or updated_at, sending a webhook, or checking
  * references. When expected_version is present, it is compared before the archived replay; a stale
  * version returns 409 VERSION_CONFLICT with current_version.
- * @see reference/products.md#productsdeletevariant
- * DELETE /v1/products/{product_id}/variants/{variant_id}
+ *
+ * `DELETE /v1/products/{product_id}/variants/{variant_id}`
+ * @param product_id Flint product ID.
+ * @param variant_id Flint product variant ID.
+ * @see https://developers.withflintpay.com/docs/api/products#deleteProductVariant
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.deleteVariant("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.products.deleteVariant("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "var_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ProductVariant>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsdeletevariant
-     */
-    deleteVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<`${bigint}` | bigint>;
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductVariantResponse>>;
+    deleteVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: ProductsDeleteVariantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
     /**
  * Returns a single product by ID.
- * @see reference/products.md#productsget
- * GET /v1/products/{product_id}
+ *
+ * `GET /v1/products/{product_id}`
+ * @param product_id Flint product ID.
+ * @see https://developers.withflintpay.com/docs/api/products#getProduct
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.get("example")
+ * client.products.get("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    get(product_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Product>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsget
-     */
-    getWithResponse(product_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductResponse>>;
+    get(product_id: InputValue<string>, params?: ProductsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
  * Get product option.
- * @see reference/products.md#productsgetoption
- * GET /v1/products/{product_id}/options/{option_id}
+ *
+ * `GET /v1/products/{product_id}/options/{option_id}`
+ * @param product_id Flint product ID.
+ * @param option_id Flint product option ID.
+ * @see https://developers.withflintpay.com/docs/api/products#getProductOption
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.getOption("example", "example")
+ * client.products.getOption("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", "opt_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getOption(product_id: InputValue<string>, option_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductOption>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsgetoption
-     */
-    getOptionWithResponse(product_id: InputValue<string>, option_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductOptionResponse>>;
+    getOption(product_id: InputValue<string>, option_id: InputValue<string>, params?: ProductsGetOptionParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductOption, ProductOptionResponse>>;
     /**
  * Get product variant.
- * @see reference/products.md#productsgetvariant
- * GET /v1/products/{product_id}/variants/{variant_id}
+ *
+ * `GET /v1/products/{product_id}/variants/{variant_id}`
+ * @param product_id Flint product ID.
+ * @param variant_id Flint product variant ID.
+ * @see https://developers.withflintpay.com/docs/api/products#getProductVariant
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.getVariant("example", "example")
+ * client.products.getVariant("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", "var_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    getVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductVariant>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsgetvariant
-     */
-    getVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductVariantResponse>>;
+    getVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: ProductsGetVariantParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
     /**
  * List product options. Default order: position ascending, then option_id ascending.
- * @see reference/products.md#productslistoptions
- * GET /v1/products/{product_id}/options
+ *
+ * `GET /v1/products/{product_id}/options`
+ * @param product_id Flint product ID.
+ * @see https://developers.withflintpay.com/docs/api/products#listProductOptions
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.listOptions("example")
+ * client.products.listOptions("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listOptions(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductOptionListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productslistoptions
-     */
-    listOptionsWithResponse(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductOptionListResponse>>;
+    listOptions(product_id: InputValue<string>, params?: ProductsListOptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductOptionListResponse, ProductOptionListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/products.md#productslistoptions
+     * @see https://developers.withflintpay.com/docs/api/products#listProductOptions
      */
-    listOptionsPages(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductOptionListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/products.md#productslistoptions
-     */
-    listOptionsPagesWithResponse(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ProductOptionListResponse>>;
+    listOptionsPages(product_id: InputValue<string>, params?: ProductsListOptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ProductOptionListResponse, ProductOptionListResponse>>;
     /** Iterate items lazily.
-     * @see reference/products.md#productslistoptions
+     * @see https://developers.withflintpay.com/docs/api/products#listProductOptions
      */
-    listOptionsItems(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductOption>;
+    listOptionsItems(product_id: InputValue<string>, params?: ProductsListOptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductOption>;
     /**
  * Returns a paginated list of products for the authenticated merchant. Default order: created_at
  * descending, then product_id descending.
- * @see reference/products.md#productslist
- * GET /v1/products
+ *
+ * `GET /v1/products`
+ * @see https://developers.withflintpay.com/docs/api/products#listProducts
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.products.list()
  */
-    list(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "product_type"?: InputValue<Array<"physical" | "service" | "fee" | "digital" | "gift_card">>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "category_handle"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "variant_external_reference_id"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productslist
-     */
-    listWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "product_type"?: InputValue<Array<"physical" | "service" | "fee" | "digital" | "gift_card">>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "category_handle"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "variant_external_reference_id"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductListResponse>>;
+    list(params?: ProductsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductListResponse, ProductListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/products.md#productslist
+     * @see https://developers.withflintpay.com/docs/api/products#listProducts
      */
-    listPages(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "product_type"?: InputValue<Array<"physical" | "service" | "fee" | "digital" | "gift_card">>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "category_handle"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "variant_external_reference_id"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/products.md#productslist
-     */
-    listPagesWithResponse(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "product_type"?: InputValue<Array<"physical" | "service" | "fee" | "digital" | "gift_card">>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "category_handle"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "variant_external_reference_id"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ProductListResponse>>;
+    listPages(params?: ProductsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ProductListResponse, ProductListResponse>>;
     /** Iterate items lazily.
-     * @see reference/products.md#productslist
+     * @see https://developers.withflintpay.com/docs/api/products#listProducts
      */
-    listItems(params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "product_type"?: InputValue<Array<"physical" | "service" | "fee" | "digital" | "gift_card">>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "category_handle"?: InputValue<string>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "variant_external_reference_id"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Product>;
+    listItems(params?: ProductsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Product>;
     /**
  * List product variants. Default order: position ascending, then variant_id ascending.
- * @see reference/products.md#productslistvariants
- * GET /v1/products/{product_id}/variants
+ *
+ * `GET /v1/products/{product_id}/variants`
+ * @param product_id Flint product ID.
+ * @see https://developers.withflintpay.com/docs/api/products#listProductVariants
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.listVariants("example")
+ * client.products.listVariants("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV")
  */
-    listVariants(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductVariantListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productslistvariants
-     */
-    listVariantsWithResponse(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductVariantListResponse>>;
+    listVariants(product_id: InputValue<string>, params?: ProductsListVariantsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductVariantListResponse, ProductVariantListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/products.md#productslistvariants
+     * @see https://developers.withflintpay.com/docs/api/products#listProductVariants
      */
-    listVariantsPages(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductVariantListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/products.md#productslistvariants
-     */
-    listVariantsPagesWithResponse(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ProductVariantListResponse>>;
+    listVariantsPages(product_id: InputValue<string>, params?: ProductsListVariantsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<ProductVariantListResponse, ProductVariantListResponse>>;
     /** Iterate items lazily.
-     * @see reference/products.md#productslistvariants
+     * @see https://developers.withflintpay.com/docs/api/products#listProductVariants
      */
-    listVariantsItems(product_id: InputValue<string>, params?: {
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-        "external_reference_id"?: InputValue<string>;
-        "sku"?: InputValue<string>;
-        "inventory_item_id"?: InputValue<string>;
-        "query"?: InputValue<string>;
-        "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price_money">;
-        "sort_direction"?: InputValue<"asc" | "desc">;
-        "delivery_profile_id"?: InputValue<string>;
-        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "updated_after"?: InputValue<string | globalThis.Date>;
-        "updated_before"?: InputValue<string | globalThis.Date>;
-        "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductVariant>;
+    listVariantsItems(product_id: InputValue<string>, params?: ProductsListVariantsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductVariant>;
     /**
  * Applies a sparse update to product-parent fields. When category_handles is present, it replaces
  * the full category list; send [] to clear it. Sellable price, SKU, and inventory live on
  * variants. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and
  * current_status archived. The error identifies the archived resource; a create under an archived
  * parent identifies that parent.
- * @see reference/products.md#productsupdate
- * PATCH /v1/products/{product_id}
+ *
+ * `PATCH /v1/products/{product_id}`
+ * @param product_id Flint product ID.
+ * @see https://developers.withflintpay.com/docs/api/products#updateProduct
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.products.update("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Weekend admission"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    update(product_id: InputValue<string>, params: (InputValue<UpdateProductRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<Product>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsupdate
-     */
-    updateWithResponse(product_id: InputValue<string>, params: (InputValue<UpdateProductRequestInput>) & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductResponse>>;
+    update(product_id: InputValue<string>, params: ProductsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
  * Update product variant. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
  * and current_status archived. The error identifies the archived resource; a create under an
  * archived parent identifies that parent.
- * @see reference/products.md#productsupdatevariant
- * PATCH /v1/products/{product_id}/variants/{variant_id}
+ *
+ * `PATCH /v1/products/{product_id}/variants/{variant_id}`
+ * @param product_id Flint product ID.
+ * @param variant_id Flint product variant ID.
+ * @see https://developers.withflintpay.com/docs/api/products#updateProductVariant
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.updateVariant("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.products.updateVariant("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "var_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Balcony admission"}, { idempotencyKey: idempotencyKey
+ * })
  */
-    updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<UpdateProductVariantRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<ProductVariant>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/products.md#productsupdatevariant
-     */
-    updateVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<UpdateProductVariantRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductVariantResponse>>;
+    updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: ProductsUpdateVariantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

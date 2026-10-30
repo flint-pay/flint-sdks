@@ -12,32 +12,32 @@ namespace Flint;
 final class PaymentFulfillmentHold extends Model {
     /** @param array{'reason': string, 'released_at'?: string, 'requested_at': string, 'required_action': string, 'status': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentFulfillmentHold')); }
-    /** Shape $ (Value): string.  Value enum: "external_payment_hold", "external_payment_hold_released".
+    /** Value enum: "external_payment_hold", "external_payment_hold_released".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getReleasedAt(): ?string { return $this->get('released_at'); }
     public function hasReleasedAt(): bool { return $this->has('released_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getRequestedAt(): string { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** Shape $ (Value): string.  Value enum: "pause_fulfillment", "reevaluate_fulfillment".
+    /** Value enum: "pause_fulfillment", "reevaluate_fulfillment".
      * @return string
      */
     public function getRequiredAction(): string { return $this->get('required_action'); }
     public function hasRequiredAction(): bool { return $this->has('required_action'); }
-    /** Shape $ (Value): string.  Value enum: "active", "released".
+    /** Value enum: "active", "released".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }

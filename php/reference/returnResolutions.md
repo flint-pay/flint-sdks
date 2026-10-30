@@ -14,8 +14,7 @@ Signature: `cancel(string|Model $return_resolution_id, array|Model $params, ?Req
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 | `body` | Required | [CancelReturnResolutionRequestInput](../models/CancelReturnRequestInput.md#cancelreturnrequestinput) | The request body for: Cancel return resolution. |
 
 Body model: [CancelReturnResolutionRequestInput](../models/CancelReturnRequestInput.md#cancelreturnrequestinput).
@@ -30,19 +29,19 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -50,9 +49,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -62,7 +61,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->cancel('example', [
+$result = $client->returnResolutions->cancel('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'reason' => 'buyer_request',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -81,8 +80,7 @@ Signature: `confirm(string|Model $return_resolution_id, array|Model $params, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 | `body` | Required | [ConfirmReturnResolutionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Confirm return resolution. |
 
 Body model: [ConfirmReturnResolutionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
@@ -91,7 +89,7 @@ Body model: [ConfirmReturnResolutionRequestInput](../models/ResourceVersionReque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `int64`. minimum: `1`. |
 
 #### Response
 
@@ -99,19 +97,19 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -119,9 +117,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `confirmWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -131,7 +129,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->confirm('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returnResolutions->confirm('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returnResolutions-confirm.php)
@@ -146,7 +144,7 @@ Signature: `createCheckoutSession(string|Model $return_resolution_id, array|Mode
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-10). Models: [GetOrCreateReturnResolutionCheckoutSessionRequestInput](../models/GetOrCreateReturnResolutionCheckoutSessionRequestInput.md#getorcreatereturnresolutioncheckoutsessionrequestinput).
+Field definitions: [shared fields](me.md#request-fields-11). Models: [GetOrCreateReturnResolutionCheckoutSessionRequestInput](../models/GetOrCreateReturnResolutionCheckoutSessionRequestInput.md#getorcreatereturnresolutioncheckoutsessionrequestinput).
 
 #### Response
 
@@ -154,20 +152,20 @@ Returned payload: [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecre
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -175,13 +173,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-Deprecated aliases: getOrCreateCheckoutSession.
 
 #### Example
 
@@ -189,7 +185,7 @@ Deprecated aliases: getOrCreateCheckoutSession.
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->createCheckoutSession('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returnResolutions->createCheckoutSession('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returnResolutions-createCheckoutSession.php)
@@ -206,8 +202,8 @@ Signature: `get(string|Model $return_resolution_id, array|Model|null $params = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"payment_intents"`, `"refunds"`, `"replacement_order"`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
+| `expand` | Optional | Array of string or string | Supported expansions: payment_intents, refunds, replacement_order. Expanded relationships are returned only when explicitly requested and authorized. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Repeat expand, for example expand=payment_intents&expand=refunds, or pass one comma-separated value. Items values: `"payment_intents"`, `"refunds"`, `"replacement_order"`. Values: `"payment_intents"`, `"refunds"`, `"replacement_order"`. |
 
 #### Response
 
@@ -215,16 +211,16 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -232,21 +228,21 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->returnResolutions->get('example', [], new RequestOptions());
+$result = $client->returnResolutions->get('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returnResolutions-get.php)
 
 ### returnResolutions.list
 
-List resolutions. Filter by corrects_return_resolution_id to retrieve the correction history for a resolution that already settled. Newest first: created_at descending, with return_resolution_id descending as the tiebreak. Default order: created_at descending, then return_resolution_id descending.
+List resolutions. Filter by corrects_return_resolution_id to retrieve the correction history for a resolution that already settled. Default order: created_at descending, then return_resolution_id descending.
 
 `GET /v1/return-resolutions`
 
@@ -256,39 +252,39 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_required_by` | Optional | Array of string | minItems: `1`. Items values: `"buyer"`, `"merchant"`, `"integration"`. |
-| `corrects_return_resolution_id` | Optional | string |  |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `page_size` | Optional | integer | Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `query` | Optional | string |  |
-| `resolution_type` | Optional | Array of string | minItems: `1`. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
-| `return_id` | Optional | string |  |
-| `return_line_item_id` | Optional | string |  |
-| `return_policy_revision_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"proposed"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`, `"canceled"`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `expand` | Optional | Array of string | Items values: `"replacement_order"`. |
+| `action_required_by` | Optional | Array of string or string | Filter by action required by. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"buyer"`, `"merchant"`, `"integration"`. Values: `"buyer"`, `"merchant"`, `"integration"`. |
+| `corrects_return_resolution_id` | Optional | string | Filter by corrects return resolution id. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `query` | Optional | string | Search by return resolution ID or external reference ID. |
+| `resolution_type` | Optional | Array of string or string | Filter by resolution type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
+| `return_id` | Optional | string | Filter by return id. |
+| `return_line_item_id` | Optional | string | Filter by return line item id. |
+| `return_policy_revision_id` | Optional | string | Filter by return policy revision id. |
+| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"proposed"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`, `"canceled"`. Values: `"proposed"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`, `"canceled"`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `expand` | Optional | Array of string or string | Supported expansions: replacement_order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=replacement_order. Items values: `"replacement_order"`. Values: `"replacement_order"`. |
 
 #### Response
 
-Returned payload: [ReturnResolutionsListResponse200](../models/ReturnResolutionsListResponse200.md#returnresolutionslistresponse200).
+Returned payload: [ListReturnResolutionsResponse](../models/ListReturnResolutionsResponse.md#listreturnresolutionsresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -296,11 +292,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -322,8 +318,7 @@ Signature: `release(string|Model $return_resolution_id, array|Model $params, ?Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 | `body` | Required | [ReleaseReturnResolutionRequestInput](../models/ReleaseReturnResolutionRequestInput.md#releasereturnresolutionrequestinput) | The request body for: Release return resolution. |
 
 Body model: [ReleaseReturnResolutionRequestInput](../models/ReleaseReturnResolutionRequestInput.md#releasereturnresolutionrequestinput).
@@ -338,19 +333,19 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -358,9 +353,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `releaseWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -370,7 +365,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->release('example', [
+$result = $client->returnResolutions->release('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'reason' => 'merchant_approved',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -389,8 +384,7 @@ Signature: `retry(string|Model $return_resolution_id, array|Model $params, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 | `body` | Required | [RetryReturnResolutionRequestInput](../models/RetryReturnResolutionRequestInput.md#retryreturnresolutionrequestinput) | The request body for: Retry return resolution. |
 
 Body model: [RetryReturnResolutionRequestInput](../models/RetryReturnResolutionRequestInput.md#retryreturnresolutionrequestinput).
@@ -405,19 +399,19 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -425,9 +419,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `retryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -437,7 +431,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->retry('example', [
+$result = $client->returnResolutions->retry('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'reason' => 'dependency_recovered',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -456,15 +450,23 @@ Signature: `update(string|Model $return_resolution_id, array|Model $params, ?Req
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return_resolution_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `return_resolution_id` | Required | string | Flint return resolution id. |
 | `body` | Required | [UpdateReturnResolutionRequestInput](../models/UpdateReturnResolutionRequestInput.md#updatereturnresolutionrequestinput) | The request body for: Update return resolution. |
 
 Body model: [UpdateReturnResolutionRequestInput](../models/UpdateReturnResolutionRequestInput.md#updatereturnresolutionrequestinput).
 
 #### returnResolutions.update body fields
 
-Field definitions: [shared fields](../models/UpdateReturnResolutionRequestInput.md#updatereturnresolutionrequestinput). Models: [UpdateReturnResolutionAdjustmentRequestInput](../models/UpdateReturnResolutionAdjustmentRequestInput.md#updatereturnresolutionadjustmentrequestinput), [UpdateReturnResolutionLineItemRequestInput](../models/UpdateReturnResolutionLineItemRequestInput.md#updatereturnresolutionlineitemrequestinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput), [UpdateReturnReplacementLineItemRequestInput](../models/UpdateReturnReplacementLineItemRequestInput.md#updatereturnreplacementlineitemrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `adjustments` | Optional | Array of [UpdateReturnResolutionAdjustmentRequestInput](../models/UpdateReturnResolutionAdjustmentRequestInput.md#updatereturnresolutionadjustmentrequestinput) | Requires expected_version. Items: A fee or credit to keep or add when updating a return resolution. Include `return_resolution_adjustment_id` to update an existing one. |
+| `expected_version` | Optional | integer | Required when any of these fields is present: line_items, replacement_line_items, adjustments. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `gift_card_refund_destination` | Optional | string | Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: `"original"`. Values: `"original"`, `"new_gift_card"`. |
+| `line_items` | Optional | Array of [UpdateReturnResolutionLineItemRequestInput](../models/UpdateReturnResolutionLineItemRequestInput.md#updatereturnresolutionlineitemrequestinput) | Requires expected_version. Items: A return line and quantity to keep or add when updating a return resolution. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `pricing_basis` | Optional | string | Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`. |
+| `replacement_line_items` | Optional | Array of [UpdateReturnReplacementLineItemRequestInput](../models/UpdateReturnReplacementLineItemRequestInput.md#updatereturnreplacementlineitemrequestinput) | Requires expected_version. Items: A replacement item to keep or add when updating a return resolution. Include `return_replacement_line_item_id` to keep an existing one. |
 
 #### Response
 
@@ -472,19 +474,19 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -492,9 +494,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -504,7 +506,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returnResolutions->update('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'external_reference_id' => 'resolution-2026-001',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returnResolutions-update.php)

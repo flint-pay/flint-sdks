@@ -7,7 +7,7 @@ namespace Flint;
 final class CheckoutTaxConfigInput extends Model {
     /** @param array{'enabled'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutTaxConfigInput')); }
-    /** Shape $ (Value): boolean.
+    /** enabled
      * @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
      */

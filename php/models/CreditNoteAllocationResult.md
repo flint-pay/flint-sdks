@@ -16,13 +16,13 @@ Response model.
 
 The credit note with its recomputed available_money and allocated_money. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
 
-Field definitions: [shared fields](CreditNotesCreateResponse201.md#creditnotescreateresponse201data).
+Field definitions: [shared fields](CreditNoteResponse.md#creditnoteresponsedata).
 
 ### CreditNoteAllocationResult.credit_note.buyer_tax_identity
 
-Declared alternatives: [CreditNotesCreateResponse201.data.buyer_tax_identity](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity).
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity).
 
 ### CreditNoteAllocationResult.credit_note.seller_tax_identity
 
-Declared alternatives: [CreditNotesCreateResponse201.data.buyer_tax_identity](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity).
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity).
 

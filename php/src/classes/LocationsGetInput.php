@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $location_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class LocationsGetInput extends Model {
     /** @param array{'location_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint Location ID. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

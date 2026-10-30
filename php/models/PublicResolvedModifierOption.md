@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available` | Required | boolean |  |
-| `default_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `default_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#publicresolvedmodifieroption-line_item_tax_category-values). |
 | `modifier_id` | Required | string |  |
 | `name` | Required | string |  |

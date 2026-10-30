@@ -1,1 +1,0 @@
-{"shared":"Webhook_category_updated_merchant","dependencies":["Category","MerchantWebhookEnvelope","MetadataMap","SharedCodec413","SharedCodec414","SharedCodec625","Webhook_category_updated_merchant"]}

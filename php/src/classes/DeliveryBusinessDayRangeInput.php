@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryBusinessDayRangeInput extends Model {
     /** @param array{'maximum': int, 'minimum': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryBusinessDayRangeInput')); }
-    /** Shape $ (Value): integer.
+    /** maximum
      * @return int
      * @throws SdkError When maximum is omitted; use hasMaximum() or valueOrDefault().
      */
     public function getMaximum(): int { return $this->get('maximum'); }
     public function hasMaximum(): bool { return $this->has('maximum'); }
-    /** Shape $ (Value): integer.
+    /** minimum
      * @return int
      * @throws SdkError When minimum is omitted; use hasMinimum() or valueOrDefault().
      */

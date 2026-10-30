@@ -15,7 +15,7 @@ Request input.
 
 ### SaveMeGiftCardRequestInput variant 1: `credential_type` = `"code"`
 
-oneOf variant 1: The `code` variant of `SaveMeGiftCardRequest`..
+oneOf with credential_type: "code": The `code` variant of `SaveMeGiftCardRequest`..
 
 - Condition: not (at least one(present(`grant_id`); present(`recipient_access_token`))).
 - Required: `code`.
@@ -24,7 +24,7 @@ oneOf variant 1: The `code` variant of `SaveMeGiftCardRequest`..
 
 ### SaveMeGiftCardRequestInput variant 2: `credential_type` = `"recipient_access"`
 
-oneOf variant 2: The `recipient_access` variant of `SaveMeGiftCardRequest`..
+oneOf with credential_type: "recipient_access": The `recipient_access` variant of `SaveMeGiftCardRequest`..
 
 - Condition: not (present(`code`)).
 - Required: `grant_id`, `recipient_access_token`.

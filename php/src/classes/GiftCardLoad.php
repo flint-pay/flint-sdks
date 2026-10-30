@@ -18,94 +18,94 @@ namespace Flint;
  * @property-read GiftCardLoadSourceExternalPayment|GiftCardLoadSourceFlintPayment|GiftCardLoadSourceFlintManualPayment|GiftCardLoadSourceImport|GiftCardLoadSourceAdjustment|GiftCardLoadSourceGiftCardRefund|GiftCardLoadSourceGiftCardPurchaseRefundRecovery|GiftCardLoadSourceStoreCredit|\stdClass $source
  * @property-read string|null $source_created_at
  * @property-read MoneyValue $value_money
- * @property-read string $version
+ * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardLoad extends Model {
-    /** @param array{'consideration_money': mixed, 'created_at': string, 'funding_disputes': list<mixed>, 'gift_card_id': string, 'gift_card_load_id': string, 'idempotency_key': string|null, 'purchase_refund_value_holds'?: list<mixed>, 'purchase_refunds': list<mixed>, 'purchase_restoration'?: mixed, 'refund_provenance'?: mixed, 'refund_transferred_money'?: mixed, 'remaining_money': mixed, 'reversed_money': mixed, 'source': mixed, 'source_created_at': string|null, 'value_money': mixed, 'version': string, ...}|object $values */
+    /** @param array{'consideration_money': mixed, 'created_at': string, 'funding_disputes': list<mixed>, 'gift_card_id': string, 'gift_card_load_id': string, 'idempotency_key': string|null, 'purchase_refund_value_holds'?: list<mixed>, 'purchase_refunds': list<mixed>, 'purchase_restoration'?: mixed, 'refund_provenance'?: mixed, 'refund_transferred_money'?: mixed, 'remaining_money': mixed, 'reversed_money': mixed, 'source': mixed, 'source_created_at': string|null, 'value_money': mixed, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardLoad')); }
-    /** Shape $ (Value): {@see MoneyValue} or null. Shape $.anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
+    /**  anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getConsiderationMoney(): MoneyValue|null { return $this->get('consideration_money'); }
     public function hasConsiderationMoney(): bool { return $this->has('consideration_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): Array of {@see GiftCardFundingDispute}. Restrictions tied to original funding, including value restored to replacement cards. A win clears only its own restriction. A loss keeps spending restricted until you create a gift card funding disposition. Shape $[] (Value): {@see GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with its status and any loss resolution.
+    /** Restrictions tied to original funding, including value restored to replacement cards. A win clears only its own restriction. A loss keeps spending restricted until you create a gift card funding disposition. [] (Value): {@see GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with its status and any loss resolution.
      * @return list<GiftCardFundingDispute>
      */
     public function getFundingDisputes(): array { return $this->get('funding_disputes'); }
     public function hasFundingDisputes(): bool { return $this->has('funding_disputes'); }
-    /** Shape $ (Value): string.
+    /** gift_card_id
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Shape $ (Value): string.
+    /** gift_card_load_id
      * @return string
      */
     public function getGiftCardLoadId(): string { return $this->get('gift_card_load_id'); }
     public function hasGiftCardLoadId(): bool { return $this->has('gift_card_load_id'); }
-    /** Shape $ (Value): string or null. Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
+    /** Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
      * @return string|null
      */
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Shape $ (Value): Array of {@see GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on this descendant funding lot. Unknown provider outcomes retain these holds. Shape $[] (Value): {@see GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the refund, the root gift card and load, and the amount held.
+    /** Pending original cash refunds holding unspent value on this descendant funding lot. Unknown provider outcomes retain these holds. [] (Value): {@see GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the refund, the root gift card and load, and the amount held.
      * @return ?list<GiftCardPurchaseRefundValueHold>
      */
     public function getPurchaseRefundValueHolds(): ?array { return $this->get('purchase_refund_value_holds'); }
     public function hasPurchaseRefundValueHolds(): bool { return $this->has('purchase_refund_value_holds'); }
-    /** Shape $ (Value): Array of {@see GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this original funding load. Pending refunds reserve their value; confirmed success removes it, and confirmed failure releases the hold. Shape $[] (Value): {@see GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+    /** Cash refunds and manual payment reversals against this original funding load. Pending refunds reserve their value; confirmed success removes it, and confirmed failure releases the hold. [] (Value): {@see GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
      * @return list<GiftCardPurchaseRefundAllocation>
      */
     public function getPurchaseRefunds(): array { return $this->get('purchase_refunds'); }
     public function hasPurchaseRefunds(): bool { return $this->has('purchase_refunds'); }
-    /** Shape $ (Value): {@see GiftCardPurchaseRestoration}. Links a gift card load to the original card and load it restores value to after a purchase refund, for one unit of an order line item.
+    /** Links a gift card load to the original card and load it restores value to after a purchase refund, for one unit of an order line item.
      * @return ?GiftCardPurchaseRestoration
      */
     public function getPurchaseRestoration(): ?GiftCardPurchaseRestoration { return $this->get('purchase_restoration'); }
     public function hasPurchaseRestoration(): bool { return $this->has('purchase_restoration'); }
-    /** Shape $ (Value): {@see GiftCardRefundProvenance}. Traces a gift card load made by a refund back to its original funding source, root gift card and load, and source refund.
+    /** Traces a gift card load made by a refund back to its original funding source, root gift card and load, and source refund.
      * @return ?GiftCardRefundProvenance
      */
     public function getRefundProvenance(): ?GiftCardRefundProvenance { return $this->get('refund_provenance'); }
     public function hasRefundProvenance(): bool { return $this->has('refund_provenance'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getRefundTransferredMoney(): ?MoneyValue { return $this->get('refund_transferred_money'); }
     public function hasRefundTransferredMoney(): bool { return $this->has('refund_transferred_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRemainingMoney(): MoneyValue { return $this->get('remaining_money'); }
     public function hasRemainingMoney(): bool { return $this->has('remaining_money'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getReversedMoney(): MoneyValue { return $this->get('reversed_money'); }
     public function hasReversedMoney(): bool { return $this->has('reversed_money'); }
-    /** Shape $ (Value): {@see GiftCardFundingSource}. Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it.
+    /** Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it.
      * @return GiftCardLoadSourceExternalPayment|GiftCardLoadSourceFlintPayment|GiftCardLoadSourceFlintManualPayment|GiftCardLoadSourceImport|GiftCardLoadSourceAdjustment|GiftCardLoadSourceGiftCardRefund|GiftCardLoadSourceGiftCardPurchaseRefundRecovery|GiftCardLoadSourceStoreCredit|\stdClass
      */
     public function getSource(): GiftCardLoadSourceExternalPayment|GiftCardLoadSourceFlintPayment|GiftCardLoadSourceFlintManualPayment|GiftCardLoadSourceImport|GiftCardLoadSourceAdjustment|GiftCardLoadSourceGiftCardRefund|GiftCardLoadSourceGiftCardPurchaseRefundRecovery|GiftCardLoadSourceStoreCredit|\stdClass { return $this->get('source'); }
     public function hasSource(): bool { return $this->has('source'); }
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|null
      */
     public function getSourceCreatedAt(): string|null { return $this->get('source_created_at'); }
     public function hasSourceCreatedAt(): bool { return $this->has('source_created_at'); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getValueMoney(): MoneyValue { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * @return string
+    /** Format: int64.
+     * @return int
      */
-    public function getVersion(): string { return $this->get('version'); }
+    public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
 }

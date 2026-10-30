@@ -1,0 +1,1 @@
+{"shared":"CustomerUpdatedMerchantEvent","dependencies":["CardDetails","Customer","CustomerReceivableBalance","CustomerReceivables","CustomerUpdatedMerchantEvent","DocumentTaxID","MetadataMap","MoneyValue","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec353","SharedCodec354","SharedCodec372","SharedCodec38","SharedCodec39","SharedCodec40","SharedCodec41"]}

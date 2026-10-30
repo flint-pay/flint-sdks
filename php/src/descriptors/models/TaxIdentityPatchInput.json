@@ -1,1 +1,1 @@
-{"shared":"TaxIdentityRequest","dependencies":["AddressRequest","DocumentTaxIDRequestRequest","SharedCodec0","SharedCodec1","SharedCodec993","TaxIdentityRequest"]}
+{"shared":"TaxIdentityRequest","dependencies":["DocumentTaxIDRequest","SharedCodec0","SharedCodec1","SharedCodec841","SharedCodec842","TaxIdentityRequest"]}

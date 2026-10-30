@@ -13,69 +13,69 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $status
  * @property-read string $updated_at
- * @property-read string $version
+ * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryProfile extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: mixed, 'external_reference_id'?: string, 'is_default': bool, 'metadata'?: mixed, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: mixed, 'external_reference_id'?: string, 'is_default': bool, 'metadata'?: mixed, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfile')); }
-    /** Shape $ (Value): {@see DeliveryProfileConfiguration}. Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
+    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
      * @return DeliveryProfileConfiguration
      */
     public function getConfiguration(): DeliveryProfileConfiguration { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Shape $ (Value): string. Time the profile was created. Format: date-time.
+    /** Time the profile was created. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string. Immutable revision used for new line-item snapshots.
+    /** Immutable revision used for new line-item snapshots.
      * @return string
      */
     public function getCurrentDeliveryProfileRevisionId(): string { return $this->get('current_delivery_profile_revision_id'); }
     public function hasCurrentDeliveryProfileRevisionId(): bool { return $this->has('current_delivery_profile_revision_id'); }
-    /** Shape $ (Value): string. Stable delivery profile ID.
+    /** Stable delivery profile ID.
      * @return string
      */
     public function getDeliveryProfileId(): string { return $this->get('delivery_profile_id'); }
     public function hasDeliveryProfileId(): bool { return $this->has('delivery_profile_id'); }
-    /** Shape $ (Value): {@see DeliveryProfileDiagnostics}. Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks for a delivery profile, such as how many active Locations have no compatible delivery method and how many countries its zones name.
+    /** Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks for a delivery profile, such as how many active Locations have no compatible delivery method and how many countries its zones name.
      * @return ?DeliveryProfileDiagnostics
      */
     public function getDiagnostics(): ?DeliveryProfileDiagnostics { return $this->get('diagnostics'); }
     public function hasDiagnostics(): bool { return $this->has('diagnostics'); }
-    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return ?string
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): boolean. True only when this profile is the current physical catalog default.
+    /** True only when this profile is the current physical catalog default.
      * @return bool
      */
     public function getIsDefault(): bool { return $this->get('is_default'); }
     public function hasIsDefault(): bool { return $this->has('is_default'); }
-    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string. Merchant-facing profile name.
+    /** Merchant-facing profile name.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Current profile lifecycle status. Value enum: "active", "archived".
+    /** Current profile lifecycle status. Value enum: "active", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. Time the profile last changed. Format: date-time.
+    /** Time the profile last changed. Format: date-time.
      * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Optimistic-concurrency version for profile writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     * @return string
+    /** Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1.
+     * @return int
      */
-    public function getVersion(): string { return $this->get('version'); }
+    public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
 }

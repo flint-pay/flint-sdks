@@ -1,1 +1,1 @@
-{"shared":"SubscriptionPaymentRetry","dependencies":["ErrorRemediation","NextAction","NextActionMerchantAccountSession","PaymentErrorSummary","SharedCodec1005","SharedCodec3","SharedCodec32","SharedCodec35","SubscriptionPaymentRetry"]}
+{"shared":"SubscriptionPaymentRetry","dependencies":["NextAction","PaymentErrorSummary","ReadinessMerchantAccountSession","SharedCodec3","SharedCodec59","SharedCodec60","SharedCodec61","SharedCodec852","SharedCodec853","SharedCodec876","SubscriptionPaymentRetry"]}

@@ -9,19 +9,19 @@ namespace Flint;
 final class CustomerReceivableBalanceInput extends Model {
     /** @param array{'currency': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'overdue_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerReceivableBalanceInput')); }
-    /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
      */
     public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When overdue_money is omitted; use hasOverdueMoney() or valueOrDefault().
      */

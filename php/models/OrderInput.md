@@ -19,7 +19,7 @@ Request input.
 | `closed_reason` | Optional | string | Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
 | `closed_reason_message` | Optional | string | The caller note supplied when closing the order. System closures leave it absent. It is not shown to the buyer. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null |  |
+| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string |  |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationInput](../models/OrderDeliveryDestinationInput.md#orderdeliverydestinationinput) | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. Where an order is delivered: the address, the recipient, and where the destination came from. |
 | `discounts` | Required | Array of [OrderDiscountInput](../models/OrderDiscountInput.md#orderdiscountinput) |  |
@@ -56,15 +56,15 @@ Request input.
 | `settlement_amounts` | Required | [SettlementAmountsInput](../models/SettlementAmountsInput.md#settlementamountsinput) | How much of an order has been paid, refunded, credited, written off, and settled as tips, and what balance and outstanding amount remain. |
 | `setup_collection` | Optional | [PaymentCollectionInput](../models/PaymentCollectionInput.md#paymentcollectioninput) | Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 | `status` | Required | string | Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Values: `"open"`, `"closed"`. |
-| `subscription` | Optional | [ExpandedSubscriptionSummaryInput](../models/ExpandedSubscriptionSummaryInput.md#expandedsubscriptionsummaryinput) or null |  |
-| `subscription_cycle` | Optional | integer string | Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance the cycle. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `subscription` | Optional | [ExpandedSubscriptionSummaryInput](../models/ExpandedSubscriptionSummaryInput.md#expandedsubscriptionsummaryinput) or null | Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. |
+| `subscription_cycle` | Optional | integer | Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance the cycle. Format: `uint64`. minimum: `0`. |
 | `subscription_delivery_changed_at` | Optional | string | Time the subscriber changed delivery after this paid renewal was prepared. The order keeps its committed destination until you correct it or refund and replace it. Format: `date-time`. |
 | `subscription_id` | Optional | string |  |
-| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryInput](../models/ExpandedSubscriptionPlanSummaryInput.md#expandedsubscriptionplansummaryinput) or null |  |
+| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryInput](../models/ExpandedSubscriptionPlanSummaryInput.md#expandedsubscriptionplansummaryinput) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
 | `subscription_plan_id` | Optional | string |  |
 | `tax` | Required | [OrderTaxInput](../models/OrderTaxInput.md#ordertaxinput) | An order's tax state, including its mode, price mode, status, location, exemption, and tax breakdowns. |
 | `ticketed_event` | Optional | [TicketedEventInput](../models/TicketedEventInput.md#ticketedeventinput) | Event and tickets this order sold through an event payment link. Absent on other orders. Event details for a ticketed order: name, location, start time, time zone, and the tickets issued. |
 | `tips` | Required | Array of [TipInput](../models/TipInput.md#tipinput) |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Order version for optimistic concurrency. Send this value as the expected version when changing the order. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Order version for optimistic concurrency. Send this value as the expected version when changing the order. Increases with every change to the order. Ignore an order webhook snapshot whose version is lower than one you have already applied. Format: `int64`. |
 

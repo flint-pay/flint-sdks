@@ -1,0 +1,1 @@
+{"shared":"GiftCardRedemptionCreatedInstalledMerchantsEvent","dependencies":["GiftCardRedemption","GiftCardRedemptionCreatedInstalledMerchantsEvent","MoneyValue","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec615","SharedCodec949","SharedCodec950"]}

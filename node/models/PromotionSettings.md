@@ -22,7 +22,7 @@ No additional constraints.
 
 ### PromotionSettings variant 2
 
-anyOf variant 2: Declared schema PromotionSettingsRequestRequest. Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order..
+anyOf variant 2: Declared schema PromotionSettingsRequest. Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order..
 
 No additional constraints.
 

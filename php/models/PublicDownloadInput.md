@@ -6,5 +6,5 @@ A temporary link for downloading a generated report.
 
 Request input.
 
-Fields, types, descriptions and enum values: [ReportsCreateResponse201DataPendingDownload](../models/ReportsCreateResponse201DataPendingDownload.md#reportscreateresponse201datapendingdownload).
+Fields, types, descriptions and enum values: [ReportResponseDataPendingDownload](../models/ReportResponseDataPendingDownload.md#reportresponsedatapendingdownload).
 

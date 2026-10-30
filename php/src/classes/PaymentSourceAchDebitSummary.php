@@ -9,17 +9,17 @@ namespace Flint;
 final class PaymentSourceAchDebitSummary extends Model {
     /** @param array{'account_type'?: string, 'bank_name'?: string, 'last4'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceAchDebitSummary')); }
-    /** Shape $ (Value): string.  Value enum: "checking", "savings", "other".
+    /** Value enum: "checking", "savings", "other".
      * @return ?string
      */
     public function getAccountType(): ?string { return $this->get('account_type'); }
     public function hasAccountType(): bool { return $this->has('account_type'); }
-    /** Shape $ (Value): string.
+    /** bank_name
      * @return ?string
      */
     public function getBankName(): ?string { return $this->get('bank_name'); }
     public function hasBankName(): bool { return $this->has('bank_name'); }
-    /** Shape $ (Value): string.
+    /** last4
      * @return ?string
      */
     public function getLast4(): ?string { return $this->get('last4'); }

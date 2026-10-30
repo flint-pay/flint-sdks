@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `adjustments` | Required | Array of [ReturnResolutionAdjustmentInput](../models/ReturnResolutionAdjustmentInput.md#returnresolutionadjustmentinput) |  |
-| `based_on_return_version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `based_on_return_version` | Required | integer | Format: `int64`. minimum: `0`. |
 | `buyer_payment_amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `buyer_refund_amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `calculated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |

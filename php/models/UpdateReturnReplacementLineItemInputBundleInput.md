@@ -11,7 +11,7 @@ Request input.
 | `bundle_id` | Required | string | minLength: `1`. |
 | `description` | Optional | string | minLength: `1`. |
 | `name` | Optional | string | minLength: `1`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `return_replacement_line_item_id` | Optional | string | minLength: `1`. |
 | `sku` | Optional | string | minLength: `1`. |
 | `type` | Required | string | The source of the replacement merchandise: variant, bundle, or custom. Values: `"bundle"`. |

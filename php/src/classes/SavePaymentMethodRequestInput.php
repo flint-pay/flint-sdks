@@ -8,13 +8,13 @@ namespace Flint;
 final class SavePaymentMethodRequestInput extends Model {
     /** @param array{'customer_id': string, 'type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SavePaymentMethodRequestInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** The customer to save the payment method for. minLength: 1.
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Shape $ (Value): string.  Value enum: "card".
+    /** Kind of payment method to save. card is the only value and the default. Value enum: "card".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

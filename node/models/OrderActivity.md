@@ -15,12 +15,12 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | `checkout_session_id` | Optional | string | Related checkout session when activity_type points at checkout session lifecycle. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `description` | Required | string | Human-readable Flint description. Provider-specific raw statuses and failure values are not exposed here. |
-| `fulfillment_id` | Optional | string |  |
-| `order_activity_id` | Required | string |  |
-| `order_charge_id` | Optional | string |  |
-| `order_discount_id` | Optional | string |  |
-| `order_line_item_id` | Optional | string |  |
-| `order_tip_id` | Optional | string |  |
+| `fulfillment_id` | Optional | string | Related fulfillment for a fulfillment_created, fulfillment_updated, or fulfillment_state_changed activity. Omitted when the row does not identify one fulfillment. |
+| `order_activity_id` | Required | string | Unique identifier for this activity, prefixed oact_. |
+| `order_charge_id` | Optional | string | Related charge for a charge_added, charge_updated, charge_removed, or charge_fulfillment_updated activity. Omitted when the row does not identify one charge. |
+| `order_discount_id` | Optional | string | Related discount for a discount_applied or discount_removed activity. Omitted when the row does not identify one discount. |
+| `order_line_item_id` | Optional | string | Related line item for a line_item_added, line_item_updated, or line_item_removed activity. Omitted when the row does not identify one line item. |
+| `order_tip_id` | Optional | string | Related requested tip for a requested_tip_added, requested_tip_updated, or requested_tip_removed activity. Omitted when the row does not identify one tip. |
 | `payment_intent_id` | Optional | string | Related payment intent when activity_type points at a payment attempt or payment outcome. |
 | `refund_id` | Optional | string | Related refund when activity_type points at a refund outcome. Read the refund for the authoritative outcome. |
 | `running_balance_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Order balance after this activity in chronological time. This is context for reading the log, not a reconciliation ledger. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. `running_balance_money`: [field definitions](../models/OrderActivity.md#orderactivityrunning_balance_money). |

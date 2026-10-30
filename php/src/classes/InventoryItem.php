@@ -11,59 +11,59 @@ namespace Flint;
  * @property-read ?string $sku
  * @property-read string $status
  * @property-read string $updated_at
- * @property-read string $version
+ * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryItem extends Model {
-    /** @param array{'barcode'?: string, 'created_at': string, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': mixed, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'barcode'?: string, 'created_at': string, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': mixed, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItem')); }
-    /** Shape $ (Value): string. Optional searchable barcode.
+    /** Optional searchable barcode.
      * @return ?string
      */
     public function getBarcode(): ?string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Shape $ (Value): string. Time the inventory item was created. Format: date-time.
+    /** Time the inventory item was created. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return ?string
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string. Stable inventory item ID.
+    /** Stable inventory item ID.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string. Merchant-facing inventory item name.
+    /** Merchant-facing inventory item name.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Optional searchable stock-keeping unit.
+    /** Optional searchable stock-keeping unit.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Shape $ (Value): string. Current inventory item lifecycle status. Value enum: "active", "inactive", "archived".
+    /** Current inventory item lifecycle status. Value enum: "active", "inactive", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. Time the inventory item last changed. Format: date-time.
+    /** Time the inventory item last changed. Format: date-time.
      * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     * @return string
+    /** Optimistic-concurrency version for item writes. Format: uint64. minimum: 1.
+     * @return int
      */
-    public function getVersion(): string { return $this->get('version'); }
+    public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
 }

@@ -18,7 +18,7 @@ Request input.
 | `error_type` | Optional | string | The error envelope's `type` for this response. Values: [11 declared values](#apirequestloginput-error_type-values). |
 | `expand` | Optional | Array of string | Normalized expand paths Flint applied. Absent when the request did not use expand. |
 | `http_method` | Required | string |  |
-| `latency_milliseconds` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `latency_milliseconds` | Required | integer | Format: `int64`. |
 | `path` | Required | string |  |
 | `recommended_action` | Optional | string | The next step to resolve this failure. |
 | `reference_url` | Optional | string | A Flint guide that explains this failure. Absent when no guide applies. Format: `uri`. |
@@ -26,7 +26,7 @@ Request input.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](#apirequestloginput-resource_type-values). |
+| `resource_type` | Optional | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](#apirequestloginput-resource_type-values). |
 | `retry` | Optional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string |  |
 | `served_api_version` | Optional | string |  |
@@ -183,6 +183,7 @@ Request input.
 - `"subscription_plan_line_item"`
 - `"tax_connection"`
 - `"tax_registration"`
+- `"test_clock"`
 - `"user"`
 - `"webhook_delivery"`
 - `"webhook_endpoint"`

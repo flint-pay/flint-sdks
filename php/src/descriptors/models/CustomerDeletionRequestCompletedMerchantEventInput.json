@@ -1,0 +1,1 @@
+{"shared":"CustomerDeletionRequestCompletedMerchantEvent","dependencies":["CustomerDeletionRequest","CustomerDeletionRequestCompletedMerchantEvent","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec360"]}

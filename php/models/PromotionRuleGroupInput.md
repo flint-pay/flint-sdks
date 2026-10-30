@@ -13,14 +13,14 @@ Request input.
 
 ### PromotionRuleGroupInput variant 1
 
-oneOf variant 1.
+oneOf All.
 
 - Required: `all`.
 - Undeclared: `any`.
 
 ### PromotionRuleGroupInput variant 2
 
-oneOf variant 2.
+oneOf Any.
 
 - Required: `any`.
 - Undeclared: `all`.
@@ -38,7 +38,7 @@ oneOf variant 2.
 
 ### PromotionRuleGroupInput variant 1.all[] variant 1
 
-oneOf variant 1: One condition in a promotion rule group, which tests an attribute with an operator and values..
+oneOf PromotionRule: One condition in a promotion rule group, which tests an attribute with an operator and values..
 
 - Required: `attribute`, `operator`.
 - Optional: `currency_options`, `values`.
@@ -46,14 +46,14 @@ oneOf variant 1: One condition in a promotion rule group, which tests an attribu
 
 ### PromotionRuleGroupInput variant 1.all[] variant 2
 
-oneOf variant 2: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 1.
+oneOf PromotionRuleGroup: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf All.
 
 - Required: `all`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
 
 ### PromotionRuleGroupInput variant 1.all[] variant 3
 
-oneOf variant 2: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf variant 2.
+oneOf PromotionRuleGroup: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf Any.
 
 - Required: `any`.
 - Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.

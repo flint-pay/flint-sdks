@@ -17,5 +17,5 @@ Response model.
 | `status` | Required | string | Pending until confirmed; then scheduled before start_date, active within the inclusive date window, and ended after end_date. Rejected when verification fails. Removed is returned only by DELETE in its final snapshot. Values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. |
 | `tax_registration_id` | Required | string | Flint tax registration ID. |
 | `updated_at` | Required | string | When this registration last changed. Format: `date-time`. |
-| `version` | Required | integer string | Current resource version. Send as expected_version to reject a write based on an older version. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Current resource version. Send as expected_version to reject a write based on an older version. Format: `uint64`. minimum: `1`. |
 

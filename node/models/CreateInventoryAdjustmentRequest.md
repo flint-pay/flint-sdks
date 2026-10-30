@@ -19,7 +19,7 @@ The request body for: Create inventory adjustment.
 
 ### CreateInventoryAdjustmentRequest variant 1
 
-oneOf variant 1: The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of `CreateInventoryAdjustmentRequest`. The `returned` variant of `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`. The `theft` variant of `CreateInventoryAdjustmentRequest`..
+oneOf with reason: "loss" | "received" | "returned" | "sold" | "theft": The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of `CreateInventoryAdjustmentRequest`. The `returned` variant of `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`. The `theft` variant of `CreateInventoryAdjustmentRequest`..
 
 - Optional: `note`, `source_system`.
 - Constraints for `lines`: Array of [InventoryAdjustmentQuantityLineRequest](../models/InventoryAdjustmentQuantityLineRequest.md#inventoryadjustmentquantitylinerequest).
@@ -28,7 +28,7 @@ oneOf variant 1: The `loss` variant of `CreateInventoryAdjustmentRequest`. The `
 
 ### CreateInventoryAdjustmentRequest variant 2: `reason` = `"condition_changed"`
 
-oneOf variant 2: The `condition_changed` variant of `CreateInventoryAdjustmentRequest`..
+oneOf with reason: "condition_changed": The `condition_changed` variant of `CreateInventoryAdjustmentRequest`..
 
 - Optional: `note`, `source_system`.
 - Constraints for `lines`: Array of [InventoryAdjustmentConditionChangeLineRequest](../models/InventoryAdjustmentConditionChangeLineRequest.md#inventoryadjustmentconditionchangelinerequest).
@@ -37,7 +37,7 @@ oneOf variant 2: The `condition_changed` variant of `CreateInventoryAdjustmentRe
 
 ### CreateInventoryAdjustmentRequest variant 3: `reason` = `"counted"`
 
-oneOf variant 3: The `counted` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 1.
+oneOf with reason: "counted": The `counted` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 1.
 
 - Required: `source_system`.
 - Optional: `note`.
@@ -47,7 +47,7 @@ oneOf variant 3: The `counted` variant of `CreateInventoryAdjustmentRequest`.; a
 
 ### CreateInventoryAdjustmentRequest variant 4: `reason` = `"counted"`
 
-oneOf variant 3: The `counted` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 2.
+oneOf with reason: "counted": The `counted` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 2.
 
 - Optional: `note`, `source_system`.
 - Constraints for `lines`: Array of [InventoryAdjustmentSetLineRequest](../models/InventoryAdjustmentSetLineRequest.md#inventoryadjustmentsetlinerequest).
@@ -56,7 +56,7 @@ oneOf variant 3: The `counted` variant of `CreateInventoryAdjustmentRequest`.; a
 
 ### CreateInventoryAdjustmentRequest variant 5: `reason` = `"correction"`
 
-oneOf variant 4: The `correction` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 1.
+oneOf with reason: "correction": The `correction` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 1.
 
 - Required: `note`, `source_system`.
 - Constraints for `lines`: Array of [InventoryAdjustmentSetLineRequest](../models/InventoryAdjustmentSetLineRequest.md#inventoryadjustmentsetlinerequest).
@@ -65,7 +65,7 @@ oneOf variant 4: The `correction` variant of `CreateInventoryAdjustmentRequest`.
 
 ### CreateInventoryAdjustmentRequest variant 6: `reason` = `"correction"`
 
-oneOf variant 4: The `correction` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 2.
+oneOf with reason: "correction": The `correction` variant of `CreateInventoryAdjustmentRequest`.; anyOf variant 2.
 
 - Required: `note`.
 - Optional: `source_system`.

@@ -8,12 +8,12 @@ namespace Flint;
 final class InventoryReservationOwnerMerchant extends Model {
     /** @param array{'key': string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationOwnerMerchant')); }
-    /** Shape $ (Value): string.
+    /** key
      * @return string
      */
     public function getKey(): string { return $this->get('key'); }
     public function hasKey(): bool { return $this->has('key'); }
-    /** Shape $ (Value): string.  Value enum: "merchant".
+    /** Value enum: "merchant".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

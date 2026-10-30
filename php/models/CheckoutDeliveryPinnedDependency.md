@@ -10,6 +10,6 @@ Response model.
 | --- | --- | --- | --- |
 | `delivery_dependency_role` | Required | string | Values: `"assigned_method"`, `"eligibility"`, `"method_origin"`, `"pickup_collection"`, `"pricing_callback"`, `"origin"`. |
 | `dependency` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null |  |
-| `location_geography_version` | Optional | integer string | Version of the Location geography used by this assignment or dependency. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `location_geography_version` | Optional | integer | Version of the Location geography used by this assignment or dependency. Format: `int64`. |
 | `revision_id` | Optional | string |  |
 

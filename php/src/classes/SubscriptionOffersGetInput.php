@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $subscription_offer_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionOffersGetInput extends Model {
     /** @param array{'subscription_offer_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOffersGetInput')); }
-    /** Shape $ (Value): string.
+    /** Subscription offer ID. Example: "soffer_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */

@@ -19,7 +19,7 @@ A stock-keeping unit that inventory quantities are tracked against. Catalog vari
 | `sku` | Optional | string | Optional searchable stock-keeping unit. |
 | `status` | Required | string | Current inventory item lifecycle status. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Required | string | Time the inventory item last changed. Format: `date-time`. |
-| `version` | Required | integer string | Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Optimistic-concurrency version for item writes. Format: `uint64`. minimum: `1`. |
 
 ### InventoryItem.metadata
 

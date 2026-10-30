@@ -8,12 +8,12 @@ namespace Flint;
 final class PaymentLinkProductOptionValue extends Model {
     /** @param array{'option_value_id': string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkProductOptionValue')); }
-    /** Shape $ (Value): string. ID of the product option value.
+    /** ID of the product option value.
      * @return string
      */
     public function getOptionValueId(): string { return $this->get('option_value_id'); }
     public function hasOptionValueId(): bool { return $this->has('option_value_id'); }
-    /** Shape $ (Value): string. Product option value shown to the buyer, such as M or Blue.
+    /** Product option value shown to the buyer, such as M or Blue.
      * @return string
      */
     public function getValue(): string { return $this->get('value'); }

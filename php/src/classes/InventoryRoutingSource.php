@@ -10,22 +10,22 @@ namespace Flint;
 final class InventoryRoutingSource extends Model {
     /** @param array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryRoutingSource')); }
-    /** Shape $ (Value): string.
+    /** inventory_allocation_policy_id
      * @return ?string
      */
     public function getInventoryAllocationPolicyId(): ?string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** Shape $ (Value): string.
+    /** inventory_allocation_policy_revision_id
      * @return ?string
      */
     public function getInventoryAllocationPolicyRevisionId(): ?string { return $this->get('inventory_allocation_policy_revision_id'); }
     public function hasInventoryAllocationPolicyRevisionId(): bool { return $this->has('inventory_allocation_policy_revision_id'); }
-    /** Shape $ (Value): string.
+    /** location_id
      * @return ?string
      */
     public function getLocationId(): ?string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): string.  Value enum: "fixed_location", "policy", "policy_revision".
+    /** Value enum: "fixed_location", "policy", "policy_revision".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

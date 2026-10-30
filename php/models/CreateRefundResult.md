@@ -18,7 +18,7 @@ Response model.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `failure_reason` | Optional | string | Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Values: [10 declared values](BuyerRefundInput.md#buyerrefundinput-failure_reason-values). |
 | `gift_card_codes` | Optional | Array of ([CreateRefundResultGiftCardCodesItem](../models/CreateRefundResultGiftCardCodesItem.md#createrefundresultgiftcardcodesitem) and object) | New gift card codes recovered only within 24 hours of the original command and only while each code remains current. Omitted after the recovery window and never returned by ordinary refund reads or events. |
-| `idempotency_key` | Optional | string | Present only on refunds created through POST /v1/credit-notes/{credit_note_id}/refunds: the Idempotency-Key of that call. Use it with GET /v1/credit-notes/{credit_note_id}/refunds?idempotency_key= to recover a refund whose create response was lost. |
+| `idempotency_key` | Optional | string | Present only on refunds created through POST /v1/credit-notes/{credit_note_id}/refunds or by issuing a credit note with refund: the Idempotency-Key of that call. Use it with GET /v1/credit-notes/{credit_note_id}/refunds?idempotency_key= to recover a refund whose create response was lost. |
 | `invoice_id` | Optional | string |  |
 | `line_item_allocations` | Optional | Array of ([CreateRefundResultLineItemAllocationsItem](../models/CreateRefundResultLineItemAllocationsItem.md#createrefundresultlineitemallocationsitem) and [RefundLineItemAllocation](../models/RefundLineItemAllocation.md#refundlineitemallocation)) |  |
 | `merchant_id` | Optional | string |  |
@@ -40,7 +40,7 @@ Response model.
 | `tender_allocations` | Optional | Array of ([CreateRefundResultTenderAllocationsItem](../models/CreateRefundResultTenderAllocationsItem.md#createrefundresulttenderallocationsitem) and [RefundTenderAllocation](../models/RefundTenderAllocation.md#refundtenderallocation)) |  |
 | `unissued_gift_card_recoveries` | Optional | Array of ([CreateRefundResultUnissuedGiftCardRecoveriesItem](../models/CreateRefundResultUnissuedGiftCardRecoveriesItem.md#createrefundresultunissuedgiftcardrecoveriesitem) and [RefundUnissuedGiftCardRecovery](../models/RefundUnissuedGiftCardRecovery.md#refundunissuedgiftcardrecovery)) | Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 
 ### CreateRefundResult.metadata
 

@@ -11,7 +11,7 @@ Provide at most one fulfillment details object: pickup_details, local_delivery_d
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_id` | Optional | string | minLength: `1`. |
-| `device_id` | Optional | string | minLength: `1`. |
+| `device_id` | Optional | string | Device used for this fulfillment. It must be active. When location_id is also set, the device must belong to that Location. minLength: `1`. |
 | `digital_details` | Optional | [CreateDigitalFulfillmentDetails](../models/CreateDigitalFulfillmentDetails.md#createdigitalfulfillmentdetails) | Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `line_items` | Required | Array of [FulfillmentLineItemRequest](../models/FulfillmentLineItemRequest.md#fulfillmentlineitemrequest) | minItems: `1`. |
@@ -26,7 +26,7 @@ Provide at most one fulfillment details object: pickup_details, local_delivery_d
 
 ### CreateFulfillmentRequest variant 1: `type` = `"shipment"`
 
-oneOf variant 1: Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
+oneOf with type: "shipment": Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
 
 - Condition: not (present(`pickup_details`)).
 - Condition: not (present(`local_delivery_details`)).
@@ -36,7 +36,7 @@ oneOf variant 1: Provide at most one fulfillment details object: pickup_details,
 
 ### CreateFulfillmentRequest variant 2: `type` = `"pickup"`
 
-oneOf variant 2: Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
+oneOf with type: "pickup": Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
 
 - Condition: not (present(`shipment`)).
 - Condition: not (present(`local_delivery_details`)).
@@ -46,7 +46,7 @@ oneOf variant 2: Provide at most one fulfillment details object: pickup_details,
 
 ### CreateFulfillmentRequest variant 3: `type` = `"local_delivery"`
 
-oneOf variant 3: Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
+oneOf with type: "local_delivery": Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
 
 - Condition: not (present(`shipment`)).
 - Condition: not (present(`pickup_details`)).
@@ -56,7 +56,7 @@ oneOf variant 3: Provide at most one fulfillment details object: pickup_details,
 
 ### CreateFulfillmentRequest variant 4: `type` = `"digital"`
 
-oneOf variant 4: Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
+oneOf with type: "digital": Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
 
 - Condition: not (present(`shipment`)).
 - Condition: not (present(`pickup_details`)).
@@ -66,7 +66,7 @@ oneOf variant 4: Provide at most one fulfillment details object: pickup_details,
 
 ### CreateFulfillmentRequest variant 5: `type` = `"service"`
 
-oneOf variant 5: Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
+oneOf with type: "service": Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages..
 
 - Condition: not (present(`shipment`)).
 - Condition: not (present(`pickup_details`)).

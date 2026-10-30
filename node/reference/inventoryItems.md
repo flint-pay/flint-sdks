@@ -4,24 +4,16 @@
 
 ### inventoryItems.create
 
-Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not required to be unique. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the relevant resource or inventory movement list.
+Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not required to be unique. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory items by the external_reference_id, sku, or barcode you supplied, then read the matching item.
 
 `POST /v1/inventory-items`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateInventoryItemRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `create(params: InventoryItemsCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateInventoryItemRequestInput](../models/CreateInventoryItemRequest.md#createinventoryitemrequest) | The request body for: Create inventory item. |
 
 Body model: [CreateInventoryItemRequestInput](../models/CreateInventoryItemRequest.md#createinventoryitemrequest).
@@ -43,19 +35,19 @@ Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -63,9 +55,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -75,24 +67,25 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.inventoryItems.create({name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.inventoryItems.create({barcode: "0781234567890", name: "Ceramic mug, 12oz", sku: "mug-12-white", status: "active"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/inventoryItems-create.mjs)
 
-### inventoryItems.get
+### inventoryItems.delete
 
-Retrieve an inventory item by ID, including archived items.
+Retire an inventory item. The item is archived: it stays readable by ID and appears in lists only when you filter by status archived.
 
-`GET /v1/inventory-items/{inventory_item_id}`
+`DELETE /v1/inventory-items/{inventory_item_id}`
 
-Signature: `get(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `delete(inventory_item_id: InputValue<string>, params?: InventoryItemsDeleteParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_item_id` | Required | string |  |
+| `inventory_item_id` | Required | string | Flint inventory item ID. |
+| `expected_version` | Optional | integer | Current resource version used as a concurrency fence. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -100,16 +93,17 @@ Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -117,14 +111,68 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.inventoryItems.get("example", {}, {  });
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.inventoryItems.delete("invi_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/inventoryItems-delete.mjs)
+
+### inventoryItems.get
+
+Retrieve an inventory item by ID, including archived items.
+
+`GET /v1/inventory-items/{inventory_item_id}`
+
+Signature: `get(inventory_item_id: InputValue<string>, params?: InventoryItemsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_item_id` | Required | string | Flint inventory item ID. |
+
+#### Response
+
+Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.inventoryItems.get("invi_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/inventoryItems-get.mjs)
@@ -135,32 +183,19 @@ List inventory items. Archived items are excluded unless you filter by status ar
 
 `GET /v1/inventory-items`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-  "sku"?: InputValue<string>;
-  "barcode"?: InputValue<string>;
-  "external_reference_id"?: InputValue<string>;
-  "query"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: InventoryItemsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"inactive"`, `"archived"`. |
-| `sku` | Optional | string |  |
-| `barcode` | Optional | string |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `query` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `sku` | Optional | string | Filter by exact SKU. |
+| `barcode` | Optional | string | Filter by exact barcode. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `query` | Optional | string | Search inventory item ID, external reference ID, name, SKU, or barcode. maxLength: `255`. |
 
 #### Response
 
@@ -168,16 +203,16 @@ Returned payload: [InventoryItemListResponse](../models/InventoryItemListRespons
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -185,11 +220,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -199,94 +234,19 @@ const result = await client.inventoryItems.list({}, {  });
 
 [Complete runnable example](../examples/inventoryItems-list.mjs)
 
-### inventoryItems.remove
-
-Retire an inventory item. The item is archived: it stays readable by ID and appears in lists only when you filter by status archived.
-
-`DELETE /v1/inventory-items/{inventory_item_id}`
-
-Signature:
-
-```typescript
-remove(inventory_item_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `inventory_item_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.inventoryItems.remove("example", {}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/inventoryItems-remove.mjs)
-
 ### inventoryItems.update
 
-Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to clear. expected_version is optional and enforced when sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the relevant resource or inventory movement list.
+Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to clear. expected_version is optional and enforced when sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory item by ID.
 
 `PATCH /v1/inventory-items/{inventory_item_id}`
 
-Signature:
-
-```typescript
-update(inventory_item_id: InputValue<string>,
- params: (InputValue<UpdateInventoryItemRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `update(inventory_item_id: InputValue<string>, params: InventoryItemsUpdateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_item_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `inventory_item_id` | Required | string | Flint inventory item ID. |
 | `body` | Required | [UpdateInventoryItemRequestInput](../models/UpdateInventoryItemRequest.md#updateinventoryitemrequest) | The request body for: Update inventory item. |
 
 Body model: [UpdateInventoryItemRequestInput](../models/UpdateInventoryItemRequest.md#updateinventoryitemrequest).
@@ -296,7 +256,7 @@ Body model: [UpdateInventoryItemRequestInput](../models/UpdateInventoryItemReque
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | minLength: `1`. |
@@ -309,19 +269,19 @@ Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -329,9 +289,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -341,7 +301,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.inventoryItems.update("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.inventoryItems.update("invi_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Ceramic mug"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/inventoryItems-update.mjs)

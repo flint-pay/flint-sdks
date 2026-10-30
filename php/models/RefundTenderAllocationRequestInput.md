@@ -16,7 +16,7 @@ Request input.
 
 ### RefundTenderAllocationRequestInput variant 1: `tender_type` = `"payment_intent"`
 
-oneOf variant 1: The `payment_intent` variant of `RefundTenderAllocationInput`..
+oneOf with tender_type: "payment_intent": The `payment_intent` variant of `RefundTenderAllocationInput`..
 
 - Condition: not (present(`gift_card_redemption_id`)).
 - Required: `payment_intent_id`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `payment_intent` variant of `RefundTenderAllocationInput`..
 
 ### RefundTenderAllocationRequestInput variant 2: `tender_type` = `"gift_card_redemption"`
 
-oneOf variant 2: The `gift_card_redemption` variant of `RefundTenderAllocationInput`..
+oneOf with tender_type: "gift_card_redemption": The `gift_card_redemption` variant of `RefundTenderAllocationInput`..
 
 - Condition: not (present(`payment_intent_id`)).
 - Required: `gift_card_redemption_id`.

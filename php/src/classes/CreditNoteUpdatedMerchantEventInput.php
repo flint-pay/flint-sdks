@@ -1,0 +1,79 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $api_version
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read array{'object': array{'allocated_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'created_at': string|\DateTimeInterface, 'credit_note_id': string, 'credit_note_number'?: string, 'external_reference_id': string|null, 'invoice'?: ExpandedInvoiceSummaryInput|array<array-key, mixed>|\stdClass, 'invoice_id': string, 'issued_at'?: string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_id': string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at'?: string|\DateTimeInterface, ...}|object}|object $data
+ * @property-read string $event_type
+ * @property-read string $merchant_id
+ * @property-read string $mode
+ * @property-read int $payload_version
+ * @property-read array{'id': string, 'idempotency_key'?: string}|object|null $request
+ * @property-read bool $test
+ * @property-read string $webhook_event_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class CreditNoteUpdatedMerchantEventInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'allocated_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'created_at': string|\DateTimeInterface, 'credit_note_id': string, 'credit_note_number'?: string, 'external_reference_id': string|null, 'invoice'?: ExpandedInvoiceSummaryInput|array<array-key, mixed>|\stdClass, 'invoice_id': string, 'issued_at'?: string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_id': string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at'?: string|\DateTimeInterface, ...}|object}|object, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteUpdatedMerchantEventInput')); }
+    /** Format: date.
+     * @return string
+     * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
+     */
+    public function getApiVersion(): string { return $this->get('api_version'); }
+    public function hasApiVersion(): bool { return $this->has('api_version'); }
+    /** Format: date-time.
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /**  object (Required): object and {@see CreditNoteInput}. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected. object.allocated_money (Required): {@see MoneyValueInput}. Credit applied to the invoice, net of reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217 currency code. object.available_money (Required): {@see MoneyValueInput}. Credit available to allocate or refund. Zero on draft and void notes. On issued notes, total_money equals allocated_money plus pending_refund_money plus refunded_money plus available_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. object.buyer_tax_identity (Required): {@see TaxIdentityInput} or null. Identity frozen on the source invoice at issue. Later profile edits do not change this document. object.buyer_tax_identity.anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null. object.created_at (Required): string. When the credit note was created. Format: date-time. object.credit_note_id (Required): string. Unique identifier of the credit note. object.credit_note_number (Optional): string. Assigned at issue and stable from then on. Absent while the credit note is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier for this resource in an external system. null when unset. minLength: 1. maxLength: 255. object.invoice (Optional): {@see ExpandedInvoiceSummaryInput}. Summary of the source invoice. Returned only with expand=invoice. An invoice's summary fields, including status, due date, and paid, outstanding, and refunded amounts, returned when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit note corrects. object.issued_at (Optional): string. When the credit note was issued. Absent on a draft. Format: date-time. object.latest_refund_status (Optional): string. Status of the most recent refund linked to this credit note. Absent when no refund has been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required): Array of {@see CreditNoteLineItemInput}. Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued, non-void credit notes. Drafts reserve no credit. object.line_items[] (Value): {@see CreditNoteLineItemInput}. One correction calculated from the frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored issued values are never recalculated by a read. object.memo (Required): string or null. Free text shown on the credit note, up to 4096 characters. null when unset. object.merchant_id (Required): string. The merchant that owns the credit note. object.pending_refund_money (Required): {@see MoneyValueInput}. Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO 4217 currency code. object.reason (Required): string. Why the invoice is being corrected. Shown on the credit note document. Value enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". object.refunded_money (Required): {@see MoneyValueInput}. Credit consumed by linked refunds that succeeded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@see TaxIdentityInput} or null. Identity frozen on the source invoice at issue. Later profile edits do not change this document. object.seller_tax_identity.anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status (Required): string. draft while the credit note is editable, issued once it is numbered and frozen, void once retired. Value enum: "draft", "issued", "void". object.total_money (Required): {@see MoneyValueInput}. The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note last changed. Format: date-time. object.version (Required): integer. Current credit note version. Send this as expected_version when updating the draft. Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was voided. Absent unless it is void. Format: date-time.
+     * @return array{'object': array{'allocated_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'created_at': string|\DateTimeInterface, 'credit_note_id': string, 'credit_note_number'?: string, 'external_reference_id': string|null, 'invoice'?: ExpandedInvoiceSummaryInput|array<array-key, mixed>|\stdClass, 'invoice_id': string, 'issued_at'?: string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_id': string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at'?: string|\DateTimeInterface, ...}|object}|object
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** Value enum: "credit_note.updated".
+     * @return string
+     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
+     */
+    public function getEventType(): string { return $this->get('event_type'); }
+    public function hasEventType(): bool { return $this->has('event_type'); }
+    /** merchant_id
+     * @return string
+     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+     */
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+     */
+    public function getMode(): string { return $this->get('mode'); }
+    public function hasMode(): bool { return $this->has('mode'); }
+    /** 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     * @return int
+     * @throws SdkError When payload_version is omitted; use hasPayloadVersion() or valueOrDefault().
+     */
+    public function getPayloadVersion(): int { return $this->get('payload_version'); }
+    public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
+    /**  id (Required): string. idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
+     * @return array{'id': string, 'idempotency_key'?: string}|object|null
+     * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
+     */
+    public function getRequest(): array|object|null { return $this->get('request'); }
+    public function hasRequest(): bool { return $this->has('request'); }
+    /** true for a synthetic event sent from the test-events endpoint, false otherwise.
+     * @return bool
+     * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
+     */
+    public function getTest(): bool { return $this->get('test'); }
+    public function hasTest(): bool { return $this->has('test'); }
+    /** webhook_event_id
+     * @return string
+     * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
+     */
+    public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }
+    public function hasWebhookEventId(): bool { return $this->has('webhook_event_id'); }
+}

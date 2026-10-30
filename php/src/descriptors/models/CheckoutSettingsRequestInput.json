@@ -1,0 +1,1 @@
+{"shared":"CheckoutSettingsRequest","dependencies":["CheckoutRecoveryEmailSettingsRequest","CheckoutSavedPaymentDetailsSettingsRequest","CheckoutSettingsRequest"]}

@@ -14,8 +14,7 @@ Signature: `createEvent(string|Model $fulfillment_id, array|Model $params, ?Requ
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. |
 | `body` | Required | [CreateFulfillmentEventRequestInput](../models/CreateFulfillmentEventRequestInput.md#createfulfillmenteventrequestinput) | The request body for: Create fulfillment event. |
 
 Body model: [CreateFulfillmentEventRequestInput](../models/CreateFulfillmentEventRequestInput.md#createfulfillmenteventrequestinput).
@@ -30,19 +29,19 @@ Returned payload: [FulfillmentEvent](../models/FulfillmentEvent.md#fulfillmentev
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -50,9 +49,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createEventWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -62,8 +61,18 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->createEvent('example', [
-  'event_type' => 'carrier_scan',
+$result = $client->fulfillments->createEvent('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'custom_details' => (object) [
+    'facility' => 'east',
+  ],
+  'event_type' => 'custom',
+  'external_event_id' => 'evt_7f3df2',
+  'external_status' => 'work_started',
+  'external_system' => 'shippo',
+  'message' => 'The fulfillment partner started work.',
+  'occurred_at' => '2026-05-13T16:05:00Z',
+  'package_id' => 'pkg_01KEZF7C008VJBE6BT0CWZT296',
+  'shipment_id' => 'shp_01KEZF7C006DZPA7FGH42HTBY8',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -81,8 +90,7 @@ Signature: `createShipment(string|Model $fulfillment_id, array|Model $params, ?R
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `fulfillment_id` | Required | string | Flint shipment fulfillment ID. |
 | `body` | Required | [CreateShipmentRequestInput](../models/CreateShipmentRequestInput.md#createshipmentrequestinput) | The request body for: Create shipment. |
 
 Body model: [CreateShipmentRequestInput](../models/CreateShipmentRequestInput.md#createshipmentrequestinput).
@@ -95,29 +103,21 @@ Body model: [CreateShipmentRequestInput](../models/CreateShipmentRequestInput.md
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. |
 | `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `packages` | Optional | Array of [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput) | Creates packages atomically with an outbound shipment. Items are optional per package. Created packages are included in the response. minItems: `1`. maxItems: `20`. |
+| `packages` | Optional | Array of [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput) | Creates packages atomically with an outbound shipment. Items are optional per package. Created packages are included in the response. minItems: `1`. maxItems: `20`. Items: The request body for: Create package. |
 | `return_id` | Optional | string | minLength: `1`. |
-| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput) | minItems: `1`. |
+| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationRequestInput](../models/ReturnShipmentLineItemAllocationRequestInput.md#returnshipmentlineitemallocationrequestinput) | minItems: `1`. Items: A return line and the quantity placed in a return shipment or package. |
 
-#### fulfillments.createShipment body oneOf variant 1
+#### fulfillments.createShipment with `direction: "outbound"`
 
 The `outbound` variant of `CreateShipmentRequest`.
 
 Body model: [CreateShipmentRequestOutboundInput](../models/CreateShipmentRequestOutboundInput.md#createshipmentrequestoutboundinput).
 
-#### fulfillments.createShipment body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateShipmentRequestOutboundInput.md#createshipmentrequestoutboundinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput), [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
-
-#### fulfillments.createShipment body oneOf variant 2
+#### fulfillments.createShipment with `direction: "return"`
 
 The `return` variant of `CreateShipmentRequest`.
 
 Body model: [CreateShipmentRequestReturnInput](../models/CreateShipmentRequestReturnInput.md#createshipmentrequestreturninput).
-
-#### fulfillments.createShipment body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/CreateShipmentRequestReturnInput.md#createshipmentrequestreturninput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput), [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
 
 #### Response
 
@@ -125,19 +125,19 @@ Returned payload: [Shipment](../models/Shipment.md#shipment).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -145,9 +145,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createShipmentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -157,8 +157,13 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->createShipment('example', [
+$result = $client->fulfillments->createShipment('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'direction' => 'outbound',
+  'external_reference_id' => 'ship_789',
+  'external_system' => 'merchant_wms',
+  'metadata' => (object) [
+    'warehouse' => 'east',
+  ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -176,8 +181,8 @@ Signature: `get(string|Model $fulfillment_id, array|Model|null $params = null, ?
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"order"`, `"packages"`, `"shipments"`. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: order, packages, shipments. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Repeat expand, for example expand=order&expand=packages, or pass one comma-separated value. Items values: `"order"`, `"packages"`, `"shipments"`. Values: `"order"`, `"packages"`, `"shipments"`. |
 
 #### Response
 
@@ -185,17 +190,17 @@ Returned payload: [Fulfillment](../models/Fulfillment.md#fulfillment).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -203,21 +208,21 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->fulfillments->get('example', [], new RequestOptions());
+$result = $client->fulfillments->get('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/fulfillments-get.php)
 
 ### fulfillments.list
 
-Returns a paginated list of fulfillments. Results default to created_at descending, with fulfillment_id descending as the tiebreaker. scheduled_start_at uses the service scheduled start or the start of the pickup, local delivery, or shipment window. For scheduled_start_at and terminal_at, null values sort first ascending and last descending. Default order: created_at descending, then fulfillment_id descending.
+Returns a paginated list of fulfillments. scheduled_start_at uses the service scheduled start or the start of the pickup, local delivery, or shipment window. For scheduled_start_at and terminal_at, null values sort first ascending and last descending. Default order: created_at descending, then fulfillment_id descending.
 
 `GET /v1/fulfillments`
 
@@ -227,21 +232,22 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `expand` | Optional | Array of string | Items values: `"order"`. |
-| `order_id` | Optional | string |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `query` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: [14 declared values](#fulfillmentslist-input-status--values). |
-| `type` | Optional | Array of string | minItems: `1`. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
-| `location_id` | Optional | string |  |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"created_at"`, `"scheduled_start_at"`, `"terminal_at"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `expand` | Optional | Array of string or string | Supported expansions: order. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
+| `order_id` | Optional | string | Filter by order ID. |
+| `customer_id` | Optional | string | Exact match on customer_id. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `query` | Optional | string | Search across fulfillment_id and external_reference_id. Also matches an exact order number. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ful_01. |
+| `status` | Optional | Array of string or string | Filter by exact fulfillment status. Values within this filter are ORed; combined with other filters using AND. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [14 declared values](#fulfillmentslist-input-status--values). Values: [14 declared values](#fulfillmentslist-input-status-values). |
+| `type` | Optional | Array of string or string | Filter by fulfillment type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
+| `location_id` | Optional | string | Filter by assigned Location ID. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. Default: `"created_at"`. Values: `"created_at"`, `"scheduled_start_at"`, `"terminal_at"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 
 #### fulfillments.list input status [] values
 
@@ -260,22 +266,39 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"dispatched"`
 - `"no_show"`
 
+#### fulfillments.list input status values
+
+- `"pending"`
+- `"on_hold"`
+- `"in_progress"`
+- `"ready"`
+- `"completed"`
+- `"canceled"`
+- `"failed"`
+- `"scheduled"`
+- `"accepted"`
+- `"preparing"`
+- `"picked"`
+- `"packed"`
+- `"dispatched"`
+- `"no_show"`
+
 #### Response
 
-Returned payload: [FulfillmentsListResponse200](../models/FulfillmentsListResponse200.md#fulfillmentslistresponse200).
+Returned payload: [FulfillmentListResponse](../models/FulfillmentListResponse.md#fulfillmentlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -283,11 +306,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -303,157 +326,100 @@ Performs one action from the fulfillment's supported_actions. Every action accep
 
 `POST /v1/fulfillments/{fulfillment_id}/transitions`
 
-Signature: `transition(FulfillmentsTransitionInput|array $input, ?RequestOptions $options = null)`
+Signature: `transition(string|Model $fulfillment_id, array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. |
 | `body` | Required | [FulfillmentTransitionRequestInput](../models/FulfillmentTransitionRequestInput.md#fulfillmenttransitionrequestinput) | The request body for: Transition fulfillment. |
 
 Body model: [FulfillmentTransitionRequestInput](../models/FulfillmentTransitionRequestInput.md#fulfillmenttransitionrequestinput).
 
-#### fulfillments.transition body oneOf variant 1
+#### fulfillments.transition with `action: "release_hold"`
 
 The `release_hold` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestReleaseHoldInput](../models/FulfillmentTransitionRequestReleaseHoldInput.md#fulfillmenttransitionrequestreleaseholdinput).
 
-#### fulfillments.transition body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestReleaseHoldInput.md#fulfillmenttransitionrequestreleaseholdinput).
-
-#### fulfillments.transition body oneOf variant 2
+#### fulfillments.transition with `action: "complete"`
 
 The `complete` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestCompleteInput](../models/FulfillmentTransitionRequestCompleteInput.md#fulfillmenttransitionrequestcompleteinput).
 
-#### fulfillments.transition body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestCompleteInput.md#fulfillmenttransitionrequestcompleteinput).
-
-#### fulfillments.transition body oneOf variant 3
+#### fulfillments.transition with `action: "cancel"`
 
 The `cancel` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestCancelInput](../models/FulfillmentTransitionRequestCancelInput.md#fulfillmenttransitionrequestcancelinput).
 
-#### fulfillments.transition body oneOf variant 3 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestCancelInput.md#fulfillmenttransitionrequestcancelinput).
-
-#### fulfillments.transition body oneOf variant 4
+#### fulfillments.transition with `action: "hold"`
 
 The `hold` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestHoldInput](../models/FulfillmentTransitionRequestHoldInput.md#fulfillmenttransitionrequestholdinput).
 
-#### fulfillments.transition body oneOf variant 4 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestHoldInput.md#fulfillmenttransitionrequestholdinput).
-
-#### fulfillments.transition body oneOf variant 5
+#### fulfillments.transition with `action: "start"`
 
 The `start` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestStartInput](../models/FulfillmentTransitionRequestStartInput.md#fulfillmenttransitionrequeststartinput).
 
-#### fulfillments.transition body oneOf variant 5 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestStartInput.md#fulfillmenttransitionrequeststartinput).
-
-#### fulfillments.transition body oneOf variant 6
+#### fulfillments.transition with `action: "mark_ready"`
 
 The `mark_ready` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestMarkReadyInput](../models/FulfillmentTransitionRequestMarkReadyInput.md#fulfillmenttransitionrequestmarkreadyinput).
 
-#### fulfillments.transition body oneOf variant 6 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestMarkReadyInput.md#fulfillmenttransitionrequestmarkreadyinput).
-
-#### fulfillments.transition body oneOf variant 7
+#### fulfillments.transition with `action: "fail"`
 
 The `fail` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestFailInput](../models/FulfillmentTransitionRequestFailInput.md#fulfillmenttransitionrequestfailinput).
 
-#### fulfillments.transition body oneOf variant 7 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestFailInput.md#fulfillmenttransitionrequestfailinput).
-
-#### fulfillments.transition body oneOf variant 8
+#### fulfillments.transition with `action: "schedule"`
 
 The `schedule` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestScheduleInput](../models/FulfillmentTransitionRequestScheduleInput.md#fulfillmenttransitionrequestscheduleinput).
 
-#### fulfillments.transition body oneOf variant 8 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestScheduleInput.md#fulfillmenttransitionrequestscheduleinput).
-
-#### fulfillments.transition body oneOf variant 9
+#### fulfillments.transition with `action: "accept"`
 
 The `accept` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestAcceptInput](../models/FulfillmentTransitionRequestAcceptInput.md#fulfillmenttransitionrequestacceptinput).
 
-#### fulfillments.transition body oneOf variant 9 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestAcceptInput.md#fulfillmenttransitionrequestacceptinput).
-
-#### fulfillments.transition body oneOf variant 10
+#### fulfillments.transition with `action: "mark_preparing"`
 
 The `mark_preparing` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestMarkPreparingInput](../models/FulfillmentTransitionRequestMarkPreparingInput.md#fulfillmenttransitionrequestmarkpreparinginput).
 
-#### fulfillments.transition body oneOf variant 10 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestMarkPreparingInput.md#fulfillmenttransitionrequestmarkpreparinginput).
-
-#### fulfillments.transition body oneOf variant 11
+#### fulfillments.transition with `action: "mark_picked"`
 
 The `mark_picked` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestMarkPickedInput](../models/FulfillmentTransitionRequestMarkPickedInput.md#fulfillmenttransitionrequestmarkpickedinput).
 
-#### fulfillments.transition body oneOf variant 11 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestMarkPickedInput.md#fulfillmenttransitionrequestmarkpickedinput).
-
-#### fulfillments.transition body oneOf variant 12
+#### fulfillments.transition with `action: "mark_packed"`
 
 The `mark_packed` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestMarkPackedInput](../models/FulfillmentTransitionRequestMarkPackedInput.md#fulfillmenttransitionrequestmarkpackedinput).
 
-#### fulfillments.transition body oneOf variant 12 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestMarkPackedInput.md#fulfillmenttransitionrequestmarkpackedinput).
-
-#### fulfillments.transition body oneOf variant 13
+#### fulfillments.transition with `action: "dispatch"`
 
 The `dispatch` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestDispatchInput](../models/FulfillmentTransitionRequestDispatchInput.md#fulfillmenttransitionrequestdispatchinput).
 
-#### fulfillments.transition body oneOf variant 13 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestDispatchInput.md#fulfillmenttransitionrequestdispatchinput).
-
-#### fulfillments.transition body oneOf variant 14
+#### fulfillments.transition with `action: "mark_no_show"`
 
 The `mark_no_show` variant of `FulfillmentTransitionRequest`.
 
 Body model: [FulfillmentTransitionRequestMarkNoShowInput](../models/FulfillmentTransitionRequestMarkNoShowInput.md#fulfillmenttransitionrequestmarknoshowinput).
-
-#### fulfillments.transition body oneOf variant 14 fields
-
-Field definitions: [shared fields](../models/FulfillmentTransitionRequestMarkNoShowInput.md#fulfillmenttransitionrequestmarknoshowinput).
 
 #### Response
 
@@ -461,19 +427,19 @@ Returned payload: [Fulfillment](../models/Fulfillment.md#fulfillment).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -481,9 +447,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `transitionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -493,11 +459,11 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->transition([
-  'fulfillment_id' => 'example',
-  'body' => (object) [
-    'action' => 'release_hold',
-  ],
+$result = $client->fulfillments->transition('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'action' => 'mark_packed',
+  'buyer_notification_behavior' => 'send',
+  'expected_version' => 4,
+  'occurred_at' => '2026-05-13T11:00:00Z',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -515,9 +481,8 @@ Signature: `update(string|Model $fulfillment_id, array|Model $params, ?RequestOp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"order"`, `"packages"`, `"shipments"`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `fulfillment_id` | Required | string | Flint fulfillment ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: order, packages, shipments. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Repeat expand, for example expand=order&expand=packages, or pass one comma-separated value. Items values: `"order"`, `"packages"`, `"shipments"`. Values: `"order"`, `"packages"`, `"shipments"`. |
 | `body` | Required | [UpdateFulfillmentRequestInput](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput) | Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. A supplied detail field must match the stored fulfillment type. Omit details for metadata-only updates. Even null detail fields count toward exclusivity. |
 
 Body model: [UpdateFulfillmentRequestInput](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput).
@@ -532,19 +497,19 @@ Returned payload: [Fulfillment](../models/Fulfillment.md#fulfillment).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -552,9 +517,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -564,7 +529,11 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->fulfillments->update('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'metadata' => (object) [
+    'shipping_batch' => 'batch-001',
+  ],
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/fulfillments-update.php)

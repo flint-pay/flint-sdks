@@ -14,13 +14,13 @@ Who owns the billing schedule when creating a subscription: Flint or an external
 
 ### SubscriptionBillingScheduleRequest variant 1: `owner` = `"flint"`
 
-oneOf variant 1: The `flint` variant of `SubscriptionBillingScheduleInput`..
+oneOf with owner: "flint": The `flint` variant of `SubscriptionBillingScheduleInput`..
 
 - Constraints for `owner`: Values: `"flint"`.
 
 ### SubscriptionBillingScheduleRequest variant 2: `owner` = `"external"`
 
-oneOf variant 2: The `external` variant of `SubscriptionBillingScheduleInput`..
+oneOf with owner: "external": The `external` variant of `SubscriptionBillingScheduleInput`..
 
 - Constraints for `owner`: Values: `"external"`.
 

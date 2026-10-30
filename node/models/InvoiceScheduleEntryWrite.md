@@ -17,19 +17,19 @@ One payment schedule entry you supply when creating or updating an invoice. Set 
 
 ### InvoiceScheduleEntryWrite variant 1: `kind` = `"deposit"`
 
-oneOf variant 1: The `deposit` variant of `InvoiceScheduleEntryWrite`..
+oneOf with kind: "deposit": The `deposit` variant of `InvoiceScheduleEntryWrite`..
 
 - Constraints for `kind`: Values: `"deposit"`.
 
 ### InvoiceScheduleEntryWrite variant 2: `kind` = `"installment"`
 
-oneOf variant 2: The `installment` variant of `InvoiceScheduleEntryWrite`..
+oneOf with kind: "installment": The `installment` variant of `InvoiceScheduleEntryWrite`..
 
 - Constraints for `kind`: Values: `"installment"`.
 
 ### InvoiceScheduleEntryWrite variant 3: `kind` = `"balance"`
 
-oneOf variant 3: The `balance` variant of `InvoiceScheduleEntryWrite`..
+oneOf with kind: "balance": The `balance` variant of `InvoiceScheduleEntryWrite`..
 
 - Constraints for `kind`: Values: `"balance"`.
 
@@ -45,7 +45,7 @@ How much the entry collects. Deposits and installments use fixed or percentage, 
 
 ### InvoiceScheduleEntryWrite variant 1.amount_specification variant 1: `type` = `"fixed"`
 
-oneOf variant 1: The `fixed` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`.
@@ -54,7 +54,7 @@ oneOf variant 1: The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 ### InvoiceScheduleEntryWrite variant 1.amount_specification variant 2: `type` = `"percentage"`
 
-oneOf variant 2: The `percentage` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `percent`.
@@ -76,7 +76,7 @@ When the entry is due. Deposits use at_issue or date, installments use date, and
 
 ### InvoiceScheduleEntryWrite variant 1.due variant 1: `type` = `"at_issue"`
 
-oneOf variant 1: The `at_issue` variant of `InvoiceScheduleDueWrite`..
+oneOf with type: "at_issue": The `at_issue` variant of `InvoiceScheduleDueWrite`..
 
 - Condition: not (present(`due_at`)).
 - Optional: `due_at`.
@@ -84,7 +84,7 @@ oneOf variant 1: The `at_issue` variant of `InvoiceScheduleDueWrite`..
 
 ### InvoiceScheduleEntryWrite variant 1.due variant 2: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoiceScheduleDueWrite`..
+oneOf with type: "date": The `date` variant of `InvoiceScheduleDueWrite`..
 
 - Required: `due_at`.
 - Constraints for `type`: Values: `"date"`.
@@ -101,7 +101,7 @@ Field definitions: [shared fields](InvoiceScheduleDueWriteDateInput.md#invoicesc
 
 ### InvoiceScheduleEntryWrite variant 2.due variant 1: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoiceScheduleDueWrite`..
+oneOf with type: "date": The `date` variant of `InvoiceScheduleDueWrite`..
 
 No additional constraints.
 
@@ -113,7 +113,7 @@ Field definitions: [shared fields](InvoiceScheduleAmountSpecificationRemainingBa
 
 ### InvoiceScheduleEntryWrite variant 3.amount_specification variant 1: `type` = `"remaining_balance"`
 
-oneOf variant 3: The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
+oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (at least one(present(`amount_money`); present(`percent`))).
 
@@ -132,14 +132,14 @@ When the entry is due. Deposits use at_issue or date, installments use date, and
 
 ### InvoiceScheduleEntryWrite variant 3.due variant 1: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoiceScheduleDueWrite`..
+oneOf with type: "date": The `date` variant of `InvoiceScheduleDueWrite`..
 
 - Required: `due_at`.
 - Constraints for `type`: Values: `"date"`.
 
 ### InvoiceScheduleEntryWrite variant 3.due variant 2: `type` = `"invoice_due_date"`
 
-oneOf variant 3: The `invoice_due_date` variant of `InvoiceScheduleDueWrite`..
+oneOf with type: "invoice_due_date": The `invoice_due_date` variant of `InvoiceScheduleDueWrite`..
 
 - Condition: not (present(`due_at`)).
 - Optional: `due_at`.

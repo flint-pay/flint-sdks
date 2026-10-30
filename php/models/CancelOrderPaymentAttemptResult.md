@@ -8,10 +8,10 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order` | Required | [Order](../models/Order.md#order) | A customer's purchase and its payment and fulfillment progress. `order`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200data). |
+| `order` | Required | [Order](../models/Order.md#order) | A customer's purchase and its payment and fulfillment progress. `order`: [field definitions](../models/OrderResponse.md#orderresponsedata). |
 | `order_payment_attempt` | Optional | [OrderPaymentAttempt](../models/OrderPaymentAttempt.md#orderpaymentattempt) | An attempt to pay an order. |
 
 ### CancelOrderPaymentAttemptResult.order
 
-Field definitions: [OrdersApplyDiscountResponse200.data](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200data).
+Field definitions: [OrderResponse.data](../models/OrderResponse.md#orderresponsedata).
 

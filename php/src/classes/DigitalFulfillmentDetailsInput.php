@@ -8,13 +8,13 @@ namespace Flint;
 final class DigitalFulfillmentDetailsInput extends Model {
     /** @param array{'delivered_at'?: string|\DateTimeInterface, 'delivery_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DigitalFulfillmentDetailsInput')); }
-    /** Shape $ (Value): string. When the digital goods were delivered, in RFC3339 format. Format: date-time.
+    /** When the digital goods were delivered, in RFC3339 format. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */
     public function getDeliveredAt(): string|\DateTimeInterface { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** Shape $ (Value): string. URL where the recipient can access the delivered digital goods.
+    /** URL where the recipient can access the delivered digital goods.
      * @return string
      * @throws SdkError When delivery_url is omitted; use hasDeliveryUrl() or valueOrDefault().
      */

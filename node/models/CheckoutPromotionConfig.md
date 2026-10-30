@@ -21,7 +21,7 @@ No additional constraints.
 
 ### CheckoutPromotionConfig variant 2
 
-anyOf variant 2: Declared schema CheckoutPromotionConfigRequestRequest. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes..
+anyOf variant 2: Declared schema CheckoutPromotionConfigRequest. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes..
 
 No additional constraints.
 

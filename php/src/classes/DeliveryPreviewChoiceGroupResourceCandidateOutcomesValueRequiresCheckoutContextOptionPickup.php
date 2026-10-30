@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextOptionPickup extends Model {
     /** @param array{'location'?: mixed, 'pickup_mode': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextOptionPickup')); }
-    /** Shape $ (Value): {@see DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextOptionPickupLocation}. A pickup location shown on a delivery option: its name, address, instructions, and timezone.
+    /** A pickup location shown on a delivery option: its name, address, instructions, and timezone.
      * @return ?DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextOptionPickupLocation
      */
     public function getLocation(): ?DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextOptionPickupLocation { return $this->get('location'); }
     public function hasLocation(): bool { return $this->has('location'); }
-    /** Shape $ (Value): string.  Value enum: "in_store", "curbside", "locker", "other".
+    /** Value enum: "in_store", "curbside", "locker", "other".
      * @return string
      */
     public function getPickupMode(): string { return $this->get('pickup_mode'); }

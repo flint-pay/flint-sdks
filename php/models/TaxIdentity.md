@@ -10,9 +10,9 @@ Response model.
 | --- | --- | --- | --- |
 | `legal_name` | Required | string or null | minLength: `1`. maxLength: `255`. |
 | `registered_address` | Required | [Address](../models/Address.md#address) or null | Replaced as a whole: send every field you want to keep. |
-| `tax_ids` | Required | Array of [DocumentTaxID](../models/DocumentTaxID.md#documenttaxid) | maxItems: `20`. `tax_ids[]`: [field definitions](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity-variant-1tax_ids). |
+| `tax_ids` | Required | Array of [DocumentTaxID](../models/DocumentTaxID.md#documenttaxid) | maxItems: `20`. `tax_ids[]`: [field definitions](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids). |
 
 ### TaxIdentity.tax_ids[]
 
-Field definitions: [CreditNotesCreateResponse201.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201databuyer_tax_identity-variant-1tax_ids).
+Field definitions: [CreditNoteResponse.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids).
 

@@ -7,7 +7,7 @@ namespace Flint;
 final class ResolveOrderInventoryExceptionRequestInput extends Model {
     /** @param array{'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolveOrderInventoryExceptionRequestInput')); }
-    /** Shape $ (Value): string. Your note explaining this action. minLength: 1.
+    /** Your note explaining this action. Leading and trailing whitespace is removed; the remaining note can contain at most 500 characters. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

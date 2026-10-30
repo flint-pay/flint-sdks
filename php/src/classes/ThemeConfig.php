@@ -9,17 +9,17 @@ namespace Flint;
 final class ThemeConfig extends Model {
     /** @param array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ThemeConfig')); }
-    /** Shape $ (Value): string.
+    /** accent_color
      * @return ?string
      */
     public function getAccentColor(): ?string { return $this->get('accent_color'); }
     public function hasAccentColor(): bool { return $this->has('accent_color'); }
-    /** Shape $ (Value): string.
+    /** primary_color
      * @return ?string
      */
     public function getPrimaryColor(): ?string { return $this->get('primary_color'); }
     public function hasPrimaryColor(): bool { return $this->has('primary_color'); }
-    /** Shape $ (Value): string.
+    /** title
      * @return ?string
      */
     public function getTitle(): ?string { return $this->get('title'); }

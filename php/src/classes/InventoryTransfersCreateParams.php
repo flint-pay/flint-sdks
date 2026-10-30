@@ -1,0 +1,44 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $destination_location_id
+ * @property-read string $external_reference_id
+ * @property-read list<array{'condition'?: string, 'inventory_item_id': string, 'requested_quantity': int}|object> $lines
+ * @property-read string $note
+ * @property-read string $origin_location_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class InventoryTransfersCreateParams extends Model {
+    /** @param array{'destination_location_id': string, 'external_reference_id'?: string, 'lines': list<array{'condition'?: string, 'inventory_item_id': string, 'requested_quantity': int}|object>, 'note'?: string, 'origin_location_id': string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransfersCreateParams')); }
+    /** minLength: 1. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * @return string
+     * @throws SdkError When destination_location_id is omitted; use hasDestinationLocationId() or valueOrDefault().
+     */
+    public function getDestinationLocationId(): string { return $this->get('destination_location_id'); }
+    public function hasDestinationLocationId(): bool { return $this->has('destination_location_id'); }
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+     */
+    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** minItems: 1. maxItems: 100. [] (Value): {@see InventoryTransferLineRequestInput}. One line of an inventory transfer you create: an item and the requested quantity.
+     * @return list<array{'condition'?: string, 'inventory_item_id': string, 'requested_quantity': int}|object>
+     * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
+     */
+    public function getLines(): array { return $this->get('lines'); }
+    public function hasLines(): bool { return $this->has('lines'); }
+    /** minLength: 1.
+     * @return string
+     * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
+     */
+    public function getNote(): string { return $this->get('note'); }
+    public function hasNote(): bool { return $this->has('note'); }
+    /** minLength: 1. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * @return string
+     * @throws SdkError When origin_location_id is omitted; use hasOriginLocationId() or valueOrDefault().
+     */
+    public function getOriginLocationId(): string { return $this->get('origin_location_id'); }
+    public function hasOriginLocationId(): bool { return $this->has('origin_location_id'); }
+}

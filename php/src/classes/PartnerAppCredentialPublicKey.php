@@ -8,12 +8,12 @@ namespace Flint;
 final class PartnerAppCredentialPublicKey extends Model {
     /** @param array{'jwk': \stdClass, 'jwk_thumbprint': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialPublicKey')); }
-    /** Shape $ (Value): object.
+    /** jwk
      * @return array<array-key, mixed>
      */
     public function getJwk(): array { return $this->get('jwk'); }
     public function hasJwk(): bool { return $this->has('jwk'); }
-    /** Shape $ (Value): string. RFC 7638 SHA-256 JWK thumbprint.
+    /** RFC 7638 SHA-256 JWK thumbprint.
      * @return string
      */
     public function getJwkThumbprint(): string { return $this->get('jwk_thumbprint'); }

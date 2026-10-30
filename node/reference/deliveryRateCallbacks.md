@@ -12,9 +12,7 @@ Signature:
 
 ```typescript
 checkConnection(delivery_rate_callback_id: InputValue<string>,
- params?: {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: DeliveryRateCallbacksCheckConnectionParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -22,8 +20,7 @@ checkConnection(delivery_rate_callback_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
 
 #### Response
 
@@ -31,18 +28,18 @@ Returned payload: [DeliveryRateCallbackConnectionCheck](../models/DeliveryRateCa
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -50,9 +47,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `checkConnectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -62,7 +59,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryRateCallbacks.checkConnection("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryRateCallbacks.checkConnection("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-checkConnection.mjs)
@@ -73,20 +70,12 @@ Delivery callback endpoints pin shared outbound callback transport configuration
 
 `POST /v1/delivery-rate-callbacks`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateDeliveryRateCallbackRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `create(params: DeliveryRateCallbacksCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateDeliveryRateCallbackRequestInput](../models/CreateDeliveryRateCallbackRequest.md#createdeliveryratecallbackrequest) | The request body for: Create delivery rate callback. |
 
 Body model: [CreateDeliveryRateCallbackRequestInput](../models/CreateDeliveryRateCallbackRequest.md#createdeliveryratecallbackrequest).
@@ -106,19 +95,19 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -126,9 +115,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -153,9 +142,7 @@ Signature:
 
 ```typescript
 createTestDelivery(delivery_rate_callback_id: InputValue<string>,
- params?: {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: DeliveryRateCallbacksCreateTestDeliveryParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -163,8 +150,7 @@ createTestDelivery(delivery_rate_callback_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
 
 #### Response
 
@@ -172,18 +158,18 @@ Returned payload: [DeliveryRateCallbackTestDelivery](../models/DeliveryRateCallb
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -191,9 +177,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createTestDeliveryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -203,24 +189,25 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryRateCallbacks.createTestDelivery("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryRateCallbacks.createTestDelivery("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-createTestDelivery.mjs)
 
-### deliveryRateCallbacks.get
+### deliveryRateCallbacks.delete
 
-Returns the current revision and lifecycle state for one delivery rate callback.
+Retires the delivery rate callback after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects.
 
-`GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
+`DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
 
-Signature: `get(delivery_rate_callback_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `delete(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksDeleteParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
+| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+| `expected_version` | Optional | integer | Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -228,16 +215,17 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -245,14 +233,74 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.deliveryRateCallbacks.get("example", {}, {  });
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.deliveryRateCallbacks.delete("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/deliveryRateCallbacks-delete.mjs)
+
+### deliveryRateCallbacks.get
+
+Returns the current revision and lifecycle state for one delivery rate callback.
+
+`GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
+
+Signature:
+
+```typescript
+get(delivery_rate_callback_id: InputValue<string>,
+ params?: DeliveryRateCallbacksGetParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+
+#### Response
+
+Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliveryratecallback).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.deliveryRateCallbacks.get("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-get.mjs)
@@ -263,30 +311,18 @@ Returns delivery rate callbacks in a stable, cursor-paginated order. Archived re
 
 `GET /v1/delivery-rate-callbacks`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "query"?: InputValue<string>;
-  "external_reference_id"?: InputValue<string>;
-  "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-  "delivery_method_id"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: DeliveryRateCallbacksListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `query` | Optional | string | maxLength: `255`. |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"inactive"`, `"archived"`. |
-| `delivery_method_id` | Optional | string |  |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `query` | Optional | string | Search across delivery_rate_callback_id, name, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as dcb_01. maxLength: `255`. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `delivery_method_id` | Optional | string | Filter by an active current method that references this resource. |
 
 #### Response
 
@@ -294,16 +330,16 @@ Returned payload: [DeliveryRateCallbackListResponse](../models/DeliveryRateCallb
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -311,11 +347,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -325,73 +361,7 @@ const result = await client.deliveryRateCallbacks.list({}, {  });
 
 [Complete runnable example](../examples/deliveryRateCallbacks-list.mjs)
 
-### deliveryRateCallbacks.remove
-
-Retires the delivery rate callback after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects.
-
-`DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
-
-Signature:
-
-```typescript
-remove(delivery_rate_callback_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliveryratecallback).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.deliveryRateCallbacks.remove("example", {}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/deliveryRateCallbacks-remove.mjs)
-
-### deliveryRateCallbacks.rotateSigningKey
+### deliveryRateCallbacks.rotateSecret
 
 Issues a first shared secret and adds hmac when no secret exists, and increments the callback's version. Otherwise rotates the shared secret and accepts both keys for one hour. Returns the new secret and key_id once.
 
@@ -400,10 +370,8 @@ Issues a first shared secret and adds hmac when no secret exists, and increments
 Signature:
 
 ```typescript
-rotateSigningKey(delivery_rate_callback_id: InputValue<string>,
- params?: {
-  "Idempotency-Key"?: InputValue<string>
-},
+rotateSecret(delivery_rate_callback_id: InputValue<string>,
+ params?: DeliveryRateCallbacksRotateSecretParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -411,8 +379,7 @@ rotateSigningKey(delivery_rate_callback_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
 
 #### Response
 
@@ -420,17 +387,17 @@ Returned payload: [DeliveryRateCallbackSigningKeyRotation](../models/DeliveryRat
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -438,9 +405,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `rotateSigningKeyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -450,10 +417,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryRateCallbacks.rotateSigningKey("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryRateCallbacks.rotateSecret("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/deliveryRateCallbacks-rotateSigningKey.mjs)
+[Complete runnable example](../examples/deliveryRateCallbacks-rotateSecret.mjs)
 
 ### deliveryRateCallbacks.update
 
@@ -461,22 +428,13 @@ Sparsely updates mutable fields. A change to pinned configuration publishes a ne
 
 `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
 
-Signature:
-
-```typescript
-update(delivery_rate_callback_id: InputValue<string>,
- params: (InputValue<UpdateDeliveryRateCallbackRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `update(delivery_rate_callback_id: InputValue<string>, params: DeliveryRateCallbacksUpdateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
 | `body` | Required | [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequest.md#updatedeliveryratecallbackrequest) | The request body for: Update delivery rate callback. |
 
 Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequest.md#updatedeliveryratecallbackrequest).
@@ -486,82 +444,72 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequest.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string | minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 
-#### deliveryRateCallbacks.update body anyOf variant 1
+#### deliveryRateCallbacks.update: variant 1
 
 
-
-#### deliveryRateCallbacks.update body anyOf variant 1 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequest.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `name` | Required | string | minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 
-#### deliveryRateCallbacks.update body anyOf variant 2
+#### deliveryRateCallbacks.update: variant 2
 
 
-
-#### deliveryRateCallbacks.update body anyOf variant 2 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequest.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string | minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 
-#### deliveryRateCallbacks.update body anyOf variant 3
+#### deliveryRateCallbacks.update: variant 3
 
 
-
-#### deliveryRateCallbacks.update body anyOf variant 3 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Required | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequest.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string | minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 
-#### deliveryRateCallbacks.update body anyOf variant 4
+#### deliveryRateCallbacks.update: variant 4
 
 
-
-#### deliveryRateCallbacks.update body anyOf variant 4 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequest.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string | minLength: `1`. |
 | `signing_methods` | Required | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 
-#### deliveryRateCallbacks.update body anyOf variant 5
+#### deliveryRateCallbacks.update: variant 5
 
 
-
-#### deliveryRateCallbacks.update body anyOf variant 5 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequest.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string | minLength: `1`. |
 | `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
@@ -573,19 +521,19 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -593,9 +541,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -605,7 +553,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryRateCallbacks.update("example", {name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryRateCallbacks.update("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Delivery rates"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-update.mjs)

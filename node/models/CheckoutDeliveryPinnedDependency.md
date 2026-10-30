@@ -12,7 +12,7 @@ A delivery dependency pinned to a checkout, such as the assigned method, eligibi
 | --- | --- | --- | --- |
 | `delivery_dependency_role` | Required | string | Values: `"assigned_method"`, `"eligibility"`, `"method_origin"`, `"pickup_collection"`, `"pricing_callback"`, `"origin"`. |
 | `dependency` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | `dependency`: [declared alternatives](../models/CheckoutDeliveryPinnedDependency.md#checkoutdeliverypinneddependencydependency). |
-| `location_geography_version` | Optional | integer string | Version of the Location geography used by this assignment or dependency. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `location_geography_version` | Optional | integer | Version of the Location geography used by this assignment or dependency. Format: `int64`. |
 | `revision_id` | Optional | string |  |
 
 ### CheckoutDeliveryPinnedDependency.dependency
@@ -20,11 +20,11 @@ A delivery dependency pinned to a checkout, such as the assigned method, eligibi
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Conditional | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Conditional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Conditional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 
 ### CheckoutDeliveryPinnedDependency.dependency variant 1
 
-anyOf variant 1: A reference to another resource by `resource_type` and `resource_id`..
+anyOf ResourceReference: A reference to another resource by `resource_type` and `resource_id`..
 
 - Required: `resource_id`, `resource_type`.
 

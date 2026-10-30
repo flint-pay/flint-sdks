@@ -2,25 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $payment_intent_id
  * @property-read array{'email'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsSendReceiptInput extends Model {
-    /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'body'?: array{'email'?: string}|object}|object $values */
+    /** @param array{'payment_intent_id': string, 'body'?: array{'email'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsSendReceiptInput')); }
-    /** Shape $ (Value): string.
+    /** Flint payment intent ID. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Send a payment receipt.
+    /** The request body for: Send a payment receipt.
      * @return array{'email'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -51,7 +51,59 @@ export interface RuntimeContract {
     errors?: Config['errors'];
 }
 /** Headers supplied by the client have no independent operation input value. */
-export declare function parameterSource(op: Operation, parameter: Pick<Parameter, 'in' | 'name' | 'x-flint-request-option'>, settings: Pick<RuntimeContract, 'auth' | 'authentication' | 'apiVersion'>): 'input' | 'authentication' | 'api-version' | 'request-option';
+export declare function parameterSource(op: Operation, parameter: Pick<Parameter, 'in' | 'name' | 'x-flint-request-option'>, settings: Pick<RuntimeContract, 'auth' | 'authentication' | 'apiVersion'>): 'input' | 'authentication' | 'api-version' | 'request-option' | 'idempotency';
+/** Local validation wording is serialized into both target runtimes. */
+export declare const VALIDATION_MESSAGES: {
+    readonly required: "{param} is required";
+    readonly discriminator: "{param} is required: one of {allowed}";
+    readonly enum: "{param} must be one of {allowed}; received {value}{suggestion}";
+    readonly unknown: "{param} is not a field of {where}{suggestion}";
+    readonly notAllowed: "{param} can't be sent: {reason}";
+    readonly invalid: "{param} must be {expectation}";
+    readonly minimum: "{param} must be at least {limit}; received a number";
+    readonly maximum: "{param} must be at most {limit}; received a number";
+    readonly exclusiveMinimum: "{param} must be greater than {limit}; received a number";
+    readonly exclusiveMaximum: "{param} must be less than {limit}; received a number";
+    readonly multipleOf: "{param} must be a multiple of {limit}; received a number";
+    readonly minLength: "{param} must be a string with at least {limit} characters; received a string of length {length}";
+    readonly maxLength: "{param} must be a string with at most {limit} characters; received a string of length {length}";
+    readonly minItems: "{param} must be an array with at least {limit} items; received an array of length {length}";
+    readonly maxItems: "{param} must be an array with at most {limit} items; received an array of length {length}";
+    readonly minProperties: "{param} must be an object with at least {limit} fields; received an object with {length} fields";
+    readonly maxProperties: "{param} must be an object with at most {limit} fields; received an object with {length} fields";
+    readonly pattern: "{param} must be a string matching the required pattern; received a string";
+    readonly uniqueItems: "{param} must be an array of unique items; received an array";
+    readonly contains: "{param} must be an array containing the required shape; received an array";
+    readonly union: "{param} matches none of its {count} shapes; closest is {shape}: {failure}";
+};
+/** Envelope defaults shared by compilation, documentation and both executors. */
+export declare const ERROR_FIELDS: {
+    readonly code: "code";
+    readonly message: "message";
+    readonly type: "type";
+    readonly param: "param";
+    readonly details: "details";
+    readonly remediation: "remediation";
+    readonly errorSource: "error_source";
+    readonly docUrl: "doc_url";
+    readonly requestId: "request_id";
+    readonly requestLogUrl: "request_log_url";
+};
+export declare function errorMapping(errors?: Config['errors']): {
+    objectPath: string;
+    fields: {
+        type: string;
+        code: string;
+        message: string;
+        param: string;
+        details: string;
+        remediation: string;
+        errorSource: string;
+        docUrl: string;
+        requestId: string;
+        requestLogUrl: string;
+    };
+};
 /** Shared defaults also rendered into the PHP dynamic-contract adapter. */
 export declare const RETRY_DEFAULTS: {
     safeMethods: string[];
@@ -87,6 +139,7 @@ export interface CompiledOperation extends Omit<Operation, 'parameters' | 'body'
     parameters: (Omit<Operation['parameters'][number], 'schema'>
         & {
         codec: CodecPlan;
+        scalarArray?: true;
         /** Absent in historical descriptors and for ordinary input parameters. */
         source?: 'authentication' | 'request-option';
         requestOption?: {
@@ -126,7 +179,7 @@ export interface CompiledRuntimePlan extends Omit<RuntimeContract, 'operations' 
 /** The registry supplies both executors with the same mandatory codec. */
 export declare function compileRequestOption(value: unknown, path: string): {
     node: "clientRequestId";
-    php: "client_request_id";
+    php: "clientRequestId";
     codec: {
         readonly value: {
             readonly kind: "string";
@@ -139,6 +192,7 @@ export declare function compileRequestOption(value: unknown, path: string): {
         };
         readonly phpPattern: "~^[\\x21-\\x7E]+(?![\\s\\S])~uD";
         readonly constraints: true;
+        readonly label?: string;
         readonly objectOnlyAlternative?: boolean;
         readonly nullableAlternative?: 0 | 1;
         readonly modelObjectInput: boolean;

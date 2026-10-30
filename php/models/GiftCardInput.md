@@ -24,5 +24,5 @@ Request input.
 | `status` | Required | string | Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. |
 | `supported_actions` | Required | Array of string | Items values: `"freeze"`, `"unfreeze"`, `"close"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Format: `int64`. |
 

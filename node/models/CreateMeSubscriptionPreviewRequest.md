@@ -16,14 +16,14 @@ The request body for: Preview subscription.
 
 ### CreateMeSubscriptionPreviewRequest variant 1: `mode` = `"delivery_options"`
 
-oneOf variant 1: The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
+oneOf with mode: "delivery_options": The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Required: `destination`.
 - Constraints for `mode`: Values: `"delivery_options"`.
 
 ### CreateMeSubscriptionPreviewRequest variant 2: `mode` = `"next_renewal"`
 
-oneOf variant 2: The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`..
+oneOf with mode: "next_renewal": The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Undeclared: `destination`.
 - Constraints for `mode`: Values: `"next_renewal"`.
@@ -40,7 +40,7 @@ Where to deliver a subscription: a saved customer address by ID, or a new addres
 
 ### CreateMeSubscriptionPreviewRequest variant 1.destination variant 1: `type` = `"customer_address"`
 
-oneOf variant 1: The `customer_address` variant of `SubscriptionDeliveryDestinationInput`..
+oneOf with type: "customer_address": The `customer_address` variant of `SubscriptionDeliveryDestinationInput`..
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
@@ -48,7 +48,7 @@ oneOf variant 1: The `customer_address` variant of `SubscriptionDeliveryDestinat
 
 ### CreateMeSubscriptionPreviewRequest variant 1.destination variant 2: `type` = `"address"`
 
-oneOf variant 2: The `address` variant of `SubscriptionDeliveryDestinationInput`..
+oneOf with type: "address": The `address` variant of `SubscriptionDeliveryDestinationInput`..
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.

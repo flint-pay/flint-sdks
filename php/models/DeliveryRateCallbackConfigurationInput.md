@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_request_bytes` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
-| `maximum_response_bytes` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
+| `maximum_request_bytes` | Optional | integer | Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
+| `maximum_response_bytes` | Optional | integer | Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
 | `preview_enabled` | Optional | boolean | Default: `false`. |
 | `redirect_policy` | Optional | string | Default: `"reject"`. Values: `"reject"`. |
 | `request_timeout_seconds` | Optional | number | minimum: `0.1`. maximum: `10`. Default: `2`. |

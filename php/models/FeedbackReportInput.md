@@ -29,7 +29,7 @@ Request input.
 
 ### FeedbackReportInput variant 1: `kind` = `"rating"`
 
-oneOf variant 1: Feedback submitted about the developer experience..
+oneOf with kind: "rating": Feedback submitted about the developer experience..
 
 - Required: `sentiment`.
 - Optional: `summary`.
@@ -37,7 +37,7 @@ oneOf variant 1: Feedback submitted about the developer experience..
 
 ### FeedbackReportInput variant 2
 
-oneOf variant 2: Feedback submitted about the developer experience..
+oneOf with kind: "bug" | "feature_request" | "other" | "papercut" | "praise": Feedback submitted about the developer experience..
 
 - Required: `summary`.
 - Optional: `sentiment`.

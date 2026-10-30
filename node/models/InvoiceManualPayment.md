@@ -10,7 +10,7 @@ A recorded offline payment against an invoice. Its amount contributes to invoice
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/IncomingWebhookaa949d7898b5Payload.md#incomingwebhookaa949d7898b5payloaddataobjectamount_money). |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/InvoiceManualPayment.md#invoicemanualpaymentamount_money). |
 | `invoice_id` | Required | string | The invoice this payment was recorded against. |
 | `invoice_manual_payment_id` | Required | string | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. |
 | `note` | Optional | string | minLength: `1`. maxLength: `4096`. |
@@ -22,5 +22,7 @@ A recorded offline payment against an invoice. Its amount contributes to invoice
 
 ### InvoiceManualPayment.amount_money
 
-Field definitions: [IncomingWebhookaa949d7898b5Payload.data.object.amount_money](../models/IncomingWebhookaa949d7898b5Payload.md#incomingwebhookaa949d7898b5payloaddataobjectamount_money).
+Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

@@ -16,7 +16,7 @@ Response model.
 | `modifiers` | Optional | Array of ([CreateRefundResultLineItemAllocationsItemModifiersItem](../models/CreateRefundResultLineItemAllocationsItemModifiersItem.md#createrefundresultlineitemallocationsitemmodifiersitem) and [RefundLineItemModifierAllocation](../models/RefundLineItemModifierAllocation.md#refundlineitemmodifierallocation)) |  |
 | `order_line_item_id` | Required | string |  |
 | `product_id` | Optional | string |  |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `refunded_money` | Required | [CreateRefundResultLineItemAllocationsItemRefundedMoney](../models/CreateRefundResultLineItemAllocationsItemRefundedMoney.md#createrefundresultlineitemallocationsitemrefundedmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `selected_options` | Optional | Array of ([CreateRefundResultLineItemAllocationsItemSelectedOptionsItem](../models/CreateRefundResultLineItemAllocationsItemSelectedOptionsItem.md#createrefundresultlineitemallocationsitemselectedoptionsitem) and [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption)) |  |
 | `sku` | Optional | string |  |

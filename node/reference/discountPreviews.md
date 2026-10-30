@@ -8,7 +8,7 @@ Evaluates promotion outcomes for an order without changing it. Returns the compl
 
 `POST /v1/discount-previews`
 
-Signature: `create(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)`
+Signature: `create(params: DiscountPreviewsCreateParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)`
 
 #### Request fields
 
@@ -31,19 +31,19 @@ Returned payload: [DiscountPreview](../models/DiscountPreview.md#discountpreview
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -51,14 +51,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.discountPreviews.create({order_id: "example"}, {  });
+const result = await client.discountPreviews.create({order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {  });
 ```
 
 [Complete runnable example](../examples/discountPreviews-create.mjs)

@@ -22,7 +22,7 @@ Field definitions: [shared fields](InvoicePaymentTermCalculationInput.md#invoice
 
 ### InvoicePaymentTermsSnapshot.calculation variant 1: `type` = `"on_receipt"`
 
-oneOf variant 1: The `on_receipt` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "on_receipt": The `on_receipt` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (at least one(present(`days`); present(`day`))).
 - Optional: `day`, `days`.
@@ -30,7 +30,7 @@ oneOf variant 1: The `on_receipt` variant of `InvoicePaymentTermCalculation`..
 
 ### InvoicePaymentTermsSnapshot.calculation variant 2: `type` = `"net_days"`
 
-oneOf variant 2: The `net_days` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "net_days": The `net_days` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`day`)).
 - Required: `days`.
@@ -39,7 +39,7 @@ oneOf variant 2: The `net_days` variant of `InvoicePaymentTermCalculation`..
 
 ### InvoicePaymentTermsSnapshot.calculation variant 3: `type` = `"days_after_month_end"`
 
-oneOf variant 3: The `days_after_month_end` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "days_after_month_end": The `days_after_month_end` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`day`)).
 - Required: `days`.
@@ -48,7 +48,7 @@ oneOf variant 3: The `days_after_month_end` variant of `InvoicePaymentTermCalcul
 
 ### InvoicePaymentTermsSnapshot.calculation variant 4: `type` = `"day_of_month"`
 
-oneOf variant 4: The `day_of_month` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "day_of_month": The `day_of_month` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`days`)).
 - Required: `day`.
@@ -57,7 +57,7 @@ oneOf variant 4: The `day_of_month` variant of `InvoicePaymentTermCalculation`..
 
 ### InvoicePaymentTermsSnapshot.calculation variant 5: `type` = `"day_of_next_month"`
 
-oneOf variant 5: The `day_of_next_month` variant of `InvoicePaymentTermCalculation`..
+oneOf with type: "day_of_next_month": The `day_of_next_month` variant of `InvoicePaymentTermCalculation`..
 
 - Condition: not (present(`days`)).
 - Required: `day`.
@@ -78,7 +78,7 @@ A late fee for overdue invoices: a fixed amount or a percentage, a grace period 
 
 ### InvoicePaymentTermsSnapshot.late_fee_policy variant 1: `type` = `"fixed"`
 
-oneOf variant 1: The `fixed` variant of `InvoiceLateFeePolicy`..
+oneOf with type: "fixed": The `fixed` variant of `InvoiceLateFeePolicy`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`.
@@ -87,7 +87,7 @@ oneOf variant 1: The `fixed` variant of `InvoiceLateFeePolicy`..
 
 ### InvoicePaymentTermsSnapshot.late_fee_policy variant 2: `type` = `"percentage"`
 
-oneOf variant 2: The `percentage` variant of `InvoiceLateFeePolicy`..
+oneOf with type: "percentage": The `percentage` variant of `InvoiceLateFeePolicy`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `percent`.

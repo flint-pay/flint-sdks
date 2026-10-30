@@ -7,7 +7,7 @@ namespace Flint;
 final class SendPaymentIntentReceiptRequestInput extends Model {
     /** @param array{'email'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SendPaymentIntentReceiptRequestInput')); }
-    /** Shape $ (Value): string. Email address that receives the receipt. Omit to use the order's receipt address for an order-owned intent, or receipt_email then the customer's email for a standalone intent. Format: email. minLength: 1. maxLength: 254.
+    /** Email address that receives the receipt. Omit to use the order's receipt address for an order-owned intent, or receipt_email then the customer's email for a standalone intent. Format: email. minLength: 1. maxLength: 254.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

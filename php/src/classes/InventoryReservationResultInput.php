@@ -8,13 +8,13 @@ namespace Flint;
 final class InventoryReservationResultInput extends Model {
     /** @param array{'inventory_levels': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, 'inventory_reservation': InventoryReservationInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationResultInput')); }
-    /** Shape $ (Value): Array of {@see InventoryLevelInput}. Post-commit state of every level this command touched, so no follow-up read is needed. A replay returns the levels the original command produced. Shape $[] (Value): {@see InventoryLevelInput}. The quantity state of one inventory item at one Location.
+    /** Post-commit state of every level this command touched, so no follow-up read is needed. A replay returns the levels the original command produced. [] (Value): {@see InventoryLevelInput}. The quantity state of one inventory item at one Location.
      * @return list<InventoryLevelInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When inventory_levels is omitted; use hasInventoryLevels() or valueOrDefault().
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
     public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
-    /** Shape $ (Value): {@see InventoryReservationInput}. A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
+    /** A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
      * @return InventoryReservationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
      */

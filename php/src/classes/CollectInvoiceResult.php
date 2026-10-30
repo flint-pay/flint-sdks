@@ -8,12 +8,12 @@ namespace Flint;
 final class CollectInvoiceResult extends Model {
     /** @param array{'invoice': mixed, 'invoice_payment_attempt': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CollectInvoiceResult')); }
-    /** Shape $ (Value): {@see Invoice}. A bill issued to a customer.
+    /** A bill issued to a customer.
      * @return Invoice
      */
     public function getInvoice(): Invoice { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Shape $ (Value): {@see InvoicePaymentAttempt} or null. Shape $.anyOf[1] (Value): {@see InvoicePaymentAttempt}. An attempt to collect payment for an invoice. Shape $.anyOf[2] (Value): null.
+    /**  anyOf[1] (Value): {@see InvoicePaymentAttempt}. An attempt to collect payment for an invoice. anyOf[2] (Value): null.
      * @return InvoicePaymentAttempt|null
      */
     public function getInvoicePaymentAttempt(): InvoicePaymentAttempt|null { return $this->get('invoice_payment_attempt'); }

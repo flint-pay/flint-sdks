@@ -15,11 +15,11 @@ Request input.
 
 Largest gift card value buyers can choose, in the face value currency.
 
-Field definitions: [shared fields](GiftCardProductConfigurationFaceValueMoney.md#giftcardproductconfigurationfacevaluemoney).
+Field definitions: [shared fields](DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney).
 
 ### GiftCardCustomAmountBoundsInput.minimum_money
 
 Smallest gift card value buyers can choose, in the face value currency.
 
-Field definitions: [shared fields](GiftCardProductConfigurationFaceValueMoney.md#giftcardproductconfigurationfacevaluemoney).
+Field definitions: [shared fields](DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney).
 

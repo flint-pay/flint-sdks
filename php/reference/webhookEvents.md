@@ -14,7 +14,7 @@ Signature: `get(string|Model $webhook_event_id, array|Model|null $params = null,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Flint webhook event ID. |
 
 #### Response
 
@@ -22,16 +22,16 @@ Returned payload: [WebhookEvent](../models/WebhookEvent.md#webhookevent).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -39,14 +39,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```php
-$result = $client->webhookEvents->get('example', [], new RequestOptions());
+$result = $client->webhookEvents->get('whev_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/webhookEvents-get.php)
@@ -63,20 +63,20 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `webhook_endpoint_id` | Optional | string |  |
-| `delivery_status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
-| `event_source` | Optional | Array of string | minItems: `1`. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | Array of string | minItems: `1`. Items values: [246 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
-| `resource_type` | Optional | Array of string | minItems: `1`. Items values: [67 declared values](#webhookeventslist-input-resource_type--values). |
-| `resource_id` | Optional | string |  |
-| `api_request_log_id` | Optional | string |  |
-| `request_id` | Optional | string |  |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `include` | Optional | Array of string | Items values: `"test_events"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `webhook_endpoint_id` | Optional | string | Filter to events that have a delivery for this webhook endpoint. |
+| `delivery_status` | Optional | Array of string or string | Filter to events that have a delivery with this status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
+| `event_source` | Optional | Array of string or string | Filter by webhook event source. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
+| `partner_app_id` | Optional | string | Filter by partner app ID for partner-source webhook events. |
+| `event_type` | Optional | Array of string or string | Filter by webhook event type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [251 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). Values: [251 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `resource_type` | Optional | Array of string or string | Filter by affected resource type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [68 declared values](#webhookeventslist-input-resource_type--values). Values: [68 declared values](#webhookeventslist-input-resource_type--values). |
+| `resource_id` | Optional | string | Filter by affected resource ID. |
+| `api_request_log_id` | Optional | string | Filter by API request log ID associated with the event. |
+| `request_id` | Optional | string | Filter by request ID associated with the event. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `include` | Optional | Array of string | Optional comma-separated expansions. Use test_events to include synthetic webhook test events. Items values: `"test_events"`. |
 
 #### webhookEvents.list input resource_type [] values
 
@@ -147,22 +147,23 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"subscription_delivery_migration"`
 - `"subscription_payment_retry"`
 - `"tax_connection"`
+- `"test_clock"`
 
 #### Response
 
-Returned payload: [WebhookEventsListResponse200](../models/WebhookEventsListResponse200.md#webhookeventslistresponse200).
+Returned payload: [WebhookEventListResponse](../models/WebhookEventListResponse.md#webhookeventlistresponse).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -170,11 +171,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -183,63 +184,6 @@ $result = $client->webhookEvents->list([], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/webhookEvents-list.php)
-
-### webhookEvents.listWebhookDeliveries
-
-Returns webhook deliveries, newest first (`created_at` descending, then `webhook_delivery_id`). Includes deliveries of synthetic test events. Default order: created_at descending, then webhook_delivery_id descending.
-
-`GET /v1/webhook-deliveries`
-
-Signature: `listWebhookDeliveries(array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `webhook_event_id` | Optional | string |  |
-| `webhook_endpoint_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-
-#### Response
-
-Returned payload: [WebhookEventsListWebhookDeliveriesResponse200](../models/WebhookEventsListWebhookDeliveriesResponse200.md#webhookeventslistwebhookdeliveriesresponse200).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `listWebhookDeliveriesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-Pagination: `listWebhookDeliveriesItems`, `listWebhookDeliveriesPages`, `listWebhookDeliveriesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
-
-#### Example
-
-```php
-$result = $client->webhookEvents->listWebhookDeliveries([], new RequestOptions());
-```
-
-[Complete runnable example](../examples/webhookEvents-listWebhookDeliveries.php)
 
 ### webhookEvents.stream
 
@@ -253,9 +197,9 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | Array of string | minItems: `1`. Items values: [240 declared values](#webhookeventsstream-input-event_type--values). |
-| `after_event_id` | Optional | string |  |
-| `Last-Event-ID` | Optional | string |  |
+| `event_type` | Optional | Array of string or string | Filter by canonical merchant webhook event type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [245 declared values](#webhookeventsstream-input-event_type--values). Values: [245 declared values](#webhookeventsstream-input-event_type--values). |
+| `after_event_id` | Optional | string | Webhook event ID to resume after. Last-Event-ID is preferred when reconnecting. |
+| `Last-Event-ID` | Optional | string | Webhook event cursor received from the previous SSE connection. |
 
 #### webhookEvents.stream input event_type [] values
 
@@ -499,6 +443,11 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
 - `"tax_connection.updated"`
+- `"test_clock.advancing"`
+- `"test_clock.archived"`
+- `"test_clock.created"`
+- `"test_clock.failed"`
+- `"test_clock.ready"`
 
 #### Response
 
@@ -506,15 +455,15 @@ Response body (inside Result.data): null.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 

@@ -9,17 +9,17 @@ namespace Flint;
 final class SubscriptionInventoryWait extends Model {
     /** @param array{'invoice_id': string, 'order_id': string, 'started_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInventoryWait')); }
-    /** Shape $ (Value): string.
+    /** invoice_id
      * @return string
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string.
+    /** order_id
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getStartedAt(): string { return $this->get('started_at'); }

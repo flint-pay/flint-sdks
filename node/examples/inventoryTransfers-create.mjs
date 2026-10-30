@@ -1,23 +1,22 @@
 import { Client } from "@flintpay/node";
-const baseUrl = process.env.API_BASE_URL;
-if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
 const client = new Client({
   baseUrl,
-  allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.inventoryTransfers.create(
   {
-    destination_location_id: "example",
+    destination_location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
     lines: [
       {
-        inventory_item_id: "example",
-        requested_quantity: "1",
+        inventory_item_id: "invi_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        requested_quantity: 1,
       },
     ],
-    origin_location_id: "example",
+    origin_location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
   },
   { idempotencyKey: idempotencyKey },
 );

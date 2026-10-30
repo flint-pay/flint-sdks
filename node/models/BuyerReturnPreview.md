@@ -16,7 +16,7 @@ A Return eligibility or resolution preview shown to the buyer, selected by mode.
 
 ### BuyerReturnPreview variant 1: `mode` = `"eligibility"`
 
-oneOf variant 1: The `eligibility` variant of `BuyerReturnPreview`..
+oneOf with mode: "eligibility": The `eligibility` variant of `BuyerReturnPreview`..
 
 - Condition: not (present(`resolution`)).
 - Required: `eligibility`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `eligibility` variant of `BuyerReturnPreview`..
 
 ### BuyerReturnPreview variant 2: `mode` = `"resolution"`
 
-oneOf variant 2: The `resolution` variant of `BuyerReturnPreview`..
+oneOf with mode: "resolution": The `resolution` variant of `BuyerReturnPreview`..
 
 - Condition: not (present(`eligibility`)).
 - Required: `resolution`.

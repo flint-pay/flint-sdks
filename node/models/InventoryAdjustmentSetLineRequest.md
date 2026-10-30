@@ -10,14 +10,14 @@ One line of an inventory adjustment that sets absolute quantities for an item at
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `damaged_quantity` | Conditional | integer string | Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
-| `expected_physical_version` | Optional | integer string | Refuse the line unless the level's `physical_version` still equals this value. A level that doesn't exist yet has physical version 0. Holds and commitments do not change it. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `damaged_quantity` | Conditional | integer | Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
+| `expected_physical_version` | Optional | integer | Refuse the line unless the level's `physical_version` still equals this value. A level that doesn't exist yet has physical version 0. Holds and commitments do not change it. Format: `int64`. minimum: `0`. |
 | `inventory_item_id` | Required | string | minLength: `1`. |
 | `location_id` | Required | string | minLength: `1`. |
-| `on_hand_quantity` | Conditional | integer string | Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
-| `quality_control_quantity` | Conditional | integer string | Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
-| `quarantined_quantity` | Conditional | integer string | Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
-| `source_observation_sequence` | Optional | integer string | Monotonic sequence of this observation in the source system. Flint refuses a value that is not greater than the last accepted one for the same source, item, and Location. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `on_hand_quantity` | Conditional | integer | Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
+| `quality_control_quantity` | Conditional | integer | Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
+| `quarantined_quantity` | Conditional | integer | Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
+| `source_observation_sequence` | Optional | integer | Monotonic sequence of this observation in the source system. Flint refuses a value that is not greater than the last accepted one for the same source, item, and Location. Format: `int64`. minimum: `1`. |
 
 ### InventoryAdjustmentSetLineRequest variant 1
 

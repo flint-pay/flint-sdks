@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3600"},"dependencies":["CreateAPIKeyRequest","SharedCodec128","SharedCodec129","SharedCodec130","SharedCodec131","SharedCodec3","SharedCodec3600"]}

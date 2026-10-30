@@ -1,1 +1,0 @@
-{"shared":"Webhook_gift_card_redemption_created_merchant","dependencies":["GiftCardRedemption","MerchantWebhookEnvelope","MoneyValue","SharedCodec413","SharedCodec414","SharedCodec687","Webhook_gift_card_redemption_created_merchant"]}

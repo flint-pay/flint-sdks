@@ -1,9 +1,10 @@
-import { d4782 as c0, d4797 as c1, d4798 as c2, d4799 as c3 } from '../descriptors/data/217.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d4782 as d4782 } from '../descriptors/data/217.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d1084 as c0 } from '../descriptors/data/52.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6018 as c1, d6019 as c2, d6020 as c3 } from '../descriptors/data/277.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d1084 as d1084 } from '../descriptors/data/52.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4782;
+const read = d1084;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PaymentSourceCredential"]:c0(),["SharedCodec1080"]:c1(),["SharedCodec1081"]:c2(),["SharedCodec1082"]:c3()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["PaymentSourceCredential"]:c0(),["SharedCodec1024"]:c1(),["SharedCodec1025"]:c2(),["SharedCodec1026"]:c3()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePaymentSourceCredential(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

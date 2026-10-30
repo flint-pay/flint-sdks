@@ -20,7 +20,7 @@ No additional constraints.
 
 ### FulfillmentSettings variant 2
 
-anyOf variant 2: Declared schema FulfillmentSettingsRequestRequest. Merchant fulfillment settings, including whether fulfillments require approval (`approval_required`)..
+anyOf variant 2: Declared schema FulfillmentSettingsRequest. Merchant fulfillment settings, including whether fulfillments require approval (`approval_required`)..
 
 No additional constraints.
 

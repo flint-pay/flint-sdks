@@ -1,1 +1,0 @@
-{"shared":"Webhook_environment_grant_created_partner_app","dependencies":["PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec429","WebhookEventSourcePartnerApp","Webhook_environment_grant_created_partner_app"]}

@@ -26,8 +26,8 @@ A typed revocation target. Each target_type accepts only its resource-specific f
 | `delivery_rate_callback_id` | Conditional | string |  |
 | `delivery_rate_callback_revision_id` | Conditional | string |  |
 | `delivery_rate_callback_signing_key_id` | Conditional | string |  |
-| `expected_version` | Optional | integer string | Required for delivery_method and delivery_rate_callback targets. The revocation resolves and permanently fences only the exact current revision at this stable-resource version. Omit it for exact revision, geography, and signing-key targets. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `location_geography_version` | Conditional | integer string | Exact version of the Location geography to revoke. Required for location_geography targets. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Required for delivery_method and delivery_rate_callback targets. The revocation resolves and permanently fences only the exact current revision at this stable-resource version. Omit it for exact revision, geography, and signing-key targets. Format: `uint64`. minimum: `1`. |
+| `location_geography_version` | Conditional | integer | Exact version of the Location geography to revoke. Required for location_geography targets. Format: `int64`. minimum: `1`. |
 | `location_id` | Conditional | string |  |
 | `target_type` | Required | string | Values: [6 declared values](#deliveryrevocationtarget-target_type-values). |
 
@@ -42,7 +42,7 @@ A typed revocation target. Each target_type accepts only its resource-specific f
 
 ### DeliveryRevocation.target variant 1: `target_type` = `"location_geography"`
 
-oneOf variant 1: A typed revocation target. Each target_type accepts only its resource-specific fields..
+oneOf with target_type: "location_geography": A typed revocation target. Each target_type accepts only its resource-specific fields..
 
 - Condition: not (at least one(present(`delivery_rate_callback_id`); present(`delivery_rate_callback_revision_id`); present(`delivery_rate_callback_signing_key_id`); present(`delivery_method_id`); present(`delivery_method_revision_id`); present(`expected_version`))).
 - Required: `location_geography_version`, `location_id`.
@@ -51,7 +51,7 @@ oneOf variant 1: A typed revocation target. Each target_type accepts only its re
 
 ### DeliveryRevocation.target variant 2: `target_type` = `"delivery_rate_callback_signing_key"`
 
-oneOf variant 2: A typed revocation target. Each target_type accepts only its resource-specific fields..
+oneOf with target_type: "delivery_rate_callback_signing_key": A typed revocation target. Each target_type accepts only its resource-specific fields..
 
 - Condition: not (at least one(present(`location_id`); present(`location_geography_version`); present(`delivery_rate_callback_id`); present(`delivery_rate_callback_revision_id`); present(`delivery_method_id`); present(`delivery_method_revision_id`); present(`expected_version`))).
 - Required: `delivery_rate_callback_signing_key_id`.
@@ -60,7 +60,7 @@ oneOf variant 2: A typed revocation target. Each target_type accepts only its re
 
 ### DeliveryRevocation.target variant 3: `target_type` = `"delivery_rate_callback"`
 
-oneOf variant 3: A typed revocation target. Each target_type accepts only its resource-specific fields..
+oneOf with target_type: "delivery_rate_callback": A typed revocation target. Each target_type accepts only its resource-specific fields..
 
 - Condition: not (at least one(present(`location_id`); present(`location_geography_version`); present(`delivery_rate_callback_revision_id`); present(`delivery_rate_callback_signing_key_id`); present(`delivery_method_id`); present(`delivery_method_revision_id`); present(`expected_version`))).
 - Required: `delivery_rate_callback_id`.
@@ -69,7 +69,7 @@ oneOf variant 3: A typed revocation target. Each target_type accepts only its re
 
 ### DeliveryRevocation.target variant 4: `target_type` = `"delivery_rate_callback_revision"`
 
-oneOf variant 4: A typed revocation target. Each target_type accepts only its resource-specific fields..
+oneOf with target_type: "delivery_rate_callback_revision": A typed revocation target. Each target_type accepts only its resource-specific fields..
 
 - Condition: not (at least one(present(`location_id`); present(`location_geography_version`); present(`delivery_rate_callback_signing_key_id`); present(`delivery_method_id`); present(`delivery_method_revision_id`); present(`expected_version`))).
 - Required: `delivery_rate_callback_id`, `delivery_rate_callback_revision_id`.
@@ -78,7 +78,7 @@ oneOf variant 4: A typed revocation target. Each target_type accepts only its re
 
 ### DeliveryRevocation.target variant 5: `target_type` = `"delivery_method"`
 
-oneOf variant 5: A typed revocation target. Each target_type accepts only its resource-specific fields..
+oneOf with target_type: "delivery_method": A typed revocation target. Each target_type accepts only its resource-specific fields..
 
 - Condition: not (at least one(present(`location_id`); present(`location_geography_version`); present(`delivery_rate_callback_id`); present(`delivery_rate_callback_revision_id`); present(`delivery_rate_callback_signing_key_id`); present(`delivery_method_revision_id`); present(`expected_version`))).
 - Required: `delivery_method_id`.
@@ -87,7 +87,7 @@ oneOf variant 5: A typed revocation target. Each target_type accepts only its re
 
 ### DeliveryRevocation.target variant 6: `target_type` = `"delivery_method_revision"`
 
-oneOf variant 6: A typed revocation target. Each target_type accepts only its resource-specific fields..
+oneOf with target_type: "delivery_method_revision": A typed revocation target. Each target_type accepts only its resource-specific fields..
 
 - Condition: not (at least one(present(`location_id`); present(`location_geography_version`); present(`delivery_rate_callback_id`); present(`delivery_rate_callback_revision_id`); present(`delivery_rate_callback_signing_key_id`); present(`expected_version`))).
 - Required: `delivery_method_id`, `delivery_method_revision_id`.

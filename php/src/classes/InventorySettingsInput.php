@@ -8,13 +8,13 @@ namespace Flint;
 final class InventorySettingsInput extends Model {
     /** @param array{'low_stock_threshold'?: int, 'origin_policies'?: array<array-key, InventoryOriginPolicyInput|array<array-key, mixed>|\stdClass>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventorySettingsInput')); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Available quantity your team treats as low stock, zero or greater. The Dashboard shows this setting. It does not change allocation, filter API results, or send events. Format: int32.
      * @return int
      * @throws SdkError When low_stock_threshold is omitted; use hasLowStockThreshold() or valueOrDefault().
      */
     public function getLowStockThreshold(): int { return $this->get('low_stock_threshold'); }
     public function hasLowStockThreshold(): bool { return $this->has('low_stock_threshold'); }
-    /** Shape $ (Value): Map of {@see InventoryOriginPolicyInput}. Map replaced as a whole: the keys you send become the full map. Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. Shape $.* (Value): {@see InventoryOriginPolicyInput}. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription.
+    /** Map replaced as a whole: the keys you send become the full map. Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. * (Value): {@see InventoryOriginPolicyInput}. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription.
      * @return array<array-key, InventoryOriginPolicyInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When origin_policies is omitted; use hasOriginPolicies() or valueOrDefault().
      */

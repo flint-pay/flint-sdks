@@ -2,7 +2,7 @@
 
 ## ReadinessMerchantAccountSession
 
-Settings for the merchant account session a `ReadinessAction` calls for: which components to show and which requirements to collect.
+Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect.
 
 Response model.
 

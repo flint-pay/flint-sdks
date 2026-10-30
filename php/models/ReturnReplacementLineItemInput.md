@@ -12,7 +12,7 @@ Request input.
 | `description` | Optional | string |  |
 | `discount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `name` | Required | string |  |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `return_replacement_line_item_id` | Required | string |  |
 | `return_resolution_id` | Required | string |  |
 | `sku` | Optional | string |  |

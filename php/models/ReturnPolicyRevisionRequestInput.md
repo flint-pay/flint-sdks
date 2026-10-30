@@ -29,7 +29,7 @@ Request input.
 
 ### ReturnPolicyRevisionRequestInput variant 1: `eligibility_result` = `"ineligible"`
 
-oneOf variant 1: The `ineligible` variant of `ReturnPolicyRevisionInput`..
+oneOf with eligibility_result: "ineligible": The `ineligible` variant of `ReturnPolicyRevisionInput`..
 
 - Condition: not (at least one(present(`allowed_resolution_types`); present(`resolution_mode`); present(`release_timing`); present(`completion_mode`))).
 - Optional: `allowed_resolution_types`, `completion_mode`, `receiving_location_id`, `resolution_mode`, `resolution_selection_mode`.
@@ -37,7 +37,7 @@ oneOf variant 1: The `ineligible` variant of `ReturnPolicyRevisionInput`..
 
 ### ReturnPolicyRevisionRequestInput variant 2: `resolution_mode` = `"manual"`
 
-oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 1 variant 1.
+oneOf with eligibility_result: "eligible" | "review_required": The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 1 variant 1.
 
 - Condition: not (at least one(present(`resolution_selection_mode`); present(`automatic_resolution_type`))).
 - Required: `allowed_resolution_types`, `completion_mode`, `resolution_mode`.
@@ -47,7 +47,7 @@ oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `rev
 
 ### ReturnPolicyRevisionRequestInput variant 3: `resolution_mode` = `"automatic"`
 
-oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 1 variant 2.
+oneOf with eligibility_result: "eligible" | "review_required": The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 1 variant 2.
 
 - Required: `allowed_resolution_types`, `completion_mode`, `resolution_mode`, `resolution_selection_mode`.
 - Optional: `receiving_location_id`.
@@ -56,7 +56,7 @@ oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `rev
 
 ### ReturnPolicyRevisionRequestInput variant 4: `is_merchandise_return_required` = `false`
 
-oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 2 variant 1.
+oneOf with eligibility_result: "eligible" | "review_required": The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 2 variant 1.
 
 - Required: `allowed_resolution_types`, `completion_mode`, `resolution_mode`.
 - Optional: `receiving_location_id`, `resolution_selection_mode`.
@@ -65,7 +65,7 @@ oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `rev
 
 ### ReturnPolicyRevisionRequestInput variant 5: `is_merchandise_return_required` = `true`
 
-oneOf variant 2: The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 2 variant 2.
+oneOf with eligibility_result: "eligible" | "review_required": The `eligible` variant of `ReturnPolicyRevisionInput`. The `review_required` variant of `ReturnPolicyRevisionInput`.; anyOf group 2 variant 2.
 
 - Required: `allowed_resolution_types`, `completion_mode`, `receiving_location_id`, `resolution_mode`.
 - Optional: `resolution_selection_mode`.

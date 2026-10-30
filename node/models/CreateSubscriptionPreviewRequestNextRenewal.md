@@ -15,13 +15,13 @@
 
 ### CreateSubscriptionPreviewRequestNextRenewal variant 1: `mode` = `"next_renewal"`
 
-anyOf variant 1: Declared schema CreateMeSubscriptionPreviewRequestNextRenewal. The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`..
+anyOf CreateMeSubscriptionPreviewRequestNextRenewal: Declared schema CreateMeSubscriptionPreviewRequestNextRenewal. The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`..
 
 No additional constraints.
 
 ### CreateSubscriptionPreviewRequestNextRenewal variant 2: `mode` = `"next_renewal"`
 
-anyOf variant 2: Declared schema CreateSubscriptionPreviewRequestNextRenewal. The `next_renewal` variant of `CreateSubscriptionPreviewRequest`..
+anyOf CreateSubscriptionPreviewRequestNextRenewal: Declared schema CreateSubscriptionPreviewRequestNextRenewal. The `next_renewal` variant of `CreateSubscriptionPreviewRequest`..
 
 No additional constraints.
 

@@ -1,1 +1,1 @@
-{"shared":"CreateLocationRequest","dependencies":["AddressRequest","CreateLocationRequest","LocationCoordinateRequestRequest","MetadataRequest","SharedCodec0","SharedCodec1"]}
+{"shared":"CreateLocationRequest","dependencies":["AddressRequest","CreateLocationRequest","LocationCoordinateRequest","MetadataRequest","SharedCodec0","SharedCodec1"]}

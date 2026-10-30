@@ -9,19 +9,19 @@ namespace Flint;
 final class FileResponseInput extends Model {
     /** @param array{'data': FileInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FileResponseInput')); }
-    /** Shape $ (Value): {@see FileInput}. An image uploaded to Flint. Create the file, PUT its bytes to upload.url with upload.headers, then complete it. Attach a ready file with images[].file_id on a catalog resource or file_id in a branding image field. A ready unattached file expires after 24 hours; attachment removes that deadline. Each upload has its own file_id, including uploads of identical bytes.
+    /** An image uploaded to Flint. Create the file, PUT its bytes to upload.url with upload.headers, then complete it. Attach a ready file with images[].file_id on a catalog resource or file_id in a branding image field. A ready unattached file expires after 24 hours; attachment removes that deadline. Each upload has its own file_id, including uploads of identical bytes.
      * @return FileInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): mixed { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Shape $ (Value): {@see ResponseMetaInput}. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ResponseMetaInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().
      */
     public function getMeta(): mixed { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      * @return string
      * @throws SdkError When request_id is omitted; use hasRequestId() or valueOrDefault().
      */

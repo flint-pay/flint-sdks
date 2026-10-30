@@ -16,14 +16,14 @@
 
 ### DeliveryTieredPricingStrategy variant 1: `basis` = `"choice_group.total_weight"`
 
-anyOf variant 1: Declared schema DeliveryTieredPricingStrategy. Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal, selects a band, and `unit` applies to weight bases.; oneOf variant 1: The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
+anyOf variant 1: Declared schema DeliveryTieredPricingStrategy. Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal, selects a band, and `unit` applies to weight bases.; oneOf with basis: "choice_group.total_weight": The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategy`..
 
 - Required: `unit`.
 - Constraints for `basis`: Values: `"choice_group.total_weight"`.
 
 ### DeliveryTieredPricingStrategy variant 2
 
-anyOf variant 1: Declared schema DeliveryTieredPricingStrategy. Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal, selects a band, and `unit` applies to weight bases.; oneOf variant 2: The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`..
+anyOf variant 1: Declared schema DeliveryTieredPricingStrategy. Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal, selects a band, and `unit` applies to weight bases.; oneOf with basis: "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "choice_group.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts": The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategy`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategy`..
 
 - Condition: not (present(`unit`)).
 - Optional: `unit`.
@@ -31,14 +31,14 @@ anyOf variant 1: Declared schema DeliveryTieredPricingStrategy. Pricing strategy
 
 ### DeliveryTieredPricingStrategy variant 3: `basis` = `"choice_group.total_weight"`
 
-anyOf variant 2: Declared schema DeliveryTieredPricingStrategyRequest. Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the basis is total weight.; oneOf variant 1: The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategyInput`..
+anyOf variant 2: Declared schema DeliveryTieredPricingStrategyRequest. Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the basis is total weight.; oneOf with basis: "choice_group.total_weight": The `choice_group.total_weight` variant of `DeliveryTieredPricingStrategyInput`..
 
 - Required: `unit`.
 - Constraints for `basis`: Values: `"choice_group.total_weight"`.
 
 ### DeliveryTieredPricingStrategy variant 4
 
-anyOf variant 2: Declared schema DeliveryTieredPricingStrategyRequest. Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the basis is total weight.; oneOf variant 2: The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`..
+anyOf variant 2: Declared schema DeliveryTieredPricingStrategyRequest. Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the basis is total weight.; oneOf with basis: "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "choice_group.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts": The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`..
 
 - Condition: not (present(`unit`)).
 - Optional: `unit`.

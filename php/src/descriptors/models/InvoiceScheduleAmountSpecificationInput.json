@@ -1,1 +1,1 @@
-{"shared":"InvoiceScheduleAmountSpecification","dependencies":["InvoiceScheduleAmountSpecification","MoneyValue","SharedCodec964","SharedCodec965","SharedCodec966","SharedCodec967","SharedCodec968","SharedCodec969","SharedCodec970"]}
+{"shared":"InvoiceScheduleAmountSpecification","dependencies":["InvoiceScheduleAmountSpecification","MoneyValue","SharedCodec805","SharedCodec806","SharedCodec807","SharedCodec808","SharedCodec809","SharedCodec810","SharedCodec811"]}

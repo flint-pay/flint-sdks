@@ -9,17 +9,17 @@ namespace Flint;
 final class CheckoutMerchantSupport extends Model {
     /** @param array{'email'?: string, 'phone'?: string, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutMerchantSupport')); }
-    /** Shape $ (Value): string. Support email address. Format: email.
+    /** Support email address. Format: email.
      * @return ?string
      */
     public function getEmail(): ?string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string. Support phone number.
+    /** Support phone number.
      * @return ?string
      */
     public function getPhone(): ?string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Shape $ (Value): string. Support page, as an absolute http or https URL. Format: uri.
+    /** Support page, as an absolute http or https URL. Format: uri.
      * @return ?string
      */
     public function getUrl(): ?string { return $this->get('url'); }

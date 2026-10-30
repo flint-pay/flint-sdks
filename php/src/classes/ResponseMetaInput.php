@@ -10,25 +10,25 @@ namespace Flint;
 final class ResponseMetaInput extends Model {
     /** @param array{'api_version'?: string, 'idempotency_replayed'?: bool, 'trace_id'?: string, 'warnings'?: list<ResponseWarningInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResponseMetaInput')); }
-    /** Shape $ (Value): string. API version used to produce this response.
+    /** API version used to produce this response.
      * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** Shape $ (Value): boolean. Whether this response replays a stored result for the supplied Idempotency-Key.
+    /** Whether this response replays a stored result for the supplied Idempotency-Key.
      * @return bool
      * @throws SdkError When idempotency_replayed is omitted; use hasIdempotencyReplayed() or valueOrDefault().
      */
     public function getIdempotencyReplayed(): bool { return $this->get('idempotency_replayed'); }
     public function hasIdempotencyReplayed(): bool { return $this->has('idempotency_replayed'); }
-    /** Shape $ (Value): string. Trace identifier to include when contacting Flint about this request.
+    /** Trace identifier to include when contacting Flint about this request.
      * @return string
      * @throws SdkError When trace_id is omitted; use hasTraceId() or valueOrDefault().
      */
     public function getTraceId(): string { return $this->get('trace_id'); }
     public function hasTraceId(): bool { return $this->has('trace_id'); }
-    /** Shape $ (Value): Array of {@see ResponseWarningInput}. Conditions that need attention even though the request succeeded. Shape $[] (Value): {@see ResponseWarningInput}. A non-blocking condition reported with a response. The `code` identifies the condition and `severity` says how urgent it is.
+    /** Conditions that need attention even though the request succeeded. [] (Value): {@see ResponseWarningInput}. A non-blocking condition reported with a response. The `code` identifies the condition and `severity` says how urgent it is.
      * @return list<ResponseWarningInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When warnings is omitted; use hasWarnings() or valueOrDefault().
      */

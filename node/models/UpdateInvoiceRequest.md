@@ -12,7 +12,7 @@ The request body for: Update invoice.
 | --- | --- | --- | --- |
 | `cc_emails` | Optional | Array of string | Additional addresses copied on the invoice email and every reminder. Send the complete list; [] removes every address. Items: minLength: `1`. |
 | `collection` | Optional | [InvoiceCollectionRequest](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How the invoice is collected. Send the invoice's collection object back unchanged, or a new one. merchant_default resolves again from invoice settings when the draft is written. How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
-| `expected_version` | Optional | integer string | Invoice version last read. Required when schedule_entries is present. Required when any of these fields is present: schedule_entries. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Invoice version last read. Required when schedule_entries is present. Required when any of these fields is present: schedule_entries. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `footer` | Optional | string or null | Fine print at the bottom of the invoice and PDF. Send null to clear it. minLength: `1`. |
 | `memo` | Optional | string or null | Message to the customer, printed on the invoice and PDF. Send null to clear it. minLength: `1`. |

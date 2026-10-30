@@ -11,31 +11,31 @@ namespace Flint;
 final class PublicResolvedBundleComponentInput extends Model {
     /** @param array{'position': int, 'product_id'?: string, 'quantity': int, 'variant'?: PublicResolvedBundleVariantSummaryInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedBundleComponentInput')); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Format: int32.
      * @return int
      * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Shape $ (Value): string.
+    /** product_id
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Shape $ (Value): {@see PublicResolvedBundleVariantSummaryInput}. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
+    /** A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
      * @return PublicResolvedBundleVariantSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When variant is omitted; use hasVariant() or valueOrDefault().
      */
     public function getVariant(): mixed { return $this->get('variant'); }
     public function hasVariant(): bool { return $this->has('variant'); }
-    /** Shape $ (Value): string.
+    /** variant_id
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

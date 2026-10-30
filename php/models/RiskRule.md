@@ -14,7 +14,7 @@ Response model.
 | `attributes_used` | Required | Array of string |  |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that created this rule. Null when Flint created it, as for Flint's default rules. The reference may name an API key in the other mode. |
-| `description` | Required | string |  |
+| `description` | Required | string | Your note on what the rule is for. Leading and trailing whitespace is trimmed. |
 | `issues` | Required | Array of [RiskRuleIssue](../models/RiskRuleIssue.md#riskruleissue) | Problems that stop Flint from evaluating this rule. Empty when the rule can run. An active rule with issues is skipped on every payment and protects nothing until you fix it. An inactive rule with issues can't be activated until you fix it. |
 | `origin` | Required | string | Values: `"system_default"`, `"merchant"`. |
 | `predicate` | Required | Alternative shapes (see declared variants) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `predicate`: [declared alternatives](../models/RiskRule.md#riskrulepredicate). |
@@ -22,7 +22,7 @@ Response model.
 | `stage` | Required | string | Values: `"pre_authorization"`, `"post_authorization"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `version` | Required | integer | Increases on every change to the rule. Send it as expected_version to avoid overwriting someone else's change. Format: `int64`. |
 
 ### RiskRule.predicate
 
@@ -42,28 +42,28 @@ A node in a risk rule condition: a comparison of an attribute, or an `all`, `any
 
 ### RiskRule.predicate variant 1
 
-oneOf variant 1: The `All` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeAll: The `All` variant of `RiskPredicateNode`..
 
 - Required: `all`.
 - Undeclared: `any`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskRule.predicate variant 2
 
-oneOf variant 2: The `Any` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeAny: The `Any` variant of `RiskPredicateNode`..
 
 - Required: `any`.
 - Undeclared: `all`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskRule.predicate variant 3
 
-oneOf variant 3: The `Not` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeNot: The `Not` variant of `RiskPredicateNode`..
 
 - Required: `not`.
 - Undeclared: `all`, `any`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskRule.predicate variant 4
 
-oneOf variant 4: The `Comparison` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeComparison: The `Comparison` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`, `value`.
 - Undeclared: `all`, `any`, `not`, `amount_money`, `values`, `list_alias`.
@@ -72,7 +72,7 @@ oneOf variant 4: The `Comparison` variant of `RiskPredicateNode`..
 
 ### RiskRule.predicate variant 5: `attribute` = `"amount_money"`
 
-oneOf variant 5: The `Money comparison` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeMoneyComparison: The `Money comparison` variant of `RiskPredicateNode`..
 
 - Required: `amount_money`, `attribute`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `values`, `list_alias`.
@@ -81,7 +81,7 @@ oneOf variant 5: The `Money comparison` variant of `RiskPredicateNode`..
 
 ### RiskRule.predicate variant 6: `operator` = `"in"`
 
-oneOf variant 6: The `In` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeIn: The `In` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`, `values`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `list_alias`.
@@ -90,7 +90,7 @@ oneOf variant 6: The `In` variant of `RiskPredicateNode`..
 
 ### RiskRule.predicate variant 7: `operator` = `"in_list"`
 
-oneOf variant 7: The `In list` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeInList: The `In list` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `list_alias`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`.
@@ -99,7 +99,7 @@ oneOf variant 7: The `In list` variant of `RiskPredicateNode`..
 
 ### RiskRule.predicate variant 8: `operator` = `"is_missing"`
 
-oneOf variant 8: The `Is missing` variant of `RiskPredicateNode`..
+oneOf RiskPredicateNodeIsMissing: The `Is missing` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`, `list_alias`.
@@ -122,19 +122,19 @@ Field definitions: [RiskRule.predicate](../models/RiskRule.md#riskrulepredicate)
 
 ### RiskRule.predicate variant 4.value variant 1
 
-oneOf variant 1.
+oneOf String.
 
 - Value shape: string. minLength: `1`. 
 
 ### RiskRule.predicate variant 4.value variant 2
 
-oneOf variant 2.
+oneOf Integer.
 
 - Value shape: integer.  
 
 ### RiskRule.predicate variant 4.value variant 3
 
-oneOf variant 3.
+oneOf Boolean.
 
 - Value shape: boolean.  
 

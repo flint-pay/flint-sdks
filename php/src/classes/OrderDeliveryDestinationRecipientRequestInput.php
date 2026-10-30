@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderDeliveryDestinationRecipientRequestInput extends Model {
     /** @param array{'name'?: string|null, 'phone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRecipientRequestInput')); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Send null to clear it. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 30.
+    /** Send null to clear it. minLength: 1. maxLength: 30.
      * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */

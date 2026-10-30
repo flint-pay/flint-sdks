@@ -27,6 +27,7 @@ const json = (path) =>
   JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
 const api = json("../spec/openapi.json");
 const common = json("../spec/profiles/full-common-sdk.json");
+const selected = [...new Set(json("../sdk.json").profiles.flatMap((path) => json("../" + path).include))];
 const KEY_PATTERN =
   /^flint-sdk-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const ENVELOPELESS = [429, 500, 502, 503, 504];
@@ -105,13 +106,14 @@ for (const [runtime, load, settings] of [
 ]) {
   test(`${runtime} compiled policies follow each route's idempotency class and retry contract`, () => {
     assert.deepEqual(settings().errors.retry, {
-      path: "error.remediation.retry",
+      path: "remediation.retry",
       retryValues: ["same_request"],
     });
     const expected = expectations();
     const compiled = load();
     const counts = { optional: 0, required: 0, none: 0, retrying: 0 };
-    assert.equal(compiled.size, 610);
+    assert.equal(compiled.size, selected.length);
+    assert.deepEqual([...compiled.keys()].sort(), [...selected].sort());
     for (const [id, descriptor] of compiled) {
       const contract = expected.get(id);
       assert.ok(contract, `${id} is not in the pinned OpenAPI`);
@@ -161,12 +163,14 @@ for (const [runtime, load, settings] of [
           `${id} compiles same_request as one attempt`,
         );
     }
-    assert.deepEqual(counts, {
-      optional: 296,
-      required: 33,
-      none: 281,
-      retrying: 601,
-    });
+    const expectedCounts = { optional: 0, required: 0, none: 0, retrying: 0 };
+    for (const id of selected) {
+      const contract = expected.get(id);
+      assert.ok(contract, `${id} is absent from the pinned OpenAPI`);
+      expectedCounts[contract.cls]++;
+      if (contract.replaySafe) expectedCounts.retrying++;
+    }
+    assert.deepEqual(counts, expectedCounts);
   });
 }
 
@@ -209,7 +213,7 @@ test("Node optional writes mint one flint-sdk- key and reuse it across same_requ
     () => errorBody(409, "ACTION_NOT_ALLOWED", "none"),
   );
   const error = await client.payouts.cancel("po_synthetic").catch((e) => e);
-  assert.equal(error.status ?? error.meta?.status, 409);
+  assert.equal(error.status, 409);
   assert.equal(calls.length, 2);
   assert.match(calls[0].key, KEY_PATTERN);
   assert.equal(calls[1].key, calls[0].key);

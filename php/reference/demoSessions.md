@@ -14,8 +14,7 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Flint-Challenge-Token` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `Flint-Challenge-Token` | Required | string | Challenge token from Flint's hosted bot check on the page that offers the demo. Flint identifies the demo client by its IP address. |
 | `body` | Required | [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Create demo session. |
 
 Body model: [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput).
@@ -32,17 +31,17 @@ Returned payload: [DemoSession](../models/DemoSession.md#demosession).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -50,9 +49,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -63,6 +62,7 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->demoSessions->create([
+  'template' => 'quickstart',
   'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -81,9 +81,8 @@ Signature: `reset(string|Model $demo_session_id, array|Model $params, ?RequestOp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `demo_session_id` | Required | string |  |
-| `Flint-Challenge-Token` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `demo_session_id` | Required | string | The active or provisioning demo session to reset for this client. |
+| `Flint-Challenge-Token` | Required | string | Challenge token from Flint's hosted bot check on the page that offers the demo. Flint identifies the demo client by its IP address. |
 | `body` | Required | [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Reset demo session. |
 
 Body model: [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput).
@@ -100,18 +99,18 @@ Returned payload: [DemoSession](../models/DemoSession.md#demosession).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -119,9 +118,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `resetWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -131,7 +130,8 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->demoSessions->reset('example', [
+$result = $client->demoSessions->reset('demo_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+  'template' => 'quickstart',
   'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

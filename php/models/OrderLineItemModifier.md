@@ -8,12 +8,12 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datametadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PayoutResponse.md#payoutresponsedatametadata). |
 | `modifier_group_name` | Required | string | Name of the modifier group recorded when this selection was added to the order line item. |
 | `modifier_id` | Optional | string | Identifier of the selected catalog modifier. If its group is owned by a modifier set (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. |
 | `name` | Required | string | Name of the selected modifier recorded on the order line item. |
 | `order_line_item_modifier_id` | Required | string | Stable identifier of the selected modifier on this order line item. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |
 | `source_type` | Required | string | Whether the selection is a catalog list modifier or buyer-entered text. Values: `"catalog_modifier"`, `"text"`. |
@@ -24,5 +24,5 @@ Response model.
 
 ### OrderLineItemModifier.metadata
 
-Field definitions: [PayoutsCancelResponse200.data.metadata](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datametadata).
+Field definitions: [PayoutResponse.data.metadata](../models/PayoutResponse.md#payoutresponsedatametadata).
 

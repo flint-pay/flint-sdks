@@ -2,18 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read array{'disposition'?: string, 'dispute_id': string, 'reason_message': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardFundingDispositionsCreateInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'body': array{'disposition'?: string, 'dispute_id': string, 'reason_message': string}|object}|object $values */
+    /** @param array{'body': array{'disposition'?: string, 'dispute_id': string, 'reason_message': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDispositionsCreateInput')); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** Shape $ (Value): object. The request body for: Create a gift card funding disposition.
+    /** The request body for: Create a gift card funding disposition.
      * @return array{'disposition'?: string, 'dispute_id': string, 'reason_message': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

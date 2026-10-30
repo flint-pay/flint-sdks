@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $api_key_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysGetInput extends Model {
     /** @param array{'api_key_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint API key ID. Example: "key_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When api_key_id is omitted; use hasApiKeyId() or valueOrDefault().
      */

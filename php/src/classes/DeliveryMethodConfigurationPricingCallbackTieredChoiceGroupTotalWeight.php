@@ -9,17 +9,17 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeight extends Model {
     /** @param array{'bands': list<mixed>, 'basis': string, 'unit': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeight')); }
-    /** Shape $ (Value): Array of ({@see DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem} and {@see DeliveryPricingTierBand}). Shape $[] (Value): {@see DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem}. One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+    /**  [] (Value): {@see DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem}. One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
      * @return list<DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem>
      */
     public function getBands(): array { return $this->get('bands'); }
     public function hasBands(): bool { return $this->has('bands'); }
-    /** Shape $ (Value): string. Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value enum: "choice_group.total_weight".
+    /** Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value enum: "choice_group.total_weight".
      * @return string
      */
     public function getBasis(): string { return $this->get('basis'); }
     public function hasBasis(): bool { return $this->has('basis'); }
-    /** Shape $ (Value): string. Required only for choice_group.total_weight and forbidden for every other basis. Value enum: "gram", "kilogram", "ounce", "pound".
+    /** Required only for choice_group.total_weight and forbidden for every other basis. Value enum: "gram", "kilogram", "ounce", "pound".
      * @return string
      */
     public function getUnit(): string { return $this->get('unit'); }

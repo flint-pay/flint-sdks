@@ -26,7 +26,7 @@ Request input.
 
 ### PromotionApplicationMethodInput variant 1: `type` = `"percent_off"`
 
-oneOf variant 1: The `percent_off` variant of `PromotionApplicationMethod`..
+oneOf with type: "percent_off": The `percent_off` variant of `PromotionApplicationMethod`..
 
 - Required: `percent_off`.
 - Optional: `discounted_item_rules`, `max_discounted_quantity`.
@@ -35,7 +35,7 @@ oneOf variant 1: The `percent_off` variant of `PromotionApplicationMethod`..
 
 ### PromotionApplicationMethodInput variant 2: `type` = `"amount_off"`
 
-oneOf variant 2: The `amount_off` variant of `PromotionApplicationMethod`..
+oneOf with type: "amount_off": The `amount_off` variant of `PromotionApplicationMethod`..
 
 - Required: `amount_off_money`.
 - Optional: `currency_options`, `discounted_item_rules`.
@@ -44,7 +44,7 @@ oneOf variant 2: The `amount_off` variant of `PromotionApplicationMethod`..
 
 ### PromotionApplicationMethodInput variant 3: `type` = `"buy_x_get_y"`
 
-oneOf variant 3: The `buy_x_get_y` variant of `PromotionApplicationMethod`..
+oneOf with type: "buy_x_get_y": The `buy_x_get_y` variant of `PromotionApplicationMethod`..
 
 - Required: `buy_min_quantity`, `discounted_item_rules`, `get_percent_off`, `get_quantity`, `qualifying_item_rules`.
 - Optional: `max_applications_per_order`, `reward_selection`.

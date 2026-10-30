@@ -8,20 +8,12 @@ Creates an embedded browser handoff for one or more allowlisted account componen
 
 `POST /v1/merchant-account-sessions`
 
-Signature:
-
-```typescript
-create(params: (InputValue<MerchantAccountSessionCreateRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "onboarding">)
-```
+Signature: `create(params: MerchantAccountSessionsCreateParams, options?: RequestOptions<"merchant" | "onboarding">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [MerchantAccountSessionCreateRequestInput](../models/MerchantAccountSessionCreateRequest.md#merchantaccountsessioncreaterequest) | Creates an embedded account session for a non-empty unique set of Flint components. At most one component may use onboarding policy fields. |
 
 Body model: [MerchantAccountSessionCreateRequestInput](../models/MerchantAccountSessionCreateRequest.md#merchantaccountsessioncreaterequest).
@@ -41,19 +33,19 @@ Returned payload: [MerchantAccountSession](../models/MerchantAccountSession.md#m
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -61,9 +53,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -73,7 +65,7 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.merchantAccountSessions.create({components: ["account_onboarding"]}, { idempotencyKey: idempotencyKey });
+const result = await client.merchantAccountSessions.create({collection_strategy: "upfront", components: ["account_onboarding"], future_requirements: "include"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/merchantAccountSessions-create.mjs)
@@ -84,20 +76,12 @@ Creates a fresh provider session from a signed launch token after rechecking the
 
 `POST /v1/merchant-account-session-refreshes`
 
-Signature:
-
-```typescript
-refresh(params: (InputValue<MerchantAccountSessionRefreshRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "onboarding">)
-```
+Signature: `refresh(params: MerchantAccountSessionsRefreshParams, options?: RequestOptions<"merchant" | "onboarding">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [MerchantAccountSessionRefreshRequestInput](../models/MerchantAccountSessionRefreshRequest.md#merchantaccountsessionrefreshrequest) | Refreshes a merchant account session from its signed launch token. No create fields are accepted. |
 
 Body model: [MerchantAccountSessionRefreshRequestInput](../models/MerchantAccountSessionRefreshRequest.md#merchantaccountsessionrefreshrequest).
@@ -114,19 +98,19 @@ Returned payload: [MerchantAccountSession](../models/MerchantAccountSession.md#m
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -134,9 +118,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `refreshWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -146,7 +130,7 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.merchantAccountSessions.refresh({launch_token: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.merchantAccountSessions.refresh({launch_token: "aslaunch_v1.example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/merchantAccountSessions-refresh.mjs)

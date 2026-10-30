@@ -10,72 +10,72 @@ namespace Flint;
  * @property-read string $order_line_item_id
  * @property-read string $package_id
  * @property-read string $package_item_id
- * @property-read string $quantity
+ * @property-read int $quantity
  * @property-read string $shipment_id
  * @property-read ?string $updated_at
- * @property-read string $version
+ * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PackageItem extends Model {
-    /** @param array{'created_at'?: string, 'fulfillment_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': string, 'shipment_id': string, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'fulfillment_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageItem')); }
-    /** Shape $ (Value): string. Creation timestamp. Format: date-time.
+    /** Creation timestamp. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
+    /** Fulfillment containing this package item.
      * @return string
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): {@see ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
      * @return ExpandedOrderSummary|null
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Shape $ (Value): string.
+    /** Order containing the allocated line item.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Shape $ (Value): string.
+    /** Order line whose quantity this package item allocates.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** Shape $ (Value): string.
+    /** Package containing this item.
      * @return string
      */
     public function getPackageId(): string { return $this->get('package_id'); }
     public function hasPackageId(): bool { return $this->has('package_id'); }
-    /** Shape $ (Value): string.
+    /** Unique identifier for this package allocation.
      * @return string
      */
     public function getPackageItemId(): string { return $this->get('package_item_id'); }
     public function hasPackageItemId(): bool { return $this->has('package_item_id'); }
-    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * @return string
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * @return int
      */
-    public function getQuantity(): string { return $this->get('quantity'); }
+    public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Shape $ (Value): string.
+    /** Shipment containing the package.
      * @return string
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Shape $ (Value): string. Last update timestamp. Format: date-time.
+    /** Last update timestamp. Format: date-time.
      * @return ?string
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Persisted item version, independent of package shipment and capacity guards. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     * @return string
+    /** Persisted item version, independent of package shipment and capacity guards. Format: uint64. minimum: 1.
+     * @return int
      */
-    public function getVersion(): string { return $this->get('version'); }
+    public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
 }

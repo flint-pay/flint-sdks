@@ -21,7 +21,7 @@ Request input.
 
 ### SubscriptionPlanLineItemRequestInput variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `SubscriptionPlanLineItemInput`..
+oneOf with type: "variant": The `variant` variant of `SubscriptionPlanLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`))).
 - Required: `variant_id`.
@@ -30,7 +30,7 @@ oneOf variant 1: The `variant` variant of `SubscriptionPlanLineItemInput`..
 
 ### SubscriptionPlanLineItemRequestInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `SubscriptionPlanLineItemInput`..
+oneOf with type: "bundle": The `bundle` variant of `SubscriptionPlanLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`))).
 - Required: `bundle_id`.
@@ -39,7 +39,7 @@ oneOf variant 2: The `bundle` variant of `SubscriptionPlanLineItemInput`..
 
 ### SubscriptionPlanLineItemRequestInput variant 3: `type` = `"custom"`
 
-oneOf variant 3: The `custom` variant of `SubscriptionPlanLineItemInput`..
+oneOf with type: "custom": The `custom` variant of `SubscriptionPlanLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.

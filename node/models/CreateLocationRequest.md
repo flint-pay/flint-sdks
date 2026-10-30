@@ -24,7 +24,7 @@ The request body for: Create location.
 
 A latitude and longitude for a merchant location.
 
-Field definitions: [shared fields](LocationCoordinateRequestRequestInput.md#locationcoordinaterequestrequestinput).
+Field definitions: [shared fields](LocationCoordinateRequestInput.md#locationcoordinaterequestinput).
 
 ### CreateLocationRequest.metadata
 

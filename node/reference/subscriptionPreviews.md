@@ -8,7 +8,7 @@ Estimates the next renewal or a plan change, or evaluates a proposed subscriptio
 
 `POST /v1/subscription-previews`
 
-Signature: `create(input: SubscriptionPreviewsCreateInput, options?: RequestOptions)`
+Signature: `create(params: SubscriptionPreviewsCreateParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -18,65 +18,35 @@ Signature: `create(input: SubscriptionPreviewsCreateInput, options?: RequestOpti
 
 Body model: [CreateSubscriptionPreviewRequestInput](../models/CreateSubscriptionPreviewRequest.md#createsubscriptionpreviewrequest).
 
-#### subscriptionPreviews.create body oneOf variant 1
+#### subscriptionPreviews.create with `mode: "delivery_options"`
 
 The `delivery_options` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
 
-#### subscriptionPreviews.create body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput). Models: [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput).
-
-#### subscriptionPreviews.create body oneOf variant 2
+#### subscriptionPreviews.create with `mode: "create"`
 
 The `create` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestCreateInput](../models/CreateSubscriptionPreviewRequestCreate.md#createsubscriptionpreviewrequestcreate).
 
-#### subscriptionPreviews.create body oneOf variant 2 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `mode` | Required | string | Values: `"create"`. |
-| `subscription` | Required | [CreateSubscriptionRequestInput](../models/CreateSubscriptionRequest.md#createsubscriptionrequest) | The request body for: Create subscription. |
-
-#### subscriptionPreviews.create body oneOf variant 3
+#### subscriptionPreviews.create with `mode: "delivery_method_update"`
 
 The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput](../models/CreateSubscriptionPreviewRequestDeliveryMethodUpdate.md#createsubscriptionpreviewrequestdeliverymethodupdate).
 
-#### subscriptionPreviews.create body oneOf variant 3 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery_method` | Required | [UpdateDeliveryMethodRequestInput](../models/UpdateDeliveryMethodRequest.md#updatedeliverymethodrequest) | The request body for: Update delivery method. |
-| `delivery_method_id` | Required | string | minLength: `1`. pattern: `^dmet_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `mode` | Required | string | Values: `"delivery_method_update"`. |
-
-#### subscriptionPreviews.create body oneOf variant 4
+#### subscriptionPreviews.create with `mode: "next_renewal"`
 
 The `next_renewal` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestNextRenewalInput](../models/CreateSubscriptionPreviewRequestNextRenewal.md#createsubscriptionpreviewrequestnextrenewal).
 
-#### subscriptionPreviews.create body oneOf variant 4 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `mode` | Required | string | Values: `"next_renewal"`. |
-| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
-
-#### subscriptionPreviews.create body oneOf variant 5
+#### subscriptionPreviews.create with `mode: "plan_change"`
 
 The `plan_change` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestPlanChangeInput](../models/CreateSubscriptionPreviewRequestPlanChange.md#createsubscriptionpreviewrequestplanchange).
-
-#### subscriptionPreviews.create body oneOf variant 5 fields
-
-Field definitions: [shared fields](../models/CreateSubscriptionPreviewRequestPlanChange.md#createsubscriptionpreviewrequestplanchange).
 
 #### Response
 
@@ -128,20 +98,20 @@ Estimated pricing for a subscription plan change, including the recurring item s
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -149,14 +119,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.subscriptionPreviews.create({body: {mode: "next_renewal", subscription_id: "sub_00000000000000000000000000"}}, {  });
+const result = await client.subscriptionPreviews.create({mode: "next_renewal", subscription_id: "sub_00000000000000000000000000"}, {  });
 ```
 
 [Complete runnable example](../examples/subscriptionPreviews-create.mjs)

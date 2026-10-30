@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec3705"},"dependencies":["MetadataRequest","SharedCodec1701","SharedCodec1798","SharedCodec3705","SharedCodec3706"]}

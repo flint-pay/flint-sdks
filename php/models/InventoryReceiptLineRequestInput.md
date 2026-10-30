@@ -12,6 +12,6 @@ Request input.
 | `inventory_item_id` | Required | string | minLength: `1`. |
 | `inventory_reservation_id` | Required | string | The reservation whose consumed stock is being returned. minLength: `1`. |
 | `inventory_reservation_line_id` | Required | string | The consumed reservation line. Received quantity cannot exceed consumed quantity less prior receipts. minLength: `1`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `receiving_location_id` | Required | string | minLength: `1`. |
 

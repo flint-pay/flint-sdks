@@ -14,7 +14,7 @@ Request input.
 
 ### InvoicePaymentDueRequestInput variant 1: `type` = `"none"`
 
-oneOf variant 1: The `none` variant of `InvoicePaymentDueInput`..
+oneOf with type: "none": The `none` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (at least one(present(`due_at`); present(`invoice_payment_term_id`))).
 - Optional: `due_at`, `invoice_payment_term_id`.
@@ -22,7 +22,7 @@ oneOf variant 1: The `none` variant of `InvoicePaymentDueInput`..
 
 ### InvoicePaymentDueRequestInput variant 2: `type` = `"date"`
 
-oneOf variant 2: The `date` variant of `InvoicePaymentDueInput`..
+oneOf with type: "date": The `date` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (present(`invoice_payment_term_id`)).
 - Required: `due_at`.
@@ -31,7 +31,7 @@ oneOf variant 2: The `date` variant of `InvoicePaymentDueInput`..
 
 ### InvoicePaymentDueRequestInput variant 3: `type` = `"payment_terms"`
 
-oneOf variant 3: The `payment_terms` variant of `InvoicePaymentDueInput`..
+oneOf with type: "payment_terms": The `payment_terms` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (present(`due_at`)).
 - Required: `invoice_payment_term_id`.
@@ -40,7 +40,7 @@ oneOf variant 3: The `payment_terms` variant of `InvoicePaymentDueInput`..
 
 ### InvoicePaymentDueRequestInput variant 4: `type` = `"customer_default"`
 
-oneOf variant 4: The `customer_default` variant of `InvoicePaymentDueInput`..
+oneOf with type: "customer_default": The `customer_default` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (at least one(present(`due_at`); present(`invoice_payment_term_id`))).
 - Optional: `due_at`, `invoice_payment_term_id`.
@@ -48,7 +48,7 @@ oneOf variant 4: The `customer_default` variant of `InvoicePaymentDueInput`..
 
 ### InvoicePaymentDueRequestInput variant 5: `type` = `"merchant_default"`
 
-oneOf variant 5: The `merchant_default` variant of `InvoicePaymentDueInput`..
+oneOf with type: "merchant_default": The `merchant_default` variant of `InvoicePaymentDueInput`..
 
 - Condition: not (at least one(present(`due_at`); present(`invoice_payment_term_id`))).
 - Optional: `due_at`, `invoice_payment_term_id`.

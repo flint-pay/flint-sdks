@@ -8,12 +8,12 @@ namespace Flint;
 final class PartnerAppCredentialJWKSURL extends Model {
     /** @param array{'last_fetched_at': string, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialJWKSURL')); }
-    /** Shape $ (Value): string. Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format: date-time.
+    /** Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format: date-time.
      * @return string
      */
     public function getLastFetchedAt(): string { return $this->get('last_fetched_at'); }
     public function hasLastFetchedAt(): bool { return $this->has('last_fetched_at'); }
-    /** Shape $ (Value): string.
+    /** url
      * @return string
      */
     public function getUrl(): string { return $this->get('url'); }

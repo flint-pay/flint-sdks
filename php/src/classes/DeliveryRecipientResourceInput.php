@@ -9,19 +9,19 @@ namespace Flint;
 final class DeliveryRecipientResourceInput extends Model {
     /** @param array{'email'?: string, 'name'?: string, 'phone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRecipientResourceInput')); }
-    /** Shape $ (Value): string.
+    /** email
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string.
+    /** phone
      * @return string
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */

@@ -1,1 +1,1 @@
-{"shared":"BuyerPaymentMethodWithSetup","dependencies":["BuyerPaymentMethod","BuyerPaymentMethodWithSetup","CardDetails","StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}
+{"shared":"BuyerPaymentMethodWithSetup","dependencies":["BuyerPaymentMethodWithSetup","CardDetails","SharedCodec63","StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}

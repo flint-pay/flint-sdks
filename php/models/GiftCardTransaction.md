@@ -15,11 +15,11 @@ Response model.
 | `gift_card_id` | Required | string | Gift card whose balance this transaction changed. |
 | `gift_card_transaction_id` | Required | string | Stable identifier of the transaction. |
 | `idempotency_key` | Required | string or null | Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent. |
-| `merchant_sequence` | Required | integer string | Position of this transaction among all of your gift card transactions in this environment. It increases by one with each posted transaction, and the transaction list is ordered by it. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `merchant_sequence` | Required | integer | Position of this transaction among all of your gift card transactions in this environment. It increases by one with each posted transaction, and the transaction list is ordered by it. Format: `int64`. |
 | `order_id` | Optional | string | Order this transaction belongs to, when there is one. |
 | `posted_at` | Required | string | When the transaction was posted to the card. Format: `date-time`. |
 | `reason` | Required | string or null | Your adjustment reason on adjustment transactions; customer_request on cash_out; null on all other transaction types. Values: [7 declared values](#giftcardtransaction-reason-values). |
-| `sequence` | Required | integer string | Position of this transaction in the card's history. It increases by one with each transaction posted to the card. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `sequence` | Required | integer | Position of this transaction in the card's history. It increases by one with each transaction posted to the card. Format: `int64`. |
 | `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. null when the cause has no public resource. |
 | `transaction_type` | Required | string | Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Values: [11 declared values](#giftcardtransaction-transaction_type-values). |
 

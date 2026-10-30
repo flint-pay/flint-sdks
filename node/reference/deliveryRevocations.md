@@ -2,19 +2,30 @@
 
 # deliveryRevocations
 
-### deliveryRevocations.get
+### deliveryRevocations.create
 
-Returns one permanent delivery revocation and its estimated impact at creation time.
+Permanently fences one exact method, endpoint, signing key, revision, or Location geography version. Issued quotes are revoked immediately. Current selections are released the next time they are read. Stable method and callback-endpoint targets require expected_version so a concurrent publication cannot broaden the revocation.
 
-`GET /v1/delivery-revocations/{delivery_revocation_id}`
+`POST /v1/delivery-revocations`
 
-Signature: `get(delivery_revocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `create(params: DeliveryRevocationsCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_revocation_id` | Required | string |  |
+| `body` | Required | [RevokeDeliveryDependencyRequestInput](../models/RevokeDeliveryDependencyRequest.md#revokedeliverydependencyrequest) | The request body for: Revoke delivery dependency. |
+
+Body model: [RevokeDeliveryDependencyRequestInput](../models/RevokeDeliveryDependencyRequest.md#revokedeliverydependencyrequest).
+
+#### deliveryRevocations.create body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Required when target.target_type is delivery_method or delivery_rate_callback. The version of the stable resource whose current revision will be revoked. Omit it for exact revision, geography, and signing-key targets. Format: `uint64`. minimum: `1`. |
+| `merchant_note` | Optional | string | minLength: `1`. maxLength: `2048`. |
+| `reason` | Required | string | Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
+| `target` | Required | [RevokeDeliveryDependencyTargetInput](../models/RevokeDeliveryDependencyTarget.md#revokedeliverydependencytarget) | A typed revocation target. Each target_type accepts only its resource-specific fields. |
 
 #### Response
 
@@ -22,16 +33,19 @@ Returned payload: [DeliveryRevocation](../models/DeliveryRevocation.md#deliveryr
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -39,14 +53,74 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.deliveryRevocations.get("example", {}, {  });
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.deliveryRevocations.create({reason: "unsafe_configuration", target: {location_geography_version: 1, location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX", target_type: "location_geography"}}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/deliveryRevocations-create.mjs)
+
+### deliveryRevocations.get
+
+Returns one permanent delivery revocation and its estimated impact at creation time.
+
+`GET /v1/delivery-revocations/{delivery_revocation_id}`
+
+Signature:
+
+```typescript
+get(delivery_revocation_id: InputValue<string>,
+ params?: DeliveryRevocationsGetParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_revocation_id` | Required | string | Flint delivery revocation ID. |
+
+#### Response
+
+Returned payload: [DeliveryRevocation](../models/DeliveryRevocation.md#deliveryrevocation).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.deliveryRevocations.get("drev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryRevocations-get.mjs)
@@ -57,41 +131,29 @@ Returns permanent delivery revocations, newest first by created_at and delivery_
 
 `GET /v1/delivery-revocations`
 
-Signature:
-
-```typescript
-list(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "target_type"?: InputValue<Array<"location_geography" |
-    "delivery_rate_callback_signing_key" |
-    "delivery_rate_callback" |
-    "delivery_rate_callback_revision" |
-    "delivery_method" |
-    "delivery_method_revision">>;
-  "reason"?: InputValue<Array<"unsafe_configuration" |
-    "location_unavailable" |
-    "credential_compromise" |
-    "legal_requirement" |
-    "other">>;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: DeliveryRevocationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `target_type` | Optional | Array of string | minItems: `1`. Items values: [6 declared values](#deliveryrevocationslist-input-target_type--values). |
-| `reason` | Optional | Array of string | minItems: `1`. Items values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `target_type` | Optional | Array of string or string | Filter by revocation target type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [6 declared values](#deliveryrevocationslist-input-target_type--values). Values: [6 declared values](#deliveryrevocationslist-input-target_type-values). |
+| `reason` | Optional | Array of string or string | Filter by revocation reason. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 
 #### deliveryRevocations.list input target_type [] values
+
+- `"location_geography"`
+- `"delivery_rate_callback_signing_key"`
+- `"delivery_rate_callback"`
+- `"delivery_rate_callback_revision"`
+- `"delivery_method"`
+- `"delivery_method_revision"`
+
+#### deliveryRevocations.list input target_type values
 
 - `"location_geography"`
 - `"delivery_rate_callback_signing_key"`
@@ -106,15 +168,15 @@ Returned payload: [DeliveryRevocationListResponse](../models/DeliveryRevocationL
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -122,11 +184,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -135,80 +197,4 @@ const result = await client.deliveryRevocations.list({}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryRevocations-list.mjs)
-
-### deliveryRevocations.revokeDeliveryDependency
-
-Permanently fences one exact method, endpoint, signing key, revision, or Location geography version. Issued quotes are revoked immediately. Current selections are released the next time they are read. Stable method and callback-endpoint targets require expected_version so a concurrent publication cannot broaden the revocation.
-
-`POST /v1/delivery-revocations`
-
-Signature:
-
-```typescript
-revokeDeliveryDependency(params: (InputValue<RevokeDeliveryDependencyRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [RevokeDeliveryDependencyRequestInput](../models/RevokeDeliveryDependencyRequest.md#revokedeliverydependencyrequest) | The request body for: Revoke delivery dependency. |
-
-Body model: [RevokeDeliveryDependencyRequestInput](../models/RevokeDeliveryDependencyRequest.md#revokedeliverydependencyrequest).
-
-#### deliveryRevocations.revokeDeliveryDependency body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Required when target.target_type is delivery_method or delivery_rate_callback. The version of the stable resource whose current revision will be revoked. Omit it for exact revision, geography, and signing-key targets. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `merchant_note` | Optional | string | minLength: `1`. maxLength: `2048`. |
-| `reason` | Required | string | Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
-| `target` | Required | [RevokeDeliveryDependencyTargetInput](../models/RevokeDeliveryDependencyTarget.md#revokedeliverydependencytarget) | A typed revocation target. Each target_type accepts only its resource-specific fields. |
-
-#### Response
-
-Returned payload: [DeliveryRevocation](../models/DeliveryRevocation.md#deliveryrevocation).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `revokeDeliveryDependencyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.deliveryRevocations.revokeDeliveryDependency({reason: "unsafe_configuration", target: {target_type: "location_geography", location_id: "example", location_geography_version: "1"}}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/deliveryRevocations-revokeDeliveryDependency.mjs)
 

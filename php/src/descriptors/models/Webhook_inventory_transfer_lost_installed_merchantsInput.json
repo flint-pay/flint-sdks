@@ -1,1 +1,0 @@
-{"shared":"Webhook_inventory_transfer_lost_installed_merchants","dependencies":["InventoryTransfer","InventoryTransferLine","PartnerWebhookEnvelope","PartnerWebhookEnvelopeSource","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec417","SharedCodec452","WebhookEventSourceInstalledMerchants","Webhook_inventory_transfer_lost_installed_merchants"]}

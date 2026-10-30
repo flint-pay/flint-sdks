@@ -1,0 +1,27 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read OrdersCreatePaymentIntentResponseData $data
+ * @property-read ?ResponseMeta $meta
+ * @property-read string $request_id
+ * Presence-aware response; omitted optional fields return null. */
+final class OrdersCreatePaymentIntentResponse extends Model {
+    /** @param array{'data': object{'payment_collection': mixed}, 'meta'?: mixed, 'request_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreatePaymentIntentResponse')); }
+    /** One payment from a buyer, standalone or as a leg of an order. amount_money is the amount requested. Once the payment is authorized, authorized_money equals amount_money and splits into captured_money (collected), capturable_money (still on hold), and released_money (returned without being charged), so authorized_money always equals the sum of those three. Reconcile revenue from captured_money.
+     * @return OrdersCreatePaymentIntentResponseData
+     */
+    public function getData(): OrdersCreatePaymentIntentResponseData { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * @return ?ResponseMeta
+     */
+    public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
+    public function hasMeta(): bool { return $this->has('meta'); }
+    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     */
+    public function getRequestId(): string { return $this->get('request_id'); }
+    public function hasRequestId(): bool { return $this->has('request_id'); }
+}

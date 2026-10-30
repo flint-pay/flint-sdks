@@ -8,20 +8,12 @@ Creates an organization under parent_organization_id. Flint creates each merchan
 
 `POST /v1/organizations`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateOrganizationRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `create(params: OrganizationsCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateOrganizationRequestInput](../models/CreateOrganizationRequest.md#createorganizationrequest) | The request body for: Create organization. |
 
 Body model: [CreateOrganizationRequestInput](../models/CreateOrganizationRequest.md#createorganizationrequest).
@@ -40,19 +32,19 @@ Returned payload: [Organization](../models/Organization.md#organization).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -60,9 +52,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -72,33 +64,25 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.organizations.create({name: "example", parent_organization_id: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.organizations.create({metadata: {segment: "enterprise"}, name: "Northeast Region", parent_organization_id: "org_01JQ4X2R0W0RTM8VJQ8YQ7P9AB"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/organizations-create.mjs)
 
-### organizations.get
+### organizations.delete
 
-Returns an accessible organization by ID. An inaccessible organization returns 404; an inaccessible parent requested through expand returns 403 FORBIDDEN with reason expansion_not_permitted.
+Soft-deletes an organization and reports status archived. Refused while the organization has active child organizations or a non-closed merchant belongs to it, including your merchant's own organization. Conflicts include up to 10 blocking_resources and the total blocking_resource_count. Current organization access and mutation permissions are checked before idempotent replay. Idempotency keys are scoped to the merchant, mode, environment, and organization.
 
-`GET /v1/organizations/{organization_id}`
+`DELETE /v1/organizations/{organization_id}`
 
-Signature:
-
-```typescript
-get(organization_id: InputValue<string>,
- params?: {
-  "expand"?: InputValue<Array<"parent_organization">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `delete(organization_id: InputValue<string>, params?: OrganizationsDeleteParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `organization_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"parent_organization"`. |
+| `organization_id` | Required | string | Flint organization ID. |
+| `expected_version` | Optional | integer | Optional organization version last read by the caller. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -106,16 +90,17 @@ Returned payload: [Organization](../models/Organization.md#organization).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -123,14 +108,69 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.organizations.get("example", {}, {  });
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.organizations.delete("org_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/organizations-delete.mjs)
+
+### organizations.get
+
+Returns an accessible organization by ID. An inaccessible organization returns 404; an inaccessible parent requested through expand returns 403 FORBIDDEN with reason expansion_not_permitted.
+
+`GET /v1/organizations/{organization_id}`
+
+Signature: `get(organization_id: InputValue<string>, params?: OrganizationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `organization_id` | Required | string | Flint organization ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: parent_organization. Expansion requires accounts.organizations.read. Limits: at most 10 unique expand paths per request. Pass expand=parent_organization. Items values: `"parent_organization"`. Values: `"parent_organization"`. |
+
+#### Response
+
+Returned payload: [Organization](../models/Organization.md#organization).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.organizations.get("org_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/organizations-get.mjs)
@@ -141,22 +181,13 @@ Sets the role of a user who already belongs to this organization or one of its p
 
 `POST /v1/organizations/{organization_id}/memberships`
 
-Signature:
-
-```typescript
-grantMembership(organization_id: InputValue<string>,
- params: (InputValue<GrantOrganizationMembershipRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `grantMembership(organization_id: InputValue<string>, params: OrganizationsGrantMembershipParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `organization_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `organization_id` | Required | string | Flint organization ID. |
 | `body` | Required | [GrantOrganizationMembershipRequestInput](../models/GrantOrganizationMembershipRequest.md#grantorganizationmembershiprequest) | The request body for: Grant organization membership. |
 
 Body model: [GrantOrganizationMembershipRequestInput](../models/GrantOrganizationMembershipRequest.md#grantorganizationmembershiprequest).
@@ -174,19 +205,19 @@ Returned payload: [OrganizationMembership](../models/OrganizationMembership.md#o
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -194,9 +225,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `grantMembershipWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -206,7 +237,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.organizations.grantMembership("example", {role: "admin", user_id: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.organizations.grantMembership("org_01ARZ3NDEKTSV4RRFFQ69G5FAV", {role: "admin", user_id: "usr_01JQ4X9G7C2R9M18D1T9EAV1KX"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/organizations-grantMembership.mjs)
@@ -217,40 +248,23 @@ Returns the organizations accessible to the caller, filtered to the authenticate
 
 `GET /v1/organizations`
 
-Signature:
-
-```typescript
-list(params?: {
-  "parent_organization_id"?: InputValue<string>;
-  "status"?: InputValue<Array<"active" | "archived">>;
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-  "sort_direction"?: InputValue<"asc" | "desc">;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>;
-  "updated_after"?: InputValue<string | globalThis.Date>;
-  "updated_before"?: InputValue<string | globalThis.Date>;
-  "expand"?: InputValue<Array<"parent_organization">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: OrganizationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `parent_organization_id` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"archived"`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `expand` | Optional | Array of string | Items values: `"parent_organization"`. |
+| `parent_organization_id` | Optional | string | Optional parent organization filter. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by organization_id. Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `expand` | Optional | Array of string or string | Supported expansions: parent_organization. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=parent_organization. Items values: `"parent_organization"`. Values: `"parent_organization"`. |
 
 #### Response
 
@@ -258,16 +272,16 @@ Returned payload: [OrganizationListResponse](../models/OrganizationListResponse.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -275,11 +289,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -299,10 +313,7 @@ Signature:
 
 ```typescript
 listMemberships(organization_id: InputValue<string>,
- params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>
-},
+ params?: OrganizationsListMembershipsParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -310,9 +321,9 @@ listMemberships(organization_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `organization_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `organization_id` | Required | string | Flint organization ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -320,16 +331,16 @@ Returned payload: [OrganizationMembershipListResponse](../models/OrganizationMem
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -337,87 +348,21 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listMembershipsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listMembershipsItems`, `listMembershipsPages`, `listMembershipsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listMembershipsItems`, `listMembershipsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```typescript
-const result = await client.organizations.listMemberships("example", {}, {  });
+const result = await client.organizations.listMemberships("org_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/organizations-listMemberships.mjs)
 
-### organizations.remove
-
-Soft-deletes an organization and reports status archived. Refused while the organization has active child organizations or a non-closed merchant belongs to it, including your merchant's own organization. Conflicts include up to 10 blocking_resources and the total blocking_resource_count. Current organization access and mutation permissions are checked before idempotent replay. Idempotency keys are scoped to the merchant, mode, environment, and organization.
-
-`DELETE /v1/organizations/{organization_id}`
-
-Signature:
-
-```typescript
-remove(organization_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `organization_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-
-#### Response
-
-Returned payload: [Organization](../models/Organization.md#organization).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.organizations.remove("example", {}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/organizations-remove.mjs)
-
-### organizations.revokeMembership
+### organizations.removeMembership
 
 Removes a user's direct membership and returns it with status removed. A role the user holds in a parent organization still applies. The owner can't be removed. Current organization access and mutation permissions are checked before idempotent replay. Idempotency keys are scoped to the merchant, mode, environment, and organization.
 
@@ -426,11 +371,9 @@ Removes a user's direct membership and returns it with status removed. A role th
 Signature:
 
 ```typescript
-revokeMembership(organization_id: InputValue<string>,
+removeMembership(organization_id: InputValue<string>,
  user_id: InputValue<string>,
- params?: {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: OrganizationsRemoveMembershipParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -438,9 +381,8 @@ revokeMembership(organization_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `organization_id` | Required | string |  |
-| `user_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `organization_id` | Required | string | Flint organization ID. |
+| `user_id` | Required | string | Flint user ID. |
 
 #### Response
 
@@ -448,17 +390,17 @@ Returned payload: [OrganizationMembership](../models/OrganizationMembership.md#o
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -466,9 +408,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `revokeMembershipWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -478,10 +420,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.organizations.revokeMembership("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.organizations.removeMembership("org_01ARZ3NDEKTSV4RRFFQ69G5FAV", "usr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/organizations-revokeMembership.mjs)
+[Complete runnable example](../examples/organizations-removeMembership.mjs)
 
 ### organizations.update
 
@@ -489,22 +431,13 @@ Applies a sparse update to an accessible active organization. Send at least one 
 
 `PATCH /v1/organizations/{organization_id}`
 
-Signature:
-
-```typescript
-update(organization_id: InputValue<string>,
- params: (InputValue<UpdateOrganizationRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `update(organization_id: InputValue<string>, params: OrganizationsUpdateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `organization_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `organization_id` | Required | string | Flint organization ID. |
 | `body` | Required | [UpdateOrganizationRequestInput](../models/UpdateOrganizationRequest.md#updateorganizationrequest) | The request body for: Update organization. minProperties: `1`. |
 
 Body model: [UpdateOrganizationRequestInput](../models/UpdateOrganizationRequest.md#updateorganizationrequest).
@@ -513,7 +446,7 @@ Body model: [UpdateOrganizationRequestInput](../models/UpdateOrganizationRequest
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | minLength: `1`. |
 | `parent_organization_id` | Optional | string | Moves the organization, and every organization below it, under another active organization you can manage. Can't be null. minLength: `1`. |
@@ -524,19 +457,19 @@ Returned payload: [Organization](../models/Organization.md#organization).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -544,9 +477,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -556,7 +489,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.organizations.update("example", {expected_version: "1"}, { idempotencyKey: idempotencyKey });
+const result = await client.organizations.update("org_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Example Retail"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/organizations-update.mjs)

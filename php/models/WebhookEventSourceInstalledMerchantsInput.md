@@ -6,5 +6,5 @@ The installed_merchants source of a partner webhook event.
 
 Request input.
 
-Fields, types, descriptions and enum values: [PartnerWebhookEnvelopeSourceInstalledMerchantsInput](../models/PartnerWebhookEnvelopeSourceInstalledMerchantsInput.md#partnerwebhookenvelopesourceinstalledmerchantsinput).
+Fields, types, descriptions and enum values: [WebhookEventSourceInstalledMerchants](../models/WebhookEventSourceInstalledMerchants.md#webhookeventsourceinstalledmerchants).
 

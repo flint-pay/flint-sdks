@@ -11,27 +11,27 @@ namespace Flint;
 final class DeliveryMethodConfigurationOriginFixedLocation extends Model {
     /** @param array{'delivery_location_set_id'?: string, 'delivery_location_set_revision_id'?: string, 'location_id': string, 'location_ids'?: list<string>, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationOriginFixedLocation')); }
-    /** Shape $ (Value): string.
+    /** delivery_location_set_id
      * @return ?string
      */
     public function getDeliveryLocationSetId(): ?string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Shape $ (Value): string.
+    /** delivery_location_set_revision_id
      * @return ?string
      */
     public function getDeliveryLocationSetRevisionId(): ?string { return $this->get('delivery_location_set_revision_id'); }
     public function hasDeliveryLocationSetRevisionId(): bool { return $this->has('delivery_location_set_revision_id'); }
-    /** Shape $ (Value): string.
+    /** location_id
      * @return string
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return ?list<string>
      */
     public function getLocationIds(): ?array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Shape $ (Value): string.  Value enum: "fixed_location".
+    /** Value enum: "fixed_location".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

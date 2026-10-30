@@ -8,13 +8,12 @@ Creates a customer for the authenticated merchant.
 
 `POST /v1/customers`
 
-Signature: `create(params: (InputValue<CreateCustomerRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
+Signature: `create(params: CustomersCreateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateCustomerRequestInput](../models/CreateCustomerRequest.md#createcustomerrequest) | The request body for: Create customer. |
 
 Body model: [CreateCustomerRequestInput](../models/CreateCustomerRequest.md#createcustomerrequest).
@@ -35,6 +34,7 @@ Body model: [CreateCustomerRequestInput](../models/CreateCustomerRequest.md#crea
 | `segment` | Optional | string | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. minLength: `1`. |
 | `tax_exempt` | Optional | boolean |  |
 | `tax_identity` | Optional | [TaxIdentityRequestInput](../models/TaxIdentityRequestInput.md#taxidentityrequestinput) | Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. |
+| `test_clock_id` | Optional | string | Sandbox only. ID of a test clock to create the customer on. The customer, and every subscription created for it, read the clock's time instead of real time. A customer can't be moved to another clock or taken off one. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: `1`. |
 
 #### Response
 
@@ -42,18 +42,19 @@ Returned payload: [Customer](../models/Customer.md#customer) | [Customer](../mod
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -61,9 +62,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -73,7 +74,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.create({}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.create({email: "jane@example.com", metadata: {crm_id: "crm_123"}, name: "Jane Doe"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-create.mjs)
@@ -84,24 +85,13 @@ Signs the buyer in to your Flint-hosted customer account as this customer. Works
 
 `POST /v1/customers/{customer_id}/access-links`
 
-Signature:
-
-```typescript
-createAccessLink(customer_id: InputValue<string>,
- params?: (InputValue<{
-}> | {
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `createAccessLink(customer_id: InputValue<string>, params?: CustomersCreateAccessLinkParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
 | `body` | Optional | object | maxProperties: `0`. |
 
 Body shape: object.
@@ -112,17 +102,17 @@ Returned payload: [AccessLink](../models/AccessLink.md#accesslink).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -130,9 +120,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createAccessLinkWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -142,7 +132,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.customers.createAccessLink("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-createAccessLink.mjs)
@@ -153,22 +143,13 @@ Creates a stable saved address. The address becomes a default only when the requ
 
 `POST /v1/customers/{customer_id}/addresses`
 
-Signature:
-
-```typescript
-createAddress(customer_id: InputValue<string>,
- params: (InputValue<CreateCustomerAddressRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `createAddress(customer_id: InputValue<string>, params: CustomersCreateAddressParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
 | `body` | Required | [CreateCustomerAddressRequestInput](../models/CreateCustomerAddressRequest.md#createcustomeraddressrequest) | The request body for: Create a customer address; Create an address for the current buyer. |
 
 #### Response
@@ -177,19 +158,19 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -197,9 +178,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -209,83 +190,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.createAddress("cus_example", {address: {city: "Springfield", country: "US", line1: "100 Example Street", postal_code: "62701", state: "IL"}, recipient_name: "Jordan Example"}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.createAddress("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {address: {city: "Springfield", country: "US", line1: "100 Example Street", postal_code: "62701", state: "IL"}, recipient_name: "Jordan Example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-createAddress.mjs)
-
-### customers.createDeletionRequest
-
-Creates a deletion request for merchant review, or returns the customer's open request unchanged. No deletion work starts until approval.
-
-`POST /v1/customer-deletion-requests`
-
-Signature:
-
-```typescript
-createDeletionRequest(params: (InputValue<CreateCustomerDeletionRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [CreateCustomerDeletionRequestInput](../models/CreateCustomerDeletionRequest.md#createcustomerdeletionrequest) | The request body for: Request customer account deletion. |
-
-Body model: [CreateCustomerDeletionRequestInput](../models/CreateCustomerDeletionRequest.md#createcustomerdeletionrequest).
-
-#### customers.createDeletionRequest body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Required | string | Flint customer ID of the customer to delete. minLength: `1`. |
-
-#### Response
-
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest) | [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `createDeletionRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.customers.createDeletionRequest({customer_id: "example"}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/customers-createDeletionRequest.mjs)
 
 ### customers.deleteAddress
 
@@ -298,10 +206,7 @@ Signature:
 ```typescript
 deleteAddress(customer_id: InputValue<string>,
  customer_address_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: CustomersDeleteAddressParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -309,10 +214,9 @@ deleteAddress(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `customer_address_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
+| `customer_address_id` | Required | string | Flint customer address ID. |
+| `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -320,17 +224,17 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -338,9 +242,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -350,7 +254,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.deleteAddress("example", "example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.deleteAddress("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-deleteAddress.mjs)
@@ -361,22 +265,14 @@ Returns a single customer by ID.
 
 `GET /v1/customers/{customer_id}`
 
-Signature:
-
-```typescript
-get(customer_id: InputValue<string>,
- params?: {
-  "expand"?: InputValue<Array<"default_payment_method" | "receivables">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `get(customer_id: InputValue<string>, params?: CustomersGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `expand` | Optional | Array of string | Items values: `"default_payment_method"`, `"receivables"`. |
+| `customer_id` | Required | string | Flint customer ID. |
+| `expand` | Optional | Array of string or string | Supported expansions: default_payment_method, receivables. Expanding the default payment method requires customers.read plus payments.payment_methods.read. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=default_payment_method&expand=receivables, or pass one comma-separated value. Items values: `"default_payment_method"`, `"receivables"`. Values: `"default_payment_method"`, `"receivables"`. |
 
 #### Response
 
@@ -384,16 +280,16 @@ Returned payload: [Customer](../models/Customer.md#customer).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -401,14 +297,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.customers.get("example", {}, {  });
+const result = await client.customers.get("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/customers-get.mjs)
@@ -424,8 +320,7 @@ Signature:
 ```typescript
 getAddress(customer_id: InputValue<string>,
  customer_address_id: InputValue<string>,
- params?: {
-},
+ params?: CustomersGetAddressParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -433,8 +328,8 @@ getAddress(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `customer_address_id` | Required | string |  |
+| `customer_id` | Required | string | Flint customer ID. |
+| `customer_address_id` | Required | string | Flint customer address ID. |
 
 #### Response
 
@@ -442,16 +337,16 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -459,73 +354,17 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.customers.getAddress("example", "example", {}, {  });
+const result = await client.customers.getAddress("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/customers-getAddress.mjs)
-
-### customers.getDeletionRequest
-
-Returns the current status of a tracked deletion request.
-
-`GET /v1/customer-deletion-requests/{customer_deletion_request_id}`
-
-Signature:
-
-```typescript
-getDeletionRequest(customer_deletion_request_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_deletion_request_id` | Required | string |  |
-
-#### Response
-
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `getDeletionRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-const result = await client.customers.getDeletionRequest("example", {}, {  });
-```
-
-[Complete runnable example](../examples/customers-getDeletionRequest.mjs)
 
 ### customers.linkGuestPurchases
 
@@ -533,22 +372,13 @@ Links purchases with the verified email and no customer to the verification's cu
 
 `POST /v1/customers/{customer_id}/link-guest-purchases`
 
-Signature:
-
-```typescript
-linkGuestPurchases(customer_id: InputValue<string>,
- params: (InputValue<LinkCustomerGuestPurchasesRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `linkGuestPurchases(customer_id: InputValue<string>, params: CustomersLinkGuestPurchasesParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
 | `body` | Required | [LinkCustomerGuestPurchasesRequestInput](../models/LinkCustomerGuestPurchasesRequest.md#linkcustomerguestpurchasesrequest) | The request body for: Link guest purchases to a customer. |
 
 Body model: [LinkCustomerGuestPurchasesRequestInput](../models/LinkCustomerGuestPurchasesRequest.md#linkcustomerguestpurchasesrequest).
@@ -565,19 +395,19 @@ Returned payload: [GuestPurchaseLink](../models/GuestPurchaseLink.md#guestpurcha
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -585,9 +415,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `linkGuestPurchasesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -597,7 +427,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.linkGuestPurchases("example", {customer_verification_id: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.linkGuestPurchases("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {customer_verification_id: "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-linkGuestPurchases.mjs)
@@ -608,50 +438,29 @@ Returns a paginated list of customers for the authenticated merchant. Without a 
 
 `GET /v1/customers`
 
-Signature:
-
-```typescript
-list(params?: {
-  "status"?: InputValue<Array<"active" | "deletion_processing" | "deleted">>;
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "query"?: InputValue<string>;
-  "external_reference_id"?: InputValue<string>;
-  "email"?: InputValue<string>;
-  "segment"?: InputValue<string>;
-  "is_merchant_verified"?: InputValue<boolean>;
-  "phone"?: InputValue<string>;
-  "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
-  "sort_direction"?: InputValue<"asc" | "desc">;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>;
-  "updated_after"?: InputValue<string | globalThis.Date>;
-  "updated_before"?: InputValue<string | globalThis.Date>;
-  "expand"?: InputValue<Array<"default_payment_method" | "receivables">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `list(params?: CustomersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"deletion_processing"`, `"deleted"`. |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `query` | Optional | string |  |
-| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `email` | Optional | string |  |
-| `segment` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `is_merchant_verified` | Optional | boolean |  |
-| `phone` | Optional | string | minLength: `1`. pattern: `^\+[1-9][0-9]{1,14}$`. |
-| `sort_by` | Optional | string | Default: `"created_at"`. Values: `"name"`, `"email"`, `"created_at"`, `"updated_at"`. |
-| `sort_direction` | Optional | string | Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-| `updated_after` | Optional | string | Format: `date-time`. |
-| `updated_before` | Optional | string | Format: `date-time`. |
-| `expand` | Optional | Array of string | Items values: `"default_payment_method"`, `"receivables"`. |
+| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out deleted rows; name deleted to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"deletion_processing"`, `"deleted"`. Values: `"active"`, `"deletion_processing"`, `"deleted"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `query` | Optional | string | Search across customer_id, name, email, phone number, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as cus_01. |
+| `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `email` | Optional | string | Exact whole-address match after trimming surrounding whitespace, ignoring case and accents. |
+| `segment` | Optional | string | Byte-sensitive whole-value match on the opaque customer segment. Whitespace, casing, Unicode, and commas are literal. minLength: `1`. maxLength: `255`. |
+| `is_merchant_verified` | Optional | boolean | Filter by merchant verification, independently of email verification. |
+| `phone` | Optional | string | Exact match on a full E.164 phone number. Encode the leading plus as %2B. minLength: `1`. pattern: `^\+[1-9][0-9]{1,14}$`. |
+| `test_clock_id` | Optional | string | Sandbox only. Exact-match filter on `test_clock_id`. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: `1`. pattern: `^tclk_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by customer_id. Default: `"created_at"`. Values: `"name"`, `"email"`, `"created_at"`, `"updated_at"`. |
+| `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
+| `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
+| `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `expand` | Optional | Array of string or string | Supported expansions: default_payment_method, receivables. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=default_payment_method&expand=receivables, or pass one comma-separated value. Items values: `"default_payment_method"`, `"receivables"`. Values: `"default_payment_method"`, `"receivables"`. |
 
 #### Response
 
@@ -659,15 +468,15 @@ Returned payload: [CustomerListResponse](../models/CustomerListResponse.md#custo
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -675,11 +484,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listItems`, `listPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -699,10 +508,7 @@ Signature:
 
 ```typescript
 listAddresses(customer_id: InputValue<string>,
- params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>
-},
+ params?: CustomersListAddressesParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
@@ -710,9 +516,9 @@ listAddresses(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
+| `customer_id` | Required | string | Flint customer ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -720,16 +526,16 @@ Returned payload: [CustomerAddressListResponse](../models/CustomerAddressListRes
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -737,16 +543,16 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listAddressesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listAddressesItems`, `listAddressesPages`, `listAddressesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listAddressesItems`, `listAddressesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
 ```typescript
-const result = await client.customers.listAddresses("example", {}, {  });
+const result = await client.customers.listAddresses("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/customers-listAddresses.mjs)
@@ -757,14 +563,13 @@ Revokes every customer session for one customer in the selected merchant environ
 
 `POST /v1/customers/{customer_id}/sessions/revoke`
 
-Signature: `revokeSessions(customer_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
+Signature: `revokeSessions(customer_id: InputValue<string>, params?: CustomersRevokeSessionsParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
 
 #### Response
 
@@ -772,17 +577,17 @@ Returned payload: [CustomerSessionsRevocation](../models/CustomerSessionsRevocat
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -790,9 +595,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `revokeSessionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -802,33 +607,24 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.revokeSessions("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.revokeSessions("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-revokeSessions.mjs)
 
 ### customers.update
 
-Applies a sparse update to a customer. Changing email requires customer_account.mode to be merchant_hosted; otherwise Flint returns 409 CUSTOMER_EMAIL_BUYER_MANAGED. If Flint cannot read the account settings, it returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
+Applies a sparse update to a customer. Changing email requires customer_account.mode to be merchant_hosted; otherwise Flint returns 409 ACTION_NOT_ALLOWED with reason managed_externally. To change the email of a customer who signs in to your Flint-hosted account, create a customer session for the customer and send POST /v1/me/email-change-requests with the new email; the customer confirms it with the codes Flint emails them. If Flint cannot read the account settings, it returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
 
 `PATCH /v1/customers/{customer_id}`
 
-Signature:
-
-```typescript
-update(customer_id: InputValue<string>,
- params: (InputValue<UpdateCustomerRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `update(customer_id: InputValue<string>, params: CustomersUpdateParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
 | `body` | Required | [UpdateCustomerRequestInput](../models/UpdateCustomerRequest.md#updatecustomerrequest) | The request body for: Update customer. |
 
 Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequest.md#updatecustomerrequest).
@@ -840,7 +636,7 @@ Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequest.md#upda
 | `default_invoice_payment_term_id` | Optional | string or null | Default payment term for this customer's invoices. Send null to clear it. minLength: `1`. |
 | `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: `1`. |
 | `email` | Optional | string or null | The customer's email. Omit to leave unchanged; null clears it. Changing it is allowed only when your store hosts its own customer accounts (`customer_account.mode` is `merchant_hosted`). Format: `email`. minLength: `1`. maxLength: `320`. |
-| `expected_version` | Optional | integer string | Required when tax_identity is null or tax_identity.tax_ids is present. Stale versions return a conflict. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Required when tax_identity is null or tax_identity.tax_ids is present. Stale versions return a conflict. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string or null | Internal note about this customer. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `is_merchant_verified` | Optional | boolean | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. |
@@ -857,19 +653,19 @@ Returned payload: [Customer](../models/Customer.md#customer).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -877,9 +673,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -889,7 +685,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.update("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.update("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Jordan Example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-update.mjs)
@@ -905,9 +701,7 @@ Signature:
 ```typescript
 updateAddress(customer_id: InputValue<string>,
  customer_address_id: InputValue<string>,
- params: (InputValue<UpdateCustomerAddressRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params: CustomersUpdateAddressParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -915,9 +709,8 @@ updateAddress(customer_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `customer_address_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `customer_id` | Required | string | Flint customer ID. |
+| `customer_address_id` | Required | string | Flint customer address ID. |
 | `body` | Required | [UpdateCustomerAddressRequestInput](../models/UpdateCustomerAddressRequest.md#updatecustomeraddressrequest) | The request body for: Update a customer address; Update one of the current buyer's addresses. minProperties: `1`. |
 
 #### Response
@@ -926,19 +719,19 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -946,9 +739,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -958,7 +751,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.updateAddress("cus_example", "caddr_example", {label: "Home"}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.updateAddress("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {label: "Home"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-updateAddress.mjs)

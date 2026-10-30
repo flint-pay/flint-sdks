@@ -11,7 +11,7 @@ The request body for: Transition fulfillment.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string |  |
-| `expected_version` | Optional | integer string | Resource version the caller last read. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
 | `buyer_notification_behavior` | Conditional | string | Values: `"send"`, `"suppress"`. |
@@ -23,14 +23,14 @@ The request body for: Transition fulfillment.
 
 ### FulfillmentTransitionRequest variant 1: `action` = `"release_hold"`
 
-oneOf variant 1: The `release_hold` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "release_hold": The `release_hold` variant of `FulfillmentTransitionRequest`..
 
 - Undeclared: `buyer_notification_behavior`, `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
 - Constraints for `action`: Values: `"release_hold"`.
 
 ### FulfillmentTransitionRequest variant 2: `action` = `"complete"`
 
-oneOf variant 2: The `complete` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "complete": The `complete` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -38,7 +38,7 @@ oneOf variant 2: The `complete` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 3: `action` = `"cancel"`
 
-oneOf variant 3: The `cancel` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "cancel": The `cancel` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -46,7 +46,7 @@ oneOf variant 3: The `cancel` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 4: `action` = `"hold"`
 
-oneOf variant 4: The `hold` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "hold": The `hold` variant of `FulfillmentTransitionRequest`..
 
 - Required: `reason`.
 - Optional: `buyer_notification_behavior`.
@@ -56,7 +56,7 @@ oneOf variant 4: The `hold` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 5: `action` = `"start"`
 
-oneOf variant 5: The `start` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "start": The `start` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -64,7 +64,7 @@ oneOf variant 5: The `start` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 6: `action` = `"mark_ready"`
 
-oneOf variant 6: The `mark_ready` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "mark_ready": The `mark_ready` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -72,7 +72,7 @@ oneOf variant 6: The `mark_ready` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 7: `action` = `"fail"`
 
-oneOf variant 7: The `fail` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "fail": The `fail` variant of `FulfillmentTransitionRequest`..
 
 - Required: `release_quantity`.
 - Optional: `buyer_notification_behavior`.
@@ -81,7 +81,7 @@ oneOf variant 7: The `fail` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 8: `action` = `"schedule"`
 
-oneOf variant 8: The `schedule` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "schedule": The `schedule` variant of `FulfillmentTransitionRequest`..
 
 - Required: `scheduled_end_at`, `scheduled_start_at`.
 - Optional: `buyer_notification_behavior`, `timezone`.
@@ -90,7 +90,7 @@ oneOf variant 8: The `schedule` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 9: `action` = `"accept"`
 
-oneOf variant 9: The `accept` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "accept": The `accept` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -98,7 +98,7 @@ oneOf variant 9: The `accept` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 10: `action` = `"mark_preparing"`
 
-oneOf variant 10: The `mark_preparing` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "mark_preparing": The `mark_preparing` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -106,7 +106,7 @@ oneOf variant 10: The `mark_preparing` variant of `FulfillmentTransitionRequest`
 
 ### FulfillmentTransitionRequest variant 11: `action` = `"mark_picked"`
 
-oneOf variant 11: The `mark_picked` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "mark_picked": The `mark_picked` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -114,7 +114,7 @@ oneOf variant 11: The `mark_picked` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 12: `action` = `"mark_packed"`
 
-oneOf variant 12: The `mark_packed` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "mark_packed": The `mark_packed` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -122,7 +122,7 @@ oneOf variant 12: The `mark_packed` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 13: `action` = `"dispatch"`
 
-oneOf variant 13: The `dispatch` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "dispatch": The `dispatch` variant of `FulfillmentTransitionRequest`..
 
 - Optional: `buyer_notification_behavior`.
 - Undeclared: `reason`, `release_quantity`, `scheduled_end_at`, `scheduled_start_at`, `timezone`.
@@ -130,7 +130,7 @@ oneOf variant 13: The `dispatch` variant of `FulfillmentTransitionRequest`..
 
 ### FulfillmentTransitionRequest variant 14: `action` = `"mark_no_show"`
 
-oneOf variant 14: The `mark_no_show` variant of `FulfillmentTransitionRequest`..
+oneOf with action: "mark_no_show": The `mark_no_show` variant of `FulfillmentTransitionRequest`..
 
 - Required: `reason`.
 - Optional: `buyer_notification_behavior`.

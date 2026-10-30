@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/9f000b7dadd7eaaaee17157a304866986e25dde0/sdk-config.schema.json",
+  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/c5e0e964c5096a5267f251e91acaf9870f3e4f37/sdk-config.schema.json",
   "profiles": [
     "spec/profiles/full-merchant-sdk.json",
     "spec/profiles/full-customer-sdk.json",

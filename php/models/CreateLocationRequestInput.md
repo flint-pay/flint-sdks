@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `address` | Required | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
-| `coordinate` | Optional | [LocationCoordinateRequestRequestInput](../models/LocationCoordinateRequestRequestInput.md#locationcoordinaterequestrequestinput) | A latitude and longitude for a merchant location. |
+| `coordinate` | Optional | [LocationCoordinateRequestInput](../models/LocationCoordinateRequestInput.md#locationcoordinaterequestinput) | A latitude and longitude for a merchant location. |
 | `coordinate_source` | Optional | string or null | Send null to clear it. Values: `"merchant_supplied"`, `"geocoded"`, `null`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `inventory_allocation_enabled` | Optional | boolean | Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory.allocation.write in addition to the route scope. Default: `false`. |

@@ -2,28 +2,24 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $invoice_id
  * @property-read string $invoice_payment_attempt_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCancelPaymentAttemptInput extends Model {
-    /** @param array{'invoice_id': string, 'invoice_payment_attempt_id': string, 'Idempotency-Key'?: string}|object $values */
+    /** @param array{'invoice_id': string, 'invoice_payment_attempt_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesCancelPaymentAttemptInput')); }
-    /** Shape $ (Value): string.
+    /** Flint invoice ID. Example: "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string.
+    /** Flint invoice payment attempt ID. Example: "invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When invoice_payment_attempt_id is omitted; use hasInvoicePaymentAttemptId() or valueOrDefault().
      */
     public function getInvoicePaymentAttemptId(): string { return $this->get('invoice_payment_attempt_id'); }
     public function hasInvoicePaymentAttemptId(): bool { return $this->has('invoice_payment_attempt_id'); }
-    /** Shape $ (Value): string. maxLength: 255.
-     * @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
 }

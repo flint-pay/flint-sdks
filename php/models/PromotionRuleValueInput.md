@@ -13,28 +13,28 @@ Request input.
 
 ### PromotionRuleValueInput variant 1
 
-oneOf variant 1.
+oneOf String.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: string. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionRuleValueInput variant 2
 
-oneOf variant 2.
+oneOf Number.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: number. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionRuleValueInput variant 3
 
-oneOf variant 3.
+oneOf Boolean.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: boolean. Rule comparison value. Use a primitive string, number, boolean, or a money object. 
 
 ### PromotionRuleValueInput variant 4
 
-oneOf variant 4: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+oneOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 

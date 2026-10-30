@@ -14,7 +14,6 @@ Signature: `advance(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [OnboardingAdvanceRequestInput](../models/OnboardingAdvanceRequestInput.md#onboardingadvancerequestinput) | The request body for: Advance onboarding flow. |
 
 Body model: [OnboardingAdvanceRequestInput](../models/OnboardingAdvanceRequestInput.md#onboardingadvancerequestinput).
@@ -33,20 +32,20 @@ Returned payload: [OnboardingState](../models/OnboardingState.md#onboardingstate
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -54,9 +53,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `advanceWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -66,7 +65,17 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->onboarding->advance([], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->onboarding->advance([
+  'country' => 'US',
+  'profile' => (object) [
+    'support_email' => 'help@example.com',
+    'website_url' => 'https://withflintpay.com',
+  ],
+  'requested_capabilities' => [
+    'accept_card_payments',
+    'receive_payouts',
+  ],
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/onboarding-advance.php)
@@ -83,7 +92,6 @@ Signature: `createAPIKey(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKeyRequestInput.md#developerinitialapikeyrequestinput) | The request body for: Create onboarding API key. |
 
 Body model: [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKeyRequestInput.md#developerinitialapikeyrequestinput).
@@ -101,18 +109,18 @@ Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsec
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -120,9 +128,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createAPIKeyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -133,7 +141,13 @@ Authentication modes: `onboarding`. [Credential setup](../RUNTIME.md#authenticat
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->onboarding->createAPIKey([
-  'name' => 'example',
+  'name' => 'First backend integration',
+  'scopes' => [
+    'commerce.orders.read',
+    'commerce.orders.write',
+    'customers.read',
+    'customers.write',
+  ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -157,17 +171,17 @@ Returned payload: [OnboardingState](../models/OnboardingState.md#onboardingstate
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -175,7 +189,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getStateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -187,24 +201,23 @@ $result = $client->onboarding->getState([], new RequestOptions());
 
 [Complete runnable example](../examples/onboarding-getState.php)
 
-### onboarding.startFlow
+### onboarding.start
 
 Starts the consolidated onboarding flow by emailing a short-lived verification code and returning a temporary verification token.
 
 `POST /v1/onboarding/start`
 
-Signature: `startFlow(array|Model $params, ?RequestOptions $options = null)`
+Signature: `start(array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [OnboardingStartRequestInput](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput) | The request body for: Start onboarding flow. |
 
 Body model: [OnboardingStartRequestInput](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput).
 
-#### onboarding.startFlow body fields
+#### onboarding.start body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -218,17 +231,17 @@ Returned payload: [OnboardingStartResult](../models/OnboardingStartResultInput.m
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -236,9 +249,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `startFlowWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -248,33 +261,32 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->onboarding->startFlow([
-  'email' => 'example',
-  'first_name' => 'example',
-  'last_name' => 'example',
+$result = $client->onboarding->start([
+  'email' => 'owner@example.com',
+  'first_name' => 'Jane',
+  'last_name' => 'Doe',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
-[Complete runnable example](../examples/onboarding-startFlow.php)
+[Complete runnable example](../examples/onboarding-start.php)
 
-### onboarding.verifyEmailCode
+### onboarding.verifyEmail
 
 Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one. Read GET /v1/onboarding/state next.
 
 `POST /v1/onboarding/verify-email`
 
-Signature: `verifyEmailCode(array|Model $params, ?RequestOptions $options = null)`
+Signature: `verifyEmail(array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [OnboardingVerifyEmailRequestInput](../models/OnboardingVerifyEmailRequestInput.md#onboardingverifyemailrequestinput) | The request body for: Verify onboarding email. |
 
 Body model: [OnboardingVerifyEmailRequestInput](../models/OnboardingVerifyEmailRequestInput.md#onboardingverifyemailrequestinput).
 
-#### onboarding.verifyEmailCode body fields
+#### onboarding.verifyEmail body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -288,17 +300,17 @@ Returned payload: [OnboardingVerifyEmailResult](../models/OnboardingVerifyEmailR
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -306,9 +318,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `verifyEmailCodeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -318,11 +330,11 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->onboarding->verifyEmailCode([
-  'verification_code' => 'example',
+$result = $client->onboarding->verifyEmail([
+  'verification_code' => '482193',
   'verification_token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
-[Complete runnable example](../examples/onboarding-verifyEmailCode.php)
+[Complete runnable example](../examples/onboarding-verifyEmail.php)
 

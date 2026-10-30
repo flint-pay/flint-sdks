@@ -7,7 +7,7 @@ namespace Flint;
 final class MerchantAccountSessionStripeRequirementsInput extends Model {
     /** @param array{'only': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionStripeRequirementsInput')); }
-    /** Shape $ (Value): Array of string. Stripe requirement paths to collect exclusively when effective_policy.targeting is targeted. They come from the targeted_requirements you sent or from Flint's remediation recommendation. Shape $[] (Value): string.
+    /** Stripe requirement paths to collect exclusively when effective_policy.targeting is targeted. They come from the targeted_requirements you sent or from Flint's remediation recommendation. [] (Value): string.
      * @return list<string>
      * @throws SdkError When only is omitted; use hasOnly() or valueOrDefault().
      */

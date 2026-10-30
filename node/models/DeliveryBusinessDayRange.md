@@ -21,7 +21,7 @@ No additional constraints.
 
 ### DeliveryBusinessDayRange variant 2
 
-anyOf variant 2: Declared schema DeliveryBusinessDayRangeRequestRequest. A minimum and maximum number of business days, used in transit time estimates..
+anyOf variant 2: Declared schema DeliveryBusinessDayRangeRequest. A minimum and maximum number of business days, used in transit time estimates..
 
 No additional constraints.
 

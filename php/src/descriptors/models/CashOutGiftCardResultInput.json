@@ -1,1 +1,1 @@
-{"shared":"CashOutGiftCardResult","dependencies":["CashOutGiftCardResult","GiftCard","GiftCardRestriction","GiftCardTransaction","MoneyValue","ResourceReference","ResourceType","SharedCodec63","SignedMoney"]}
+{"shared":"CashOutGiftCardResult","dependencies":["CashOutGiftCardResult","GiftCard","GiftCardRestriction","GiftCardTransaction","MoneyValue","ResourceType","SharedCodec103","SharedCodec104","SignedMoney"]}

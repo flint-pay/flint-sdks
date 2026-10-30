@@ -23,7 +23,7 @@ Request input.
 | `inventory_receipt_id` | Optional | string |  |
 | `metadata` | Required | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `reason` | Required | string | Values: `"inspection_result"`, `"return_policy"`, `"warehouse_override"`, `"safety_requirement"`, `"other"`. |
 | `reason_message` | Optional | string |  |
 | `replaced_by_return_disposition_id` | Optional | string |  |
@@ -36,5 +36,5 @@ Request input.
 | `status` | Required | string | Values: `"pending"`, `"succeeded"`, `"failed"`, `"canceled"`. |
 | `supported_actions` | Required | Array of string | Actions that can succeed now. Empty unless the parent Return is open. cancel is listed only before the inventory effect starts. Items values: `"cancel"`, `"retry"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `version` | Required | integer | Format: `int64`. minimum: `0`. |
 

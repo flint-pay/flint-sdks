@@ -1,1 +1,1 @@
-{"shared":"PayOrderRequestResume","dependencies":["CheckoutBuyerContactRequest","MoneyValue","PayOrderRequestResume","SharedCodec1084","SharedCodec1085"]}
+{"shared":"PayOrderRequestResume","dependencies":["MoneyValue","PayOrderRequestResume","SharedCodec1028","SharedCodec1029","SharedCodec1030"]}

@@ -9,19 +9,19 @@ namespace Flint;
 final class CheckoutSubscriptionTermsRequestInput extends Model {
     /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'quantity'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTermsRequestInput')); }
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Shape $ (Value): integer. minimum: 1. maximum: 365.
+    /** minimum: 1. maximum: 365.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

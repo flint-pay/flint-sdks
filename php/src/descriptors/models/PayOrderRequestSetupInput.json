@@ -1,1 +1,1 @@
-{"shared":"PayOrderRequestSetup","dependencies":["CheckoutBuyerContactRequest","MoneyValue","PayOrderRequestSetup","PaymentSourceCredentialToken","SharedCodec1084","SharedCodec1085"]}
+{"shared":"PayOrderRequestSetup","dependencies":["MoneyValue","PayOrderRequestSetup","PaymentSourceCredentialToken","SharedCodec1028","SharedCodec1029","SharedCodec1030"]}

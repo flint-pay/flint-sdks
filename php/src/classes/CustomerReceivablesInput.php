@@ -8,13 +8,13 @@ namespace Flint;
 final class CustomerReceivablesInput extends Model {
     /** @param array{'balances': list<CustomerReceivableBalanceInput|array<array-key, mixed>|\stdClass>, 'observed_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerReceivablesInput')); }
-    /** Shape $ (Value): Array of {@see CustomerReceivableBalanceInput}. Shape $[] (Value): {@see CustomerReceivableBalanceInput}. A customer's outstanding and overdue amounts in one currency.
+    /**  [] (Value): {@see CustomerReceivableBalanceInput}. A customer's outstanding and overdue amounts in one currency.
      * @return list<CustomerReceivableBalanceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When balances is omitted; use hasBalances() or valueOrDefault().
      */
     public function getBalances(): array { return $this->get('balances'); }
     public function hasBalances(): bool { return $this->has('balances'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When observed_at is omitted; use hasObservedAt() or valueOrDefault().
      */

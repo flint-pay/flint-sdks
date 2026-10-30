@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput extends Model {
     /** @param array{'channel'?: string, 'email': string, 'purpose': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput')); }
-    /** Shape $ (Value): string. Default: "email". Value enum: "email".
+    /** Default: "email". Value enum: "email".
      * @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** Shape $ (Value): string. Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: email. minLength: 1. maxLength: 255.
+    /** Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: email. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string.  Value enum: "gift_card_purchase".
+    /** Value enum: "gift_card_purchase".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */

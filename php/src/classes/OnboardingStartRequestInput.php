@@ -9,19 +9,19 @@ namespace Flint;
 final class OnboardingStartRequestInput extends Model {
     /** @param array{'email': string, 'first_name': string, 'last_name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartRequestInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When first_name is omitted; use hasFirstName() or valueOrDefault().
      */
     public function getFirstName(): string { return $this->get('first_name'); }
     public function hasFirstName(): bool { return $this->has('first_name'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** minLength: 1.
      * @return string
      * @throws SdkError When last_name is omitted; use hasLastName() or valueOrDefault().
      */

@@ -9,17 +9,17 @@ namespace Flint;
 final class DeliveryRecipientResource extends Model {
     /** @param array{'email'?: string, 'name'?: string, 'phone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRecipientResource')); }
-    /** Shape $ (Value): string.
+    /** email
      * @return ?string
      */
     public function getEmail(): ?string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string.
+    /** phone
      * @return ?string
      */
     public function getPhone(): ?string { return $this->get('phone'); }

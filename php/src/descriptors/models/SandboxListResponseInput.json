@@ -1,1 +1,1 @@
-{"shared":"SandboxListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","Sandbox","SandboxListResponse","SharedCodec1005","SharedCodec2","SharedCodec3"]}
+{"shared":"SandboxListResponse","dependencies":["MoneyValue","NextAction","ReadinessMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","Sandbox","SandboxListResponse","SharedCodec2","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876"]}

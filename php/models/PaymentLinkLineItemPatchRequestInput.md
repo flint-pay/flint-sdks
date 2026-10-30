@@ -30,7 +30,7 @@ Request input.
 
 ### PaymentLinkLineItemPatchRequestInput variant 1: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyOf variant 1.
+oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyOf variant 1.
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`variant_id`, `variant_ids`))).
 - Required: `variant_id`.
@@ -39,7 +39,7 @@ oneOf variant 1: The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyO
 
 ### PaymentLinkLineItemPatchRequestInput variant 2: `type` = `"variant"`
 
-oneOf variant 1: The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyOf variant 2.
+oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyOf variant 2.
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`variant_id`, `variant_ids`))).
 - Required: `variant_ids`.
@@ -48,7 +48,7 @@ oneOf variant 1: The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyO
 
 ### PaymentLinkLineItemPatchRequestInput variant 3: `type` = `"bundle"`
 
-oneOf variant 2: The `bundle` variant of `PaymentLinkLineItemPatchInput`..
+oneOf with type: "bundle": The `bundle` variant of `PaymentLinkLineItemPatchInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`variant_ids`); present(`default_variant_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`))).
 - Required: `bundle_id`.
@@ -57,7 +57,7 @@ oneOf variant 2: The `bundle` variant of `PaymentLinkLineItemPatchInput`..
 
 ### PaymentLinkLineItemPatchRequestInput variant 4: `allow_unit_price_adjustment` = `false`, `type` = `"custom_fixed"`
 
-oneOf variant 3: The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`..
+oneOf with type: "custom_fixed": The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`variant_ids`); present(`default_variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.
@@ -67,7 +67,7 @@ oneOf variant 3: The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`..
 
 ### PaymentLinkLineItemPatchRequestInput variant 5: `allow_unit_price_adjustment` = `true`, `type` = `"custom_variable"`
 
-oneOf variant 4: The `custom_variable` variant of `PaymentLinkLineItemPatchInput`..
+oneOf with type: "custom_variable": The `custom_variable` variant of `PaymentLinkLineItemPatchInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`variant_ids`); present(`default_variant_id`); present(`bundle_id`))).
 - Required: `allow_unit_price_adjustment`, `name`.

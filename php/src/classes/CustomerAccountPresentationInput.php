@@ -7,7 +7,7 @@ namespace Flint;
 final class CustomerAccountPresentationInput extends Model {
     /** @param array{'account_name'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountPresentationInput')); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Name shown at the top of the Flint-hosted customer account, up to 100 characters. Without one, the account shows your business name. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When account_name is omitted; use hasAccountName() or valueOrDefault().
      */

@@ -20,85 +20,85 @@ namespace Flint;
 final class TipInput extends Model {
     /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'effective_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations': list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'value_settlement_allocations': list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
+    /** description
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When effective_amount_money is omitted; use hasEffectiveAmountMoney() or valueOrDefault().
      */
     public function getEffectiveAmountMoney(): mixed { return $this->get('effective_amount_money'); }
     public function hasEffectiveAmountMoney(): bool { return $this->has('effective_amount_money'); }
-    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string.
+    /** name
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string.
+    /** order_tip_id
      * @return string
      * @throws SdkError When order_tip_id is omitted; use hasOrderTipId() or valueOrDefault().
      */
     public function getOrderTipId(): string { return $this->get('order_tip_id'); }
     public function hasOrderTipId(): bool { return $this->has('order_tip_id'); }
-    /** Shape $ (Value): Array of {@see TipPaymentIntentAllocationInput}. Shape $[] (Value): {@see TipPaymentIntentAllocationInput}. The part of a tip paid through one payment intent.
+    /**  [] (Value): {@see TipPaymentIntentAllocationInput}. The part of a tip paid through one payment intent.
      * @return list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When payment_intent_allocations is omitted; use hasPaymentIntentAllocations() or valueOrDefault().
      */
     public function getPaymentIntentAllocations(): array { return $this->get('payment_intent_allocations'); }
     public function hasPaymentIntentAllocations(): bool { return $this->has('payment_intent_allocations'); }
-    /** Shape $ (Value): number. multipleOf: 0.0001.
+    /** multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */
     public function getPercent(): int|float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */
     public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When settled_amount_money is omitted; use hasSettledAmountMoney() or valueOrDefault().
      */
     public function getSettledAmountMoney(): mixed { return $this->get('settled_amount_money'); }
     public function hasSettledAmountMoney(): bool { return $this->has('settled_amount_money'); }
-    /** Shape $ (Value): string.  Value enum: "requested", "settled", "partially_refunded", "refunded", "canceled".
+    /** Value enum: "requested", "settled", "partially_refunded", "refunded", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): Array of {@see TipValueSettlementAllocationInput}. Shape $[] (Value): {@see TipValueSettlementAllocationInput}. The part of a tip paid through one value settlement.
+    /**  [] (Value): {@see TipValueSettlementAllocationInput}. The part of a tip paid through one value settlement.
      * @return list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When value_settlement_allocations is omitted; use hasValueSettlementAllocations() or valueOrDefault().
      */

@@ -24,7 +24,7 @@ A credential used to authenticate API requests.
 | `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [96 declared values](#apikey-scopes--values). |
 | `status` | Required | string | Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
 
 #### APIKey scopes [] values
 
@@ -132,7 +132,7 @@ The API key or user that created this key. An API key creator can belong to anot
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](#apikeycreated_by-resource_type-values). |
 
 #### APIKey.created_by resource_type values
 
@@ -271,6 +271,7 @@ The API key or user that created this key. An API key creator can belong to anot
 - `"subscription_plan_line_item"`
 - `"tax_connection"`
 - `"tax_registration"`
+- `"test_clock"`
 - `"user"`
 - `"webhook_delivery"`
 - `"webhook_endpoint"`

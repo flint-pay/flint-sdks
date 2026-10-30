@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryFixedPricingStrategyInput extends Model {
     /** @param array{'currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryFixedPricingStrategyInput')); }
-    /** Shape $ (Value): Map of {@see MoneyValueInput}. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /**  * (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When currency_options is omitted; use hasCurrencyOptions() or valueOrDefault().
      */

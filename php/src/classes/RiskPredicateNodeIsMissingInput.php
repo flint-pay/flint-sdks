@@ -8,13 +8,13 @@ namespace Flint;
 final class RiskPredicateNodeIsMissingInput extends Model {
     /** @param array{'attribute': string, 'operator': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskPredicateNodeIsMissingInput')); }
-    /** Shape $ (Value): string. minLength: 1. maxLength: 280.
+    /** minLength: 1. maxLength: 280.
      * @return string
      * @throws SdkError When attribute is omitted; use hasAttribute() or valueOrDefault().
      */
     public function getAttribute(): string { return $this->get('attribute'); }
     public function hasAttribute(): bool { return $this->has('attribute'); }
-    /** Shape $ (Value): string.  Value enum: "is_missing".
+    /** Value enum: "is_missing".
      * @return string
      * @throws SdkError When operator is omitted; use hasOperator() or valueOrDefault().
      */

@@ -30,7 +30,7 @@ anyOf variant 2: Declared schema TaxJurisdiction. A taxing jurisdiction with its
 
 ### TaxJurisdiction variant 3
 
-anyOf variant 3: Declared schema TaxJurisdictionRequestRequest. A taxing jurisdiction with its level, such as state or city, name, state, and country..
+anyOf variant 3: Declared schema TaxJurisdictionRequest. A taxing jurisdiction with its level, such as state or city, name, state, and country..
 
 - Constraints for `code`: Stable opaque Flint jurisdiction key used for equality and report grouping.
 - Constraints for `country`: Example: `"US"`.

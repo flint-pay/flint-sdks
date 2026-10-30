@@ -10,22 +10,22 @@ namespace Flint;
 final class GiftCardNotificationDeliveryEvent extends Model {
     /** @param array{'delivery_attempt_id': string, 'occurred_at': string, 'received_at': string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationDeliveryEvent')); }
-    /** Shape $ (Value): string.
+    /** delivery_attempt_id
      * @return string
      */
     public function getDeliveryAttemptId(): string { return $this->get('delivery_attempt_id'); }
     public function hasDeliveryAttemptId(): bool { return $this->has('delivery_attempt_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getOccurredAt(): string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getReceivedAt(): string { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
-    /** Shape $ (Value): string. accepted means Flint's email service accepted the message for delivery; delivered means it reached the recipient's mail server; bounced means delivery failed; dropped means the message was not sent. Value enum: "accepted", "delivered", "bounced", "dropped".
+    /** accepted means Flint's email service accepted the message for delivery; delivered means it reached the recipient's mail server; bounced means delivery failed; dropped means the message was not sent. Value enum: "accepted", "delivered", "bounced", "dropped".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

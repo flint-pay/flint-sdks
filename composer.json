@@ -8,6 +8,10 @@
       "/.generated",
       "/.gitignore",
       "/.gitattributes",
+      "/AGENTS.md",
+      "/CLAUDE.md",
+      "/claude",
+      "/CONTRIBUTING.md",
       "/node",
       "/node_modules",
       "/vendor",
@@ -24,7 +28,10 @@
       "/package.json",
       "/package-lock.json",
       "/RELEASING.md",
-      "/MIGRATION.md"
+      "**/vendor",
+      "**/vendor/**",
+      "**/node_modules",
+      "**/node_modules/**"
     ]
   },
   "autoload": {

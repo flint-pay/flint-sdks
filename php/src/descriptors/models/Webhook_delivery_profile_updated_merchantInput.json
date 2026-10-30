@@ -1,1 +1,0 @@
-{"shared":"Webhook_delivery_profile_updated_merchant","dependencies":["DeliveryProfile","DeliveryProfileConfiguration","DeliveryProfileDiagnostics","DeliveryProfileOriginPolicy","MerchantWebhookEnvelope","MetadataMap","SharedCodec413","SharedCodec414","SharedCodec479","Webhook_delivery_profile_updated_merchant"]}

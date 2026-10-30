@@ -1,14 +1,13 @@
-import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-4.js';
-import type { MerchantBillingEntriesListInput, MerchantBillingEntry, MerchantBillingEntryListResponse } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-46.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+import type { WithResponseInfo } from '../runtime.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { MerchantBillingEntriesListParams, MerchantBillingEntry, MerchantBillingEntryListResponse } from '../declarations/types-34.js';
+import type { RequestOptions } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
-    Metadata,
-    ErrorKind,
+    ResponseInfo,
+    WithResponseInfo,
     DiagnosticEvent,
     InputValue,
     CredentialProvider,
@@ -18,16 +17,16 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
-export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
-export type { MerchantBillingEntryListResponse, MerchantBillingEntry, MerchantBillingEntriesListInput } from '../declarations/types-32.js';
-export type { SdkResponse } from '../declarations/types-46.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+export type { MerchantBillingEntriesListParams, MerchantBillingEntryListResponse, MerchantBillingEntry } from '../declarations/types-34.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-11.js';
-export type { ResponseWarning } from '../declarations/types-43.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
-export { makeMoneyValue } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-12.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export { makeMoneyValue } from '../declarations/types-69.js';
 export interface MerchantBillingEntriesResource {
     /**
  * Returns immutable merchant billing entries for the authenticated merchant environment, newest
@@ -43,143 +42,22 @@ export interface MerchantBillingEntriesResource {
  * missing, or an entry is invalid. This list does not run the report interval preflights. Default
  * order: occurred_at descending, then the entry type's rank (descending), then
  * merchant_billing_entry_id descending.
- * @see reference/merchantBillingEntries.md#merchantbillingentrieslist
- * GET /v1/merchant-billing-entries
+ *
+ * `GET /v1/merchant-billing-entries`
+ * @see https://developers.withflintpay.com/docs/api/merchant-billing#listMerchantBillingEntries
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.merchantBillingEntries.list()
  */
-    list(params?: {
-        "type"?: InputValue<Array<"event_fee"
-            | "invoice"
-            | "custom_domain"
-            | "custom_domain_collection"
-            | "correction"
-            | "credit_issued"
-            | "credit_applied"
-            | "credit_refunded"
-            | "collection"
-            | "collection_reversal"
-            | "write_off">>;
-        "currency"?: InputValue<string>;
-        "occurred_after"?: InputValue<string | globalThis.Date>;
-        "occurred_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "dispute_id"?: InputValue<string>;
-        "merchant_billing_invoice_id"?: InputValue<string>;
-        "balance_transaction_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<MerchantBillingEntryListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/merchantBillingEntries.md#merchantbillingentrieslist
-     */
-    listWithResponse(params?: {
-        "type"?: InputValue<Array<"event_fee"
-            | "invoice"
-            | "custom_domain"
-            | "custom_domain_collection"
-            | "correction"
-            | "credit_issued"
-            | "credit_applied"
-            | "credit_refunded"
-            | "collection"
-            | "collection_reversal"
-            | "write_off">>;
-        "currency"?: InputValue<string>;
-        "occurred_after"?: InputValue<string | globalThis.Date>;
-        "occurred_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "dispute_id"?: InputValue<string>;
-        "merchant_billing_invoice_id"?: InputValue<string>;
-        "balance_transaction_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<MerchantBillingEntryListResponse>>;
+    list(params?: MerchantBillingEntriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<MerchantBillingEntryListResponse, MerchantBillingEntryListResponse>>;
     /** Iterate pages lazily.
-     * @see reference/merchantBillingEntries.md#merchantbillingentrieslist
+     * @see https://developers.withflintpay.com/docs/api/merchant-billing#listMerchantBillingEntries
      */
-    listPages(params?: {
-        "type"?: InputValue<Array<"event_fee"
-            | "invoice"
-            | "custom_domain"
-            | "custom_domain_collection"
-            | "correction"
-            | "credit_issued"
-            | "credit_applied"
-            | "credit_refunded"
-            | "collection"
-            | "collection_reversal"
-            | "write_off">>;
-        "currency"?: InputValue<string>;
-        "occurred_after"?: InputValue<string | globalThis.Date>;
-        "occurred_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "dispute_id"?: InputValue<string>;
-        "merchant_billing_invoice_id"?: InputValue<string>;
-        "balance_transaction_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<MerchantBillingEntryListResponse>;
-    /** Iterate complete page bodies with HTTP metadata.
-     * @see reference/merchantBillingEntries.md#merchantbillingentrieslist
-     */
-    listPagesWithResponse(params?: {
-        "type"?: InputValue<Array<"event_fee"
-            | "invoice"
-            | "custom_domain"
-            | "custom_domain_collection"
-            | "correction"
-            | "credit_issued"
-            | "credit_applied"
-            | "credit_refunded"
-            | "collection"
-            | "collection_reversal"
-            | "write_off">>;
-        "currency"?: InputValue<string>;
-        "occurred_after"?: InputValue<string | globalThis.Date>;
-        "occurred_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "dispute_id"?: InputValue<string>;
-        "merchant_billing_invoice_id"?: InputValue<string>;
-        "balance_transaction_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<MerchantBillingEntryListResponse>>;
+    listPages(params?: MerchantBillingEntriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<MerchantBillingEntryListResponse, MerchantBillingEntryListResponse>>;
     /** Iterate items lazily.
-     * @see reference/merchantBillingEntries.md#merchantbillingentrieslist
+     * @see https://developers.withflintpay.com/docs/api/merchant-billing#listMerchantBillingEntries
      */
-    listItems(params?: {
-        "type"?: InputValue<Array<"event_fee"
-            | "invoice"
-            | "custom_domain"
-            | "custom_domain_collection"
-            | "correction"
-            | "credit_issued"
-            | "credit_applied"
-            | "credit_refunded"
-            | "collection"
-            | "collection_reversal"
-            | "write_off">>;
-        "currency"?: InputValue<string>;
-        "occurred_after"?: InputValue<string | globalThis.Date>;
-        "occurred_before"?: InputValue<string | globalThis.Date>;
-        "created_after"?: InputValue<string | globalThis.Date>;
-        "created_before"?: InputValue<string | globalThis.Date>;
-        "payment_intent_id"?: InputValue<string>;
-        "dispute_id"?: InputValue<string>;
-        "merchant_billing_invoice_id"?: InputValue<string>;
-        "balance_transaction_id"?: InputValue<string>;
-        "page_size"?: InputValue<number>;
-        "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<MerchantBillingEntry>;
+    listItems(params?: MerchantBillingEntriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<MerchantBillingEntry>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

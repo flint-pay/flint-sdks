@@ -45,7 +45,7 @@ A payment as the buyer sees it. Omits the store's fees, net, risk assessment, an
 | `tip_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `tip_money`: [declared alternatives](../models/BuyerPaymentIntent.md#buyerpaymentintenttip_money). |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 
 #### BuyerPaymentIntent cancellation_reason values
 
@@ -102,7 +102,7 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### BuyerPaymentIntent.tip_money variant 1
 
-anyOf variant 1: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 

@@ -22,7 +22,7 @@ No additional constraints.
 
 ### GiftCardProductConfiguration variant 2
 
-anyOf variant 2: Declared schema GiftCardProductConfigurationRequestRequest. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts..
+anyOf variant 2: Declared schema GiftCardProductConfigurationRequest. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts..
 
 No additional constraints.
 

@@ -2,9 +2,9 @@
 
 ## CustomerAccountPresentationInput
 
-How a customer account is presented: its account name and custom domain. Send null to clear a value.
+How the Flint-hosted customer account is presented. The account's hostname is a custom domain; manage it with /v1/custom-domains. Send null to clear a value.
 
 Request input.
 
-Fields, types, descriptions and enum values: [CustomerAccountPresentationRequestRequestInput](../models/CustomerAccountPresentationRequestRequestInput.md#customeraccountpresentationrequestrequestinput).
+Fields, types, descriptions and enum values: [CustomerAccountPresentationRequestInput](../models/CustomerAccountPresentationRequestInput.md#customeraccountpresentationrequestinput).
 

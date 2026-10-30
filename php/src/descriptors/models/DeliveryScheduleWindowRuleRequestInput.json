@@ -1,1 +1,1 @@
-{"shared":"DeliveryScheduleWindowRuleRequest","dependencies":["DeliveryAvailabilityRequestRequest","DeliveryBlackoutIntervalRequestRequest","DeliveryScheduleWindowRuleRequest","DeliveryWeeklyIntervalRequestRequest"]}
+{"shared":"DeliveryScheduleWindowRuleRequest","dependencies":["DeliveryAvailabilityRequest","DeliveryBlackoutIntervalRequest","DeliveryScheduleWindowRuleRequest","DeliveryWeeklyIntervalRequest"]}

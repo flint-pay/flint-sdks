@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderDraftLineItemTaxCalculationRequestInput extends Model {
     /** @param array{'components': list<OrderDraftTaxComponentRequestInput|array<array-key, mixed>|\stdClass>, 'price_mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDraftLineItemTaxCalculationRequestInput')); }
-    /** Shape $ (Value): Array of {@see OrderDraftTaxComponentRequestInput}. minItems: 1. Shape $[] (Value): {@see OrderDraftTaxComponentRequestInput}. One tax component of a draft line item calculation, with its jurisdiction, tax type, and percentage or flat amount.
+    /** minItems: 1. [] (Value): {@see OrderDraftTaxComponentRequestInput}. One tax component of a draft line item calculation, with its jurisdiction, tax type, and percentage or flat amount.
      * @return list<OrderDraftTaxComponentRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When components is omitted; use hasComponents() or valueOrDefault().
      */
     public function getComponents(): array { return $this->get('components'); }
     public function hasComponents(): bool { return $this->has('components'); }
-    /** Shape $ (Value): string.  Value enum: "additive", "inclusive".
+    /** Value enum: "additive", "inclusive".
      * @return string
      * @throws SdkError When price_mode is omitted; use hasPriceMode() or valueOrDefault().
      */

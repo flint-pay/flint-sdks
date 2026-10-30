@@ -7,7 +7,7 @@ namespace Flint;
 final class PaymentClientActionInput extends Model {
     /** @param array{'stripe': StripePaymentClientActionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentClientActionInput')); }
-    /** Shape $ (Value): {@see StripePaymentClientActionInput}. Stripe.js initialization context plus one flow-specific authority object. Exactly one of payment_intent or setup_intent is present.
+    /** Stripe.js initialization context plus one flow-specific authority object. Exactly one of payment_intent or setup_intent is present.
      * @return StripePaymentClientActionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When stripe is omitted; use hasStripe() or valueOrDefault().
      */

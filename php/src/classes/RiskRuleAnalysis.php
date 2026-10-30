@@ -10,22 +10,22 @@ namespace Flint;
 final class RiskRuleAnalysis extends Model {
     /** @param array{'applicability': string, 'attributes_used': list<string>, 'list_aliases_used': list<string>, 'stage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRuleAnalysis')); }
-    /** Shape $ (Value): string.  Value enum: "all_payments", "on_session_only".
+    /** Value enum: "all_payments", "on_session_only".
      * @return string
      */
     public function getApplicability(): string { return $this->get('applicability'); }
     public function hasApplicability(): bool { return $this->has('applicability'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return list<string>
      */
     public function getAttributesUsed(): array { return $this->get('attributes_used'); }
     public function hasAttributesUsed(): bool { return $this->has('attributes_used'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /**  [] (Value): string.
      * @return list<string>
      */
     public function getListAliasesUsed(): array { return $this->get('list_aliases_used'); }
     public function hasListAliasesUsed(): bool { return $this->has('list_aliases_used'); }
-    /** Shape $ (Value): string.  Value enum: "pre_authorization", "post_authorization".
+    /** Value enum: "pre_authorization", "post_authorization".
      * @return string
      */
     public function getStage(): string { return $this->get('stage'); }

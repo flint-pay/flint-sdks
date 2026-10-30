@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $promotion_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsGetInput extends Model {
     /** @param array{'promotion_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionsGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint promotion ID. Example: "promo_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */

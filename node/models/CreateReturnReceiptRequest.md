@@ -18,6 +18,6 @@ The request body for: Create return receipt.
 | `received_at` | Required | string | When the event occurred, at most 5 minutes in the future. Format: `date-time`. minLength: `1`. |
 | `receiving_location_id` | Required | string | minLength: `1`. |
 | `shipment_id` | Optional | string | minLength: `1`. |
-| `source_system` | Optional | [ReturnSourceSystem](../models/ReturnSourceSystem.md#returnsourcesystem) | The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
+| `source_system` | Optional | [ReturnSourceSystemRequest](../models/ReturnSourceSystemRequest.md#returnsourcesystemrequest) | The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
 | `supersedes_return_receipt_id` | Optional | string | minLength: `1`. |
 

@@ -12,37 +12,37 @@ namespace Flint;
 final class BrandingSettingsInput extends Model {
     /** @param array{'accent_color'?: string, 'background_color'?: string, 'corner_radius'?: int, 'font_family'?: string, 'primary_color'?: string, 'text_color'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BrandingSettingsInput')); }
-    /** Shape $ (Value): string.
+    /** A hex color in the form #RRGGBB, such as #1A73E8.
      * @return string
      * @throws SdkError When accent_color is omitted; use hasAccentColor() or valueOrDefault().
      */
     public function getAccentColor(): string { return $this->get('accent_color'); }
     public function hasAccentColor(): bool { return $this->has('accent_color'); }
-    /** Shape $ (Value): string.
+    /** A hex color in the form #RRGGBB, such as #1A73E8.
      * @return string
      * @throws SdkError When background_color is omitted; use hasBackgroundColor() or valueOrDefault().
      */
     public function getBackgroundColor(): string { return $this->get('background_color'); }
     public function hasBackgroundColor(): bool { return $this->has('background_color'); }
-    /** Shape $ (Value): integer. Format: int32.
+    /** Corner radius in pixels, from 0 to 32. 0 is a square corner. Format: int32.
      * @return int
      * @throws SdkError When corner_radius is omitted; use hasCornerRadius() or valueOrDefault().
      */
     public function getCornerRadius(): int { return $this->get('corner_radius'); }
     public function hasCornerRadius(): bool { return $this->has('corner_radius'); }
-    /** Shape $ (Value): string.  Value enum: "instrument_sans", "system_sans", "system_serif", "monospace".
+    /** Value enum: "instrument_sans", "system_sans", "system_serif", "monospace".
      * @return string
      * @throws SdkError When font_family is omitted; use hasFontFamily() or valueOrDefault().
      */
     public function getFontFamily(): string { return $this->get('font_family'); }
     public function hasFontFamily(): bool { return $this->has('font_family'); }
-    /** Shape $ (Value): string.
+    /** A hex color in the form #RRGGBB, such as #1A73E8.
      * @return string
      * @throws SdkError When primary_color is omitted; use hasPrimaryColor() or valueOrDefault().
      */
     public function getPrimaryColor(): string { return $this->get('primary_color'); }
     public function hasPrimaryColor(): bool { return $this->has('primary_color'); }
-    /** Shape $ (Value): string.
+    /** A hex color in the form #RRGGBB, such as #1A73E8.
      * @return string
      * @throws SdkError When text_color is omitted; use hasTextColor() or valueOrDefault().
      */

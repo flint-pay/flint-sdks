@@ -9,6 +9,6 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `currency_options` | Required | Map of ([DeliveryMethodConfigurationPricingFixedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue](../models/DeliveryMethodConfigurationPricingFixedTieredChoiceGroupFulfillmentQuantityBandsItemCurrencyOptionsValue.md#deliverymethodconfigurationpricingfixedtieredchoicegroupfulfillmentquantitybandsitemcurrencyoptionsvalue) and [MoneyValue](../models/MoneyValue.md#moneyvalue)) |  |
-| `from` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `to` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `from` | Required | integer | Format: `int64`. |
+| `to` | Optional | integer | Format: `int64`. |
 

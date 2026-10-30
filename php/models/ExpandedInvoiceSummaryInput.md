@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `collection_block_status` | Optional | string | Whether collection is blocked. While it is inventory_blocked, collection attempts return INVOICE_COLLECTION_BLOCKED. Values: `"none"`, `"inventory_blocked"`, `"resolved"`. |
+| `collection_block_status` | Optional | string | Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Values: `"none"`, `"inventory_blocked"`, `"resolved"`. |
 | `created_at` | Optional | string | When the invoice was created. Format: `date-time`. |
 | `customer_id` | Optional | string | Customer billed by the invoice. Absent when the invoice has no customer. |
 | `due_at` | Optional | string | When payment is due. With payment terms, issue sets it from issued_at and the terms, counted in the invoice's timezone. Absent when the invoice has no due date. Format: `date-time`. |

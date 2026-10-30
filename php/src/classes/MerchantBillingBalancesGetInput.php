@@ -2,12 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @internal
+ *
  * @property-read string $merchant_billing_balance_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantBillingBalancesGetInput extends Model {
     /** @param array{'merchant_billing_balance_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalancesGetInput')); }
-    /** Shape $ (Value): string.
+    /** Flint merchant billing balance ID. Example: "mbbal_01ARZ3NDEKTSV4RRFFQ69G5FAV".
      * @return string
      * @throws SdkError When merchant_billing_balance_id is omitted; use hasMerchantBillingBalanceId() or valueOrDefault().
      */

@@ -12,11 +12,11 @@ Declared schema DeliveryPricingTierBandRequest: One band of a tiered pricing str
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | `currency_options{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `from` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `to` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `from` | Required | integer | Format: `int64`. |
+| `to` | Optional | integer | Format: `int64`. |
 
 ### DeliveryPricingTierBand.currency_options{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

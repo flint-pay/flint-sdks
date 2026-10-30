@@ -1,13 +1,13 @@
-import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
+import { responsePayload as _sdkPayload, payloadPages as _sdkPayloadPages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { configuredDefaultCredentials, configuredWorkloadIdentityCredentials } from '../runtime.js';
 export function defaultCredentials() { return configuredDefaultCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, "https://api.withflintpay.com" ?? undefined); }
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPreviews.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import r0 from '../descriptors/resources/subscriptionPreviews.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import settings from '../descriptors/settings.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPreview"]:r0});
 export class Client {
@@ -15,8 +15,10 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.subscriptionPreviews = Object.freeze({
-      create: (input = {}, options) => this.#runtime.request("createSubscriptionPreview", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionPreview", result, path))),
-      createWithResponse: (input = {}, options) => this.#runtime.request("createSubscriptionPreview", input, options).then(_sdkResponse),
+      create: async (params, options) => this.#runtime.request("createSubscriptionPreview", _sdkRequestInput([], [], [], true, true, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionPreview", result, path))),
     });
 }
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
@@ -32,9 +34,9 @@ export { makeCreateSubscriptionPreviewRequestDeliveryOptions } from '../models/C
 export { makeCreateSubscriptionPreviewRequestNextRenewal } from '../models/CreateSubscriptionPreviewRequestNextRenewal.js';
 export { makeCreateSubscriptionPreviewRequestPlanChange } from '../models/CreateSubscriptionPreviewRequestPlanChange.js';
 export { makeCreateSubscriptionRequest } from '../models/CreateSubscriptionRequest.js';
-export { makeDeliveryAvailabilityRequestRequest } from '../models/DeliveryAvailabilityRequestRequest.js';
-export { makeDeliveryBlackoutIntervalRequestRequest } from '../models/DeliveryBlackoutIntervalRequestRequest.js';
-export { makeDeliveryBusinessDayRangeRequestRequest } from '../models/DeliveryBusinessDayRangeRequestRequest.js';
+export { makeDeliveryAvailabilityRequest } from '../models/DeliveryAvailabilityRequest.js';
+export { makeDeliveryBlackoutIntervalRequest } from '../models/DeliveryBlackoutIntervalRequest.js';
+export { makeDeliveryBusinessDayRangeRequest } from '../models/DeliveryBusinessDayRangeRequest.js';
 export { makeDeliveryCalculatedPricingStrategyRequest } from '../models/DeliveryCalculatedPricingStrategyRequest.js';
 export { makeDeliveryCallbackPricingStrategyRequest } from '../models/DeliveryCallbackPricingStrategyRequest.js';
 export { makeDeliveryCallerSuppliedPricingStrategyRequest } from '../models/DeliveryCallerSuppliedPricingStrategyRequest.js';
@@ -75,8 +77,8 @@ export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js'
 export { makeDeliveryTieredPricingStrategyInputQuantityOrMoney } from '../models/DeliveryTieredPricingStrategyInputQuantityOrMoney.js';
 export { makeDeliveryTieredPricingStrategyInputWeight } from '../models/DeliveryTieredPricingStrategyInputWeight.js';
 export { makeDeliveryTieredPricingStrategyRequest } from '../models/DeliveryTieredPricingStrategyRequest.js';
-export { makeDeliveryTransitTimeRuleRequestRequest } from '../models/DeliveryTransitTimeRuleRequestRequest.js';
-export { makeDeliveryWeeklyIntervalRequestRequest } from '../models/DeliveryWeeklyIntervalRequestRequest.js';
+export { makeDeliveryTransitTimeRuleRequest } from '../models/DeliveryTransitTimeRuleRequest.js';
+export { makeDeliveryWeeklyIntervalRequest } from '../models/DeliveryWeeklyIntervalRequest.js';
 export { makeDeliveryWeightUnitPriceRequest } from '../models/DeliveryWeightUnitPriceRequest.js';
 export { makeDeliveryWindowTimeCondition } from '../models/DeliveryWindowTimeCondition.js';
 export { makeDeliveryZoneCondition } from '../models/DeliveryZoneCondition.js';
@@ -98,6 +100,7 @@ export { makeSubscriptionDeliveryDestinationRequest } from '../models/Subscripti
 export { makeSubscriptionDeliveryRequest } from '../models/SubscriptionDeliveryRequest.js';
 export { makeSubscriptionOfferLineItemRequest } from '../models/SubscriptionOfferLineItemRequest.js';
 export { makeSubscriptionOfferTermsRequest } from '../models/SubscriptionOfferTermsRequest.js';
+export { makeSubscriptionPlanChangeLineItemRequest } from '../models/SubscriptionPlanChangeLineItemRequest.js';
 export { makeSubscriptionPlanTermsRequest } from '../models/SubscriptionPlanTermsRequest.js';
 export { makeSubscriptionServiceLocationInputAddress } from '../models/SubscriptionServiceLocationInputAddress.js';
 export { makeSubscriptionServiceLocationInputCustomerAddress } from '../models/SubscriptionServiceLocationInputCustomerAddress.js';

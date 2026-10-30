@@ -11,31 +11,31 @@ namespace Flint;
 final class LegalSettingsRequestInput extends Model {
     /** @param array{'contract_url'?: string|null, 'refund_policy_url'?: string|null, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string|null, 'terms_of_service_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LegalSettingsRequestInput')); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When contract_url is omitted; use hasContractUrl() or valueOrDefault().
      */
     public function getContractUrl(): string|null { return $this->get('contract_url'); }
     public function hasContractUrl(): bool { return $this->has('contract_url'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When refund_policy_url is omitted; use hasRefundPolicyUrl() or valueOrDefault().
      */
     public function getRefundPolicyUrl(): string|null { return $this->get('refund_policy_url'); }
     public function hasRefundPolicyUrl(): bool { return $this->has('refund_policy_url'); }
-    /** Shape $ (Value): boolean.
+    /** require_terms_of_service
      * @return bool
      * @throws SdkError When require_terms_of_service is omitted; use hasRequireTermsOfService() or valueOrDefault().
      */
     public function getRequireTermsOfService(): bool { return $this->get('require_terms_of_service'); }
     public function hasRequireTermsOfService(): bool { return $this->has('require_terms_of_service'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When shipping_policy_url is omitted; use hasShippingPolicyUrl() or valueOrDefault().
      */
     public function getShippingPolicyUrl(): string|null { return $this->get('shipping_policy_url'); }
     public function hasShippingPolicyUrl(): bool { return $this->has('shipping_policy_url'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When terms_of_service_url is omitted; use hasTermsOfServiceUrl() or valueOrDefault().
      */

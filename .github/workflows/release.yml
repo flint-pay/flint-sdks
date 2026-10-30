@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 40
     environment: npm
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -29,11 +29,13 @@ jobs:
         with:
           node-version: "24"
           registry-url: https://registry.npmjs.org
-      - name: Verify npm supports trusted publishing
+      - name: Install npm with trusted publishing and dist-tag OIDC support
+        run: npm install --global npm@11.21.0 --ignore-scripts
+      - name: Verify npm supports trusted publishing and dist-tags
         run: |
           node --version
           npm --version
-          node --input-type=module -e 'import { execFileSync } from "node:child_process"; const [major, minor, patch] = execFileSync("npm", ["--version"], { encoding: "utf8" }).trim().split(".").map(Number); if (!(major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1))))) throw new Error("Trusted publishing requires npm >=11.5.1");'
+          node --input-type=module -e 'import { execFileSync } from "node:child_process"; const [major, minor] = execFileSync("npm", ["--version"], { encoding: "utf8" }).trim().split(".").map(Number); if (!(major > 12 || (major === 12 && minor >= 2) || (major === 11 && minor >= 21))) throw new Error("This workflow requires npm 11.21.0+ or 12.2.0+");'
       - uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
         with:
           php-version: "8.2"
@@ -54,11 +56,36 @@ jobs:
           path: releases/
           if-no-files-found: error
           retention-days: 90
+      - name: Extract the reviewed changelog entry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: node scripts/release-notes.mjs "${RELEASE_TAG#v}" > "$RUNNER_TEMP/release-notes.md"
       - name: Publish npm archive
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           VERSION="${RELEASE_TAG#v}"
           npm run release:publish -- "releases/$VERSION" --confirm-version "$VERSION"
+      - name: Move next to the stable release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          if [[ "$VERSION" != *-* ]]; then
+            if ! npm dist-tag add "@flintpay/node@$VERSION" next; then
+              echo "::warning::npm publication succeeded, but next was not updated. Enable Allow npm dist-tag for this trusted publisher or run: npm dist-tag add @flintpay/node@$VERSION next"
+            fi
+          fi
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          FLAGS=(--latest)
+          if [[ "$VERSION" == *-* ]]; then
+            FLAGS=(--prerelease --latest=false)
+          fi
+          gh release create "$RELEASE_TAG" --verify-tag --title "Flint SDKs $VERSION" --notes-file "$RUNNER_TEMP/release-notes.md" "${FLAGS[@]}"
       # Packagist indexes this same repository's root composer.json and Git tag.
       # Enable the Packagist GitHub integration once; no separate PHP repo is used.

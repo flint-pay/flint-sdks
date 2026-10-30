@@ -1,1 +1,1 @@
-{"shared":"CustomerAddressResponse","dependencies":["Address","CustomerAddress","CustomerAddressResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}
+{"shared":"CustomerAddressResponse","dependencies":["Address","CustomerAddress","CustomerAddressResponse","MoneyValue","NextAction","ReadinessMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec2","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876"]}

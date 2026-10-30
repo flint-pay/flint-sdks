@@ -1,1 +1,0 @@
-{"shared":"Webhook_gift_card_notification_updated_merchant","dependencies":["GiftCardNotification","GiftCardNotificationDelivery","GiftCardNotificationDeliveryAttempt","GiftCardNotificationDeliveryEvent","GiftCardNotificationRecipient","MerchantWebhookEnvelope","SharedCodec413","SharedCodec414","SharedCodec535","Webhook_gift_card_notification_updated_merchant"]}

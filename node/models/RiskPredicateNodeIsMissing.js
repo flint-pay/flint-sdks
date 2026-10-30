@@ -1,7 +1,7 @@
-import { d5332 as c0 } from '../descriptors/data/251.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
-import { d5332 as d5332 } from '../descriptors/data/251.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d6768 as c0 } from '../descriptors/data/321.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import { d6768 as d6768 } from '../descriptors/data/321.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5332;
+const read = d6768;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["RiskPredicateNodeIsMissing"]:c0()}); }
 export { codec as _validate };

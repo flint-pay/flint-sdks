@@ -10,7 +10,7 @@ A discount you apply by hand to an order, with a name, an amount, and the order,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fixed discount to apply to the order. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/ManualDiscountRequest.md#manualdiscountrequestamount_money). |
 | `discount_class` | Optional | string | Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `name` | Required | string | minLength: `1`. |
 | `order_charge_ids` | Optional | Array of string | Items: minLength: `1`. |
@@ -19,5 +19,7 @@ A discount you apply by hand to an order, with a name, an amount, and the order,
 
 ### ManualDiscountRequest.amount_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Fixed discount to apply to the order. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

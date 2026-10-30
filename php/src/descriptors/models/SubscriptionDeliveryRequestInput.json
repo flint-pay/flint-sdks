@@ -1,1 +1,1 @@
-{"shared":"SubscriptionDeliveryRequest","dependencies":["AddressRequest","DeliverySelectionRecipientRequest","SharedCodec0","SharedCodec1","SharedCodec1217","SharedCodec1218","SubscriptionDeliveryDestinationRequest","SubscriptionDeliveryRequest"]}
+{"shared":"SubscriptionDeliveryRequest","dependencies":["AddressRequest","DeliverySelectionRecipientRequest","SharedCodec0","SharedCodec1","SharedCodec1271","SharedCodec1272","SubscriptionDeliveryDestinationRequest","SubscriptionDeliveryRequest"]}

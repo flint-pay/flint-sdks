@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryLocationSetConfiguration extends Model {
     /** @param array{'location_ids': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetConfiguration')); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1.
      * @return list<string>
      */
     public function getLocationIds(): array { return $this->get('location_ids'); }

@@ -8,20 +8,12 @@ Records the seller's attestation and creates or completes the tax account from v
 
 `POST /v1/tax-connection/connect`
 
-Signature:
-
-```typescript
-connect(params: (InputValue<ConnectTaxConnectionRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `connect(params: TaxConnectionConnectParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [ConnectTaxConnectionRequestInput](../models/ConnectTaxConnectionRequest.md#connecttaxconnectionrequest) | The request body for: Connect automatic tax. |
 
 Body model: [ConnectTaxConnectionRequestInput](../models/ConnectTaxConnectionRequest.md#connecttaxconnectionrequest).
@@ -30,7 +22,7 @@ Body model: [ConnectTaxConnectionRequestInput](../models/ConnectTaxConnectionReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Omit to apply the change to the current resource. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
 | `seller_attestation` | Required | [SellerTaxAttestationRequestInput](../models/SellerTaxAttestationRequest.md#sellertaxattestationrequest) | Presence records the seller's agreement to the named disclosure version. The seller's agreement to the current automatic sales tax disclosure, recorded when connect succeeds. |
 
 #### Response
@@ -39,20 +31,20 @@ Returned payload: [TaxConnection](../models/TaxConnection.md#taxconnection).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -60,9 +52,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `connectWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -72,7 +64,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.taxConnection.connect({seller_attestation: {disclosure_version: "example"}}, { idempotencyKey: idempotencyKey });
+const result = await client.taxConnection.connect({expected_version: 1793016000, seller_attestation: {disclosure_version: "2026-11-01.5f3a9c1e"}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/taxConnection-connect.mjs)
@@ -83,20 +75,12 @@ Saves one US state registration for a non-overlapping, inclusive date window. St
 
 `POST /v1/tax-connection/registrations`
 
-Signature:
-
-```typescript
-createRegistration(params: (InputValue<CreateTaxRegistrationRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `createRegistration(params: TaxConnectionCreateRegistrationParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationRequestInput.md#createtaxregistrationrequestinput) | Register a US state where the seller collects tax. |
 
 Body model: [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationRequestInput.md#createtaxregistrationrequestinput).
@@ -117,20 +101,20 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -138,9 +122,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `createRegistrationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -165,10 +149,7 @@ Signature:
 
 ```typescript
 deleteRegistration(tax_registration_id: InputValue<string>,
- params?: {
-  "expected_version"?: InputValue<`${bigint}` | bigint>;
-  "Idempotency-Key"?: InputValue<string>
-},
+ params?: TaxConnectionDeleteRegistrationParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -176,9 +157,8 @@ deleteRegistration(tax_registration_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_registration_id` | Required | string |  |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `tax_registration_id` | Required | string | Flint tax registration ID. |
+| `expected_version` | Optional | integer | Registration version last read by the caller. Omit to delete the current registration. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -186,19 +166,19 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 502 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -206,9 +186,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `deleteRegistrationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -218,7 +198,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.taxConnection.deleteRegistration("example", {}, { idempotencyKey: idempotencyKey });
+const result = await client.taxConnection.deleteRegistration("trg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/taxConnection-deleteRegistration.mjs)
@@ -229,20 +209,12 @@ Turns automatic tax off while retaining the tax account and registrations for re
 
 `POST /v1/tax-connection/disconnect`
 
-Signature:
-
-```typescript
-disconnect(params: (InputValue<DisconnectTaxConnectionRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
+Signature: `disconnect(params: TaxConnectionDisconnectParams, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [DisconnectTaxConnectionRequestInput](../models/DisconnectTaxConnectionRequest.md#disconnecttaxconnectionrequest) | The request body for: Disconnect automatic tax. |
 
 Body model: [DisconnectTaxConnectionRequestInput](../models/DisconnectTaxConnectionRequest.md#disconnecttaxconnectionrequest).
@@ -257,18 +229,18 @@ Returned payload: [DisconnectTaxConnectionResult](../models/DisconnectTaxConnect
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -276,9 +248,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `disconnectWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -288,7 +260,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.taxConnection.disconnect({tax_default_behavior: "turn_off"}, { idempotencyKey: idempotencyKey });
+const result = await client.taxConnection.disconnect({expected_version: 1793016000, tax_default_behavior: "turn_off"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/taxConnection-disconnect.mjs)
@@ -299,7 +271,7 @@ Returns the environment's automatic sales tax connection, including before a rec
 
 `GET /v1/tax-connection`
 
-Signature: `get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `get(params?: TaxConnectionGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -311,16 +283,16 @@ Returned payload: [TaxConnection](../models/TaxConnection.md#taxconnection).
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -328,7 +300,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -346,13 +318,19 @@ Returns one saved tax registration. Removed registrations return RESOURCE_NOT_FO
 
 `GET /v1/tax-connection/registrations/{tax_registration_id}`
 
-Signature: `getRegistration(tax_registration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature:
+
+```typescript
+getRegistration(tax_registration_id: InputValue<string>,
+ params?: TaxConnectionGetRegistrationParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_registration_id` | Required | string |  |
+| `tax_registration_id` | Required | string | Flint tax registration ID. |
 
 #### Response
 
@@ -360,17 +338,17 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -378,14 +356,14 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getRegistrationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
 ```typescript
-const result = await client.taxConnection.getRegistration("example", {}, {  });
+const result = await client.taxConnection.getRegistration("trg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/taxConnection-getRegistration.mjs)
@@ -396,72 +374,16 @@ Returns independent tax registrations ordered by state ascending, then tax_regis
 
 `GET /v1/tax-connection/registrations`
 
-Signature:
-
-```typescript
-listRegistrations(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "status"?: InputValue<Array<"pending" | "scheduled" | "active" | "ended" | "rejected" | "removed">>;
-  "state"?: InputValue<Array<"AL" |
-    "AK" |
-    "AZ" |
-    "AR" |
-    "CA" |
-    "CO" |
-    "CT" |
-    "DC" |
-    "FL" |
-    "GA" |
-    "HI" |
-    "ID" |
-    "IL" |
-    "IN" |
-    "IA" |
-    "KS" |
-    "KY" |
-    "LA" |
-    "ME" |
-    "MD" |
-    "MA" |
-    "MI" |
-    "MN" |
-    "MS" |
-    "MO" |
-    "NE" |
-    "NV" |
-    "NJ" |
-    "NM" |
-    "NY" |
-    "NC" |
-    "ND" |
-    "OH" |
-    "OK" |
-    "PA" |
-    "RI" |
-    "SC" |
-    "SD" |
-    "TN" |
-    "TX" |
-    "UT" |
-    "VT" |
-    "VA" |
-    "WA" |
-    "WV" |
-    "WI" |
-    "WY">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `listRegistrations(params?: TaxConnectionListRegistrationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. |
-| `state` | Optional | Array of string | minItems: `1`. Items values: [47 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Return registrations with these statuses. Removed registrations never list. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. Values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. |
+| `state` | Optional | Array of string or string | Return registrations in these exact US postal states. Values match case-sensitively and intersect the status filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [47 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). Values: [47 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). |
 
 #### Response
 
@@ -469,16 +391,16 @@ Returned payload: [TaxRegistrationListResponse](../models/TaxRegistrationListRes
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -486,11 +408,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listRegistrationsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listRegistrationsItems`, `listRegistrationsPages`, `listRegistrationsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listRegistrationsItems`, `listRegistrationsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
 #### Example
 
@@ -510,9 +432,7 @@ Signature:
 
 ```typescript
 updateRegistration(tax_registration_id: InputValue<string>,
- params: (InputValue<UpdateTaxRegistrationRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
+ params: TaxConnectionUpdateRegistrationParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -520,8 +440,7 @@ updateRegistration(tax_registration_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `tax_registration_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `tax_registration_id` | Required | string | Flint tax registration ID. |
 | `body` | Required | [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationRequestInput.md#updatetaxregistrationrequestinput) | Update at least one of registration_number, start_date or end_date. Pending and rejected registrations allow all three fields; registration_number and start_date require a connection that is not active. Scheduled and active registrations allow only end_date. A pending or rejected registration whose tax-account copy exists or may have been created cannot change start_date; delete it and create it again. Ended registrations cannot be changed. A version fence by itself is not a change. |
 
 Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationRequestInput.md#updatetaxregistrationrequestinput).
@@ -531,46 +450,40 @@ Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationR
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Omit to apply the change to the current resource. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
 | `registration_number` | Optional | string | Seller's tax registration number. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Optional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
-#### taxConnection.updateRegistration body anyOf variant 1
+#### taxConnection.updateRegistration: variant 1
 
 
-
-#### taxConnection.updateRegistration body anyOf variant 1 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Omit to apply the change to the current resource. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
 | `registration_number` | Required | string | Seller's tax registration number. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Optional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
-#### taxConnection.updateRegistration body anyOf variant 2
+#### taxConnection.updateRegistration: variant 2
 
 
-
-#### taxConnection.updateRegistration body anyOf variant 2 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Omit to apply the change to the current resource. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
 | `registration_number` | Optional | string | Seller's tax registration number. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Required | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
-#### taxConnection.updateRegistration body anyOf variant 3
+#### taxConnection.updateRegistration: variant 3
 
 
-
-#### taxConnection.updateRegistration body anyOf variant 3 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `end_date` | Required | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Omit to apply the change to the current resource. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
 | `registration_number` | Optional | string | Seller's tax registration number. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Optional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
@@ -580,19 +493,19 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -600,9 +513,9 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `updateRegistrationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -612,7 +525,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.taxConnection.updateRegistration("example", {registration_number: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.taxConnection.updateRegistration("trg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {end_date: "2026-12-31"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/taxConnection-updateRegistration.mjs)

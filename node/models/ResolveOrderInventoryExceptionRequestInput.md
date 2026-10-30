@@ -12,5 +12,5 @@ The request body for: Resolve order inventory exception.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason_message` | Optional | string | Your note explaining this action. minLength: `1`. |
+| `reason_message` | Optional | string | Your note explaining this action. Leading and trailing whitespace is removed; the remaining note can contain at most 500 characters. minLength: `1`. |
 

@@ -18,62 +18,62 @@ namespace Flint;
 final class GiftCardFundingDisposition extends Model {
     /** @param array{'created_at': string, 'disposition': string, 'dispute_amount_money': mixed, 'dispute_id': string, 'gift_card_funding_disposition_id': string, 'gift_card_ids': list<string>, 'honored_value_money': mixed, 'idempotency_key': string, 'original_gift_card_consideration_money': mixed, 'payment_intent_id': string, 'preserved_reserved_value_money': mixed, 'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDisposition')); }
-    /** Shape $ (Value): string. When the disposition was created. Format: date-time.
+    /** When the disposition was created. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string. How Flint handles the lost funding. honor_value keeps the affected cards' unspent value spendable and removes the freeze this dispute placed on them. Value enum: "honor_value".
+    /** How Flint handles the lost funding. honor_value keeps the affected cards' unspent value spendable and removes the freeze this dispute placed on them. Value enum: "honor_value".
      * @return string
      */
     public function getDisposition(): string { return $this->get('disposition'); }
     public function hasDisposition(): bool { return $this->has('disposition'); }
-    /** Shape $ (Value): {@see MoneyValue}. The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDisputeAmountMoney(): MoneyValue { return $this->get('dispute_amount_money'); }
     public function hasDisputeAmountMoney(): bool { return $this->has('dispute_amount_money'); }
-    /** Shape $ (Value): string. The lost dispute this disposition resolves.
+    /** The lost dispute this disposition resolves.
      * @return string
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Shape $ (Value): string. Stable identifier of the disposition.
+    /** Stable identifier of the disposition.
      * @return string
      */
     public function getGiftCardFundingDispositionId(): string { return $this->get('gift_card_funding_disposition_id'); }
     public function hasGiftCardFundingDispositionId(): bool { return $this->has('gift_card_funding_disposition_id'); }
-    /** Shape $ (Value): Array of string. Gift cards whose value this disposition honors, including replacement cards that received value from the disputed funding. Shape $[] (Value): string.
+    /** Gift cards whose value this disposition honors, including replacement cards that received value from the disputed funding. [] (Value): string.
      * @return list<string>
      */
     public function getGiftCardIds(): array { return $this->get('gift_card_ids'); }
     public function hasGiftCardIds(): bool { return $this->has('gift_card_ids'); }
-    /** Shape $ (Value): {@see MoneyValue}. Unspent value that stays spendable under this disposition, summed across the affected cards, including replacement cards that received value from the disputed funding. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Unspent value that stays spendable under this disposition, summed across the affected cards, including replacement cards that received value from the disputed funding. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getHonoredValueMoney(): MoneyValue { return $this->get('honored_value_money'); }
     public function hasHonoredValueMoney(): bool { return $this->has('honored_value_money'); }
-    /** Shape $ (Value): string. The Idempotency-Key sent with the request that created this disposition.
+    /** The Idempotency-Key sent with the request that created this disposition.
      * @return string
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Shape $ (Value): {@see MoneyValue}. What the buyer paid for the gift card value the disputed payment funded, summed across its funding loads. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What the buyer paid for the gift card value the disputed payment funded, summed across its funding loads. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOriginalGiftCardConsiderationMoney(): MoneyValue { return $this->get('original_gift_card_consideration_money'); }
     public function hasOriginalGiftCardConsiderationMoney(): bool { return $this->has('original_gift_card_consideration_money'); }
-    /** Shape $ (Value): string. The disputed payment that funded the gift card value.
+    /** The disputed payment that funded the gift card value.
      * @return string
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Shape $ (Value): {@see MoneyValue}. Part of honored_value_money that pending redemptions held when the disposition was created. It stays reserved for them. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Part of honored_value_money that pending redemptions held when the disposition was created. It stays reserved for them. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getPreservedReservedValueMoney(): MoneyValue { return $this->get('preserved_reserved_value_money'); }
     public function hasPreservedReservedValueMoney(): bool { return $this->has('preserved_reserved_value_money'); }
-    /** Shape $ (Value): string. Your reason for honoring the value, from the create request.
+    /** Your reason for honoring the value, from the create request.
      * @return string
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }

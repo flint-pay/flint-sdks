@@ -1,0 +1,1 @@
+{"shared":"InvoiceDeliveryAttemptSentMerchantEvent","dependencies":["InvoiceDeliveryAttempt","InvoiceDeliveryAttemptSentMerchantEvent","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec732","SharedCodec733","SharedCodec737"]}

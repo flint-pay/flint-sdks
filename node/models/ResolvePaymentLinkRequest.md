@@ -14,10 +14,10 @@ The request body for: Resolve payment link.
 | `modifiers` | Optional | Map of [ResolvePaymentLinkLineItemModifiers](../models/ResolvePaymentLinkLineItemModifiers.md#resolvepaymentlinklineitemmodifiers) | Modifier choices keyed by line item key, for catalog items. |
 | `quantity_overrides` | Optional | Map of integer | Quantities keyed by line item key (line_items[].key), each within that item's min_quantity and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are not supported. Map values: Whole-number quantity value; fractional quantities are not supported. Format: `int32`. |
 | `resolution_context` | Required | string | minLength: `1`. |
-| `unit_price_overrides` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. `unit_price_overrides{}`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
+| `unit_price_overrides` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. `unit_price_overrides{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `variant_selections` | Optional | Map of string | Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each selection must be offered by that line and priced in its current currency. Omit a key to use default_variant_id; a line without a default requires a selection. Null is not accepted. Map values: minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ResolvePaymentLinkRequest.unit_price_overrides{}
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
 

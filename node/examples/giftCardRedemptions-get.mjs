@@ -1,12 +1,11 @@
 import { Client } from "@flintpay/node";
-const baseUrl = process.env.API_BASE_URL;
-if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
 const client = new Client({
   baseUrl,
-  allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.giftCardRedemptions.get(
-  "example"
+  "gcr_01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
 console.log(result.gift_card_id);
 console.log(result.gift_card_redemption_id);

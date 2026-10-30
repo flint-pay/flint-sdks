@@ -10,22 +10,22 @@ namespace Flint;
 final class BuyerInvoiceCheckoutSessionResult extends Model {
     /** @param array{'checkout_auth_token': string, 'checkout_session': mixed, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerInvoiceCheckoutSessionResult')); }
-    /** Shape $ (Value): string.
+    /** checkout_auth_token
      * @return string
      */
     public function getCheckoutAuthToken(): string { return $this->get('checkout_auth_token'); }
     public function hasCheckoutAuthToken(): bool { return $this->has('checkout_auth_token'); }
-    /** Shape $ (Value): {@see BuyerCheckoutSession}. A session in which a buyer completes an order's payment.
+    /** A session in which a buyer completes an order's payment.
      * @return BuyerCheckoutSession
      */
     public function getCheckoutSession(): BuyerCheckoutSession { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** Shape $ (Value): {@see BuyerInvoice}. A bill issued to a customer.
+    /** A bill issued to a customer.
      * @return BuyerInvoice
      */
     public function getInvoice(): BuyerInvoice { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Shape $ (Value): {@see InvoicePaymentAttempt}. An attempt to collect payment for an invoice.
+    /** An attempt to collect payment for an invoice.
      * @return ?InvoicePaymentAttempt
      */
     public function getInvoicePaymentAttempt(): ?InvoicePaymentAttempt { return $this->get('invoice_payment_attempt'); }

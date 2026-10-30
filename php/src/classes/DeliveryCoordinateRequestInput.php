@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryCoordinateRequestInput extends Model {
     /** @param array{'latitude': int|float, 'longitude': int|float}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCoordinateRequestInput')); }
-    /** Shape $ (Value): number. minimum: -90. maximum: 90.
+    /** minimum: -90. maximum: 90.
      * @return int|float
      * @throws SdkError When latitude is omitted; use hasLatitude() or valueOrDefault().
      */
     public function getLatitude(): int|float { return $this->get('latitude'); }
     public function hasLatitude(): bool { return $this->has('latitude'); }
-    /** Shape $ (Value): number. minimum: -180. maximum: 180.
+    /** minimum: -180. maximum: 180.
      * @return int|float
      * @throws SdkError When longitude is omitted; use hasLongitude() or valueOrDefault().
      */

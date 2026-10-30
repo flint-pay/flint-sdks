@@ -12,32 +12,32 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingFixedCalculated extends Model {
     /** @param array{'base_fee_currency_options'?: \stdClass, 'distance'?: mixed, 'maximum_fee_currency_options'?: \stdClass, 'minimum_fee_currency_options'?: \stdClass, 'per_item_handling_fee_currency_options'?: \stdClass, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingFixedCalculated')); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingFixedCalculatedBaseFeeCurrencyOptionsValue} and {@see MoneyValue}). Base delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedBaseFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Base delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedBaseFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingFixedCalculatedBaseFeeCurrencyOptionsValue>
      */
     public function getBaseFeeCurrencyOptions(): ?array { return $this->get('base_fee_currency_options'); }
     public function hasBaseFeeCurrencyOptions(): bool { return $this->has('base_fee_currency_options'); }
-    /** Shape $ (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedDistance}. A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
+    /** A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
      * @return ?DeliveryMethodConfigurationPricingFixedCalculatedDistance
      */
     public function getDistance(): ?DeliveryMethodConfigurationPricingFixedCalculatedDistance { return $this->get('distance'); }
     public function hasDistance(): bool { return $this->has('distance'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingFixedCalculatedMaximumFeeCurrencyOptionsValue} and {@see MoneyValue}). Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedMaximumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedMaximumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingFixedCalculatedMaximumFeeCurrencyOptionsValue>
      */
     public function getMaximumFeeCurrencyOptions(): ?array { return $this->get('maximum_fee_currency_options'); }
     public function hasMaximumFeeCurrencyOptions(): bool { return $this->has('maximum_fee_currency_options'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingFixedCalculatedMinimumFeeCurrencyOptionsValue} and {@see MoneyValue}). Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedMinimumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedMinimumFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingFixedCalculatedMinimumFeeCurrencyOptionsValue>
      */
     public function getMinimumFeeCurrencyOptions(): ?array { return $this->get('minimum_fee_currency_options'); }
     public function hasMinimumFeeCurrencyOptions(): bool { return $this->has('minimum_fee_currency_options'); }
-    /** Shape $ (Value): Map of ({@see DeliveryMethodConfigurationPricingFixedCalculatedPerItemHandlingFeeCurrencyOptionsValue} and {@see MoneyValue}). Handling fee per item by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedPerItemHandlingFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Handling fee per item by ISO currency code. Each key must equal the Money object's currency. * (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedPerItemHandlingFeeCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?array<array-key, DeliveryMethodConfigurationPricingFixedCalculatedPerItemHandlingFeeCurrencyOptionsValue>
      */
     public function getPerItemHandlingFeeCurrencyOptions(): ?array { return $this->get('per_item_handling_fee_currency_options'); }
     public function hasPerItemHandlingFeeCurrencyOptions(): bool { return $this->has('per_item_handling_fee_currency_options'); }
-    /** Shape $ (Value): {@see DeliveryMethodConfigurationPricingFixedCalculatedWeight}. Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
+    /** Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
      * @return ?DeliveryMethodConfigurationPricingFixedCalculatedWeight
      */
     public function getWeight(): ?DeliveryMethodConfigurationPricingFixedCalculatedWeight { return $this->get('weight'); }

@@ -1,0 +1,44 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read array{'amount': string, 'currency': string}|object|null $consideration_money
+ * @property-read int $expected_version
+ * @property-read array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id': string}|object|array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id': string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id': string, 'payment_intent_id': string}|object $source
+ * @property-read string|\DateTimeInterface $source_created_at
+ * @property-read array{'amount': string, 'currency': string}|object $value_money
+ * Presence-aware input; omitted fields throw when accessed. */
+final class GiftCardsCreateLoadParams extends Model {
+    /** @param array{'consideration_money'?: array{'amount': string, 'currency': string}|object|null, 'expected_version'?: int, 'source': array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id': string}|object|array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id': string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id': string, 'payment_intent_id': string}|object, 'source_created_at'?: string|\DateTimeInterface, 'value_money': array{'amount': string, 'currency': string}|object}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardsCreateLoadParams')); }
+    /**  anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * @return array{'amount': string, 'currency': string}|object|null
+     * @throws SdkError When consideration_money is omitted; use hasConsiderationMoney() or valueOrDefault().
+     */
+    public function getConsiderationMoney(): mixed { return $this->get('consideration_money'); }
+    public function hasConsiderationMoney(): bool { return $this->has('consideration_money'); }
+    /** The gift card version last read. The command changes this card only when its current version matches. Format: int64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it. funding_source_type (Required): string.  Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string. minLength: 1. maxLength: 255. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV". external_reference_id (Required): string. Your reference for the payment or import record that funded this value, such as a POS sale ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. order_id (Optional): string. minLength: 1. maxLength: 255. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". payment_intent_id (Optional): string. The original payment for flint_payment or store_credit value. For standalone paid funding, use a captured payment intent without an order_id. Order-linked payments fund purchased cards or store credit through their order. minLength: 1. maxLength: 255. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". oneOf[1] (Value): {@see GiftCardFundingSourceExternalPaymentInput}. The `external_payment` variant of `GiftCardFundingSource`. oneOf[2] (Value): {@see GiftCardFundingSourceFlintPaymentInput}. The `flint_payment` variant of `GiftCardFundingSource`. oneOf[3] (Value): {@see GiftCardFundingSourceFlintManualPaymentInput}. The `flint_manual_payment` variant of `GiftCardFundingSource`. oneOf[4] (Value): {@see GiftCardFundingSourceImportInput}. The `import` variant of `GiftCardFundingSource`. oneOf[5] (Value): {@see GiftCardFundingSourceAdjustmentInput}. The `adjustment` variant of `GiftCardFundingSource`. oneOf[6] (Value): {@see GiftCardFundingSourceGiftCardRefundInput}. The `gift_card_refund` variant of `GiftCardFundingSource`. oneOf[7] (Value): {@see GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput}. The `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value): {@see GiftCardFundingSourceStoreCreditInput}. The `store_credit` variant of `GiftCardFundingSource`.
+     * @return array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id': string}|object|array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id': string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'payment_intent_id'?: string}|object|array{'customer_id'?: string, 'external_reference_id': string, 'funding_source_type': string, 'order_id': string, 'payment_intent_id': string}|object
+     * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
+     */
+    public function getSource(): mixed { return $this->get('source'); }
+    public function hasSource(): bool { return $this->has('source'); }
+    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+     * @return string|\DateTimeInterface
+     * @throws SdkError When source_created_at is omitted; use hasSourceCreatedAt() or valueOrDefault().
+     */
+    public function getSourceCreatedAt(): string|\DateTimeInterface { return $this->get('source_created_at'); }
+    public function hasSourceCreatedAt(): bool { return $this->has('source_created_at'); }
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * @return array{'amount': string, 'currency': string}|object
+     * @throws SdkError When value_money is omitted; use hasValueMoney() or valueOrDefault().
+     */
+    public function getValueMoney(): array|object { return $this->get('value_money'); }
+    public function hasValueMoney(): bool { return $this->has('value_money'); }
+}

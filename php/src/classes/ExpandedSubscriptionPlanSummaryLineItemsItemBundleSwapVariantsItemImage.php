@@ -10,22 +10,22 @@ namespace Flint;
 final class ExpandedSubscriptionPlanSummaryLineItemsItemBundleSwapVariantsItemImage extends Model {
     /** @param array{'alt'?: string, 'height': int, 'url': string, 'width': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummaryLineItemsItemBundleSwapVariantsItemImage')); }
-    /** Shape $ (Value): string. Alternative text describing the image for accessibility.
+    /** Alternative text describing the image for accessibility.
      * @return ?string
      */
     public function getAlt(): ?string { return $this->get('alt'); }
     public function hasAlt(): bool { return $this->has('alt'); }
-    /** Shape $ (Value): integer. Image height in pixels, when known. Format: int32.
+    /** Image height in pixels, when known. Format: int32.
      * @return int
      */
     public function getHeight(): int { return $this->get('height'); }
     public function hasHeight(): bool { return $this->has('height'); }
-    /** Shape $ (Value): string. URL of the image.
+    /** URL of the image.
      * @return string
      */
     public function getUrl(): string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
-    /** Shape $ (Value): integer. Image width in pixels, when known. Format: int32.
+    /** Image width in pixels, when known. Format: int32.
      * @return int
      */
     public function getWidth(): int { return $this->get('width'); }

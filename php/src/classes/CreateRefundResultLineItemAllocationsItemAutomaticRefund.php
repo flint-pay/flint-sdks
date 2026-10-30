@@ -10,22 +10,22 @@ namespace Flint;
 final class CreateRefundResultLineItemAllocationsItemAutomaticRefund extends Model {
     /** @param array{'discount_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRefundResultLineItemAllocationsItemAutomaticRefund')); }
-    /** Shape $ (Value): {@see CreateRefundResultLineItemAllocationsItemAutomaticRefundDiscountMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return CreateRefundResultLineItemAllocationsItemAutomaticRefundDiscountMoney
      */
     public function getDiscountMoney(): CreateRefundResultLineItemAllocationsItemAutomaticRefundDiscountMoney { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Shape $ (Value): {@see CreateRefundResultLineItemAllocationsItemAutomaticRefundSubtotalMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return CreateRefundResultLineItemAllocationsItemAutomaticRefundSubtotalMoney
      */
     public function getSubtotalMoney(): CreateRefundResultLineItemAllocationsItemAutomaticRefundSubtotalMoney { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Shape $ (Value): {@see CreateRefundResultLineItemAllocationsItemAutomaticRefundTaxMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return CreateRefundResultLineItemAllocationsItemAutomaticRefundTaxMoney
      */
     public function getTaxMoney(): CreateRefundResultLineItemAllocationsItemAutomaticRefundTaxMoney { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Shape $ (Value): {@see CreateRefundResultLineItemAllocationsItemAutomaticRefundTotalMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return CreateRefundResultLineItemAllocationsItemAutomaticRefundTotalMoney
      */
     public function getTotalMoney(): CreateRefundResultLineItemAllocationsItemAutomaticRefundTotalMoney { return $this->get('total_money'); }

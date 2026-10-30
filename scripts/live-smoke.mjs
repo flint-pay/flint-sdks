@@ -79,7 +79,7 @@ async function scenario(name, run) {
     results.push({
       name,
       status: "FAIL",
-      kind: error instanceof SdkError ? error.kind : error.name,
+      errorName: error.name,
       httpStatus: error instanceof SdkError ? error.status : undefined,
       code: error instanceof SdkError ? error.code : undefined,
     });
@@ -88,7 +88,7 @@ async function scenario(name, run) {
 }
 try {
   await scenario("sandbox authentication and identity", async () => {
-    const auth = await client.developer.getAuthContext();
+    const auth = await client.authContext.get();
     assert.equal(auth.environment, "sandbox");
     assert.ok(auth.merchant_id && auth.sandbox_id);
     if (expected) {
@@ -110,10 +110,8 @@ try {
         page.next_page_token === undefined ||
           typeof page.next_page_token === "string",
       );
-      const full = await client[resource].listWithResponse({ page_size: 1 });
-      assert.ok(Array.isArray(full.body.data));
-      assert.equal(full.meta.status, 200);
-      assert.equal(typeof full.raw, "string");
+      assert.ok(Array.isArray(page.lastResponse.body.data));
+      assert.equal(page.lastResponse.status, 200);
       let cursorFollowed = false;
       if (page.next_page_token) {
         const next = await client[resource].list({
@@ -135,8 +133,7 @@ try {
         const entity = await client[resource].get(page.data[0][idField]);
         assert.equal(entity[idField], page.data[0][idField]);
         assert.equal(entity.data, undefined);
-        const fullEntity = await client[resource].getWithResponse(page.data[0][idField]);
-        assert.equal(fullEntity.body.data[idField], entity[idField]);
+        assert.equal(entity.lastResponse.body.data[idField], entity[idField]);
         getChecked = true;
       }
       return { itemsOnFirstPage: page.data.length, cursorFollowed, getChecked };

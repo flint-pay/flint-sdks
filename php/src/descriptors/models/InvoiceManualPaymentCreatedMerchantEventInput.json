@@ -1,0 +1,1 @@
+{"shared":"InvoiceManualPaymentCreatedMerchantEvent","dependencies":["InvoiceManualPayment","InvoiceManualPaymentCreatedMerchantEvent","MoneyValue","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec751"]}

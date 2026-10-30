@@ -6,5 +6,5 @@ Makes an order line a subscription purchase, with the subscription offer and bil
 
 Request input.
 
-Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantSubscription](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantSubscription.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantsubscription).
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantSubscription](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantSubscription.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantsubscription).
 

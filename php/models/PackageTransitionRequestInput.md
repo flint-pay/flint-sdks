@@ -10,7 +10,7 @@ Request input.
 | --- | --- | --- | --- |
 | `action` | Required | string |  |
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
-| `expected_version` | Optional | integer string | Resource version the caller last read. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version the caller last read. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `reason_message` | Optional | string | Your note explaining this transition. minLength: `1`. maxLength: `500`. |
 | `expected_delivery_at` | Conditional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. |
@@ -21,28 +21,28 @@ Request input.
 
 ### PackageTransitionRequestInput variant 1: `action` = `"mark_delivered"`
 
-oneOf variant 1: The `mark_delivered` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_delivered": The `mark_delivered` variant of `PackageTransitionRequest`..
 
 - Undeclared: `expected_delivery_at`, `carrier`, `service_code`, `tracking_number`, `tracking_url`.
 - Constraints for `action`: Values: `"mark_delivered"`.
 
 ### PackageTransitionRequestInput variant 2: `action` = `"mark_delivery_attempted"`
 
-oneOf variant 2: The `mark_delivery_attempted` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_delivery_attempted": The `mark_delivery_attempted` variant of `PackageTransitionRequest`..
 
 - Undeclared: `expected_delivery_at`, `carrier`, `service_code`, `tracking_number`, `tracking_url`.
 - Constraints for `action`: Values: `"mark_delivery_attempted"`.
 
 ### PackageTransitionRequestInput variant 3: `action` = `"mark_exception"`
 
-oneOf variant 3: The `mark_exception` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_exception": The `mark_exception` variant of `PackageTransitionRequest`..
 
 - Undeclared: `expected_delivery_at`, `carrier`, `service_code`, `tracking_number`, `tracking_url`.
 - Constraints for `action`: Values: `"mark_exception"`.
 
 ### PackageTransitionRequestInput variant 4: `action` = `"mark_in_transit"`
 
-oneOf variant 4: The `mark_in_transit` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_in_transit": The `mark_in_transit` variant of `PackageTransitionRequest`..
 
 - Optional: `expected_delivery_at`.
 - Undeclared: `carrier`, `service_code`, `tracking_number`, `tracking_url`.
@@ -50,7 +50,7 @@ oneOf variant 4: The `mark_in_transit` variant of `PackageTransitionRequest`..
 
 ### PackageTransitionRequestInput variant 5: `action` = `"mark_out_for_delivery"`
 
-oneOf variant 5: The `mark_out_for_delivery` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_out_for_delivery": The `mark_out_for_delivery` variant of `PackageTransitionRequest`..
 
 - Optional: `expected_delivery_at`.
 - Undeclared: `carrier`, `service_code`, `tracking_number`, `tracking_url`.
@@ -58,21 +58,21 @@ oneOf variant 5: The `mark_out_for_delivery` variant of `PackageTransitionReques
 
 ### PackageTransitionRequestInput variant 6: `action` = `"mark_packed"`
 
-oneOf variant 6: The `mark_packed` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_packed": The `mark_packed` variant of `PackageTransitionRequest`..
 
 - Undeclared: `expected_delivery_at`, `carrier`, `service_code`, `tracking_number`, `tracking_url`.
 - Constraints for `action`: Values: `"mark_packed"`.
 
 ### PackageTransitionRequestInput variant 7: `action` = `"mark_returned"`
 
-oneOf variant 7: The `mark_returned` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_returned": The `mark_returned` variant of `PackageTransitionRequest`..
 
 - Undeclared: `expected_delivery_at`, `carrier`, `service_code`, `tracking_number`, `tracking_url`.
 - Constraints for `action`: Values: `"mark_returned"`.
 
 ### PackageTransitionRequestInput variant 8: `action` = `"mark_shipped"`
 
-oneOf variant 8: The `mark_shipped` variant of `PackageTransitionRequest`..
+oneOf with action: "mark_shipped": The `mark_shipped` variant of `PackageTransitionRequest`..
 
 - Optional: `carrier`, `expected_delivery_at`, `service_code`, `tracking_number`, `tracking_url`.
 - Constraints for `action`: Values: `"mark_shipped"`.

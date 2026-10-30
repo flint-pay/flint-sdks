@@ -1,1 +1,1 @@
-{"shared":"UpdateInventoryItemRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","UpdateInventoryItemRequest"]}
+{"shared":"UpdateInventoryItemRequest","dependencies":["SharedCodec1350","SharedCodec1353","UpdateInventoryItemRequest"]}

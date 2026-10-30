@@ -15,13 +15,13 @@ A customer's recurring purchase.
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing_interval units between charges. Changes with billing_interval. Format: `int32`. |
 | `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | maxItems: `12`. uniqueItems: `true`. |
-| `billing_schedule_owner` | Required | string | Who supplies billing dates: flint advances the schedule after each paid renewal; external uses dates you supply. Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Values: `"flint"`, `"external"`. |
+| `billing_schedule_owner` | Required | string | Who supplies billing dates: flint advances the schedule after each paid renewal; external uses dates the merchant supplies. Read-only for buyers. Values: `"flint"`, `"external"`. |
 | `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment, update_delivery, skip, update_billing_interval, update_quantity, swap_items, then renew, under the store's buyer policy. The available cancel and pause actions carry the choices they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all twelve every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. |
 | `cancel_at_period_end` | Required | boolean | True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false. |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `cancellation_details` | Optional | [BuyerSubscriptionCancellationDetails](../models/BuyerSubscriptionCancellationDetails.md#buyersubscriptioncancellationdetails) | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and payment-related cancellations. The cancellation request behind a scheduled or completed cancellation. |
 | `cancellation_reason` | Optional | string | Why the subscription is canceled or scheduled to cancel. Uses cancellation_details.requested_by when recorded, payment_failed for a canceled subscription without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Values: `"buyer"`, `"merchant"`, `"payment_failed"`, `"other"`. |
-| `completed_cycles` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `completed_cycles` | Required | integer | Format: `uint64`. minimum: `0`. |
 | `contract_end_at` | Optional | string | When the recorded contract term ends. Does not move when the subscription pauses or changes plan. Flint does not stop the buyer from canceling earlier. Format: `date-time`. |
 | `contract_start_at` | Optional | string | When the recorded contract term started. Does not move when the subscription pauses or changes plan. Format: `date-time`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -59,7 +59,7 @@ A customer's recurring purchase.
 | `trial_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `upcoming_delivery_hold` | Optional | [SubscriptionUpcomingDeliveryHold](../models/SubscriptionUpcomingDeliveryHold.md#subscriptionupcomingdeliveryhold) | Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an upcoming renewal that will hold the subscription's delivery, and who can fix it. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `version` | Required | integer | Format: `uint64`. minimum: `0`. |
 
 ### BuyerSubscription.early_termination_fee_money
 
@@ -73,30 +73,9 @@ Why the latest subscription renewal payment failed. Omits merchant remediation a
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [18 declared values](#buyersubscriptionlast_payment_error-code-values). |
+| `code` | Required | string | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [18 declared values](BuyerPaymentErrorSummary.md#buyerpaymenterrorsummary-code-values). |
 | `failed_at` | Required | string | Time the payment attempt concluded in failure. Format: `date-time`. |
-| `message` | Required | string | Flint-authored buyer-safe payment failure message. |
-
-#### BuyerSubscription.last_payment_error code values
-
-- `"card_declined"`
-- `"insufficient_funds"`
-- `"bank_account_closed"`
-- `"bank_account_not_found"`
-- `"bank_debit_not_authorized"`
-- `"bank_account_restricted"`
-- `"bank_debit_limit_exceeded"`
-- `"authentication_required"`
-- `"payment_blocked"`
-- `"expired_card"`
-- `"incorrect_cvc"`
-- `"processing_error"`
-- `"payment_method_unavailable"`
-- `"payment_method_declined"`
-- `"payment_not_completed"`
-- `"payment_action_expired"`
-- `"payment_method_temporarily_unavailable"`
-- `"payment_failed"`
+| `message` | Required | string | Flint-authored payment failure message written for the buyer. This is stable explanatory text, not raw provider copy. |
 
 ### BuyerSubscription.outstanding_money
 
@@ -112,7 +91,7 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### BuyerSubscription.recurring_subtotal_money variant 1
 
-anyOf variant 1: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
 
 - Required: `amount`, `currency`.
 

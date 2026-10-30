@@ -8,13 +8,13 @@ Authorizes the stable Flint download URL and redirects to a short-lived private 
 
 `GET /v1/report-downloads/{report_download_id}`
 
-Signature: `get(report_download_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `get(report_download_id: InputValue<string>, params?: ReportDownloadsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `report_download_id` | Required | string |  |
+| `report_download_id` | Required | string | Flint report download ID. |
 
 #### Response
 
@@ -22,16 +22,17 @@ Response body (inside Result.data): { location?: string }.
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -44,7 +45,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.reportDownloads.get("example", {}, {  });
+const result = await client.reportDownloads.get("rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
 ```
 
 [Complete runnable example](../examples/reportDownloads-get.mjs)

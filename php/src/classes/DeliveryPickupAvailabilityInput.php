@@ -12,37 +12,37 @@ namespace Flint;
 final class DeliveryPickupAvailabilityInput extends Model {
     /** @param array{'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'locations': list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
     public function getEvaluatedAt(): string|\DateTimeInterface { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded".
+    /** Value enum: "complete", "incomplete", "degraded".
      * @return string
      * @throws SdkError When evaluation_status is omitted; use hasEvaluationStatus() or valueOrDefault().
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /** Shape $ (Value): Array of {@see DeliveryInputRequirementInput}. Shape $[] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /**  [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When input_requirements is omitted; use hasInputRequirements() or valueOrDefault().
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /** Shape $ (Value): Array of {@see DeliveryPickupAvailabilityLocationResourceInput}. Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: 25. Shape $[] (Value): {@see DeliveryPickupAvailabilityLocationResourceInput}. One pickup location in a pickup locations preview, with its outcome, distance, compatible methods, and applicable quantities.
+    /** Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: 25. [] (Value): {@see DeliveryPickupAvailabilityLocationResourceInput}. One pickup location in a pickup locations preview, with its outcome, distance, compatible methods, and applicable quantities.
      * @return list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When locations is omitted; use hasLocations() or valueOrDefault().
      */
     public function getLocations(): array { return $this->get('locations'); }
     public function hasLocations(): bool { return $this->has('locations'); }
-    /** Shape $ (Value): Array of {@see DeliveryPickupAvailabilityDiagnosticInput}. Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Always present with an API key or dashboard credential as an array, including when empty. Shape $[] (Value): {@see DeliveryPickupAvailabilityDiagnosticInput}. A merchant-only diagnostic about a configured pickup location that was left out of the results or cannot supply the order.
+    /** Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Always present with an API key or dashboard credential as an array, including when empty. [] (Value): {@see DeliveryPickupAvailabilityDiagnosticInput}. A merchant-only diagnostic about a configured pickup location that was left out of the results or cannot supply the order.
      * @return list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When merchant_diagnostics is omitted; use hasMerchantDiagnostics() or valueOrDefault().
      */
     public function getMerchantDiagnostics(): array { return $this->get('merchant_diagnostics'); }
     public function hasMerchantDiagnostics(): bool { return $this->has('merchant_diagnostics'); }
-    /** Shape $ (Value): string. The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Value enum: "pickup_locations".
+    /** The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Value enum: "pickup_locations".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */

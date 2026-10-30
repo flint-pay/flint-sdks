@@ -12,7 +12,7 @@ A partner application's authorization to access an environment.
 | --- | --- | --- | --- |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `environment_grant_id` | Required | string |  |
-| `granted_permissions` | Required | Array of [PartnerAppPermissionManifestEntry](../models/PartnerAppPermissionManifestEntry.md#partnerapppermissionmanifestentry) | The app’s permissions this grant holds, from the app’s current manifest. Their permission IDs are the token scope. `granted_permissions[]`: [field definitions](../models/IncomingWebhook078273f39700Payload.md#incomingwebhook078273f39700payloaddataobjectgranted_permissions). |
+| `granted_permissions` | Required | Array of [PartnerAppPermissionManifestEntry](../models/PartnerAppPermissionManifestEntry.md#partnerapppermissionmanifestentry) | The app’s permissions this grant holds, from the app’s current manifest. Their permission IDs are the token scope. `granted_permissions[]`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdataobjectgranted_permissions). |
 | `granted_scopes` | Required | Array of string |  |
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -23,5 +23,5 @@ A partner application's authorization to access an environment.
 
 ### PartnerEnvironmentGrant.granted_permissions[]
 
-Field definitions: [IncomingWebhook078273f39700Payload.data.object.granted_permissions[]](../models/IncomingWebhook078273f39700Payload.md#incomingwebhook078273f39700payloaddataobjectgranted_permissions).
+Field definitions: [EnvironmentGrantCreatedEvent.data.object.granted_permissions[]](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdataobjectgranted_permissions).
 

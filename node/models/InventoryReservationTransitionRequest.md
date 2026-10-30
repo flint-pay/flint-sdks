@@ -11,13 +11,13 @@ The request body for: Transition inventory reservation.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string |  |
-| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional resource version the caller last read. Enforced when sent. Format: `uint64`. minimum: `1`. |
 | `lines` | Required | Varies by condition | minItems: `1`. maxItems: `100`. `lines[]`: [field definitions](../models/InventoryReservationTransitionRequest.md#inventoryreservationtransitionrequest-variant-1lines), [field definitions](../models/InventoryReservationTransitionRequest.md#inventoryreservationtransitionrequest-variant-2lines), [declared alternatives](../models/InventoryReservationTransitionRequest.md#inventoryreservationtransitionrequest-variant-3lines). |
 | `provenance` | Conditional | [InventoryProvenanceRequest](../models/InventoryProvenanceRequest.md#inventoryprovenancerequest) | When and where the physical handoff happened. When omitted, occurred_at is the command receipt time and source_system is null. Where and when an inventory event happened: the source system, external actor, and time. |
 
 ### InventoryReservationTransitionRequest variant 1: `action` = `"commit"`
 
-oneOf variant 1: The `commit` variant of `InventoryReservationTransitionRequest`..
+oneOf with action: "commit": The `commit` variant of `InventoryReservationTransitionRequest`..
 
 - Undeclared: `provenance`.
 - Constraints for `action`: Values: `"commit"`.
@@ -25,7 +25,7 @@ oneOf variant 1: The `commit` variant of `InventoryReservationTransitionRequest`
 
 ### InventoryReservationTransitionRequest variant 2: `action` = `"consume"`
 
-oneOf variant 2: The `consume` variant of `InventoryReservationTransitionRequest`..
+oneOf with action: "consume": The `consume` variant of `InventoryReservationTransitionRequest`..
 
 - Optional: `provenance`.
 - Constraints for `action`: Values: `"consume"`.
@@ -33,7 +33,7 @@ oneOf variant 2: The `consume` variant of `InventoryReservationTransitionRequest
 
 ### InventoryReservationTransitionRequest variant 3: `action` = `"release"`
 
-oneOf variant 3: The `release` variant of `InventoryReservationTransitionRequest`..
+oneOf with action: "release": The `release` variant of `InventoryReservationTransitionRequest`..
 
 - Undeclared: `provenance`.
 - Constraints for `action`: Values: `"release"`.
@@ -44,22 +44,22 @@ oneOf variant 3: The `release` variant of `InventoryReservationTransitionRequest
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_reservation_line_id` | Required | string | Line being transitioned. minLength: `1`. |
-| `target_committed_quantity` | Required | integer string | Cumulative whole-number quantity that should have reached this target. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `target_committed_quantity` | Required | integer | Cumulative whole-number quantity that should have reached this target. Format: `int64`. minimum: `0`. |
 
 ### InventoryReservationTransitionRequest variant 2.lines[]
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_reservation_line_id` | Required | string | Line being transitioned. minLength: `1`. |
-| `target_consumed_quantity` | Required | integer string | Cumulative whole-number quantity that should have reached this target. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `target_consumed_quantity` | Required | integer | Cumulative whole-number quantity that should have reached this target. Format: `int64`. minimum: `0`. |
 
 ### InventoryReservationTransitionRequest variant 3.lines[]
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_reservation_line_id` | Required | string | Line being transitioned. minLength: `1`. |
-| `target_released_from_committed_quantity` | Conditional | integer string | Cumulative whole-number quantity that should have reached this target. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
-| `target_released_from_held_quantity` | Conditional | integer string | Cumulative whole-number quantity that should have reached this target. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
+| `target_released_from_committed_quantity` | Conditional | integer | Cumulative whole-number quantity that should have reached this target. Format: `int64`. minimum: `0`. |
+| `target_released_from_held_quantity` | Conditional | integer | Cumulative whole-number quantity that should have reached this target. Format: `int64`. minimum: `0`. |
 
 ### InventoryReservationTransitionRequest variant 3.lines[] variant 1
 

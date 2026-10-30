@@ -8,21 +8,21 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `return` | Required | [ReturnResource](../models/ReturnResource.md#returnresource) | A request to send purchased items back. `return`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200data). |
+| `return` | Required | [ReturnResource](../models/ReturnResource.md#returnresource) | A request to send purchased items back. `return`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedata). |
 | `return_dispositions` | Required | Array of [ReturnDisposition](../models/ReturnDisposition.md#returndisposition) |  |
-| `return_inspections` | Required | Array of [ReturnInspection](../models/ReturnInspection.md#returninspection) | `return_inspections[]`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datareturn_inspections). |
-| `return_receipts` | Required | Array of [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt) | `return_receipts[]`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datareturn_receipts). |
+| `return_inspections` | Required | Array of [ReturnInspection](../models/ReturnInspection.md#returninspection) | `return_inspections[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_inspections). |
+| `return_receipts` | Required | Array of [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt) | `return_receipts[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_receipts). |
 | `return_resolutions` | Required | Array of [ReturnResolution](../models/ReturnResolution.md#returnresolution) |  |
 
 ### ReturnProcessResult.return
 
-Field definitions: [ReturnsCancelResponse200.data](../models/ReturnsCancelResponse200.md#returnscancelresponse200data).
+Field definitions: [CancelReturnResponse.data](../models/CancelReturnResponse.md#cancelreturnresponsedata).
 
 ### ReturnProcessResult.return_inspections[]
 
-Field definitions: [ReturnsCancelResponse200.data.return_inspections[]](../models/ReturnsCancelResponse200.md#returnscancelresponse200datareturn_inspections).
+Field definitions: [CancelReturnResponse.data.return_inspections[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_inspections).
 
 ### ReturnProcessResult.return_receipts[]
 
-Field definitions: [ReturnsCancelResponse200.data.return_receipts[]](../models/ReturnsCancelResponse200.md#returnscancelresponse200datareturn_receipts).
+Field definitions: [CancelReturnResponse.data.return_receipts[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_receipts).
 

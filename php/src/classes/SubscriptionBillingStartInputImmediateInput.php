@@ -7,7 +7,7 @@ namespace Flint;
 final class SubscriptionBillingStartInputImmediateInput extends Model {
     /** @param array{'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionBillingStartInputImmediateInput')); }
-    /** Shape $ (Value): string.  Value enum: "immediate".
+    /** Value enum: "immediate".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

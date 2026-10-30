@@ -1,0 +1,1 @@
+{"shared":"ModifierGroupArchivedInstalledMerchantsEvent","dependencies":["MetadataMap","Modifier","ModifierGroup","ModifierGroupArchivedInstalledMerchantsEvent","MoneyValue","PartnerWebhookEnvelopeSource","SharedCodec22","SharedCodec23","SharedCodec25","SharedCodec26","SharedCodec859","SharedCodec949","SharedCodec950","TextModifierConfig"]}

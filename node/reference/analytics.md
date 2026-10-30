@@ -8,16 +8,7 @@ Returns high-level merchant analytics for the requested half-open period.
 
 `GET /v1/analytics/overview`
 
-Signature:
-
-```typescript
-getOverview(params: {
-  "period_start_at": InputValue<string | globalThis.Date>;
-  "period_end_at"?: InputValue<string | globalThis.Date>;
-  "currency"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `getOverview(params: AnalyticsGetOverviewParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -33,15 +24,15 @@ Returned payload: [AnalyticsOverview](../models/AnalyticsOverview.md#analyticsov
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -49,7 +40,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getOverviewWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -67,18 +58,7 @@ Returns merchant payment volume buckets for the requested half-open period.
 
 `GET /v1/analytics/payment-volume-timeseries`
 
-Signature:
-
-```typescript
-getPaymentVolumeTimeseries(params: {
-  "period_start_at": InputValue<string | globalThis.Date>;
-  "period_end_at"?: InputValue<string | globalThis.Date>;
-  "currency"?: InputValue<string>;
-  "granularity"?: InputValue<"hour" | "day" | "week" | "month">;
-  "timezone"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `getPaymentVolumeTimeseries(params: AnalyticsGetPaymentVolumeTimeseriesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -87,8 +67,8 @@ getPaymentVolumeTimeseries(params: {
 | `period_start_at` | Required | string | Inclusive period start. Format: `date-time`. |
 | `period_end_at` | Optional | string | Exclusive period end. Format: `date-time`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `granularity` | Optional | string | Values: `"hour"`, `"day"`, `"week"`, `"month"`. |
-| `timezone` | Optional | string | maxLength: `100`. |
+| `granularity` | Optional | string | Bucket size: hour, day (default), week starting Monday, or month. Buckets follow local boundaries, clipped to the period. Repeated hours have two buckets; skipped hours and days have none. Empty buckets are included. Values: `"hour"`, `"day"`, `"week"`, `"month"`. |
+| `timezone` | Optional | string | IANA timezone for bucket boundaries. Defaults to UTC. maxLength: `100`. |
 
 #### Response
 
@@ -96,15 +76,15 @@ Returned payload: [PaymentVolumeTimeseries](../models/PaymentVolumeTimeseries.md
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -112,7 +92,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPaymentVolumeTimeseriesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -130,16 +110,7 @@ Returns windowed subscription metrics plus current subscription snapshot metrics
 
 `GET /v1/analytics/subscriptions`
 
-Signature:
-
-```typescript
-getSubscription(params: {
-  "period_start_at": InputValue<string | globalThis.Date>;
-  "period_end_at"?: InputValue<string | globalThis.Date>;
-  "currency"?: InputValue<string>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
-```
+Signature: `getSubscription(params: AnalyticsGetSubscriptionParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -151,15 +122,15 @@ Returned payload: [SubscriptionAnalytics](../models/SubscriptionAnalytics.md#sub
 
 #### Errors
 
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 410 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 410 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -167,7 +138,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

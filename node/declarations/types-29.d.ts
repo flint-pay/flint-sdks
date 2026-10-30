@@ -1,1908 +1,1752 @@
-import type {
-    InvoicePaymentDueDate,
-    InvoicePaymentDueInputCustomerDefault,
-    InvoicePaymentDueInputMerchantDefault,
-    InvoicePaymentDueNone,
-    InvoicePaymentDuePaymentTerms,
-    InvoicePaymentDueInputCustomerDefaultInput,
-    InvoicePaymentDueInputDateInput,
-    InvoicePaymentDueInputMerchantDefaultInput,
-    InvoicePaymentDueInputNoneInput,
-    InvoicePaymentDueInputPaymentTermsInput,
-    InvoiceLateFeePolicy,
-    Invoice,
-    InvoiceAutopayRetryPolicy,
-    InvoiceAutopayRetryPolicyInput
-} from './types-28.js';
-import type { MoneyValue, MoneyValueInput } from './types-33.js';
-import type { ResponseMeta } from './types-42.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateInvoicePaymentTermRequestInput } from './types-7.js';
-import type { UpdateInvoicePaymentTermRequestInput } from './types-51.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
+import type { Invoice } from './types-28.js';
+import type { MerchantWebhookEnvelope } from './types-34.js';
+import type { InvoicePaymentPolicy, InvoicePaymentPolicyInput } from './types-30.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { ResponseMeta } from './types-48.js';
+import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type { BundleComponent } from './types-1.js';
+import type { CategoryReference } from './types-4.js';
+import type { Image } from './types-25.js';
+import type { OrderLineItemModifier } from './types-37.js';
+import type { SelectedProductOption } from './types-53.js';
 /**
- * Shape $ (Value): {@link InvoicePaymentDueRequest}. When an invoice is due, used when creating or
- * updating an invoice: no due date, a fixed time, payment terms, or a default.
+ * The `invoice.collection_blocked` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
  */
-export type InvoicePaymentDueRequest = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "none", "date",
-     * "payment_terms", "customer_default", "merchant_default".
-     */
-    "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default" | (string & {});
-})
-    & ((Exclude<InvoicePaymentDueNone & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDuePaymentTerms & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputCustomerDefault & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputMerchantDefault & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueRequestInput}. When an invoice is due, used when
- * creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
- */
-export type InvoicePaymentDueRequestInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "none", "date",
-     * "payment_terms", "customer_default", "merchant_default".
-     */
-    "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default";
-})
-    & ((Exclude<InvoicePaymentDueInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputDateInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputPaymentTermsInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputCustomerDefaultInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputMerchantDefaultInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoicePaymentOptionCostComparison}. Compares two payment options on an
- * invoice and shows the estimated savings from the lower-cost option.
- */
-export type InvoicePaymentOptionCostComparison = {
-    /**
-     * Shape $ (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
-     */
-    "compared_with_payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Estimated savings for the merchant, as a positive
-     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "estimated_savings_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
-     */
-    "lower_cost_payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentOptionLimit}. The largest invoice total allowed for a
- * payment option.
- */
-export type InvoicePaymentOptionLimit = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The largest invoice total, in this currency, for which
-     * Flint offers the option. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "max_total_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. The payment option this cap applies to. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentOptionLimitInput}. The largest invoice total allowed for a
- * payment option.
- */
-export type InvoicePaymentOptionLimitInput = {
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The largest invoice total, in this currency, for
-     * which Flint offers the option. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "max_total_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. The payment option this cap applies to. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit";
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
- * per-option total limits, and whether to show a cost comparison.
- */
-export type InvoicePaymentPolicy = {
-    /**
-     * Shape $ (Value): Array of string. The payment options the buyer can use on the hosted
-     * invoice page. Send at least one. maxItems: 5. uniqueItems: true. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string. Value enum:
-     * "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimit}. Caps by payment option and
-     * currency. Flint doesn't offer an option when the invoice total in that currency is above its
-     * max_total_money. maxItems: 100. Shape $[] (Value): {@link InvoicePaymentOptionLimit}. The
-     * largest invoice total allowed for a payment option.
-     */
-    "payment_option_limits"?: Array<InvoicePaymentOptionLimit>;
-    /**
-     * Shape $ (Value): boolean. Whether the buyer's invoice shows the estimated savings of a
-     * lower-cost payment option. Requires ach_debit and at least one of card, apple_pay, or
-     * google_pay.
-     */
-    "show_cost_comparison"?: boolean;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice accepts,
- * any per-option total limits, and whether to show a cost comparison.
- */
-export type InvoicePaymentPolicyInput = {
-    /**
-     * Shape $ (Value): Array of string. The payment options the buyer can use on the hosted
-     * invoice page. Send at least one. maxItems: 5. uniqueItems: true. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string. Value enum:
-     * "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimitInput}. Caps by payment option and
-     * currency. Flint doesn't offer an option when the invoice total in that currency is above its
-     * max_total_money. maxItems: 100. Shape $[] (Value): {@link InvoicePaymentOptionLimitInput}.
-     * The largest invoice total allowed for a payment option.
-     */
-    "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>;
-    /**
-     * Shape $ (Value): boolean. Whether the buyer's invoice shows the estimated savings of a
-     * lower-cost payment option. Requires ach_debit and at least one of card, apple_pay, or
-     * google_pay.
-     */
-    "show_cost_comparison"?: boolean;
-};
-/** Shape $ (Value): {@link InvoicePaymentTerm}. The payment timing agreed for an invoice. */
-export type InvoicePaymentTerm = {
-    /**
-     * Shape $ (Value): {@link InvoicePaymentTermCalculation}. How an invoice due date is
-     * calculated from payment terms, such as on receipt, net days, or a day of the month.
-     */
-    "calculation": InvoicePaymentTermCalculation;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": string;
-    /**
-     * Shape $ (Value): {@link InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed
-     * amount or a percentage, a grace period in days, and whether Flint applies it automatically.
-     */
-    "late_fee_policy"?: InvoiceLateFeePolicy;
-    /** Shape $ (Value): string. */
-    "merchant_id": string;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /** Shape $ (Value): string.  Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "version": number;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculation}. How an invoice due date is calculated
- * from payment terms, such as on receipt, net days, or a day of the month.
- */
-export type InvoicePaymentTermCalculation = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /**
-     * Shape $ (Value): string. Value enum: "on_receipt", "net_days", "day_of_month",
-     * "day_of_next_month", "days_after_month_end".
-     */
-    "type": "on_receipt"
-        | "net_days"
-        | "day_of_month"
-        | "day_of_next_month"
-        | "days_after_month_end"
-        | (string & {});
-})
-    & ((Exclude<InvoicePaymentTermCalculationOnReceipt & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationNetDays & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEnd & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfMonth & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonth & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfMonth}. The `day_of_month` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationDayOfMonth = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month" | (string & {});
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfMonthInput}. The `day_of_month`
- * variant of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationDayOfMonthInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month";
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-})
+export type InvoiceCollectionBlockedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    "days"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfNextMonth}. The `day_of_next_month`
- * variant of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationDayOfNextMonth = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month" | (string & {});
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfNextMonthInput}. The
- * `day_of_next_month` variant of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationDayOfNextMonthInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month";
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-})
-    & ({
-    "days"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDaysAfterMonthEnd}. The
- * `days_after_month_end` variant of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDaysAfterMonthEndInput}. The
- * `days_after_month_end` variant of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationDaysAfterMonthEndInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationInput}. How an invoice due date is
- * calculated from payment terms, such as on receipt, net days, or a day of the month.
- */
-export type InvoicePaymentTermCalculationInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /**
-     * Shape $ (Value): string. Value enum: "on_receipt", "net_days", "day_of_month",
-     * "day_of_next_month", "days_after_month_end".
-     */
-    "type": "on_receipt" | "net_days" | "day_of_month" | "day_of_next_month" | "days_after_month_end";
-})
-    & ((Exclude<InvoicePaymentTermCalculationOnReceiptInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationNetDaysInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEndInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfMonthInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonthInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationNetDays}. The `net_days` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationNetDays = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationNetDaysInput}. The `net_days` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationNetDaysInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationOnReceipt}. The `on_receipt` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationOnReceipt = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationOnReceiptInput}. The `on_receipt` variant
- * of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationOnReceiptInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt";
-})
-    & (({
-    "days"?: never;
-}) & ({
-    "day"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermListResponse}. A page of `InvoicePaymentTerm` objects.
- */
-export type InvoicePaymentTermListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentTerm}. Shape $[] (Value): {@link
-     * InvoicePaymentTerm}. The payment timing agreed for an invoice.
-     */
-    "data": Array<InvoicePaymentTerm>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentTermResponse}. A response containing `InvoicePaymentTerm`
- * data.
- */
-export type InvoicePaymentTermResponse = {
-    /** Shape $ (Value): {@link InvoicePaymentTerm}. The payment timing agreed for an invoice. */
-    "data": InvoicePaymentTerm;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InvoicePaymentTermsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateInvoicePaymentTermRequestInput}. The request body for: Create
-     * invoice payment term.
-     */
-    "body": InputValue<CreateInvoicePaymentTermRequestInput>;
-};
-export type InvoicePaymentTermsGetInput = {
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": InputValue<string>;
-};
-export type InvoicePaymentTermsListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "archived">>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-};
-export type InvoicePaymentTermsRemoveInput = {
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": InputValue<string>;
-    /** Shape $ (Value): integer. Format: uint32. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentTermsSnapshot}. The payment terms saved on an invoice: the
- * term's name, version, due date calculation, and late fee policy.
- */
-export type InvoicePaymentTermsSnapshot = {
-    /**
-     * Shape $ (Value): {@link InvoicePaymentTermCalculation}. How an invoice due date is
-     * calculated from payment terms, such as on receipt, net days, or a day of the month.
-     */
-    "calculation": InvoicePaymentTermCalculation;
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": string;
-    /**
-     * Shape $ (Value): {@link InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed
-     * amount or a percentage, a grace period in days, and whether Flint applies it automatically.
-     */
-    "late_fee_policy"?: InvoiceLateFeePolicy;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): integer. Version of the invoice payment term captured in this snapshot.
-     * Format: int32.
-     */
-    "version": number;
-};
-export type InvoicePaymentTermsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateInvoicePaymentTermRequestInput}. The request body for: Update
-     * invoice payment term. minProperties: 1.
-     */
-    "body": InputValue<UpdateInvoicePaymentTermRequestInput>;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderPolicy}. Rules for automatic invoice reminders, each sent
- * a set number of days before or after the due date.
- */
-export type InvoiceReminderPolicy = {
-    /**
-     * Shape $ (Value): Array of {@link InvoiceReminderRule}. maxItems: 20. Shape $[] (Value):
-     * {@link InvoiceReminderRule}. One reminder in an invoice reminder policy. `days_from_due`
-     * sets when it is sent: negative values are days before the due date, positive values days
-     * after.
-     */
-    "rules": Array<InvoiceReminderRule>;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderPolicyInput}. Rules for automatic invoice reminders, each
- * sent a set number of days before or after the due date.
- */
-export type InvoiceReminderPolicyInput = {
-    /**
-     * Shape $ (Value): Array of {@link InvoiceReminderRuleInput}. maxItems: 20. Shape $[] (Value):
-     * {@link InvoiceReminderRuleInput}. One reminder in an invoice reminder policy.
-     * `days_from_due` sets when it is sent: negative values are days before the due date, positive
-     * values days after.
-     */
-    "rules": Array<InvoiceReminderRuleInput>;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderRule}. One reminder in an invoice reminder policy.
- * `days_from_due` sets when it is sent: negative values are days before the due date, positive
- * values days after.
- */
-export type InvoiceReminderRule = {
-    /** Shape $ (Value): integer. Format: int32. minimum: -90. maximum: 365. */
-    "days_from_due": number;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderRuleInput}. One reminder in an invoice reminder policy.
- * `days_from_due` sets when it is sent: negative values are days before the due date, positive
- * values days after.
- */
-export type InvoiceReminderRuleInput = InvoiceReminderRule;
-/** Shape $ (Value): {@link InvoiceResponse}. A response containing `Invoice` data. */
-export type InvoiceResponse = {
-    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-    "data": Invoice;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule entry
- * collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
- */
-export type InvoiceScheduleAmountSpecification = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed", "percentage",
-     * "remaining_balance".
-     */
-    "type": "fixed" | "percentage" | "remaining_balance" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleAmountSpecificationFixed & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationPercentage & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationRemainingBalance & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
- * `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationFixed = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed". */
-    "type": "fixed" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
- * `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationFixedInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed". */
-    "type": "fixed";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-})
-    & ({
-    "percent"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment schedule
- * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
- */
-export type InvoiceScheduleAmountSpecificationInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed", "percentage",
-     * "remaining_balance".
-     */
-    "type": "fixed" | "percentage" | "remaining_balance";
-})
-    & ((Exclude<InvoiceScheduleAmountSpecificationFixedInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationPercentageInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationRemainingBalanceInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant
- * of `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationPercentage = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage". */
-    "type": "percentage" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage" | (string & {});
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent": number;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage`
- * variant of `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationPercentageInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage". */
-    "type": "percentage";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage";
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent": number;
-})
-    & ({
-    "amount_money"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationRemainingBalance}. The
- * `remaining_balance` variant of `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationRemainingBalance = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "remaining_balance". */
-    "type": "remaining_balance" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "remaining_balance". */
-    "type": "remaining_balance" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationRemainingBalanceInput}. The
- * `remaining_balance` variant of `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationRemainingBalanceInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "remaining_balance". */
-    "type": "remaining_balance";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "remaining_balance". */
-    "type": "remaining_balance";
-})
-    & (({
-    "amount_money"?: never;
-}) & ({
-    "percent"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDue}. When a payment schedule entry on an invoice is due:
- * at issue, on a set date, or on the invoice due date.
- */
-export type InvoiceScheduleDue = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
-     * "invoice_due_date".
-     */
-    "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleDueAtIssue & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueInvoiceDueDate & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueAtIssue}. The `at_issue` variant of
- * `InvoiceScheduleDue`.
- */
-export type InvoiceScheduleDueAtIssue = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.collection_blocked". */
+    "event_type"?: "invoice.collection_blocked";
 });
-/** Shape $ (Value): {@link InvoiceScheduleDueDate}. The `date` variant of `InvoiceScheduleDue`. */
-export type InvoiceScheduleDueDate = ({
+/** The `buyer_initiated` variant of `InvoiceCollection`. */
+export type InvoiceCollectionBuyerInitiated = ({
     /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
+     * How the invoice is collected, resolved when the draft was written. Value enum:
+     * "buyer_initiated".
      */
-    "due_at": string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "date". */
-    "type": "date" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type": "date" | (string & {});
+    "mode": "buyer_initiated" | (string & {});
     /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
+     * The saved card Flint charges. Present only with automatic. On a draft, null means Flint
+     * charges the customer's default card, selected at issue. After issue it is the selected card.
      */
-    "due_at": string;
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueInvoiceDueDate}. The `invoice_due_date` variant of
- * `InvoiceScheduleDue`.
- */
-export type InvoiceScheduleDueInvoiceDueDate = ({
+    "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
+     * The payment options the hosted invoice page offers. Present only with buyer_initiated. Which
+     * payment options an invoice accepts, any per-option total limits, and whether to show a cost
+     * comparison.
      */
-    "due_at"?: string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
- * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due
- * date.
- */
-export type InvoiceScheduleDueWrite = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
-     * "invoice_due_date".
-     */
-    "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleDueWriteAtIssue & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDate & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of
- * `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteAtIssue = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
+    "payment_policy": InvoicePaymentPolicy;
 })
     & (({
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of
- * `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteAtIssueInput = ({
+    /** Value enum: "buyer_initiated". */
+    "mode"?: "buyer_initiated" | (string & {});
     /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
+     * The payment options the hosted invoice page offers. Present only with buyer_initiated. Which
+     * payment options an invoice accepts, any per-option total limits, and whether to show a cost
+     * comparison.
      */
-    "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
-    "type": "at_issue";
+    "payment_policy": InvoicePaymentPolicy;
+}));
+/** The `external` variant of `InvoiceCollection`. */
+export type InvoiceCollectionExternal = ({
+    /**
+     * How the invoice is collected, resolved when the draft was written. Value enum: "external".
+     */
+    "mode": "external" | (string & {});
+    /**
+     * The saved card Flint charges. Present only with automatic. On a draft, null means Flint
+     * charges the customer's default card, selected at issue. After issue it is the selected card.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Present only with buyer_initiated. Which
+     * payment options an invoice accepts, any per-option total limits, and whether to show a cost
+     * comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicy;
 })
     & (({
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue";
-})
-    & ({
-    "due_at"?: never;
+    /** Value enum: "external". */
+    "mode"?: "external" | (string & {});
 }));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
- * `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteDateInput = ({
+/** The `automatic` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputAutomatic = ({
     /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "automatic".
      */
-    "due_at": string | globalThis.Date;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "date". */
-    "type": "date";
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type": "date";
+    "mode": "automatic" | (string & {});
     /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
      */
-    "due_at": string | globalThis.Date;
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due, as
- * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due
- * date.
- */
-export type InvoiceScheduleDueWriteInput = ({
+    "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
-     * "invoice_due_date".
-     */
-    "type": "at_issue" | "date" | "invoice_due_date";
-})
-    & ((Exclude<InvoiceScheduleDueWriteAtIssueInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteDateInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDateInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant
- * of `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteInvoiceDueDate = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date`
- * variant of `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteInvoiceDueDateInput = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
-    "type": "invoice_due_date";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date";
-})
-    & ({
-    "due_at"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntry}. One payment on an invoice's payment schedule,
- * such as a deposit, installment, or balance, with its due time, amounts, and status.
- */
-export type InvoiceScheduleEntry = {
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How the entry's amount is set:
-     * a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit note credit allocated to this entry, minus
-     * reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "credit_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDue}. When the entry is due. When a payment schedule
-     * entry on an invoice is due: at issue, on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDue;
-    /**
-     * Shape $ (Value): string. Flint invoice schedule entry ID. Kept across draft edits that send
-     * it back with the entry.
-     */
-    "invoice_schedule_entry_id": string;
-    /**
-     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
-     * "installment", "balance".
-     */
-    "kind": "deposit" | "installment" | "balance" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What is still owed on this entry, including its unpaid
-     * late fee, never below zero. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Payments applied to this entry, minus reversed
-     * payments, including payments toward its late fee. It can exceed total_money when the entry
-     * carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "paid_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. The entry's payment status, computed when the invoice is read. It
-     * follows the entry's balance and due time, not the invoice's status. Value enum: "pending",
-     * "due", "partially_satisfied", "satisfied", "overdue".
-     */
-    "status": "pending" | "due" | "partially_satisfied" | "satisfied" | "overdue" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The entry's share of the invoice total, resolved from
-     * amount_specification against snapshot.pricing_amounts.total_money. Recomputed on draft edits
-     * and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The part of this entry written off when the invoice was
-     * marked uncollectible, including its unpaid late fee. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "written_off_money": MoneyValue;
-};
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWrite}. One payment schedule entry you supply when
- * creating or updating an invoice. Set its kind, how much it collects, and when it is due.
- */
-export type InvoiceScheduleEntryWrite = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
-     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
-     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
-     * total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWrite;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
-     * "installment", "balance".
-     */
-    "kind": "deposit" | "installment" | "balance" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleEntryWriteDeposit & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleEntryWriteInstallment & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleEntryWriteBalance & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteBalance}. The `balance` variant of
- * `InvoiceScheduleEntryWrite`.
- */
-export type InvoiceScheduleEntryWriteBalance = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
-     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
-     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
-     * total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWrite;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "balance". */
-    "kind": "balance" | (string & {});
-})
-    & ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * Shape $.amount_money (Optional): {@link MoneyValue}. The amount to collect, in the invoice
-     * currency. Required with fixed and not accepted with any other type. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
-     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
-     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
-     * entry's amount is set. Value enum: "remaining_balance". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleAmountSpecificationRemainingBalance}. The `remaining_balance` variant of
-     * `InvoiceScheduleAmountSpecification`.
-     */
-    "amount_specification"?: (Exclude<InvoiceScheduleAmountSpecification & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "remaining_balance". */
-        "type"?: "remaining_balance" | (string & {});
-    });
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
-     * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
-     * due time is set. Value enum: "date", "invoice_due_date". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape
-     * $.oneOf[2] (Value): {@link InvoiceScheduleDueDate}. The `date` variant of
-     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
-     * `InvoiceScheduleDueWrite`.
-     */
-    "due"?: (Exclude<InvoiceScheduleDueWrite & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "invoice_due_date", "date". */
-        "type"?: "invoice_due_date" | "date" | (string & {});
-    });
-    /** Shape $ (Value): string.  Value enum: "balance". */
-    "kind"?: "balance" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteBalanceInput}. The `balance` variant of
- * `InvoiceScheduleEntryWrite`.
- */
-export type InvoiceScheduleEntryWriteBalanceInput = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
-     * collects. Deposits and installments use fixed or percentage, and the balance uses
-     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
-     * of the invoice total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecificationInput;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWriteInput;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "balance". */
-    "kind": "balance";
-})
-    & ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. The amount to collect, in
-     * the invoice currency. Required with fixed and not accepted with any other type. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
-     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
-     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
-     * entry's amount is set. Value enum: "remaining_balance". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleAmountSpecificationRemainingBalanceInput}. The `remaining_balance` variant of
-     * `InvoiceScheduleAmountSpecification`.
-     */
-    "amount_specification"?: (Exclude<InvoiceScheduleAmountSpecificationInput & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "remaining_balance". */
-        "type"?: "remaining_balance";
-    });
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
-     * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
-     * due time is set. Value enum: "date", "invoice_due_date". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of `InvoiceScheduleDueWrite`.
-     * Shape $.oneOf[2] (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
-     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date` variant of
-     * `InvoiceScheduleDueWrite`.
-     */
-    "due"?: (Exclude<InvoiceScheduleDueWriteInput & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "invoice_due_date", "date". */
-        "type"?: "invoice_due_date" | "date";
-    });
-    /** Shape $ (Value): string.  Value enum: "balance". */
-    "kind"?: "balance";
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteDeposit}. The `deposit` variant of
- * `InvoiceScheduleEntryWrite`.
- */
-export type InvoiceScheduleEntryWriteDeposit = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
-     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
-     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
-     * total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWrite;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit". */
-    "kind": "deposit" | (string & {});
-})
-    & ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * Shape $.amount_money (Optional): {@link MoneyValue}. The amount to collect, in the invoice
-     * currency. Required with fixed and not accepted with any other type. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
-     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
-     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
-     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleAmountSpecificationRemainingBalance}. The `remaining_balance` variant of
-     * `InvoiceScheduleAmountSpecification`.
-     */
-    "amount_specification"?: (Exclude<InvoiceScheduleAmountSpecification & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "fixed", "percentage". */
-        "type"?: "fixed" | "percentage" | (string & {});
-    });
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
-     * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
-     * due time is set. Value enum: "at_issue", "date". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape
-     * $.oneOf[2] (Value): {@link InvoiceScheduleDueDate}. The `date` variant of
-     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
-     * `InvoiceScheduleDueWrite`.
-     */
-    "due"?: (Exclude<InvoiceScheduleDueWrite & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "at_issue", "date". */
-        "type"?: "at_issue" | "date" | (string & {});
-    });
-    /** Shape $ (Value): string.  Value enum: "deposit". */
-    "kind"?: "deposit" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteDepositInput}. The `deposit` variant of
- * `InvoiceScheduleEntryWrite`.
- */
-export type InvoiceScheduleEntryWriteDepositInput = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
-     * collects. Deposits and installments use fixed or percentage, and the balance uses
-     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
-     * of the invoice total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecificationInput;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWriteInput;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit". */
-    "kind": "deposit";
-})
-    & ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. The amount to collect, in
-     * the invoice currency. Required with fixed and not accepted with any other type. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
-     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
-     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
-     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleAmountSpecificationRemainingBalanceInput}. The `remaining_balance` variant of
-     * `InvoiceScheduleAmountSpecification`.
-     */
-    "amount_specification"?: (Exclude<InvoiceScheduleAmountSpecificationInput & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "fixed", "percentage". */
-        "type"?: "fixed" | "percentage";
-    });
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
-     * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
-     * due time is set. Value enum: "at_issue", "date". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of `InvoiceScheduleDueWrite`.
-     * Shape $.oneOf[2] (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
-     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date` variant of
-     * `InvoiceScheduleDueWrite`.
-     */
-    "due"?: (Exclude<InvoiceScheduleDueWriteInput & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "at_issue", "date". */
-        "type"?: "at_issue" | "date";
-    });
-    /** Shape $ (Value): string.  Value enum: "deposit". */
-    "kind"?: "deposit";
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteInput}. One payment schedule entry you supply
- * when creating or updating an invoice. Set its kind, how much it collects, and when it is due.
- */
-export type InvoiceScheduleEntryWriteInput = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
-     * collects. Deposits and installments use fixed or percentage, and the balance uses
-     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
-     * of the invoice total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecificationInput;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWriteInput;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
-     * "installment", "balance".
-     */
-    "kind": "deposit" | "installment" | "balance";
-})
-    & ((Exclude<InvoiceScheduleEntryWriteDepositInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleEntryWriteInstallmentInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleEntryWriteBalanceInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteInstallment}. The `installment` variant of
- * `InvoiceScheduleEntryWrite`.
- */
-export type InvoiceScheduleEntryWriteInstallment = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
-     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
-     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
-     * total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWrite;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "installment". */
-    "kind": "installment" | (string & {});
-})
-    & ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * Shape $.amount_money (Optional): {@link MoneyValue}. The amount to collect, in the invoice
-     * currency. Required with fixed and not accepted with any other type. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
-     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
-     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
-     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleAmountSpecificationRemainingBalance}. The `remaining_balance` variant of
-     * `InvoiceScheduleAmountSpecification`.
-     */
-    "amount_specification"?: (Exclude<InvoiceScheduleAmountSpecification & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "fixed", "percentage". */
-        "type"?: "fixed" | "percentage" | (string & {});
-    });
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
-     * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
-     * due time is set. Value enum: "date". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape
-     * $.oneOf[2] (Value): {@link InvoiceScheduleDueDate}. The `date` variant of
-     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
-     * `InvoiceScheduleDueWrite`.
-     */
-    "due"?: (Exclude<InvoiceScheduleDueWrite & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "date". */
-        "type"?: "date" | (string & {});
-    });
-    /** Shape $ (Value): string.  Value enum: "installment". */
-    "kind"?: "installment" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntryWriteInstallmentInput}. The `installment` variant of
- * `InvoiceScheduleEntryWrite`.
- */
-export type InvoiceScheduleEntryWriteInstallmentInput = ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
-     * collects. Deposits and installments use fixed or percentage, and the balance uses
-     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
-     * of the invoice total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecificationInput;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
-     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
-     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
-     * on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDueWriteInput;
-    /**
-     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
-     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "installment". */
-    "kind": "installment";
-})
-    & ({
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. The amount to collect, in
-     * the invoice currency. Required with fixed and not accepted with any other type. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
-     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
-     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
-     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage` variant of
-     * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleAmountSpecificationRemainingBalanceInput}. The `remaining_balance` variant of
-     * `InvoiceScheduleAmountSpecification`.
-     */
-    "amount_specification"?: (Exclude<InvoiceScheduleAmountSpecificationInput & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "fixed", "percentage". */
-        "type"?: "fixed" | "percentage";
-    });
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
-     * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
-     * due time is set. Value enum: "date". Shape $.oneOf[1] (Value): {@link
-     * InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of `InvoiceScheduleDueWrite`.
-     * Shape $.oneOf[2] (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
-     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
-     * InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date` variant of
-     * `InvoiceScheduleDueWrite`.
-     */
-    "due"?: (Exclude<InvoiceScheduleDueWriteInput & object, readonly unknown[]>)
-        & ({
-        /** Shape $ (Value): string.  Value enum: "date". */
-        "type"?: "date";
-    });
-    /** Shape $ (Value): string.  Value enum: "installment". */
-    "kind"?: "installment";
-});
-/**
- * Shape $ (Value): {@link InvoiceSettings}. Merchant defaults for invoices, including numbering
- * prefixes, default memo and footer, collection mode, reminders, and autopay retries.
- */
-export type InvoiceSettings = {
-    /**
-     * Shape $ (Value): {@link InvoiceAutopayRetryPolicy}. Replaced as a whole: send every field
-     * you want to keep. When to retry a failed automatic invoice payment, as a list of day
-     * offsets.
-     */
-    "autopay_retry_policy"?: InvoiceAutopayRetryPolicy;
-    /**
-     * Shape $ (Value): string. Up to 12 ASCII letters, digits, underscores, or hyphens. Counted
-     * before normalization. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "credit_note_number_prefix"?: string;
-    /** Shape $ (Value): string.  Value enum: "buyer_initiated", "automatic", "external". */
-    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | (string & {});
-    /**
-     * Shape $ (Value): string. Limited to 4096 characters (Unicode code points), counted before
-     * normalization. maxLength: 4096.
-     */
-    "default_footer"?: string;
-    /** Shape $ (Value): string. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "default_invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. Limited to 4096 characters (Unicode code points), counted before
-     * normalization. maxLength: 4096.
-     */
-    "default_memo"?: string;
-    /**
-     * Shape $ (Value): string. Up to 12 ASCII letters, digits, underscores, or hyphens. Counted
-     * before normalization. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "invoice_number_prefix"?: string;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Replaced as a whole: send every field you
-     * want to keep. Which payment options an invoice accepts, any per-option total limits, and
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
      * whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
+})
+    & (({
+    /** Value enum: "automatic". */
+    "mode"?: "automatic" | (string & {});
+}));
+/** The `automatic` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputAutomaticInput = ({
     /**
-     * Shape $ (Value): {@link InvoiceReminderPolicy}. Replaced as a whole: send every field you
-     * want to keep. Rules for automatic invoice reminders, each sent a set number of days before
-     * or after the due date.
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "automatic".
      */
-    "reminder_policy"?: InvoiceReminderPolicy;
+    "mode": "automatic";
     /**
-     * Shape $ (Value): {@link Address}. Replaced as a whole: send every field you want to keep. A
-     * postal address. Every address has country. Addresses Flint checked as complete (customer and
-     * saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
      */
-    "remit_to_address"?: Address;
+    "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): string. Limited to 255 characters (Unicode code points), counted before
-     * normalization. Format: email. maxLength: 255.
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
      */
-    "reply_to_email"?: string;
+    "payment_policy"?: InvoicePaymentPolicyInput;
+})
+    & (({
+    /** Value enum: "automatic". */
+    "mode"?: "automatic";
+})
+    & (({
+    "payment_policy"?: never;
+})));
+/** The `buyer_initiated` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputBuyerInitiated = ({
     /**
-     * Shape $ (Value): string. Limited to 255 characters (Unicode code points), counted before
-     * normalization. maxLength: 255.
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "buyer_initiated".
      */
-    "timezone"?: string;
+    "mode": "buyer_initiated" | (string & {});
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicy;
+})
+    & (({
+    /** Value enum: "buyer_initiated". */
+    "mode"?: "buyer_initiated" | (string & {});
+}));
+/** The `buyer_initiated` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputBuyerInitiatedInput = ({
+    /**
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "buyer_initiated".
+     */
+    "mode": "buyer_initiated";
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicyInput;
+})
+    & (({
+    /** Value enum: "buyer_initiated". */
+    "mode"?: "buyer_initiated";
+})
+    & (({
+    "payment_method_id"?: never;
+})));
+/** The `external` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputExternalInput = ({
+    /**
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "external".
+     */
+    "mode": "external";
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicyInput;
+})
+    & (({
+    /** Value enum: "external". */
+    "mode"?: "external";
+})
+    & (({
+    "payment_method_id"?: never;
+}) & ({
+    "payment_policy"?: never;
+})));
+/** The `merchant_default` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputMerchantDefault = ({
+    /**
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "merchant_default".
+     */
+    "mode": "merchant_default" | (string & {});
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicy;
+})
+    & (({
+    /** Value enum: "merchant_default". */
+    "mode"?: "merchant_default" | (string & {});
+}));
+/** The `merchant_default` variant of `InvoiceCollectionInput`. */
+export type InvoiceCollectionInputMerchantDefaultInput = ({
+    /**
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "merchant_default".
+     */
+    "mode": "merchant_default";
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicyInput;
+})
+    & (({
+    /** Value enum: "merchant_default". */
+    "mode"?: "merchant_default";
+})
+    & (({
+    "payment_method_id"?: never;
+}) & ({
+    "payment_policy"?: never;
+})));
+/**
+ * How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional
+ * saved payment method, and a payment policy.
+ */
+export type InvoiceCollectionRequest = ({
+    /**
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "merchant_default", "buyer_initiated", "automatic",
+     * "external".
+     */
+    "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external" | (string & {});
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicy;
+})
+    & ((Exclude<InvoiceCollectionInputMerchantDefault & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionInputBuyerInitiated & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionInputAutomatic & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionExternal & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional
+ * saved payment method, and a payment policy.
+ */
+export type InvoiceCollectionRequestInput = ({
+    /**
+     * How the invoice is collected. merchant_default resolves when the draft is written, and reads
+     * return the resolved mode. Value enum: "merchant_default", "buyer_initiated", "automatic",
+     * "external".
+     */
+    "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external";
+    /**
+     * The customer's saved card to charge. Accepted only with automatic. Without one, Flint
+     * charges the customer's default card, selected when the invoice is issued. Send null to clear
+     * it. minLength: 1.
+     */
+    "payment_method_id"?: string | null;
+    /**
+     * The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit
+     * it to use the invoice settings payment_policy, or the checkout payment options when that
+     * isn't set. Which payment options an invoice accepts, any per-option total limits, and
+     * whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicyInput;
+})
+    & ((Exclude<InvoiceCollectionInputMerchantDefaultInput & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionInputBuyerInitiatedInput & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionInputAutomaticInput & object, readonly unknown[]>)
+    | (Exclude<InvoiceCollectionInputExternalInput & object, readonly unknown[]>));
+export type InvoiceCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.created";
+});
+/**
+ * The `invoice.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type InvoiceCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.created". */
+    "event_type"?: "invoice.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoiceCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.created". */
+    "event_type"?: "invoice.created";
+});
+export type InvoiceCreditedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.credited";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.credited";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.credited";
+});
+/**
+ * The `invoice.credited` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type InvoiceCreditedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.credited". */
+    "event_type"?: "invoice.credited";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.credited` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type InvoiceCreditedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.credited". */
+    "event_type"?: "invoice.credited";
+});
+/**
+ * One attempt to deliver an invoice by email, either the original send or a reminder, with its
+ * recipients and status.
+ */
+export type InvoiceDeliveryAttempt = ({
+    /** Addresses copied on this email. Absent when none were copied. [] (Value): string. */
+    "cc_emails"?: Array<string>;
+    /** How Flint delivered the invoice. Value enum: "email". */
+    "channel": "email" | (string & {});
+    /** When the attempt was created. Format: date-time. */
+    "created_at"?: string;
+    /**
+     * Whether this attempt is the invoice email sent at issue or a reminder. Value enum: "send",
+     * "reminder".
+     */
+    "delivery_type": "send" | "reminder" | (string & {});
+    /**
+     * Present only when status is failed. Legacy failed attempts without a stored reason return
+     * rejected. Value enum: "rejected", "delivery_unknown", "canceled".
+     */
+    "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
+    /** Flint invoice delivery attempt ID. */
+    "invoice_delivery_attempt_id": string;
+    /** ID of the invoice this delivery attempt belongs to. */
+    "invoice_id": string;
+    /** When the email service accepted the message. Absent until it does. Format: date-time. */
+    "sent_at"?: string;
+    /**
+     * The outcome of this attempt. sent means the email service accepted the message. Value enum:
+     * "pending", "sent", "failed", "suppressed".
+     */
+    "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
+    /**
+     * Present only when status is suppressed. Value enum: "merchant_managed_email",
+     * "recipient_unsubscribed".
+     */
+    "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | (string & {});
+    /** Address the invoice was sent to. `null` after the customer was deleted. */
+    "to_email": string | null;
+});
+export type InvoiceDeliveryAttemptFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_delivery_attempt.failed";
+});
+/**
+ * The `invoice_delivery_attempt.failed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoiceDeliveryAttemptFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
+     * email, either the original send or a reminder, with its recipients and status.
+     */
+    "data"?: {
+        /**
+         * One attempt to deliver an invoice by email, either the original send or a reminder, with
+         * its recipients and status.
+         */
+        "object": InvoiceDeliveryAttempt;
+    };
+    /** Value enum: "invoice_delivery_attempt.failed". */
+    "event_type"?: "invoice_delivery_attempt.failed";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_delivery_attempt.failed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceDeliveryAttemptFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
+     * email, either the original send or a reminder, with its recipients and status.
+     */
+    "data"?: {
+        /**
+         * One attempt to deliver an invoice by email, either the original send or a reminder, with
+         * its recipients and status.
+         */
+        "object": InvoiceDeliveryAttempt;
+    };
+    /** Value enum: "invoice_delivery_attempt.failed". */
+    "event_type"?: "invoice_delivery_attempt.failed";
+});
+/** A page of `InvoiceDeliveryAttempt` objects. */
+export type InvoiceDeliveryAttemptListResponse = {
+    /**
+     *  [] (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by email,
+     * either the original send or a reminder, with its recipients and status.
+     */
+    "data": Array<InvoiceDeliveryAttempt>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InvoiceDeliveryAttemptSentEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.sent";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.sent";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_delivery_attempt.sent";
+});
+/**
+ * The `invoice_delivery_attempt.sent` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoiceDeliveryAttemptSentInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
+     * email, either the original send or a reminder, with its recipients and status.
+     */
+    "data"?: {
+        /**
+         * One attempt to deliver an invoice by email, either the original send or a reminder, with
+         * its recipients and status.
+         */
+        "object": InvoiceDeliveryAttempt;
+    };
+    /** Value enum: "invoice_delivery_attempt.sent". */
+    "event_type"?: "invoice_delivery_attempt.sent";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_delivery_attempt.sent` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceDeliveryAttemptSentMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
+     * email, either the original send or a reminder, with its recipients and status.
+     */
+    "data"?: {
+        /**
+         * One attempt to deliver an invoice by email, either the original send or a reminder, with
+         * its recipients and status.
+         */
+        "object": InvoiceDeliveryAttempt;
+    };
+    /** Value enum: "invoice_delivery_attempt.sent". */
+    "event_type"?: "invoice_delivery_attempt.sent";
+});
+export type InvoiceDeliveryAttemptSuppressedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.suppressed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.suppressed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_delivery_attempt.suppressed";
+});
+/**
+ * The `invoice_delivery_attempt.suppressed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
+     * email, either the original send or a reminder, with its recipients and status.
+     */
+    "data"?: {
+        /**
+         * One attempt to deliver an invoice by email, either the original send or a reminder, with
+         * its recipients and status.
+         */
+        "object": InvoiceDeliveryAttempt;
+    };
+    /** Value enum: "invoice_delivery_attempt.suppressed". */
+    "event_type"?: "invoice_delivery_attempt.suppressed";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_delivery_attempt.suppressed` webhook payload for the `merchant` event source.
+ * Fields shared by merchant webhook payloads.
+ */
+export type InvoiceDeliveryAttemptSuppressedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
+     * email, either the original send or a reminder, with its recipients and status.
+     */
+    "data"?: {
+        /**
+         * One attempt to deliver an invoice by email, either the original send or a reminder, with
+         * its recipients and status.
+         */
+        "object": InvoiceDeliveryAttempt;
+    };
+    /** Value enum: "invoice_delivery_attempt.suppressed". */
+    "event_type"?: "invoice_delivery_attempt.suppressed";
+});
+/**
+ * A discount applied to an invoice, with its source, the discount amount, the amount actually
+ * applied, and any promotion.
+ */
+export type InvoiceDiscount = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "applied_money": MoneyValue;
+    "customer_facing_name"?: string;
+    /** Value enum: "order", "line_item". */
+    "discount_class"?: "order" | "line_item" | (string & {});
+    "promotion_code"?: string;
+    "promotion_id"?: string;
+    /** Value enum: "manual", "promotion", "plan_change_credit". */
+    "source": "manual" | "promotion" | "plan_change_credit" | (string & {});
 };
 /**
- * Shape $ (Value): {@link InvoiceSettingsPatch}. Changes to a merchant's invoice settings. Send
- * only the fields to change, and send null on a nullable field to clear it. minProperties: 1.
+ * One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount
+ * due, with its amount.
  */
-export type InvoiceSettingsPatch = {
+export type InvoiceDocumentRow = {
     /**
-     * Shape $ (Value): {@link InvoiceAutopayRetryPolicy} or null. Replaced as a whole: send every
-     * field you want to keep. Shape $.anyOf[1] (Value): {@link InvoiceAutopayRetryPolicy}. When to
-     * retry a failed automatic invoice payment, as a list of day offsets. Shape $.anyOf[2]
+     * The row's signed amount. Informational rows do not contribute to the sum. Signed monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Number of the credit note a credit note row names. */
+    "credit_note_number"?: string;
+    /**
+     * Whether the row is shown for information and left out of the sum, such as tax already
+     * included in prices, tax not applied, or money refunded to the buyer. A closing `total` or
+     * `amount_due` row is informational and states the sum. An opening or sole `total` row
+     * contributes to the sum.
+     */
+    "is_informational": boolean;
+    /**
+     * Value enum: "subtotal", "discount", "charge", "tax", "tip", "total", "late_fee",
+     * "late_fee_waived", "payments", "credit_note", "credits", "written_off", "amount_due",
+     * "refunded".
+     */
+    "kind": "subtotal"
+        | "discount"
+        | "charge"
+        | "tax"
+        | "tip"
+        | "total"
+        | "late_fee"
+        | "late_fee_waived"
+        | "payments"
+        | "credit_note"
+        | "credits"
+        | "written_off"
+        | "amount_due"
+        | "refunded"
+        | (string & {});
+    /** Discount, charge, or tax jurisdiction name. */
+    "name"?: string;
+    /** When the late fee was assessed or waived, or the credit note issued. Format: date-time. */
+    "occurred_at"?: string;
+    /** Rate of a percent-based charge or a tax row, in percent units. multipleOf: 0.0001. */
+    "percent"?: number;
+    /** Promotion code of a discount row. */
+    "promotion_code"?: string;
+    /** Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type"?: "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Value enum: "standard_rated", "not_taxable", "customer_exempt", "tax_disabled",
+     * "location_required", "calculation_incomplete".
+     */
+    "taxability_reason"?: "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Taxable amount of a tax row. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "taxable_money"?: MoneyValue;
+};
+export type InvoiceIssueFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.issue_failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.issue_failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.issue_failed";
+});
+/**
+ * The `invoice.issue_failed` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type InvoiceIssueFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.issue_failed". */
+    "event_type"?: "invoice.issue_failed";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.issue_failed` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type InvoiceIssueFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.issue_failed". */
+    "event_type"?: "invoice.issue_failed";
+});
+export type InvoiceIssuedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.issued";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.issued";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.issued";
+});
+/**
+ * The `invoice.issued` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type InvoiceIssuedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.issued". */
+    "event_type"?: "invoice.issued";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.issued` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoiceIssuedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.issued". */
+    "event_type"?: "invoice.issued";
+});
+/** A charge assessed because an invoice payment is overdue. */
+export type InvoiceLateFee = {
+    /**
+     * The assessed fee: the policy's fixed amount, or its percent of base_outstanding_money.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** When the fee was assessed. Format: date-time. */
+    "assessed_at": string;
+    /**
+     * The unpaid balance the fee was calculated from, excluding late fees, captured at assessment.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "base_outstanding_money": MoneyValue;
+    /** Flint invoice late fee ID. */
+    "invoice_late_fee_id": string;
+    /**
+     * The schedule entry this fee applies to. Absent on an invoice without a schedule, where the
+     * fee applies to the whole invoice. Each invoice, or each entry, takes at most one fee, even
+     * after a waiver.
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * The late fee policy from payment_terms_snapshot, copied when the fee was assessed. anyOf[1]
+     * (Value): {@link InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount or a
+     * percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2]
      * (Value): null.
      */
-    "autopay_retry_policy"?: ((InvoiceAutopayRetryPolicy) | (null));
+    "late_fee_policy": ((InvoiceLateFeePolicy) | (null) | (unknown));
     /**
-     * Shape $ (Value): string or null. Up to 12 ASCII letters, digits, underscores, or hyphens.
-     * Counted before normalization. Send null to clear it. minLength: 1. maxLength: 12. pattern:
-     * ^[A-Za-z0-9_-]*$.
+     * What is still owed on this fee: amount_money - paid_money - waived_money -
+     * written_off_money, never below zero. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
-    "credit_note_number_prefix"?: string | null;
+    "outstanding_money": MoneyValue;
     /**
-     * Shape $ (Value): string or null. Value enum: "buyer_initiated", "automatic", "external",
-     * null.
+     * Payments applied to this fee, minus reversed payments. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
-    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null | (string & {}) | null;
+    "paid_money": MoneyValue;
+    /** When the fee was waived. Absent unless it was waived. Format: date-time. */
+    "waived_at"?: string;
     /**
-     * Shape $ (Value): string or null. Limited to 4096 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. minLength: 1. maxLength: 4096.
+     * The amount waived. A waiver removes the fee's whole outstanding amount at that time, so it
+     * is less than amount_money when part of the fee was already paid. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
      */
-    "default_footer"?: string | null;
+    "waived_money": MoneyValue;
+    /** Why the fee was waived, as given when waiving it. */
+    "waiver_reason_message"?: string;
     /**
-     * Shape $ (Value): string or null. Send null to clear it. minLength: 1. pattern:
-     * ^ipt_[0-9A-HJKMNP-TV-Z]{26}$.
+     * The part of this fee written off when the invoice was marked uncollectible. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "default_invoice_payment_term_id"?: string | null;
+    "written_off_money": MoneyValue;
+};
+export type InvoiceLateFeeAssessedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.late_fee_assessed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.late_fee_assessed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.late_fee_assessed";
+});
+/**
+ * The `invoice.late_fee_assessed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoiceLateFeeAssessedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.late_fee_assessed". */
+    "event_type"?: "invoice.late_fee_assessed";
     /**
-     * Shape $ (Value): string or null. Limited to 4096 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. minLength: 1. maxLength: 4096.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "default_memo"?: string | null;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.late_fee_assessed` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type InvoiceLateFeeAssessedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.late_fee_assessed". */
+    "event_type"?: "invoice.late_fee_assessed";
+});
+export type InvoiceLateFeeDueEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.late_fee_due";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.late_fee_due";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.late_fee_due";
+});
+/**
+ * The `invoice.late_fee_due` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type InvoiceLateFeeDueInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.late_fee_due". */
+    "event_type"?: "invoice.late_fee_due";
     /**
-     * Shape $ (Value): string or null. Up to 12 ASCII letters, digits, underscores, or hyphens.
-     * Counted before normalization. Send null to clear it. minLength: 1. maxLength: 12. pattern:
-     * ^[A-Za-z0-9_-]*$.
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
      */
-    "invoice_number_prefix"?: string | null;
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.late_fee_due` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type InvoiceLateFeeDueMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.late_fee_due". */
+    "event_type"?: "invoice.late_fee_due";
+});
+/**
+ * A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
+ * whether Flint applies it automatically.
+ */
+export type InvoiceLateFeePolicy = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValue;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy} or null. Replaced as a whole: send every field
-     * you want to keep. Shape $.anyOf[1] (Value): {@link InvoicePaymentPolicy}. Which payment
-     * options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison. Shape $.anyOf[2] (Value): null.
+     * Whether Flint applies the one-time fee automatically after the grace period. Omission
+     * defaults to manual. Frozen when the invoice is issued. Default: "manual". Value enum:
+     * "manual", "automatic".
      */
-    "payment_policy"?: ((InvoicePaymentPolicy) | (null));
+    "application_mode"?: "manual" | "automatic" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
     /**
-     * Shape $ (Value): {@link InvoiceReminderPolicy} or null. Replaced as a whole: send every
-     * field you want to keep. Shape $.anyOf[1] (Value): {@link InvoiceReminderPolicy}. Rules for
-     * automatic invoice reminders, each sent a set number of days before or after the due date.
-     * Shape $.anyOf[2] (Value): null.
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
      */
-    "reminder_policy"?: ((InvoiceReminderPolicy) | (null));
+    "percent"?: number;
+    /** Value enum: "fixed", "percentage". */
+    "type": "fixed" | "percentage" | (string & {});
+})
+    & ((Exclude<InvoiceLateFeePolicyFixed & object, readonly unknown[]>)
+    | (Exclude<InvoiceLateFeePolicyPercentage & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `fixed` variant of `InvoiceLateFeePolicy`. */
+export type InvoiceLateFeePolicyFixed = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
     /**
-     * Shape $ (Value): {@link AddressRequest} or null. Replaced as a whole: send every field you
-     * want to keep. Shape $.anyOf[1] (Value): {@link AddressRequest}. A complete postal address.
-     * State and postal_code are required for US addresses and optional for other countries. Send
-     * null or omit line2, state, and postal_code when the address has none. Shape $.anyOf[2]
-     * (Value): null.
+     * Whether Flint applies the one-time fee automatically after the grace period. Omission
+     * defaults to manual. Frozen when the invoice is issued. Default: "manual". Value enum:
+     * "manual", "automatic".
      */
-    "remit_to_address"?: ((AddressRequest) | (null));
+    "application_mode"?: "manual" | "automatic" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
     /**
-     * Shape $ (Value): string or null. Limited to 255 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. Format: email. minLength: 1. maxLength: 255.
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
      */
-    "reply_to_email"?: string | null;
+    "percent"?: number;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+}));
+/** The `fixed` variant of `InvoiceLateFeePolicy`. */
+export type InvoiceLateFeePolicyFixedInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValueInput;
     /**
-     * Shape $ (Value): string or null. Limited to 255 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. minLength: 1. maxLength: 255.
+     * Whether Flint applies the one-time fee automatically after the grace period. Omission
+     * defaults to manual. Frozen when the invoice is issued. Default: "manual". Value enum:
+     * "manual", "automatic".
      */
-    "timezone"?: string | null;
+    "application_mode"?: "manual" | "automatic";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /**
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /** Value enum: "fixed". */
+    "type": "fixed";
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": "fixed";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValueInput;
+})
+    & ({
+    "percent"?: never;
+}));
+/**
+ * A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
+ * whether Flint applies it automatically.
+ */
+export type InvoiceLateFeePolicyInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Whether Flint applies the one-time fee automatically after the grace period. Omission
+     * defaults to manual. Frozen when the invoice is issued. Default: "manual". Value enum:
+     * "manual", "automatic".
+     */
+    "application_mode"?: "manual" | "automatic";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /**
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /** Value enum: "fixed", "percentage". */
+    "type": "fixed" | "percentage";
+})
+    & ((Exclude<InvoiceLateFeePolicyFixedInput & object, readonly unknown[]>)
+    | (Exclude<InvoiceLateFeePolicyPercentageInput & object, readonly unknown[]>));
+/** The `percentage` variant of `InvoiceLateFeePolicy`. */
+export type InvoiceLateFeePolicyPercentage = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValue;
+    /**
+     * Whether Flint applies the one-time fee automatically after the grace period. Omission
+     * defaults to manual. Frozen when the invoice is issued. Default: "manual". Value enum:
+     * "manual", "automatic".
+     */
+    "application_mode"?: "manual" | "automatic" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /**
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+    /** Value enum: "percentage". */
+    "type": "percentage" | (string & {});
+})
+    & (({
+    /** Value enum: "percentage". */
+    "type": "percentage" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /**
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+}));
+/** The `percentage` variant of `InvoiceLateFeePolicy`. */
+export type InvoiceLateFeePolicyPercentageInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Whether Flint applies the one-time fee automatically after the grace period. Omission
+     * defaults to manual. Frozen when the invoice is issued. Default: "manual". Value enum:
+     * "manual", "automatic".
+     */
+    "application_mode"?: "manual" | "automatic";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /**
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+    /** Value enum: "percentage". */
+    "type": "percentage";
+})
+    & (({
+    /** Value enum: "percentage". */
+    "type": "percentage";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "grace_period_days": number;
+    /**
+     * Percentage applied to the fee base_outstanding_money. maximum: 100. exclusiveMinimum: 0.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & ({
+    "amount_money"?: never;
+}));
+export type InvoiceLateFeeWaivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.late_fee_waived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.late_fee_waived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.late_fee_waived";
+});
+/**
+ * The `invoice.late_fee_waived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type InvoiceLateFeeWaivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.late_fee_waived". */
+    "event_type"?: "invoice.late_fee_waived";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.late_fee_waived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type InvoiceLateFeeWaivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.late_fee_waived". */
+    "event_type"?: "invoice.late_fee_waived";
+});
+/**
+ * A line item on an invoice, with its quantity, unit price, discount, tax, and totals, and the
+ * product, variant, or bundle it came from.
+ */
+export type InvoiceLineItem = {
+    /**
+     * unit_price_money × quantity. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "base_subtotal_money": MoneyValue;
+    /**
+     * The items inside a bundle line, as billed. [] (Value): {@link BundleComponent}. An item
+     * included in a bundle.
+     */
+    "bundle_components"?: Array<BundleComponent>;
+    /** The catalog bundle the line was sold from. Absent unless source_type is bundle. */
+    "bundle_id"?: string;
+    /**
+     * The catalog categories of the line's item when it was billed. [] (Value): {@link
+     * CategoryReference}. A reference to a product category by ID, handle, and name.
+     */
+    "categories"?: Array<CategoryReference>;
+    /** Line item description as billed. */
+    "description"?: string;
+    /**
+     * This line's share of order and line-item discounts. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /** Line item image. An image with its `url`, `width`, and `height`, and optional `alt` text. */
+    "image"?: Image;
+    /**
+     * Flint invoice line item ID, stable across draft edits and issue while the backing order line
+     * keeps its ID. Credit notes credit lines by this ID.
+     */
+    "invoice_line_item_id": string;
+    /**
+     * Total of the line's modifiers. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "modifier_total_money": MoneyValue;
+    /**
+     * The line's modifiers, as billed. [] (Value): {@link OrderLineItemModifier}. A modifier
+     * selected on an order line item, with its quantity, price change, total, and display flags.
+     */
+    "modifiers"?: Array<OrderLineItemModifier>;
+    /** Line item name as billed. */
+    "name": string;
+    /**
+     * The backing order's line item. Tax rows in snapshot.tax_breakdowns reference the line by
+     * this ID.
+     */
+    "order_line_item_id"?: string;
+    /** Parent product of the line's variant. Absent on bundle and custom lines. */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The product options chosen for the line, as billed. [] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    /** Stock keeping unit as billed. */
+    "sku"?: string;
+    /**
+     * The catalog item the line was sold from. Absent on custom lines. Value enum: "variant",
+     * "bundle".
+     */
+    "source_type"?: "variant" | "bundle" | (string & {});
+    /**
+     * base_subtotal_money + modifier_total_money. For a tax-inclusive price, it includes the tax.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Tax on this line. Its rows in snapshot.tax_breakdowns give the rate and price_mode. For a
+     * tax-inclusive price, the tax is already inside subtotal_money. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * What the line bills. For a tax-inclusive price, subtotal_money - discount_money; otherwise
+     * subtotal_money - discount_money + tax_money. In both cases the tax-exclusive value is
+     * total_money - tax_money. Signed monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Price of one unit, before modifiers and discounts. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /** The catalog variant the line was sold from. Absent unless source_type is variant. */
+    "variant_id"?: string;
+};
+/** A page of `Invoice` objects. */
+export type InvoiceListResponse = {
+    /**  [] (Value): {@link Invoice}. A bill issued to a customer. */
+    "data": Array<Invoice>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InvoiceSettingsPatchInput}. Changes to a merchant's invoice settings.
- * Send only the fields to change, and send null on a nullable field to clear it. minProperties: 1.
+ * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+ * while recorded; reversing it returns its full amount to outstanding_money. A payment can cover
+ * principal and late fees. Manual payments are separate from online payment attempts.
  */
-export type InvoiceSettingsPatchInput = {
+export type InvoiceManualPayment = {
     /**
-     * Shape $ (Value): {@link InvoiceAutopayRetryPolicyInput} or null. Replaced as a whole: send
-     * every field you want to keep. Shape $.anyOf[1] (Value): {@link
-     * InvoiceAutopayRetryPolicyInput}. When to retry a failed automatic invoice payment, as a list
-     * of day offsets. Shape $.anyOf[2] (Value): null.
+     * Full amount received, including any principal and late fees covered. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "autopay_retry_policy"?: ((InvoiceAutopayRetryPolicyInput) | (null));
+    "amount_money": MoneyValue;
+    /** The invoice this payment was recorded against. */
+    "invoice_id": string;
     /**
-     * Shape $ (Value): string or null. Up to 12 ASCII letters, digits, underscores, or hyphens.
-     * Counted before normalization. Send null to clear it. minLength: 1. maxLength: 12. pattern:
-     * ^[A-Za-z0-9_-]*$.
+     * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+     * value as source.order_manual_payment_id.
      */
-    "credit_note_number_prefix"?: string | null;
+    "invoice_manual_payment_id": string;
+    /** minLength: 1. maxLength: 4096. */
+    "note"?: string;
     /**
-     * Shape $ (Value): string or null. Value enum: "buyer_initiated", "automatic", "external",
-     * null.
+     * Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1. maxLength:
+     * 255.
      */
-    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null;
+    "payment_reference"?: string;
+    /** When the payment was received. Format: date-time. */
+    "received_at": string;
     /**
-     * Shape $ (Value): string or null. Limited to 4096 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. minLength: 1. maxLength: 4096.
+     * Note supplied when reversing the payment. Present only when reversed and a note was
+     * supplied. minLength: 1. maxLength: 4096.
      */
-    "default_footer"?: string | null;
+    "reversal_note"?: string;
+    /** When the payment was reversed. Present only when reversed. Format: date-time. */
+    "reversed_at"?: string;
     /**
-     * Shape $ (Value): string or null. Send null to clear it. minLength: 1. pattern:
-     * ^ipt_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Whether the payment is recorded or has been reversed in full. Value enum: "recorded",
+     * "reversed".
      */
-    "default_invoice_payment_term_id"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Limited to 4096 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. minLength: 1. maxLength: 4096.
-     */
-    "default_memo"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Up to 12 ASCII letters, digits, underscores, or hyphens.
-     * Counted before normalization. Send null to clear it. minLength: 1. maxLength: 12. pattern:
-     * ^[A-Za-z0-9_-]*$.
-     */
-    "invoice_number_prefix"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput} or null. Replaced as a whole: send every
-     * field you want to keep. Shape $.anyOf[1] (Value): {@link InvoicePaymentPolicyInput}. Which
-     * payment options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison. Shape $.anyOf[2] (Value): null.
-     */
-    "payment_policy"?: ((InvoicePaymentPolicyInput) | (null));
-    /**
-     * Shape $ (Value): {@link InvoiceReminderPolicyInput} or null. Replaced as a whole: send every
-     * field you want to keep. Shape $.anyOf[1] (Value): {@link InvoiceReminderPolicyInput}. Rules
-     * for automatic invoice reminders, each sent a set number of days before or after the due
-     * date. Shape $.anyOf[2] (Value): null.
-     */
-    "reminder_policy"?: ((InvoiceReminderPolicyInput) | (null));
-    /**
-     * Shape $ (Value): {@link AddressRequestInput} or null. Replaced as a whole: send every field
-     * you want to keep. Shape $.anyOf[1] (Value): {@link AddressRequestInput}. A complete postal
-     * address. State and postal_code are required for US addresses and optional for other
-     * countries. Send null or omit line2, state, and postal_code when the address has none. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "remit_to_address"?: ((AddressRequestInput) | (null));
-    /**
-     * Shape $ (Value): string or null. Limited to 255 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. Format: email. minLength: 1. maxLength: 255.
-     */
-    "reply_to_email"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Limited to 255 characters (Unicode code points), counted
-     * before normalization. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
+    "status": "recorded" | "reversed" | (string & {});
 };
+export type InvoiceManualPaymentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_manual_payment.created";
+});
+/**
+ * The `invoice_manual_payment.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoiceManualPaymentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
+     */
+    "data"?: {
+        /**
+         * A recorded offline payment against an invoice. Its amount contributes to invoice
+         * paid_money while recorded; reversing it returns its full amount to outstanding_money. A
+         * payment can cover principal and late fees. Manual payments are separate from online
+         * payment attempts.
+         */
+        "object": InvoiceManualPayment;
+    };
+    /** Value enum: "invoice_manual_payment.created". */
+    "event_type"?: "invoice_manual_payment.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_manual_payment.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceManualPaymentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
+     */
+    "data"?: {
+        /**
+         * A recorded offline payment against an invoice. Its amount contributes to invoice
+         * paid_money while recorded; reversing it returns its full amount to outstanding_money. A
+         * payment can cover principal and late fees. Manual payments are separate from online
+         * payment attempts.
+         */
+        "object": InvoiceManualPayment;
+    };
+    /** Value enum: "invoice_manual_payment.created". */
+    "event_type"?: "invoice_manual_payment.created";
+});
+/** A page of `InvoiceManualPayment` objects. */
+export type InvoiceManualPaymentListResponse = {
+    /**
+     *  [] (Value): {@link InvoiceManualPayment}. A recorded offline payment against an invoice.
+     * Its amount contributes to invoice paid_money while recorded; reversing it returns its full
+     * amount to outstanding_money. A payment can cover principal and late fees. Manual payments
+     * are separate from online payment attempts.
+     */
+    "data": Array<InvoiceManualPayment>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `InvoiceManualPayment` data. */
+export type InvoiceManualPaymentResponse = {
+    /**
+     * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+     * while recorded; reversing it returns its full amount to outstanding_money. A payment can
+     * cover principal and late fees. Manual payments are separate from online payment attempts.
+     */
+    "data": InvoiceManualPayment;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The recorded or reversed payment and the updated invoice. expected_version on either write
+ * fences the invoice; use the returned invoice version for the next write.
+ */
+export type InvoiceManualPaymentResult = {
+    /** A bill issued to a customer. */
+    "invoice": Invoice;
+    /**
+     * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+     * while recorded; reversing it returns its full amount to outstanding_money. A payment can
+     * cover principal and late fees. Manual payments are separate from online payment attempts.
+     */
+    "invoice_manual_payment": InvoiceManualPayment;
+};
+/** A response containing `InvoiceManualPaymentResult` data. */
+export type InvoiceManualPaymentResultResponse = {
+    /**
+     * The recorded or reversed payment and the updated invoice. expected_version on either write
+     * fences the invoice; use the returned invoice version for the next write.
+     */
+    "data": InvoiceManualPaymentResult;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InvoiceManualPaymentReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.reversed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.reversed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_manual_payment.reversed";
+});

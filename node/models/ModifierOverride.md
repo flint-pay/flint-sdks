@@ -11,7 +11,7 @@ Settings for one modifier that apply only within a modifier set group, overridin
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available` | Optional | boolean | Whether this modifier can be offered in this set. Defaults to true; the modifier must also have status active. Default: `true`. |
-| `default_quantity` | Optional | integer string | Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value. Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `default_quantity` | Optional | integer | Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value. Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities are not supported. Format: `int64`. |
 | `line_item_tax_category` | Optional | string | Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's value. Values: [12 declared values](#modifieroverride-line_item_tax_category-values). |
 | `modifier_id` | Required | string | Identifier of the list modifier these overrides apply to. minLength: `1`. |
 | `selected_by_default` | Optional | boolean | Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's value. Ignored when the choice is unavailable. |

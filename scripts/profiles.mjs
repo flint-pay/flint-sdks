@@ -58,11 +58,18 @@ export function operations(api) {
 }
 
 /** The route's idempotency class, read from its Idempotency-Key declaration. */
-export function idempotencyClass(verb, operation) {
-  // A referenced parameter could hide the header, so the class would read as none.
-  if ((operation.parameters ?? []).some((parameter) => parameter.$ref))
-    fail(`${operation.operationId} uses a referenced parameter`);
-  const headers = (operation.parameters ?? []).filter(
+export function idempotencyClass(verb, operation, api) {
+  const parameters = (operation.parameters ?? []).map((parameter) => {
+    if (!parameter.$ref) return parameter;
+    const prefix = "#/components/parameters/";
+    const resolved = parameter.$ref.startsWith(prefix)
+      ? api?.components?.parameters?.[parameter.$ref.slice(prefix.length)]
+      : undefined;
+    if (!resolved || resolved.$ref)
+      fail(`${operation.operationId} has an unresolved parameter ${parameter.$ref}`);
+    return resolved;
+  });
+  const headers = parameters.filter(
     (parameter) =>
       parameter.in === "header" &&
       parameter.name?.toLowerCase() === IDEMPOTENCY_HEADER.toLowerCase(),
@@ -121,7 +128,7 @@ function resolveSchema(api, schema) {
 }
 
 /** The error-body path whose closed retry enum carries `same_request`. */
-export function retrySignalPath(api, codePath) {
+export function retrySignalPath(api, objectPath) {
   const envelope = api.components?.schemas?.ErrorEnvelope;
   if (!envelope) fail("the export has no ErrorEnvelope schema");
   const found = [];
@@ -143,9 +150,9 @@ export function retrySignalPath(api, codePath) {
       `expected one error_retry field in ErrorEnvelope, found ${found.length}`,
     );
   const [path] = found;
-  if (path.split(".")[0] !== codePath.split(".")[0])
-    fail(`retry signal ${path} is outside the error object at ${codePath}`);
-  return path;
+  if (!path.startsWith(objectPath + "."))
+    fail(`retry signal ${path} is outside the error object at ${objectPath}`);
+  return path.slice(objectPath.length + 1);
 }
 
 /** Returns the profile with derived retry and idempotency settings. */
@@ -162,10 +169,11 @@ export function deriveProfile(api, profile) {
       retry: {
         path: retrySignalPath(
           api,
-          profile.errors?.codePath ?? fail("errors.codePath is unset"),
+          profile.errors?.objectPath ?? fail("errors.objectPath is unset"),
         ),
         retryValues: [RETRY_VALUE],
       },
+      inProgressCodes: ["IDEMPOTENCY_KEY_IN_PROGRESS"],
     },
     defaults: {
       idempotency: {
@@ -188,7 +196,7 @@ export function deriveProfile(api, profile) {
   for (const { verb, operation } of operations(api)) {
     const id = operation.operationId;
     seen.add(id);
-    const cls = idempotencyClass(verb, operation);
+    const cls = idempotencyClass(verb, operation, api);
     // Assigning existing keys keeps their position, so regeneration diffs stay small.
     derived.operations[id] = Object.assign(
       { ...derived.operations[id] },
