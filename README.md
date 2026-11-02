@@ -4,11 +4,11 @@ Official Node.js/TypeScript and PHP SDKs for Flint.
 
 ## Install
 
-Install the `8.0.0-beta.1` prerelease explicitly:
+Install the `8.0.0-beta.2` prerelease explicitly:
 
 ```sh
-npm install @flintpay/node@8.0.0-beta.1
-composer require flintpay/flint:8.0.0-beta.1
+npm install @flintpay/node@8.0.0-beta.2
+composer require flintpay/flint:8.0.0-beta.2
 ```
 
 The beta is also available as `@flintpay/node@next`. npm's `latest` tag remains on the stable release. Review [the migration guide](MIGRATION.md#sdk-800) before upgrading and [the changelog](CHANGELOG.md) for release notes.
@@ -24,6 +24,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP)  | API version  |
 | --------------------------- | ------------ |
+| `8.0.0-beta.2`             | `2026-09-07` |
 | `8.0.0-beta.1`             | `2026-09-07` |
 | `7.0.0`                     | `2026-09-07` |
 | `6.0.0`                     | `2026-09-07` |
@@ -49,7 +50,7 @@ The API version identifies the pinned contract used to generate the SDK. The SDK
 
 The pinned API version is `2026-09-07`. The packages expose 615 operations from the pinned export, including PDF downloads, redirects, and an event stream. Five CLI/OAuth operations use form-encoded request bodies that the generator does not yet support; the browser-only OAuth consent redirect is also excluded. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. Namespaces follow the first API path segment after `/v1`; method names follow the operation ID without that namespace noun.
 
-Named credential modes cover merchant API keys and bearer tokens, customer sessions, onboarding, checkout bearer tokens, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
+Named credential modes cover merchant API keys and bearer tokens, customer sessions, onboarding, checkout bearer tokens, and invoice tokens. Select the mode appropriate to the operation. Merchant default credentials support environment keys and tokens, GitHub Actions, GitLab CI, Kubernetes, GCP, Azure, AWS and saved CLI sessions. See the [default credentials guide](node/guides/default-credentials.md) for setup and optional AWS dependencies. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 
 The refreshed generator supports nullable response fields, including nested resources. Generated response validation follows the pinned API schema, so a response that is missing a required field or has a value of the wrong type throws `UnexpectedResponseError`.
 

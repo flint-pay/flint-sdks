@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.1` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.1` or `flintpay/flint:8.0.0-beta.1`. The API date is `2026-09-07`; this beta pins Flint `main` at `6cd24dfcae461df982718effa88460b3c732c1e2`. Stable releases will pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.2` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.2` or `flintpay/flint:8.0.0-beta.2`. The API date is `2026-09-07`; this beta pins Flint `main` at `6cd24dfcae461df982718effa88460b3c732c1e2`. Stable releases will pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -510,7 +510,7 @@ error_log($order->lastResponse()?->requestId ?? '');
 - Each page from `*Pages` has its own `lastResponse`; items from `*Items` don't. `*Wait` results carry the last poll's.
 - Binary, redirect and stream methods keep `{ data, raw }` and rename `meta` to `lastResponse` (PHP `lastResponse()` on `Result`). `EventStream.meta` is now `EventStream.lastResponse`.
 - The `diagnostics` callback's `errorKind` is now `errorName` (the class name), with a new `errorCode`.
-- New client option `appInfo: { name, version?, url? }` adds your integration to the `User-Agent`, which now also names the runtime version and OS: `flintpay-node/8.0.0-beta.1 (Node.js 22.11.0; linux x64) woocommerce-flint/1.4.0`.
+- New client option `appInfo: { name, version?, url? }` adds your integration to the `User-Agent`, which now also names the runtime version and OS: `flintpay-node/8.0.0-beta.2 (Node.js 22.11.0; linux x64) woocommerce-flint/1.4.0`.
 
 What to do: replace each `xWithResponse(...)` with `x(...)` and read `.lastResponse`.
 

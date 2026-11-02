@@ -55,6 +55,7 @@
     "php": ">=8.2"
   },
   "suggest": {
+    "aws/aws-sdk-php": "Optional AWS STS workload identity source (>=3.402.5)",
     "ext-openssl": "Required for ES256 webhook verification",
     "psr/http-client": "Optional PSR-18 JWKS HTTP client",
     "psr/http-factory": "Optional PSR-17 request factory for the JWKS HTTP client",

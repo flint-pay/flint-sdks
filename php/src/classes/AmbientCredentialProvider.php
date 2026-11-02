@@ -40,6 +40,10 @@ final class AmbientCredentialProvider implements CredentialProvider
             $value = getenv($prefix . '_' . $suffix);
             return $value === false || $value === '' ? null : $value;
         };
+        $present = static function (string $name): bool {
+            $value = getenv($name);
+            return $value !== false && $value !== '';
+        };
         $id = $this->identity['workloadIdentityId'] ?? $read('WORKLOAD_IDENTITY_ID');
         $source = $this->identity['source'] ?? ($read('OIDC_SOURCE') ?? 'auto');
         $subject = '';
@@ -50,6 +54,7 @@ final class AmbientCredentialProvider implements CredentialProvider
             &$subject,
             &$responseTokens,
             $environment,
+            $read,
         ): string {
             $text = is_string($value)
                 ? $value
@@ -62,6 +67,11 @@ final class AmbientCredentialProvider implements CredentialProvider
                     getenv($environment['apiKey']),
                     getenv($environment['token']),
                     getenv('ACTIONS_ID_TOKEN_REQUEST_TOKEN'),
+                    getenv('IDENTITY_HEADER'),
+                    $read('OIDC_TOKEN'),
+                    getenv('AWS_SECRET_ACCESS_KEY'),
+                    getenv('AWS_SESSION_TOKEN'),
+                    getenv('AWS_CONTAINER_AUTHORIZATION_TOKEN'),
                 ]
                 as $secret
             ) {
@@ -123,6 +133,10 @@ final class AmbientCredentialProvider implements CredentialProvider
                 $this->lastCredential = null;
                 return new Credential($token);
             }
+            if (($id === null || $id === '') && $read('CLI_CREDENTIALS') !== '0') {
+                $source = 'cli';
+                return $this->cliCredential($context, $fail);
+            }
             if ($id === null || $id === '') {
                 $fail(
                     'no_credentials',
@@ -136,7 +150,7 @@ final class AmbientCredentialProvider implements CredentialProvider
                         $prefix .
                         '_OIDC_TOKEN or ' .
                         $prefix .
-                        '_OIDC_TOKEN_FILE, or GitHub Actions permissions: id-token: write',
+                        '_OIDC_TOKEN_FILE, or GitHub Actions permissions: id-token: write. Other sources: GitLab id_tokens:, Kubernetes projected /var/run/secrets/flint/token, GCP metadata identity, Azure managed identity with OIDC_AUDIENCE, AWS STS GetWebIdentityToken, or flint auth login (CLI credentials are disabled)',
                 );
             }
         }
@@ -169,28 +183,141 @@ final class AmbientCredentialProvider implements CredentialProvider
         $scope = $this->identity['scope'] ?? $read('OIDC_SCOPE');
         $file = $read('OIDC_TOKEN_FILE');
         if ($source === 'auto') {
-            $source = $read('OIDC_TOKEN')
-                ? 'token'
-                : ($file
-                    ? 'token_file'
-                    : (getenv('GITHUB_ACTIONS') === 'true'
-                        ? 'github_actions'
-                        : 'none'));
+            $source = match (true) {
+                $read('OIDC_TOKEN') !== null => 'token',
+                $file !== null => 'token_file',
+                getenv('GITHUB_ACTIONS') === 'true' => 'github_actions',
+                getenv('GITLAB_CI') === 'true' => 'gitlab_ci',
+                $present('KUBERNETES_SERVICE_HOST') => 'kubernetes',
+                $present('K_SERVICE') ||
+                    $present('FUNCTION_TARGET') ||
+                    $present('GCE_METADATA_HOST')
+                    => 'gcp',
+                $present('IDENTITY_ENDPOINT') && $present('IDENTITY_HEADER') => 'azure',
+                str_starts_with(getenv('AWS_EXECUTION_ENV') ?: '', 'AWS_Lambda_') ||
+                    str_starts_with(getenv('AWS_EXECUTION_ENV') ?: '', 'AWS_ECS_') ||
+                    $present('AWS_LAMBDA_FUNCTION_NAME') ||
+                    $present('ECS_CONTAINER_METADATA_URI') ||
+                    $present('ECS_CONTAINER_METADATA_URI_V4')
+                    => 'aws',
+                default => 'none',
+            };
         }
-        if (!in_array($source, ['token', 'token_file', 'github_actions'], true)) {
-            $fail('source_unavailable', 'Supported sources: token, token_file, github_actions');
+        if (
+            !in_array(
+                $source,
+                [
+                    'token',
+                    'token_file',
+                    'github_actions',
+                    'gitlab_ci',
+                    'kubernetes',
+                    'gcp',
+                    'azure',
+                    'aws',
+                ],
+                true,
+            )
+        ) {
+            $fail(
+                'source_unavailable',
+                'Choose token, token_file, github_actions (permissions: id-token: write), gitlab_ci (id_tokens:), kubernetes (project /var/run/secrets/flint/token), gcp (metadata identity), azure (managed identity and OIDC_AUDIENCE), or aws (STS GetWebIdentityToken). Cloud auto discovery requires a platform environment marker.',
+            );
         }
+        if ($source === 'gitlab_ci' && $read('OIDC_TOKEN') === null) {
+            $fail(
+                'source_unavailable',
+                "Add GitLab YAML:\nid_tokens:\n  " .
+                    $prefix .
+                    "_OIDC_TOKEN:\n    aud: " .
+                    $audience,
+            );
+        }
+        if ($source === 'kubernetes') {
+            $file ??= '/var/run/secrets/flint/token';
+        }
+        if (
+            $source === 'azure' &&
+            !isset($this->identity['audience']) &&
+            $read('OIDC_AUDIENCE') === null
+        ) {
+            $fail(
+                'source_unavailable',
+                'Set ' . $prefix . '_OIDC_AUDIENCE to the merchant Entra app ID URI',
+            );
+        }
+        if ($source === 'token_file' || $source === 'kubernetes') {
+            $paths = static function (string $path): array {
+                $absolute = str_starts_with($path, '/') ? $path : getcwd() . '/' . $path;
+                $segments = [];
+                foreach (explode('/', $absolute) as $segment) {
+                    if ($segment === '..') {
+                        array_pop($segments);
+                    } elseif ($segment !== '' && $segment !== '.') {
+                        $segments[] = $segment;
+                    }
+                }
+                return [
+                    '/' . implode('/', $segments),
+                    realpath($path) ?: '/' . implode('/', $segments),
+                ];
+            };
+            $selected = $file ? $paths($file) : [];
+            foreach (
+                [
+                    getenv('AWS_WEB_IDENTITY_TOKEN_FILE'),
+                    getenv('AZURE_FEDERATED_TOKEN_FILE'),
+                    '/var/run/secrets/kubernetes.io/serviceaccount/token',
+                ]
+                as $foreign
+            ) {
+                if ($foreign && array_intersect($selected, $paths($foreign))) {
+                    $fail(
+                        'source_unavailable',
+                        'Refusing a token file intended for another service; project a separate Flint audience token',
+                    );
+                }
+            }
+        }
+        $azureEndpoint =
+            $present('IDENTITY_ENDPOINT') && $present('IDENTITY_HEADER')
+                ? getenv('IDENTITY_ENDPOINT')
+                : null;
         $githubUrl = getenv('ACTIONS_ID_TOKEN_REQUEST_URL');
         $githubToken = getenv('ACTIONS_ID_TOKEN_REQUEST_TOKEN');
         if ($source === 'github_actions' && (!$githubUrl || !$githubToken)) {
             $fail('source_unavailable', 'GitHub Actions requires permissions: id-token: write');
         }
-        $sourceKey =
-            $source === 'token'
-                ? hash('sha256', $read('OIDC_TOKEN') ?? '')
-                : ($source === 'github_actions'
-                    ? hash('sha256', json_encode([$githubUrl, $githubToken]))
-                    : $file);
+        $sourceKey = in_array($source, ['token', 'gitlab_ci'], true)
+            ? hash('sha256', $read('OIDC_TOKEN') ?? '')
+            : ($source === 'github_actions'
+                ? hash('sha256', json_encode([$githubUrl, $githubToken]))
+                : [
+                    $file,
+                    getenv('GCE_METADATA_HOST'),
+                    getenv('IDENTITY_ENDPOINT'),
+                    hash('sha256', getenv('IDENTITY_HEADER') ?: ''),
+                    $read('AZURE_CLIENT_ID'),
+                    getenv('AWS_PROFILE'),
+                    getenv('AWS_DEFAULT_PROFILE'),
+                    getenv('AWS_CONFIG_FILE'),
+                    getenv('AWS_SHARED_CREDENTIALS_FILE'),
+                    getenv('AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE'),
+                    getenv('AWS_REGION'),
+                    getenv('AWS_DEFAULT_REGION'),
+                    getenv('AWS_CONTAINER_CREDENTIALS_FULL_URI'),
+                    getenv('AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'),
+                    getenv('AWS_EC2_METADATA_SERVICE_ENDPOINT'),
+                    hash(
+                        'sha256',
+                        json_encode([
+                            getenv('AWS_ACCESS_KEY_ID'),
+                            getenv('AWS_SECRET_ACCESS_KEY'),
+                            getenv('AWS_SESSION_TOKEN'),
+                            getenv('AWS_CONTAINER_AUTHORIZATION_TOKEN'),
+                        ]),
+                    ),
+                ]);
         $key = hash(
             'sha256',
             json_encode([
@@ -335,7 +462,181 @@ final class AmbientCredentialProvider implements CredentialProvider
                     );
                 }
                 $subject = $payload['value'];
-            } elseif ($source === 'token') {
+            } elseif ($source === 'gcp' || $source === 'azure') {
+                $endpointUrl =
+                    $source === 'gcp'
+                        ? 'http://' .
+                            (getenv('GCE_METADATA_HOST') ?: 'metadata.google.internal') .
+                            '/computeMetadata/v1/instance/service-accounts/default/identity'
+                        : $azureEndpoint ?? 'http://169.254.169.254/metadata/identity/oauth2/token';
+                $endpoint = parse_url($endpointUrl);
+                if (
+                    !$endpoint ||
+                    !in_array($endpoint['scheme'] ?? '', ['http', 'https'], true) ||
+                    isset($endpoint['user']) ||
+                    isset($endpoint['pass']) ||
+                    isset($endpoint['fragment'])
+                ) {
+                    $fail('subject_token_request_failed', 'Metadata identity endpoint is invalid');
+                }
+                parse_str($endpoint['query'] ?? '', $query);
+                $headers = [];
+                if ($source === 'gcp') {
+                    $query['audience'] = $audience;
+                    $query['format'] = 'full';
+                    $headers['Metadata-Flavor'] = 'Google';
+                } else {
+                    $query['api-version'] = $azureEndpoint ? '2019-08-01' : '2018-02-01';
+                    $query['resource'] = $audience;
+                    if ($read('AZURE_CLIENT_ID') !== null) {
+                        $query['client_id'] = $read('AZURE_CLIENT_ID');
+                    }
+                    if ($azureEndpoint) {
+                        $headers['X-IDENTITY-HEADER'] = getenv('IDENTITY_HEADER');
+                    } else {
+                        $headers['Metadata'] = 'true';
+                    }
+                }
+                try {
+                    $body = self::metadata(
+                        explode('?', $endpointUrl, 2)[0] .
+                            '?' .
+                            http_build_query($query, '', '&', PHP_QUERY_RFC3986),
+                        $headers,
+                        $context,
+                        $deadline,
+                    );
+                } catch (\Throwable) {
+                    $fail('subject_token_request_failed', 'Metadata identity request failed');
+                }
+                $payload = $source === 'gcp' ? trim($body) : json_decode($body, true);
+                $subject = is_string($payload)
+                    ? $payload
+                    : (is_array($payload) && is_string($payload['access_token'] ?? null)
+                        ? $payload['access_token']
+                        : '');
+                if ($subject === '') {
+                    $fail('subject_token_request_failed', 'Metadata identity response is invalid');
+                }
+            } elseif ($source === 'aws') {
+                if (
+                    !class_exists(\Aws\Sts\StsClient::class) ||
+                    !class_exists(\Aws\Credentials\CredentialProvider::class) ||
+                    !class_exists(\GuzzleHttp\Promise\Create::class) ||
+                    !function_exists('Aws\\default_http_handler')
+                ) {
+                    $fail(
+                        'source_unavailable',
+                        'Install aws/aws-sdk-php >=3.402.5 to use the aws source',
+                    );
+                }
+                // The SDK has no switch to omit its inbound web-identity provider.
+                // Refuse that configuration before invoking the standard chain.
+                $home = \Aws\Credentials\CredentialProvider::getHomeDir();
+                $sharedFiles = array_unique([
+                    getenv('AWS_CONFIG_FILE') ?: $home . '/.aws/config',
+                    getenv('AWS_SHARED_CREDENTIALS_FILE') ?: $home . '/.aws/credentials',
+                    $home . '/.aws/config',
+                    $home . '/.aws/credentials',
+                ]);
+                $inboundIdentity = (bool) getenv('AWS_WEB_IDENTITY_TOKEN_FILE');
+                foreach ($sharedFiles as $sharedFile) {
+                    if (!file_exists($sharedFile)) {
+                        continue;
+                    }
+                    $contents = @file_get_contents($sharedFile);
+                    if ($contents === false) {
+                        $fail(
+                            'source_unavailable',
+                            'Cannot inspect AWS shared configuration for inbound web identity',
+                        );
+                    }
+                    $inboundIdentity =
+                        $inboundIdentity ||
+                        preg_match('/^\s*web_identity_token_file\s*=/m', $contents);
+                }
+                if ($inboundIdentity) {
+                    $fail(
+                        'source_unavailable',
+                        'The aws source refuses AWS_WEB_IDENTITY_TOKEN_FILE and profile web_identity_token_file; use outbound IAM federation',
+                    );
+                }
+                try {
+                    $cloudDeadline = min($deadline, hrtime(true) / 1e6 + 5000);
+                    $handler = \Aws\default_http_handler();
+                    // defaultProvider forwards client to its ECS and IMDS providers.
+                    $credentials = \Aws\Credentials\CredentialProvider::defaultProvider([
+                        'region' => getenv('AWS_REGION') ?: getenv('AWS_DEFAULT_REGION') ?: null,
+                        'retries' => 0,
+                        'timeout' => 1,
+                        'client' => static function ($request, $options) use (
+                            $handler,
+                            $cloudDeadline,
+                        ) {
+                            return $handler(
+                                $request,
+                                array_replace($options, [
+                                    'proxy' => '',
+                                    'allow_redirects' => false,
+                                    'connect_timeout' => 1,
+                                    'timeout' => max(
+                                        0.001,
+                                        min(2, ($cloudDeadline - hrtime(true) / 1e6) / 1000),
+                                    ),
+                                ]),
+                            )->then(static function ($response) {
+                                if (
+                                    $response->getStatusCode() < 200 ||
+                                    $response->getStatusCode() >= 300
+                                ) {
+                                    return \GuzzleHttp\Promise\Create::rejectionFor([
+                                        'exception' => new \RuntimeException(
+                                            'AWS metadata response refused',
+                                        ),
+                                    ]);
+                                }
+                                return $response;
+                            });
+                        },
+                    ]);
+                    $role = $credentials()->wait();
+                    if (
+                        hrtime(true) / 1e6 >= $cloudDeadline ||
+                        ($context['cancellation'] ?? null)?->isCancelled()
+                    ) {
+                        throw new \RuntimeException();
+                    }
+                    $client = new \Aws\Sts\StsClient([
+                        'version' => '2011-06-15',
+                        'sts_regional_endpoints' => 'regional',
+                        'region' => getenv('AWS_REGION') ?: getenv('AWS_DEFAULT_REGION') ?: null,
+                        'credentials' => $role,
+                        'retries' => 0,
+                        'http' => [
+                            'proxy' => '',
+                            'allow_redirects' => false,
+                            'connect_timeout' => 1,
+                            'timeout' => max(
+                                0.001,
+                                min(2, ($cloudDeadline - hrtime(true) / 1e6) / 1000),
+                            ),
+                        ],
+                    ]);
+                    $result = $client->getWebIdentityToken([
+                        'Audience' => [$audience],
+                        'SigningAlgorithm' => 'ES384',
+                    ]);
+                    $subject = $result['WebIdentityToken'] ?? null;
+                    if (!is_string($subject) || $subject === '') {
+                        throw new \RuntimeException();
+                    }
+                } catch (\Throwable) {
+                    $fail(
+                        'subject_token_request_failed',
+                        'AWS STS GetWebIdentityToken failed; configure a regional workload role with sts:GetWebIdentityToken permission and upgrade aws/aws-sdk-php for GetWebIdentityToken',
+                    );
+                }
+            } elseif ($source === 'token' || $source === 'gitlab_ci') {
                 $subject = $read('OIDC_TOKEN') ?? '';
             } else {
                 $value = $file ? @file_get_contents($file) : '';
@@ -512,6 +813,190 @@ final class AmbientCredentialProvider implements CredentialProvider
             unset(self::$active[$key]);
         }
     }
+    private function cliCredential(
+        #[\SensitiveParameter] array $context,
+        \Closure $fail,
+    ): Credential {
+        $help =
+            'Set ' .
+            $this->config['environment']['apiKey'] .
+            ', ' .
+            $this->config['environment']['token'] .
+            ', or ' .
+            $this->config['workloadIdentity']['envPrefix'] .
+            '_WORKLOAD_IDENTITY_ID with token/token_file, GitHub permissions: id-token: write, GitLab id_tokens:, Kubernetes projected /var/run/secrets/flint/token, GCP metadata identity, Azure managed identity with OIDC_AUDIENCE, or AWS STS GetWebIdentityToken.';
+        $key = hash(
+            'sha256',
+            json_encode([
+                'cli',
+                $context['baseUrl'] ?? $this->baseUrl,
+                $this->config['workloadIdentity']['envPrefix'],
+                getenv('PATH'),
+                getenv('FLINT_PROFILE'),
+                getenv('FLINT_BASE_URL'),
+            ]),
+        );
+        $make = function (array $entry) use ($key): Credential {
+            $result = new Credential(
+                $entry['value'],
+                isset($entry['expiresAt'])
+                    ? new \DateTimeImmutable('@' . (int) $entry['expiresAt'])
+                    : null,
+            );
+            $this->invalidations ??= new \WeakMap();
+            $this->invalidations[$result] = static function () use ($key, $entry): void {
+                if ((self::$tokens[$key] ?? null) === $entry) {
+                    unset(self::$tokens[$key]);
+                }
+            };
+            return $this->lastCredential = $result;
+        };
+        $cached = self::$tokens[$key] ?? null;
+        $remaining = $cached ? $cached['expiresAt'] - microtime(true) : 0;
+        if ($cached && $remaining > 30 && $remaining >= max(60, $cached['lifetime'] * 0.2)) {
+            return $make($cached);
+        }
+        if (!function_exists('proc_open')) {
+            $fail(
+                'source_unavailable',
+                'CLI credentials require proc_open; enable it or configure environment credentials',
+            );
+        }
+        $deadline = min($context['deadline'] ?? INF, hrtime(true) / 1e6 + 5000);
+        if ($deadline <= hrtime(true) / 1e6 || ($context['cancellation'] ?? null)?->isCancelled()) {
+            $fail('source_unavailable', 'CLI credential request cancelled or expired');
+        }
+        $process = @proc_open(
+            ['flint', 'auth', 'token', '--output', 'json'],
+            [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']],
+            $pipes,
+            options: ['bypass_shell' => true],
+        );
+        if (!is_resource($process)) {
+            $fail(
+                'no_credentials',
+                'No CLI session: install flint and run flint auth login, or configure environment credentials or workload identity',
+            );
+        }
+        $stdout = '';
+        $stderr = '';
+        $exit = -1;
+        try {
+            fclose($pipes[0]);
+            stream_set_blocking($pipes[1], false);
+            stream_set_blocking($pipes[2], false);
+            while (true) {
+                $stdout .= stream_get_contents($pipes[1]);
+                $stderr .= stream_get_contents($pipes[2]);
+                if (
+                    strlen($stdout) + strlen($stderr) > 65536 ||
+                    hrtime(true) / 1e6 >= $deadline ||
+                    ($context['cancellation'] ?? null)?->isCancelled()
+                ) {
+                    $fail(
+                        'source_unavailable',
+                        'CLI credential request exceeded its limit or was cancelled',
+                    );
+                }
+                $status = proc_get_status($process);
+                if (!$status['running']) {
+                    $exit = $status['exitcode'];
+                    break;
+                }
+                usleep(1000);
+            }
+            $stdout .= stream_get_contents($pipes[1]);
+            $stderr .= stream_get_contents($pipes[2]);
+        } finally {
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            if (proc_get_status($process)['running']) {
+                proc_terminate($process, 9);
+            }
+            proc_close($process);
+        }
+        if ($exit === 127) {
+            $fail(
+                'no_credentials',
+                'No CLI session: install flint and run flint auth login. ' . $help,
+            );
+        }
+        if ($exit !== 0 && str_contains($stderr . $stdout, 'API_KEY_REQUIRED')) {
+            $fail('no_credentials', 'Run flint auth login. ' . $help);
+        }
+        if ($exit !== 0) {
+            $fail(
+                'source_unavailable',
+                str_contains($stderr . $stdout, 'API_KEY_NOT_EXPORTABLE')
+                    ? 'API_KEY_NOT_EXPORTABLE: run flint auth login or configure workload identity; API keys cannot be exported'
+                    : 'flint auth token failed; run flint auth login or disable CLI credentials. ' .
+                        $help,
+            );
+        }
+        $payload = json_decode($stdout, true);
+        if (
+            !is_array($payload) ||
+            !is_string($payload['access_token'] ?? null) ||
+            trim($payload['access_token']) === '' ||
+            preg_match('/[\r\n]/', $payload['access_token']) ||
+            ($payload['token_type'] ?? null) !== 'Bearer'
+        ) {
+            $fail('source_unavailable', 'Invalid flint auth token response');
+        }
+        if (preg_match('/^flint_(test|live)_/', $payload['access_token'])) {
+            $fail(
+                'source_unavailable',
+                'API_KEY_NOT_EXPORTABLE: the CLI must export an OAuth or workload identity bearer token',
+            );
+        }
+        $expires =
+            isset($payload['expires_at']) && is_string($payload['expires_at'])
+                ? strtotime($payload['expires_at'])
+                : false;
+        if (
+            array_key_exists('expires_at', $payload) &&
+            ($expires === false || $expires <= microtime(true) + 30)
+        ) {
+            $fail('source_unavailable', 'CLI access token is expired or has an invalid expiry');
+        }
+        $entry = ['value' => $payload['access_token']];
+        if ($expires !== false) {
+            $entry += ['expiresAt' => $expires, 'lifetime' => $expires - microtime(true)];
+            self::$tokens[$key] = $entry;
+        }
+        return $make($entry);
+    }
+    private static function metadata(
+        string $url,
+        #[\SensitiveParameter] array $headers,
+        #[\SensitiveParameter] array $context,
+        float $deadline,
+        string $method = 'GET',
+    ): string {
+        $remaining = min(2000, $deadline - hrtime(true) / 1e6);
+        if ($remaining <= 0 || ($context['cancellation'] ?? null)?->isCancelled()) {
+            throw new \RuntimeException();
+        }
+        $request = [
+            'url' => $url,
+            'method' => $method,
+            'headers' => $headers,
+            'body' => '',
+            'timeoutMs' => max(1, (int) ceil($remaining)),
+            'cancellation' => $context['cancellation'] ?? null,
+        ];
+        $response = isset($context['transport'])
+            ? $context['transport']($request)
+            : self::send($request);
+        if (
+            ($response['failureCode'] ?? null) ||
+            $response['status'] !== 200 ||
+            strlen($response['body'] ?? '') > 65536
+        ) {
+            throw new \RuntimeException();
+        }
+        return $response['body'] ?? '';
+    }
     private static function send(#[\SensitiveParameter] array $request): array
     {
         $ch = curl_init();
@@ -542,7 +1027,7 @@ final class AmbientCredentialProvider implements CredentialProvider
                     return strlen($line);
                 },
             ]);
-            if ($request['method'] === 'GET') {
+            if ($request['method'] !== 'POST') {
                 curl_setopt($ch, CURLOPT_PROXY, '');
             }
             if ($request['method'] === 'POST') {
