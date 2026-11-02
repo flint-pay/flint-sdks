@@ -340,7 +340,62 @@ function webhookScalarHeader(headers, name, timestamp = false) {
 }
 const identityTokens = new Map();
 const identityFlights = new Map();
-/** Generated package wrappers supply provider configuration; no provider names live here. */
+const cliTokens = new Map();
+const cliFlights = new Map();
+// Node 24+ can configure proxying globally; an empty proxyEnv also opts private agents out.
+const identityAgentOptions = { keepAlive: false, proxyEnv: {} };
+async function identityMetadata(endpoint, headers, context, deadline, method = 'GET') {
+    const agent = endpoint.protocol === 'https:'
+        ? new (process.getBuiltinModule('https').Agent)(identityAgentOptions)
+        : new (process.getBuiltinModule('http').Agent)(identityAgentOptions);
+    const controller = new AbortController();
+    const abort = () => controller.abort();
+    context?.signal?.addEventListener('abort', abort, { once: true });
+    if (context?.signal?.aborted || deadline <= performance.now())
+        controller.abort();
+    const timer = schedule(abort, Math.max(0, Math.min(2000, deadline - performance.now())));
+    try {
+        // Private agents bypass environment proxies; native HTTP never follows redirects.
+        const response = context?.transport && context.transport !== fetch
+            ? await abortable(context.transport(endpoint, {
+                method,
+                headers,
+                redirect: 'manual',
+                signal: controller.signal,
+            }), controller.signal)
+            : await new Promise((resolve, reject) => {
+                const request = (endpoint.protocol === 'https:'
+                    ? process.getBuiltinModule('https')
+                    : process.getBuiltinModule('http')).request(endpoint, { method, headers, signal: controller.signal, agent }, (response) => {
+                    const chunks = [];
+                    let size = 0;
+                    response.on('data', (chunk) => {
+                        size += chunk.length;
+                        if (size > 65536)
+                            request.destroy(new Error());
+                        else
+                            chunks.push(chunk);
+                    });
+                    response.on('error', reject);
+                    response.on('end', () => resolve({
+                        status: response.statusCode ?? 0,
+                        text: async () => Buffer.concat(chunks).toString('utf8'),
+                    }));
+                });
+                request.on('error', reject);
+                request.end();
+            });
+        if (response.status !== 200)
+            throw new Error();
+        return await abortable(response.text(), controller.signal);
+    }
+    finally {
+        timer.cancel();
+        agent.destroy();
+        context?.signal?.removeEventListener('abort', abort);
+    }
+}
+/** Generated package wrappers supply API and environment configuration. */
 export function configuredDefaultCredentials(config, baseUrl) {
     return new AmbientCredentialProvider(config, undefined, baseUrl);
 }
@@ -371,6 +426,100 @@ class AmbientCredentialProvider {
         if (credential)
             this.#invalidations.get(credential)?.();
     }
+    async cliCredential(context, fail) {
+        const help = `Set ${this.config.environment.apiKey}, ${this.config.environment.token}, or ${this.config.workloadIdentity.envPrefix}_WORKLOAD_IDENTITY_ID with token/token_file, GitHub permissions: id-token: write, GitLab id_tokens:, Kubernetes projected /var/run/secrets/flint/token, GCP metadata identity, Azure managed identity with OIDC_AUDIENCE, or AWS STS GetWebIdentityToken.`;
+        const key = JSON.stringify([
+            'cli',
+            context?.baseUrl ?? this.baseUrl,
+            this.config.workloadIdentity.envPrefix,
+            process.env.PATH,
+            process.env.FLINT_PROFILE,
+            process.env.FLINT_BASE_URL,
+        ]);
+        const result = (entry) => {
+            const credential = {
+                value: entry.value,
+                ...(entry.expiresAt ? { expiresAt: entry.expiresAt } : {}),
+            };
+            this.#invalidations.set(credential, () => {
+                if (cliTokens.get(key) === entry)
+                    cliTokens.delete(key);
+            });
+            this.#lastCredential = credential;
+            return credential;
+        };
+        const cached = cliTokens.get(key), remaining = cached?.expiresAt ? cached.expiresAt.getTime() - Date.now() : 0;
+        if (cached && remaining > 30000 && remaining >= Math.max(60000, cached.lifetime * 0.2))
+            return result(cached);
+        const existing = cliFlights.get(key);
+        if (existing)
+            return result(await existing);
+        const resolve = async () => {
+            const timeout = Math.min(5000, (context?.deadline ?? Infinity) - performance.now());
+            if (timeout <= 0 || context?.signal?.aborted)
+                return fail('source_unavailable', 'CLI credential request cancelled or expired');
+            const output = await new Promise((resolve) => {
+                const child = process.getBuiltinModule('child_process').execFile('flint', ['auth', 'token', '--output', 'json'], {
+                    encoding: 'utf8',
+                    timeout: Math.max(1, Math.ceil(timeout)),
+                    maxBuffer: 65536,
+                    windowsHide: true,
+                    killSignal: 'SIGKILL',
+                    ...(context?.signal ? { signal: context.signal } : {}),
+                }, (error, stdout, stderr) => resolve({ ok: !error, missing: error?.code === 'ENOENT', stdout, stderr }));
+                child.stdin?.end();
+            });
+            if (output.missing)
+                return fail('no_credentials', 'No CLI session: install flint and run flint auth login. ' + help);
+            if (!output.ok && (output.stderr + output.stdout).includes('API_KEY_REQUIRED'))
+                return fail('no_credentials', 'Run flint auth login. ' + help);
+            if (!output.ok)
+                return fail('source_unavailable', output.stderr.includes('API_KEY_NOT_EXPORTABLE') ||
+                    output.stdout.includes('API_KEY_NOT_EXPORTABLE')
+                    ? 'API_KEY_NOT_EXPORTABLE: run flint auth login or configure workload identity; API keys cannot be exported'
+                    : 'flint auth token failed; run flint auth login or disable CLI credentials. ' + help);
+            let payload;
+            try {
+                payload = JSON.parse(output.stdout);
+            }
+            catch {
+                return fail('source_unavailable', 'Invalid flint auth token JSON response');
+            }
+            if (!payload ||
+                typeof payload !== 'object' ||
+                !('access_token' in payload) ||
+                typeof payload.access_token !== 'string' ||
+                !payload.access_token.trim() ||
+                /[\r\n]/.test(payload.access_token) ||
+                !('token_type' in payload) ||
+                payload.token_type !== 'Bearer')
+                return fail('source_unavailable', 'Invalid flint auth token response');
+            if (/^flint_(test|live)_/.test(payload.access_token))
+                return fail('source_unavailable', 'API_KEY_NOT_EXPORTABLE: the CLI must export an OAuth or workload identity bearer token');
+            const expiresAt = 'expires_at' in payload
+                ? new Date(typeof payload.expires_at === 'string' ? payload.expires_at : '')
+                : undefined;
+            if (expiresAt &&
+                (!Number.isFinite(expiresAt.getTime()) || expiresAt.getTime() <= Date.now() + 30000))
+                return fail('source_unavailable', 'CLI access token is expired or has an invalid expiry');
+            return {
+                value: payload.access_token,
+                ...(expiresAt ? { expiresAt } : {}),
+                lifetime: expiresAt ? expiresAt.getTime() - Date.now() : 0,
+            };
+        };
+        const flight = resolve();
+        cliFlights.set(key, flight);
+        try {
+            const entry = await flight;
+            if (entry.expiresAt)
+                cliTokens.set(key, entry);
+            return result(entry);
+        }
+        finally {
+            cliFlights.delete(key);
+        }
+    }
     async getCredential(context) {
         const env = this.config.environment;
         const prefix = this.config.workloadIdentity.envPrefix;
@@ -388,6 +537,11 @@ class AmbientCredentialProvider {
                 process.env[env.apiKey],
                 process.env[env.token],
                 process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN,
+                process.env.IDENTITY_HEADER,
+                process.env.AWS_SECRET_ACCESS_KEY,
+                process.env.AWS_SESSION_TOKEN,
+                process.env.AWS_CONTAINER_AUTHORIZATION_TOKEN,
+                read('OIDC_TOKEN'),
             ])
                 if (token)
                     for (const encoded of [token, encodeURIComponent(token)])
@@ -420,8 +574,12 @@ class AmbientCredentialProvider {
                 this.#lastCredential = undefined;
                 return { value: apiKey || token || '' };
             }
+            if (!id && read('CLI_CREDENTIALS') !== '0') {
+                source = 'cli';
+                return this.cliCredential(context, fail);
+            }
             if (!id)
-                fail('no_credentials', `Set ${env.apiKey}, ${env.token}, or ${prefix}_WORKLOAD_IDENTITY_ID with ${prefix}_OIDC_TOKEN, ${prefix}_OIDC_TOKEN_FILE, or GitHub Actions permissions: id-token: write`);
+                fail('no_credentials', `Set ${env.apiKey}, ${env.token}, or ${prefix}_WORKLOAD_IDENTITY_ID with ${prefix}_OIDC_TOKEN, ${prefix}_OIDC_TOKEN_FILE, or GitHub Actions permissions: id-token: write. Other sources: GitLab id_tokens:, Kubernetes projected /var/run/secrets/flint/token, GCP metadata identity, Azure managed identity with OIDC_AUDIENCE, AWS STS GetWebIdentityToken, or flint auth login (CLI credentials are disabled)`);
         }
         if (typeof id !== 'string' || !id || /[\r\n]/.test(id))
             fail('source_unavailable', 'A workload identity ID is required');
@@ -434,22 +592,77 @@ class AmbientCredentialProvider {
             fail('exchange_unavailable', 'Token exchange requires HTTPS or loopback');
         const audience = this.identity?.audience ?? read('OIDC_AUDIENCE') ?? url.origin;
         const scope = this.identity?.scope ?? read('OIDC_SCOPE');
-        const file = read('OIDC_TOKEN_FILE');
-        if (source === 'auto')
-            source = read('OIDC_TOKEN')
-                ? 'token'
-                : file
-                    ? 'token_file'
-                    : process.env.GITHUB_ACTIONS === 'true'
-                        ? 'github_actions'
-                        : 'none';
-        if (!['token', 'token_file', 'github_actions'].includes(source))
-            fail('source_unavailable', 'Supported sources: token, token_file, github_actions');
+        let file = read('OIDC_TOKEN_FILE');
+        if (source === 'auto') {
+            if (read('OIDC_TOKEN'))
+                source = 'token';
+            else if (file)
+                source = 'token_file';
+            else if (process.env.GITHUB_ACTIONS === 'true')
+                source = 'github_actions';
+            else if (process.env.GITLAB_CI === 'true')
+                source = 'gitlab_ci';
+            else if (process.env.KUBERNETES_SERVICE_HOST)
+                source = 'kubernetes';
+            else if (['K_SERVICE', 'FUNCTION_TARGET', 'GCE_METADATA_HOST'].some((name) => process.env[name]))
+                source = 'gcp';
+            else if (process.env.IDENTITY_ENDPOINT && process.env.IDENTITY_HEADER)
+                source = 'azure';
+            else if (['AWS_Lambda_', 'AWS_ECS_'].some((prefix) => process.env.AWS_EXECUTION_ENV?.startsWith(prefix)) ||
+                [
+                    'AWS_LAMBDA_FUNCTION_NAME',
+                    'ECS_CONTAINER_METADATA_URI',
+                    'ECS_CONTAINER_METADATA_URI_V4',
+                ].some((name) => process.env[name]))
+                source = 'aws';
+            else
+                source = 'none';
+        }
+        if (![
+            'token',
+            'token_file',
+            'github_actions',
+            'gitlab_ci',
+            'kubernetes',
+            'gcp',
+            'azure',
+            'aws',
+        ].includes(source))
+            fail('source_unavailable', 'Choose token, token_file, github_actions (permissions: id-token: write), gitlab_ci (id_tokens:), kubernetes (project /var/run/secrets/flint/token), gcp (metadata identity), azure (managed identity and OIDC_AUDIENCE), or aws (STS GetWebIdentityToken). Cloud auto discovery requires a platform environment marker.');
+        if (source === 'gitlab_ci' && !read('OIDC_TOKEN'))
+            fail('source_unavailable', `Add GitLab YAML:\nid_tokens:\n  ${prefix}_OIDC_TOKEN:\n    aud: ${audience}`);
+        if (source === 'kubernetes')
+            file ??= '/var/run/secrets/flint/token';
+        if (source === 'azure' && !this.identity?.audience && !read('OIDC_AUDIENCE'))
+            fail('source_unavailable', `Set ${prefix}_OIDC_AUDIENCE to the merchant Entra app ID URI`);
+        if (source === 'token_file' || source === 'kubernetes') {
+            const fs = process.getBuiltinModule('fs');
+            const path = process.getBuiltinModule('path');
+            const paths = (value) => {
+                const absolute = path.resolve(value);
+                try {
+                    return [absolute, fs.realpathSync(absolute)];
+                }
+                catch {
+                    return [absolute];
+                }
+            };
+            const selected = file ? paths(file) : [];
+            if ([
+                process.env.AWS_WEB_IDENTITY_TOKEN_FILE,
+                process.env.AZURE_FEDERATED_TOKEN_FILE,
+                '/var/run/secrets/kubernetes.io/serviceaccount/token',
+            ].some((value) => value && paths(value).some((path) => selected.includes(path))))
+                fail('source_unavailable', 'Refusing a token file intended for another service; project a separate Flint audience token');
+        }
+        const azureEndpoint = process.env.IDENTITY_ENDPOINT && process.env.IDENTITY_HEADER
+            ? process.env.IDENTITY_ENDPOINT
+            : undefined;
         const githubUrl = process.env.ACTIONS_ID_TOKEN_REQUEST_URL;
         const githubToken = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
         if (source === 'github_actions' && (!githubUrl || !githubToken))
             fail('source_unavailable', 'GitHub Actions requires permissions: id-token: write');
-        const sourceKey = source === 'token'
+        const sourceKey = source === 'token' || source === 'gitlab_ci'
             ? process
                 .getBuiltinModule('crypto')
                 .createHash('sha256')
@@ -461,7 +674,37 @@ class AmbientCredentialProvider {
                     .createHash('sha256')
                     .update(JSON.stringify([githubUrl, githubToken]))
                     .digest('hex')
-                : file;
+                : [
+                    file,
+                    process.env.GCE_METADATA_HOST,
+                    process.env.IDENTITY_ENDPOINT,
+                    process
+                        .getBuiltinModule('crypto')
+                        .createHash('sha256')
+                        .update(process.env.IDENTITY_HEADER ?? '')
+                        .digest('hex'),
+                    read('AZURE_CLIENT_ID'),
+                    process.env.AWS_PROFILE,
+                    process.env.AWS_DEFAULT_PROFILE,
+                    process.env.AWS_CONFIG_FILE,
+                    process.env.AWS_SHARED_CREDENTIALS_FILE,
+                    process.env.AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE,
+                    process.env.AWS_REGION,
+                    process.env.AWS_DEFAULT_REGION,
+                    process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI,
+                    process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI,
+                    process.env.AWS_EC2_METADATA_SERVICE_ENDPOINT,
+                    process
+                        .getBuiltinModule('crypto')
+                        .createHash('sha256')
+                        .update(JSON.stringify([
+                        process.env.AWS_ACCESS_KEY_ID,
+                        process.env.AWS_SECRET_ACCESS_KEY,
+                        process.env.AWS_SESSION_TOKEN,
+                        process.env.AWS_CONTAINER_AUTHORIZATION_TOKEN,
+                    ]))
+                        .digest('hex'),
+                ];
         const key = JSON.stringify([
             url.origin,
             this.config.workloadIdentity.tokenPath,
@@ -542,10 +785,165 @@ class AmbientCredentialProvider {
                     context?.signal?.removeEventListener('abort', abort);
                 }
             }
+            else if (source === 'gcp' || source === 'azure') {
+                try {
+                    const endpoint = source === 'gcp'
+                        ? new URL('http://' +
+                            (process.env.GCE_METADATA_HOST || 'metadata.google.internal') +
+                            '/computeMetadata/v1/instance/service-accounts/default/identity')
+                        : new URL(azureEndpoint || 'http://169.254.169.254/metadata/identity/oauth2/token');
+                    if (!['http:', 'https:'].includes(endpoint.protocol) ||
+                        endpoint.username ||
+                        endpoint.password ||
+                        endpoint.hash)
+                        throw new Error();
+                    const headers = {};
+                    if (source === 'gcp') {
+                        endpoint.searchParams.set('audience', audience);
+                        endpoint.searchParams.set('format', 'full');
+                        headers['Metadata-Flavor'] = 'Google';
+                    }
+                    else {
+                        endpoint.searchParams.set('api-version', azureEndpoint ? '2019-08-01' : '2018-02-01');
+                        endpoint.searchParams.set('resource', audience);
+                        if (read('AZURE_CLIENT_ID'))
+                            endpoint.searchParams.set('client_id', read('AZURE_CLIENT_ID') ?? '');
+                        if (azureEndpoint)
+                            headers['X-IDENTITY-HEADER'] = process.env.IDENTITY_HEADER ?? '';
+                        else
+                            headers.Metadata = 'true';
+                    }
+                    const body = await identityMetadata(endpoint, headers, context, deadline);
+                    const payload = source === 'gcp' ? body.trim() : JSON.parse(body);
+                    subject =
+                        typeof payload === 'string'
+                            ? payload
+                            : payload &&
+                                typeof payload === 'object' &&
+                                'access_token' in payload &&
+                                typeof payload.access_token === 'string'
+                                ? payload.access_token
+                                : '';
+                    if (!subject)
+                        throw new Error();
+                }
+                catch {
+                    return fail('subject_token_request_failed', 'Metadata identity request failed');
+                }
+            }
+            else if (source === 'aws') {
+                // The standard IMDS provider uses the global core HTTP agent. Node's opt-in
+                // environment proxy mode changes that agent, so refuse it before SDK I/O.
+                if (process.env.NODE_USE_ENV_PROXY === '1' ||
+                    process.execArgv.some((arg) => /^--use-env-proxy(?:=|$)/.test(arg)) ||
+                    /(?:^|\s)--use-env-proxy(?:[=\s]|$)/.test(process.env.NODE_OPTIONS ?? '') ||
+                    [process.getBuiltinModule('http'), process.getBuiltinModule('https')].some((module) => {
+                        const agent = module.globalAgent;
+                        if (!agent || typeof agent !== 'object' || !('options' in agent))
+                            return false;
+                        const options = agent.options;
+                        if (!options || typeof options !== 'object' || !('proxyEnv' in options))
+                            return false;
+                        const proxyEnv = options.proxyEnv;
+                        return Boolean(proxyEnv && typeof proxyEnv === 'object' && Object.keys(proxyEnv).length > 0);
+                    }))
+                    return fail('source_unavailable', 'The aws source requires NODE_USE_ENV_PROXY and --use-env-proxy to be disabled');
+                // Do not let the standard chain read inbound web-identity subject tokens.
+                // Reject shared files containing this setting, including source profiles.
+                const fs = process.getBuiltinModule('fs');
+                const home = process.getBuiltinModule('os').homedir();
+                const sharedFiles = [
+                    process.env.AWS_CONFIG_FILE || home + '/.aws/config',
+                    process.env.AWS_SHARED_CREDENTIALS_FILE || home + '/.aws/credentials',
+                ];
+                let inboundIdentity = Boolean(process.env.AWS_WEB_IDENTITY_TOKEN_FILE);
+                try {
+                    inboundIdentity ||= sharedFiles.some((path) => {
+                        try {
+                            return /^\s*web_identity_token_file\s*=/m.test(fs.readFileSync(path, 'utf8'));
+                        }
+                        catch (error) {
+                            // A missing file is normal; other errors must not bypass the guard.
+                            if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT')
+                                return false;
+                            throw error;
+                        }
+                    });
+                }
+                catch {
+                    return fail('source_unavailable', 'Cannot inspect AWS shared configuration for inbound web identity');
+                }
+                if (inboundIdentity)
+                    return fail('source_unavailable', 'The aws source refuses AWS_WEB_IDENTITY_TOKEN_FILE and profile web_identity_token_file; use outbound IAM federation');
+                const packageName = '@aws-sdk/client-sts';
+                let loaded;
+                try {
+                    loaded = await import(packageName);
+                }
+                catch {
+                    return fail('source_unavailable', 'Install @aws-sdk/client-sts >=3.1161.0 to use the aws source');
+                }
+                if (!loaded ||
+                    typeof loaded !== 'object' ||
+                    !('STSClient' in loaded) ||
+                    typeof loaded.STSClient !== 'function' ||
+                    !('GetWebIdentityTokenCommand' in loaded) ||
+                    typeof loaded.GetWebIdentityTokenCommand !== 'function')
+                    return fail('source_unavailable', 'Upgrade @aws-sdk/client-sts to >=3.1161.0 for GetWebIdentityToken');
+                // Runtime export guards above protect this optional SDK interop boundary.
+                const sdk = loaded;
+                const controller = new AbortController();
+                const abort = () => controller.abort();
+                context?.signal?.addEventListener('abort', abort, { once: true });
+                const cloudDeadline = Math.min(deadline, performance.now() + 5000);
+                if (context?.signal?.aborted || cloudDeadline <= performance.now())
+                    controller.abort();
+                const timer = schedule(abort, Math.max(0, cloudDeadline - performance.now()));
+                let client;
+                try {
+                    const requestHandler = {
+                        connectionTimeout: 1000,
+                        requestTimeout: 2000,
+                        httpAgent: new (process.getBuiltinModule('http').Agent)(identityAgentOptions),
+                        httpsAgent: new (process.getBuiltinModule('https').Agent)(identityAgentOptions),
+                    };
+                    client = new sdk.STSClient({
+                        region: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION,
+                        maxAttempts: 1,
+                        useGlobalEndpoint: false,
+                        defaultsMode: 'standard',
+                        // The platform default chain owns profile, container and IMDS selection.
+                        timeout: 1000,
+                        maxRetries: 0,
+                        requestHandler,
+                        // SSO clients use clientConfig rather than inheriting the parent handler.
+                        clientConfig: { requestHandler, defaultsMode: 'standard', maxAttempts: 1 },
+                    });
+                    const result = await abortable(client.send(new sdk.GetWebIdentityTokenCommand({
+                        Audience: [audience],
+                        SigningAlgorithm: 'ES384',
+                    }), { abortSignal: controller.signal }), controller.signal);
+                    if (!result ||
+                        typeof result !== 'object' ||
+                        !('WebIdentityToken' in result) ||
+                        typeof result.WebIdentityToken !== 'string' ||
+                        !result.WebIdentityToken)
+                        throw new Error();
+                    subject = result.WebIdentityToken;
+                }
+                catch {
+                    return fail('subject_token_request_failed', 'AWS STS GetWebIdentityToken failed; configure a regional workload role with sts:GetWebIdentityToken permission');
+                }
+                finally {
+                    timer.cancel();
+                    context?.signal?.removeEventListener('abort', abort);
+                    client?.destroy();
+                }
+            }
             else
                 try {
                     subject =
-                        source === 'token'
+                        source === 'token' || source === 'gitlab_ci'
                             ? (read('OIDC_TOKEN') ?? '')
                             : file
                                 ? (await process.getBuiltinModule('fs/promises').readFile(file, 'utf8')).trim()

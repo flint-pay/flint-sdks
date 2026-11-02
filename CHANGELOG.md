@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.0-beta.2
+
+Both SDKs add `gitlab_ci`, `kubernetes`, `gcp`, `azure` and `aws` workload identity sources. Explicit cloud sources work without auto-discovery markers. AWS uses its standard credential chain and STS outbound identity federation; Node consumers install the optional peer `@aws-sdk/client-sts` >=3.1161.0, and PHP consumers install the suggested `aws/aws-sdk-php` >=3.402.5. Without that dependency, selecting `aws` reports `source_unavailable` and names the missing package. Review the [credential guide](node/guides/default-credentials.md), including the PHP AWS profile/SSO transport limitation.
+
+When no environment credential or workload identity ID is configured, default credentials now try the saved CLI session by running `flint auth token --output json`. Set `FLINT_CLI_CREDENTIALS=0` to disable the process, or `ambientCredentials: false` to disable all implicit discovery. Failed configured workload identity never falls back to a CLI session.
+
+The generator also fixes prototype-named webhook model lookup and PHP representation ownership for reused response components. PHP also reuses failed union validations when formatting errors, bounding work for invalid recursive inputs. Generator revision is `199b1a54f845ffe910659372b52b025add3f58d5`; the pinned API contract and date `2026-09-07` are unchanged. Published package READMEs now pin their prerelease installation commands, so they select this release while npm `latest` remains on 7.0.0. This continues the 8.0 prerelease: upgrading from 7.x still requires the [8.0 migration guide](MIGRATION.md#sdk-800), while consumers of 8.0.0-beta.1 gain compatible credential sources and model-generation fixes.
+
 ## 8.0.0-beta.1
 
 This prerelease updates both SDKs to path-derived method names, one positional calling convention, native integer counters, HTTP-status error classes and response metadata on results. It removes deprecated method aliases and `*WithResponse` methods. Money amounts remain exact integer strings. Empty explicit credentials fail before a request; multi-tenant apps can disable default credentials with `ambientCredentials: false`.

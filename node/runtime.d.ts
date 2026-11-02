@@ -262,14 +262,23 @@ export interface CredentialProvider {
     }>;
     invalidate?(): void;
 }
-export type WorkloadIdentitySource = 'auto' | 'none' | 'token' | 'token_file' | 'github_actions';
+export type WorkloadIdentitySource = 'auto'
+    | 'none'
+    | 'token'
+    | 'token_file'
+    | 'github_actions'
+    | 'gitlab_ci'
+    | 'kubernetes'
+    | 'gcp'
+    | 'azure'
+    | 'aws';
 export interface WorkloadIdentityOptions {
     workloadIdentityId: string;
     source?: WorkloadIdentitySource;
     audience?: string;
     scope?: string;
 }
-/** Generated package wrappers supply provider configuration; no provider names live here. */
+/** Generated package wrappers supply API and environment configuration. */
 export declare function configuredDefaultCredentials(config: DefaultCredentials, baseUrl?: string): CredentialProvider;
 export declare function configuredWorkloadIdentityCredentials(config: DefaultCredentials, options: WorkloadIdentityOptions, baseUrl?: string): CredentialProvider;
 /** Per-call overrides; pass as the final method argument. See RUNTIME.md#requestoptions. */

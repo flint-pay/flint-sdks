@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 8.0.0-beta.1; API 2026-09-07.
+Package 8.0.0-beta.2; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -145,7 +145,7 @@ A credential option is passed when its key is present, including a shortcut or a
 
 Credential providers resolve on every request attempt; the application owns caching and expiry. A replay-safe HTTP 401 invalidates credential providers implementing invalidate() and retries once, adding at most one attempt beyond the ordinary budget, even with maxAttempts: 1. The idempotency key is preserved. String credentials and closures never trigger this refresh retry. Credential provider exceptions become authentication errors without retaining potentially sensitive causes.
 
-Default credential discovery is lazy and runs only when no credential option is passed on either the client or the request, and ambientCredentials is not false. It tries configured API key/access token environment variables (setting both throws ConfigurationError with code credential_conflict), then configured workload identity. Set ambientCredentials: false to disable it. defaultCredentials() and workloadIdentityCredentials(options) return credential providers supporting token, token_file and github_actions sources and cached refresh.
+Default credential discovery is lazy and runs only when no credential option is passed on either the client or the request, and ambientCredentials is not false. It tries configured API key/access token environment variables (setting both throws ConfigurationError with code credential_conflict), then configured workload identity when its ID is set, then flint auth token --output json for a saved CLI session when no workload identity ID is configured. Set the configured CLI_CREDENTIALS environment variable to 0 to disable the CLI process. Set ambientCredentials: false to disable it. defaultCredentials() and workloadIdentityCredentials(options) return credential providers supporting token, token_file, github_actions, gitlab_ci, kubernetes, gcp, azure and aws sources and cached refresh. Explicit kubernetes reads the Flint projected token without a cluster marker. The aws source uses the standard AWS credential chain and requires the optional @aws-sdk/client-sts package in Node or aws/aws-sdk-php in PHP. Inbound web-identity token-file configuration is refused. Node refuses NODE_USE_ENV_PROXY=1 and --use-env-proxy. PHP protects direct ECS/IMDS and STS requests, but internal profile/SSO clients may retain environment proxies and redirects; consult the consumer guide before using those paths.
 
 For a multi-tenant application, pass the tenant credential explicitly and disable ambient discovery:
 

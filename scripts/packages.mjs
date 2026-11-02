@@ -127,9 +127,13 @@ export function publishedFiles(output) {
         content = Buffer.from(
           content
             .toString("utf8")
-            .replace(
+            .replaceAll(
               `\`${command} ${manifest.name}\``,
               `\`${command} ${manifest.name}${separator}${manifest.version}\``,
+            )
+            .replaceAll(
+              `\n${command} ${manifest.name}\n`,
+              `\n${command} ${manifest.name}${separator}${manifest.version}\n`,
             ),
         );
       }

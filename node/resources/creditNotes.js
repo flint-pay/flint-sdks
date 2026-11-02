@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/creditNotes.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import r0 from '../descriptors/resources/creditNotes.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import settings from '../descriptors/settings.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createCreditNote"]:r0,["createCreditNoteAllocation"]:r0,["createCreditNoteRefund"]:r0,["getCreditNote"]:r0,["getCreditNoteAllocation"]:r0,["getCreditNotePDF"]:r0,["issueCreditNote"]:r0,["listCreditNoteAllocations"]:r0,["listCreditNoteRefunds"]:r0,["listCreditNotes"]:r0,["reverseCreditNoteAllocation"]:r0,["updateCreditNote"]:r0,["voidCreditNote"]:r0});
 export class Client {

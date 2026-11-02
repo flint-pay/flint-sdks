@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoicePaymentTerms.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import r0 from '../descriptors/resources/invoicePaymentTerms.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5e54452691c15410b46820711c94ab762fbf37467ad416a5fdf25242df013545';
+import settings from '../descriptors/settings.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createInvoicePaymentTerm"]:r0,["deleteInvoicePaymentTerm"]:r0,["getInvoicePaymentTerm"]:r0,["listInvoicePaymentTerms"]:r0,["updateInvoicePaymentTerm"]:r0});
 export class Client {
