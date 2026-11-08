@@ -126,7 +126,7 @@ export function buildAuthorizeUrl(options) {
   } catch {
     fail("redirectUri", "redirectUri must be an absolute URL");
   }
-  if (redirect.hash) fail("redirectUri", "redirectUri must not include a fragment");
+  if (redirectUri.includes("#")) fail("redirectUri", "redirectUri must not include a fragment");
   if (options.mode !== "test" && options.mode !== "live")
     fail(
       "mode",
@@ -152,7 +152,7 @@ export function buildAuthorizeUrl(options) {
       fail("scope", "separate permission IDs with single spaces, not commas");
   }
   const state = text(options.state, "state", true) ?? createState();
-  const codeVerifier = options.codeVerifier ?? createCodeVerifier();
+  const codeVerifier = text(options.codeVerifier, "codeVerifier", true) ?? createCodeVerifier();
   const challenge = codeChallenge(codeVerifier);
   const query = [
     ["response_type", "code"],
@@ -270,7 +270,7 @@ function signingKey(privateKey, algorithm) {
 /**
  * A private_key_jwt client assertion provider (RFC 7523). Each call signs a new
  * JWT with `iss` and `sub` set to the client ID, a single-string `aud`, a unique
- * `jti` and an `exp` at most `lifetimeSeconds` (default 120, at most 300) ahead.
+ * `jti` and an `exp` `lifetimeSeconds` (default 120, at most 300) ahead, without `iat`.
  * Flint accepts each signed assertion once.
  */
 export function privateKeyJwt(options) {
@@ -293,11 +293,11 @@ export function privateKeyJwt(options) {
     async getAssertion() {
       const now = Math.floor(Date.now() / 1000);
       const claims = base64url(
+        // No iat: Flint rejects an iat after its own clock, so a slightly fast clock would fail.
         JSON.stringify({
           iss: clientId,
           sub: clientId,
           aud: audience,
-          iat: now,
           exp: now + lifetime,
           jti: randomUUID(),
         }),

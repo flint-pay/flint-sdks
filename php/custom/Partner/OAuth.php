@@ -205,7 +205,7 @@ final class OAuth
      *
      * @param array{code: string, redirectUri: string, codeVerifier: string, clientAssertion: ClientAssertionProvider} $params
      */
-    public static function exchangeCode(Client $client, array $params, ?RequestOptions $options = null): mixed
+    public static function exchangeCode(Client $client, #[\SensitiveParameter] array $params, ?RequestOptions $options = null): mixed
     {
         $code = self::text($params['code'] ?? null, 'code');
         $redirectUri = self::text($params['redirectUri'] ?? null, 'redirectUri');
@@ -228,7 +228,7 @@ final class OAuth
      *
      * @param array{token: string, tokenTypeHint?: 'access_token'|'refresh_token', clientAssertion: ClientAssertionProvider} $params
      */
-    public static function revokeToken(Client $client, array $params, ?RequestOptions $options = null): mixed
+    public static function revokeToken(Client $client, #[\SensitiveParameter] array $params, ?RequestOptions $options = null): mixed
     {
         $token = self::text($params['token'] ?? null, 'token');
         $hint = self::optional($params, 'tokenTypeHint');

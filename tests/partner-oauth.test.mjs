@@ -64,7 +64,10 @@ function attempt(callable $call): array {
 ${body}
 `,
   );
-  return JSON.parse(execFileSync("php", [file, ...args], { cwd: root, encoding: "utf8" }));
+  // Capture exception arguments, as PHP does without php.ini, to prove secrets stay out of traces.
+  return JSON.parse(
+    execFileSync("php", ["-d", "zend.exception_ignore_args=0", file, ...args], { cwd: root, encoding: "utf8" }),
+  );
 }
 const rejects = (call, param, name = "InvalidInputError") =>
   assert.throws(call, (error) => {
@@ -149,6 +152,8 @@ test("authorize URLs match the partner guide and validate inputs in both SDKs", 
     [{ ...guideOptions, clientId: "" }, "clientId"],
     [{ ...guideOptions, redirectUri: "/relative" }, "redirectUri"],
     [{ ...guideOptions, redirectUri: "https://example.com/cb#fragment" }, "redirectUri"],
+    [{ ...guideOptions, redirectUri: "https://example.com/cb#" }, "redirectUri"],
+    [{ ...guideOptions, codeVerifier: null }, "codeVerifier"],
     [{ ...guideOptions, mode: "live", sandboxId: "test_synthetic" }, "sandboxId"],
     [{ ...guideOptions, scope: "manage_orders,read_customers" }, "scope"],
     [{ ...guideOptions, scope: "manage_orders  read_customers" }, "scope"],
@@ -280,10 +285,10 @@ function verifyAssertion(assertion, algorithm, publicKey, { clientId, keyId, aud
   assert.equal(claims.sub, clientId);
   assert.equal(claims.aud, audience);
   assert.equal(typeof claims.aud, "string");
-  assert.equal(claims.exp - claims.iat, lifetime);
-  assert.ok(Math.abs(claims.iat - Date.now() / 1000) < 30);
+  assert.ok(Math.abs(claims.exp - lifetime - Date.now() / 1000) < 30);
   assert.match(claims.jti, /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
-  assert.deepEqual(Object.keys(claims).sort(), ["aud", "exp", "iat", "iss", "jti", "sub"]);
+  // iat is optional and omitted: Flint allows no clock skew on it.
+  assert.deepEqual(Object.keys(claims).sort(), ["aud", "exp", "iss", "jti", "sub"]);
   const ok =
     algorithm === "ES256" || algorithm === "ES384"
       ? signature.length === (algorithm === "ES256" ? 64 : 96) &&
@@ -354,6 +359,10 @@ test("PHP private_key_jwt assertions verify with the registered public keys", ()
         ['fpc_synthetic', $pems['ES256'], 'ES256', null, 'https://api.withflintpay.com', 301],
         ['', $pems['ES256'], 'ES256'],
     ]);
+    try { new PrivateKeyJwt('fpc_synthetic', $pems['ES384'], 'ES256'); }
+    catch (\\Flint\\SdkError $e) { $out['trace'] = print_r($e->getTrace(), true) . $e->getTraceAsString(); }
+    try { OAuth::exchangeCode(new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false)), ['code' => 'fpac_x', 'redirectUri' => 'https://example.com/cb', 'codeVerifier' => 'secret-verifier-' . str_repeat('v', 40), 'clientAssertion' => null]); }
+    catch (\\Flint\\SdkError $e) { $out['exchangeTrace'] = print_r($e->getTrace(), true); }
     try { serialize(new PrivateKeyJwt('fpc_synthetic', $pems['ES256'], 'ES256')); $out['serialized'] = true; }
     catch (\\LogicException) { $out['serialized'] = false; }
     echo json_encode($out);`,
@@ -380,6 +389,11 @@ test("PHP private_key_jwt assertions verify with the registered public keys", ()
     { error: "InvalidInputError", code: "INVALID_REQUEST", param: "clientId" },
   ]);
   assert.equal(result.serialized, false);
+  // Rejected keys and exchange params are #[\SensitiveParameter] in exception traces.
+  assert.match(result.trace, /SensitiveParameterValue/);
+  assert.doesNotMatch(result.trace, /PRIVATE KEY/);
+  assert.match(result.exchangeTrace, /SensitiveParameterValue/);
+  assert.doesNotMatch(result.exchangeTrace, /secret-verifier/);
 });
 
 test("client authentication fields come from any assertion provider without leaking failures", async () => {

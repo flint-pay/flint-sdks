@@ -6,9 +6,11 @@ namespace Flint\Partner;
 /**
  * A private_key_jwt client assertion provider (RFC 7523). Each call signs a new JWT
  * with iss and sub set to the client ID, a single-string aud, a unique jti and an
- * exp at most $lifetimeSeconds (default 120, at most 300) ahead. Supports ES256,
+ * exp $lifetimeSeconds (default 120, at most 300) ahead. Supports ES256,
  * ES384 and RS256 through ext-openssl, and EdDSA (Ed25519 PKCS#8 PEM) through
- * ext-sodium. PS256 needs the Node SDK or another signer. Handwritten; regeneration keeps it.
+ * ext-sodium. PS256 needs the Node SDK or another signer. The key never appears in
+ * exception traces, print_r or serialize; var_export bypasses __debugInfo, so don't
+ * export instances. Handwritten; regeneration keeps it.
  */
 final class PrivateKeyJwt implements ClientAssertionProvider
 {
@@ -21,7 +23,7 @@ final class PrivateKeyJwt implements ClientAssertionProvider
 
     public function __construct(
         private readonly string $clientId,
-        \OpenSSLAsymmetricKey|string $privateKey,
+        #[\SensitiveParameter] \OpenSSLAsymmetricKey|string $privateKey,
         private readonly string $algorithm,
         private readonly ?string $keyId = null,
         private readonly string $audience = OAuth::DEFAULT_BASE_URL,
@@ -54,11 +56,11 @@ final class PrivateKeyJwt implements ClientAssertionProvider
     public function getAssertion(): string
     {
         $now = time();
+        // No iat: Flint rejects an iat after its own clock, so a slightly fast clock would fail.
         $claims = self::base64url(json_encode([
             'iss' => $this->clientId,
             'sub' => $this->clientId,
             'aud' => $this->audience,
-            'iat' => $now,
             'exp' => $now + $this->lifetimeSeconds,
             'jti' => self::uuid(),
         ], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
@@ -89,8 +91,11 @@ final class PrivateKeyJwt implements ClientAssertionProvider
         throw new \LogicException('PrivateKeyJwt holds a private key and cannot be serialized');
     }
 
-    private static function openssl(\OpenSSLAsymmetricKey|string $privateKey, string $algorithm): \OpenSSLAsymmetricKey
+    private static function openssl(#[\SensitiveParameter] \OpenSSLAsymmetricKey|string $privateKey, string $algorithm): \OpenSSLAsymmetricKey
     {
+        if (!function_exists('openssl_sign')) {
+            OAuth::fail('algorithm', $algorithm . ' needs ext-openssl');
+        }
         $key = $privateKey instanceof \OpenSSLAsymmetricKey ? $privateKey : openssl_pkey_get_private($privateKey);
         $details = $key === false ? false : openssl_pkey_get_details($key);
         if ($key === false || $details === false || !isset($details['type'])) {
@@ -116,7 +121,7 @@ final class PrivateKeyJwt implements ClientAssertionProvider
         return $key;
     }
 
-    private static function ed25519(\OpenSSLAsymmetricKey|string $privateKey): string
+    private static function ed25519(#[\SensitiveParameter] \OpenSSLAsymmetricKey|string $privateKey): string
     {
         if (!function_exists('sodium_crypto_sign_detached')) {
             OAuth::fail('algorithm', 'EdDSA needs ext-sodium');
