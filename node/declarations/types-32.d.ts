@@ -1,37 +1,105 @@
 import type {
+    Address,
+    AddressRequest,
+    AddressRequestInput,
+    AssessInvoiceLateFeeRequestInput,
+    BalanceTransactionCreatedEvent
+} from './types-0.js';
+import type {
+    InvoiceAutopayRetryPolicy,
+    InvoiceAutopayRetryPolicyInput,
     Invoice,
     InvoiceCheckoutSessionRequestInput,
     InventoryTransferClosedEvent,
     InventoryTransferDepartedEvent,
     InventoryTransferLostEvent,
     InventoryTransferReceivedEvent,
-    InventoryTransferReturnedEvent,
-    InvoiceCollectionBlockResolvedEvent,
-    InvoiceCollectionBlockedEvent
+    InventoryTransferReturnedEvent
 } from './types-28.js';
 import type {
-    PartnerWebhookEnvelope,
-    PaymentIntentCanceledEvent,
-    PaymentIntentCreatedEvent,
-    PaymentIntentExpiredEvent,
-    PaymentIntentFulfillmentHoldUpdatedEvent,
-    PaymentIntentPaymentFailedEvent,
-    PaymentIntentProcessingEvent,
-    PaymentIntentRequiresActionEvent
-} from './types-40.js';
+    InvoicePaymentPolicy,
+    InvoicePaymentPolicyInput,
+    InvoiceManualPaymentCreatedEvent,
+    InvoiceManualPaymentReversedEvent,
+    InvoiceMarkedUncollectibleEvent,
+    InvoiceOverdueEvent,
+    InvoicePaidEvent,
+    InvoicePartiallyPaidEvent,
+    InvoicePartiallyRefundedEvent,
+    InvoicePaymentAttemptCanceledEvent,
+    InvoicePaymentAttemptExpiredEvent,
+    InvoicePaymentAttemptFailedEvent,
+    InvoicePaymentAttemptProcessingEvent,
+    InvoicePaymentAttemptSettledEvent
+} from './types-30.js';
 import type {
+    InvoiceReminderPolicy,
+    InvoiceReminderPolicyInput,
+    InvoiceRefundedEvent,
+    InvoiceReminderDueEvent,
+    InvoiceReopenedEvent,
+    InvoiceSentEvent
+} from './types-31.js';
+import type {
+    InvoiceDiscount,
+    InvoiceLineItem,
+    InvoiceCollectionBlockResolvedEvent,
+    InvoiceCollectionBlockedEvent,
+    InvoiceCreatedEvent,
+    InvoiceCreditedEvent,
+    InvoiceDeliveryAttemptFailedEvent,
+    InvoiceDeliveryAttemptSentEvent,
+    InvoiceDeliveryAttemptSuppressedEvent,
+    InvoiceIssueFailedEvent,
+    InvoiceIssuedEvent,
+    InvoiceLateFeeAssessedEvent,
+    InvoiceLateFeeDueEvent,
+    InvoiceLateFeeWaivedEvent
+} from './types-29.js';
+import type { OrderCharge, OrderClosedEvent, OrderCreatedEvent } from './types-36.js';
+import type {
+    PricingAmounts,
+    PayoutDestinationUpdatedEvent,
+    PayoutFailedEvent,
+    PayoutPaidEvent,
+    PayoutReversedEvent,
+    PayoutSettingsUpdatedEvent,
+    PayoutUpdatedEvent,
+    ProductArchivedEvent,
+    ProductCreatedEvent,
+    ProductUpdatedEvent,
+    ProductVariantArchivedEvent,
+    ProductVariantCreatedEvent
+} from './types-44.js';
+import type {
+    TaxBreakdown,
+    TaxIdentity,
+    SubscriptionTrialEndingEvent,
+    SubscriptionUpdatedEvent,
+    TaxConnectionUpdatedEvent
+} from './types-57.js';
+import type {
+    MoneyValue,
     MerchantWebhookEnvelope,
-    MerchantBillingBalanceUpdatedEvent,
-    MerchantBillingInvoiceIssuedEvent,
-    MerchantBillingInvoiceUpdatedEvent,
-    MerchantReadinessUpdatedEvent,
     MerchantUpdatedEvent,
     ModifierGroupArchivedEvent,
-    MetadataMap
-} from './types-34.js';
-import type { InputValue } from '../runtime.js';
+    ModifierGroupCreatedEvent,
+    ModifierGroupUpdatedEvent,
+    ModifierSetArchivedEvent,
+    ModifierSetCreatedEvent,
+    ModifierSetUpdatedEvent
+} from './types-35.js';
 import type {
-    CollectInvoiceRequestInput,
+    PartnerWebhookEnvelope,
+    PartnerAppInstallCreatedEvent,
+    PartnerAppInstallPermissionsUpdatedEvent,
+    PartnerAppInstallRevokedEvent,
+    PartnerAppInstallUpdatedEvent
+} from './types-40.js';
+import type { InputValue } from '../runtime.js';
+import type { CollectInvoiceRequestInput } from './types-6.js';
+import type { CreateInvoiceManualPaymentRequestInput, CreateInvoiceRequestInput } from './types-8.js';
+import type {
     CheckoutSessionsListDeliverySelectionsParams,
     CheckoutSessionClosedEvent,
     CheckoutSessionCreatedEvent,
@@ -40,8 +108,6 @@ import type {
     CheckoutSessionPaidEvent,
     CheckoutSessionPartiallyPaidEvent
 } from './types-5.js';
-import type { AssessInvoiceLateFeeRequestInput, BalanceTransactionCreatedEvent, Address } from './types-0.js';
-import type { CreateInvoiceManualPaymentRequestInput, CreateInvoiceRequestInput } from './types-8.js';
 import type {
     CreditNotesListAllocationsParams,
     CreditNoteIssueAllocationRequest,
@@ -55,35 +121,29 @@ import type {
     CreditNoteCreatedEvent,
     CreditNoteIssuedEvent,
     CreditNoteUpdatedEvent,
-    CreditNoteVoidedEvent,
-    CustomDomainArchivedEvent,
-    CustomDomainUpdatedEvent
+    CreditNoteVoidedEvent
 } from './types-12.js';
 import type {
     ResourceVersionRequestInput,
     ResponseMeta,
+    ReportSucceededEvent,
     ReturnCanceledEvent,
     ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent,
     ReturnDispositionCreatedEvent,
-    ReturnDispositionUpdatedEvent,
-    ReturnInspectionAcceptanceDecidedEvent,
-    ReturnInspectionCreatedEvent,
     ReturnActivity,
-    ReturnDisposition,
-    ReturnInspection
+    ReturnDisposition
 } from './types-48.js';
-import type { ReverseInvoiceManualPaymentRequestInput, ReturnUpdatedEvent } from './types-51.js';
-import type { UpdateInvoiceRequestInput } from './types-58.js';
-import type { WaiveInvoiceLateFeeRequestInput } from './types-60.js';
 import type {
-    Refund,
-    RefundCreatedEvent,
-    RefundFailedEvent,
-    RefundPartiallySucceededEvent,
-    RefundSucceededEvent
-} from './types-46.js';
+    ReverseInvoiceManualPaymentRequestInput,
+    ReturnResolutionCreatedEvent,
+    ReturnResolutionUpdatedEvent,
+    ReturnUpdatedEvent
+} from './types-51.js';
+import type { UpdateInvoiceRequestInput } from './types-59.js';
+import type { WaiveInvoiceLateFeeRequestInput } from './types-61.js';
+import type { Refund, PromotionUpdatedEvent } from './types-46.js';
 import type {
     BalanceTransactionUpdatedEvent,
     BalanceUpdatedEvent,
@@ -93,15 +153,17 @@ import type {
 } from './types-1.js';
 import type { CategoryCreatedEvent, CategoryDeletedEvent, CategoryUpdatedEvent } from './types-4.js';
 import type {
+    CustomDomainArchivedEvent,
+    CustomDomainUpdatedEvent,
     CustomerCreatedEvent,
     CustomerDeletedEvent,
     CustomerDeletionRequestCompletedEvent,
     CustomerDeletionRequestCreatedEvent,
     CustomerDeletionRequestFailedEvent,
     CustomerDeletionRequestProcessingEvent,
-    CustomerDeletionRequestRejectedEvent,
-    CustomerUpdatedEvent
+    CustomerDeletionRequestRejectedEvent
 } from './types-13.js';
+import type { CustomerUpdatedEvent } from './types-14.js';
 import type {
     DeliveryLocationSetActivatedEvent,
     DeliveryLocationSetArchivedEvent,
@@ -110,72 +172,63 @@ import type {
     DeliveryLocationSetUpdatedEvent,
     DeliveryMethodActivatedEvent,
     DeliveryMethodArchivedEvent,
-    DeliveryMethodCreatedEvent,
-    DeliveryMethodDeactivatedEvent
+    DeliveryMethodCreatedEvent
 } from './types-15.js';
-import type { DeliveryMethodUpdatedEvent } from './types-16.js';
+import type { DeliveryMethodDeactivatedEvent, DeliveryMethodUpdatedEvent } from './types-16.js';
 import type {
     DeliveryProfileActivatedEvent,
     DeliveryProfileArchivedEvent,
     DeliveryProfileCreatedEvent,
-    DeliveryProfileDeactivatedEvent,
-    DeliveryProfileUpdatedEvent
+    DeliveryProfileDeactivatedEvent
 } from './types-17.js';
 import type {
+    DeliveryProfileUpdatedEvent,
     DeliveryRateCallbackActivatedEvent,
     DeliveryRateCallbackArchivedEvent,
     DeliveryRateCallbackCreatedEvent,
     DeliveryRateCallbackDeactivatedEvent,
     DeliveryRateCallbackUpdatedEvent
 } from './types-18.js';
+import type { DeliveryRevocationCreatedEvent, DeliverySelectionCommittedEvent, DeliveryZoneActivatedEvent } from './types-19.js';
 import type {
-    DeliveryRevocationCreatedEvent,
-    DeliverySelectionCommittedEvent,
-    DeliveryZoneActivatedEvent,
     DeliveryZoneArchivedEvent,
-    DeliveryZoneCreatedEvent
-} from './types-19.js';
-import type {
+    DeliveryZoneCreatedEvent,
     DeliveryZoneDeactivatedEvent,
     DeliveryZoneUpdatedEvent,
     DisputeCreatedEvent,
     DisputeInquiryClosedEvent,
     DisputeLostEvent,
     DisputeNeedsResponseEvent,
-    DisputePreventedEvent,
-    DisputeUpdatedEvent,
-    DisputeWonEvent
+    DisputePreventedEvent
 } from './types-20.js';
 import type {
+    DisputeUpdatedEvent,
+    DisputeWonEvent,
     EnvironmentGrantCreatedEvent,
     EnvironmentGrantRevokedEvent,
     FraudWarningCreatedEvent,
-    FraudWarningUpdatedEvent,
-    FulfillmentCanceledEvent
+    FraudWarningUpdatedEvent
 } from './types-21.js';
 import type {
+    FulfillmentCanceledEvent,
     FulfillmentCompletedEvent,
     FulfillmentCreatedEvent,
     FulfillmentEventCreatedEvent,
     FulfillmentFailedEvent
 } from './types-22.js';
-import type { FulfillmentUpdatedEvent, GiftCardCreatedEvent, GiftCardLoadCreatedEvent } from './types-23.js';
+import type { FulfillmentUpdatedEvent, GiftCardCreatedEvent } from './types-23.js';
 import type {
+    GiftCardLoadCreatedEvent,
     GiftCardLoadUpdatedEvent,
     GiftCardNotificationCreatedEvent,
     GiftCardNotificationUpdatedEvent,
     GiftCardRedemptionCreatedEvent,
-    GiftCardRedemptionUpdatedEvent,
-    GiftCardTransactionCreatedEvent,
-    GiftCardUpdatedEvent
+    GiftCardRedemptionUpdatedEvent
 } from './types-24.js';
+import type { GiftCardTransactionCreatedEvent, GiftCardUpdatedEvent } from './types-25.js';
+import type { InventoryCountAppliedEvent, InventoryLevelShortageDetectedEvent, InventoryLevelUpdatedEvent } from './types-26.js';
 import type {
-    InventoryCountAppliedEvent,
-    InventoryLevelShortageDetectedEvent,
-    InventoryLevelUpdatedEvent,
-    InventoryReceiptCreatedEvent
-} from './types-26.js';
-import type {
+    InventoryReceiptCreatedEvent,
     InventoryReservationActionRequiredEvent,
     InventoryReservationAtRiskEvent,
     InventoryReservationClosedEvent,
@@ -186,160 +239,503 @@ import type {
     InventoryReservationReleasedEvent
 } from './types-27.js';
 import type {
-    InvoiceCreatedEvent,
-    InvoiceCreditedEvent,
-    InvoiceDeliveryAttemptFailedEvent,
-    InvoiceDeliveryAttemptSentEvent,
-    InvoiceDeliveryAttemptSuppressedEvent,
-    InvoiceIssueFailedEvent,
-    InvoiceIssuedEvent,
-    InvoiceLateFeeAssessedEvent,
-    InvoiceLateFeeDueEvent,
-    InvoiceLateFeeWaivedEvent,
-    InvoiceManualPaymentCreatedEvent,
-    InvoiceManualPaymentReversedEvent
-} from './types-29.js';
+    MerchantBillingBalanceUpdatedEvent,
+    MerchantBillingInvoiceIssuedEvent,
+    MerchantBillingInvoiceUpdatedEvent,
+    MerchantReadinessUpdatedEvent
+} from './types-34.js';
 import type {
-    InvoiceMarkedUncollectibleEvent,
-    InvoiceOverdueEvent,
-    InvoicePaidEvent,
-    InvoicePartiallyPaidEvent,
-    InvoicePartiallyRefundedEvent,
-    InvoicePaymentAttemptCanceledEvent,
-    InvoicePaymentAttemptExpiredEvent,
-    InvoicePaymentAttemptFailedEvent,
-    InvoicePaymentAttemptProcessingEvent,
-    InvoicePaymentAttemptSettledEvent
-} from './types-30.js';
-import type {
-    InvoiceRefundedEvent,
-    InvoiceReminderDueEvent,
-    InvoiceReopenedEvent,
-    InvoiceSentEvent,
-    InvoiceUpdatedEvent,
-    InvoiceVoidedEvent
-} from './types-31.js';
-import type {
-    ModifierGroupCreatedEvent,
-    ModifierGroupUpdatedEvent,
-    ModifierSetArchivedEvent,
-    ModifierSetCreatedEvent,
-    ModifierSetUpdatedEvent
-} from './types-35.js';
-import type {
-    OrderClosedEvent,
-    OrderCreatedEvent,
     OrderInventoryExceptionCreatedEvent,
-    OrderInventoryExceptionResolvedEvent
-} from './types-36.js';
-import type { OrderPaidEvent, OrderPartiallyPaidEvent, OrderPartiallyRefundedEvent, OrderRefundedEvent } from './types-37.js';
-import type { OrderUpdatedEvent, PackageCreatedEvent } from './types-38.js';
+    OrderInventoryExceptionResolvedEvent,
+    OrderPaidEvent,
+    OrderPartiallyPaidEvent,
+    OrderPartiallyRefundedEvent
+} from './types-37.js';
+import type { OrderRefundedEvent, OrderUpdatedEvent } from './types-38.js';
+import type { PackageCreatedEvent, PackageUpdatedEvent } from './types-39.js';
 import type {
-    PackageUpdatedEvent,
-    PartnerAppInstallCreatedEvent,
-    PartnerAppInstallPermissionsUpdatedEvent,
-    PartnerAppInstallRevokedEvent,
-    PartnerAppInstallUpdatedEvent
-} from './types-39.js';
-import type {
+    PaymentIntentCanceledEvent,
+    PaymentIntentCreatedEvent,
+    PaymentIntentExpiredEvent,
+    PaymentIntentFulfillmentHoldUpdatedEvent,
+    PaymentIntentPaymentFailedEvent,
+    PaymentIntentProcessingEvent,
+    PaymentIntentRequiresActionEvent,
     PaymentIntentRequiresCaptureEvent,
     PaymentIntentSucceededEvent,
     PaymentIntentUpdatedEvent,
     PaymentLinkCreatedEvent
 } from './types-41.js';
+import type { PaymentLinkUpdatedEvent, PaymentMethodActivatedEvent } from './types-42.js';
 import type {
-    PaymentLinkUpdatedEvent,
-    PaymentMethodActivatedEvent,
     PaymentMethodArchivedEvent,
     PaymentMethodFailedEvent,
     PaymentReviewClosedEvent,
-    PaymentReviewOpenedEvent
-} from './types-42.js';
-import type {
+    PaymentReviewOpenedEvent,
     PaymentReviewReopenedEvent,
     PayoutCanceledEvent,
     PayoutCreatedEvent,
     PayoutDestinationArchivedEvent,
     PayoutDestinationCreatedEvent,
-    PayoutDestinationDisabledEvent,
-    PayoutDestinationUpdatedEvent,
-    PayoutFailedEvent,
-    PayoutPaidEvent,
-    PayoutReversedEvent,
-    PayoutSettingsUpdatedEvent,
-    PayoutUpdatedEvent
+    PayoutDestinationDisabledEvent
 } from './types-43.js';
 import type {
-    ProductArchivedEvent,
-    ProductCreatedEvent,
-    ProductUpdatedEvent,
-    ProductVariantArchivedEvent,
-    ProductVariantCreatedEvent,
     ProductVariantUpdatedEvent,
-    PromotionArchivedEvent
-} from './types-44.js';
-import type {
+    PromotionArchivedEvent,
     PromotionCodeArchivedEvent,
     PromotionCodeCreatedEvent,
     PromotionCodeUpdatedEvent,
-    PromotionCreatedEvent,
-    PromotionUpdatedEvent
+    PromotionCreatedEvent
 } from './types-45.js';
-import type { RefundUpdatedEvent, ReportFailedEvent, ReportSucceededEvent } from './types-47.js';
 import type {
+    RefundCreatedEvent,
+    RefundFailedEvent,
+    RefundPartiallySucceededEvent,
+    RefundSucceededEvent,
+    RefundUpdatedEvent,
+    ReportFailedEvent
+} from './types-47.js';
+import type {
+    ReturnDispositionUpdatedEvent,
+    ReturnInspectionAcceptanceDecidedEvent,
+    ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent,
-    ReturnReceiptCreatedEvent,
-    ReturnLineItem,
-    ReturnPolicy,
-    ReturnPolicyRevision,
-    ReturnReason,
-    ReturnReceipt
+    ReturnInspection
 } from './types-49.js';
 import type {
+    ReturnReceiptCreatedEvent,
     ReturnReceiptSupersededEvent,
     ReturnReceiptVerifiedEvent,
-    ReturnReopenedEvent,
-    ReturnResolutionCreatedEvent,
-    ReturnResolutionUpdatedEvent,
-    ReturnResolution,
-    ReturnResource
+    ReturnReopenedEvent
 } from './types-50.js';
-import type { ShipmentCreatedEvent, ShipmentUpdatedEvent, SubscriptionActivatedEvent } from './types-53.js';
+import type { ShipmentCreatedEvent, ShipmentUpdatedEvent } from './types-53.js';
 import type {
+    SubscriptionActivatedEvent,
     SubscriptionCanceledEvent,
     SubscriptionCancellationScheduledEvent,
     SubscriptionCreatedEvent,
     SubscriptionCycleSkippedEvent,
-    SubscriptionDeliveryActionRequiredEvent,
+    SubscriptionDeliveryActionRequiredEvent
+} from './types-54.js';
+import type {
     SubscriptionDeliveryMigrationCompletedEvent,
     SubscriptionDeliveryPauseUpcomingEvent,
     SubscriptionDeliveryUpdatedEvent,
-    SubscriptionDunningExhaustedEvent
-} from './types-54.js';
-import type {
+    SubscriptionDunningExhaustedEvent,
     SubscriptionPastDueEvent,
     SubscriptionPausedEvent,
     SubscriptionPaymentRetryCreatedEvent,
     SubscriptionPaymentRetryFailedEvent,
     SubscriptionPaymentRetrySucceededEvent,
-    SubscriptionPaymentSucceededEvent,
-    SubscriptionPlanChangedEvent
+    SubscriptionPaymentSucceededEvent
 } from './types-55.js';
 import type {
+    SubscriptionPlanChangedEvent,
     SubscriptionReactivatedEvent,
     SubscriptionRenewalUpcomingEvent,
-    SubscriptionResumedEvent,
-    SubscriptionTrialEndingEvent,
-    SubscriptionUpdatedEvent
+    SubscriptionResumedEvent
 } from './types-56.js';
 import type {
-    TaxConnectionUpdatedEvent,
     TestClockAdvancingEvent,
     TestClockArchivedEvent,
     TestClockCreatedEvent,
     TestClockFailedEvent,
     TestClockReadyEvent
-} from './types-57.js';
+} from './types-58.js';
+/**
+ * Merchant defaults for invoices, including numbering prefixes, default memo and footer,
+ * collection mode, reminders, and autopay retries.
+ */
+export type InvoiceSettings = {
+    /**
+     * Replaced as a whole: send every field you want to keep. When to retry a failed automatic
+     * invoice payment, as a list of day offsets.
+     */
+    "autopay_retry_policy"?: InvoiceAutopayRetryPolicy;
+    /**
+     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization.
+     * maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
+     */
+    "credit_note_number_prefix"?: string;
+    /** Value enum: "buyer_initiated", "automatic", "external". */
+    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | (string & {});
+    /**
+     * Limited to 4096 characters (Unicode code points), counted before normalization. maxLength:
+     * 4096.
+     */
+    "default_footer"?: string;
+    /** pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "default_invoice_payment_term_id"?: string;
+    /**
+     * Limited to 4096 characters (Unicode code points), counted before normalization. maxLength:
+     * 4096.
+     */
+    "default_memo"?: string;
+    /**
+     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization.
+     * maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
+     */
+    "invoice_number_prefix"?: string;
+    /**
+     * Replaced as a whole: send every field you want to keep. Which payment options an invoice
+     * accepts, any per-option total limits, and whether to show a cost comparison.
+     */
+    "payment_policy"?: InvoicePaymentPolicy;
+    /**
+     * Replaced as a whole: send every field you want to keep. Rules for automatic invoice
+     * reminders, each sent a set number of days before or after the due date.
+     */
+    "reminder_policy"?: InvoiceReminderPolicy;
+    /**
+     * Replaced as a whole: send every field you want to keep. A postal address. Every address has
+     * country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country.
+     */
+    "remit_to_address"?: Address;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before normalization. Format:
+     * email. maxLength: 255.
+     */
+    "reply_to_email"?: string;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before normalization. maxLength:
+     * 255.
+     */
+    "timezone"?: string;
+};
+/**
+ * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
+ * nullable field to clear it. minProperties: 1.
+ */
+export type InvoiceSettingsPatch = {
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * InvoiceAutopayRetryPolicy}. When to retry a failed automatic invoice payment, as a list of
+     * day offsets. anyOf[2] (Value): null.
+     */
+    "autopay_retry_policy"?: ((InvoiceAutopayRetryPolicy) | (null));
+    /**
+     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
+     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
+     */
+    "credit_note_number_prefix"?: string | null;
+    /** Value enum: "buyer_initiated", "automatic", "external", null. */
+    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null | (string & {}) | null;
+    /**
+     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. minLength: 1. maxLength: 4096.
+     */
+    "default_footer"?: string | null;
+    /** Send null to clear it. minLength: 1. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "default_invoice_payment_term_id"?: string | null;
+    /**
+     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. minLength: 1. maxLength: 4096.
+     */
+    "default_memo"?: string | null;
+    /**
+     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
+     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
+     */
+    "invoice_number_prefix"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * InvoicePaymentPolicy}. Which payment options an invoice accepts, any per-option total
+     * limits, and whether to show a cost comparison. anyOf[2] (Value): null.
+     */
+    "payment_policy"?: ((InvoicePaymentPolicy) | (null));
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * InvoiceReminderPolicy}. Rules for automatic invoice reminders, each sent a set number of
+     * days before or after the due date. anyOf[2] (Value): null.
+     */
+    "reminder_policy"?: ((InvoiceReminderPolicy) | (null));
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * AddressRequest}. A complete postal address. State and postal_code are required for US
+     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
+     * when the address has none. anyOf[2] (Value): null.
+     */
+    "remit_to_address"?: ((AddressRequest) | (null));
+    /**
+     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. Format: email. minLength: 1. maxLength: 255.
+     */
+    "reply_to_email"?: string | null;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/**
+ * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
+ * nullable field to clear it. minProperties: 1.
+ */
+export type InvoiceSettingsPatchInput = {
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * InvoiceAutopayRetryPolicyInput}. When to retry a failed automatic invoice payment, as a list
+     * of day offsets. anyOf[2] (Value): null.
+     */
+    "autopay_retry_policy"?: ((InvoiceAutopayRetryPolicyInput) | (null));
+    /**
+     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
+     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
+     */
+    "credit_note_number_prefix"?: string | null;
+    /** Value enum: "buyer_initiated", "automatic", "external", null. */
+    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null;
+    /**
+     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. minLength: 1. maxLength: 4096.
+     */
+    "default_footer"?: string | null;
+    /** Send null to clear it. minLength: 1. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "default_invoice_payment_term_id"?: string | null;
+    /**
+     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. minLength: 1. maxLength: 4096.
+     */
+    "default_memo"?: string | null;
+    /**
+     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
+     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
+     */
+    "invoice_number_prefix"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * InvoicePaymentPolicyInput}. Which payment options an invoice accepts, any per-option total
+     * limits, and whether to show a cost comparison. anyOf[2] (Value): null.
+     */
+    "payment_policy"?: ((InvoicePaymentPolicyInput) | (null));
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * InvoiceReminderPolicyInput}. Rules for automatic invoice reminders, each sent a set number
+     * of days before or after the due date. anyOf[2] (Value): null.
+     */
+    "reminder_policy"?: ((InvoiceReminderPolicyInput) | (null));
+    /**
+     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
+     * AddressRequestInput}. A complete postal address. State and postal_code are required for US
+     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
+     * when the address has none. anyOf[2] (Value): null.
+     */
+    "remit_to_address"?: ((AddressRequestInput) | (null));
+    /**
+     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. Format: email. minLength: 1. maxLength: 255.
+     */
+    "reply_to_email"?: string | null;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
+     * clear it. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/**
+ * A frozen copy of an issued invoice's content, including line items, charges, discounts, tax
+ * identities, and pricing amounts.
+ */
+export type InvoiceSnapshot = {
+    /**
+     * Billing address captured on the invoice. Kept after the customer is deleted, because an
+     * issued invoice must keep it. A postal address. Every address has country. Addresses Flint
+     * checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
+     */
+    "billing_address"?: Address;
+    /** The backing order's buyer note, captured on the invoice. */
+    "buyer_note"?: string;
+    /**
+     * Buyer tax identity captured on the invoice. Kept after the customer is deleted, because an
+     * issued invoice must keep it. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
+     * identity displayed on invoices and credit notes. Does not verify IDs or change tax
+     * treatment. Tax IDs are an owned collection in display order; replacing the array requires
+     * the parent's expected_version. Existing entries retain their document_tax_id; omit an entry
+     * to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+     */
+    "buyer_tax_identity": ((TaxIdentity) | (null));
+    /**
+     * The backing order's service charges, frozen at issue. [] (Value): {@link OrderCharge}. An
+     * additional charge applied to an order.
+     */
+    "charges"?: Array<OrderCharge>;
+    /**
+     * Buyer name captured on the invoice. Kept after the customer is deleted, because an issued
+     * invoice must keep it.
+     */
+    "customer_display_name"?: string;
+    /** Buyer email captured on the invoice. */
+    "customer_email"?: string;
+    /**
+     * The discounts applied to the backing order, frozen at issue. [] (Value): {@link
+     * InvoiceDiscount}. A discount applied to an invoice, with its source, the discount amount,
+     * the amount actually applied, and any promotion.
+     */
+    "discounts"?: Array<InvoiceDiscount>;
+    /**
+     * The backing order's internal note, captured on the invoice. Merchant reads only; buyer reads
+     * leave it out.
+     */
+    "internal_note"?: string;
+    /**
+     * The billed line items, frozen at issue. A draft previews the backing order's lines. []
+     * (Value): {@link InvoiceLineItem}. A line item on an invoice, with its quantity, unit price,
+     * discount, tax, and totals, and the product, variant, or bundle it came from.
+     */
+    "line_items"?: Array<InvoiceLineItem>;
+    /**
+     * Your business name as shown on the invoice. A draft shows your current name; issue freezes
+     * it.
+     */
+    "merchant_display_name"?: string;
+    /**
+     * The invoice's pricing totals. Its total_money is the invoice total that the top-level
+     * total_money reports. The money totals for an order or invoice: subtotal, discounts, charges,
+     * tax, requested tip, and total.
+     */
+    "pricing_amounts": PricingAmounts;
+    /**
+     * The tip requested on the backing order, frozen at issue. Absent when none was requested. A
+     * tip requested on an invoice, set as a fixed amount or a percentage, with an optional name
+     * and description.
+     */
+    "requested_tip"?: InvoiceTip;
+    /**
+     * Identity frozen on the source invoice at issue. Later profile edits do not change this
+     * document. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed
+     * on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an
+     * owned collection in display order; replacing the array requires the parent's
+     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
+     * or omit its ID to add one. anyOf[2] (Value): null.
+     */
+    "seller_tax_identity": ((TaxIdentity) | (null));
+    /**
+     * Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows;
+     * issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax
+     * produces these rows. Automatic tax doesn't, so an automatic-tax invoice reports its tax in
+     * pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum
+     * to pricing_amounts.tax_money, and rows with price_mode inclusive sum to
+     * pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on
+     * InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows
+     * apply. Some older external-tax invoices have no frozen rows. [] (Value): {@link
+     * TaxBreakdown}. The tax calculated for one jurisdiction on an order, line item, or charge,
+     * with the taxable amount, rate or flat amount, and tax.
+     */
+    "tax_breakdowns": Array<TaxBreakdown>;
+};
+/**
+ * A tip requested on an invoice, set as a fixed amount or a percentage, with an optional name and
+ * description.
+ */
+export type InvoiceTip = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValue;
+    "description"?: string;
+    "name"?: string;
+    /** multipleOf: 0.0001. */
+    "percent"?: number;
+};
+export type InvoiceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.updated";
+});
+/**
+ * The `invoice.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type InvoiceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.updated". */
+    "event_type"?: "invoice.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type InvoiceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
+    "data"?: {
+        /** A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Value enum: "invoice.updated". */
+    "event_type"?: "invoice.updated";
+});
+export type InvoiceVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.voided";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.voided";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.voided";
+});
 /**
  * The `invoice.voided` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
@@ -2685,198 +3081,4 @@ export type ListReturnInspectionsResponse = {
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/** A page of `ReturnLineItem` objects. */
-export type ListReturnLineItemsResponse = {
-    /**  [] (Value): {@link ReturnLineItem}. An item included in a return request. */
-    "data": Array<ReturnLineItem>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `ReturnPolicy` objects. */
-export type ListReturnPoliciesResponse = {
-    /**
-     *  [] (Value): {@link ReturnPolicy}. Rules governing whether and how purchased items can be
-     * returned.
-     */
-    "data": Array<ReturnPolicy>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `ReturnPolicyRevision` objects. */
-export type ListReturnPolicyRevisionsResponse = {
-    /**  [] (Value): {@link ReturnPolicyRevision}. A saved revision of a return policy. */
-    "data": Array<ReturnPolicyRevision>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `ReturnReason` objects. */
-export type ListReturnReasonsResponse = {
-    /**
-     *  [] (Value): {@link ReturnReason}. A reason customers can select when requesting a return.
-     */
-    "data": Array<ReturnReason>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `ReturnReceipt` objects. */
-export type ListReturnReceiptsResponse = {
-    /**  [] (Value): {@link ReturnReceipt}. A record of returned items arriving at a location. */
-    "data": Array<ReturnReceipt>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `ReturnResolution` objects. */
-export type ListReturnResolutionsResponse = {
-    /**
-     *  [] (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
-     */
-    "data": Array<ReturnResolution>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `Return` objects. */
-export type ListReturnsResponse = {
-    /**  [] (Value): {@link ReturnResource}. A request to send purchased items back. */
-    "data": Array<ReturnResource>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A physical or logical place a merchant operates from. Every Location can hold stock.
- * inventory_allocation_enabled controls whether it accepts inventory allocation.
- */
-export type Location = {
-    /**
-     * Published postal address. anyOf[1] (Value): {@link Address}. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country. anyOf[2] (Value): null.
-     */
-    "address": ((Address) | (null));
-    /** Published geographic coordinate. A latitude and longitude for a merchant location. */
-    "coordinate"?: LocationCoordinate;
-    /**
-     * Source of the stored latitude and longitude. Value enum: "merchant_supplied", "geocoded",
-     * null.
-     */
-    "coordinate_source"?: "merchant_supplied" | "geocoded" | null | (string & {}) | null;
-    /** Time the Location was created. Format: date-time. */
-    "created_at": string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     * Read-only version that advances only on geography changes and is pinned by tax and delivery
-     * dependencies. It is not a request fence. Format: uint64. minimum: 0.
-     */
-    "geography_version": number;
-    /**
-     * Whether this Location accepts inventory allocation. Always present, including false when
-     * allocation is not configured.
-     */
-    "inventory_allocation_enabled": boolean;
-    /** Stable Location ID. */
-    "location_id": string;
-    /**
-     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /** Merchant-facing Location name. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Provider-normalized address used for geography evaluation. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country.
-     */
-    "normalized_address"?: Address;
-    /** Current Location lifecycle status. Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** IANA timezone for local schedules. */
-    "timezone": string;
-    /** Time the Location last changed. Format: date-time. */
-    "updated_at": string;
-    /** Address validation status. Value enum: "not_validated", "validated", "merchant_verified". */
-    "validation_status": "not_validated" | "validated" | "merchant_verified" | (string & {});
-    /**
-     * Optimistic-concurrency version that advances on every Location change. Format: uint64.
-     * minimum: 1.
-     */
-    "version": number;
-};
-/** A latitude and longitude for a merchant location. */
-export type LocationCoordinate = {
-    /** Latitude between -90 and 90. Responses always include this field, including 0. */
-    "latitude": number;
-    /** Longitude between -180 and 180. Responses always include this field, including 0. */
-    "longitude": number;
 };

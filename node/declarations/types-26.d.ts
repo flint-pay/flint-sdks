@@ -1,16 +1,181 @@
-import type { InventoryAllocationPolicyRevision, InventoryAllocationPoliciesDeleteParams } from './types-25.js';
-import type { ResponseMeta } from './types-48.js';
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-34.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { InventorySourceSystem, InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-28.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateInventoryCountRequestInput, CreateInventoryItemRequestInput } from './types-8.js';
 import type {
+    UpdateInventoryAllocationPolicyRequestInput,
     UpdateInventoryCountRequestInput,
     UpdateInventoryItemRequestInput,
     UpdateInventoryLevelRequestInput
-} from './types-58.js';
-import type { ResourceReference } from './types-47.js';
+} from './types-59.js';
+import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-35.js';
+import type { ResponseMeta, ResourceReference } from './types-48.js';
+import type { InventoryAllocationConfigurationValue, InventoryAllocationPoliciesDeleteParams } from './types-25.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { InventorySourceSystem, InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-28.js';
+import type { CreateInventoryCountRequestInput, CreateInventoryItemRequestInput } from './types-8.js';
+export type InventoryAllocationPoliciesListRevisionsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
+export type InventoryAllocationPoliciesUpdateParams = (InputValue<UpdateInventoryAllocationPolicyRequestInput>);
+/** Named, version-fenced rules that decide which Locations serve demand and in what order. */
+export type InventoryAllocationPolicy = {
+    /**
+     *  location_groups (Required): Array of {@link InventoryAllocationPolicyLocation}. Locations
+     * ranked into priority groups. Routing prefers the lowest group priority, then the lowest
+     * location ID. minItems: 1. maxItems: 25. location_groups[] (Value): {@link
+     * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
+     * priority group it belongs to. maximum_locations_per_assignment (Required): integer. Upper
+     * bound on how many Locations one assignment may use. Defaults to 1 for single_location and 10
+     * for split_when_required. single_location requires 1 when sent. Format: int32. minimum: 1.
+     * maximum: 10. splitting_behavior (Required): string. single_location fails rather than
+     * splitting demand across Locations; split_when_required allows a split when no single
+     * Location can serve the whole request. Value enum: "single_location", "split_when_required".
+     * within_group_order (Required): string. Tie-break inside a priority group. Ascending location
+     * ID keeps assignments reproducible. Value enum: "location_id_ascending".
+     */
+    "configuration": {
+        /**
+         * Locations ranked into priority groups. Routing prefers the lowest group priority, then
+         * the lowest location ID. minItems: 1. maxItems: 25. [] (Value): {@link
+         * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
+         * priority group it belongs to.
+         */
+        "location_groups": Array<InventoryAllocationPolicyLocation>;
+        /**
+         * Upper bound on how many Locations one assignment may use. Defaults to 1 for
+         * single_location and 10 for split_when_required. single_location requires 1 when sent.
+         * Format: int32. minimum: 1. maximum: 10.
+         */
+        "maximum_locations_per_assignment": number;
+        /**
+         * single_location fails rather than splitting demand across Locations; split_when_required
+         * allows a split when no single Location can serve the whole request. Value enum:
+         * "single_location", "split_when_required".
+         */
+        "splitting_behavior": "single_location" | "split_when_required" | (string & {});
+        /**
+         * Tie-break inside a priority group. Ascending location ID keeps assignments reproducible.
+         * Value enum: "location_id_ascending".
+         */
+        "within_group_order": "location_id_ascending" | (string & {});
+    };
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * The immutable revision containing this policy's current routing configuration. Replacing
+     * configuration publishes a new revision; other policy edits keep this ID.
+     */
+    "current_inventory_allocation_policy_revision_id": string;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
+    "inventory_allocation_policy_id": string;
+    /**
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    "name": string;
+    /** Value enum: "active", "inactive", "archived". */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+    /** Format: uint64. minimum: 1. */
+    "version": number;
+};
+/** A page of `InventoryAllocationPolicy` objects. */
+export type InventoryAllocationPolicyListResponse = {
+    /**
+     *  [] (Value): {@link InventoryAllocationPolicy}. Named, version-fenced rules that decide
+     * which Locations serve demand and in what order.
+     */
+    "data": Array<InventoryAllocationPolicy>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A Location in an inventory allocation policy and the priority group it belongs to. */
+export type InventoryAllocationPolicyLocation = {
+    /** Format: int32. minimum: 1. */
+    "group_priority": number;
+    /** minLength: 1. */
+    "location_id": string;
+};
+/** A Location in an inventory allocation policy and the priority group it belongs to. */
+export type InventoryAllocationPolicyLocationInput = InventoryAllocationPolicyLocation;
+/** A response containing `InventoryAllocationPolicy` data. */
+export type InventoryAllocationPolicyResponse = {
+    /** Named, version-fenced rules that decide which Locations serve demand and in what order. */
+    "data": InventoryAllocationPolicy;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * An immutable routing configuration published when an allocation policy is created or its
+ * configuration is replaced. Revisions remain readable after later policy edits.
+ */
+export type InventoryAllocationPolicyRevision = {
+    /**
+     * Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand
+     * can be split, and how many Locations one assignment may use.
+     */
+    "configuration": InventoryAllocationConfigurationValue;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    "inventory_allocation_policy_id": string;
+    "inventory_allocation_policy_revision_id": string;
+};
+/** A page of `InventoryAllocationPolicyRevision` objects. */
+export type InventoryAllocationPolicyRevisionListResponse = {
+    /**
+     *  [] (Value): {@link InventoryAllocationPolicyRevision}. An immutable routing configuration
+     * published when an allocation policy is created or its configuration is replaced. Revisions
+     * remain readable after later policy edits.
+     */
+    "data": Array<InventoryAllocationPolicyRevision>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `InventoryAllocationPolicyRevision` data. */
 export type InventoryAllocationPolicyRevisionResponse = {
     /**
@@ -1315,229 +1480,3 @@ export type InventoryProvenanceRequestInput = ({
      */
     "source_system"?: InventorySourceSystemRequestInput;
 });
-/**
- * Returned units received into Inventory, from a Return disposition or against the reservation
- * line that consumed them.
- */
-export type InventoryReceipt = {
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     */
-    "idempotency_key"?: string;
-    "inventory_receipt_id": string;
-    /**
-     *  [] (Value): {@link InventoryReceiptLine}. One line of an inventory receipt: a quantity of
-     * an item received at a Location with its disposition.
-     */
-    "lines": Array<InventoryReceiptLine>;
-    /** RFC3339 timestamp. Format: date-time. */
-    "occurred_at": string;
-    "return_disposition_id"?: string;
-    "return_id"?: string;
-    /**
-     *  anyOf[1] (Value): {@link InventorySourceSystem}. The system an inventory event came from,
-     * such as manual entry, a point of sale, a warehouse system, or Flint, with your source
-     * identifier when it applies. anyOf[2] (Value): null.
-     */
-    "source_system": ((InventorySourceSystem) | (null));
-};
-export type InventoryReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": InventoryReceipt;
-    };
-    "event_type"?: "inventory_receipt.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": InventoryReceipt;
-    };
-    "event_type"?: "inventory_receipt.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "inventory_receipt.created";
-});
-/**
- * The `inventory_receipt.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type InventoryReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link InventoryReceipt}. Returned units received into Inventory, from a
-     * Return disposition or against the reservation line that consumed them.
-     */
-    "data"?: {
-        /**
-         * Returned units received into Inventory, from a Return disposition or against the
-         * reservation line that consumed them.
-         */
-        "object": InventoryReceipt;
-    };
-    /** Value enum: "inventory_receipt.created". */
-    "event_type"?: "inventory_receipt.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `inventory_receipt.created` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type InventoryReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link InventoryReceipt}. Returned units received into Inventory, from a
-     * Return disposition or against the reservation line that consumed them.
-     */
-    "data"?: {
-        /**
-         * Returned units received into Inventory, from a Return disposition or against the
-         * reservation line that consumed them.
-         */
-        "object": InventoryReceipt;
-    };
-    /** Value enum: "inventory_receipt.created". */
-    "event_type"?: "inventory_receipt.created";
-});
-/**
- * One line of an inventory receipt: a quantity of an item received at a Location with its
- * disposition.
- */
-export type InventoryReceiptLine = {
-    /**
-     * sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined
-     * add on-hand stock to the matching condition bucket. lost records returned units that were
-     * lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "lost".
-     */
-    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost" | (string & {});
-    "inventory_item_id": string;
-    "inventory_movement_id"?: string;
-    "inventory_receipt_line_id": string;
-    "inventory_reservation_id"?: string;
-    "inventory_reservation_line_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    "receiving_location_id": string;
-    "return_disposition_id"?: string;
-    "return_line_item_id"?: string;
-};
-/**
- * One line of an inventory receipt you supply: a quantity of an item received at a Location with
- * its disposition.
- */
-export type InventoryReceiptLineRequest = {
-    /**
-     * sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined
-     * add on-hand stock to the matching condition bucket. lost records returned units that were
-     * lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "lost".
-     */
-    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost" | (string & {});
-    /** minLength: 1. */
-    "inventory_item_id": string;
-    /** The reservation whose consumed stock is being returned. minLength: 1. */
-    "inventory_reservation_id": string;
-    /**
-     * The consumed reservation line. Received quantity cannot exceed consumed quantity less prior
-     * receipts. minLength: 1.
-     */
-    "inventory_reservation_line_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** minLength: 1. */
-    "receiving_location_id": string;
-};
-/**
- * One line of an inventory receipt you supply: a quantity of an item received at a Location with
- * its disposition.
- */
-export type InventoryReceiptLineRequestInput = {
-    /**
-     * sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined
-     * add on-hand stock to the matching condition bucket. lost records returned units that were
-     * lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "lost".
-     */
-    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost";
-    /** minLength: 1. */
-    "inventory_item_id": string;
-    /** The reservation whose consumed stock is being returned. minLength: 1. */
-    "inventory_reservation_id": string;
-    /**
-     * The consumed reservation line. Received quantity cannot exceed consumed quantity less prior
-     * receipts. minLength: 1.
-     */
-    "inventory_reservation_line_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** minLength: 1. */
-    "receiving_location_id": string;
-};
-/** A page of `InventoryReceipt` objects. */
-export type InventoryReceiptListResponse = {
-    /**
-     *  [] (Value): {@link InventoryReceipt}. Returned units received into Inventory, from a Return
-     * disposition or against the reservation line that consumed them.
-     */
-    "data": Array<InventoryReceipt>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `InventoryReceipt` data. */
-export type InventoryReceiptResponse = {
-    /**
-     * Returned units received into Inventory, from a Return disposition or against the reservation
-     * line that consumed them.
-     */
-    "data": InventoryReceipt;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};

@@ -4,10 +4,10 @@ import type {
     DeliveryProfile,
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
-    DeliveryProfileListResponse,
-    DeliveryProfileResponse
+    DeliveryProfileListResponse
 } from '../declarations/types-17.js';
 import type {
+    DeliveryProfileResponse,
     DeliveryProfilesAssignToUnconfiguredParams,
     DeliveryProfilesCreateParams,
     DeliveryProfilesDeleteParams,
@@ -15,8 +15,8 @@ import type {
     DeliveryProfilesListParams,
     DeliveryProfilesUpdateParams
 } from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,23 +34,23 @@ export type {
 export type {
     DeliveryProfilesAssignToUnconfiguredParams,
     DeliveryProfilesCreateParams,
+    DeliveryProfileResponse,
     DeliveryProfilesDeleteParams,
     DeliveryProfilesGetParams,
     DeliveryProfilesListParams,
-    DeliveryProfilesUpdateParams
+    DeliveryProfilesUpdateParams,
+    DeliveryProfileOriginPolicyRequestInput,
+    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput
 } from '../declarations/types-18.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type {
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
     DeliveryProfile,
-    DeliveryProfileResponse,
     DeliveryProfileListResponse,
     DeliveryProfileConfigurationRequestInput,
-    DeliveryProfileOriginPolicyRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
-    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
-    DeliveryProfileOriginPolicyInputMethodOriginInput,
     DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationInputQuoteInput,
@@ -59,19 +59,24 @@ export type {
     DeliveryProfileOriginPolicy,
     DeliveryProfileDiagnostics
 } from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AssignToUnconfiguredDeliveryProfileRequestInput, AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type {
+    NextAction,
+    MoneyValue,
+    MetadataRequestInput,
+    MetadataMap,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { CreateDeliveryProfileRequestInput } from '../declarations/types-7.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
 export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-58.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-15.js';
 export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-62.js';
-export { makeCreateDeliveryProfileRequest } from '../declarations/types-63.js';
+export { makeCreateDeliveryProfileRequest } from '../declarations/types-64.js';
 export {
     makeDeliveryProfileConfigurationInputManual,
     makeDeliveryProfileConfigurationInputNone,
@@ -82,9 +87,10 @@ export {
     makeDeliveryProfileOriginPolicyInputInventoryRouting,
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
     makeDeliveryProfileOriginPolicyRequest
-} from '../declarations/types-66.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
-export { makeUpdateDeliveryProfileRequest } from '../declarations/types-73.js';
+} from '../declarations/types-67.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeUpdateDeliveryProfileRequest } from '../declarations/types-74.js';
 export interface DeliveryProfilesResource {
     /**
  * Assigns this active delivery profile to physical product variants and bundle components that do

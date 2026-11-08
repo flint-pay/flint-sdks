@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
 import type { PromotionCode, PromotionCodeListResponse, PromotionCodesListParams, PromotionCodesSummary } from '../declarations/types-45.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,29 +22,32 @@ export type {
     PromotionCodeListResponse,
     PromotionCode,
     PromotionCodesSummary,
+    Promotion,
+    PromotionApplicationMethod,
     PromotionPercentOffMethod,
-    PromotionRuleGroup,
-    PromotionRule,
-    PromotionRuleValue,
     PromotionRecurrence,
-    PromotionRecurrenceOnce,
-    PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
+    PromotionAmountOffMethod,
+    PromotionBuyXGetYMethod,
     PromotionCombinesWith,
-    PromotionExclusivity,
-    PromotionSchedule
+    PromotionExclusivity
 } from '../declarations/types-45.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { MetadataMap } from '../declarations/types-34.js';
-export type { Promotion, PromotionApplicationMethod, PromotionAmountOffMethod, PromotionBuyXGetYMethod } from '../declarations/types-44.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+export type { NextAction, MoneyValue, MetadataMap } from '../declarations/types-35.js';
+export type {
+    ReadinessMerchantAccountSession,
+    PromotionRuleGroup,
+    PromotionRule,
+    PromotionRuleValue,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionSchedule
+} from '../declarations/types-46.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export {
     makePromotionRecurrence,
     makePromotionRecurrenceForever,

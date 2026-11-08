@@ -1,19 +1,357 @@
 import type {
-    GiftCardLoad,
-    GiftCardCustomAmountBounds,
-    GiftCardCustomAmountBoundsRequestInput,
+    GiftCardFundingSourceAdjustmentInput,
+    GiftCardFundingSourceExternalPaymentInput,
+    GiftCardFundingSourceFlintManualPaymentInput,
+    GiftCardFundingSourceFlintPaymentInput,
+    GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput,
+    GiftCardFundingSourceGiftCardRefundInput,
+    GiftCardFundingSourceImportInput,
     GiftCard,
-    GiftCardFundingSource
+    GiftCardFundingDispute,
+    GiftCardFundingSource,
+    GiftCardCustomAmountBounds,
+    GiftCardCustomAmountBoundsRequestInput
 } from './types-23.js';
 import type { ResponseMeta } from './types-48.js';
-import type { MerchantWebhookEnvelope } from './types-34.js';
+import type { MoneyValue, MerchantWebhookEnvelope } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelGiftCardNotificationRequestInput } from './types-3.js';
 import type { CreateGiftCardNotificationRequestInput, CreateGiftCardRedemptionRequestInput } from './types-8.js';
-import type { MoneyValue } from './types-35.js';
-import type { GiftCardVersionRequestInput } from './types-25.js';
-import type { ResourceReference } from './types-47.js';
+import type { GiftCardTransaction, GiftCardVersionRequestInput } from './types-25.js';
+/**
+ * Where the value of a gift card load came from, such as an external payment, a Flint payment, an
+ * import, or an adjustment, with your reference for it.
+ */
+export type GiftCardFundingSourceInput = ({
+    /** minLength: 1. maxLength: 255. */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id": string;
+    /**
+     * Value enum: "external_payment", "flint_payment", "flint_manual_payment", "import",
+     * "adjustment", "gift_card_refund", "gift_card_purchase_refund_recovery", "store_credit".
+     */
+    "funding_source_type": "external_payment"
+        | "flint_payment"
+        | "flint_manual_payment"
+        | "import"
+        | "adjustment"
+        | "gift_card_refund"
+        | "gift_card_purchase_refund_recovery"
+        | "store_credit";
+    /** minLength: 1. maxLength: 255. */
+    "order_id"?: string;
+    /** minLength: 1. maxLength: 255. */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1.
+     */
+    "refund_id"?: never;
+})
+    & ((Exclude<GiftCardFundingSourceExternalPaymentInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintPaymentInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintManualPaymentInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceImportInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceAdjustmentInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardRefundInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceStoreCreditInput & object, readonly unknown[]>));
+/** The `store_credit` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceStoreCredit = ({
+    /** minLength: 1. maxLength: 255. */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id": string;
+    /** Value enum: "store_credit". */
+    "funding_source_type": "store_credit" | (string & {});
+    /** minLength: 1. maxLength: 255. */
+    "order_id": string;
+    /** minLength: 1. maxLength: 255. */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255.
+     */
+    "payment_intent_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1.
+     */
+    "refund_id": string;
+})
+    & (({
+    /** Value enum: "store_credit". */
+    "funding_source_type"?: unknown;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255.
+     */
+    "payment_intent_id": string;
+    /** minLength: 1. maxLength: 255. */
+    "order_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1.
+     */
+    "refund_id": string;
+}));
+/** The `store_credit` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceStoreCreditInput = ({
+    /** minLength: 1. maxLength: 255. */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id": string;
+    /** Value enum: "store_credit". */
+    "funding_source_type": "store_credit";
+    /** minLength: 1. maxLength: 255. */
+    "order_id": string;
+    /** minLength: 1. maxLength: 255. */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255.
+     */
+    "payment_intent_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1.
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Value enum: "store_credit". */
+    "funding_source_type"?: ("store_credit") & ("store_credit");
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255.
+     */
+    "payment_intent_id": string;
+    /** minLength: 1. maxLength: 255. */
+    "order_id": string;
+})
+    & ({
+    "order_manual_payment_id"?: never;
+}));
+/** A page of `GiftCard` objects. */
+export type GiftCardListResponse = {
+    /**
+     *  [] (Value): {@link GiftCard}. Merchant-issued purchased gift card. Posted balance includes
+     * reserved value; available value is balance minus reservations. Frozen value remains part of
+     * outstanding liability. Gift cards are independent resources and cannot be transferred across
+     * merchants or currencies.
+     */
+    "data": Array<GiftCard>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Independent funding resource. Value and consideration are separate. External funding and import
+ * provenance are merchant-attested; no payment is collected by recording them. Replacement refund
+ * lots retain original funding provenance and do not represent new paid funding.
+ */
+export type GiftCardLoad = {
+    /**
+     *  anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "consideration_money": ((MoneyValue) | (null));
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * Restrictions tied to original funding, including value restored to replacement cards. A win
+     * clears only its own restriction. A loss keeps spending restricted until you create a gift
+     * card funding disposition. [] (Value): {@link GiftCardFundingDispute}. A dispute on the
+     * payment that funded a gift card load, with its status and any loss resolution.
+     */
+    "funding_disputes": Array<GiftCardFundingDispute>;
+    "gift_card_id": string;
+    "gift_card_load_id": string;
+    /**
+     * Your Idempotency-Key for the command that created this record. null when Flint created it or
+     * no key was sent.
+     */
+    "idempotency_key": string | null;
+    /**
+     * Pending original cash refunds holding unspent value on this descendant funding lot. Unknown
+     * provider outcomes retain these holds. [] (Value): {@link GiftCardPurchaseRefundValueHold}.
+     * Gift card value held back by a purchase refund, with the refund, the root gift card and
+     * load, and the amount held.
+     */
+    "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+    /**
+     * Cash refunds and manual payment reversals against this original funding load. Pending
+     * refunds reserve their value; confirmed success removes it, and confirmed failure releases
+     * the hold. [] (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card
+     * load's purchase refunds.
+     */
+    "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+    /**
+     * Links a gift card load to the original card and load it restores value to after a purchase
+     * refund, for one unit of an order line item.
+     */
+    "purchase_restoration"?: GiftCardPurchaseRestoration;
+    /**
+     * Traces a gift card load made by a refund back to its original funding source, root gift card
+     * and load, and source refund.
+     */
+    "refund_provenance"?: GiftCardRefundProvenance;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "refund_transferred_money"?: MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "remaining_money": MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "reversed_money": MoneyValue;
+    /**
+     * Where the value of a gift card load came from, such as an external payment, a Flint payment,
+     * an import, or an adjustment, with your reference for it.
+     */
+    "source": GiftCardFundingSource;
+    /** RFC3339 timestamp. Format: date-time. */
+    "source_created_at": string | null;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "value_money": MoneyValue;
+    /** Format: int64. */
+    "version": number;
+};
+export type GiftCardLoadCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": GiftCardLoad;
+    };
+    "event_type"?: "gift_card_load.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": GiftCardLoad;
+    };
+    "event_type"?: "gift_card_load.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "gift_card_load.created";
+});
+/**
+ * The `gift_card_load.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type GiftCardLoadCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link GiftCardLoad}. Independent funding resource. Value and
+     * consideration are separate. External funding and import provenance are merchant-attested; no
+     * payment is collected by recording them. Replacement refund lots retain original funding
+     * provenance and do not represent new paid funding.
+     */
+    "data"?: {
+        /**
+         * Independent funding resource. Value and consideration are separate. External funding and
+         * import provenance are merchant-attested; no payment is collected by recording them.
+         * Replacement refund lots retain original funding provenance and do not represent new paid
+         * funding.
+         */
+        "object": GiftCardLoad;
+    };
+    /** Value enum: "gift_card_load.created". */
+    "event_type"?: "gift_card_load.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `gift_card_load.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type GiftCardLoadCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link GiftCardLoad}. Independent funding resource. Value and
+     * consideration are separate. External funding and import provenance are merchant-attested; no
+     * payment is collected by recording them. Replacement refund lots retain original funding
+     * provenance and do not represent new paid funding.
+     */
+    "data"?: {
+        /**
+         * Independent funding resource. Value and consideration are separate. External funding and
+         * import provenance are merchant-attested; no payment is collected by recording them.
+         * Replacement refund lots retain original funding provenance and do not represent new paid
+         * funding.
+         */
+        "object": GiftCardLoad;
+    };
+    /** Value enum: "gift_card_load.created". */
+    "event_type"?: "gift_card_load.created";
+});
+/** A page of `GiftCardLoad` objects. */
+export type GiftCardLoadListResponse = {
+    /**
+     *  [] (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration are
+     * separate. External funding and import provenance are merchant-attested; no payment is
+     * collected by recording them. Replacement refund lots retain original funding provenance and
+     * do not represent new paid funding.
+     */
+    "data": Array<GiftCardLoad>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `GiftCardLoad` data. */
 export type GiftCardLoadResponse = {
     /**
@@ -1299,374 +1637,3 @@ export type GiftCardRefundProvenance = {
     "source_purchase_refund_allocation_id"?: string;
     "source_refund_id"?: string;
 };
-/** A response containing `GiftCard` data. */
-export type GiftCardResponse = {
-    /**
-     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
-     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
-     * cards are independent resources and cannot be transferred across merchants or currencies.
-     */
-    "data": GiftCard;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A restriction on a gift card, either a merchant freeze or a funding dispute, with its reason or
- * dispute details.
- */
-export type GiftCardRestriction = {
-    /**
-     * Present only for type funding_dispute. The dispute on the payment that funded value on this
-     * card. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "dispute_id"?: string;
-    /**
-     * Present only for type funding_dispute. A copy of the funding dispute's current state. lost
-     * means the loss must be honored with a gift card funding disposition before the card can be
-     * spent. Value enum: "open", "lost".
-     */
-    "dispute_status"?: "open" | "lost" | (string & {});
-    /**
-     * Present only for type merchant_freeze. The merchant's freeze reason. Value enum:
-     * "suspicious_activity", "customer_request", "support_issue".
-     */
-    "reason"?: "suspicious_activity" | "customer_request" | "support_issue" | (string & {});
-    /**
-     * The kind of restriction. merchant_freeze is a freeze requested by the merchant.
-     * funding_dispute is a dispute on the payment that funded value on this card. Value enum:
-     * "merchant_freeze", "funding_dispute".
-     */
-    "type": "merchant_freeze" | "funding_dispute" | (string & {});
-};
-/**
- * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and
- * balance snapshots. Corrections create new transactions.
- */
-export type GiftCardTransaction = {
-    /**
-     * Signed change to the card's balance: positive amounts add value and negative amounts remove
-     * it. balance_after_money is balance_before_money plus this amount; funding_loss_accepted
-     * records a decision and moves 0. Signed monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * The card's balance immediately after this transaction. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "balance_after_money": MoneyValue;
-    /**
-     * The card's balance immediately before this transaction. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "balance_before_money": MoneyValue;
-    /**
-     * Your reference for the cash you paid the buyer outside Flint. Set only on cash_out
-     * transactions; null for other transactions. maxLength: 255.
-     */
-    "cash_out_reference": string | null;
-    /** Gift card whose balance this transaction changed. */
-    "gift_card_id": string;
-    /** Stable identifier of the transaction. */
-    "gift_card_transaction_id": string;
-    /**
-     * Your Idempotency-Key for the command that created this record. null when Flint created it or
-     * no key was sent.
-     */
-    "idempotency_key": string | null;
-    /**
-     * Position of this transaction among all of your gift card transactions in this environment.
-     * It increases by one with each posted transaction, and the transaction list is ordered by it.
-     * Format: int64.
-     */
-    "merchant_sequence": number;
-    /** Order this transaction belongs to, when there is one. */
-    "order_id"?: string;
-    /** When the transaction was posted to the card. Format: date-time. */
-    "posted_at": string;
-    /**
-     * Your adjustment reason on adjustment transactions; customer_request on cash_out; null on all
-     * other transaction types. Value enum: "complimentary", "balance_accidentally_decreased",
-     * "support_issue", "suspicious_activity", "balance_accidentally_increased",
-     * "customer_request", null.
-     */
-    "reason": "complimentary"
-        | "balance_accidentally_decreased"
-        | "support_issue"
-        | "suspicious_activity"
-        | "balance_accidentally_increased"
-        | "customer_request"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Position of this transaction in the card's history. It increases by one with each
-     * transaction posted to the card. Format: int64.
-     */
-    "sequence": number;
-    /**
-     * The resource that caused this transaction, such as a gift_card_load, gift_card_redemption,
-     * refund, or gift_card_funding_disposition. null when the cause has no public resource.
-     * anyOf[1] (Value): {@link ResourceReference}. A reference to another resource by
-     * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     */
-    "source": ((ResourceReference) | (null));
-    /**
-     * Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Value enum: "load",
-     * "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out",
-     * "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
-     * "purchase_refund_recovery_transfer".
-     */
-    "transaction_type": "load"
-        | "import"
-        | "redeem"
-        | "refund"
-        | "refund_transfer"
-        | "adjustment"
-        | "cash_out"
-        | "purchase_reversal"
-        | "funding_loss_accepted"
-        | "purchase_refund_recovery"
-        | "purchase_refund_recovery_transfer"
-        | (string & {});
-};
-export type GiftCardTransactionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": GiftCardTransaction;
-    };
-    "event_type"?: "gift_card_transaction.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": GiftCardTransaction;
-    };
-    "event_type"?: "gift_card_transaction.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "gift_card_transaction.created";
-});
-/**
- * The `gift_card_transaction.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type GiftCardTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link GiftCardTransaction}. Immutable posted financial movement with
-     * signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections
-     * create new transactions.
-     */
-    "data"?: {
-        /**
-         * Immutable posted financial movement with signed amount, per-card sequence, merchant
-         * sequence and balance snapshots. Corrections create new transactions.
-         */
-        "object": GiftCardTransaction;
-    };
-    /** Value enum: "gift_card_transaction.created". */
-    "event_type"?: "gift_card_transaction.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `gift_card_transaction.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type GiftCardTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link GiftCardTransaction}. Immutable posted financial movement with
-     * signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections
-     * create new transactions.
-     */
-    "data"?: {
-        /**
-         * Immutable posted financial movement with signed amount, per-card sequence, merchant
-         * sequence and balance snapshots. Corrections create new transactions.
-         */
-        "object": GiftCardTransaction;
-    };
-    /** Value enum: "gift_card_transaction.created". */
-    "event_type"?: "gift_card_transaction.created";
-});
-/** A page of `GiftCardTransaction` objects. */
-export type GiftCardTransactionListResponse = {
-    /**
-     *  [] (Value): {@link GiftCardTransaction}. Immutable posted financial movement with signed
-     * amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new
-     * transactions.
-     */
-    "data": Array<GiftCardTransaction>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type GiftCardTransactionsListParams = {
-    /**
-     * Exact, case-sensitive filter on your reference for the cash paid to the buyer outside Flint.
-     * Matches only cash_out transactions. minLength: 1. maxLength: 255.
-     */
-    "cash_out_reference"?: InputValue<string>;
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "gift_card_id"?: InputValue<string>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "order_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Inclusive lower bound on posted_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "posted_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on posted_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "posted_before"?: InputValue<string | globalThis.Date>;
-    /** Exact, case-sensitive filter. maxLength: 255. */
-    "source_id"?: InputValue<string>;
-    /**
-     * Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_redemption",
-     * "purchase_refund_allocation", "refund", "refund_allocation". Value enum:
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_redemption",
-     * "purchase_refund_allocation", "refund", "refund_allocation". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_redemption", "purchase_refund_allocation", "refund", "refund_allocation".
-     * anyOf[1][] (Value): string. maxLength: 255. Value enum: "gift_card_funding_disposition",
-     * "gift_card_load", "gift_card_redemption", "purchase_refund_allocation", "refund",
-     * "refund_allocation". anyOf[2] (Value): string. maxLength: 255. Value enum:
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_redemption",
-     * "purchase_refund_allocation", "refund", "refund_allocation".
-     */
-    "source_type"?: InputValue<("gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_redemption"
-        | "purchase_refund_allocation"
-        | "refund"
-        | "refund_allocation")
-        | readonly ("gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_redemption"
-        | "purchase_refund_allocation"
-        | "refund"
-        | "refund_allocation")[]>;
-    /**
-     * Filter by transaction_type. Repeat the parameter or send a comma-separated list to match any
-     * of several values. Accepts repeated keys, comma-separated values, or mixtures. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "load", "import",
-     * "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal",
-     * "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
-     * Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment",
-     * "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
-     * "purchase_refund_recovery_transfer". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out",
-     * "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
-     * "purchase_refund_recovery_transfer". anyOf[1][] (Value): string. Value enum: "load",
-     * "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out",
-     * "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
-     * "purchase_refund_recovery_transfer". anyOf[2] (Value): string. Value enum: "load", "import",
-     * "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal",
-     * "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
-     */
-    "transaction_type"?: InputValue<("load"
-        | "import"
-        | "redeem"
-        | "refund"
-        | "refund_transfer"
-        | "adjustment"
-        | "cash_out"
-        | "purchase_reversal"
-        | "funding_loss_accepted"
-        | "purchase_refund_recovery"
-        | "purchase_refund_recovery_transfer")
-        | readonly ("load"
-        | "import"
-        | "redeem"
-        | "refund"
-        | "refund_transfer"
-        | "adjustment"
-        | "cash_out"
-        | "purchase_reversal"
-        | "funding_loss_accepted"
-        | "purchase_refund_recovery"
-        | "purchase_refund_recovery_transfer")[]>;
-};
-export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": GiftCard;
-    };
-    "event_type"?: "gift_card.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": GiftCard;
-    };
-    "event_type"?: "gift_card.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "gift_card.updated";
-});

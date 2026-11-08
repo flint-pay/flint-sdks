@@ -2,6 +2,222 @@
 
 # oauth
 
+### oauth.authorizeCLIDevice
+
+First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON without a Flint envelope. No client secret or HTTP Basic authentication. Requests are not replayed through idempotency caching. Send session_mode=contexts for a session that supports additive reauthorization. The required scope field contains the full requested set as space-separated names. Normal login sends the unchanged x-flint-cli-bootstrap-scopes; login with extra permissions sends the desired baseline and additions. No scopes are implicitly added. The browser may approve a subset per context; token scope reports the approved set. Unknown scopes return HTTP 400 invalid_scope. Selected scopes are checked against the selected merchant and environment before approval.
+
+`POST /v1/oauth/device/authorize`
+
+Signature: `authorizeCLIDevice(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [CLIDeviceRequestInput](../models/CLIDeviceRequestInput.md#clidevicerequestinput) | The request body for: Start CLI browser login. |
+
+Body model: [CLIDeviceRequestInput](../models/CLIDeviceRequestInput.md#clidevicerequestinput).
+
+#### oauth.authorizeCLIDevice body fields
+
+Field definitions: [shared fields](../models/CLIDeviceRequestInput.md#clidevicerequestinput).
+
+#### Response
+
+Returned payload: [CLIDeviceResponse](../models/CLIDeviceResponseInput.md#clideviceresponseinput).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+$result = $client->oauth->authorizeCLIDevice([
+  'client_id' => 'flint-cli',
+  'scope' => 'example',
+], new RequestOptions());
+```
+
+[Complete runnable example](../examples/oauth-authorizeCLIDevice.php)
+
+### oauth.exchangeToken
+
+Partner apps authenticate with client assertions, HTTP Basic, or client_secret_post. Assertions require client_id, client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer, and client_assertion; never mix them with a secret or HTTP Basic. Self-signed private_key_jwt assertions are verified against the app's public_key and jwks_url credentials. They require iss=sub=client_id, a single-string aud equal to the Flint issuer, exp no more than five minutes ahead, and a single-use jti, signed with ES256, ES384, PS256, RS256 (RSA keys of 2048 to 4096 bits and exponent 65537), or EdDSA. Workload identity assertions are tokens from the external issuer of a workload_identity credential: iss is that issuer, and Flint verifies them with the issuer's published keys. They must match the credential's subject, audience, and claim conditions, be signed with RS256, RS384, RS512, PS256, PS384, PS512, ES256, ES384, or ES512, and expire no more than one hour and 60 seconds ahead; Flint does not require a jti. Assertion replay storage outages, and JWKS URL or issuer outages that leave no usable keys, return 503 temporarily_unavailable. Partner apps exchange authorization codes with S256 PKCE or rotate refresh tokens for installation-scoped Bearer access tokens. A lost refresh response can be retried for 60 seconds while the replacement remains unused; a replay revokes that environment grant's token family. Authorization codes last 5 minutes and are single use. Partner access tokens last 1 hour; refresh tokens expire 30 days after issuance and rotate on each use. This endpoint follows OAuth token endpoint conventions: send application/x-www-form-urlencoded only. Failures return OAuth token error objects instead of the normal Flint error envelope.
+
+The public client flint-cli supports the RFC 8628 device_code grant and rotating refresh tokens. Pending device requests return authorization_pending; early polling returns slow_down and increases the required interval by five seconds; denial returns access_denied; expired or consumed codes return expired_token. CLI access tokens last 15 minutes. CLI sessions expire after 30 days idle or 90 days total. Reusing a rotated CLI refresh token revokes its family, including when the previous response was lost. A fresh browser login is then required.
+
+With session_mode=contexts at CLI authorization, tokens include oauth_session_id and context_id. CLI refresh requires an explicitly authorized context_id; invalid_context and context_access_denied do not consume the refresh token. Each CLI access token is limited to one context. Ordinary CLI rotation preserves other unexpired access tokens; removing consent immediately invalidates affected tokens. CLI refresh scope may request a subset of the selected grant or context scopes. Only the issued access token is narrowed; consent and other tokens are unchanged. A later refresh without scope restores the full consented scopes. Legacy CLI sessions retain their original response shape. Request rate limits return HTTP 429 temporarily_unavailable with Retry-After and Flint-Rate-Limited-Reason. Device-code token polling returns HTTP 400 slow_down for both early polls and request rate limits.
+
+Workload identities use grant_type=urn:ietf:params:oauth:grant-type:token-exchange with subject_token, subject_token_type, and workload_identity_id. subject_token_type must be urn:ietf:params:oauth:token-type:jwt or urn:ietf:params:oauth:token-type:id_token. Optional scope narrows the identity scopes for this token; requested_token_type, if supplied, must be urn:ietf:params:oauth:token-type:access_token. Client authentication, client_id, actor_token, resource, audience, and unrecognized fields are forbidden and return invalid_request. The response includes an opaque fwat_ access token, issued_token_type, workload_identity_id, merchant_id, mode, and sandbox_id in test mode, without a refresh token. The token expires after the shorter of one hour and the remaining subject-token lifetime. Identity deactivation, archive, and scope narrowing take effect on the next API request. Exchange errors use invalid_request, invalid_grant, invalid_scope, unsupported_grant_type, temporarily_unavailable, and server_error. Limits are 300 requests per minute per IP and 600 per minute per identity after signature verification; exceeding either returns HTTP 429 temporarily_unavailable with Retry-After and Flint-Rate-Limited-Reason. No usable external issuer keys returns HTTP 503 temporarily_unavailable.
+
+`POST /v1/oauth/token`
+
+Signature: `exchangeToken(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [OAuthTokenRequestInput](../models/OAuthTokenRequestInput.md#oauthtokenrequestinput) | The request body for: Exchange an OAuth token. |
+
+Body model: [OAuthTokenRequestInput](../models/OAuthTokenRequestInput.md#oauthtokenrequestinput).
+
+#### oauth.exchangeToken body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `client_assertion` | Optional | string | Signed RFC 7523 JWT for partner client authentication. Send client_id and client_assertion_type, without HTTP Basic or client_secret. minLength: `1`. maxLength: `8192`. |
+| `client_assertion_type` | Optional | string | Required with client_assertion for partner private_key_jwt authentication. Values: `"urn:ietf:params:oauth:client-assertion-type:jwt-bearer"`. |
+| `client_id` | Optional | string | Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange. |
+| `client_secret` | Optional | string | Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends a secret. Forbidden for workload identity token exchange. |
+| `code` | Optional | string | Partner authorization code, required for authorization_code. |
+| `code_verifier` | Optional | string | Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength: `43`. maxLength: `128`. pattern: `^[A-Za-z0-9\-._~]+$`. |
+| `context_id` | Optional | string | flint-cli only. |
+| `device_code` | Optional | string | flint-cli device code, required for the device_code grant. |
+| `grant_type` | Required | string | OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli uses device_code or refresh_token; workload identities use token-exchange. Values: `"authorization_code"`, `"refresh_token"`, `"urn:ietf:params:oauth:grant-type:device_code"`, `"urn:ietf:params:oauth:grant-type:token-exchange"`. |
+| `redirect_uri` | Optional | string | Partner redirect URI used in authorization, required for authorization_code. |
+| `refresh_token` | Optional | string | Partner or flint-cli refresh token, required for refresh_token. |
+| `requested_token_type` | Optional | string | Optional requested credential type for token exchange. Only access tokens are supported. Values: `"urn:ietf:params:oauth:token-type:access_token"`. |
+| `scope` | Optional | string | flint-cli and workload identities: optional subset of API scope names for this access token. Partner apps: omit, or send exactly the granted permission IDs. |
+| `subject_token` | Optional | string | JWT from the workload identity's external issuer. Required for token exchange. minLength: `1`. maxLength: `8192`. |
+| `subject_token_type` | Optional | string | Format of subject_token. Required for token exchange. Values: `"urn:ietf:params:oauth:token-type:jwt"`, `"urn:ietf:params:oauth:token-type:id_token"`. |
+| `workload_identity_id` | Optional | string | Configured workload identity to match against the verified subject token. Required for token exchange. |
+
+#### oauth.exchangeToken with `grant_type: "authorization_code"`
+
+The `authorization_code` variant of `OAuthTokenRequest`.
+
+Body model: [OAuthTokenRequestAuthorizationCodeInput](../models/OAuthTokenRequestAuthorizationCodeInput.md#oauthtokenrequestauthorizationcodeinput).
+
+#### oauth.exchangeToken with `grant_type: "refresh_token"`
+
+The `refresh_token` variant of `OAuthTokenRequest`.
+
+Body model: [OAuthTokenRequestRefreshTokenInput](../models/OAuthTokenRequestRefreshTokenInput.md#oauthtokenrequestrefreshtokeninput).
+
+#### oauth.exchangeToken with `grant_type: "urn:ietf:params:oauth:grant-type:device_code"`
+
+The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`.
+
+Body model: [OAuthTokenRequestDeviceCodeInput](../models/OAuthTokenRequestDeviceCodeInput.md#oauthtokenrequestdevicecodeinput).
+
+#### oauth.exchangeToken with `grant_type: "urn:ietf:params:oauth:grant-type:token-exchange"`
+
+The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`.
+
+Body model: [OAuthTokenRequestTokenExchangeInput](../models/OAuthTokenRequestTokenExchangeInput.md#oauthtokenrequesttokenexchangeinput).
+
+#### Response
+
+Returned payload: [OAuthTokenResponse](../models/OAuthTokenResponseInput.md#oauthtokenresponseinput).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+$result = $client->oauth->exchangeToken([
+  'grant_type' => 'authorization_code',
+  'code' => 'example',
+  'redirect_uri' => 'example',
+  'code_verifier' => 'examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+], new RequestOptions());
+```
+
+[Complete runnable example](../examples/oauth-exchangeToken.php)
+
+### oauth.listCLIContexts
+
+First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON without a Flint envelope. No client secret or HTTP Basic authentication. Requests are not replayed through idempotency caching. Flint session control extension. Authenticates the current refresh token without consuming or rotating it. Returns only currently authorized contexts, including an empty list. Listing does not change consent, revoke contexts, or update session state. Read approved scopes from the selected context's token response or /v1/auth-context. No business access is granted. Default order: the order of the contexts approved at the latest consent.
+
+`POST /v1/oauth/contexts`
+
+Signature: `listCLIContexts(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [CLIContextsRequestInput](../models/CLIContextsRequestInput.md#clicontextsrequestinput) | The request body for: List authorized CLI contexts. |
+
+Body model: [CLIContextsRequestInput](../models/CLIContextsRequestInput.md#clicontextsrequestinput).
+
+#### oauth.listCLIContexts body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `client_id` | Required | string | Values: `"flint-cli"`. |
+| `refresh_token` | Required | string |  |
+
+#### Response
+
+Returned payload: [CLIContextsResponse](../models/CLIContextsResponse.md#clicontextsresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+$result = $client->oauth->listCLIContexts([
+  'client_id' => 'flint-cli',
+  'refresh_token' => 'example',
+], new RequestOptions());
+```
+
+[Complete runnable example](../examples/oauth-listCLIContexts.php)
+
 ### oauth.previewPartnerInstallAuthorization
 
 Validates the install link inputs and returns the partner app metadata and requested permissions for the consent screen. This route takes no credential. Flint ignores an Authorization header, except that a partner install access token is refused with 401. Flint ignores unrecognized parameters.
@@ -60,4 +276,115 @@ $result = $client->oauth->previewPartnerInstallAuthorization([
 ```
 
 [Complete runnable example](../examples/oauth-previewPartnerInstallAuthorization.php)
+
+### oauth.reauthorizeCLIDevice
+
+First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON without a Flint envelope. No client secret or HTTP Basic authentication. Requests are not replayed through idempotency caching. Flint session control extension. Starts device consent bound to the current session and user without consuming the refresh token. Without scope_mode, approval replaces consent; denial or expiry leaves consent unchanged. Redeem using the device_code grant to rotate the latest family token. Set scope_mode=additive and context_id to request additional space-separated scope names for one existing context. Merchant and environment are derived from that context; conflicting hints return invalid_context. Approval unions only browser-approved additions with that context's existing scopes and preserves all other contexts. No implicit bootstrap scopes are added. Unsupported or environment-disallowed scopes return HTTP 400 invalid_scope; browser denial returns access_denied when polling. Partial approval succeeds and scope in the token response is authoritative. Legacy single-context sessions must start a new contexts-mode authorization.
+
+`POST /v1/oauth/device/reauthorize`
+
+Signature: `reauthorizeCLIDevice(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [CLIReauthorizeRequestInput](../models/CLIReauthorizeRequestInput.md#clireauthorizerequestinput) | The request body for: Review CLI session consent. |
+
+Body model: [CLIReauthorizeRequestInput](../models/CLIReauthorizeRequestInput.md#clireauthorizerequestinput).
+
+#### oauth.reauthorizeCLIDevice body fields
+
+Field definitions: [shared fields](../models/CLIReauthorizeRequestInput.md#clireauthorizerequestinput).
+
+#### Response
+
+Returned payload: [CLIDeviceResponse](../models/CLIDeviceResponseInput.md#clideviceresponseinput).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+$result = $client->oauth->reauthorizeCLIDevice([
+  'client_id' => 'flint-cli',
+  'refresh_token' => 'example',
+  'scope' => 'example',
+  'session_mode' => 'contexts',
+], new RequestOptions());
+```
+
+[Complete runnable example](../examples/oauth-reauthorizeCLIDevice.php)
+
+### oauth.revokeToken
+
+RFC 7009 token revocation for partner apps and flint-cli. Partner apps authenticate with client assertions, HTTP Basic, or client_secret. Assertion rules match the token endpoint. Self-signed private_key_jwt assertions (iss=sub=client_id; ES256, ES384, PS256, RS256, or EdDSA; a single-use jti; exp at most five minutes ahead) are verified against public_key or jwks_url credentials, so sign a fresh one with a new jti for each request. Workload identity assertions have the external issuer as iss and are verified with that issuer's published keys; they use RS256, RS384, RS512, PS256, PS384, PS512, ES256, ES384, or ES512, expire no more than one hour and 60 seconds ahead, and need no jti. Revoking a partner refresh token ends its token family, meaning the refresh token and the access tokens issued from it. Revoking a partner access token invalidates every outstanding access token for its environment grant; the refresh token keeps working. Unknown, expired, or other clients' tokens return 200. Revocation doesn't change the install or grant.
+
+For flint-cli, revoking an access or refresh token ends its CLI session and invalidates the session's tokens. The public client sends client_id=flint-cli without a secret or Authorization header. Send application/x-www-form-urlencoded; success has an empty body.
+
+`POST /v1/oauth/revoke`
+
+Signature: `revokeToken(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [OAuthRevokeRequestInput](../models/OAuthRevokeRequestInput.md#oauthrevokerequestinput) | The request body for: Revoke an OAuth token. |
+
+Body model: [OAuthRevokeRequestInput](../models/OAuthRevokeRequestInput.md#oauthrevokerequestinput).
+
+#### oauth.revokeToken body fields
+
+Field definitions: [shared fields](../models/OAuthRevokeRequestInput.md#oauthrevokerequestinput).
+
+#### Response
+
+Response body (inside Result.data): null.
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+$result = $client->oauth->revokeToken([
+  'token' => 'example',
+], new RequestOptions());
+```
+
+[Complete runnable example](../examples/oauth-revokeToken.php)
 

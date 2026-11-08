@@ -1,19 +1,21 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { AccessLink, AccessLinkResponse, AddReturnLineItemResponse } from '../declarations/types-0.js';
-import type { CancelReturnLineItemResponse } from '../declarations/types-3.js';
-import type { CancelReturnResponse } from '../declarations/types-4.js';
-import type { ClientOptions, CompleteReturnResponse } from '../declarations/types-5.js';
+import type { CancelReturnLineItemResponse, CancelReturnResponse } from '../declarations/types-4.js';
+import type { ClientOptions } from '../declarations/types-5.js';
+import type { CompleteReturnResponse } from '../declarations/types-6.js';
 import type { CreateReturnDispositionResponse, CreateReturnInspectionResponse, CreateReturnReceiptResponse } from '../declarations/types-10.js';
 import type { CreateReturnResolutionResponse, CreateReturnResponse } from '../declarations/types-11.js';
 import type { DecideReturnResponse, DeleteReturnLineItemResponse } from '../declarations/types-14.js';
 import type { GetReturnLineItemResponse, GetReturnResponse } from '../declarations/types-23.js';
-import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-32.js';
+import type { ListReturnActivitiesResponse } from '../declarations/types-32.js';
+import type { ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-33.js';
 import type { ProcessExistingReturnResponse } from '../declarations/types-44.js';
-import type { ReopenReturnResponse, RequestOptions } from '../declarations/types-47.js';
-import type { ReturnActivity, ReturnDisposition, ReturnInspection } from '../declarations/types-48.js';
-import type { ReturnLineItem, ReturnProcessResult, ReturnReceipt } from '../declarations/types-49.js';
-import type { ReturnResolution, ReturnResource } from '../declarations/types-50.js';
+import type { ReopenReturnResponse } from '../declarations/types-47.js';
+import type { RequestOptions, ReturnActivity, ReturnDisposition } from '../declarations/types-48.js';
+import type { ReturnInspection, ReturnLineItem } from '../declarations/types-49.js';
+import type { ReturnProcessResult, ReturnReceipt, ReturnResolution } from '../declarations/types-50.js';
 import type {
+    ReturnResource,
     ReturnsCancelLineItemParams,
     ReturnsCancelParams,
     ReturnsCompleteParams,
@@ -37,9 +39,9 @@ import type {
     ReturnsUpdateParams,
     ReturnsWaiveLineItemInspectionParams
 } from '../declarations/types-51.js';
-import type { UpdateReturnLineItemResponse } from '../declarations/types-59.js';
-import type { UpdateReturnResponse, WaiveReturnLineInspectionResponse } from '../declarations/types-60.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { UpdateReturnLineItemResponse, UpdateReturnResponse } from '../declarations/types-60.js';
+import type { WaiveReturnLineInspectionResponse } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,6 +58,7 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnsCancelParams,
+    ReturnResource,
     ReturnsCancelLineItemParams,
     ReturnsCompleteParams,
     ReturnsCreateParams,
@@ -77,45 +80,43 @@ export type {
     ReturnsUpdateParams,
     ReturnsUpdateLineItemParams,
     ReturnsWaiveLineItemInspectionParams,
-    ReturnUnverifiedItemInput
-} from '../declarations/types-51.js';
-export type {
-    RequestOptions,
-    ReopenReturnResponse,
-    ResourceReference,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery,
-    ReopenReturnRequestInput
-} from '../declarations/types-47.js';
-export type {
-    ReturnResource,
-    ReturnResolution,
     ReturnResolutionLineItemRequest,
     ReturnSourceSystemRequestInput,
     ReturnSourceSystem,
-    ReturnReceiptLineItemRequestInput,
-    ReturnReceiptLineItemInputMatchedInput,
-    ReturnReceiptLineItemInputUnverifiedInput,
-    ReturnReceiptLineItemInputExcessInput,
-    ReturnReceiptLineItem,
+    ReturnUnverifiedItemInput,
     ReturnUnverifiedItem,
-    ReturnResolutionAdjustmentRequestInput,
     ReturnResolutionLineItemRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnReplacementLineItemInputVariantInput,
-    ReturnReplacementLineItemInputBundleInput,
-    ReturnReplacementLineItemInputCustomInput,
-    ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
-    ReturnResolutionLineItem,
-    ReturnReplacementLineItem
-} from '../declarations/types-50.js';
-export type { CancelReturnResponse, CancelReturnRequestInput, CheckoutBuyerContact, CategoryReference } from '../declarations/types-4.js';
-export type { CancelReturnLineItemResponse, CancelReturnLineItemRequestInput } from '../declarations/types-3.js';
-export type { CompleteReturnResponse, ClientOptions, CompleteReturnRequestInput } from '../declarations/types-5.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { CreateReturnResponse, CreateReturnResolutionResponse, CreateReturnResolutionRequestStandardInput } from '../declarations/types-11.js';
+    ReturnResolutionLineItem
+} from '../declarations/types-51.js';
+export type {
+    RequestOptions,
+    ReturnDisposition,
+    ReturnActivity,
+    ReturnActor,
+    ReturnCompletionBlocker,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ResourceType
+} from '../declarations/types-48.js';
+export type {
+    CancelReturnResponse,
+    CancelReturnLineItemResponse,
+    CancelReturnRequestInput,
+    CheckoutBuyerContact,
+    CancelReturnLineItemRequestInput,
+    CategoryReference
+} from '../declarations/types-4.js';
+export type { CompleteReturnResponse, CompleteReturnRequestInput } from '../declarations/types-6.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type {
+    CreateReturnResponse,
+    CreateReturnResolutionResponse,
+    CreateReturnResolutionRequestInput,
+    CreateReturnResolutionRequestStandardInput,
+    CreateReturnResolutionRequestCorrectionInput
+} from '../declarations/types-11.js';
 export type {
     AccessLink,
     AccessLinkResponse,
@@ -125,19 +126,6 @@ export type {
     AddReturnLineItemRequestInput
 } from '../declarations/types-0.js';
 export type {
-    ReturnDisposition,
-    ReturnInspection,
-    ReturnActivity,
-    ReturnActor,
-    ReturnCompletionBlocker,
-    ReturnFinancialSummary,
-    ReturnHandoffRequirement,
-    ReturnHandoffDestination,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceType
-} from '../declarations/types-48.js';
-export type {
     CreateReturnDispositionResponse,
     CreateReturnInspectionResponse,
     CreateReturnReceiptResponse,
@@ -146,14 +134,14 @@ export type {
     CreateReturnDispositionRequestReceiptLineInput,
     CreateReturnDispositionRequestInspectionLineInput,
     CreateReturnInspectionRequestInput,
-    CreateReturnReceiptRequestInput,
-    CreateReturnResolutionRequestInput,
-    CreateReturnResolutionRequestCorrectionInput
+    CreateReturnReceiptRequestInput
 } from '../declarations/types-10.js';
 export type {
-    ReturnReceipt,
+    ReturnInspection,
     ReturnLineItem,
-    ReturnProcessResult,
+    ReturnFinancialSummary,
+    ReturnHandoffRequirement,
+    ReturnHandoffDestination,
     ReturnPolicyEvaluation,
     ReturnPolicyEvaluationLineItem,
     ReturnPolicyAdjustmentProposal,
@@ -163,14 +151,31 @@ export type {
     ReturnLineDecisionInput,
     ReturnLineItemEligibility,
     ReturnLineItemDecisionProposal,
+    ReturnLineItemValue
+} from '../declarations/types-49.js';
+export type {
+    ReturnReceipt,
+    ReturnResolution,
+    ReturnProcessResult,
+    ReturnReceiptLineItemRequestInput,
+    ReturnReceiptLineItemInputMatchedInput,
+    ReturnReceiptLineItemInputUnverifiedInput,
+    ReturnReceiptLineItemInputExcessInput,
+    ReturnReceiptLineItem,
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnReplacementLineItemRequestInput,
+    ReturnReplacementLineItemInputVariantInput,
+    ReturnReplacementLineItemInputBundleInput,
+    ReturnReplacementLineItemInputCustomInput,
+    ReturnResolutionAdjustment,
+    ReturnReplacementLineItem,
     ReturnReason,
-    ReturnLineItemValue,
     ReturnProcessDecisionInput,
     ReturnProcessDispositionRequestInput,
     ReturnProcessInspectionRequestInput,
     ReturnProcessResolutionRequestInput,
     ReturnProcessReceiptRequestInput
-} from '../declarations/types-49.js';
+} from '../declarations/types-50.js';
 export type { DecideReturnResponse, DeleteReturnLineItemResponse, DecideReturnRequestInput } from '../declarations/types-14.js';
 export type {
     GetReturnResponse,
@@ -180,19 +185,35 @@ export type {
     GetReturnReceiptResponse,
     GetReturnResolutionResponse
 } from '../declarations/types-23.js';
-export type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-32.js';
+export type { ListReturnActivitiesResponse } from '../declarations/types-32.js';
+export type { ListReturnLineItemsResponse, ListReturnsResponse, MeCancelReturnParams } from '../declarations/types-33.js';
 export type {
     ProcessExistingReturnResponse,
+    PricingAmounts,
+    PickupFulfillmentDetails,
     ProcessExistingReturnRequestInput,
     ProcessExistingReturnLineItemRequestInput
 } from '../declarations/types-44.js';
 export type {
+    ReopenReturnResponse,
+    RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
+    RefundUnissuedGiftCardRecovery,
+    ReopenReturnRequestInput
+} from '../declarations/types-47.js';
+export type {
     UpdateReturnResponse,
-    WaiveReturnLineInspectionResponse,
+    UpdateReturnLineItemResponse,
     UpdateReturnRequestInput,
-    WaiveReturnLineInspectionRequestInput
+    UpdateReturnLineItemRequestInput
 } from '../declarations/types-60.js';
-export type { UpdateReturnLineItemResponse, UpdateReturnLineItemRequestInput } from '../declarations/types-59.js';
+export type { WaiveReturnLineInspectionResponse, WaiveReturnLineInspectionRequestInput } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-5.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type {
     BuyerAction,
@@ -207,41 +228,35 @@ export type {
     ExpandedOrderSummary,
     ExpandedShipmentSummary,
     ExpandedPaymentIntentSummary,
-    Fulfillment,
-    FulfillmentChargeLink,
     ExpandedPackageSummary
 } from '../declarations/types-21.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-35.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
 export type {
-    PricingAmounts,
-    PaymentSourceSummary,
-    PaymentSourceAchDebitSummary,
-    PaymentSourceCardSummary,
-    PickupFulfillmentDetails
-} from '../declarations/types-43.js';
+    MoneyValue,
+    MetadataMap,
+    MetadataRequestInput,
+    NextAction,
+    MoneyValueInput,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { SettlementAmounts, SelectedProductOption, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from '../declarations/types-53.js';
 export type { Image } from '../declarations/types-25.js';
-export type { OrderLineItemModifier } from '../declarations/types-37.js';
-export type { TextModifierRequest } from '../declarations/types-57.js';
+export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-37.js';
+export type { TextModifierRequest } from '../declarations/types-58.js';
+export type { ReadinessMerchantAccountSession, Refund, RefundAdjustmentReason } from '../declarations/types-46.js';
+export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-43.js';
 export type {
-    ReadinessMerchantAccountSession,
-    Refund,
-    RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundAdjustmentReason,
-    RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation
-} from '../declarations/types-46.js';
-export type { PaymentRefund } from '../declarations/types-42.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-36.js';
-export type { FulfillmentHold, FulfillmentLineItem, FulfillmentOutcome, FulfillmentRecipient } from '../declarations/types-22.js';
+    Fulfillment,
+    FulfillmentHold,
+    FulfillmentChargeLink,
+    FulfillmentLineItem,
+    FulfillmentOutcome,
+    FulfillmentRecipient
+} from '../declarations/types-22.js';
 export type { DigitalFulfillmentDetails } from '../declarations/types-20.js';
 export type { DeliveryFulfillmentDetails } from '../declarations/types-15.js';
-export type { MeCancelReturnParams } from '../declarations/types-33.js';
-export { makeAddReturnLineItemRequest } from '../declarations/types-61.js';
-export { makeCancelReturnLineItemRequest, makeCancelReturnRequest, makeCompleteReturnRequest } from '../declarations/types-62.js';
+export { makeAddReturnLineItemRequest, makeCancelReturnLineItemRequest, makeCancelReturnRequest } from '../declarations/types-62.js';
+export { makeCompleteReturnRequest } from '../declarations/types-63.js';
 export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
@@ -251,19 +266,17 @@ export {
     makeCreateReturnRequest,
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
-    makeCreateReturnResolutionRequestStandard,
-    makeDecideReturnRequest
+    makeCreateReturnResolutionRequestStandard
 } from '../declarations/types-65.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
-export { makeProcessExistingReturnLineItemRequest } from '../declarations/types-70.js';
+export { makeDecideReturnRequest } from '../declarations/types-66.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeProcessExistingReturnLineItemRequest, makeProcessExistingReturnRequest } from '../declarations/types-71.js';
 export {
-    makeProcessExistingReturnRequest,
     makeReopenReturnRequest,
     makeReturnInspectionLineItemRequest,
     makeReturnLineDecision,
-    makeReturnLineItemRequest
-} from '../declarations/types-71.js';
-export {
+    makeReturnLineItemRequest,
     makeReturnProcessDecision,
     makeReturnProcessDispositionRequest,
     makeReturnProcessInspectionRequest,
@@ -282,9 +295,8 @@ export {
     makeReturnSourceSystemRequest,
     makeReturnUnverifiedItem
 } from '../declarations/types-72.js';
-export { makeTextModifierRequest } from '../declarations/types-73.js';
-export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest } from '../declarations/types-74.js';
-export { makeWaiveReturnLineInspectionRequest } from '../declarations/types-75.js';
+export { makeTextModifierRequest } from '../declarations/types-74.js';
+export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest, makeWaiveReturnLineInspectionRequest } from '../declarations/types-75.js';
 export interface ReturnsResource {
     /**
  * Cancel a Return before any merchandise or value work commits. Cancellation is refused once a

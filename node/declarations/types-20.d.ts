@@ -1,18 +1,503 @@
-import type { DeliveryZone } from './types-19.js';
+import type { DeliveryZone, DeliveryStateCondition, DeliveryStateConditionInput } from './types-19.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MoneyValue } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
-import type { ResponseMeta } from './types-48.js';
+import type { DeliveryPostalCodeCondition, DeliveryPostalCodeConditionInput } from './types-16.js';
+import type { DeliveryRadiusCondition, DeliveryRadiusConditionInput } from './types-18.js';
+import type { DeliveryCountryConditionInput, DeliveryLocationSetsDeleteParams } from './types-15.js';
+import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-48.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryZoneRequestInput, CreateDemoSessionRequestInput, CreateDeviceRequestInput } from './types-7.js';
-import type { DeliveryLocationSetsDeleteParams } from './types-15.js';
-import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-58.js';
-import type { ResetDemoSessionRequestInput } from './types-47.js';
-import type { Settings, SimulateDisputeRequestInput } from './types-53.js';
+import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-59.js';
+import type { Settings } from './types-53.js';
 import type { TaxConnection } from './types-57.js';
 import type { PromotionCandidate } from './types-45.js';
 import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-9.js';
-import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-21.js';
-import type { MoneyValue } from './types-35.js';
+import type {
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary,
+    DisputeResponseSessionStripeComponent
+} from './types-21.js';
+/**
+ * The `delivery_zone.activated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryZoneActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.activated". */
+    "event_type"?: "delivery_zone.activated";
+});
+export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.archived";
+});
+/**
+ * The `delivery_zone.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.archived". */
+    "event_type"?: "delivery_zone.archived";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `delivery_zone.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link DeliveryZone}. A geographic area served by a delivery method. */
+    "data"?: {
+        /** A geographic area served by a delivery method. */
+        "object": DeliveryZone;
+    };
+    /** Value enum: "delivery_zone.archived". */
+    "event_type"?: "delivery_zone.archived";
+});
+/**
+ * Eligibility condition that matches when the destination or buyer location falls inside the
+ * delivery zone `delivery_zone_id`.
+ */
+export type DeliveryZoneCondition = {
+    /** minLength: 1. */
+    "delivery_zone_id": string;
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location" | (string & {});
+};
+/**
+ * Eligibility condition that matches when the destination or buyer location falls inside the
+ * delivery zone `delivery_zone_id`.
+ */
+export type DeliveryZoneConditionInput = {
+    /** minLength: 1. */
+    "delivery_zone_id": string;
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location";
+};
+/**
+ * A reusable geographic predicate containing only country, state, postal_code, and radius
+ * conditions.
+ */
+export type DeliveryZoneConfiguration = ({
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfiguration>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfiguration>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryStateCondition;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfiguration;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeCondition;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusCondition;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateCondition;
+})
+    & (({
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all": Array<DeliveryZoneConfiguration>;
+})
+    | ({
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfiguration}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any": Array<DeliveryZoneConfiguration>;
+})
+    | ({
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not": DeliveryZoneConfiguration;
+})
+    | ({
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeCondition;
+})
+    | ({
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius": DeliveryRadiusCondition;
+})
+    | (Record<string, unknown>));
+/**
+ * A reusable geographic predicate containing only country, state, postal_code, and radius
+ * conditions.
+ */
+export type DeliveryZoneConfigurationInput = {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all": Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any": Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not": DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country": DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+}
+    | {
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "all"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryZoneConfigurationInput}. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "any"?: Array<DeliveryZoneConfigurationInput>;
+    /**
+     * A delivery eligibility condition that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryCountryConditionInput;
+    /**
+     * A reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "not"?: DeliveryZoneConfigurationInput;
+    /**
+     * A delivery eligibility condition that matches the address postal code against exact or
+     * prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is within
+     * `maximum_distance` of an origin, measured in a straight line.
+     */
+    "radius": DeliveryRadiusConditionInput;
+    /**
+     * Eligibility condition that matches when the destination or buyer location is in one of the
+     * listed states or provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateConditionInput;
+};
+export type DeliveryZoneCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryZone;
+    };
+    "event_type"?: "delivery_zone.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_zone.created";
+});
 /**
  * The `delivery_zone.created` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
@@ -1092,232 +1577,4 @@ export type DisputeResponseSessionStripeAccountSession = {
      * "load_connect_and_initialize".
      */
     "stripe_js_call": "load_connect_and_initialize" | (string & {});
-};
-/**
- * An embedded Stripe component to render for the dispute response session, with the payment
- * reference to pass to it.
- */
-export type DisputeResponseSessionStripeComponent = {
-    /** Value enum: "payment_disputes". */
-    "component": "payment_disputes" | (string & {});
-    /** Stripe payment reference to pass to setPayment or the React payment prop. */
-    "payment": string;
-};
-export type DisputeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Dispute;
-    };
-    "event_type"?: "dispute.updated";
-})
-    & {
-    "event_type": "dispute.updated";
-});
-export type DisputeWonEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Dispute;
-    };
-    "event_type"?: "dispute.won";
-})
-    & {
-    "event_type": "dispute.won";
-});
-export type DisputesAcceptParams = {};
-export type DisputesCreateResponseSessionParams = {};
-export type DisputesGetParams = {
-    /**
-     * Supported expansions: customer, order, payment_intent. Expansion requires
-     * payments.disputes.read plus the read scope for each expanded resource. Limits: at most 10
-     * unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or
-     * pass one comma-separated value. [] enum: "customer", "order", "payment_intent". Value enum:
-     * "customer", "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum:
-     * "customer", "order", "payment_intent". anyOf[1][] (Value): string. Value enum: "customer",
-     * "order", "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
-     * "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
-};
-export type DisputesListParams = {
-    /** Inclusive lower bound on updated_at. Format: date-time. */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /** Optional Flint payment intent ID filter. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "payment_intent_id"?: InputValue<string>;
-    /** Optional Flint order ID filter. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "order_id"?: InputValue<string>;
-    /** Optional Flint customer ID filter. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Optional dispute status filter. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other". Value enum: "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other". anyOf[1][] (Value): string. Value enum:
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value): string. Value enum:
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other".
-     */
-    "status"?: InputValue<("inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other")
-        | readonly ("inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other")[]>;
-    /**
-     * Optional normalized dispute reason filter. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
-     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
-     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". Value enum:
-     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
-     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
-     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". anyOf[1][] (Value): string. Value enum: "fraudulent",
-     * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-     * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-     * "debit_not_authorized", "bank_account_not_found", "other". anyOf[2] (Value): string. Value
-     * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
-     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
-     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
-     */
-    "reason"?: InputValue<("fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other")
-        | readonly ("fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other")[]>;
-    /**
-     * Optional dispute case type filter. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return". Value
-     * enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "inquiry", "chargeback",
-     * "compliance", "resolution", "block", "other", "bank_return". anyOf[1][] (Value): string.
-     * Value enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
-     * "bank_return". anyOf[2] (Value): string. Value enum: "inquiry", "chargeback", "compliance",
-     * "resolution", "block", "other", "bank_return".
-     */
-    "case_type"?: InputValue<("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")
-        | readonly ("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")[]>;
-    /**
-     * Filter by whether a merchant response is needed now. True includes needs_response and
-     * inquiry_needs_response disputes that allow evidence and whose evidence deadline has not
-     * passed; false includes the remaining disputes.
-     */
-    "is_action_required"?: InputValue<boolean>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default:
-     * "created_at". Value enum: "created_at", "evidence_due_at", "amount_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Inclusive lower bound on evidence_due_at. Format: date-time. Example:
-     * "2026-03-17T14:30:00Z".
-     */
-    "evidence_due_after"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exclusive upper bound on evidence_due_at. Format: date-time. Example:
-     * "2026-03-17T14:30:00Z".
-     */
-    "evidence_due_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Supported expansions: customer, order, payment_intent. Include the requested related
-     * resources using scoped batch reads for this page. Each relationship requires its existing
-     * target read scopes. Expansion changes the representation without changing pagination tokens.
-     * Limits: at most 10 unique expand paths per request. Repeat expand, for example
-     * expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer",
-     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
-     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
-     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
-     * string. Value enum: "customer", "order", "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
-};
-export type DisputesSimulateParams = (InputValue<SimulateDisputeRequestInput>);
-/**
- * A tax identifier printed on documents, with its country, optional region, identifier type, and
- * value. Flint does not verify the value.
- */
-export type DocumentTaxID = {
-    /**
-     * Two-letter ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
-     * Example: "US".
-     */
-    "country": string;
-    /**
-     * Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1.
-     * pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "document_tax_id"?: string;
-    /**
-     * Provider-independent identifier type, for example vat, gst, or ein. This is an open
-     * vocabulary. minLength: 1. maxLength: 64. pattern: ^[a-z][a-z0-9_]*$.
-     */
-    "identifier_type": string;
-    /** minLength: 1. maxLength: 64. */
-    "region"?: string;
-    /**
-     * Full identifier printed on documents. Not verified by Flint. minLength: 1. maxLength: 255.
-     */
-    "value": string;
 };

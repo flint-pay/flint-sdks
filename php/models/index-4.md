@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# CreateAPIKeyRequestInput to CreateOrderDiscountPromotionInput
+# ConfirmPaymentIntentRequestTokenInput to CreateModifierSetGroupInputExistingInput
 
+- [ConfirmPaymentIntentRequestTokenInput](ConfirmPaymentIntentRequestTokenInput.md)
+- [ConfirmPaymentIntentResponseInput](ConfirmPaymentIntentResponseInput.md)
+- [ConfirmReturnResolutionRequestInput](ConfirmReturnResolutionRequestInput.md)
+- [ConfirmReturnResolutionResponseInput](ConfirmReturnResolutionResponseInput.md)
+- [ConnectTaxConnectionRequestInput](ConnectTaxConnectionRequestInput.md)
+- [ContextSummaryInput](ContextSummaryInput.md)
 - [CreateAPIKeyRequestInput](CreateAPIKeyRequestInput.md)
 - [CreateAPIKeyRequestFullInput](CreateAPIKeyRequestFullInput.md)
 - [CreateAPIKeyRequestReadOnlyInput](CreateAPIKeyRequestReadOnlyInput.md)
@@ -96,10 +102,4 @@
 - [CreateModifierGroupRequestInput](CreateModifierGroupRequestInput.md)
 - [CreateModifierRequestInput](CreateModifierRequestInput.md)
 - [CreateModifierSetGroupInputExistingInput](CreateModifierSetGroupInputExistingInput.md)
-- [CreateModifierSetGroupInputInlineInput](CreateModifierSetGroupInputInlineInput.md)
-- [CreateModifierSetGroupRequestInput](CreateModifierSetGroupRequestInput.md)
-- [CreateModifierSetRequestInput](CreateModifierSetRequestInput.md)
-- [CreateOrderDiscountInput](CreateOrderDiscountInput.md)
-- [CreateOrderDiscountManualInput](CreateOrderDiscountManualInput.md)
-- [CreateOrderDiscountPromotionInput](CreateOrderDiscountPromotionInput.md)
 

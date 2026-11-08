@@ -1,8 +1,8 @@
-import { d4646 as c0, d4647 as c1 } from '../descriptors/data/200.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d4098 as c2 } from '../descriptors/data/169.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d4098 as d4098 } from '../descriptors/data/169.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
+import { d4677 as c0, d4678 as c1 } from '../descriptors/data/201.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d4129 as c2 } from '../descriptors/data/170.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d4129 as d4129 } from '../descriptors/data/170.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4098;
+const read = d4129;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec101"]:c0(),["SharedCodec102"]:c1(),["SubscriptionPlanTermsRequest"]:c2()}); }
 export { codec as _validate };

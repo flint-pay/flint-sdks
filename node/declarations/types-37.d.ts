@@ -1,24 +1,792 @@
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-34.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type {
-    TextModifierRequest,
-    TextModifierRequestInput,
-    TaxCalculationRequest,
-    TaxCalculationRequestModelInput
-} from './types-57.js';
-import type { SubscriptionIntervalOption } from './types-54.js';
-import type { Order } from './types-36.js';
+import type { OrderDeliveryDestinationRecipientRequest, Order, OrderCalculatedLineItemTax } from './types-36.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { MoneyValue, MoneyValueInput, MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-35.js';
+import type { PartnerWebhookEnvelope, PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent } from './types-40.js';
+import type { DeliveryPreviewRoutingSourceInput } from './types-16.js';
+import type { BundleComponent } from './types-1.js';
+import type { CategoryReference } from './types-4.js';
+import type { Dimensions } from './types-20.js';
+import type { GiftCardPurchaseSnapshot } from './types-24.js';
+import type { Image } from './types-25.js';
+import type { LineItemInventorySnapshot } from './types-32.js';
+import type { PurchasedGiftCard } from './types-46.js';
+import type { SelectedProductOption } from './types-53.js';
+import type { SubscribedLine } from './types-54.js';
+import type { Weight } from './types-62.js';
+import type { TextModifierRequest, TextModifierRequestInput } from './types-58.js';
+import type { TaxCalculationRequest, TaxCalculationRequestModelInput } from './types-57.js';
+import type { SubscriptionIntervalOption } from './types-55.js';
 import type { ResponseMeta } from './types-48.js';
-import type {
-    PartnerWebhookEnvelope,
-    PaymentAttemptGiftCardRedemption,
-    PaymentAttemptPaymentIntent,
-    PaymentErrorSummary
-} from './types-40.js';
-import type { PendingPaymentAction } from './types-43.js';
-import type { TaxBreakdown } from './types-56.js';
-import type { Address } from './types-0.js';
-import type { OrderTaxLocationPostalAddressRequest } from './types-38.js';
+import type { PaymentErrorSummary } from './types-41.js';
+import type { PendingPaymentAction } from './types-44.js';
+import type { OrderPaymentIntentSelectionTokenInput } from './types-38.js';
+/**
+ * The recipient name and phone you supply for an order delivery. Send null to clear a field.
+ * minProperties: 1.
+ */
+export type OrderDeliveryDestinationRecipientRequestInput = OrderDeliveryDestinationRecipientRequest;
+/**
+ * The delivery destination you set when creating or updating an order, with an address and an
+ * optional recipient.
+ */
+export type OrderDeliveryDestinationRequest = {
+    /**
+     * A complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address": AddressRequest;
+    /**
+     * The recipient name and phone you supply for an order delivery. Send null to clear a field.
+     * minProperties: 1.
+     */
+    "recipient"?: OrderDeliveryDestinationRecipientRequest;
+};
+/**
+ * The delivery destination you set when creating or updating an order, with an address and an
+ * optional recipient.
+ */
+export type OrderDeliveryDestinationRequestInput = {
+    /**
+     * A complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address": AddressRequestInput;
+    /**
+     * The recipient name and phone you supply for an order delivery. Send null to clear a field.
+     * minProperties: 1.
+     */
+    "recipient"?: OrderDeliveryDestinationRecipientRequestInput;
+};
+/**
+ * A discount applied to an order, with its amount, status, and the line items and charges it
+ * covers. It comes from a manual discount or a promotion.
+ */
+export type OrderDiscount = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "applied_money": MoneyValue;
+    "customer_facing_name"?: string;
+    /** Value enum: "order", "line_item", "service_charge". */
+    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
+    /**  [] (Value): string. */
+    "order_charge_ids": Array<string>;
+    /**
+     * Order discount ID. It starts with ad_. Pass it to POST
+     * /v1/orders/{order_id}/discounts/remove to remove the discount.
+     */
+    "order_discount_id": string;
+    "order_id": string;
+    /**  [] (Value): string. */
+    "order_line_item_ids": Array<string>;
+    /**
+     * Promotion code used to create this discount. Present only when source is promotion and a
+     * code was used.
+     */
+    "promotion_code"?: string;
+    /** Promotion that created this discount. Present only when source is promotion. */
+    "promotion_id"?: string;
+    /** Value enum: "manual", "promotion", "plan_change_credit". */
+    "source"?: "manual" | "promotion" | "plan_change_credit" | (string & {});
+    /** Value enum: "pending", "redeemed", "canceled". */
+    "status": "pending" | "redeemed" | "canceled" | (string & {});
+};
+/**
+ * The quantity of one inventory item that each unit of a draft order line item uses, supplied when
+ * creating the line item.
+ */
+export type OrderDraftLineItemInventoryDemandRequest = {
+    /** minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
+     * maximum: 9999.
+     */
+    "quantity_per_line_item_unit": number;
+};
+/**
+ * The quantity of one inventory item that each unit of a draft order line item uses, supplied when
+ * creating the line item.
+ */
+export type OrderDraftLineItemInventoryDemandRequestInput = OrderDraftLineItemInventoryDemandRequest;
+/**
+ * A tax calculation you supply for a draft order line item, made of tax components and a price
+ * mode.
+ */
+export type OrderDraftLineItemTaxCalculationRequestInput = {
+    /**
+     * minItems: 1. [] (Value): {@link OrderDraftTaxComponentRequestInput}. One tax component of a
+     * draft line item calculation, with its jurisdiction, tax type, and percentage or flat amount.
+     */
+    "components": Array<OrderDraftTaxComponentRequestInput>;
+    /** Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive";
+};
+/**
+ * Tax settings you supply for a draft order line item: its tax category, whether it is taxable,
+ * and an optional tax calculation.
+ */
+export type OrderDraftLineItemTaxRequestInput = {
+    /**
+     * A tax calculation you supply for a draft order line item, made of tax components and a price
+     * mode.
+     */
+    "calculation"?: OrderDraftLineItemTaxCalculationRequestInput;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    "taxable"?: boolean;
+};
+/**
+ * One tax component of a draft line item calculation, with its jurisdiction, tax type, and
+ * percentage or flat amount.
+ */
+export type OrderDraftTaxComponentRequestInput = ({
+    /** Default: "percentage". Value enum: "percentage". */
+    "calculation_type"?: "percentage";
+    /**
+     * Flat tax amount. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * The taxing jurisdiction of a draft tax component, identified by code, level, name, state,
+     * and country.
+     */
+    "jurisdiction": OrderDraftTaxJurisdictionRequestInput;
+    /** minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax";
+})
+    & ({
+    "flat_money"?: never;
+});
+/**
+ * The taxing jurisdiction of a draft tax component, identified by code, level, name, state, and
+ * country.
+ */
+export type OrderDraftTaxJurisdictionRequestInput = {
+    /** minLength: 1. */
+    "code": string;
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country": string;
+    /** Value enum: "state", "county", "city", "district". */
+    "level": "state" | "county" | "city" | "district";
+    /** minLength: 1. */
+    "name": string;
+    /** minLength: 1. */
+    "state": string;
+};
+/** The amount of an order that a gift card covers. */
+export type OrderGiftCardAllocation = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    "gift_card_id": string;
+};
+/**
+ * Accept the exact gift_card_estimate returned on the current order, including all selected cards
+ * and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and
+ * may use one processor payment intent for the processor_money remainder. The amount and every
+ * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an
+ * input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+ * responsible input field. Lower payment option limits can apply.
+ */
+export type OrderGiftCardAllocationAcceptance = {
+    /**
+     *  amount (Required): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
+     * "USD".
+     */
+    "gift_card_money": {
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 0.
+         */
+        "amount": `${bigint}`;
+        /** Value enum: "USD". */
+        "currency": "USD" | (string & {});
+    };
+    /**
+     * minItems: 1. maxItems: 20. [] (Value): object. [].amount_money (Required): object.
+     * [].amount_money.amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 0. [].amount_money.currency (Required):
+     * string. Value enum: "USD". [].gift_card_id (Required): string. minLength: 1. maxLength: 64.
+     */
+    "gift_cards": Array<{
+        /**
+         *  amount (Required): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value
+         * enum: "USD".
+         */
+        "amount_money": {
+            /**
+             * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+             * minimum: 0.
+             */
+            "amount": `${bigint}`;
+            /** Value enum: "USD". */
+            "currency": "USD" | (string & {});
+        };
+        /** minLength: 1. maxLength: 64. */
+        "gift_card_id": string;
+    }>;
+    /**
+     * Order version used to calculate this gift card allocation. Read the order again if its
+     * version changed. Format: int64. minimum: 1.
+     */
+    "order_version": number;
+    /**
+     *  amount (Required): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
+     * "USD".
+     */
+    "processor_money": {
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 0.
+         */
+        "amount": `${bigint}`;
+        /** Value enum: "USD". */
+        "currency": "USD" | (string & {});
+    };
+};
+/**
+ * Accept the exact gift_card_estimate returned on the current order, including all selected cards
+ * and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and
+ * may use one processor payment intent for the processor_money remainder. The amount and every
+ * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an
+ * input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+ * responsible input field. Lower payment option limits can apply.
+ */
+export type OrderGiftCardAllocationAcceptanceInput = {
+    /**
+     *  amount (Required): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
+     * "USD".
+     */
+    "gift_card_money": {
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 0.
+         */
+        "amount": `${bigint}` | bigint;
+        /** Value enum: "USD". */
+        "currency": "USD";
+    };
+    /**
+     * minItems: 1. maxItems: 20. [] (Value): object. [].amount_money (Required): object.
+     * [].amount_money.amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 0. [].amount_money.currency (Required):
+     * string. Value enum: "USD". [].gift_card_id (Required): string. minLength: 1. maxLength: 64.
+     */
+    "gift_cards": Array<{
+        /**
+         *  amount (Required): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value
+         * enum: "USD".
+         */
+        "amount_money": {
+            /**
+             * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+             * minimum: 0.
+             */
+            "amount": `${bigint}` | bigint;
+            /** Value enum: "USD". */
+            "currency": "USD";
+        };
+        /** minLength: 1. maxLength: 64. */
+        "gift_card_id": string;
+    }>;
+    /**
+     * Order version used to calculate this gift card allocation. Read the order again if its
+     * version changed. Format: int64. minimum: 1.
+     */
+    "order_version": number;
+    /**
+     *  amount (Required): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
+     * "USD".
+     */
+    "processor_money": {
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 0.
+         */
+        "amount": `${bigint}` | bigint;
+        /** Value enum: "USD". */
+        "currency": "USD";
+    };
+};
+/**
+ * An estimate of how an order total splits between gift cards and the payment processor, and
+ * whether gift cards can pay it.
+ */
+export type OrderGiftCardEstimate = {
+    /**
+     * Whether this allocation can be used for payment. False when a selected card needs
+     * authorization or the allocation cannot cover the balance while satisfying the processor
+     * minimum.
+     */
+    "can_pay": boolean;
+    /**
+     * Order balance allocated to the selected gift cards. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "gift_card_money": MoneyValue;
+    /**
+     *  [] (Value): {@link OrderGiftCardAllocation}. The amount of an order that a gift card
+     * covers.
+     */
+    "gift_cards": Array<OrderGiftCardAllocation>;
+    /** Whether this estimate reserves gift-card funds. Estimates currently return false. */
+    "is_reserved": boolean;
+    /**
+     * Order version used to calculate this gift card allocation. Read the order again if its
+     * version changed. Format: int64.
+     */
+    "order_version": number;
+    /**
+     * Order balance remaining for the payment processor. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "processor_money": MoneyValue;
+};
+/**
+ * A gift card available to pay an order, with its available balance and the last four characters
+ * of its code.
+ */
+export type OrderGiftCardSelection = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "available_money": MoneyValue;
+    "gift_card_id": string;
+    /** Last four characters of the card's current code. */
+    "last4": string;
+    "requires_authorization": boolean;
+};
+/** A gift card redemption applied to an order payment, with the amount, tip, and gift card. */
+export type OrderGiftCardSettlement = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    "gift_card_id": string;
+    "gift_card_redemption_id": string;
+    /**
+     * Last four characters of the code that paid. It stays the same if the gift card's code is
+     * later replaced.
+     */
+    "last4": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "tip_money": MoneyValue;
+};
+export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Order;
+    };
+    "event_type"?: "order.inventory_exception_created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Order;
+    };
+    "event_type"?: "order.inventory_exception_created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "order.inventory_exception_created";
+});
+/**
+ * The `order.inventory_exception_created` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "data"?: {
+        /** A customer's purchase and its payment and fulfillment progress. */
+        "object": Order;
+    };
+    /** Value enum: "order.inventory_exception_created". */
+    "event_type"?: "order.inventory_exception_created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `order.inventory_exception_created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "data"?: {
+        /** A customer's purchase and its payment and fulfillment progress. */
+        "object": Order;
+    };
+    /** Value enum: "order.inventory_exception_created". */
+    "event_type"?: "order.inventory_exception_created";
+});
+export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Order;
+    };
+    "event_type"?: "order.inventory_exception_resolved";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Order;
+    };
+    "event_type"?: "order.inventory_exception_resolved";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "order.inventory_exception_resolved";
+});
+/**
+ * The `order.inventory_exception_resolved` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "data"?: {
+        /** A customer's purchase and its payment and fulfillment progress. */
+        "object": Order;
+    };
+    /** Value enum: "order.inventory_exception_resolved". */
+    "event_type"?: "order.inventory_exception_resolved";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `order.inventory_exception_resolved` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "data"?: {
+        /** A customer's purchase and its payment and fulfillment progress. */
+        "object": Order;
+    };
+    /** Value enum: "order.inventory_exception_resolved". */
+    "event_type"?: "order.inventory_exception_resolved";
+});
+/**
+ * Where inventory for an order is allocated from: a fixed location, an allocation policy, or a
+ * specific policy revision.
+ */
+export type OrderInventoryRoutingSourceRequestInput = DeliveryPreviewRoutingSourceInput;
+/** An item purchased in an order. */
+export type OrderLineItem = {
+    /**
+     * Unit price multiplied by quantity, before modifiers, discounts, and tax. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "base_subtotal_money": MoneyValue;
+    /**
+     * Components fixed when the bundle line was added. The line takes their shared taxability and
+     * tax category; all component variants must share both stored values. An unset category equals
+     * only another unset category. [] (Value): {@link BundleComponent}. An item included in a
+     * bundle.
+     */
+    "bundle_components": Array<BundleComponent>;
+    "bundle_id"?: string;
+    /**
+     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name.
+     */
+    "categories": Array<CategoryReference>;
+    "description"?: string;
+    /**
+     * Discount value allocated to this line item. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Current quantities for each required fulfillment obligation: one entry for a single item or
+     * one per bundle component that requires fulfillment. Quantities use line units for single
+     * items and component units for bundles. required_quantity equals unassigned_quantity +
+     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity. Omitted when
+     * the line needs no fulfillment or the order's obligations cannot be computed, including older
+     * lines without recorded requirements. [] (Value): {@link OrderLineItemFulfillmentQuantities}.
+     * Counts of how much of an order line item is assigned, fulfilled, failed, canceled, or still
+     * unassigned for fulfillment.
+     */
+    "fulfillment_quantities"?: Array<OrderLineItemFulfillmentQuantities>;
+    /**
+     * Fulfillment requirements fixed when the line item was created. direct describes a single
+     * item; components describes each bundle component. Omitted for older line items without
+     * recorded requirements. Fulfillment requirements for an order line item, given for a single
+     * item or for each component of a bundle.
+     */
+    "fulfillment_requirements"?: OrderLineItemFulfillmentRequirements;
+    /**
+     * The gift card purchase details saved on an order line item: configuration, face value, price
+     * paid, and recipient.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseSnapshot;
+    /** An image with its `url`, `width`, and `height`, and optional `alt` text. */
+    "image"?: Image;
+    /**
+     *  anyOf[1] (Value): {@link LineItemInventorySnapshot}. Whether an order line item tracks
+     * inventory, and the inventory item quantities each unit demands. anyOf[2] (Value): null.
+     */
+    "inventory_snapshot": ((LineItemInventorySnapshot) | (null));
+    /**
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Sum of the line item's modifier totals. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "modifier_total_money": MoneyValue;
+    /**
+     *  [] (Value): {@link OrderLineItemModifier}. A modifier selected on an order line item, with
+     * its quantity, price change, total, and display flags.
+     */
+    "modifiers": Array<OrderLineItemModifier>;
+    "name": string;
+    "order_line_item_id": string;
+    "product_id"?: string;
+    /**
+     * Masked card identities for fully funded units of this purchase line. Partial consideration
+     * does not issue a card. [] (Value): {@link PurchasedGiftCard}. A gift card issued for one
+     * unit of a purchased order line item, with its last four code characters and any card it
+     * replaced.
+     */
+    "purchased_gift_cards": Array<PurchasedGiftCard>;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "refunded_money": MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "refunded_quantity": number;
+    /**
+     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
+     * variant, such as size Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    "sku"?: string;
+    /** Value enum: "variant", "bundle". */
+    "source_type"?: "variant" | "bundle" | (string & {});
+    /**
+     * Recurring offer and cadence frozen for this line at signup. The subscription offer and
+     * billing interval an order line was bought under, with the recurring amount.
+     */
+    "subscription"?: SubscribedLine;
+    /** Subscription created for this line after the order is paid. */
+    "subscription_id"?: string;
+    /**
+     * Applicable active offer for a one-time line, or the offer terms frozen for a subscribed
+     * line. A subscription offer attached to an order line item, with its name, discount, and
+     * billing interval options.
+     */
+    "subscription_offer"?: OrderLineSubscriptionOfferSummary;
+    /**
+     * Base subtotal plus modifier total, before discounts and tax. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Tax settings for an order line item calculated by Flint or supplied by you, including the
+     * line item tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /**
+     * Tax calculated for this line item, including any tax already included in its price. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Subtotal minus discounts, plus tax that is not already included in the price. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Dimensions of one unit fixed when the line was created. Omitted when unknown and for bundle
+     * lines. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "unit_price_money": MoneyValue;
+    /**
+     * Weight of one unit fixed when the line was created. Omitted when unknown and for bundle
+     * lines. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "unit_weight"?: Weight;
+    "variant_id"?: string;
+};
+/**
+ * Fulfillment requirements for one component of a bundle line item, with the component quantity
+ * per unit.
+ */
+export type OrderLineItemFulfillmentComponent = {
+    /** ID of the bundle component these requirements apply to. */
+    "bundle_component_id": string;
+    /**
+     * Fulfillment requirements for this component. anyOf[1] (Value): {@link
+     * OrderLineItemFulfillmentProfile}. Whether an order line item requires fulfillment, and the
+     * fulfillment types it allows. anyOf[2] (Value): null.
+     */
+    "profile": ((OrderLineItemFulfillmentProfile) | (null));
+    /**
+     * Number of this component per unit of the order line item; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "quantity_per_line_item_unit": number;
+};
+/** Whether an order line item requires fulfillment, and the fulfillment types it allows. */
+export type OrderLineItemFulfillmentProfile = {
+    /**
+     * Fulfillment types allowed for this item. Empty when fulfillment is not required. [] enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service". [] (Value): string. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /** Whether this item requires fulfillment. Value enum: "none", "required". */
+    "requirement": "none" | "required" | (string & {});
+};
+/**
+ * Counts of how much of an order line item is assigned, fulfilled, failed, canceled, or still
+ * unassigned for fulfillment.
+ */
+export type OrderLineItemFulfillmentQuantities = {
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Quantity owned by a
+     * non-terminal fulfillment, including a fulfillment on hold. Format: int64.
+     */
+    "assigned_quantity": number;
+    /** ID of the bundle component these quantities describe. Omitted for a single item. */
+    "bundle_component_id"?: string;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled
+     * or no_show fulfillments. Format: int64.
+     */
+    "canceled_quantity": number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Quantity owned by failed
+     * fulfillments that kept their quantity. Failed fulfillments that released quantity own
+     * nothing; their quantity becomes unassigned again. Format: int64.
+     */
+    "failed_quantity": number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Quantity owned by completed
+     * fulfillments. Format: int64.
+     */
+    "fulfilled_quantity": number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Total quantity requiring
+     * fulfillment, in line units for a single item or component units for a bundle component.
+     * Equals the sum of the other five quantity fields. Format: int64.
+     */
+    "required_quantity": number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Required quantity owned by
+     * no fulfillment, in any resolution mode. Includes quantity released by a failed fulfillment.
+     * Format: int64.
+     */
+    "unassigned_quantity": number;
+};
+/**
+ * Fulfillment requirements for an order line item, given for a single item or for each component
+ * of a bundle.
+ */
+export type OrderLineItemFulfillmentRequirements = {
+    /**
+     * Fulfillment requirements for each bundle component. Present for bundle lines. [] (Value):
+     * {@link OrderLineItemFulfillmentComponent}. Fulfillment requirements for one component of a
+     * bundle line item, with the component quantity per unit.
+     */
+    "components"?: Array<OrderLineItemFulfillmentComponent>;
+    /**
+     * Fulfillment requirements for a single item. Present for non-bundle lines. Whether an order
+     * line item requires fulfillment, and the fulfillment types it allows.
+     */
+    "direct"?: OrderLineItemFulfillmentProfile;
+};
 /**
  * A modifier selected on an order line item, with its quantity, price change, total, and display
  * flags.
@@ -899,489 +1667,4 @@ export type OrderPaymentIntentSelectionToken = {
     "payment_intent_id": string;
     /** Opaque processor or browser payment source token. minLength: 1. */
     "token": string;
-};
-/** The `token` variant of `OrderPaymentIntentSelection`. */
-export type OrderPaymentIntentSelectionTokenInput = {
-    /** Value enum: "token". */
-    "credential_type": "token";
-    /** Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /** Opaque processor or browser payment source token. minLength: 1. */
-    "token": string;
-};
-/**
- * Card options for the payment source selected on an order payment intent, including which digital
- * wallets to offer.
- */
-export type OrderPaymentSourceCardSelection = {
-    /**  [] (Value): string. minLength: 1. */
-    "digital_wallets"?: Array<string>;
-};
-/**
- * Card options for the payment source selected on an order payment intent, including which digital
- * wallets to offer.
- */
-export type OrderPaymentSourceCardSelectionInput = OrderPaymentSourceCardSelection;
-/** The payment source options you choose when creating an order payment intent. */
-export type OrderPaymentSourceSelection = {
-    /**
-     * Card options for the payment source selected on an order payment intent, including which
-     * digital wallets to offer.
-     */
-    "card"?: OrderPaymentSourceCardSelection;
-};
-/** The payment source options you choose when creating an order payment intent. */
-export type OrderPaymentSourceSelectionInput = {
-    /**
-     * Card options for the payment source selected on an order payment intent, including which
-     * digital wallets to offer.
-     */
-    "card"?: OrderPaymentSourceCardSelectionInput;
-};
-export type OrderRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.refunded";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.refunded";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.refunded";
-});
-/**
- * The `order.refunded` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
-    };
-    /** Value enum: "order.refunded". */
-    "event_type"?: "order.refunded";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `order.refunded` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
-    };
-    /** Value enum: "order.refunded". */
-    "event_type"?: "order.refunded";
-});
-/** A response containing `Order` data. */
-export type OrderResponse = {
-    /** A customer's purchase and its payment and fulfillment progress. */
-    "data": Order;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A return credit applied to an order payment, with the amount and the return and resolution it
- * came from.
- */
-export type OrderReturnCreditSettlement = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    "return_id": string;
-    "return_resolution_id": string;
-};
-/**
- * An order's tax state, including its mode, price mode, status, location, exemption, and tax
- * breakdowns.
- */
-export type OrderTax = {
-    /**
-     * Identifies which automatic tax behavior applies to this order. connected means the account's
-     * tax connection calculated it. standard marks an order calculated before automatic tax
-     * required a tax connection. Value enum: "standard", "connected".
-     */
-    "automatic_profile"?: "standard" | "connected" | (string & {});
-    /**  [] (Value): string. */
-    "available_location_inputs"?: Array<string>;
-    "enabled": boolean;
-    /** Whether an order is tax exempt, and the customer it was assessed from. */
-    "exemption"?: OrderTaxExemption;
-    /**
-     * The location Flint uses to calculate tax on an order, with its address, address type, and
-     * where the address came from.
-     */
-    "location"?: OrderTaxLocation;
-    /** Value enum: "automatic", "external". */
-    "mode": "automatic" | "external" | (string & {});
-    /**
-     * Whether the order's prices include tax (`inclusive`) or tax is added to them (`additive`).
-     * Present on every order Flint renders after 2026-10-20; a response replayed for an idempotent
-     * retry of an earlier request omits it. Each line item and charge also states its own mode in
-     * `tax.calculation.price_mode`, which decides that item's tax. Value enum: "additive",
-     * "inclusive".
-     */
-    "price_mode"?: "additive" | "inclusive" | (string & {});
-    /** Value enum: "not_required", "requires_location", "calculated", "exempt", "incomplete". */
-    "status": "not_required" | "requires_location" | "calculated" | "exempt" | "incomplete" | (string & {});
-    /**
-     *  [] (Value): {@link TaxBreakdown}. The tax calculated for one jurisdiction on an order, line
-     * item, or charge, with the taxable amount, rate or flat amount, and tax.
-     */
-    "tax_breakdowns"?: Array<TaxBreakdown>;
-};
-/** The `automatic` variant of `OrderTaxCalculationInput`. */
-export type OrderTaxCalculationInputAutomatic = {
-    /** Value enum: "automatic". */
-    "mode": "automatic" | (string & {});
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive" | (string & {});
-};
-/** The `automatic` variant of `OrderTaxCalculationInput`. */
-export type OrderTaxCalculationInputAutomaticInput = {
-    /** Value enum: "automatic". */
-    "mode": "automatic";
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive";
-};
-/** The `external` variant of `OrderTaxCalculationInput`. */
-export type OrderTaxCalculationInputExternal = {
-    /**
-     *  [] (Value): {@link OrderTaxComponentRequest}. One externally supplied order tax component,
-     * with its jurisdiction and either a flat amount or a percentage.
-     */
-    "components"?: Array<OrderTaxComponentRequest>;
-    /** Value enum: "external". */
-    "mode": "external" | (string & {});
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive" | (string & {});
-};
-/** The `external` variant of `OrderTaxCalculationInput`. */
-export type OrderTaxCalculationInputExternalInput = {
-    /**
-     *  [] (Value): {@link OrderTaxComponentRequestInput}. One externally supplied order tax
-     * component, with its jurisdiction and either a flat amount or a percentage.
-     */
-    "components"?: Array<OrderTaxComponentRequestInput>;
-    /** Value enum: "external". */
-    "mode": "external";
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive";
-};
-/**
- * How tax is calculated on an order: automatically, or externally with the tax components you
- * supply.
- */
-export type OrderTaxCalculationRequest = ({
-    /**
-     *  [] (Value): {@link OrderTaxComponentRequest}. One externally supplied order tax component,
-     * with its jurisdiction and either a flat amount or a percentage.
-     */
-    "components"?: Array<OrderTaxComponentRequest>;
-    /** Value enum: "automatic", "external". */
-    "mode": "automatic" | "external" | (string & {});
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive" | (string & {});
-})
-    & ((Exclude<OrderTaxCalculationInputAutomatic & object, readonly unknown[]>)
-    | (Exclude<OrderTaxCalculationInputExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * How tax is calculated on an order: automatically, or externally with the tax components you
- * supply.
- */
-export type OrderTaxCalculationRequestInput = ({
-    /**
-     *  [] (Value): {@link OrderTaxComponentRequestInput}. One externally supplied order tax
-     * component, with its jurisdiction and either a flat amount or a percentage.
-     */
-    "components"?: Array<OrderTaxComponentRequestInput>;
-    /** Value enum: "automatic", "external". */
-    "mode": "automatic" | "external";
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive";
-})
-    & ((Exclude<OrderTaxCalculationInputAutomaticInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxCalculationInputExternalInput & object, readonly unknown[]>));
-/**
- * One externally supplied order tax component, with its jurisdiction and either a flat amount or a
- * percentage.
- */
-export type OrderTaxComponentRequest = ({
-    /** Default: "flat_amount". Value enum: "flat_amount". */
-    "calculation_type"?: "flat_amount" | (string & {});
-    /**
-     * Flat tax in the order currency. The amount must be at least 1 minor unit; otherwise, Flint
-     * returns INVALID_FLAT_TAX. The amount and every computed order amount must not exceed
-     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
-     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
-     * payment option limits can apply. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "flat_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
-     * name, state, and country.
-     */
-    "jurisdiction": OrderTaxJurisdictionRequest;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
-    /** Default: "retail_delivery_fee". Value enum: "retail_delivery_fee". */
-    "tax_type"?: "retail_delivery_fee" | (string & {});
-});
-/**
- * One externally supplied order tax component, with its jurisdiction and either a flat amount or a
- * percentage.
- */
-export type OrderTaxComponentRequestInput = ({
-    /** Default: "flat_amount". Value enum: "flat_amount". */
-    "calculation_type"?: "flat_amount";
-    /**
-     * Flat tax in the order currency. The amount must be at least 1 minor unit; otherwise, Flint
-     * returns INVALID_FLAT_TAX. The amount and every computed order amount must not exceed
-     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
-     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
-     * payment option limits can apply. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "flat_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /**
-     * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
-     * name, state, and country.
-     */
-    "jurisdiction": OrderTaxJurisdictionRequestInput;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
-    /** Default: "retail_delivery_fee". Value enum: "retail_delivery_fee". */
-    "tax_type"?: "retail_delivery_fee";
-})
-    & ({
-    "percent"?: never;
-});
-/** Whether an order is tax exempt, and the customer it was assessed from. */
-export type OrderTaxExemption = {
-    "customer_id"?: string;
-    /**
-     * The source of the tax exemption assessment. Omitted when the source has not been
-     * established. Value enum: "none", "customer".
-     */
-    "source"?: "none" | "customer" | (string & {});
-    "tax_exempt": boolean;
-};
-/**
- * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
- * name, state, and country.
- */
-export type OrderTaxJurisdictionRequest = {
-    /** minLength: 1. maxLength: 128. pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$. */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
-     */
-    "country": "US" | (string & {});
-    /** Value enum: "state", "county", "city", "district". */
-    "level": "state" | "county" | "city" | "district" | (string & {});
-    /** minLength: 1. maxLength: 200. pattern: ^[^\s\x00](?:[^\r\n\x00]*[^\s\x00])?$. */
-    "name": string;
-    /** minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
-    "state": string;
-};
-/**
- * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
- * name, state, and country.
- */
-export type OrderTaxJurisdictionRequestInput = {
-    /** minLength: 1. maxLength: 128. pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$. */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
-     */
-    "country": "US";
-    /** Value enum: "state", "county", "city", "district". */
-    "level": "state" | "county" | "city" | "district";
-    /** minLength: 1. maxLength: 200. pattern: ^[^\s\x00](?:[^\r\n\x00]*[^\s\x00])?$. */
-    "name": string;
-    /** minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
-    "state": string;
-};
-/**
- * The location Flint uses to calculate tax on an order, with its address, address type, and where
- * the address came from.
- */
-export type OrderTaxLocation = {
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. A postal address. Every address has country. Addresses Flint checked as complete
-     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
-     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
-     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
-     * postal-code tax locations hold only what was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /** Value enum: "provided", "fulfillment", "customer", "device", "location", "merchant". */
-    "address_source": "provided" | "fulfillment" | "customer" | "device" | "location" | "merchant" | (string & {});
-    /**
-     * Value enum: "postal_code", "tax_address", "billing_address", "shipping_address",
-     * "business_address".
-     */
-    "address_type": "postal_code"
-        | "tax_address"
-        | "billing_address"
-        | "shipping_address"
-        | "business_address"
-        | (string & {});
-    "customer_id"?: string;
-    "device_id"?: string;
-    "fulfillment_id"?: string;
-    "location_id"?: string;
-};
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequest = {
-    /** minLength: 1. pattern: \S. */
-    "city": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
-     */
-    "country": "US" | (string & {});
-    /** minLength: 1. pattern: \S. */
-    "line1": string;
-    /** minLength: 1. */
-    "line2"?: string;
-    /** minLength: 1. pattern: \S. */
-    "postal_code": string;
-    /** minLength: 1. pattern: \S. */
-    "state": string;
-};
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequestInput = {
-    /** minLength: 1. pattern: \S. */
-    "city": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
-     */
-    "country": "US";
-    /** minLength: 1. pattern: \S. */
-    "line1": string;
-    /** minLength: 1. */
-    "line2"?: string;
-    /** minLength: 1. pattern: \S. */
-    "postal_code": string;
-    /** minLength: 1. pattern: \S. */
-    "state": string;
-};
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddress = {
-    /** A full street address you supply as an order's tax location. */
-    "address": OrderTaxLocationFullAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /** Value enum: "tax_address", "billing_address", "shipping_address". */
-    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
-};
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddressInput = {
-    /** A full street address you supply as an order's tax location. */
-    "address": OrderTaxLocationFullAddressRequestInput;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided";
-    /** Value enum: "tax_address", "billing_address", "shipping_address". */
-    "address_type": "tax_address" | "billing_address" | "shipping_address";
-};
-/** The `postal_code` variant of `OrderTaxLocationInput`. */
-export type OrderTaxLocationInputPostalCode = {
-    /** A postal code, with an optional country, you supply as an order's tax location. */
-    "address": OrderTaxLocationPostalAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /** Value enum: "postal_code". */
-    "address_type": "postal_code" | (string & {});
 };

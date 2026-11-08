@@ -13,8 +13,8 @@ import type {
     BundlesUpdateParams
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,42 +43,43 @@ export type {
     BundlesUpdateParams,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-6.js';
 export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-25.js';
 export type {
     MetadataRequestInput,
-    MetadataMap,
-    ModifierGroup,
-    Modifier,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-34.js';
-export type {
     MoneyValueInput,
+    MetadataMap,
     ModifierSet,
     ModifierSetGroup,
+    ModifierGroup,
+    Modifier,
     MoneyValue,
     ModifierOverride,
     ModifierSetGroupExisting,
     ModifierSetGroupInline,
-    NextAction
+    NextAction,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
 } from '../declarations/types-35.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { CategoryReference } from '../declarations/types-4.js';
-export type { TextModifierConfig } from '../declarations/types-57.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type {
+    TextModifierConfig,
+    UpdateBundleRequestInput,
+    UpdateBundleComponentRequestInput,
+    UpdateBundleComponentRequest
+} from '../declarations/types-58.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { SelectedProductOption } from '../declarations/types-53.js';
-export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-58.js';
 export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-63.js';
-export { makeImageInputFile, makeImageInputSourceURL } from '../declarations/types-67.js';
-export { makeImageRequest } from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride, makeMoneyValue } from '../declarations/types-69.js';
-export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-73.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-74.js';
 export interface BundlesResource {
     /**
  * Create bundle.

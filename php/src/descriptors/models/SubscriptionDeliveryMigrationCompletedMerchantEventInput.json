@@ -1,1 +1,1 @@
-{"shared":"SubscriptionDeliveryMigrationCompletedMerchantEvent","dependencies":["SharedCodec1274","SharedCodec14","SharedCodec15","SharedCodec16","SubscriptionDeliveryMigration","SubscriptionDeliveryMigrationCompletedMerchantEvent","SubscriptionDeliveryMigrationFailureReasonCount"]}
+{"shared":"SubscriptionDeliveryMigrationCompletedMerchantEvent","dependencies":["SharedCodec1292","SharedCodec14","SharedCodec15","SharedCodec16","SubscriptionDeliveryMigration","SubscriptionDeliveryMigrationCompletedMerchantEvent","SubscriptionDeliveryMigrationFailureReasonCount"]}

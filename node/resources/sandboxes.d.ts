@@ -3,7 +3,7 @@ import type { APIKeyWithSecret } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-5.js';
 import type { CreateAPIKeyResponse } from '../declarations/types-6.js';
 import type { CreateDeveloperSandboxResult } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-47.js';
+import type { RequestOptions } from '../declarations/types-48.js';
 import type {
     Sandbox,
     SandboxListResponse,
@@ -15,8 +15,8 @@ import type {
     SandboxesGetParams,
     SandboxesListParams,
     SandboxesResetParams
-} from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+} from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -42,16 +42,15 @@ export type {
     SandboxesListParams,
     SandboxListResponse,
     SandboxesResetParams
-} from '../declarations/types-52.js';
-export type { RequestOptions, ResourceReference } from '../declarations/types-47.js';
+} from '../declarations/types-53.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { CreateDeveloperSandboxResult } from '../declarations/types-7.js';
 export type { APIKeyWithSecret, AuthMode, APIKey } from '../declarations/types-0.js';
 export type { CreateAPIKeyResponse } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateSandboxRequestInput } from '../declarations/types-11.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type {
@@ -66,9 +65,9 @@ export {
     makeIssueSandboxAPIKeyRequest,
     makeIssueSandboxAPIKeyRequestFull,
     makeIssueSandboxAPIKeyRequestReadOnly,
-    makeIssueSandboxAPIKeyRequestRestricted,
-    makeMoneyValue
+    makeIssueSandboxAPIKeyRequestRestricted
 } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export interface SandboxesResource {
     /**
  * Creates a new empty test sandbox for the current merchant. Send `issue_test_key: true` to also

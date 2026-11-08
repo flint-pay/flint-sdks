@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# InvoiceCollectionRequestInput to InvoiceScheduleDueInput
+# InvoiceCollectionBuyerInitiatedInput to InvoiceReopenedMerchantEventInput
 
+- [InvoiceCollectionBuyerInitiatedInput](InvoiceCollectionBuyerInitiatedInput.md)
+- [InvoiceCollectionExternalInput](InvoiceCollectionExternalInput.md)
+- [InvoiceCollectionInputAutomaticInput](InvoiceCollectionInputAutomaticInput.md)
+- [InvoiceCollectionInputBuyerInitiatedInput](InvoiceCollectionInputBuyerInitiatedInput.md)
+- [InvoiceCollectionInputExternalInput](InvoiceCollectionInputExternalInput.md)
+- [InvoiceCollectionInputMerchantDefaultInput](InvoiceCollectionInputMerchantDefaultInput.md)
 - [InvoiceCollectionRequestInput](InvoiceCollectionRequestInput.md)
 - [InvoiceCreatedInstalledMerchantsEventInput](InvoiceCreatedInstalledMerchantsEventInput.md)
 - [InvoiceCreatedMerchantEventInput](InvoiceCreatedMerchantEventInput.md)
@@ -96,10 +102,4 @@
 - [InvoiceReminderRuleInput](InvoiceReminderRuleInput.md)
 - [InvoiceReopenedInstalledMerchantsEventInput](InvoiceReopenedInstalledMerchantsEventInput.md)
 - [InvoiceReopenedMerchantEventInput](InvoiceReopenedMerchantEventInput.md)
-- [InvoiceResponseInput](InvoiceResponseInput.md)
-- [InvoiceScheduleAmountSpecificationInput](InvoiceScheduleAmountSpecificationInput.md)
-- [InvoiceScheduleAmountSpecificationFixedInput](InvoiceScheduleAmountSpecificationFixedInput.md)
-- [InvoiceScheduleAmountSpecificationPercentageInput](InvoiceScheduleAmountSpecificationPercentageInput.md)
-- [InvoiceScheduleAmountSpecificationRemainingBalanceInput](InvoiceScheduleAmountSpecificationRemainingBalanceInput.md)
-- [InvoiceScheduleDueInput](InvoiceScheduleDueInput.md)
 

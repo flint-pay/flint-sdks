@@ -8,8 +8,8 @@ import type {
     ApiRequestLogsListParams
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,14 +35,13 @@ export type {
     APIRequestLogQueryParam,
     APIRequestLogReproduction
 } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions, ResourceReference } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export interface ApiRequestLogsResource {
     /**
  * Returns one request with redacted headers, the redacted request and response bodies for write

@@ -1,28 +1,714 @@
+import type { PromotionRecurrenceForeverInput, Promotion } from './types-45.js';
+import type { ResponseMeta } from './types-48.js';
+import type { MoneyValue, MoneyValueInput, MerchantWebhookEnvelope, MetadataMap } from './types-35.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePromotionRequestInput } from './types-10.js';
-import type { CategoriesDeleteParams, CheckoutCustomTextConfig, CheckoutPaymentConfig, CategoryReference } from './types-4.js';
-import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from './types-59.js';
+import type { CreatePromotionCodeRequestInput, CreatePromotionRequestInput } from './types-10.js';
+import type { CategoriesDeleteParams, CheckoutCustomTextConfig, CheckoutPaymentConfig } from './types-4.js';
+import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from './types-60.js';
 import type { Image } from './types-25.js';
 import type { LegalSettings } from './types-32.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkAvailableVariant } from './types-41.js';
-import type { ThemeConfig, TextModifierConfigRequest } from './types-57.js';
-import type { ResponseMeta } from './types-48.js';
+import type { PaymentLinkCustomField, PaymentLinkAvailableVariant } from './types-41.js';
+import type {
+    PaymentLinkEventConfig,
+    PaymentLinkLineItem,
+    PaymentLinkSubscriptionPreview,
+    PaymentLinkProductOption
+} from './types-42.js';
+import type { ThemeConfig, TextModifierConfigRequest } from './types-58.js';
 import type { CheckoutTheme } from './types-5.js';
-import type { PaymentLinkSubscriptionPreview, PaymentLinkProductOption, PaymentRefund } from './types-42.js';
 import type { SelectedProductOption } from './types-53.js';
-import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-49.js';
+import type { ReturnPolicyRevisionRequest } from './types-49.js';
+import type { ReturnPolicyRevisionRequestInput } from './types-50.js';
 import type { GetReturnPolicyResponse } from './types-23.js';
 import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-21.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
+import type { PaymentRefund } from './types-43.js';
 import type {
+    RefundLineItemAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery,
-    RefundTaxBreakdownRefundIn,
-    RefundTaxBreakdownRefundInInput
+    RefundUnissuedGiftCardRecovery
 } from './types-47.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
+/**
+ * How often a promotion's discount repeats on a subscription: once, for a number of charged
+ * payments, or forever.
+ */
+export type PromotionRecurrenceInput = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count"?: number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum: "once",
+     * "repeating", "forever".
+     */
+    "type": "once" | "repeating" | "forever";
+})
+    & ((Exclude<PromotionRecurrenceOnceInput & object, readonly unknown[]>)
+    | (Exclude<PromotionRecurrenceRepeatingInput & object, readonly unknown[]>)
+    | (Exclude<PromotionRecurrenceForeverInput & object, readonly unknown[]>));
+/** The `once` variant of `PromotionRecurrence`. */
+export type PromotionRecurrenceOnce = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count"?: number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum: "once".
+     */
+    "type": "once" | (string & {});
+})
+    & (({
+    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
+    "type": unknown;
+}));
+/** The `once` variant of `PromotionRecurrence`. */
+export type PromotionRecurrenceOnceInput = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count"?: number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum: "once".
+     */
+    "type": "once";
+})
+    & (({
+    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
+    "type": ("once") & ("once");
+})
+    & ({
+    "period_count"?: never;
+}));
+/** The `repeating` variant of `PromotionRecurrence`. */
+export type PromotionRecurrenceRepeating = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count": number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum:
+     * "repeating".
+     */
+    "type": "repeating" | (string & {});
+})
+    & ({
+    /**
+     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
+     */
+    "type": unknown;
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count": number;
+});
+/** The `repeating` variant of `PromotionRecurrence`. */
+export type PromotionRecurrenceRepeatingInput = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count": number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum:
+     * "repeating".
+     */
+    "type": "repeating";
+})
+    & ({
+    /**
+     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
+     */
+    "type": ("repeating") & ("repeating");
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count": number;
+});
+/** The `Promotion code` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionCode = ({
+    /**
+     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_code": string;
+    /**
+     * Use `promotion_id` for server-side apply flows where you already know the promotion,
+     * including code-gated promotions, which then apply without a code and count only toward the
+     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_id"?: string;
+});
+/** The `Promotion code` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionCodeInput = ({
+    /**
+     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_code": string;
+    /**
+     * Use `promotion_id` for server-side apply flows where you already know the promotion,
+     * including code-gated promotions, which then apply without a code and count only toward the
+     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_id"?: string;
+})
+    & (({
+    "promotion_id"?: never;
+}));
+/** The `Promotion ID` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionID = ({
+    /**
+     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_code"?: string;
+    /**
+     * Use `promotion_id` for server-side apply flows where you already know the promotion,
+     * including code-gated promotions, which then apply without a code and count only toward the
+     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_id": string;
+});
+/** The `Promotion ID` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionIDInput = ({
+    /**
+     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_code"?: string;
+    /**
+     * Use `promotion_id` for server-side apply flows where you already know the promotion,
+     * including code-gated promotions, which then apply without a code and count only toward the
+     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_id": string;
+})
+    & (({
+    "promotion_code"?: never;
+}));
+/** Identifies the promotion to apply, by promotion code or by promotion ID. */
+export type PromotionRefRequest = ({
+    /**
+     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_code"?: string;
+    /**
+     * Use `promotion_id` for server-side apply flows where you already know the promotion,
+     * including code-gated promotions, which then apply without a code and count only toward the
+     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_id"?: string;
+})
+    & ((Exclude<PromotionRefInputPromotionID & object, readonly unknown[]>)
+    | (Exclude<PromotionRefInputPromotionCode & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Identifies the promotion to apply, by promotion code or by promotion ID. */
+export type PromotionRefRequestInput = ({
+    /**
+     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_code"?: string;
+    /**
+     * Use `promotion_id` for server-side apply flows where you already know the promotion,
+     * including code-gated promotions, which then apply without a code and count only toward the
+     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
+     * amounts applied to orders must satisfy the order money ceiling. The amount and every
+     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
+     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
+     * the responsible input field. Lower payment option limits can apply. minLength: 1.
+     */
+    "promotion_id"?: string;
+})
+    & ((Exclude<PromotionRefInputPromotionIDInput & object, readonly unknown[]>)
+    | (Exclude<PromotionRefInputPromotionCodeInput & object, readonly unknown[]>));
+/** A response containing `Promotion` data. */
+export type PromotionResponse = {
+    /**
+     * The requested promotion. Promotion evaluation order: manual discounts stay, do not count
+     * toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are
+     * admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates
+     * include codes being applied, existing promotion discounts, and qualifying automatic
+     * promotions. Each exclusivity group keeps its highest-priority member, then the larger
+     * standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank
+     * by standalone discount, then earlier created_at and lower promotion_id; each is admitted
+     * unless max_promotions_per_order is reached or both promotions do not allow each other's
+     * discount class. Admitted promotions price line item first, then order, then service charge.
+     * A zero-value promotion is dropped and selection runs again.
+     */
+    "data": Promotion;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
+     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * One condition in a promotion rule group, which tests an attribute with an operator and values.
+ */
+export type PromotionRule = {
+    /**
+     * Field the rule tests. The attribute fixes the value type and the operators that are legal
+     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
+     * only, and so on. The full attribute/type/operator matrix is machine-readable in
+     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
+     * metadata and accepts the string operators. A disallowed operator is rejected at create time
+     * with INVALID_OPERATOR, whose message names the operators allowed for the attribute.
+     */
+    "attribute": string;
+    /**
+     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
+     * must match its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValue>;
+    /**
+     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
+     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
+     */
+    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined" | (string & {});
+    /**
+     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
+     * whether the attribute is present. [] (Value): {@link PromotionRuleValue}. Rule comparison
+     * value. Use a primitive string, number, boolean, or a money object.
+     */
+    "values"?: Array<PromotionRuleValue>;
+};
+/**
+ * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+ * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
+ * or send null where the field is clearable. Responses list rules before nested groups. Under any,
+ * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
+ * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+ * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+ * line_item.* rules in the same all group, including its nested groups.
+ */
+export type PromotionRuleGroup = (({
+    /**
+     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
+     * or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}. One condition in
+     * a promotion rule group, which tests an attribute with an operator and values. [].oneOf[2]
+     * (Value): {@link PromotionRuleGroup}. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "all": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
+})
+    | ({
+    /**
+     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
+     * PromotionRule} or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}.
+     * One condition in a promotion rule group, which tests an attribute with an operator and
+     * values. [].oneOf[2] (Value): {@link PromotionRuleGroup}. A rule group is an object with
+     * exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
+     * groups, and a rules key are invalid. Omit the field for no rules, or send null where the
+     * field is clearable. Responses list rules before nested groups. Under any, a nested group
+     * containing only one rule reads back as that rule. Under all, nested groups keep their
+     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+     * line_item.* rules in the same all group, including its nested groups.
+     */
+    "any": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
+})
+    | (Record<string, unknown>));
+/**
+ * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+ * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
+ * or send null where the field is clearable. Responses list rules before nested groups. Under any,
+ * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
+ * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+ * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+ * line_item.* rules in the same all group, including its nested groups.
+ */
+export type PromotionRuleGroupRequest = (({
+    /**
+     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
+     * or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link PromotionRule}. One
+     * condition you set in a promotion rule group, which tests an attribute with an operator and
+     * values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule group is an object
+     * with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays,
+     * empty groups, and a rules key are invalid. Omit the field for no rules, or send null where
+     * the field is clearable. Responses list rules before nested groups. Under any, a nested group
+     * containing only one rule reads back as that rule. Under all, nested groups keep their
+     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+     * line_item.* rules in the same all group, including its nested groups.
+     */
+    "all": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
+})
+    | ({
+    /**
+     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
+     * PromotionRule} or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link
+     * PromotionRule}. One condition you set in a promotion rule group, which tests an attribute
+     * with an operator and values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule
+     * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
+     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
+     * send null where the field is clearable. Responses list rules before nested groups. Under
+     * any, a nested group containing only one rule reads back as that rule. Under all, nested
+     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
+     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
+     * matched by the line_item.* rules in the same all group, including its nested groups.
+     */
+    "any": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
+})
+    | (Record<string, unknown>));
+/**
+ * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+ * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
+ * or send null where the field is clearable. Responses list rules before nested groups. Under any,
+ * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
+ * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+ * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+ * line_item.* rules in the same all group, including its nested groups.
+ */
+export type PromotionRuleGroupRequestInput = (({
+    /**
+     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link
+     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
+     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
+     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
+     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "all": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
+})
+    | ({
+    /**
+     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
+     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
+     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
+     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
+     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "any": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
+}));
+/**
+ * One condition you set in a promotion rule group, which tests an attribute with an operator and
+ * values.
+ */
+export type PromotionRuleRequestInput = {
+    /**
+     * Field the rule tests. The attribute fixes the value type and the operators that are legal
+     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
+     * only, and so on. The full attribute/type/operator matrix is machine-readable in
+     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
+     * metadata and accepts the string operators. A disallowed operator is rejected at create time
+     * with INVALID_OPERATOR, whose message names the operators allowed for the attribute.
+     * minLength: 1.
+     */
+    "attribute": string;
+    /**
+     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
+     * must match its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValueInput>;
+    /**
+     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
+     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
+     */
+    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined";
+    /**
+     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
+     * whether the attribute is present. [] (Value): {@link PromotionRuleValueRequestInput}. Rule
+     * comparison value. Use a primitive string, number, boolean, or a money object.
+     */
+    "values"?: Array<PromotionRuleValueRequestInput>;
+};
+/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
+export type PromotionRuleValue = ((string) | (number) | (boolean) | (MoneyValue) | (unknown));
+/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
+export type PromotionRuleValueRequestInput = ((string) | (number) | (boolean) | (MoneyValueInput));
+/**
+ * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
+ */
+export type PromotionSchedule = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omitted when it has no end time. Format: date-time. minLength: 1.
+     */
+    "ends_at"?: string;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
+     * no start time. Format: date-time. minLength: 1.
+     */
+    "starts_at"?: string;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
+     * maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * subfields. An empty object is invalid. minProperties: 1.
+ */
+export type PromotionSchedulePatch = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1.
+     */
+    "ends_at"?: string | null;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
+     * stored value; null clears it. Format: date-time. minLength: 1.
+     */
+    "starts_at"?: string | null;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
+     * it. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * subfields. An empty object is invalid. minProperties: 1.
+ */
+export type PromotionSchedulePatchInput = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1.
+     */
+    "ends_at"?: string | globalThis.Date | null;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
+     * stored value; null clears it. Format: date-time. minLength: 1.
+     */
+    "starts_at"?: string | globalThis.Date | null;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
+     * it. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/**
+ * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
+ */
+export type PromotionScheduleRequestInput = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omitted when it has no end time. Format: date-time. minLength: 1.
+     */
+    "ends_at"?: string | globalThis.Date;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
+     * no start time. Format: date-time. minLength: 1.
+     */
+    "starts_at"?: string | globalThis.Date;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
+     * maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/**
+ * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
+ * promotions can apply to one order.
+ */
+export type PromotionSettings = {
+    "automatic_enabled"?: boolean;
+    /**
+     * Merchant promotion code redemption policy. Explicit false rejects promotion-code application
+     * even when a checkout or payment link asks to show code entry.
+     */
+    "codes_enabled"?: boolean;
+    /**
+     * Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not
+     * count. See Promotion for the evaluation order. Format: int32. minimum: 1. maximum: 10.
+     * Default: 2.
+     */
+    "max_promotions_per_order"?: number;
+};
+/**
+ * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
+ * promotions can apply to one order.
+ */
+export type PromotionSettingsRequestInput = PromotionSettings;
+export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Promotion;
+    };
+    "event_type"?: "promotion.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Promotion;
+    };
+    "event_type"?: "promotion.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "promotion.updated";
+});
+/**
+ * The `promotion.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Promotion}. Promotion evaluation order: manual discounts stay, do
+     * not count toward the cap, and are ignored by combines_with. Frozen subscription-term
+     * promotions are admitted first and are exempt from exclusivity, combines_with, and the cap.
+     * Candidates include codes being applied, existing promotion discounts, and qualifying
+     * automatic promotions. Each exclusivity group keeps its highest-priority member, then the
+     * larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates
+     * rank by standalone discount, then earlier created_at and lower promotion_id; each is
+     * admitted unless max_promotions_per_order is reached or both promotions do not allow each
+     * other's discount class. Admitted promotions price line item first, then order, then service
+     * charge. A zero-value promotion is dropped and selection runs again.
+     */
+    "data"?: {
+        /**
+         * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are
+         * ignored by combines_with. Frozen subscription-term promotions are admitted first and are
+         * exempt from exclusivity, combines_with, and the cap. Candidates include codes being
+         * applied, existing promotion discounts, and qualifying automatic promotions. Each
+         * exclusivity group keeps its highest-priority member, then the larger standalone
+         * discount, earlier created_at, and lower promotion_id. Remaining candidates rank by
+         * standalone discount, then earlier created_at and lower promotion_id; each is admitted
+         * unless max_promotions_per_order is reached or both promotions do not allow each other's
+         * discount class. Admitted promotions price line item first, then order, then service
+         * charge. A zero-value promotion is dropped and selection runs again.
+         */
+        "object": Promotion;
+    };
+    /** Value enum: "promotion.updated". */
+    "event_type"?: "promotion.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `promotion.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Promotion}. Promotion evaluation order: manual discounts stay, do
+     * not count toward the cap, and are ignored by combines_with. Frozen subscription-term
+     * promotions are admitted first and are exempt from exclusivity, combines_with, and the cap.
+     * Candidates include codes being applied, existing promotion discounts, and qualifying
+     * automatic promotions. Each exclusivity group keeps its highest-priority member, then the
+     * larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates
+     * rank by standalone discount, then earlier created_at and lower promotion_id; each is
+     * admitted unless max_promotions_per_order is reached or both promotions do not allow each
+     * other's discount class. Admitted promotions price line item first, then order, then service
+     * charge. A zero-value promotion is dropped and selection runs again.
+     */
+    "data"?: {
+        /**
+         * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are
+         * ignored by combines_with. Frozen subscription-term promotions are admitted first and are
+         * exempt from exclusivity, combines_with, and the cap. Candidates include codes being
+         * applied, existing promotion discounts, and qualifying automatic promotions. Each
+         * exclusivity group keeps its highest-priority member, then the larger standalone
+         * discount, earlier created_at, and lower promotion_id. Remaining candidates rank by
+         * standalone discount, then earlier created_at and lower promotion_id; each is admitted
+         * unless max_promotions_per_order is reached or both promotions do not allow each other's
+         * discount class. Admitted promotions price line item first, then order, then service
+         * charge. A zero-value promotion is dropped and selection runs again.
+         */
+        "object": Promotion;
+    };
+    /** Value enum: "promotion.updated". */
+    "event_type"?: "promotion.updated";
+});
+export type PromotionsCreateCodeParams = (InputValue<CreatePromotionCodeRequestInput>);
 export type PromotionsCreateParams = (InputValue<CreatePromotionRequestInput>);
 export type PromotionsDeleteCodeParams = CategoriesDeleteParams;
 export type PromotionsDeleteParams = CategoriesDeleteParams;
@@ -1172,587 +1858,3 @@ export type RefundAdjustmentReason = {
         | (string & {});
     "description"?: string;
 };
-/** The reason to record for a refund adjustment, as a `code` with an optional description. */
-export type RefundAdjustmentReasonRequestInput = {
-    /**
-     * Value enum: "customer_agreement", "jurisdiction_specific_rule", "merchant_policy",
-     * "customer_request", "restocking_policy", "manual_tax_correction", "other".
-     */
-    "code": "customer_agreement"
-        | "jurisdiction_specific_rule"
-        | "merchant_policy"
-        | "customer_request"
-        | "restocking_policy"
-        | "manual_tax_correction"
-        | "other";
-    /** minLength: 1. */
-    "description"?: string;
-};
-/** An order charge to refund when creating a refund, with an optional amount to refund. */
-export type RefundCharge = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValue;
-    /** minLength: 1. */
-    "order_charge_id": string;
-};
-/** An order charge to refund when creating a refund, with an optional amount to refund. */
-export type RefundChargeInput = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "order_charge_id": string;
-};
-export type RefundCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "refund.created";
-});
-/**
- * The `refund.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type RefundCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
-    "data"?: {
-        /** Money returned against a collected payment. */
-        "object": Refund;
-    };
-    /** Value enum: "refund.created". */
-    "event_type"?: "refund.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `refund.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type RefundCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
-    "data"?: {
-        /** Money returned against a collected payment. */
-        "object": Refund;
-    };
-    /** Value enum: "refund.created". */
-    "event_type"?: "refund.created";
-});
-/**
- * Default refund destinations for payment intent and gift card redemption allocations planned by
- * Flint. Each tender type defaults to original when omitted.
- */
-export type RefundDestinations = {
-    /**
-     * Where gift card redemption value is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards, including when the original is closed or cannot accept
-     * the full credit. Default: "original". Value enum: "original", "new_gift_card".
-     */
-    "gift_card_redemption"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Default destination for every payment intent allocation Flint plans for this refund.
-     * original returns value to the payment; new_gift_card issues store credit on new Flint gift
-     * cards. Payment intent store credit requires a succeeded USD card, Apple Pay, Google Pay, or
-     * Link payment that belongs to an order, with no open chargeback. Affirm, ACH debit, other
-     * payment options, non-USD payments, and payments without an order return INVALID_REQUEST with
-     * a NOT_ALLOWED detail. Payment chargebacks use the existing dispute refusal. Gift card
-     * redemption destinations are unaffected by the payment restrictions. Default: "original".
-     * Value enum: "original", "new_gift_card".
-     */
-    "payment_intent"?: "original" | "new_gift_card" | (string & {});
-};
-/**
- * Default refund destinations for payment intent and gift card redemption allocations planned by
- * Flint. Each tender type defaults to original when omitted.
- */
-export type RefundDestinationsInput = {
-    /**
-     * Where gift card redemption value is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards, including when the original is closed or cannot accept
-     * the full credit. Default: "original". Value enum: "original", "new_gift_card".
-     */
-    "gift_card_redemption"?: "original" | "new_gift_card";
-    /**
-     * Default destination for every payment intent allocation Flint plans for this refund.
-     * original returns value to the payment; new_gift_card issues store credit on new Flint gift
-     * cards. Payment intent store credit requires a succeeded USD card, Apple Pay, Google Pay, or
-     * Link payment that belongs to an order, with no open chargeback. Affirm, ACH debit, other
-     * payment options, non-USD payments, and payments without an order return INVALID_REQUEST with
-     * a NOT_ALLOWED detail. Payment chargebacks use the existing dispute refusal. Gift card
-     * redemption destinations are unaffected by the payment restrictions. Default: "original".
-     * Value enum: "original", "new_gift_card".
-     */
-    "payment_intent"?: "original" | "new_gift_card";
-};
-export type RefundFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.failed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.failed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "refund.failed";
-});
-/**
- * The `refund.failed` webhook payload for the `installed_merchants` event source. Fields shared by
- * partner webhook payloads.
- */
-export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
-    "data"?: {
-        /** Money returned against a collected payment. */
-        "object": Refund;
-    };
-    /** Value enum: "refund.failed". */
-    "event_type"?: "refund.failed";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `refund.failed` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
-    "data"?: {
-        /** Money returned against a collected payment. */
-        "object": Refund;
-    };
-    /** Value enum: "refund.failed". */
-    "event_type"?: "refund.failed";
-});
-/**
- * The code of a gift card issued by a refund, returned once in the refund result with its
- * `gift_card_id`.
- */
-export type RefundGiftCardCode = {
-    "code": string;
-    "gift_card_id": string;
-};
-/**
- * An order line item to refund, with the quantity or amount, tax handling, and any adjustments
- * such as a restocking fee.
- */
-export type RefundLineItem = {
-    /**
-     *  [] (Value): {@link RefundLineItemAdjustmentRefundIn}. An amount to refund back against an
-     * earlier line item adjustment, identified by `refund_line_item_adjustment_id`.
-     */
-    "adjustment_refunds"?: Array<RefundLineItemAdjustmentRefundIn>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValue;
-    /** minLength: 1. */
-    "order_line_item_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link RefundLineItemAdjustmentIn}. An adjustment to apply to a refunded line
-     * item, such as a restocking fee or withheld amount, and whether it applies to the gross
-     * amount or tax.
-     */
-    "refund_adjustments"?: Array<RefundLineItemAdjustmentIn>;
-    /**
-     * Who made a manual tax adjustment on a refund line item and where it came from, for audit
-     * purposes.
-     */
-    "tax_adjustment_audit"?: RefundAdjustmentAudit;
-    /** The reason to record for a refund adjustment, as a `code` with an optional description. */
-    "tax_adjustment_reason"?: RefundAdjustmentReason;
-    /**
-     *  [] (Value): {@link RefundTaxBreakdownRefundIn}. The tax to refund for one tax breakdown,
-     * identified by `tax_breakdown_id`, when setting tax refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "tax_money"?: MoneyValue;
-    /** Value enum: "automatic", "explicit". */
-    "tax_refund_mode"?: "automatic" | "explicit" | (string & {});
-};
-/**
- * An adjustment on a refunded line item, such as a restocking fee or withheld amount, with how
- * much has been refunded and what remains.
- */
-export type RefundLineItemAdjustment = {
-    /** Value enum: "restocking_fee", "withheld_amount", "refund_adjustment", "tax_adjustment". */
-    "adjustment_type": "restocking_fee" | "withheld_amount" | "refund_adjustment" | "tax_adjustment" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    /** Value enum: "none", "gross", "tax". */
-    "applies_to": "none" | "gross" | "tax" | (string & {});
-    /**
-     * The reason recorded for a refund line item adjustment, as a `code` with an optional
-     * description.
-     */
-    "reason": RefundAdjustmentReason;
-    "refund_line_item_adjustment_id": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "refunded_money": MoneyValue;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "remaining_money": MoneyValue;
-};
-/**
- * An adjustment to apply to a refunded line item, such as a restocking fee or withheld amount, and
- * whether it applies to the gross amount or tax.
- */
-export type RefundLineItemAdjustmentIn = {
-    /** Value enum: "restocking_fee", "withheld_amount", "refund_adjustment", "tax_adjustment". */
-    "adjustment_type": "restocking_fee" | "withheld_amount" | "refund_adjustment" | "tax_adjustment" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    /** Value enum: "none", "gross", "tax". */
-    "applies_to": "none" | "gross" | "tax" | (string & {});
-    /** The reason to record for a refund adjustment, as a `code` with an optional description. */
-    "reason": RefundAdjustmentReason;
-};
-/**
- * An adjustment to apply to a refunded line item, such as a restocking fee or withheld amount, and
- * whether it applies to the gross amount or tax.
- */
-export type RefundLineItemAdjustmentInInput = {
-    /** Value enum: "restocking_fee", "withheld_amount", "refund_adjustment", "tax_adjustment". */
-    "adjustment_type": "restocking_fee" | "withheld_amount" | "refund_adjustment" | "tax_adjustment";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValueInput;
-    /** Value enum: "none", "gross", "tax". */
-    "applies_to": "none" | "gross" | "tax";
-    /** The reason to record for a refund adjustment, as a `code` with an optional description. */
-    "reason": RefundAdjustmentReasonRequestInput;
-};
-/** An amount refunded back against an earlier line item adjustment. */
-export type RefundLineItemAdjustmentRefund = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    "original_refund_line_item_adjustment_id": string;
-    "refund_line_item_adjustment_refund_id": string;
-};
-/**
- * An amount to refund back against an earlier line item adjustment, identified by
- * `refund_line_item_adjustment_id`.
- */
-export type RefundLineItemAdjustmentRefundIn = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValue;
-    /** minLength: 1. */
-    "refund_line_item_adjustment_id": string;
-};
-/**
- * An amount to refund back against an earlier line item adjustment, identified by
- * `refund_line_item_adjustment_id`.
- */
-export type RefundLineItemAdjustmentRefundInInput = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "refund_line_item_adjustment_id": string;
-};
-/**
- * How a refund applied to one order line item: quantity, refunded amount, tax, adjustments, and
- * modifier allocations.
- */
-export type RefundLineItemAllocation = {
-    /**
-     *  [] (Value): {@link RefundLineItemAdjustmentRefund}. An amount refunded back against an
-     * earlier line item adjustment.
-     */
-    "adjustment_refunds"?: Array<RefundLineItemAdjustmentRefund>;
-    /**
-     *  [] (Value): {@link RefundLineItemAdjustment}. An adjustment on a refunded line item, such
-     * as a restocking fee or withheld amount, with how much has been refunded and what remains.
-     */
-    "adjustments"?: Array<RefundLineItemAdjustment>;
-    /**
-     * The subtotal, discount, tax, and total Flint calculated automatically for a refunded line
-     * item.
-     */
-    "automatic_refund": RefundLineItemAutomaticRefund;
-    "bundle_id"?: string;
-    /**
-     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-     * name.
-     */
-    "categories"?: Array<CategoryReference>;
-    /**
-     *  [] (Value): {@link RefundLineItemModifierAllocation}. The part of a line item refund that
-     * applies to one modifier, by quantity or amount.
-     */
-    "modifiers"?: Array<RefundLineItemModifierAllocation>;
-    "order_line_item_id": string;
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "refunded_money": MoneyValue;
-    /**
-     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
-     * variant, such as size Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    "sku"?: string;
-    /** Value enum: "variant", "bundle". */
-    "source_type"?: "variant" | "bundle" | (string & {});
-    /**
-     *  [] (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
-     * order.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-    /** Value enum: "automatic", "explicit". */
-    "tax_refund_mode": "automatic" | "explicit" | (string & {});
-    "variant_id"?: string;
-};
-/**
- * The subtotal, discount, tax, and total Flint calculated automatically for a refunded line item.
- */
-export type RefundLineItemAutomaticRefund = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "discount_money": MoneyValue;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "subtotal_money": MoneyValue;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "tax_money": MoneyValue;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "total_money": MoneyValue;
-};
-/**
- * An order line item to refund, with the quantity or amount, tax handling, and any adjustments
- * such as a restocking fee.
- */
-export type RefundLineItemInput = {
-    /**
-     *  [] (Value): {@link RefundLineItemAdjustmentRefundInInput}. An amount to refund back against
-     * an earlier line item adjustment, identified by `refund_line_item_adjustment_id`.
-     */
-    "adjustment_refunds"?: Array<RefundLineItemAdjustmentRefundInInput>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "order_line_item_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link RefundLineItemAdjustmentInInput}. An adjustment to apply to a refunded
-     * line item, such as a restocking fee or withheld amount, and whether it applies to the gross
-     * amount or tax.
-     */
-    "refund_adjustments"?: Array<RefundLineItemAdjustmentInInput>;
-    /**
-     * Who made a manual tax adjustment on a refund line item and where it came from, for audit
-     * purposes.
-     */
-    "tax_adjustment_audit"?: RefundAdjustmentAuditInput;
-    /** The reason to record for a refund adjustment, as a `code` with an optional description. */
-    "tax_adjustment_reason"?: RefundAdjustmentReasonRequestInput;
-    /**
-     *  [] (Value): {@link RefundTaxBreakdownRefundInInput}. The tax to refund for one tax
-     * breakdown, identified by `tax_breakdown_id`, when setting tax refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "tax_money"?: MoneyValueInput;
-    /** Value enum: "automatic", "explicit". */
-    "tax_refund_mode"?: "automatic" | "explicit";
-};
-/** The part of a line item refund that applies to one modifier, by quantity or amount. */
-export type RefundLineItemModifierAllocation = {
-    /** Value enum: "quantity", "amount". */
-    "allocation_basis": "quantity" | "amount" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    "modifier_group_name": string;
-    "name": string;
-    "order_line_item_modifier_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    "refund_line_item_modifier_allocation_id": string;
-    "show_on_fulfillment": boolean;
-    "show_on_receipt": boolean;
-    /** Value enum: "catalog_modifier", "text". */
-    "source_type": "catalog_modifier" | "text" | (string & {});
-    "text_value"?: string;
-};
-/** A page of `Refund` objects. */
-export type RefundListResponse = {
-    /**  [] (Value): {@link Refund}. Money returned against a collected payment. */
-    "data": Array<Refund>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type RefundPartiallySucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.partially_succeeded";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.partially_succeeded";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "refund.partially_succeeded";
-});
-/**
- * The `refund.partially_succeeded` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type RefundPartiallySucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
-    "data"?: {
-        /** Money returned against a collected payment. */
-        "object": Refund;
-    };
-    /** Value enum: "refund.partially_succeeded". */
-    "event_type"?: "refund.partially_succeeded";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `refund.partially_succeeded` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type RefundPartiallySucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Refund}. Money returned against a collected payment. */
-    "data"?: {
-        /** Money returned against a collected payment. */
-        "object": Refund;
-    };
-    /** Value enum: "refund.partially_succeeded". */
-    "event_type"?: "refund.partially_succeeded";
-});
-/** A response containing `Refund` data. */
-export type RefundResponse = {
-    /** Money returned against a collected payment. */
-    "data": Refund;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type RefundSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.succeeded";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Refund;
-    };
-    "event_type"?: "refund.succeeded";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "refund.succeeded";
-});

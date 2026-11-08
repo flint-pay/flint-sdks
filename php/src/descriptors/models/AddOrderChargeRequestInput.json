@@ -1,1 +1,1 @@
-{"shared":"AddOrderChargeRequest","dependencies":["AddOrderChargeRequest","MetadataRequest","MoneyValue","OrderCalculatedChargeTax","OrderChargeRequest","SharedCodec273","SharedCodec275","SharedCodec883","SharedCodec884","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}
+{"shared":"AddOrderChargeRequest","dependencies":["AddOrderChargeRequest","MetadataRequest","MoneyValue","OrderCalculatedChargeTax","OrderChargeRequest","SharedCodec275","SharedCodec277","SharedCodec901","SharedCodec902","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}

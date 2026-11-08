@@ -15,6 +15,8 @@ The beta is also available as `@flintpay/node@next`. npm's `latest` tag remains 
 
 ## Packages
 
+Unreleased changes on `main` add the form-encoded OAuth operations (`oauth.exchangeToken`, `oauth.revokeToken`, `oauth.authorizeCLIDevice`, `oauth.reauthorizeCLIDevice` and `oauth.listCLIContexts`) and partner app OAuth helpers in both packages: `@flintpay/node/custom/partner-oauth.js` and `Flint\Partner\OAuth`. They build the install consent URL with PKCE and `state`, check the callback, sign `private_key_jwt` client assertions, and exchange codes and revoke tokens with a fresh assertion. See the [partner OAuth guide](node/guides/partner-oauth.md). The API contract and date are unchanged.
+
 - **PHP:** [Packagist](https://packagist.org/packages/flintpay/flint) · [Installation and quickstart](php/README.md) · [API reference](php/REFERENCE.md)
 - **Node.js / TypeScript:** [npm](https://www.npmjs.com/package/@flintpay/node) · [Installation and quickstart](node/README.md) · [API reference](node/REFERENCE.md)
 
@@ -48,7 +50,7 @@ The API version identifies the pinned contract used to generate the SDK. The SDK
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The packages expose 615 operations from the pinned export, including PDF downloads, redirects, and an event stream. Five CLI/OAuth operations use form-encoded request bodies that the generator does not yet support; the browser-only OAuth consent redirect is also excluded. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. Namespaces follow the first API path segment after `/v1`; method names follow the operation ID without that namespace noun.
+The pinned API version is `2026-09-07`. The packages expose 620 operations from the pinned export, including PDF downloads, redirects, an event stream, and the form-encoded OAuth token, revocation and CLI device operations. Only the browser-only OAuth consent redirect is excluded; build its URL with the partner OAuth helpers. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. Namespaces follow the first API path segment after `/v1`; method names follow the operation ID without that namespace noun.
 
 Named credential modes cover merchant API keys and bearer tokens, customer sessions, onboarding, checkout bearer tokens, and invoice tokens. Select the mode appropriate to the operation. Merchant default credentials support environment keys and tokens, GitHub Actions, GitLab CI, Kubernetes, GCP, Azure, AWS and saved CLI sessions. See the [default credentials guide](node/guides/default-credentials.md) for setup and optional AWS dependencies. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 

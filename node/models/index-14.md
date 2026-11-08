@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# GiftCardNotificationCreatedInstalledMerchantsEvent to InventoryCountTransitionRequestApply
+# GiftCardListResponse to InventoryCountListResponse
 
+- [GiftCardListResponse](GiftCardListResponse.md)
+- [GiftCardLoad](GiftCardLoad.md)
+- [GiftCardLoadCreatedInstalledMerchantsEvent](GiftCardLoadCreatedInstalledMerchantsEvent.md)
+- [GiftCardLoadCreatedMerchantEvent](GiftCardLoadCreatedMerchantEvent.md)
+- [GiftCardLoadListResponse](GiftCardLoadListResponse.md)
+- [GiftCardLoadResponse](GiftCardLoadResponse.md)
+- [GiftCardLoadUpdatedInstalledMerchantsEvent](GiftCardLoadUpdatedInstalledMerchantsEvent.md)
+- [GiftCardLoadUpdatedMerchantEvent](GiftCardLoadUpdatedMerchantEvent.md)
+- [GiftCardNotification](GiftCardNotification.md)
 - [GiftCardNotificationCreatedInstalledMerchantsEvent](GiftCardNotificationCreatedInstalledMerchantsEvent.md)
 - [GiftCardNotificationCreatedMerchantEvent](GiftCardNotificationCreatedMerchantEvent.md)
 - [GiftCardNotificationDelivery](GiftCardNotificationDelivery.md)
@@ -93,13 +102,4 @@
 - [InventoryCountAppliedMerchantEvent](InventoryCountAppliedMerchantEvent.md)
 - [InventoryCountLine](InventoryCountLine.md)
 - [InventoryCountListResponse](InventoryCountListResponse.md)
-- [InventoryCountObservationProvenance](InventoryCountObservationProvenance.md)
-- [InventoryCountObservationRequest](InventoryCountObservationRequest.md)
-- [InventoryCountObservationRequestInput](InventoryCountObservationRequestInput.md)
-- [InventoryCountResponse](InventoryCountResponse.md)
-- [InventoryCountResult](InventoryCountResult.md)
-- [InventoryCountResultResponse](InventoryCountResultResponse.md)
-- [InventoryCountTransitionRequest](InventoryCountTransitionRequest.md)
-- [InventoryCountTransitionRequestInput](InventoryCountTransitionRequestInput.md)
-- [InventoryCountTransitionRequestApply](InventoryCountTransitionRequestApply.md)
 

@@ -1,25 +1,153 @@
+import type { CustomerSessionsRevocation, Customer } from './types-13.js';
+import type { ResponseMeta } from './types-48.js';
+import type { MerchantWebhookEnvelope, MoneyValue, MoneyValueInput } from './types-35.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateCustomerAddressRequestInput } from './types-6.js';
-import type { CreateCustomerRequestInput } from './types-7.js';
-import type { LinkCustomerGuestPurchasesRequestInput, LocationCoordinate } from './types-32.js';
+import type { ConfirmCustomerVerificationRequestInput } from './types-6.js';
+import type {
+    CreateCustomerVerificationRequestInput,
+    CreateCustomerAddressRequestInput,
+    CreateCustomerRequestInput
+} from './types-7.js';
+import type { LinkCustomerGuestPurchasesRequestInput } from './types-32.js';
 import type { CheckoutSessionsListDeliverySelectionsParams } from './types-5.js';
 import type { UpdateCustomerAddressRequestInput, UpdateCustomerRequestInput } from './types-58.js';
 import type { GetReturnInspectionResponse, GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-23.js';
 import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-49.js';
-import type { Address, AddRiskListItemsRequest } from './types-0.js';
+import type { Address } from './types-0.js';
 import type {
     DeliveryWeeklyInterval,
     DeliveryWeeklyIntervalRequestInput,
     DeliveryWeightUnitPrice,
-    DeliveryWeightUnitPriceRequestInput,
-    DeliveryStateCondition,
-    DeliveryWindowTimeCondition,
-    DeliveryZoneCondition
+    DeliveryWeightUnitPriceRequestInput
 } from './types-19.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { DeliveryInputRequirement } from './types-15.js';
-import type { DeliveryOptionProjection, DeliveryPostalCodeCondition } from './types-16.js';
-import type { DeliveryRadiusCondition } from './types-18.js';
+import type { LocationCoordinate } from './types-33.js';
+import type { DeliveryDistanceUnitPrice, DeliveryDistanceUnitPriceRequestInput, DeliveryInputRequirement } from './types-15.js';
+import type { DeliveryOptionProjection } from './types-16.js';
+/** A response containing `CustomerSessionsRevocation` data. */
+export type CustomerSessionsRevocationResponse = {
+    /**
+     * The result of revoking a customer's sessions: the customer ID and how many sessions were
+     * revoked.
+     */
+    "data": CustomerSessionsRevocation;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerSessionsRevokeParams = {};
+export type CustomerUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Customer;
+    };
+    "event_type"?: "customer.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Customer;
+    };
+    "event_type"?: "customer.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "customer.updated";
+});
+/**
+ * The `customer.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Customer}. A merchant's customer profile. */
+    "data"?: {
+        /** A merchant's customer profile. */
+        "object": Customer;
+    };
+    /** Value enum: "customer.updated". */
+    "event_type"?: "customer.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `customer.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Customer}. A merchant's customer profile. */
+    "data"?: {
+        /** A merchant's customer profile. */
+        "object": Customer;
+    };
+    /** Value enum: "customer.updated". */
+    "event_type"?: "customer.updated";
+});
+/** An email verification requested for linking guest purchases. */
+export type CustomerVerification = {
+    /** Value enum: "email". */
+    "channel": "email" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    "customer_id": string;
+    "customer_verification_id": string;
+    "email": string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "expires_at": string;
+    /** Value enum: "link_guest_purchases". */
+    "purpose": "link_guest_purchases" | (string & {});
+    /**
+     * pending while the code can be confirmed; confirmed while an unused proof can link purchases;
+     * used after linking; expired when the code or proof expires. Value enum: "pending",
+     * "confirmed", "used", "expired".
+     */
+    "status": "pending" | "confirmed" | "used" | "expired" | (string & {});
+};
+/** A response containing `CustomerVerification` data. */
+export type CustomerVerificationResponse = {
+    /** An email verification requested for linking guest purchases. */
+    "data": CustomerVerification;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerVerificationsConfirmParams = (InputValue<ConfirmCustomerVerificationRequestInput>);
+export type CustomerVerificationsCreateParams = (InputValue<CreateCustomerVerificationRequestInput>);
 export type CustomersCreateAccessLinkParams = (InputValue<{}>);
 export type CustomersCreateAddressParams = (InputValue<CreateCustomerAddressRequestInput>);
 export type CustomersCreateParams = (InputValue<CreateCustomerRequestInput>);
@@ -1364,261 +1492,3 @@ export type DeliveryCoordinateRequestInput = {
     /** minimum: -180. maximum: 180. */
     "longitude": number;
 };
-/** A delivery eligibility condition that matches when the address country is one of `values`. */
-export type DeliveryCountryConditionInput = {
-    /**
-     * Address facts tested by this condition. destination_address is the shipping destination.
-     * buyer_location is the buyer's current pickup or local-delivery location. Default:
-     * "destination_address". Value enum: "destination_address", "buyer_location".
-     */
-    "subject"?: "destination_address" | "buyer_location";
-    /** Example: ["US"]. [] (Value): string. minLength: 1. */
-    "values": Array<string>;
-};
-/**
- * A delivery eligibility condition that tests a true or false fact about the customer against
- * `value`.
- */
-export type DeliveryCustomerBooleanCondition = {
-    "value": boolean;
-};
-/**
- * A delivery eligibility condition that tests a true or false fact about the customer against
- * `value`.
- */
-export type DeliveryCustomerBooleanConditionInput = {
-    "value": boolean;
-};
-/**
- * A delivery eligibility condition that matches customers in one of the listed segments
- * (`values`).
- */
-export type DeliveryCustomerSegmentConditionInput = {
-    /**  [] (Value): string. minLength: 1. */
-    "values": Array<string>;
-};
-/** A distance as a `value` in meters, kilometers, or miles. */
-export type DeliveryDistance = {
-    /** Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile" | (string & {});
-    "value": number;
-};
-/** A distance as a `value` in meters, kilometers, or miles. */
-export type DeliveryDistanceInput = {
-    /** Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile";
-    "value": number;
-};
-/**
- * A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of
- * `unit`.
- */
-export type DeliveryDistanceUnitPrice = {
-    /**
-     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValue>;
-    /** Distance unit used by unit_quantity. Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile" | (string & {});
-    /**
-     * Whole-number quantity of the selected unit charged at each configured currency price;
-     * fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "unit_quantity": number;
-};
-/**
- * A distance rate you supply for calculated delivery pricing: a price by currency for each
- * `unit_quantity` of `unit`.
- */
-export type DeliveryDistanceUnitPriceRequestInput = {
-    /**
-     *  * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValueInput>;
-    /** Distance unit used by unit_quantity. Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile";
-    /**
-     * Whole-number quantity of the selected unit charged at each configured currency price;
-     * fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "unit_quantity": number;
-};
-/**
- * A boolean expression containing exactly one operator or typed condition at each node.
- * Expressions support at most 8 levels and 100 total nodes.
- */
-export type DeliveryEligibilityExpression = ({
-    /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpression}. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes.
-     */
-    "all"?: Array<DeliveryEligibilityExpression>;
-    /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpression}. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes.
-     */
-    "any"?: Array<DeliveryEligibilityExpression>;
-    /**
-     * A delivery eligibility condition that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryStateCondition;
-    /**
-     * A delivery eligibility condition that tests a true or false fact about the customer against
-     * `value`.
-     */
-    "customer_has_email"?: DeliveryCustomerBooleanCondition;
-    /**
-     * A delivery eligibility condition that tests a true or false fact about the customer against
-     * `value`.
-     */
-    "customer_has_phone"?: DeliveryCustomerBooleanCondition;
-    /**
-     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
-     * eligibility condition that tests a true or false fact about the customer against `value`.
-     */
-    "customer_merchant_verified"?: DeliveryCustomerBooleanCondition;
-    /**
-     * Matches the free-form segment you assign to the customer against values. A delivery
-     * eligibility condition that matches customers in one of the listed segments (`values`).
-     */
-    "customer_segment"?: AddRiskListItemsRequest;
-    /**
-     * A boolean expression containing exactly one operator or typed condition at each node.
-     * Expressions support at most 8 levels and 100 total nodes.
-     */
-    "not"?: DeliveryEligibilityExpression;
-    /**
-     * A delivery eligibility condition that matches the address postal code against exact or
-     * prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeCondition;
-    /**
-     * Eligibility condition that matches when the destination or buyer location is within
-     * `maximum_distance` of an origin, measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusCondition;
-    /**
-     * Eligibility condition that matches when the destination or buyer location is in one of the
-     * listed states or provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateCondition;
-    /**
-     * A delivery eligibility condition that tests a true or false fact about the customer against
-     * `value`.
-     */
-    "subscription_purchase"?: DeliveryCustomerBooleanCondition;
-    /**
-     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
-     * the listed `weekdays`.
-     */
-    "window_time"?: DeliveryWindowTimeCondition;
-    /**
-     * Eligibility condition that matches when the destination or buyer location falls inside the
-     * delivery zone `delivery_zone_id`.
-     */
-    "zone"?: DeliveryZoneCondition;
-})
-    & (({
-    /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpression}. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes.
-     */
-    "all": Array<DeliveryEligibilityExpression>;
-})
-    | ({
-    /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link DeliveryEligibilityExpression}. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes.
-     */
-    "any": Array<DeliveryEligibilityExpression>;
-})
-    | ({
-    /**
-     * A boolean expression containing exactly one operator or typed condition at each node.
-     * Expressions support at most 8 levels and 100 total nodes.
-     */
-    "not": DeliveryEligibilityExpression;
-})
-    | ({
-    /**
-     * Eligibility condition that matches when the destination or buyer location falls inside the
-     * delivery zone `delivery_zone_id`.
-     */
-    "zone": DeliveryZoneCondition;
-})
-    | ({
-    /**
-     * A delivery eligibility condition that matches when the address country is one of `values`.
-     */
-    "country": DeliveryStateCondition;
-})
-    | ({
-    /**
-     * Eligibility condition that matches when the destination or buyer location is in one of the
-     * listed states or provinces, given as ISO 3166-2 codes.
-     */
-    "state": DeliveryStateCondition;
-})
-    | ({
-    /**
-     * A delivery eligibility condition that matches the address postal code against exact or
-     * prefix `values`.
-     */
-    "postal_code": DeliveryPostalCodeCondition;
-})
-    | ({
-    /**
-     * Eligibility condition that matches when the destination or buyer location is within
-     * `maximum_distance` of an origin, measured in a straight line.
-     */
-    "radius": DeliveryRadiusCondition;
-})
-    | ({
-    /**
-     * Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on
-     * the listed `weekdays`.
-     */
-    "window_time": DeliveryWindowTimeCondition;
-})
-    | ({
-    /**
-     * Matches the free-form segment you assign to the customer against values. A delivery
-     * eligibility condition that matches customers in one of the listed segments (`values`).
-     */
-    "customer_segment": AddRiskListItemsRequest;
-})
-    | ({
-    /**
-     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
-     * eligibility condition that tests a true or false fact about the customer against `value`.
-     */
-    "customer_merchant_verified": DeliveryCustomerBooleanCondition;
-})
-    | ({
-    /**
-     * A delivery eligibility condition that tests a true or false fact about the customer against
-     * `value`.
-     */
-    "customer_has_email": DeliveryCustomerBooleanCondition;
-})
-    | ({
-    /**
-     * A delivery eligibility condition that tests a true or false fact about the customer against
-     * `value`.
-     */
-    "customer_has_phone": DeliveryCustomerBooleanCondition;
-})
-    | ({
-    /**
-     * A delivery eligibility condition that tests a true or false fact about the customer against
-     * `value`.
-     */
-    "subscription_purchase": DeliveryCustomerBooleanCondition;
-})
-    | (Record<string, unknown>));

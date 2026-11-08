@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-47.js';
+import type { RequestOptions } from '../declarations/types-48.js';
 import type {
     SubscriptionOffer,
     SubscriptionOfferListResponse,
@@ -11,7 +11,7 @@ import type {
     SubscriptionOffersListParams,
     SubscriptionOffersUpdateParams
 } from '../declarations/types-55.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,24 +35,30 @@ export type {
     SubscriptionOffersListParams,
     SubscriptionOfferListResponse,
     SubscriptionOffersUpdateParams,
-    SubscriptionIntervalOptionInput
+    SubscriptionIntervalOptionInput,
+    SubscriptionIntervalOption
 } from '../declarations/types-55.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-11.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    NextAction,
+    MoneyValue,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { SubscriptionIntervalOption } from '../declarations/types-54.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-60.js';
-export { makeCreateSubscriptionOfferRequest } from '../declarations/types-65.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeCreateSubscriptionOfferRequest } from '../declarations/types-66.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export { makeSubscriptionIntervalOption } from '../declarations/types-73.js';
-export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-74.js';
+export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-75.js';
 export interface SubscriptionOffersResource {
     /**
  * Create subscription offer. Offer changes affect new signups only. Existing subscriptions keep

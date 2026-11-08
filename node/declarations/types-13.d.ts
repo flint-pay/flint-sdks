@@ -1,20 +1,146 @@
+import type { MerchantWebhookEnvelope, MetadataMap, MoneyValue } from './types-35.js';
+import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-48.js';
 import type { InputValue } from '../runtime.js';
+import type {
+    CreateCustomDomainRequestInput,
+    CreateCustomerDeletionRequestInput,
+    CreateCustomerSessionRequestInput
+} from './types-7.js';
 import type { Address } from './types-0.js';
 import type { ExpandedPaymentMethodSummary } from './types-21.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
 import type { TaxIdentity } from './types-57.js';
 import type { BuyerCapabilities, BuyerCapabilitiesInput } from './types-1.js';
-import type { ResponseMeta } from './types-48.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
-import type {
-    CreateCustomerDeletionRequestInput,
-    CreateCustomerSessionRequestInput,
-    CreateCustomerVerificationRequestInput
-} from './types-7.js';
-import type { ResolveCustomerDeletionRequestInput } from './types-47.js';
-import type { MoneyValue } from './types-35.js';
 import type { RefreshCustomerSessionRequestInput } from './types-46.js';
-import type { ConfirmCustomerVerificationRequestInput } from './types-6.js';
+/** A merchant hostname for hosted checkout or customer account pages. */
+export type CustomDomain = {
+    /**
+     * Payment attempts in progress on this checkout hostname; null for customer account domains.
+     * Format: int64.
+     */
+    "active_payment_attempt_count": number | null;
+    /** When this domain resource was created, in RFC3339 format. Format: date-time. */
+    "created_at": string;
+    /** Flint custom domain ID. */
+    "custom_domain_id": string;
+    /**
+     * DNS records to add for setup or verification. For an archived hostname, records that can be
+     * deleted. [] (Value): {@link CustomDomainDNSRecord}. A DNS record for configuring or
+     * verifying a custom hostname.
+     */
+    "dns_records": Array<CustomDomainDNSRecord>;
+    /** Configured hostname, normalized to lowercase without a trailing dot. */
+    "hostname": string;
+    /**
+     * When the domain was last checked, in RFC3339 format; null when no check time is available.
+     * Format: date-time.
+     */
+    "last_checked_at": string | null;
+    /** Payment method domain associated with this hostname, or null when none is reported. */
+    "payment_method_domain_id": string | null;
+    /**
+     * End of the redirect window for an archived hostname. After archive, dns_records lists
+     * records you can delete. Format: date-time.
+     */
+    "redirect_expires_at": string | null;
+    /**
+     * Current setup and availability state of the hostname. Archived domains retain their resource
+     * identity. Value enum: "provisioning", "active", "attention_required", "inactive",
+     * "archived".
+     */
+    "status": "provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {});
+    /**
+     * Machine-readable detail for the current status, or null when no reason is reported. Value
+     * enum: "dns_record_missing", "dns_record_mismatch", "ownership_record_missing",
+     * "ownership_record_mismatch", "caa_record_blocks_certificate", "proxied_by_another_provider",
+     * "certificate_pending", "custom_domains_inactive", "other", null.
+     */
+    "status_reason": "dns_record_missing"
+        | "dns_record_mismatch"
+        | "ownership_record_missing"
+        | "ownership_record_mismatch"
+        | "caa_record_blocks_certificate"
+        | "proxied_by_another_provider"
+        | "certificate_pending"
+        | "custom_domains_inactive"
+        | "other"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account" | (string & {});
+    /** When this domain resource was last updated, in RFC3339 format. Format: date-time. */
+    "updated_at": string;
+};
+export type CustomDomainArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": CustomDomain;
+    };
+    "event_type"?: "custom_domain.archived";
+})
+    & {
+    "event_type": "custom_domain.archived";
+});
+/** A DNS record for configuring or verifying a custom hostname. */
+export type CustomDomainDNSRecord = {
+    /** DNS name at which to publish this record. */
+    "name": string;
+    /** DNS record type to publish, such as cname or txt. Value enum: "cname", "txt". */
+    "type": "cname" | "txt" | (string & {});
+    /** DNS record value to publish at name. */
+    "value": string;
+};
+/** A page of `CustomDomain` objects. */
+export type CustomDomainListResponse = {
+    /**
+     *  [] (Value): {@link CustomDomain}. A merchant hostname for hosted checkout or customer
+     * account pages.
+     */
+    "data": Array<CustomDomain>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `CustomDomain` data. */
+export type CustomDomainResponse = {
+    /** A merchant hostname for hosted checkout or customer account pages. */
+    "data": CustomDomain;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomDomainUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": CustomDomain;
+    };
+    "event_type"?: "custom_domain.updated";
+})
+    & {
+    "event_type": "custom_domain.updated";
+});
+export type CustomDomainsCreateParams = (InputValue<CreateCustomDomainRequestInput>);
+export type CustomDomainsDeleteParams = {};
+export type CustomDomainsGetParams = {};
 export type CustomDomainsListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
@@ -1105,127 +1231,3 @@ export type CustomerSessionsRevocation = {
     /** Format: int64. */
     "revoked_count": number;
 };
-/** A response containing `CustomerSessionsRevocation` data. */
-export type CustomerSessionsRevocationResponse = {
-    /**
-     * The result of revoking a customer's sessions: the customer ID and how many sessions were
-     * revoked.
-     */
-    "data": CustomerSessionsRevocation;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CustomerSessionsRevokeParams = {};
-export type CustomerUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Customer;
-    };
-    "event_type"?: "customer.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Customer;
-    };
-    "event_type"?: "customer.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "customer.updated";
-});
-/**
- * The `customer.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Customer}. A merchant's customer profile. */
-    "data"?: {
-        /** A merchant's customer profile. */
-        "object": Customer;
-    };
-    /** Value enum: "customer.updated". */
-    "event_type"?: "customer.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `customer.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Customer}. A merchant's customer profile. */
-    "data"?: {
-        /** A merchant's customer profile. */
-        "object": Customer;
-    };
-    /** Value enum: "customer.updated". */
-    "event_type"?: "customer.updated";
-});
-/** An email verification requested for linking guest purchases. */
-export type CustomerVerification = {
-    /** Value enum: "email". */
-    "channel": "email" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    "customer_id": string;
-    "customer_verification_id": string;
-    "email": string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "expires_at": string;
-    /** Value enum: "link_guest_purchases". */
-    "purpose": "link_guest_purchases" | (string & {});
-    /**
-     * pending while the code can be confirmed; confirmed while an unused proof can link purchases;
-     * used after linking; expired when the code or proof expires. Value enum: "pending",
-     * "confirmed", "used", "expired".
-     */
-    "status": "pending" | "confirmed" | "used" | "expired" | (string & {});
-};
-/** A response containing `CustomerVerification` data. */
-export type CustomerVerificationResponse = {
-    /** An email verification requested for linking guest purchases. */
-    "data": CustomerVerification;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CustomerVerificationsConfirmParams = (InputValue<ConfirmCustomerVerificationRequestInput>);
-export type CustomerVerificationsCreateParams = (InputValue<CreateCustomerVerificationRequestInput>);

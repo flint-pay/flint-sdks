@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocationCreatedInstalledMerchantsEventInput to DeliveryBuyerLocationResourceCoordinateInput
+# CreateWebhookDeliveryRequestInput to DeliveryBusinessDayRangeRequestInput
 
+- [CreateWebhookDeliveryRequestInput](CreateWebhookDeliveryRequestInput.md)
+- [CreateWebhookEndpointRequestInput](CreateWebhookEndpointRequestInput.md)
+- [CreateWebhookTestEventRequestInput](CreateWebhookTestEventRequestInput.md)
+- [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
+- [CreditNoteInput](CreditNoteInput.md)
+- [CreditNoteAllocationInput](CreditNoteAllocationInput.md)
 - [CreditNoteAllocationCreatedInstalledMerchantsEventInput](CreditNoteAllocationCreatedInstalledMerchantsEventInput.md)
 - [CreditNoteAllocationCreatedMerchantEventInput](CreditNoteAllocationCreatedMerchantEventInput.md)
 - [CreditNoteAllocationListResponseInput](CreditNoteAllocationListResponseInput.md)
@@ -96,10 +102,4 @@
 - [DeliveryBlackoutIntervalRequestInput](DeliveryBlackoutIntervalRequestInput.md)
 - [DeliveryBusinessDayRangeInput](DeliveryBusinessDayRangeInput.md)
 - [DeliveryBusinessDayRangeRequestInput](DeliveryBusinessDayRangeRequestInput.md)
-- [DeliveryBuyerLocationInputAddressInput](DeliveryBuyerLocationInputAddressInput.md)
-- [DeliveryBuyerLocationInputCoordinateInput](DeliveryBuyerLocationInputCoordinateInput.md)
-- [DeliveryBuyerLocationRequestInput](DeliveryBuyerLocationRequestInput.md)
-- [DeliveryBuyerLocationResourceInput](DeliveryBuyerLocationResourceInput.md)
-- [DeliveryBuyerLocationResourceAddressInput](DeliveryBuyerLocationResourceAddressInput.md)
-- [DeliveryBuyerLocationResourceCoordinateInput](DeliveryBuyerLocationResourceCoordinateInput.md)
 

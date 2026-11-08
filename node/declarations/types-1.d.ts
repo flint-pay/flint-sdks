@@ -1,5 +1,5 @@
 import type { BalanceTransaction, Balance, Address } from './types-0.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
+import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet, MoneyValue } from './types-35.js';
 import type { InputValue } from '../runtime.js';
 import type {
     CategoryReference,
@@ -14,20 +14,12 @@ import type {
     CheckoutPaymentMethodSave,
     CheckoutPrefill,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
     CardDetails
 } from './types-4.js';
 import type { ImageAttachment, Image } from './types-25.js';
-import type { ModifierSet, MoneyValue } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { ResponseMeta } from './types-48.js';
-import type {
-    SelectedProductOption,
-    SettlementAmounts,
-    StripeClientSetup,
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails
-} from './types-53.js';
+import type { SelectedProductOption, SettlementAmounts, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-53.js';
 import type { CreateBundleRequestInput } from './types-6.js';
 import type { UpdateBundleRequestInput } from './types-58.js';
 import type {
@@ -49,18 +41,25 @@ import type {
     BuyerReturnReplacementLineItemRequestInput,
     BuyerSubscriptionPlanLineItem
 } from './types-3.js';
-import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-5.js';
+import type {
+    CheckoutRedirects,
+    CheckoutSessionTax,
+    CheckoutSubscriptionTerms,
+    CheckoutTheme,
+    CheckoutTipConfig
+} from './types-5.js';
 import type { LegalSettings } from './types-32.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-10.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-49.js';
-import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-50.js';
+import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-51.js';
 import type { CreditNoteLineItem } from './types-12.js';
 import type { TaxIdentity } from './types-57.js';
-import type { PricingAmounts, PickupFulfillmentDetails } from './types-43.js';
-import type { SubscriptionIntervalOption } from './types-54.js';
+import type { PricingAmounts, PickupFulfillmentDetails } from './types-44.js';
+import type { SubscriptionIntervalOption } from './types-55.js';
+import type { StripeClientSetup } from './types-54.js';
 import type { DigitalFulfillmentDetails } from './types-20.js';
-import type { ExpandedPackageSummary, ExpandedShipmentSummary, FulfillmentChargeLink } from './types-21.js';
-import type { FulfillmentRecipient } from './types-22.js';
+import type { ExpandedPackageSummary, ExpandedShipmentSummary } from './types-21.js';
+import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-22.js';
 export type BalanceTransactionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {

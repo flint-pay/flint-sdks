@@ -10,8 +10,8 @@ import type {
     DeliveryLocationSetsListParams,
     DeliveryLocationSetsUpdateParams
 } from '../declarations/types-15.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,21 +38,27 @@ export type {
     DeliveryLocationSetConfigurationInput,
     DeliveryLocationSetConfiguration
 } from '../declarations/types-15.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-7.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    NextAction,
+    MoneyValue,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-58.js';
 export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-63.js';
 export { makeDeliveryLocationSetConfiguration } from '../declarations/types-66.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
-export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-73.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-74.js';
 export interface DeliveryLocationSetsResource {
     /**
  * Delivery location sets pin reusable sets of Locations for allocation or buyer pickup. Creation

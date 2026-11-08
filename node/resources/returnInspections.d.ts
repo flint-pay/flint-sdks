@@ -3,10 +3,14 @@ import type { ClientOptions } from '../declarations/types-5.js';
 import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-14.js';
 import type { GetReturnInspectionResponse } from '../declarations/types-23.js';
 import type { ListReturnInspectionsResponse } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { ReturnInspection } from '../declarations/types-48.js';
-import type { ReturnInspectionsDecideLineItemParams, ReturnInspectionsGetParams, ReturnInspectionsListParams } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type {
+    ReturnInspection,
+    ReturnInspectionsDecideLineItemParams,
+    ReturnInspectionsGetParams,
+    ReturnInspectionsListParams
+} from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -23,25 +27,24 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnInspectionsDecideLineItemParams,
+    ReturnInspection,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams,
     ReturnInspectionLineItem
 } from '../declarations/types-49.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { ReturnInspection, ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { RequestOptions, ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-14.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { GetReturnInspectionResponse } from '../declarations/types-23.js';
 export type { ListReturnInspectionsResponse } from '../declarations/types-32.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { MetadataMap } from '../declarations/types-34.js';
-export type { ReturnSourceSystem } from '../declarations/types-50.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { MetadataMap, NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { ReturnSourceSystem } from '../declarations/types-51.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export interface ReturnInspectionsResource {
     /**
  * Record the accept or reject outcome for inspected quantity. expected_version compares against

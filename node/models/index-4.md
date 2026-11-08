@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# CheckoutSettings to CreateDeliveryMethodRequestLocalDelivery
+# CheckoutSettings to CreateCustomerSessionRequestInput
 
 - [CheckoutSettings](CheckoutSettings.md)
 - [CheckoutSettingsRequestInput](CheckoutSettingsRequestInput.md)
@@ -13,6 +13,14 @@
 - [CheckoutTheme](CheckoutTheme.md)
 - [CheckoutTipConfig](CheckoutTipConfig.md)
 - [CheckoutTipConfigRequestInput](CheckoutTipConfigRequestInput.md)
+- [CLIContextsRequest](CLIContextsRequest.md)
+- [CLIContextsRequestInput](CLIContextsRequestInput.md)
+- [CLIContextsResponse](CLIContextsResponse.md)
+- [CLIDeviceRequest](CLIDeviceRequest.md)
+- [CLIDeviceRequestInput](CLIDeviceRequestInput.md)
+- [CLIDeviceResponse](CLIDeviceResponse.md)
+- [CLIReauthorizeRequest](CLIReauthorizeRequest.md)
+- [CLIReauthorizeRequestInput](CLIReauthorizeRequestInput.md)
 - [CloseCheckoutSessionRequest](CloseCheckoutSessionRequest.md)
 - [CloseCheckoutSessionRequestInput](CloseCheckoutSessionRequestInput.md)
 - [CloseOrderRequest](CloseOrderRequest.md)
@@ -42,6 +50,7 @@
 - [ConfirmReturnResolutionRequestInput](ConfirmReturnResolutionRequestInput.md)
 - [ConnectTaxConnectionRequest](ConnectTaxConnectionRequest.md)
 - [ConnectTaxConnectionRequestInput](ConnectTaxConnectionRequestInput.md)
+- [ContextSummary](ContextSummary.md)
 - [CreateAPIKeyRequest](CreateAPIKeyRequest.md)
 - [CreateAPIKeyRequestInput](CreateAPIKeyRequestInput.md)
 - [CreateAPIKeyRequestFull](CreateAPIKeyRequestFull.md)
@@ -93,13 +102,4 @@
 - [CreateCustomerRequestInput](CreateCustomerRequestInput.md)
 - [CreateCustomerSessionRequest](CreateCustomerSessionRequest.md)
 - [CreateCustomerSessionRequestInput](CreateCustomerSessionRequestInput.md)
-- [CreateCustomerVerificationRequest](CreateCustomerVerificationRequest.md)
-- [CreateCustomerVerificationRequestInput](CreateCustomerVerificationRequestInput.md)
-- [CreateDeliveryFulfillmentDetails](CreateDeliveryFulfillmentDetails.md)
-- [CreateDeliveryFulfillmentDetailsInput](CreateDeliveryFulfillmentDetailsInput.md)
-- [CreateDeliveryLocationSetRequest](CreateDeliveryLocationSetRequest.md)
-- [CreateDeliveryLocationSetRequestInput](CreateDeliveryLocationSetRequestInput.md)
-- [CreateDeliveryMethodRequest](CreateDeliveryMethodRequest.md)
-- [CreateDeliveryMethodRequestInput](CreateDeliveryMethodRequestInput.md)
-- [CreateDeliveryMethodRequestLocalDelivery](CreateDeliveryMethodRequestLocalDelivery.md)
 

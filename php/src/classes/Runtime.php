@@ -1114,14 +1114,7 @@ class Runtime
                 }
                 throw $error;
             }
-            $scalar = fn($v) => $v instanceof RawNumber
-                ? $v->value
-                : (is_bool($v)
-                    ? ($v
-                        ? 'true'
-                        : 'false')
-                    : (string) $v);
-            $values = array_map($scalar, is_array($v) ? $v : [$v]);
+            $values = array_map([Codec::class, 'scalarText'], is_array($v) ? $v : [$v]);
             if ($p['in'] === 'path') {
                 if (array_intersect($values, ['.', '..'])) {
                     Codec::fail($p['name'], 'dot path segments are unsupported');
@@ -1491,7 +1484,11 @@ class Runtime
             if (!isset($op['body'])) {
                 self::notAllowed('body', 'operation does not accept a body');
             }
-            $body = Codec::encode($this->decode($input['body'], $op['body']));
+            $wire = $this->decode($input['body'], $op['body']);
+            $body =
+                $op['mediaType'] === 'application/x-www-form-urlencoded'
+                    ? Codec::formEncode($wire)
+                    : Codec::encode($wire);
             $set('content-type', $op['mediaType']);
         } elseif ($op['bodyRequired']) {
             self::inputError('body', 'REQUIRED', 'body is required');

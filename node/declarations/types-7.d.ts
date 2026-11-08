@@ -1,4 +1,6 @@
-import type { MetadataMap, MetadataRequestInput } from './types-34.js';
+import type { MoneyValueInput, MoneyValue, MetadataMap, MetadataRequestInput } from './types-35.js';
+import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-12.js';
+import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
 import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-57.js';
 import type {
     DeliveryLocationSetConfiguration,
@@ -6,7 +8,8 @@ import type {
     DeliveryMethodConfigurationCreateRequest,
     DeliveryMethodConfigurationCreateRequestInput,
     DeliveryMethodConfigurationRequest,
-    DeliveryMethodConfigurationRequestInput
+    DeliveryMethodConfigurationRequestInput,
+    DeliveryDistance
 } from './types-15.js';
 import type {
     DeliveryMethodOriginSelectorRequest,
@@ -14,20 +17,14 @@ import type {
     DeliveryPreviewRoutingSourceInput,
     DeliveryPickupAvailabilityMaximumDistanceRequestInput
 } from './types-16.js';
-import type {
-    CreateOrderLineItem,
-    CreateOrderLineItemRequestInput,
-    CreatePickupFulfillmentDetails,
-    CreatePickupFulfillmentDetailsInput
-} from './types-9.js';
+import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-9.js';
 import type {
     DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
     DeliveryAddressRequestInput,
-    DeliveryBuyerLocationRequestInput,
-    DeliveryDistance
+    DeliveryBuyerLocationRequestInput
 } from './types-14.js';
-import type { InventoryRoutingSource } from './types-27.js';
+import type { InventoryRoutingSource } from './types-28.js';
 import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-17.js';
 import type { DeliveryRateCallbackConfiguration, DeliveryRateCallbackConfigurationInput } from './types-18.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-61.js';
@@ -35,23 +32,231 @@ import type {
     DeliverySelectionInstructionsRequest,
     DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequest,
-    DeliverySelectionRecipientRequestInput,
-    DeliveryZoneConfiguration,
-    DeliveryZoneConfigurationInput
+    DeliverySelectionRecipientRequestInput
 } from './types-19.js';
-import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
-import type { Sandbox } from './types-52.js';
+import type { DeliveryZoneConfiguration, DeliveryZoneConfigurationInput } from './types-20.js';
+import type { Sandbox } from './types-53.js';
 import type { FeedbackReportingClient, FeedbackReportingClientInput } from './types-21.js';
-import type { CreateFulfillmentRequestShipment, CreateFulfillmentRequestShipmentInput } from './types-8.js';
-import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-11.js';
 import type {
-    FulfillmentLineItemRequest,
-    FulfillmentPackagingRequest,
-    FulfillmentRecipientRequest,
-    FulfillmentLineItemRequestInput,
-    FulfillmentPackagingRequestInput,
-    FulfillmentRecipientRequestInput
-} from './types-22.js';
+    CreateFulfillmentRequestDigital,
+    CreateFulfillmentRequestLocalDelivery,
+    CreateFulfillmentRequestPickup,
+    CreateFulfillmentRequestService,
+    CreateFulfillmentRequestShipment
+} from './types-8.js';
+import type { CreatePickupFulfillmentDetails } from './types-10.js';
+import type { CreateServiceFulfillmentDetails } from './types-11.js';
+import type { FulfillmentLineItemRequest, FulfillmentPackagingRequest, FulfillmentRecipientRequest } from './types-22.js';
+/** The request body for: Allocate credit note. */
+export type CreateCreditNoteAllocationRequestInput = {
+    /**
+     * Credit to apply, no more than the credit note's available_money or the invoice's outstanding
+     * balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Refund credit note. */
+export type CreateCreditNoteRefundRequest = {
+    /**
+     * Credit to refund. Omit to refund all available credit, which Flint resolves once when it
+     * accepts the request. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why the refund is being made. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other".
+     */
+    "reason": "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | (string & {});
+    /** Optional note explaining the refund. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Refund credit note. */
+export type CreateCreditNoteRefundRequestInput = {
+    /**
+     * Credit to refund. Omit to refund all available credit, which Flint resolves once when it
+     * accepts the request. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why the refund is being made. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other".
+     */
+    "reason": "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other";
+    /** Optional note explaining the refund. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Create credit note. */
+export type CreateCreditNoteRequest = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /** The invoice to correct. It has to be past draft and not voided. minLength: 1. */
+    "invoice_id": string;
+    /**
+     * Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted.
+     * [] (Value): {@link CreditNoteLineItemRequest}. A credit note line you supply when creating
+     * or updating a credit note: the invoice line item it credits and how much, or an existing
+     * line to keep.
+     */
+    "line_items"?: Array<CreditNoteLineItemRequest>;
+    /** Free text shown on the credit note, up to 4096 characters. minLength: 1. maxLength: 4096. */
+    "memo"?: string;
+    /**
+     * Why the invoice is being corrected: returned_goods, order_adjustment, billing_error,
+     * goodwill, or other. Shown on the credit note document. Value enum: "returned_goods",
+     * "order_adjustment", "billing_error", "goodwill", "other".
+     */
+    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
+};
+/** The request body for: Create credit note. */
+export type CreateCreditNoteRequestInput = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /** The invoice to correct. It has to be past draft and not voided. minLength: 1. */
+    "invoice_id": string;
+    /**
+     * Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted.
+     * [] (Value): {@link CreditNoteLineItemRequestInput}. A credit note line you supply when
+     * creating or updating a credit note: the invoice line item it credits and how much, or an
+     * existing line to keep.
+     */
+    "line_items"?: Array<CreditNoteLineItemRequestInput>;
+    /** Free text shown on the credit note, up to 4096 characters. minLength: 1. maxLength: 4096. */
+    "memo"?: string;
+    /**
+     * Why the invoice is being corrected: returned_goods, order_adjustment, billing_error,
+     * goodwill, or other. Shown on the credit note document. Value enum: "returned_goods",
+     * "order_adjustment", "billing_error", "goodwill", "other".
+     */
+    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other";
+};
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequest = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account" | (string & {});
+};
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequestInput = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account";
+};
+/** The request body for: Create a customer address; Create an address for the current buyer. */
+export type CreateCustomerAddressRequest = {
+    /**
+     * A complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address": AddressRequest;
+    "is_default_billing"?: boolean;
+    "is_default_shipping"?: boolean;
+    /**
+     * Limited to 100 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 100.
+     */
+    "label"?: string;
+    /**
+     * E.164 phone number. Limited to 30 characters (Unicode code points), counted before
+     * surrounding whitespace is trimmed. minLength: 1. maxLength: 30.
+     */
+    "phone"?: string;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 255.
+     */
+    "recipient_name": string;
+};
+/** The request body for: Create a customer address; Create an address for the current buyer. */
+export type CreateCustomerAddressRequestInput = {
+    /**
+     * A complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address": AddressRequestInput;
+    "is_default_billing"?: boolean;
+    "is_default_shipping"?: boolean;
+    /**
+     * Limited to 100 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 100.
+     */
+    "label"?: string;
+    /**
+     * E.164 phone number. Limited to 30 characters (Unicode code points), counted before
+     * surrounding whitespace is trimmed. minLength: 1. maxLength: 30.
+     */
+    "phone"?: string;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 255.
+     */
+    "recipient_name": string;
+};
 /** The request body for: Request customer account deletion. */
 export type CreateCustomerDeletionRequest = {
     /** Flint customer ID of the customer to delete. minLength: 1. */
@@ -2585,668 +2790,3 @@ export type CreateFulfillmentRequest = ({
     | (Exclude<CreateFulfillmentRequestDigital & object, readonly unknown[]>)
     | (Exclude<CreateFulfillmentRequestService & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestDigital = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity
-     * to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** Value enum: "digital". */
-    "type": "digital" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestDigitalInput = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequestInput}. An order line item and
-     * quantity to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** Value enum: "digital". */
-    "type": "digital";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestInput = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequestInput}. An order line item and
-     * quantity to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** Value enum: "shipment", "pickup", "local_delivery", "digital", "service". */
-    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service";
-})
-    & ((Exclude<CreateFulfillmentRequestShipmentInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestPickupInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestLocalDeliveryInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestDigitalInput & object, readonly unknown[]>)
-    | (Exclude<CreateFulfillmentRequestServiceInput & object, readonly unknown[]>));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestLocalDelivery = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity
-     * to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** Value enum: "local_delivery". */
-    "type": "local_delivery" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestLocalDeliveryInput = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequestInput}. An order line item and
-     * quantity to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** Value enum: "local_delivery". */
-    "type": "local_delivery";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestPickup = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity
-     * to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** Value enum: "pickup". */
-    "type": "pickup" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestPickupInput = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequestInput}. An order line item and
-     * quantity to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** Value enum: "pickup". */
-    "type": "pickup";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestService = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity
-     * to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** Value enum: "service". */
-    "type": "service" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestServiceInput = ({
-    /** minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1.
-     */
-    "device_id"?: string;
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * minItems: 1. [] (Value): {@link FulfillmentLineItemRequestInput}. An order line item and
-     * quantity to include when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Local delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /** minLength: 1. */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
-     * instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Service details you supply when creating a fulfillment: the scheduled start and end,
-     * timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** Value enum: "service". */
-    "type": "service";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}));

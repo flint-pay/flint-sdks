@@ -1,43 +1,838 @@
-import type { OnboardingProfile, MoneyValue, MoneyValueInput } from './types-35.js';
-import type { ReadinessAction, PurchasedGiftCard } from './types-46.js';
-import type { ResponseMeta } from './types-48.js';
 import type { InputValue } from '../runtime.js';
-import type { Merchant, MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-34.js';
-import type { User } from './types-60.js';
-import type { BuyerAction, BundleComponent } from './types-1.js';
-import type { CheckoutBuyerContact, CategoryReference } from './types-4.js';
+import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-3.js';
+import type {
+    OAuthRevokeRequestInput,
+    MetadataMap,
+    MoneyValue,
+    MetadataRequestInput,
+    MoneyValueInput,
+    MerchantWebhookEnvelope
+} from './types-35.js';
+import type { DeveloperInitialAPIKeyRequestInput } from './types-20.js';
+import type { ResponseMeta } from './types-48.js';
+import type { ReadinessAction } from './types-46.js';
+import type { Merchant } from './types-34.js';
+import type { User } from './types-61.js';
+import type { BuyerAction } from './types-1.js';
+import type { CheckoutBuyerContact } from './types-4.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedPaymentIntentSummary,
     ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionSummary,
-    Fulfillment
+    ExpandedSubscriptionSummary
 } from './types-21.js';
-import type { InventoryRoutingSource } from './types-27.js';
+import type { Fulfillment } from './types-22.js';
+import type { InventoryRoutingSource } from './types-28.js';
 import type {
-    OrderPaymentAttempt,
-    OrderReturnCreditSettlement,
-    OrderTax,
-    OrderLineItemModifier,
-    OrderLineSubscriptionOfferSummary
+    OrderDiscount,
+    OrderGiftCardEstimate,
+    OrderGiftCardSelection,
+    OrderGiftCardSettlement,
+    OrderLineItem,
+    OrderPaymentAttempt
 } from './types-37.js';
-import type { PaymentCollection, PartnerWebhookEnvelope } from './types-40.js';
-import type { PricingAmounts } from './types-43.js';
-import type { SettlementAmounts, SelectedProductOption, SubscribedLine } from './types-53.js';
-import type {
-    TicketedEvent,
-    Tip,
-    TaxCalculationRequestInput,
-    TaxCalculationRequest,
-    TaxCalculationRequestModelInput
-} from './types-57.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
-import type { DeliveryPreviewRoutingSourceInput } from './types-16.js';
-import type { Dimensions } from './types-20.js';
-import type { GiftCardPurchaseSnapshot } from './types-24.js';
-import type { Image } from './types-25.js';
-import type { LineItemInventorySnapshot } from './types-32.js';
-import type { Weight } from './types-61.js';
+import type { OrderReturnCreditSettlement, OrderTax } from './types-38.js';
+import type { PaymentCollection } from './types-41.js';
+import type { PricingAmounts } from './types-44.js';
+import type { SettlementAmounts } from './types-53.js';
+import type { TicketedEvent, Tip } from './types-58.js';
+import type { TaxCalculationRequestInput, TaxCalculationRequest, TaxCalculationRequestModelInput } from './types-57.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { Address } from './types-0.js';
+/** The `authorization_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestAuthorizationCodeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "authorization_code".
+     */
+    "grant_type": "authorization_code";
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri": string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "authorization_code". */
+    "grant_type"?: ("authorization_code") & ("authorization_code");
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+});
+/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestDeviceCode = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "urn:ietf:params:oauth:grant-type:device_code".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:device_code" | (string & {});
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
+    "grant_type"?: unknown;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+});
+/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestDeviceCodeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "urn:ietf:params:oauth:grant-type:device_code".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:device_code";
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
+    "grant_type"?: ("urn:ietf:params:oauth:grant-type:device_code") & ("urn:ietf:params:oauth:grant-type:device_code");
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+});
+/** The request body for: Exchange an OAuth token. */
+export type OAuthTokenRequestInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "authorization_code", "refresh_token", "urn:ietf:params:oauth:grant-type:device_code",
+     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "authorization_code"
+        | "refresh_token"
+        | "urn:ietf:params:oauth:grant-type:device_code"
+        | "urn:ietf:params:oauth:grant-type:token-exchange";
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ((Exclude<OAuthTokenRequestAuthorizationCodeInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestRefreshTokenInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestDeviceCodeInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestTokenExchangeInput & object, readonly unknown[]>));
+/** The `refresh_token` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestRefreshToken = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "refresh_token".
+     */
+    "grant_type": "refresh_token" | (string & {});
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token": string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "refresh_token". */
+    "grant_type"?: unknown;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token": string;
+});
+/** The `refresh_token` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestRefreshTokenInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "refresh_token".
+     */
+    "grant_type": "refresh_token";
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token": string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "refresh_token". */
+    "grant_type"?: ("refresh_token") & ("refresh_token");
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token": string;
+});
+/** The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestTokenExchange = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange" | (string & {});
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token": string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type": "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id": string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:token-exchange". */
+    "grant_type"?: unknown;
+    "requested_token_type"?: unknown;
+    "scope"?: unknown;
+    "subject_token": unknown;
+    "subject_token_type": unknown;
+    "workload_identity_id": unknown;
+});
+/** The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestTokenExchangeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange";
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token": string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type": "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id": string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:token-exchange". */
+    "grant_type"?: ("urn:ietf:params:oauth:grant-type:token-exchange")
+        & ("urn:ietf:params:oauth:grant-type:token-exchange");
+    "requested_token_type"?: unknown;
+    "scope"?: unknown;
+    "subject_token": unknown;
+    "subject_token_type": unknown;
+    "workload_identity_id": unknown;
+});
+/** The response for: Exchange an OAuth token. */
+export type OAuthTokenResponse = ({
+    /** minLength: 1. */
+    "access_token": string;
+    /** minLength: 1. */
+    "context_id"?: string;
+    "environment_grant_id"?: string;
+    /** minimum: 1. maximum: 86400. */
+    "expires_in": number;
+    /**
+     * Present for workload identity token exchange. Identifies the issued credential as an access
+     * token. Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "issued_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    "merchant_id"?: string;
+    /** Value enum: "test", "live". */
+    "mode"?: "test" | "live" | (string & {});
+    /** minLength: 1. */
+    "oauth_session_id"?: string;
+    "partner_app_id"?: string;
+    "partner_app_install_id"?: string;
+    /**
+     * Rotating refresh token for partner apps and flint-cli. Absent for workload access tokens.
+     * minLength: 1.
+     */
+    "refresh_token"?: string;
+    /** Present exactly when mode is test. */
+    "sandbox_id"?: string;
+    /**
+     * Space-separated granted scope, in the vocabulary the client requested: permission IDs for
+     * partner apps, API scope names for flint-cli and workload identities. Empty when a workload
+     * identity has no scopes.
+     */
+    "scope": string;
+    /** Value enum: "Bearer". */
+    "token_type": "Bearer" | (string & {});
+    /**
+     * Workload identity that authorized the token exchange. Present only for workload access
+     * tokens.
+     */
+    "workload_identity_id"?: string;
+});
+export type OauthAuthorizeCLIDeviceParams = (InputValue<CLIDeviceRequestInput>);
+export type OauthExchangeTokenParams = (OAuthTokenRequestInput);
+export type OauthListCLIContextsParams = (InputValue<CLIContextsRequestInput>);
+export type OauthPreviewPartnerInstallAuthorizationParams = {
+    /** OAuth response type. Must be code. Value enum: "code". */
+    "response_type"?: InputValue<"code">;
+    /** Partner app client ID. */
+    "client_id": InputValue<string>;
+    /** Registered redirect URI for the partner app. */
+    "redirect_uri": InputValue<string>;
+    /** Install mode. Value enum: "test", "live". */
+    "mode": InputValue<"test" | "live">;
+    /** Base64url-encoded SHA-256 hash of your code_verifier, without padding (RFC 7636). */
+    "code_challenge"?: InputValue<string>;
+    /** PKCE challenge method. Value enum: "S256". */
+    "code_challenge_method"?: InputValue<"S256">;
+    /**
+     * Space-separated permission IDs from your app's permission manifest. Omit to request
+     * default_requested_permissions. Required permissions are always granted.
+     */
+    "scope"?: InputValue<string>;
+    /**
+     * Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test
+     * mode, Flint uses the merchant's default sandbox. Example: "test_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     */
+    "sandbox_id"?: InputValue<string>;
+    /** Opaque state value returned to the partner callback. */
+    "state"?: InputValue<string>;
+};
+export type OauthReauthorizeCLIDeviceParams = (InputValue<CLIReauthorizeRequestInput>);
+export type OauthRevokeTokenParams = (InputValue<OAuthRevokeRequestInput>);
+export type OauthRevokeTokenResponse = undefined;
+export type OnboardingAdvanceParams = (InputValue<OnboardingAdvanceRequestInput>);
+/** The request body for: Advance onboarding flow. */
+export type OnboardingAdvanceRequest = {
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US". Value enum: "US".
+     */
+    "country"?: "US" | (string & {});
+    /**
+     * Contact and website details you submit for a merchant during onboarding. Send null to clear
+     * a field.
+     */
+    "profile"?: OnboardingProfileRequest;
+    /**
+     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
+     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
+     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
+     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+};
+/** The request body for: Advance onboarding flow. */
+export type OnboardingAdvanceRequestInput = {
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US". Value enum: "US".
+     */
+    "country"?: "US";
+    /**
+     * Contact and website details you submit for a merchant during onboarding. Send null to clear
+     * a field.
+     */
+    "profile"?: OnboardingProfileRequestInput;
+    /**
+     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
+     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
+     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
+     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments">);
+};
+export type OnboardingCreateAPIKeyParams = (InputValue<DeveloperInitialAPIKeyRequestInput>);
+export type OnboardingGetStateParams = {};
+/** Contact and website details recorded for a merchant during onboarding. */
+export type OnboardingProfile = {
+    "email": string | null;
+    "support_email"?: string;
+    "support_phone"?: string;
+    "support_url"?: string;
+    "website_url"?: string;
+};
+/**
+ * Contact and website details you submit for a merchant during onboarding. Send null to clear a
+ * field.
+ */
+export type OnboardingProfileRequest = {
+    /** Send null to clear it. minLength: 1. */
+    "email"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "support_email"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "support_phone"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "support_url"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "website_url"?: string | null;
+};
+/**
+ * Contact and website details you submit for a merchant during onboarding. Send null to clear a
+ * field.
+ */
+export type OnboardingProfileRequestInput = OnboardingProfileRequest;
+export type OnboardingStartParams = (InputValue<OnboardingStartRequestInput>);
+/** The request body for: Start onboarding flow. */
+export type OnboardingStartRequest = {
+    /** minLength: 1. */
+    "email": string;
+    /** minLength: 1. */
+    "first_name": string;
+    /** minLength: 1. */
+    "last_name": string;
+};
+/** The request body for: Start onboarding flow. */
+export type OnboardingStartRequestInput = OnboardingStartRequest;
+/** A response containing `OnboardingStartResult` data. */
+export type OnboardingStartResponse = {
+    /**
+     * The result of starting onboarding: whether email verification began, plus the verification
+     * token and its expiry.
+     */
+    "data": OnboardingStartResult;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /**
  * The result of starting onboarding: whether email verification began, plus the verification token
  * and its expiry.
@@ -1344,771 +2139,4 @@ export type OrderDeliveryDestinationRecipientRequest = {
     "name"?: string | null;
     /** Send null to clear it. minLength: 1. maxLength: 30. */
     "phone"?: string | null;
-};
-/**
- * The recipient name and phone you supply for an order delivery. Send null to clear a field.
- * minProperties: 1.
- */
-export type OrderDeliveryDestinationRecipientRequestInput = OrderDeliveryDestinationRecipientRequest;
-/**
- * The delivery destination you set when creating or updating an order, with an address and an
- * optional recipient.
- */
-export type OrderDeliveryDestinationRequest = {
-    /**
-     * A complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "address": AddressRequest;
-    /**
-     * The recipient name and phone you supply for an order delivery. Send null to clear a field.
-     * minProperties: 1.
-     */
-    "recipient"?: OrderDeliveryDestinationRecipientRequest;
-};
-/**
- * The delivery destination you set when creating or updating an order, with an address and an
- * optional recipient.
- */
-export type OrderDeliveryDestinationRequestInput = {
-    /**
-     * A complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "address": AddressRequestInput;
-    /**
-     * The recipient name and phone you supply for an order delivery. Send null to clear a field.
-     * minProperties: 1.
-     */
-    "recipient"?: OrderDeliveryDestinationRecipientRequestInput;
-};
-/**
- * A discount applied to an order, with its amount, status, and the line items and charges it
- * covers. It comes from a manual discount or a promotion.
- */
-export type OrderDiscount = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "applied_money": MoneyValue;
-    "customer_facing_name"?: string;
-    /** Value enum: "order", "line_item", "service_charge". */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**  [] (Value): string. */
-    "order_charge_ids": Array<string>;
-    /**
-     * Order discount ID. It starts with ad_. Pass it to POST
-     * /v1/orders/{order_id}/discounts/remove to remove the discount.
-     */
-    "order_discount_id": string;
-    "order_id": string;
-    /**  [] (Value): string. */
-    "order_line_item_ids": Array<string>;
-    /**
-     * Promotion code used to create this discount. Present only when source is promotion and a
-     * code was used.
-     */
-    "promotion_code"?: string;
-    /** Promotion that created this discount. Present only when source is promotion. */
-    "promotion_id"?: string;
-    /** Value enum: "manual", "promotion", "plan_change_credit". */
-    "source"?: "manual" | "promotion" | "plan_change_credit" | (string & {});
-    /** Value enum: "pending", "redeemed", "canceled". */
-    "status": "pending" | "redeemed" | "canceled" | (string & {});
-};
-/**
- * The quantity of one inventory item that each unit of a draft order line item uses, supplied when
- * creating the line item.
- */
-export type OrderDraftLineItemInventoryDemandRequest = {
-    /** minLength: 1. */
-    "inventory_item_id": string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
-     * maximum: 9999.
-     */
-    "quantity_per_line_item_unit": number;
-};
-/**
- * The quantity of one inventory item that each unit of a draft order line item uses, supplied when
- * creating the line item.
- */
-export type OrderDraftLineItemInventoryDemandRequestInput = OrderDraftLineItemInventoryDemandRequest;
-/**
- * A tax calculation you supply for a draft order line item, made of tax components and a price
- * mode.
- */
-export type OrderDraftLineItemTaxCalculationRequestInput = {
-    /**
-     * minItems: 1. [] (Value): {@link OrderDraftTaxComponentRequestInput}. One tax component of a
-     * draft line item calculation, with its jurisdiction, tax type, and percentage or flat amount.
-     */
-    "components": Array<OrderDraftTaxComponentRequestInput>;
-    /** Value enum: "additive", "inclusive". */
-    "price_mode": "additive" | "inclusive";
-};
-/**
- * Tax settings you supply for a draft order line item: its tax category, whether it is taxable,
- * and an optional tax calculation.
- */
-export type OrderDraftLineItemTaxRequestInput = {
-    /**
-     * A tax calculation you supply for a draft order line item, made of tax components and a price
-     * mode.
-     */
-    "calculation"?: OrderDraftLineItemTaxCalculationRequestInput;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    "taxable"?: boolean;
-};
-/**
- * One tax component of a draft line item calculation, with its jurisdiction, tax type, and
- * percentage or flat amount.
- */
-export type OrderDraftTaxComponentRequestInput = ({
-    /** Default: "percentage". Value enum: "percentage". */
-    "calculation_type"?: "percentage";
-    /**
-     * Flat tax amount. The amount and every computed order amount must not exceed 99999999 minor
-     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
-     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
-     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "flat_money"?: MoneyValueInput;
-    /**
-     * The taxing jurisdiction of a draft tax component, identified by code, level, name, state,
-     * and country.
-     */
-    "jurisdiction": OrderDraftTaxJurisdictionRequestInput;
-    /** minimum: 0. maximum: 100. multipleOf: 0.0001. */
-    "percent": number;
-    /** Value enum: "sales_tax", "use_tax". */
-    "tax_type": "sales_tax" | "use_tax";
-})
-    & ({
-    "flat_money"?: never;
-});
-/**
- * The taxing jurisdiction of a draft tax component, identified by code, level, name, state, and
- * country.
- */
-export type OrderDraftTaxJurisdictionRequestInput = {
-    /** minLength: 1. */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country": string;
-    /** Value enum: "state", "county", "city", "district". */
-    "level": "state" | "county" | "city" | "district";
-    /** minLength: 1. */
-    "name": string;
-    /** minLength: 1. */
-    "state": string;
-};
-/** The amount of an order that a gift card covers. */
-export type OrderGiftCardAllocation = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    "gift_card_id": string;
-};
-/**
- * Accept the exact gift_card_estimate returned on the current order, including all selected cards
- * and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and
- * may use one processor payment intent for the processor_money remainder. The amount and every
- * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an
- * input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
- * responsible input field. Lower payment option limits can apply.
- */
-export type OrderGiftCardAllocationAcceptance = {
-    /**
-     *  amount (Required): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
-     * "USD".
-     */
-    "gift_card_money": {
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount": `${bigint}`;
-        /** Value enum: "USD". */
-        "currency": "USD" | (string & {});
-    };
-    /**
-     * minItems: 1. maxItems: 20. [] (Value): object. [].amount_money (Required): object.
-     * [].amount_money.amount (Required): integer string. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 0. [].amount_money.currency (Required):
-     * string. Value enum: "USD". [].gift_card_id (Required): string. minLength: 1. maxLength: 64.
-     */
-    "gift_cards": Array<{
-        /**
-         *  amount (Required): integer string. Use an integer string (decimal digits), not a
-         * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value
-         * enum: "USD".
-         */
-        "amount_money": {
-            /**
-             * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-             * minimum: 0.
-             */
-            "amount": `${bigint}`;
-            /** Value enum: "USD". */
-            "currency": "USD" | (string & {});
-        };
-        /** minLength: 1. maxLength: 64. */
-        "gift_card_id": string;
-    }>;
-    /**
-     * Order version used to calculate this gift card allocation. Read the order again if its
-     * version changed. Format: int64. minimum: 1.
-     */
-    "order_version": number;
-    /**
-     *  amount (Required): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
-     * "USD".
-     */
-    "processor_money": {
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount": `${bigint}`;
-        /** Value enum: "USD". */
-        "currency": "USD" | (string & {});
-    };
-};
-/**
- * Accept the exact gift_card_estimate returned on the current order, including all selected cards
- * and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and
- * may use one processor payment intent for the processor_money remainder. The amount and every
- * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an
- * input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
- * responsible input field. Lower payment option limits can apply.
- */
-export type OrderGiftCardAllocationAcceptanceInput = {
-    /**
-     *  amount (Required): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
-     * "USD".
-     */
-    "gift_card_money": {
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount": `${bigint}` | bigint;
-        /** Value enum: "USD". */
-        "currency": "USD";
-    };
-    /**
-     * minItems: 1. maxItems: 20. [] (Value): object. [].amount_money (Required): object.
-     * [].amount_money.amount (Required): integer string. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 0. [].amount_money.currency (Required):
-     * string. Value enum: "USD". [].gift_card_id (Required): string. minLength: 1. maxLength: 64.
-     */
-    "gift_cards": Array<{
-        /**
-         *  amount (Required): integer string. Use an integer string (decimal digits), not a
-         * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value
-         * enum: "USD".
-         */
-        "amount_money": {
-            /**
-             * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-             * minimum: 0.
-             */
-            "amount": `${bigint}` | bigint;
-            /** Value enum: "USD". */
-            "currency": "USD";
-        };
-        /** minLength: 1. maxLength: 64. */
-        "gift_card_id": string;
-    }>;
-    /**
-     * Order version used to calculate this gift card allocation. Read the order again if its
-     * version changed. Format: int64. minimum: 1.
-     */
-    "order_version": number;
-    /**
-     *  amount (Required): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Value enum:
-     * "USD".
-     */
-    "processor_money": {
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount": `${bigint}` | bigint;
-        /** Value enum: "USD". */
-        "currency": "USD";
-    };
-};
-/**
- * An estimate of how an order total splits between gift cards and the payment processor, and
- * whether gift cards can pay it.
- */
-export type OrderGiftCardEstimate = {
-    /**
-     * Whether this allocation can be used for payment. False when a selected card needs
-     * authorization or the allocation cannot cover the balance while satisfying the processor
-     * minimum.
-     */
-    "can_pay": boolean;
-    /**
-     * Order balance allocated to the selected gift cards. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "gift_card_money": MoneyValue;
-    /**
-     *  [] (Value): {@link OrderGiftCardAllocation}. The amount of an order that a gift card
-     * covers.
-     */
-    "gift_cards": Array<OrderGiftCardAllocation>;
-    /** Whether this estimate reserves gift-card funds. Estimates currently return false. */
-    "is_reserved": boolean;
-    /**
-     * Order version used to calculate this gift card allocation. Read the order again if its
-     * version changed. Format: int64.
-     */
-    "order_version": number;
-    /**
-     * Order balance remaining for the payment processor. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "processor_money": MoneyValue;
-};
-/**
- * A gift card available to pay an order, with its available balance and the last four characters
- * of its code.
- */
-export type OrderGiftCardSelection = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "available_money": MoneyValue;
-    "gift_card_id": string;
-    /** Last four characters of the card's current code. */
-    "last4": string;
-    "requires_authorization": boolean;
-};
-/** A gift card redemption applied to an order payment, with the amount, tip, and gift card. */
-export type OrderGiftCardSettlement = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    "gift_card_id": string;
-    "gift_card_redemption_id": string;
-    /**
-     * Last four characters of the code that paid. It stays the same if the gift card's code is
-     * later replaced.
-     */
-    "last4": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "tip_money": MoneyValue;
-};
-export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.inventory_exception_created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.inventory_exception_created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.inventory_exception_created";
-});
-/**
- * The `order.inventory_exception_created` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
-    };
-    /** Value enum: "order.inventory_exception_created". */
-    "event_type"?: "order.inventory_exception_created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `order.inventory_exception_created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
-    };
-    /** Value enum: "order.inventory_exception_created". */
-    "event_type"?: "order.inventory_exception_created";
-});
-export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.inventory_exception_resolved";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.inventory_exception_resolved";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.inventory_exception_resolved";
-});
-/**
- * The `order.inventory_exception_resolved` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
-    };
-    /** Value enum: "order.inventory_exception_resolved". */
-    "event_type"?: "order.inventory_exception_resolved";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `order.inventory_exception_resolved` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
-    };
-    /** Value enum: "order.inventory_exception_resolved". */
-    "event_type"?: "order.inventory_exception_resolved";
-});
-/**
- * Where inventory for an order is allocated from: a fixed location, an allocation policy, or a
- * specific policy revision.
- */
-export type OrderInventoryRoutingSourceRequestInput = DeliveryPreviewRoutingSourceInput;
-/** An item purchased in an order. */
-export type OrderLineItem = {
-    /**
-     * Unit price multiplied by quantity, before modifiers, discounts, and tax. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "base_subtotal_money": MoneyValue;
-    /**
-     * Components fixed when the bundle line was added. The line takes their shared taxability and
-     * tax category; all component variants must share both stored values. An unset category equals
-     * only another unset category. [] (Value): {@link BundleComponent}. An item included in a
-     * bundle.
-     */
-    "bundle_components": Array<BundleComponent>;
-    "bundle_id"?: string;
-    /**
-     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-     * name.
-     */
-    "categories": Array<CategoryReference>;
-    "description"?: string;
-    /**
-     * Discount value allocated to this line item. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "discount_money": MoneyValue;
-    /**
-     * Current quantities for each required fulfillment obligation: one entry for a single item or
-     * one per bundle component that requires fulfillment. Quantities use line units for single
-     * items and component units for bundles. required_quantity equals unassigned_quantity +
-     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity. Omitted when
-     * the line needs no fulfillment or the order's obligations cannot be computed, including older
-     * lines without recorded requirements. [] (Value): {@link OrderLineItemFulfillmentQuantities}.
-     * Counts of how much of an order line item is assigned, fulfilled, failed, canceled, or still
-     * unassigned for fulfillment.
-     */
-    "fulfillment_quantities"?: Array<OrderLineItemFulfillmentQuantities>;
-    /**
-     * Fulfillment requirements fixed when the line item was created. direct describes a single
-     * item; components describes each bundle component. Omitted for older line items without
-     * recorded requirements. Fulfillment requirements for an order line item, given for a single
-     * item or for each component of a bundle.
-     */
-    "fulfillment_requirements"?: OrderLineItemFulfillmentRequirements;
-    /**
-     * The gift card purchase details saved on an order line item: configuration, face value, price
-     * paid, and recipient.
-     */
-    "gift_card_purchase"?: GiftCardPurchaseSnapshot;
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text. */
-    "image"?: Image;
-    /**
-     *  anyOf[1] (Value): {@link LineItemInventorySnapshot}. Whether an order line item tracks
-     * inventory, and the inventory item quantities each unit demands. anyOf[2] (Value): null.
-     */
-    "inventory_snapshot": ((LineItemInventorySnapshot) | (null));
-    /**
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Sum of the line item's modifier totals. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "modifier_total_money": MoneyValue;
-    /**
-     *  [] (Value): {@link OrderLineItemModifier}. A modifier selected on an order line item, with
-     * its quantity, price change, total, and display flags.
-     */
-    "modifiers": Array<OrderLineItemModifier>;
-    "name": string;
-    "order_line_item_id": string;
-    "product_id"?: string;
-    /**
-     * Masked card identities for fully funded units of this purchase line. Partial consideration
-     * does not issue a card. [] (Value): {@link PurchasedGiftCard}. A gift card issued for one
-     * unit of a purchased order line item, with its last four code characters and any card it
-     * replaced.
-     */
-    "purchased_gift_cards": Array<PurchasedGiftCard>;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "refunded_money": MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "refunded_quantity": number;
-    /**
-     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
-     * variant, such as size Large.
-     */
-    "selected_options": Array<SelectedProductOption>;
-    "sku"?: string;
-    /** Value enum: "variant", "bundle". */
-    "source_type"?: "variant" | "bundle" | (string & {});
-    /**
-     * Recurring offer and cadence frozen for this line at signup. The subscription offer and
-     * billing interval an order line was bought under, with the recurring amount.
-     */
-    "subscription"?: SubscribedLine;
-    /** Subscription created for this line after the order is paid. */
-    "subscription_id"?: string;
-    /**
-     * Applicable active offer for a one-time line, or the offer terms frozen for a subscribed
-     * line. A subscription offer attached to an order line item, with its name, discount, and
-     * billing interval options.
-     */
-    "subscription_offer"?: OrderLineSubscriptionOfferSummary;
-    /**
-     * Base subtotal plus modifier total, before discounts and tax. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Tax settings for an order line item calculated by Flint or supplied by you, including the
-     * line item tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedLineItemTax;
-    /**
-     * Tax calculated for this line item, including any tax already included in its price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Subtotal minus discounts, plus tax that is not already included in the price. Signed
-     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * Dimensions of one unit fixed when the line was created. Omitted when unknown and for bundle
-     * lines. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
-     */
-    "unit_dimensions"?: Dimensions;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-    /**
-     * Weight of one unit fixed when the line was created. Omitted when unknown and for bundle
-     * lines. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration.
-     */
-    "unit_weight"?: Weight;
-    "variant_id"?: string;
-};
-/**
- * Fulfillment requirements for one component of a bundle line item, with the component quantity
- * per unit.
- */
-export type OrderLineItemFulfillmentComponent = {
-    /** ID of the bundle component these requirements apply to. */
-    "bundle_component_id": string;
-    /**
-     * Fulfillment requirements for this component. anyOf[1] (Value): {@link
-     * OrderLineItemFulfillmentProfile}. Whether an order line item requires fulfillment, and the
-     * fulfillment types it allows. anyOf[2] (Value): null.
-     */
-    "profile": ((OrderLineItemFulfillmentProfile) | (null));
-    /**
-     * Number of this component per unit of the order line item; fractional quantities are not
-     * supported. Format: int64.
-     */
-    "quantity_per_line_item_unit": number;
-};
-/** Whether an order line item requires fulfillment, and the fulfillment types it allows. */
-export type OrderLineItemFulfillmentProfile = {
-    /**
-     * Fulfillment types allowed for this item. Empty when fulfillment is not required. [] enum:
-     * "shipment", "pickup", "local_delivery", "digital", "service". [] (Value): string. Value
-     * enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /** Whether this item requires fulfillment. Value enum: "none", "required". */
-    "requirement": "none" | "required" | (string & {});
-};
-/**
- * Counts of how much of an order line item is assigned, fulfilled, failed, canceled, or still
- * unassigned for fulfillment.
- */
-export type OrderLineItemFulfillmentQuantities = {
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Quantity owned by a
-     * non-terminal fulfillment, including a fulfillment on hold. Format: int64.
-     */
-    "assigned_quantity": number;
-    /** ID of the bundle component these quantities describe. Omitted for a single item. */
-    "bundle_component_id"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled
-     * or no_show fulfillments. Format: int64.
-     */
-    "canceled_quantity": number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Quantity owned by failed
-     * fulfillments that kept their quantity. Failed fulfillments that released quantity own
-     * nothing; their quantity becomes unassigned again. Format: int64.
-     */
-    "failed_quantity": number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Quantity owned by completed
-     * fulfillments. Format: int64.
-     */
-    "fulfilled_quantity": number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Total quantity requiring
-     * fulfillment, in line units for a single item or component units for a bundle component.
-     * Equals the sum of the other five quantity fields. Format: int64.
-     */
-    "required_quantity": number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Required quantity owned by
-     * no fulfillment, in any resolution mode. Includes quantity released by a failed fulfillment.
-     * Format: int64.
-     */
-    "unassigned_quantity": number;
-};
-/**
- * Fulfillment requirements for an order line item, given for a single item or for each component
- * of a bundle.
- */
-export type OrderLineItemFulfillmentRequirements = {
-    /**
-     * Fulfillment requirements for each bundle component. Present for bundle lines. [] (Value):
-     * {@link OrderLineItemFulfillmentComponent}. Fulfillment requirements for one component of a
-     * bundle line item, with the component quantity per unit.
-     */
-    "components"?: Array<OrderLineItemFulfillmentComponent>;
-    /**
-     * Fulfillment requirements for a single item. Present for non-bundle lines. Whether an order
-     * line item requires fulfillment, and the fulfillment types it allows.
-     */
-    "direct"?: OrderLineItemFulfillmentProfile;
 };

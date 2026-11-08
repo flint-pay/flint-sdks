@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# InventoryMovementListResponseInput to InvoiceCollectionInputMerchantDefaultInput
+# InventoryLevelResponseInput to InvoiceCollectionBlockResolvedMerchantEventInput
 
+- [InventoryLevelResponseInput](InventoryLevelResponseInput.md)
+- [InventoryLevelShortageDetectedInstalledMerchantsEventInput](InventoryLevelShortageDetectedInstalledMerchantsEventInput.md)
+- [InventoryLevelShortageDetectedMerchantEventInput](InventoryLevelShortageDetectedMerchantEventInput.md)
+- [InventoryLevelUpdatedInstalledMerchantsEventInput](InventoryLevelUpdatedInstalledMerchantsEventInput.md)
+- [InventoryLevelUpdatedMerchantEventInput](InventoryLevelUpdatedMerchantEventInput.md)
+- [InventoryMovementInput](InventoryMovementInput.md)
 - [InventoryMovementListResponseInput](InventoryMovementListResponseInput.md)
 - [InventoryMovementResponseInput](InventoryMovementResponseInput.md)
 - [InventoryOriginPolicyInput](InventoryOriginPolicyInput.md)
@@ -96,10 +102,4 @@
 - [InvoiceCollectionBlockedMerchantEventInput](InvoiceCollectionBlockedMerchantEventInput.md)
 - [InvoiceCollectionBlockResolvedInstalledMerchantsEventInput](InvoiceCollectionBlockResolvedInstalledMerchantsEventInput.md)
 - [InvoiceCollectionBlockResolvedMerchantEventInput](InvoiceCollectionBlockResolvedMerchantEventInput.md)
-- [InvoiceCollectionBuyerInitiatedInput](InvoiceCollectionBuyerInitiatedInput.md)
-- [InvoiceCollectionExternalInput](InvoiceCollectionExternalInput.md)
-- [InvoiceCollectionInputAutomaticInput](InvoiceCollectionInputAutomaticInput.md)
-- [InvoiceCollectionInputBuyerInitiatedInput](InvoiceCollectionInputBuyerInitiatedInput.md)
-- [InvoiceCollectionInputExternalInput](InvoiceCollectionInputExternalInput.md)
-- [InvoiceCollectionInputMerchantDefaultInput](InvoiceCollectionInputMerchantDefaultInput.md)
 

@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { Package } from '../declarations/types-38.js';
 import type {
+    Package,
     PackageItem,
     PackageItemListResponse,
     PackageItemResponse,
@@ -18,8 +18,8 @@ import type {
     PackagesUpdateParams,
     PackagesVoidParams
 } from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,6 +40,7 @@ export type {
     PackageItemResponse,
     PackagesDeleteItemParams,
     PackagesGetParams,
+    Package,
     PackageResponse,
     PackagesGetItemParams,
     PackagesListPackageItemsParams,
@@ -60,30 +61,37 @@ export type {
     PackageTransitionRequestMarkReturnedInput,
     PackageTransitionRequestMarkShippedInput
 } from '../declarations/types-39.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency, Weight, WeightInput } from '../declarations/types-61.js';
-export type { Package } from '../declarations/types-38.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency, Weight, WeightInput } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreatePackageItemRequestInput } from '../declarations/types-9.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    MoneyValue,
+    NextAction,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { ExpandedOrderSummary } from '../declarations/types-21.js';
 export type { CheckoutBuyerContact } from '../declarations/types-4.js';
-export type { PricingAmounts } from '../declarations/types-43.js';
-export type { MoneyValue, NextAction } from '../declarations/types-35.js';
+export type { PricingAmounts } from '../declarations/types-44.js';
 export type { SettlementAmounts } from '../declarations/types-53.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { Dimensions, DimensionsInput } from '../declarations/types-20.js';
-export type { ReturnResolutionLineItemRequest } from '../declarations/types-50.js';
+export type { ReturnResolutionLineItemRequest } from '../declarations/types-51.js';
 export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-59.js';
-export type { VoidPackageRequestInput } from '../declarations/types-60.js';
-export type { FulfillmentEventsGetParams, FulfillmentTransitionRequestMarkPackedInput } from '../declarations/types-22.js';
-export { makeCreatePackageItemRequest } from '../declarations/types-64.js';
-export { makeDimensions, makeFulfillmentTransitionRequestMarkPacked } from '../declarations/types-67.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export type { VoidPackageRequestInput } from '../declarations/types-61.js';
+export type { FulfillmentEventsGetParams } from '../declarations/types-22.js';
+export type { FulfillmentTransitionRequestMarkPackedInput } from '../declarations/types-23.js';
+export { makeCreatePackageItemRequest } from '../declarations/types-65.js';
+export { makeDimensions } from '../declarations/types-67.js';
+export { makeFulfillmentTransitionRequestMarkPacked } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
 export {
+    makeMoneyValue,
     makePackageTransitionRequest,
     makePackageTransitionRequestMarkDelivered,
     makePackageTransitionRequestMarkDeliveryAttempted,
@@ -95,8 +103,8 @@ export {
     makePackageTransitionRequestMarkShipped
 } from '../declarations/types-70.js';
 export { makeReturnResolutionLineItemRequest } from '../declarations/types-72.js';
-export { makeUpdatePackageItemRequest, makeUpdatePackageRequest, makeVoidPackageRequest } from '../declarations/types-74.js';
-export { makeWeight } from '../declarations/types-75.js';
+export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-74.js';
+export { makeVoidPackageRequest, makeWeight } from '../declarations/types-75.js';
 export interface PackagesResource {
     /**
  * Adds an order line quantity to a package. Total active package item quantities cannot exceed the

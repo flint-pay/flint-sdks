@@ -7,17 +7,85 @@ import type {
 } from './types-26.js';
 import type { ErrorDetail, ErrorObject, ExpandedCustomerSummary, ExpandedOrderSummary } from './types-21.js';
 import type { ResourceType, ResponseMeta } from './types-48.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MoneyValue } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInventoryTransferRequestInput } from './types-8.js';
-import type { UpdateInventoryTransferRequestInput } from './types-58.js';
+import type { UpdateInventoryTransferRequestInput } from './types-59.js';
 import type { Address } from './types-0.js';
-import type { InvoiceLateFee, InvoiceCollectionBuyerInitiated, InvoiceCollectionExternal } from './types-29.js';
-import type { InvoicePaymentDue, InvoicePaymentAttempt, InvoicePaymentPolicy } from './types-30.js';
-import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry, InvoiceSnapshot } from './types-31.js';
-import type { MoneyValue } from './types-35.js';
-import type { CheckoutRedirects, CheckoutRedirectsRequestInput, CheckoutSession } from './types-4.js';
+import type { InvoiceCollection, InvoiceLateFee } from './types-29.js';
+import type { InvoicePaymentDue } from './types-30.js';
+import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-31.js';
+import type { InvoiceSnapshot } from './types-32.js';
+import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-5.js';
+/**
+ * Where an order, payment link, or reservation routes inventory from: a fixed Location, an
+ * inventory allocation policy, or one policy revision.
+ */
+export type InventoryRoutingSource = {
+    "inventory_allocation_policy_id"?: string;
+    "inventory_allocation_policy_revision_id"?: string;
+    "location_id"?: string;
+    /** Value enum: "fixed_location", "policy", "policy_revision". */
+    "type": "fixed_location" | "policy" | "policy_revision" | (string & {});
+};
+/** The `fixed_location` variant of `InventoryRoutingSourceInput`. */
+export type InventoryRoutingSourceInputFixedLocation = {
+    /** minLength: 1. */
+    "location_id": string;
+    /** Value enum: "fixed_location". */
+    "type": "fixed_location" | (string & {});
+};
+/** The `fixed_location` variant of `InventoryRoutingSourceInput`. */
+export type InventoryRoutingSourceInputFixedLocationInput = {
+    /** minLength: 1. */
+    "location_id": string;
+    /** Value enum: "fixed_location". */
+    "type": "fixed_location";
+};
+/** The `policy` variant of `InventoryRoutingSourceInput`. */
+export type InventoryRoutingSourceInputPolicy = {
+    /** minLength: 1. */
+    "inventory_allocation_policy_id": string;
+    /** Value enum: "policy". */
+    "type": "policy" | (string & {});
+};
+/** The `policy` variant of `InventoryRoutingSourceInput`. */
+export type InventoryRoutingSourceInputPolicyInput = {
+    /** minLength: 1. */
+    "inventory_allocation_policy_id": string;
+    /** Value enum: "policy". */
+    "type": "policy";
+};
+/** The `policy_revision` variant of `InventoryRoutingSourceInput`. */
+export type InventoryRoutingSourceInputPolicyRevision = {
+    /** minLength: 1. */
+    "inventory_allocation_policy_revision_id": string;
+    /** Value enum: "policy_revision". */
+    "type": "policy_revision" | (string & {});
+};
+/** The `policy_revision` variant of `InventoryRoutingSourceInput`. */
+export type InventoryRoutingSourceInputPolicyRevisionInput = {
+    /** minLength: 1. */
+    "inventory_allocation_policy_revision_id": string;
+    /** Value enum: "policy_revision". */
+    "type": "policy_revision";
+};
+/**
+ * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+ * policy revision, selected by `type`.
+ */
+export type InventoryRoutingSourceRequest = ((InventoryRoutingSourceInputFixedLocation)
+    | (InventoryRoutingSourceInputPolicy)
+    | (InventoryRoutingSourceInputPolicyRevision)
+    | (Record<string, unknown>));
+/**
+ * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+ * policy revision, selected by `type`.
+ */
+export type InventoryRoutingSourceRequestInput = ((InventoryRoutingSourceInputFixedLocationInput)
+    | (InventoryRoutingSourceInputPolicyInput)
+    | (InventoryRoutingSourceInputPolicyRevisionInput));
 /**
  * Inventory settings: the `low_stock_threshold` and how inventory failures are handled for each
  * order source.
@@ -2021,206 +2089,4 @@ export type InvoiceCheckoutSessionRequestInput = ({
      * "embedded".
      */
     "surface"?: "hosted" | "embedded";
-});
-/** A response containing `InvoiceCheckoutSessionResult` data. */
-export type InvoiceCheckoutSessionResponse = {
-    /**
-     * The invoice is the primary resource, with its checkout session, credential, and any invoice
-     * payment attempt.
-     */
-    "data": InvoiceCheckoutSessionResult;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The invoice is the primary resource, with its checkout session, credential, and any invoice
- * payment attempt.
- */
-export type InvoiceCheckoutSessionResult = {
-    "checkout_auth_token": string;
-    /** A session in which a buyer completes an order's payment. */
-    "checkout_session": CheckoutSession;
-    /** A bill issued to a customer. */
-    "invoice": Invoice;
-    /** An attempt to collect payment for an invoice. */
-    "invoice_payment_attempt"?: InvoicePaymentAttempt;
-};
-/**
- * The invoice collection policy resolved at write time. The object can be sent back when updating
- * a draft.
- */
-export type InvoiceCollection = ({
-    /**
-     * How the invoice is collected, resolved when the draft was written. Value enum:
-     * "buyer_initiated", "automatic", "external".
-     */
-    "mode": "buyer_initiated" | "automatic" | "external" | (string & {});
-    /**
-     * The saved card Flint charges. Present only with automatic. On a draft, null means Flint
-     * charges the customer's default card, selected at issue. After issue it is the selected card.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * The payment options the hosted invoice page offers. Present only with buyer_initiated. Which
-     * payment options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & ((Exclude<InvoiceCollectionBuyerInitiated & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionAutomatic & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `automatic` variant of `InvoiceCollection`. */
-export type InvoiceCollectionAutomatic = ({
-    /**
-     * How the invoice is collected, resolved when the draft was written. Value enum: "automatic".
-     */
-    "mode": "automatic" | (string & {});
-    /**
-     * The saved card Flint charges. Present only with automatic. On a draft, null means Flint
-     * charges the customer's default card, selected at issue. After issue it is the selected card.
-     */
-    "payment_method_id": string | null;
-    /**
-     * The payment options the hosted invoice page offers. Present only with buyer_initiated. Which
-     * payment options an invoice accepts, any per-option total limits, and whether to show a cost
-     * comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Value enum: "automatic". */
-    "mode"?: "automatic" | (string & {});
-    "payment_method_id": string | null;
-}));
-export type InvoiceCollectionBlockResolvedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.collection_block_resolved";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.collection_block_resolved";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "invoice.collection_block_resolved";
-});
-/**
- * The `invoice.collection_block_resolved` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type InvoiceCollectionBlockResolvedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
-    "data"?: {
-        /** A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Value enum: "invoice.collection_block_resolved". */
-    "event_type"?: "invoice.collection_block_resolved";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `invoice.collection_block_resolved` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type InvoiceCollectionBlockResolvedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
-    "data"?: {
-        /** A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Value enum: "invoice.collection_block_resolved". */
-    "event_type"?: "invoice.collection_block_resolved";
-});
-export type InvoiceCollectionBlockedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.collection_blocked";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.collection_blocked";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "invoice.collection_blocked";
-});
-/**
- * The `invoice.collection_blocked` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type InvoiceCollectionBlockedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
-    "data"?: {
-        /** A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Value enum: "invoice.collection_blocked". */
-    "event_type"?: "invoice.collection_blocked";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
 });

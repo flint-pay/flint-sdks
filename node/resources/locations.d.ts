@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { Location } from '../declarations/types-32.js';
 import type {
+    Location,
     LocationListResponse,
     LocationResponse,
     LocationsCreateParams,
@@ -10,8 +10,8 @@ import type {
     LocationsListParams,
     LocationsUpdateParams
 } from '../declarations/types-33.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,30 +28,37 @@ export type {
 } from '../runtime.js';
 export type {
     LocationsCreateParams,
+    Location,
     LocationResponse,
     LocationsDeleteParams,
     LocationsGetParams,
     LocationsListParams,
     LocationListResponse,
     LocationsUpdateParams,
-    LocationCoordinateRequestInput
+    LocationCoordinateRequestInput,
+    LocationCoordinate
 } from '../declarations/types-33.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { Location, LocationCoordinate } from '../declarations/types-32.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateLocationRequestInput } from '../declarations/types-8.js';
+export type { CreateLocationRequestInput } from '../declarations/types-9.js';
 export type { AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    NextAction,
+    MoneyValue,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateLocationRequestInput } from '../declarations/types-58.js';
+export type { UpdateLocationRequestInput } from '../declarations/types-59.js';
 export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/types-25.js';
-export { makeAddressRequest } from '../declarations/types-61.js';
+export { makeAddressRequest } from '../declarations/types-62.js';
 export { makeCreateLocationRequest } from '../declarations/types-64.js';
-export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export { makeUpdateLocationRequest } from '../declarations/types-74.js';
 export interface LocationsResource {
     /**

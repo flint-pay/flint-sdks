@@ -1,4 +1,46 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { ReceiptSettingsRequestInput, RefreshCustomerSessionRequestInput, RefundAdjustmentAuditInput } from './types-46.js';
+import type {
+    RefundAdjustmentReasonRequestInput,
+    RefundChargeInput,
+    RefundDestinationsInput,
+    RefundLineItemInput,
+    RefundLineItemAdjustmentInInput,
+    RefundLineItemAdjustmentRefundInInput,
+    RefundTaxBreakdownRefundInInput,
+    RefundTenderAllocationInputGiftCardRedemptionInput,
+    RefundTenderAllocationInputPaymentIntentInput,
+    RefundTenderAllocationRequestInput,
+    ReleaseReturnResolutionRequestInput,
+    RemoveDiscountsRequestInput,
+    RenewSubscriptionRequestInput,
+    ReopenReturnRequestInput
+} from './types-47.js';
+import type {
+    RepriceDiscountsRequestInput,
+    ResendWebhookDeliveryRequestInput,
+    ResetDemoSessionRequestInput,
+    ResolveCustomerDeletionRequestInput,
+    ResolveOrderInventoryExceptionRequestInput,
+    ResolvePaymentLinkLineItemModifierRequestInput,
+    ResolvePaymentLinkLineItemModifiersInput,
+    ResolvePaymentLinkRequestInput,
+    ResolvePaymentLinkTextModifierRequestInput,
+    ResourceVersionRequestInput,
+    RetryReturnDispositionRequestInput,
+    RetryReturnResolutionRequestInput
+} from './types-48.js';
+import type {
+    ReturnEligibilityLineItemRequestInput,
+    ReturnEligibilitySelectionInput,
+    ReturnEligibilitySelectionAllRemainingFulfilledInput,
+    ReturnEligibilitySelectionLineItemsInput,
+    ReturnInspectionLineItemRequestInput,
+    ReturnLineDecisionInput,
+    ReturnLineItemRequestInput,
+    ReturnPolicyRevisionInputIneligibleInput,
+    ReturnPolicyRevisionInputReturnableInput
+} from './types-49.js';
 import type {
     ReturnPolicyRevisionRequestInput,
     ReturnPolicyScopeInput,
@@ -8,9 +50,7 @@ import type {
     ReturnProcessDispositionRequestInput,
     ReturnProcessInspectionRequestInput,
     ReturnProcessReceiptRequestInput,
-    ReturnProcessResolutionRequestInput
-} from './types-49.js';
-import type {
+    ReturnProcessResolutionRequestInput,
     ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItemInputMatchedInput,
     ReturnReceiptLineItemInputUnverifiedInput,
@@ -19,60 +59,56 @@ import type {
     ReturnReplacementLineItemInputCustomInput,
     ReturnReplacementLineItemInputVariantInput,
     ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput,
+    ReturnResolutionAdjustmentRequestInput
+} from './types-50.js';
+import type {
     ReturnResolutionLineItemRequestInput,
     ReturnRestockingFeePolicyInput,
     ReturnShipmentLineItemAllocationRequestInput,
     ReturnShippingPolicyInput,
-    ReturnSourceSystemRequestInput
-} from './types-50.js';
-import type {
+    ReturnSourceSystemRequestInput,
     ReturnUnverifiedItemInput,
     ReturnWindowInput,
-    ReverseInvoiceManualPaymentRequestInput,
-    RevokeDeliveryDependencyRequestInput,
-    RevokeDeliveryDependencyTargetInput,
-    RevokeDeliveryDependencyTargetDeliveryMethodInput,
-    RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput,
-    RevokeDeliveryDependencyTargetDeliveryRateCallbackInput,
-    RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput,
-    RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput,
-    RevokeDeliveryDependencyTargetLocationGeographyInput
+    ReverseInvoiceManualPaymentRequestInput
 } from './types-51.js';
-import type {
-    RiskPredicateNodeInput,
-    RiskPredicateNodeAllInput,
-    RiskPredicateNodeAnyInput,
-    RiskPredicateNodeComparisonInput,
-    RiskPredicateNodeInInput,
-    RiskPredicateNodeInListInput,
-    RiskPredicateNodeIsMissingInput,
-    RiskPredicateNodeMoneyComparisonInput,
-    RiskPredicateNodeNotInput,
-    RotateGiftCardCodeRequestInput,
-    RotatePartnerAppSecretRequestInput,
-    RotateWebhookSecretRequestInput,
-    SaveMeGiftCardRequestInput,
-    SaveMeGiftCardRequestCodeInput,
-    SaveMeGiftCardRequestRecipientAccessInput,
-    SaveMePaymentMethodRequestInput,
-    SavePaymentMethodRequestInput
-} from './types-52.js';
-import type {
-    SellerTaxAttestationRequestInput,
-    SendOrderReceiptRequestInput,
-    SendPaymentIntentReceiptRequestInput,
-    SignedMoneyRequestInput,
-    SimulateDisputeRequestInput,
-    SinglePackageCreateInputCreatedInput,
-    SinglePackageCreateInputShippedInput,
-    SinglePackageCreateRequestInput,
-    SkipMeSubscriptionCycleRequestInput,
-    SkipSubscriptionCycleRequestInput,
-    SubscribedLineRequestInput,
-    SubscriptionBillingScheduleInputExternalInput,
-    SubscriptionBillingScheduleInputFlintInput
-} from './types-53.js';
+export declare function makeReceiptSettingsRequest(value: InputValue<ReceiptSettingsRequestInput>): Model<ReceiptSettingsRequestInput>;
+export declare function makeRefreshCustomerSessionRequest(value: InputValue<RefreshCustomerSessionRequestInput>): Model<RefreshCustomerSessionRequestInput>;
+export declare function makeRefundAdjustmentAudit(value: InputValue<RefundAdjustmentAuditInput>): Model<RefundAdjustmentAuditInput>;
+export declare function makeRefundAdjustmentReasonRequest(value: InputValue<RefundAdjustmentReasonRequestInput>): Model<RefundAdjustmentReasonRequestInput>;
+export declare function makeRefundCharge(value: InputValue<RefundChargeInput>): Model<RefundChargeInput>;
+export declare function makeRefundDestinations(value: InputValue<RefundDestinationsInput>): Model<RefundDestinationsInput>;
+export declare function makeRefundLineItem(value: InputValue<RefundLineItemInput>): Model<RefundLineItemInput>;
+export declare function makeRefundLineItemAdjustmentIn(value: InputValue<RefundLineItemAdjustmentInInput>): Model<RefundLineItemAdjustmentInInput>;
+export declare function makeRefundLineItemAdjustmentRefundIn(value: InputValue<RefundLineItemAdjustmentRefundInInput>): Model<RefundLineItemAdjustmentRefundInInput>;
+export declare function makeRefundTaxBreakdownRefundIn(value: InputValue<RefundTaxBreakdownRefundInInput>): Model<RefundTaxBreakdownRefundInInput>;
+export declare function makeRefundTenderAllocationInputGiftCardRedemption(value: InputValue<RefundTenderAllocationInputGiftCardRedemptionInput>): Model<RefundTenderAllocationInputGiftCardRedemptionInput>;
+export declare function makeRefundTenderAllocationInputPaymentIntent(value: InputValue<RefundTenderAllocationInputPaymentIntentInput>): Model<RefundTenderAllocationInputPaymentIntentInput>;
+export declare function makeRefundTenderAllocationRequest(value: InputValue<RefundTenderAllocationRequestInput>): Model<RefundTenderAllocationRequestInput>;
+export declare function makeReleaseReturnResolutionRequest(value: InputValue<ReleaseReturnResolutionRequestInput>): Model<ReleaseReturnResolutionRequestInput>;
+export declare function makeRemoveDiscountsRequest(value: InputValue<RemoveDiscountsRequestInput>): Model<RemoveDiscountsRequestInput>;
+export declare function makeRenewSubscriptionRequest(value: InputValue<RenewSubscriptionRequestInput>): Model<RenewSubscriptionRequestInput>;
+export declare function makeReopenReturnRequest(value: InputValue<ReopenReturnRequestInput>): Model<ReopenReturnRequestInput>;
+export declare function makeRepriceDiscountsRequest(value: InputValue<RepriceDiscountsRequestInput>): Model<RepriceDiscountsRequestInput>;
+export declare function makeResendWebhookDeliveryRequest(value: InputValue<ResendWebhookDeliveryRequestInput>): Model<ResendWebhookDeliveryRequestInput>;
+export declare function makeResetDemoSessionRequest(value: InputValue<ResetDemoSessionRequestInput>): Model<ResetDemoSessionRequestInput>;
+export declare function makeResolveCustomerDeletionRequest(value: InputValue<ResolveCustomerDeletionRequestInput>): Model<ResolveCustomerDeletionRequestInput>;
+export declare function makeResolveOrderInventoryExceptionRequest(value: InputValue<ResolveOrderInventoryExceptionRequestInput>): Model<ResolveOrderInventoryExceptionRequestInput>;
+export declare function makeResolvePaymentLinkLineItemModifierRequest(value: InputValue<ResolvePaymentLinkLineItemModifierRequestInput>): Model<ResolvePaymentLinkLineItemModifierRequestInput>;
+export declare function makeResolvePaymentLinkLineItemModifiers(value: InputValue<ResolvePaymentLinkLineItemModifiersInput>): Model<ResolvePaymentLinkLineItemModifiersInput>;
+export declare function makeResolvePaymentLinkRequest(value: InputValue<ResolvePaymentLinkRequestInput>): Model<ResolvePaymentLinkRequestInput>;
+export declare function makeResolvePaymentLinkTextModifierRequest(value: InputValue<ResolvePaymentLinkTextModifierRequestInput>): Model<ResolvePaymentLinkTextModifierRequestInput>;
+export declare function makeResourceVersionRequest(value: InputValue<ResourceVersionRequestInput>): Model<ResourceVersionRequestInput>;
+export declare function makeRetryReturnDispositionRequest(value: InputValue<RetryReturnDispositionRequestInput>): Model<RetryReturnDispositionRequestInput>;
+export declare function makeRetryReturnResolutionRequest(value: InputValue<RetryReturnResolutionRequestInput>): Model<RetryReturnResolutionRequestInput>;
+export declare function makeReturnEligibilityLineItemRequest(value: InputValue<ReturnEligibilityLineItemRequestInput>): Model<ReturnEligibilityLineItemRequestInput>;
+export declare function makeReturnEligibilitySelection(value: InputValue<ReturnEligibilitySelectionInput>): Model<ReturnEligibilitySelectionInput>;
+export declare function makeReturnEligibilitySelectionAllRemainingFulfilled(value: InputValue<ReturnEligibilitySelectionAllRemainingFulfilledInput>): Model<ReturnEligibilitySelectionAllRemainingFulfilledInput>;
+export declare function makeReturnEligibilitySelectionLineItems(value: InputValue<ReturnEligibilitySelectionLineItemsInput>): Model<ReturnEligibilitySelectionLineItemsInput>;
+export declare function makeReturnInspectionLineItemRequest(value: InputValue<ReturnInspectionLineItemRequestInput>): Model<ReturnInspectionLineItemRequestInput>;
+export declare function makeReturnLineDecision(value: InputValue<ReturnLineDecisionInput>): Model<ReturnLineDecisionInput>;
+export declare function makeReturnLineItemRequest(value: InputValue<ReturnLineItemRequestInput>): Model<ReturnLineItemRequestInput>;
+export declare function makeReturnPolicyRevisionInputIneligible(value: InputValue<ReturnPolicyRevisionInputIneligibleInput>): Model<ReturnPolicyRevisionInputIneligibleInput>;
+export declare function makeReturnPolicyRevisionInputReturnable(value: InputValue<ReturnPolicyRevisionInputReturnableInput>): Model<ReturnPolicyRevisionInputReturnableInput>;
 export declare function makeReturnPolicyRevisionRequest(value: InputValue<ReturnPolicyRevisionRequestInput>): Model<ReturnPolicyRevisionRequestInput>;
 export declare function makeReturnPolicyScope(value: InputValue<ReturnPolicyScopeInput>): Model<ReturnPolicyScopeInput>;
 export declare function makeReturnPolicyScopeAll(value: InputValue<ReturnPolicyScopeAllInput>): Model<ReturnPolicyScopeAllInput>;
@@ -99,42 +135,3 @@ export declare function makeReturnSourceSystemRequest(value: InputValue<ReturnSo
 export declare function makeReturnUnverifiedItem(value: InputValue<ReturnUnverifiedItemInput>): Model<ReturnUnverifiedItemInput>;
 export declare function makeReturnWindow(value: InputValue<ReturnWindowInput>): Model<ReturnWindowInput>;
 export declare function makeReverseInvoiceManualPaymentRequest(value: InputValue<ReverseInvoiceManualPaymentRequestInput>): Model<ReverseInvoiceManualPaymentRequestInput>;
-export declare function makeRevokeDeliveryDependencyRequest(value: InputValue<RevokeDeliveryDependencyRequestInput>): Model<RevokeDeliveryDependencyRequestInput>;
-export declare function makeRevokeDeliveryDependencyTarget(value: InputValue<RevokeDeliveryDependencyTargetInput>): Model<RevokeDeliveryDependencyTargetInput>;
-export declare function makeRevokeDeliveryDependencyTargetDeliveryMethod(value: InputValue<RevokeDeliveryDependencyTargetDeliveryMethodInput>): Model<RevokeDeliveryDependencyTargetDeliveryMethodInput>;
-export declare function makeRevokeDeliveryDependencyTargetDeliveryMethodRevision(value: InputValue<RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput>): Model<RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput>;
-export declare function makeRevokeDeliveryDependencyTargetDeliveryRateCallback(value: InputValue<RevokeDeliveryDependencyTargetDeliveryRateCallbackInput>): Model<RevokeDeliveryDependencyTargetDeliveryRateCallbackInput>;
-export declare function makeRevokeDeliveryDependencyTargetDeliveryRateCallbackRevision(value: InputValue<RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput>): Model<RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput>;
-export declare function makeRevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKey(value: InputValue<RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput>): Model<RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput>;
-export declare function makeRevokeDeliveryDependencyTargetLocationGeography(value: InputValue<RevokeDeliveryDependencyTargetLocationGeographyInput>): Model<RevokeDeliveryDependencyTargetLocationGeographyInput>;
-export declare function makeRiskPredicateNode(value: InputValue<Exclude<RiskPredicateNodeInput & object, readonly unknown[]>>): Model<Exclude<RiskPredicateNodeInput & object, readonly unknown[]>>;
-export declare function makeRiskPredicateNode(value: InputValue<RiskPredicateNodeInput>): Model<RiskPredicateNodeInput>;
-export declare function makeRiskPredicateNodeAll(value: InputValue<RiskPredicateNodeAllInput>): Model<RiskPredicateNodeAllInput>;
-export declare function makeRiskPredicateNodeAny(value: InputValue<RiskPredicateNodeAnyInput>): Model<RiskPredicateNodeAnyInput>;
-export declare function makeRiskPredicateNodeComparison(value: InputValue<RiskPredicateNodeComparisonInput>): Model<RiskPredicateNodeComparisonInput>;
-export declare function makeRiskPredicateNodeIn(value: InputValue<RiskPredicateNodeInInput>): Model<RiskPredicateNodeInInput>;
-export declare function makeRiskPredicateNodeInList(value: InputValue<RiskPredicateNodeInListInput>): Model<RiskPredicateNodeInListInput>;
-export declare function makeRiskPredicateNodeIsMissing(value: InputValue<RiskPredicateNodeIsMissingInput>): Model<RiskPredicateNodeIsMissingInput>;
-export declare function makeRiskPredicateNodeMoneyComparison(value: InputValue<RiskPredicateNodeMoneyComparisonInput>): Model<RiskPredicateNodeMoneyComparisonInput>;
-export declare function makeRiskPredicateNodeNot(value: InputValue<RiskPredicateNodeNotInput>): Model<RiskPredicateNodeNotInput>;
-export declare function makeRotateGiftCardCodeRequest(value: InputValue<RotateGiftCardCodeRequestInput>): Model<RotateGiftCardCodeRequestInput>;
-export declare function makeRotatePartnerAppSecretRequest(value: InputValue<RotatePartnerAppSecretRequestInput>): Model<RotatePartnerAppSecretRequestInput>;
-export declare function makeRotateWebhookSecretRequest(value: InputValue<RotateWebhookSecretRequestInput>): Model<RotateWebhookSecretRequestInput>;
-export declare function makeSaveMeGiftCardRequest(value: InputValue<SaveMeGiftCardRequestInput>): Model<SaveMeGiftCardRequestInput>;
-export declare function makeSaveMeGiftCardRequestCode(value: InputValue<SaveMeGiftCardRequestCodeInput>): Model<SaveMeGiftCardRequestCodeInput>;
-export declare function makeSaveMeGiftCardRequestRecipientAccess(value: InputValue<SaveMeGiftCardRequestRecipientAccessInput>): Model<SaveMeGiftCardRequestRecipientAccessInput>;
-export declare function makeSaveMePaymentMethodRequest(value: InputValue<SaveMePaymentMethodRequestInput>): Model<SaveMePaymentMethodRequestInput>;
-export declare function makeSavePaymentMethodRequest(value: InputValue<SavePaymentMethodRequestInput>): Model<SavePaymentMethodRequestInput>;
-export declare function makeSellerTaxAttestationRequest(value: InputValue<SellerTaxAttestationRequestInput>): Model<SellerTaxAttestationRequestInput>;
-export declare function makeSendOrderReceiptRequest(value: InputValue<SendOrderReceiptRequestInput>): Model<SendOrderReceiptRequestInput>;
-export declare function makeSendPaymentIntentReceiptRequest(value: InputValue<SendPaymentIntentReceiptRequestInput>): Model<SendPaymentIntentReceiptRequestInput>;
-export declare function makeSignedMoneyRequest(value: InputValue<SignedMoneyRequestInput>): Model<SignedMoneyRequestInput>;
-export declare function makeSimulateDisputeRequest(value: InputValue<SimulateDisputeRequestInput>): Model<SimulateDisputeRequestInput>;
-export declare function makeSinglePackageCreateInputCreated(value: InputValue<SinglePackageCreateInputCreatedInput>): Model<SinglePackageCreateInputCreatedInput>;
-export declare function makeSinglePackageCreateInputShipped(value: InputValue<SinglePackageCreateInputShippedInput>): Model<SinglePackageCreateInputShippedInput>;
-export declare function makeSinglePackageCreateRequest(value: InputValue<SinglePackageCreateRequestInput>): Model<SinglePackageCreateRequestInput>;
-export declare function makeSkipMeSubscriptionCycleRequest(value: InputValue<SkipMeSubscriptionCycleRequestInput>): Model<SkipMeSubscriptionCycleRequestInput>;
-export declare function makeSkipSubscriptionCycleRequest(value: InputValue<SkipSubscriptionCycleRequestInput>): Model<SkipSubscriptionCycleRequestInput>;
-export declare function makeSubscribedLineRequest(value: InputValue<SubscribedLineRequestInput>): Model<SubscribedLineRequestInput>;
-export declare function makeSubscriptionBillingScheduleInputExternal(value: InputValue<SubscriptionBillingScheduleInputExternalInput>): Model<SubscriptionBillingScheduleInputExternalInput>;
-export declare function makeSubscriptionBillingScheduleInputFlint(value: InputValue<SubscriptionBillingScheduleInputFlintInput>): Model<SubscriptionBillingScheduleInputFlintInput>;

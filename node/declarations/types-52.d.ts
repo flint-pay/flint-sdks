@@ -1,16 +1,702 @@
+import type { RevokeDeliveryDependencyTargetDeliveryMethodInput } from './types-51.js';
+import type { ResponseMeta, ResourceReference, ResponseWarning } from './types-48.js';
 import type { InputValue } from '../runtime.js';
+import type { AddRiskListItemsRequestInput } from './types-0.js';
+import type { CreateRiskListRequestInput, CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput } from './types-11.js';
 import type { UpdateRiskListRequestInput, UpdateRiskRuleRequestInput } from './types-60.js';
 import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { ResponseWarning, ResponseMeta } from './types-48.js';
-import type { CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-11.js';
-import type { ResourceReference } from './types-47.js';
-import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput, GiftCardNotification } from './types-24.js';
-import type { GiftCard } from './types-23.js';
-import type { PartnerAppWithRotatedSecret } from './types-39.js';
-import type { CreateDeveloperSandboxResult } from './types-7.js';
-import type { IssueSandboxAPIKeyRequestInput } from './types-32.js';
-import type { PartnerAppsListParams, PaymentCollection, PaymentErrorSummary } from './types-40.js';
-import type { PaymentMethodWithSetup } from './types-42.js';
+import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput } from './types-24.js';
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryMethodRevision = ({
+    /** minLength: 1. */
+    "delivery_method_id": string;
+    /** minLength: 1. */
+    "delivery_method_revision_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_method_revision". */
+    "target_type": unknown;
+    /** minLength: 1. */
+    "delivery_method_id": string;
+    /** minLength: 1. */
+    "delivery_method_revision_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput = ({
+    /** minLength: 1. */
+    "delivery_method_id": string;
+    /** minLength: 1. */
+    "delivery_method_revision_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision";
+})
+    & (({
+    /** Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision";
+    /** minLength: 1. */
+    "delivery_method_id": string;
+    /** minLength: 1. */
+    "delivery_method_revision_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallback = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_rate_callback". */
+    "target_type": unknown;
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackInput = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback";
+})
+    & (({
+    /** Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback";
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackRevision = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_rate_callback_revision". */
+    "target_type": unknown;
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision";
+})
+    & (({
+    /** Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision";
+    /** minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKey = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key" | (string & {});
+})
+    & (({
+    /** Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": unknown;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key";
+})
+    & (({
+    /** Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key";
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetInput = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /** minLength: 1. */
+    "location_id"?: string;
+    /**
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback", "delivery_rate_callback_revision", "delivery_method",
+     * "delivery_method_revision".
+     */
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback"
+        | "delivery_rate_callback_revision"
+        | "delivery_method"
+        | "delivery_method_revision";
+})
+    & ((Exclude<RevokeDeliveryDependencyTargetLocationGeographyInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryMethodInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput & object, readonly unknown[]>));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetLocationGeography = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+    /** minLength: 1. */
+    "location_id": string;
+    /** Value enum: "location_geography". */
+    "target_type": "location_geography" | (string & {});
+})
+    & (({
+    /** Value enum: "location_geography". */
+    "target_type": unknown;
+    /** minLength: 1. */
+    "location_id": string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+}));
+/** A typed revocation target. Each target_type accepts only its resource-specific fields. */
+export type RevokeDeliveryDependencyTargetLocationGeographyInput = ({
+    /** minLength: 1. */
+    "delivery_method_id"?: string;
+    /** minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+    /** minLength: 1. */
+    "location_id": string;
+    /** Value enum: "location_geography". */
+    "target_type": "location_geography";
+})
+    & (({
+    /** Value enum: "location_geography". */
+    "target_type": "location_geography";
+    /** minLength: 1. */
+    "location_id": string;
+    /**
+     * Exact version of the Location geography to revoke. Required for location_geography targets.
+     * Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+})
+    & (({
+    "delivery_rate_callback_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/**
+ * One attribute a risk rule can test, with its value type, allowed operators, and whether it is
+ * currently available.
+ */
+export type RiskAttribute = {
+    /** Value enum: "pre_authorization", "post_authorization". */
+    "available_from": "pre_authorization" | "post_authorization" | (string & {});
+    /**  [] (Value): string. */
+    "enum_values"?: Array<string>;
+    /** Whether the attribute can be used in rules in this environment. */
+    "is_available": boolean;
+    /** Whether the attribute can be missing from a payment. */
+    "is_nullable": boolean;
+    /** Value enum: "not_applicable_except_is_missing". */
+    "missing_value_behavior": "not_applicable_except_is_missing" | (string & {});
+    "name": string;
+    /**
+     * Operators accepted by this attribute. [] enum: "eq", "neq", "gt", "gte", "lt", "lte", "in",
+     * "in_list", "is_missing". [] (Value): string. Value enum: "eq", "neq", "gt", "gte", "lt",
+     * "lte", "in", "in_list", "is_missing".
+     */
+    "operators": Array<"eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "in" | "in_list" | "is_missing" | (string & {})>;
+    /** Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled". */
+    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
+    /**
+     * Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address",
+     * "boolean", "integer".
+     */
+    "value_type": "money"
+        | "currency"
+        | "string"
+        | "enum"
+        | "country"
+        | "email"
+        | "ip_address"
+        | "boolean"
+        | "integer"
+        | (string & {});
+};
+/** The attributes available to risk rules, in the current environment. */
+export type RiskAttributeRegistry = {
+    /**
+     *  [] (Value): {@link RiskAttribute}. One attribute a risk rule can test, with its value type,
+     * allowed operators, and whether it is currently available.
+     */
+    "attributes": Array<RiskAttribute>;
+};
+/** A response containing `RiskAttributeRegistry` data. */
+export type RiskAttributeRegistryResponse = {
+    /** The attributes available to risk rules, in the current environment. */
+    "data": RiskAttributeRegistry;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A collection of values used in payment risk rules. */
+export type RiskList = {
+    /**
+     * Name rules use to refer to this list, such as flagged_emails: a lowercase letter, then up to
+     * 127 lowercase letters, digits, or underscores. Set at creation and never changed.
+     */
+    "alias": string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "archived_at": string | null;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * The credential that created this list. Null when Flint created it, as for Flint's default
+     * lists. The reference may name an API key in the other mode. anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    /** Number of values on the list now. Format: int64. */
+    "item_count": number;
+    /**
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
+     */
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string"
+        | (string & {});
+    "name": string;
+    /**
+     * Whether Flint manages the list or the merchant created it. Value enum: "system_default",
+     * "merchant".
+     */
+    "origin": "system_default" | "merchant" | (string & {});
+    "risk_list_id": string;
+    /** Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+    /**
+     * Version of persisted list configuration and item-count changes. External observations do not
+     * advance this counter. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** One value in a payment risk list. */
+export type RiskListItem = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * The credential that created this list item. Null when Flint created it. The reference may
+     * name an API key in the other mode. anyOf[1] (Value): {@link ResourceReference}. A reference
+     * to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    "risk_list_id": string;
+    "risk_list_item_id": string;
+    /**
+     * The value as stored after item_type normalization, which is what payments are matched
+     * against.
+     */
+    "value": string;
+};
+/** The risk list item matched or created for one requested value, and its creation outcome. */
+export type RiskListItemAddition = {
+    /** Value enum: "created", "existing". */
+    "outcome": "created" | "existing" | (string & {});
+    /** One value in a payment risk list. */
+    "risk_list_item": RiskListItem;
+};
+/** A page of `RiskListItem` objects. */
+export type RiskListItemListResponse = {
+    /**  [] (Value): {@link RiskListItem}. One value in a payment risk list. */
+    "data": Array<RiskListItem>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskListItem` data. */
+export type RiskListItemResponse = {
+    /** One value in a payment risk list. */
+    "data": RiskListItem;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A page of `RiskList` objects. */
+export type RiskListListResponse = {
+    /**  [] (Value): {@link RiskList}. A collection of values used in payment risk rules. */
+    "data": Array<RiskList>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskList` data. */
+export type RiskListResourceResponse = {
+    /** A collection of values used in payment risk rules. */
+    "data": RiskList;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type RiskListsCreateItemsParams = (InputValue<AddRiskListItemsRequestInput>);
+export type RiskListsCreateParams = (InputValue<CreateRiskListRequestInput>);
+export type RiskListsDeleteItemParams = {};
+export type RiskListsDeleteParams = {
+    /** Optional risk list version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: InputValue<number>;
+};
+export type RiskListsGetItemParams = {};
+export type RiskListsGetParams = {};
+export type RiskListsListParams = {
+    /**
+     * Exact-match filter on the lowercase list alias. No whitespace or case normalization is
+     * applied. minLength: 1. maxLength: 128. pattern: ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "alias"?: InputValue<string>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "archived". Value enum: "active", "archived".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "archived". anyOf[1][]
+     * (Value): string. Value enum: "active", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type RiskListsListRiskListItemsParams = {
+    /**
+     * Exact-match filter after normalization for the parent list's item_type. Accepts 1 through
+     * 512 Unicode characters, following the same normalization as item creation. Commas are
+     * literal. Values are trimmed and compared exactly after item-type normalization for
+     * deduplication and membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. minLength: 1. maxLength: 512.
+     */
+    "value"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
 export type RiskListsUpdateParams = (InputValue<UpdateRiskListRequestInput>);
 /**
  * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
@@ -424,555 +1110,4 @@ export type RotateGiftCardCodeRequestInput = {
      * optional `name` and `message`, and an optional `send_at` time.
      */
     "notification"?: GiftCardNotificationRecipientInput;
-};
-/**
- * The gift card after its code was rotated, with the new `code` while it can be recovered and the
- * notification sent.
- */
-export type RotateGiftCardCodeResult = {
-    /**
-     * The full current code. Omitted after the 24-hour recovery window or when this code has been
-     * replaced.
-     */
-    "code"?: string;
-    /**
-     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
-     * date-time.
-     */
-    "code_recovery_expires_at"?: string;
-    /**
-     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
-     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
-     * cards are independent resources and cannot be transferred across merchants or currencies.
-     */
-    "gift_card": GiftCard;
-    /** A message sent to a gift card recipient. */
-    "gift_card_notification"?: GiftCardNotification;
-};
-/** A response containing `RotateGiftCardCodeResult` data. */
-export type RotateGiftCardCodeResultResponse = {
-    /**
-     * The gift card after its code was rotated, with the new `code` while it can be recovered and
-     * the notification sent.
-     */
-    "data": RotateGiftCardCodeResult;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Rotate partner app secret. */
-export type RotatePartnerAppSecretRequestInput = {
-    /**
-     * Rotate only if this matches the app's current version. A mismatch returns HTTP 409
-     * VERSION_CONFLICT. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "expire_previous_secret_at"?: string | globalThis.Date;
-};
-/** A response containing `PartnerAppWithRotatedSecret` data. */
-export type RotatePartnerAppSecretResponse = {
-    /**
-     * A partner app returned with its newly issued client secret after rotation. An application
-     * that merchants can authorize to access their accounts.
-     */
-    "data": PartnerAppWithRotatedSecret;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Rotate webhook secret. */
-export type RotateWebhookSecretRequest = {
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
-     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
-     * Format: date-time. minLength: 1.
-     */
-    "expire_previous_secret_at"?: string;
-};
-/** The request body for: Rotate webhook secret. */
-export type RotateWebhookSecretRequestInput = {
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
-     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
-     * Format: date-time. minLength: 1.
-     */
-    "expire_previous_secret_at"?: string | globalThis.Date;
-};
-/** An isolated environment for testing an integration. */
-export type Sandbox = {
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    "is_default": boolean;
-    "name": string;
-    /**
-     * ID of the replacement created when this sandbox was reset and archived. Omitted when this
-     * sandbox has not been replaced by a reset.
-     */
-    "replaced_by_sandbox_id"?: string;
-    /**
-     * ID of the sandbox this sandbox replaced during a reset. Omitted when this sandbox was not
-     * created by a reset.
-     */
-    "replaces_sandbox_id"?: string;
-    "sandbox_id": string;
-    /** Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-};
-/** A page of `Sandbox` objects. */
-export type SandboxListResponse = {
-    /**  [] (Value): {@link Sandbox}. An isolated environment for testing an integration. */
-    "data": Array<Sandbox>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `Sandbox` data. */
-export type SandboxResponse = {
-    /** An isolated environment for testing an integration. */
-    "data": Sandbox;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `CreateDeveloperSandboxResult` data. */
-export type SandboxWithAPIKeyResponse = {
-    /**
-     * The created sandbox is the primary resource, with the API key and one-time secret_key when
-     * issue_test_key is true.
-     */
-    "data": CreateDeveloperSandboxResult;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type SandboxesCreateAPIKeyParams = (IssueSandboxAPIKeyRequestInput);
-export type SandboxesCreateParams = (CreateSandboxRequestInput);
-export type SandboxesDeleteParams = {};
-export type SandboxesGetParams = {};
-export type SandboxesListParams = PartnerAppsListParams;
-export type SandboxesResetParams = {};
-/** The request body for: Save a gift card to your account. */
-export type SaveMeGiftCardRequest = ({
-    /** minLength: 1. */
-    "code"?: string;
-    /** Value enum: "code", "recipient_access". */
-    "credential_type": "code" | "recipient_access" | (string & {});
-    /** minLength: 1. */
-    "grant_id"?: string;
-    /** minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `code` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestCode = ({
-    /** minLength: 1. */
-    "code": string;
-    /** Value enum: "code". */
-    "credential_type": "code" | (string & {});
-    /** minLength: 1. */
-    "grant_id"?: string;
-    /** minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & (({
-    /** Value enum: "code". */
-    "credential_type": unknown;
-    /** minLength: 1. */
-    "code": string;
-}));
-/** The `code` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestCodeInput = ({
-    /** minLength: 1. */
-    "code": string;
-    /** Value enum: "code". */
-    "credential_type": "code";
-    /** minLength: 1. */
-    "grant_id"?: string;
-    /** minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & (({
-    /** Value enum: "code". */
-    "credential_type": ("code") & ("code");
-    /** minLength: 1. */
-    "code": string;
-})
-    & (({
-    "grant_id"?: never;
-}) & ({
-    "recipient_access_token"?: never;
-})));
-/** The request body for: Save a gift card to your account. */
-export type SaveMeGiftCardRequestInput = ({
-    /** minLength: 1. */
-    "code"?: string;
-    /** Value enum: "code", "recipient_access". */
-    "credential_type": "code" | "recipient_access";
-    /** minLength: 1. */
-    "grant_id"?: string;
-    /** minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
-/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestRecipientAccess = ({
-    /** minLength: 1. */
-    "code"?: string;
-    /** Value enum: "recipient_access". */
-    "credential_type": "recipient_access" | (string & {});
-    /** minLength: 1. */
-    "grant_id": string;
-    /** minLength: 1. */
-    "recipient_access_token": string;
-})
-    & (({
-    /** Value enum: "recipient_access". */
-    "credential_type": unknown;
-    /** minLength: 1. */
-    "grant_id": string;
-    /** minLength: 1. */
-    "recipient_access_token": string;
-}));
-/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestRecipientAccessInput = ({
-    /** minLength: 1. */
-    "code"?: string;
-    /** Value enum: "recipient_access". */
-    "credential_type": "recipient_access";
-    /** minLength: 1. */
-    "grant_id": string;
-    /** minLength: 1. */
-    "recipient_access_token": string;
-})
-    & (({
-    /** Value enum: "recipient_access". */
-    "credential_type": ("recipient_access") & ("recipient_access");
-    /** minLength: 1. */
-    "grant_id": string;
-    /** minLength: 1. */
-    "recipient_access_token": string;
-})
-    & ({
-    "code"?: never;
-}));
-/** The request body for: Create a payment method for the current buyer. */
-export type SaveMePaymentMethodRequest = {
-    /** Value enum: "card". */
-    "type"?: "card" | (string & {});
-};
-/** The request body for: Create a payment method for the current buyer. */
-export type SaveMePaymentMethodRequestInput = {
-    /** Value enum: "card". */
-    "type"?: "card";
-};
-/** The request body for: Create a payment method. */
-export type SavePaymentMethodRequest = {
-    /** The customer to save the payment method for. minLength: 1. */
-    "customer_id": string;
-    /**
-     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
-     */
-    "type"?: "card" | (string & {});
-};
-/** The request body for: Create a payment method. */
-export type SavePaymentMethodRequestInput = {
-    /** The customer to save the payment method for. minLength: 1. */
-    "customer_id": string;
-    /**
-     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
-     */
-    "type"?: "card";
-};
-/** A response containing `PaymentMethodWithSetup` data. */
-export type SavePaymentMethodResponse = {
-    /**
-     * The saved payment method, with `client_setup` when the buyer must still complete processor
-     * setup before the payment method can be used. A customer's saved payment details.
-     */
-    "data": PaymentMethodWithSetup;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The scopes an authorization decision required and whether `all` or `any` of them were needed,
- * returned in error details.
- */
-export type ScopeRequirement = {
-    /**
-     * How the required scopes are evaluated. all requires every listed scope; any requires at
-     * least one listed scope. Example: "all". Value enum: "all", "any".
-     */
-    "mode": "all" | "any" | (string & {});
-    /**
-     * Canonical public scope names evaluated for this authorization decision. Example:
-     * ["developer.sandboxes.write","accounts.api_keys.write"]. [] (Value): string.
-     */
-    "scopes": Array<string>;
-};
-/** A resource the caller can select for a request field. */
-export type SelectableErrorResource = {
-    /**
-     * Amount for this choice when available. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Resource display name when available. */
-    "display_name"?: string;
-    /**
-     * Most recent payment failure when available. A summary of why a payment attempt failed, with
-     * a normalized error code, a message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Payment collection details when available. Client-side details for collecting payment from
-     * the buyer, such as the Stripe settings to initialize Stripe.js.
-     */
-    "payment_collection"?: PaymentCollection;
-    /** Public Flint ID to submit in the refused request field. */
-    "resource_id": string;
-    /**
-     * Stable public resource name for this choice. Value enum: "api_key", "api_request_log",
-     * "balance", "balance_transaction", "bundle", "bundle_component", "category",
-     * "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
-     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
-     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
-     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
-     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
-     * "inventory_adjustment", "inventory_allocation_policy",
-     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
-     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
-     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
-     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
-     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
-     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
-     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
-     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "tax_connection", "tax_registration", "test_clock", "user",
-     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_verification"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "feedback_report"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "organization"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-    /** Current public status when available. */
-    "status"?: string;
-    /**
-     * Actions offered for this resource when the request was refused. An empty array means no
-     * action is offered; an omitted field means actions were not reported. [] (Value): string.
-     */
-    "supported_actions"?: Array<string>;
-    /**
-     * Tip for this choice when available. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
 };

@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# DeliveryCalculatedPricingStrategyInput to DeliveryPricingStrategyCallerSuppliedInput
+# DeliveryBuyerLocationInputAddressInput to DeliveryPricingRateInput
 
+- [DeliveryBuyerLocationInputAddressInput](DeliveryBuyerLocationInputAddressInput.md)
+- [DeliveryBuyerLocationInputCoordinateInput](DeliveryBuyerLocationInputCoordinateInput.md)
+- [DeliveryBuyerLocationRequestInput](DeliveryBuyerLocationRequestInput.md)
+- [DeliveryBuyerLocationResourceInput](DeliveryBuyerLocationResourceInput.md)
+- [DeliveryBuyerLocationResourceAddressInput](DeliveryBuyerLocationResourceAddressInput.md)
+- [DeliveryBuyerLocationResourceCoordinateInput](DeliveryBuyerLocationResourceCoordinateInput.md)
 - [DeliveryCalculatedPricingStrategyInput](DeliveryCalculatedPricingStrategyInput.md)
 - [DeliveryCalculatedPricingStrategyRequestInput](DeliveryCalculatedPricingStrategyRequestInput.md)
 - [DeliveryCallbackPricingStrategyRequestInput](DeliveryCallbackPricingStrategyRequestInput.md)
@@ -96,10 +102,4 @@
 - [DeliveryPreviewResponseInput](DeliveryPreviewResponseInput.md)
 - [DeliveryPreviewRoutingSourceInput](DeliveryPreviewRoutingSourceInput.md)
 - [DeliveryPricingRateInput](DeliveryPricingRateInput.md)
-- [DeliveryPricingRateCreateRequestInput](DeliveryPricingRateCreateRequestInput.md)
-- [DeliveryPricingRateRequestInput](DeliveryPricingRateRequestInput.md)
-- [DeliveryPricingStrategyInput](DeliveryPricingStrategyInput.md)
-- [DeliveryPricingStrategyCalculatedInput](DeliveryPricingStrategyCalculatedInput.md)
-- [DeliveryPricingStrategyCallbackInput](DeliveryPricingStrategyCallbackInput.md)
-- [DeliveryPricingStrategyCallerSuppliedInput](DeliveryPricingStrategyCallerSuppliedInput.md)
 

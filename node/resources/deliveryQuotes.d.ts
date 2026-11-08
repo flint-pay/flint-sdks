@@ -7,8 +7,8 @@ import type {
     DeliveryQuotesGetParams,
     DeliveryQuotesListParams
 } from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,12 +31,11 @@ export type {
     DeliveryQuoteListResponse,
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
-    DeliveryRecipientRequirement,
     DeliveryQuoteLineItemResource,
     DeliveryQuoteMethodResource
 } from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode, Address } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
@@ -53,7 +52,7 @@ export type {
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext
 } from '../declarations/types-14.js';
-export type { LocationCoordinate } from '../declarations/types-32.js';
+export type { LocationCoordinate } from '../declarations/types-33.js';
 export type {
     DeliveryInputRequirement,
     DeliveryInputConstraint,
@@ -61,14 +60,13 @@ export type {
     DeliveryMerchantDiagnostic,
     DeliveryEligibilityMismatch
 } from '../declarations/types-15.js';
-export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-19.js';
+export type { DeliveryWindowRequest, DeliveryShipmentDetails, DeliveryRecipientRequirement } from '../declarations/types-19.js';
 export type { MoneyValue, NextAction } from '../declarations/types-35.js';
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-16.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export interface DeliveryQuotesResource {
     /**
  * Returns a persisted delivery quote for diagnostics and recovery by its ID, using the same

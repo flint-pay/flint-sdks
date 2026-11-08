@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentAttemptFailedMerchantEvent to IssueSandboxAPIKeyRequestFull
+# InvoicePartiallyPaidMerchantEvent to InvoiceVoidedMerchantEvent
 
+- [InvoicePartiallyPaidMerchantEvent](InvoicePartiallyPaidMerchantEvent.md)
+- [InvoicePartiallyRefundedInstalledMerchantsEvent](InvoicePartiallyRefundedInstalledMerchantsEvent.md)
+- [InvoicePartiallyRefundedMerchantEvent](InvoicePartiallyRefundedMerchantEvent.md)
+- [InvoicePaymentAttempt](InvoicePaymentAttempt.md)
+- [InvoicePaymentAttemptCanceledInstalledMerchantsEvent](InvoicePaymentAttemptCanceledInstalledMerchantsEvent.md)
+- [InvoicePaymentAttemptCanceledMerchantEvent](InvoicePaymentAttemptCanceledMerchantEvent.md)
+- [InvoicePaymentAttemptExpiredInstalledMerchantsEvent](InvoicePaymentAttemptExpiredInstalledMerchantsEvent.md)
+- [InvoicePaymentAttemptExpiredMerchantEvent](InvoicePaymentAttemptExpiredMerchantEvent.md)
+- [InvoicePaymentAttemptFailedInstalledMerchantsEvent](InvoicePaymentAttemptFailedInstalledMerchantsEvent.md)
 - [InvoicePaymentAttemptFailedMerchantEvent](InvoicePaymentAttemptFailedMerchantEvent.md)
 - [InvoicePaymentAttemptListResponse](InvoicePaymentAttemptListResponse.md)
 - [InvoicePaymentAttemptProcessingInstalledMerchantsEvent](InvoicePaymentAttemptProcessingInstalledMerchantsEvent.md)
@@ -93,13 +102,4 @@
 - [InvoiceUpdatedMerchantEvent](InvoiceUpdatedMerchantEvent.md)
 - [InvoiceVoidedInstalledMerchantsEvent](InvoiceVoidedInstalledMerchantsEvent.md)
 - [InvoiceVoidedMerchantEvent](InvoiceVoidedMerchantEvent.md)
-- [IssueCreditNoteRequest](IssueCreditNoteRequest.md)
-- [IssueCreditNoteRequestInput](IssueCreditNoteRequestInput.md)
-- [IssueCreditNoteResponse](IssueCreditNoteResponse.md)
-- [IssueCreditNoteResult](IssueCreditNoteResult.md)
-- [IssueInvoiceRequest](IssueInvoiceRequest.md)
-- [IssueInvoiceRequestInput](IssueInvoiceRequestInput.md)
-- [IssueSandboxAPIKeyRequest](IssueSandboxAPIKeyRequest.md)
-- [IssueSandboxAPIKeyRequestInput](IssueSandboxAPIKeyRequestInput.md)
-- [IssueSandboxAPIKeyRequestFull](IssueSandboxAPIKeyRequestFull.md)
 

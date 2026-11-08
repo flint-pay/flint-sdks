@@ -124,7 +124,9 @@ import type {
     MeListCreditNotesParams,
     MeListDeletionRequestsParams,
     MeListFlintWalletCardsParams,
-    MeListFulfillmentEventsParams,
+    MeListFulfillmentEventsParams
+} from '../declarations/types-33.js';
+import type {
     MeListFulfillmentsParams,
     MeListGiftCardTransactionsParams,
     MeListGiftCardsParams,
@@ -133,9 +135,7 @@ import type {
     MeListOrdersParams,
     MeListPackagesParams,
     MeListPaymentIntentsParams,
-    MeListPaymentMethodsParams
-} from '../declarations/types-33.js';
-import type {
+    MeListPaymentMethodsParams,
     MeListRefundsParams,
     MeListReturnsParams,
     MeListShipmentsParams,
@@ -186,17 +186,19 @@ import type {
     MerchantGetParams,
     MerchantReadiness,
     MerchantResponse,
-    MerchantUpdateParams,
+    MerchantUpdateParams
+} from '../declarations/types-34.js';
+import type {
     MerchantWebhookEnvelope,
     MetadataMap,
     MetadataPatchRequest,
     MetadataPatchRequestInput,
     MetadataRequestInput
-} from '../declarations/types-34.js';
+} from '../declarations/types-35.js';
 import type { OrderActivity, OrderActivityListResponse } from '../declarations/types-36.js';
-import type { RequestOptions } from '../declarations/types-47.js';
+import type { RequestOptions } from '../declarations/types-48.js';
 import type { SubscriptionRenewalPreview } from '../declarations/types-56.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -254,18 +256,9 @@ export type {
     MeListCreditNotesParams,
     MeListDeletionRequestsParams,
     MeListFlintWalletCardsParams,
-    MeListFulfillmentEventsParams,
-    MeListFulfillmentsParams,
-    MeListGiftCardsParams,
-    MeListGiftCardTransactionsParams,
-    MeListInvoicesParams,
-    MeListOrderActivitiesParams,
-    MeListOrdersParams,
-    MeListPackagesParams,
-    MeListPaymentIntentsParams,
-    MeListPaymentMethodsParams
+    MeListFulfillmentEventsParams
 } from '../declarations/types-33.js';
-export type { RequestOptions, RefundTaxBreakdownRefund, RefundTenderAllocation, RenewSubscriptionRequestInput } from '../declarations/types-47.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-48.js';
 export type {
     BuyerReturn,
     BuyerInvoiceCheckoutSessionResult,
@@ -367,7 +360,7 @@ export type {
     EmailChangeRequest,
     EmailChangeRequestResponse,
     ErrorRemediation,
-    FulfillmentChargeLink,
+    DocumentTaxID,
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
     ExpandedCustomerSummary,
@@ -418,36 +411,25 @@ export type {
     BuyerExpandedOrderSummary,
     BuyerFlintWalletCard
 } from '../declarations/types-1.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-62.js';
 export type {
     SubscriptionRenewalPreview,
     SubscriptionPromotion,
-    SubscriptionUpcomingDeliveryHold,
+    SubscriptionPlanSwapVariant,
     SubscriptionRenewalEstimate,
     SubscriptionRenewalEstimateDiscount,
-    SubscriptionRenewalEstimateLineItem,
-    TaxBreakdown
+    SubscriptionRenewalEstimateLineItem
 } from '../declarations/types-56.js';
 export type {
-    OrderActivityListResponse,
-    OrderActivity,
-    OrderCharge,
-    OrderCalculatedChargeTax,
-    OrderAuthorizationAmounts,
-    OrderDeliveryDestination,
-    OrderDeliveryDestinationRecipient,
-    OrderDiscount,
-    OrderGiftCardEstimate,
-    OrderGiftCardAllocation,
-    OrderGiftCardSettlement,
-    OrderGiftCardSelection,
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineItemFulfillmentComponent,
-    OrderLineItemFulfillmentProfile,
-    OrderCalculatedLineItemTax
-} from '../declarations/types-36.js';
-export type {
+    MeListFulfillmentsParams,
+    MeListGiftCardsParams,
+    MeListGiftCardTransactionsParams,
+    MeListInvoicesParams,
+    MeListOrderActivitiesParams,
+    MeListOrdersParams,
+    MeListPackagesParams,
+    MeListPaymentIntentsParams,
+    MeListPaymentMethodsParams,
     MeListRefundsParams,
     MeListReturnsParams,
     MeListShipmentsParams,
@@ -490,11 +472,6 @@ export type {
     MerchantBillingInvoiceResponse,
     MerchantReadiness,
     MerchantResponse,
-    MerchantWebhookEnvelope,
-    MetadataMap,
-    MetadataPatchRequest,
-    MetadataPatchRequestInput,
-    MetadataRequestInput,
     MerchantAccountSessionsCreateParams,
     MerchantGetParams,
     MerchantBillingBalancesGetParams,
@@ -506,20 +483,39 @@ export type {
     MerchantUpdateParams
 } from '../declarations/types-34.js';
 export type {
+    OrderActivityListResponse,
+    OrderActivity,
+    OrderCharge,
+    OrderCalculatedChargeTax,
+    OrderAuthorizationAmounts,
+    OrderDeliveryDestination,
+    OrderDeliveryDestinationRecipient,
+    OrderCalculatedLineItemTax
+} from '../declarations/types-36.js';
+export type {
+    MerchantWebhookEnvelope,
+    MetadataMap,
+    MetadataPatchRequest,
+    MetadataPatchRequestInput,
+    MetadataRequestInput,
+    MoneyValue,
+    NextAction
+} from '../declarations/types-35.js';
+export type {
     ClientOptions,
+    CheckoutRedirectsRequestInput,
+    CheckoutRedirects,
     CheckoutSubscriptionTerms,
     CheckoutSubscriptionRecurringShipping,
     CheckoutSessionTax,
     CheckoutTheme,
     CheckoutTipConfig,
-    CheckoutSessionsListDeliverySelectionsParams,
-    ConfigurationVersionRequestInput
+    CheckoutSessionsListDeliverySelectionsParams
 } from '../declarations/types-5.js';
 export type {
     CancelReturnRequestInput,
     CancelSubscriptionRequestInput,
     CategoryReference,
-    CheckoutRedirectsRequestInput,
     CheckoutBuyerContact,
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
@@ -531,7 +527,6 @@ export type {
     CheckoutPaymentConfig,
     CheckoutPrefill,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
     CardDetails,
     CapabilityReadiness
 } from '../declarations/types-4.js';
@@ -546,8 +541,10 @@ export type {
 } from '../declarations/types-12.js';
 export type {
     ReturnFinancialSummary,
-    ResponseMeta,
-    ResponseWarning,
+    ReturnLineItemDecisionProposal,
+    ReturnPolicyAdjustmentProposal,
+    ReturnLineItemValue,
+    ReturnLineItemRequestInput,
     ReturnEligibilitySelectionInput,
     ReturnEligibilityLineItemRequestInput,
     ReturnEligibilitySelectionAllRemainingFulfilledInput,
@@ -555,125 +552,119 @@ export type {
     ReturnEligibilitySelection,
     ReturnEligibilityLineItemRequest,
     ReturnEligibilitySelectionAllRemainingFulfilled,
-    ReturnEligibilitySelectionLineItems,
-    ResourceVersionRequestInput
-} from '../declarations/types-48.js';
-export type { MoneyValue, NextAction } from '../declarations/types-35.js';
-export type {
-    ReturnResolutionLineItemRequest,
-    ReturnResolutionLineItemRequestInput,
-    ReturnResolutionLineItem,
-    ReturnReplacementLineItem
-} from '../declarations/types-50.js';
+    ReturnEligibilitySelectionLineItems
+} from '../declarations/types-49.js';
+export type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput, ReturnResolutionLineItem } from '../declarations/types-51.js';
 export type {
     SelectedProductOption,
-    SubscriptionAddressVerification,
-    StripeClientSetup,
-    StripeClientSetupStripe,
-    StripeClientAuthority,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
+    SaveMePaymentMethodRequestInput,
     ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
-    SubscribedLine,
     SettlementAmounts,
-    SkipMeSubscriptionCycleRequestInput
+    SaveMeGiftCardRequestInput,
+    SaveMeGiftCardRequestCodeInput,
+    SaveMeGiftCardRequestRecipientAccessInput
 } from '../declarations/types-53.js';
-export type {
-    ReturnLineItemDecisionProposal,
-    ReturnPolicyAdjustmentProposal,
-    ReturnLineItemValue,
-    ReturnLineItemRequestInput,
-    ReturnReasonSummary
-} from '../declarations/types-49.js';
 export type { Image, ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-25.js';
 export type {
     ReadinessMerchantAccountSession,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
     PurchasedGiftCard,
-    RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
     RefundAdjustmentReason,
-    RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation,
     ReadinessAction,
     ReadinessRequirements,
     ReadinessAxis
 } from '../declarations/types-46.js';
 export type {
     SubscriptionIntervalOption,
-    SubscriptionDelivery,
     SubscriptionDeliveryMethodSummary,
+    SubscriptionDeliveryOption,
+    SubscriptionDeliveryRequestInput
+} from '../declarations/types-55.js';
+export type {
+    SubscriptionDelivery,
+    SubscriptionAddressVerification,
     SubscriptionDeliveryDestination,
     SubscriptionDeliveryHold,
+    StripeClientSetup,
+    StripeClientSetupStripe,
+    StripeClientAuthority,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationInputAddressInput,
-    SubscriptionDeliveryOption,
-    SubscriptionDeliveryRequestInput
+    SubscribedLine,
+    SkipMeSubscriptionCycleRequestInput
 } from '../declarations/types-54.js';
 export type {
     DeliveryRecipientResource,
-    DeliveryQuoteChoiceGroupResource,
-    DeliveryQuoteExecutionLegResource,
+    DeliveryWindowRequest,
+    DeliveryShipmentDetails,
     DeliveryRecipientRequirement,
-    DeliveryQuoteLineItemResource
-} from '../declarations/types-18.js';
+    DeliverySelectionRecipientRequestInput,
+    DeliverySelectionRecipientRequest
+} from '../declarations/types-19.js';
 export type {
     TextModifierRequest,
-    TaxIdentity,
-    TaxJurisdiction,
-    TaxBreakdownPercentage,
-    TaxBreakdownFlatAmount,
-    TaxCalculationRequest,
-    TaxComponentRequest,
     TicketedEvent,
     TipPaymentIntentAllocation,
-    TipValueSettlementAllocation
-} from '../declarations/types-57.js';
-export type {
-    PromotionRecurrence,
-    PromotionRecurrenceOnce,
-    PromotionRecurrenceRepeating,
-    PromotionRecurrenceForever
-} from '../declarations/types-45.js';
-export type { SubscriptionPlanSwapVariant } from '../declarations/types-55.js';
+    TipValueSettlementAllocation,
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerEmailPreferencesRequestInput,
+    UpdateCustomerEmailPreferencesRequest
+} from '../declarations/types-58.js';
+export type { PromotionRecurrence, PromotionRecurrenceForever } from '../declarations/types-45.js';
 export type {
     OrderLineItemTax,
     OrderPaymentAttemptPaymentMethodSave,
     OrderLineItemModifier,
+    OrderDiscount,
+    OrderGiftCardEstimate,
+    OrderGiftCardAllocation,
+    OrderGiftCardSettlement,
+    OrderGiftCardSelection,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineItemFulfillmentComponent,
+    OrderLineItemFulfillmentProfile,
     OrderLineSubscriptionOfferSummary,
-    OrderLineSubscriptionOfferDiscount,
-    OrderReturnCreditSettlement,
-    OrderTaxExemption
+    OrderLineSubscriptionOfferDiscount
 } from '../declarations/types-37.js';
 export type {
+    SubscriptionUpcomingDeliveryHold,
+    TaxIdentity,
+    TaxBreakdown,
+    TaxJurisdiction,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount,
+    TaxCalculationRequest,
+    TaxComponentRequest
+} from '../declarations/types-57.js';
+export type {
     ConfirmEmailChangeRequestInput,
-    CreateCustomerAddressRequestInput,
     ConfirmEmailChangeRequest,
+    ConfigurationVersionRequestInput,
     ConfirmReturnResolutionRequestInput
 } from '../declarations/types-6.js';
-export type { CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-7.js';
+export type { CreateCustomerAddressRequestInput, CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-7.js';
 export type { InvoiceCheckoutSessionRequestInput } from '../declarations/types-28.js';
-export type {
-    PaymentAttemptGiftCardRedemption,
-    PaymentClientAction,
-    PaymentErrorSummary,
-    PaymentFulfillmentHold,
-    PauseSubscriptionRequestInput,
-    PauseSubscriptionRequest
-} from '../declarations/types-40.js';
+export type { PaymentAttemptGiftCardRedemption, PauseSubscriptionRequestInput, PauseSubscriptionRequest } from '../declarations/types-40.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
     PickupFulfillmentDetails,
-    PricingAmounts,
-    PaymentSourceSummary,
-    PaymentSourceAchDebitSummary,
-    PaymentSourceCardSummary
-} from '../declarations/types-43.js';
+    PricingAmounts
+} from '../declarations/types-44.js';
+export type { PaymentClientAction, PaymentErrorSummary, PaymentFulfillmentHold } from '../declarations/types-41.js';
+export type {
+    DeliveryQuoteChoiceGroupResource,
+    DeliveryQuoteExecutionLegResource,
+    DeliveryQuoteLineItemResource
+} from '../declarations/types-18.js';
 export type {
     DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
@@ -694,44 +685,27 @@ export type {
     DeliveryMerchantDiagnostic,
     DeliveryEligibilityMismatch
 } from '../declarations/types-15.js';
-export type {
-    DeliveryWindowRequest,
-    DeliveryShipmentDetails,
-    DeliverySelectionRecipientRequestInput,
-    DeliverySelectionRecipientRequest
-} from '../declarations/types-19.js';
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-16.js';
 export type {
     LegalSettings,
+    InvoiceSnapshot,
+    InvoiceTip,
     LineItemInventorySnapshot,
     LineItemInventoryDemand,
     InvoicesCreateCheckoutSessionParams,
     InvoicesMarkUncollectibleParams
 } from '../declarations/types-32.js';
-export type {
-    InvoicePaymentAttempt,
-    InvoicePaymentOptionCostComparison,
-    InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
-    InvoicePaymentTermCalculationDayOfMonth,
-    InvoicePaymentTermCalculationDayOfNextMonth
-} from '../declarations/types-30.js';
-export type {
-    SaveMePaymentMethodRequestInput,
-    SaveMeGiftCardRequestInput,
-    SaveMeGiftCardRequestCodeInput,
-    SaveMeGiftCardRequestRecipientAccessInput
-} from '../declarations/types-52.js';
+export type { InvoicePaymentAttempt, InvoicePaymentOptionCostComparison, InvoicePaymentTermCalculation } from '../declarations/types-30.js';
 export type { CreateReturnEligibilityPreviewRequestInput } from '../declarations/types-10.js';
+export type { ReturnReasonSummary, ReturnReplacementLineItem } from '../declarations/types-50.js';
 export type { GetOrCreateReturnResolutionCheckoutSessionRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-23.js';
 export type {
     CreateMeSubscriptionPreviewRequestInput,
     CreateMeSubscriptionPreviewRequestDeliveryOptionsInput,
     CreateMeSubscriptionPreviewRequestNextRenewalInput
-} from '../declarations/types-8.js';
-export type { DocumentTaxID, DigitalFulfillmentDetails, Dimensions, DisputeResponseSessionStripeAccountSession } from '../declarations/types-20.js';
-export type { FulfillmentRecipient } from '../declarations/types-22.js';
+} from '../declarations/types-9.js';
+export type { FulfillmentChargeLink, FulfillmentRecipient } from '../declarations/types-22.js';
+export type { DigitalFulfillmentDetails, Dimensions, DisputeResponseSessionStripeAccountSession } from '../declarations/types-20.js';
 export type {
     InvoiceDocumentRow,
     InvoiceLateFeePolicy,
@@ -743,6 +717,10 @@ export type {
 export type {
     InvoicePaymentTermsSnapshot,
     InvoicePaymentTermCalculationOnReceipt,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
+    InvoicePaymentTermCalculationDayOfMonth,
+    InvoicePaymentTermCalculationDayOfNextMonth,
     InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleAmountSpecificationFixed,
@@ -751,12 +729,21 @@ export type {
     InvoiceScheduleDue,
     InvoiceScheduleDueAtIssue,
     InvoiceScheduleDueDate,
-    InvoiceScheduleDueInvoiceDueDate,
-    InvoiceSnapshot,
-    InvoiceTip
+    InvoiceScheduleDueInvoiceDueDate
 } from '../declarations/types-31.js';
 export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-24.js';
-export type { PaymentRefund } from '../declarations/types-42.js';
+export type { OrderReturnCreditSettlement, OrderTaxExemption } from '../declarations/types-38.js';
+export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-43.js';
+export type {
+    RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
+    RenewSubscriptionRequestInput
+} from '../declarations/types-47.js';
 export type {
     UpdateMeRequestInput,
     UpdateMeSubscriptionRequestInput,
@@ -765,13 +752,8 @@ export type {
     UpdateMeRequest,
     UpdateMeSubscriptionLineItemRequest
 } from '../declarations/types-59.js';
-export type {
-    UpdateCustomerAddressRequestInput,
-    UpdateCustomerEmailPreferencesRequestInput,
-    UpdateCustomerEmailPreferencesRequest
-} from '../declarations/types-58.js';
-export { makeAddressRequest } from '../declarations/types-61.js';
 export {
+    makeAddressRequest,
     makeBuyerCreateReturnPreviewRequest,
     makeBuyerCreateReturnPreviewRequestEligibility,
     makeBuyerCreateReturnPreviewRequestResolution,
@@ -781,35 +763,40 @@ export {
     makeBuyerReturnReplacementLineItemInputVariant,
     makeBuyerReturnReplacementLineItemRequest,
     makeCancelReturnRequest,
-    makeCancelSubscriptionRequest,
+    makeCancelSubscriptionRequest
+} from '../declarations/types-62.js';
+export {
     makeCheckoutRedirectsRequest,
     makeConfigurationVersionRequest,
     makeConfirmEmailChangeRequest,
-    makeConfirmReturnResolutionRequest
-} from '../declarations/types-62.js';
-export { makeCreateCustomerAddressRequest, makeCreateEmailChangeRequest } from '../declarations/types-63.js';
+    makeConfirmReturnResolutionRequest,
+    makeCreateCustomerAddressRequest
+} from '../declarations/types-63.js';
 export {
+    makeCreateEmailChangeRequest,
     makeCreateMeSubscriptionPreviewRequest,
     makeCreateMeSubscriptionPreviewRequestDeliveryOptions,
     makeCreateMeSubscriptionPreviewRequestNextRenewal
 } from '../declarations/types-64.js';
+export { makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-65.js';
 export {
-    makeCreateReturnEligibilityPreviewRequest,
     makeCreditNoteCorrectionRequest,
     makeCreditNoteCorrectionRequestAmount,
     makeCreditNoteCorrectionRequestQuantity
-} from '../declarations/types-65.js';
+} from '../declarations/types-66.js';
 export {
     makeDeliveryRecipientRequirement,
     makeDeliverySelectionRecipientRequest,
     makeDeliveryWindowRequest,
-    makeDimensions,
-    makeGetOrCreateReturnResolutionCheckoutSessionRequest,
-    makeImageInputFile,
-    makeImageInputSourceURL
+    makeDimensions
 } from '../declarations/types-67.js';
 export {
-    makeImageRequest,
+    makeGetOrCreateReturnResolutionCheckoutSessionRequest,
+    makeImageInputFile,
+    makeImageInputSourceURL,
+    makeImageRequest
+} from '../declarations/types-68.js';
+export {
     makeInvoiceCheckoutSessionRequest,
     makeInvoiceLateFeePolicy,
     makeInvoiceLateFeePolicyFixed,
@@ -821,56 +808,56 @@ export {
     makeInvoicePaymentTermCalculationNetDays,
     makeInvoicePaymentTermCalculationOnReceipt,
     makeInvoiceScheduleAmountSpecification,
-    makeInvoiceScheduleAmountSpecificationFixed
-} from '../declarations/types-68.js';
-export {
+    makeInvoiceScheduleAmountSpecificationFixed,
     makeInvoiceScheduleAmountSpecificationPercentage,
     makeInvoiceScheduleAmountSpecificationRemainingBalance,
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
+    makeMetadataRequest
+} from '../declarations/types-69.js';
+export {
     makeMoneyValue,
     makeOrderCalculatedChargeTax,
     makeOrderCalculatedLineItemTax,
     makeOrderLineItemTax
-} from '../declarations/types-69.js';
-export { makePauseSubscriptionRequest } from '../declarations/types-70.js';
+} from '../declarations/types-70.js';
 export {
+    makePauseSubscriptionRequest,
     makePromotionRecurrence,
     makePromotionRecurrenceForever,
     makePromotionRecurrenceOnce,
-    makePromotionRecurrenceRepeating,
+    makePromotionRecurrenceRepeating
+} from '../declarations/types-71.js';
+export {
     makeRenewSubscriptionRequest,
     makeResourceVersionRequest,
     makeReturnEligibilityLineItemRequest,
     makeReturnEligibilitySelection,
     makeReturnEligibilitySelectionAllRemainingFulfilled,
     makeReturnEligibilitySelectionLineItems,
-    makeReturnLineItemRequest
-} from '../declarations/types-71.js';
+    makeReturnLineItemRequest,
+    makeReturnResolutionLineItemRequest
+} from '../declarations/types-72.js';
 export {
-    makeReturnResolutionLineItemRequest,
     makeSaveMeGiftCardRequest,
     makeSaveMeGiftCardRequestCode,
     makeSaveMeGiftCardRequestRecipientAccess,
     makeSaveMePaymentMethodRequest,
-    makeSkipMeSubscriptionCycleRequest
-} from '../declarations/types-72.js';
-export {
+    makeSkipMeSubscriptionCycleRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
     makeSubscriptionDeliveryRequest,
-    makeSubscriptionIntervalOption,
+    makeSubscriptionIntervalOption
+} from '../declarations/types-73.js';
+export {
     makeTaxCalculationRequest,
     makeTaxComponentRequest,
     makeTaxJurisdiction,
     makeTextModifierRequest,
     makeUpdateCustomerAddressRequest,
-    makeUpdateCustomerEmailPreferencesRequest
-} from '../declarations/types-73.js';
-export {
+    makeUpdateCustomerEmailPreferencesRequest,
     makeUpdateMerchantRequest,
     makeUpdateMeRequest,
     makeUpdateMeSubscriptionLineItemRequest,

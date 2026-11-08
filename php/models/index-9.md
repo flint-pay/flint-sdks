@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# DeliverySelectionInstructionsRequestInput to FeedbackReportInput
+# DeliveryScheduleWindowRuleInput to ExpandedPaymentMethodSummaryInput
 
+- [DeliveryScheduleWindowRuleInput](DeliveryScheduleWindowRuleInput.md)
+- [DeliveryScheduleWindowRuleRequestInput](DeliveryScheduleWindowRuleRequestInput.md)
+- [DeliverySelectionInput](DeliverySelectionInput.md)
+- [DeliverySelectionChoiceResourceInput](DeliverySelectionChoiceResourceInput.md)
+- [DeliverySelectionCommittedInstalledMerchantsEventInput](DeliverySelectionCommittedInstalledMerchantsEventInput.md)
+- [DeliverySelectionCommittedMerchantEventInput](DeliverySelectionCommittedMerchantEventInput.md)
 - [DeliverySelectionInstructionsRequestInput](DeliverySelectionInstructionsRequestInput.md)
 - [DeliverySelectionLifecycleEventResourceInput](DeliverySelectionLifecycleEventResourceInput.md)
 - [DeliverySelectionListResponseInput](DeliverySelectionListResponseInput.md)
@@ -96,10 +102,4 @@
 - [ExpandedPaymentIntentSummaryInput](ExpandedPaymentIntentSummaryInput.md)
 - [ExpandedPaymentLinkSummaryInput](ExpandedPaymentLinkSummaryInput.md)
 - [ExpandedPaymentMethodSummaryInput](ExpandedPaymentMethodSummaryInput.md)
-- [ExpandedPayoutDestinationSummaryInput](ExpandedPayoutDestinationSummaryInput.md)
-- [ExpandedPayoutSummaryInput](ExpandedPayoutSummaryInput.md)
-- [ExpandedShipmentSummaryInput](ExpandedShipmentSummaryInput.md)
-- [ExpandedSubscriptionPlanSummaryInput](ExpandedSubscriptionPlanSummaryInput.md)
-- [ExpandedSubscriptionSummaryInput](ExpandedSubscriptionSummaryInput.md)
-- [FeedbackReportInput](FeedbackReportInput.md)
 

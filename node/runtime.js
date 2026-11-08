@@ -1,6 +1,6 @@
 import { certifies } from './type-certificate.js';
 import { DescriptorSource } from './descriptor-source.js';
-import { errorMapping, VALIDATION_MESSAGES, compileRuntimePlan, assertRuntimePlan, isBaseUrlSyntax, } from './runtime-plan.js';
+import { errorMapping, VALIDATION_MESSAGES, compileRuntimePlan, assertRuntimePlan, isBaseUrlSyntax, FORM_REQUEST_MEDIA, } from './runtime-plan.js';
 import { compileCodec, ANY_CODEC, exactValue, wireKind } from './codec-plan.js';
 export { directionalSchema } from './codec-plan.js';
 const inspectCustom = Symbol.for('nodejs.util.inspect.custom');
@@ -2905,6 +2905,28 @@ const encoded = (s) => encodeURIComponent(s).replace(/[!'()*]/g, (c) => '%' + c.
 function scalar(v) {
     return v instanceof RawNumber ? v.value : String(v);
 }
+/**
+ * Encode a request-codec result as application/x-www-form-urlencoded. Fields use
+ * the exploded form style and percent-encoding of query parameters; the contract
+ * admits only flat objects of scalars, and undeclared open-object values are checked here.
+ */
+function formEncode(value) {
+    if (value instanceof CompiledModel)
+        value = value.toJSON();
+    if (!value || typeof value !== 'object' || Array.isArray(value) || value instanceof RawNumber)
+        return typeError('input', 'an object', value);
+    return Object.entries(value)
+        .filter(([, v]) => v !== undefined)
+        .map(([name, v]) => {
+        if (!(typeof v === 'string' ||
+            typeof v === 'boolean' ||
+            (typeof v === 'number' && Number.isFinite(v)) ||
+            v instanceof RawNumber))
+            typeError(pathKey('input', name), 'a boolean, string or number', v);
+        return encoded(name) + '=' + encoded(scalar(v));
+    })
+        .join('&');
+}
 function userAgent(base, app) {
     let suffix = '';
     if (app !== undefined) {
@@ -4103,7 +4125,8 @@ class CompiledRuntime {
                 notAllowed('body', 'operation does not accept a body');
             if (['GET', 'HEAD'].includes(op.verb))
                 bad('body', 'GET/HEAD request bodies are unsupported by the Node transport');
-            body = encode(this.decode(input.body, op.body, { mode: 'request' }));
+            const wire = this.decode(input.body, op.body, { mode: 'request' });
+            body = op.mediaType === FORM_REQUEST_MEDIA ? formEncode(wire) : encode(wire);
             setHeader('content-type', op.mediaType);
         }
         else if (op.bodyRequired)

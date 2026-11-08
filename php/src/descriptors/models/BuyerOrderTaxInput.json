@@ -1,1 +1,1 @@
-{"shared":"BuyerOrderTax","dependencies":["Address","BuyerOrderTax","BuyerOrderTaxLocation","MoneyValue","OrderTaxExemption","SharedCodec1327","SharedCodec1328","SharedCodec1329","SharedCodec1330","TaxBreakdown","TaxJurisdiction"]}
+{"shared":"BuyerOrderTax","dependencies":["Address","BuyerOrderTax","BuyerOrderTaxLocation","MoneyValue","OrderTaxExemption","SharedCodec1345","SharedCodec1346","SharedCodec1347","SharedCodec1348","TaxBreakdown","TaxJurisdiction"]}

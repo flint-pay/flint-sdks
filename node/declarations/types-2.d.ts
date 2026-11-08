@@ -6,55 +6,57 @@ import type {
     BuyerErrorRemediation,
     BuyerExpandedOrderSummary
 } from './types-1.js';
-import type { ResponseMeta, ReturnFinancialSummary, ReturnEligibilitySelection } from './types-48.js';
-import type { MoneyValue } from './types-35.js';
+import type { ResponseMeta } from './types-48.js';
+import type { MoneyValue, MetadataMap } from './types-35.js';
 import type { Address } from './types-0.js';
 import type { CheckoutMerchantSupport, CheckoutBuyerContact, CategoryReference, CardDetails } from './types-4.js';
 import type { CheckoutTheme } from './types-5.js';
 import type { Image } from './types-25.js';
 import type { InvoiceDocumentRow, InvoiceLateFeePolicy } from './types-29.js';
 import type { InvoicePaymentAttempt, InvoicePaymentOptionCostComparison } from './types-30.js';
-import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry, InvoiceSnapshot } from './types-31.js';
+import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-31.js';
+import type { InvoiceSnapshot, LineItemInventorySnapshot } from './types-32.js';
 import type { BuyerTip, BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-3.js';
 import type {
     OrderAuthorizationAmounts,
     OrderDeliveryDestination,
+    OrderCalculatedChargeTax,
+    OrderCalculatedLineItemTax
+} from './types-36.js';
+import type {
     OrderDiscount,
     OrderGiftCardEstimate,
     OrderGiftCardSelection,
     OrderGiftCardSettlement,
-    OrderCalculatedChargeTax,
-    OrderCalculatedLineItemTax,
     OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements
-} from './types-36.js';
-import type {
-    OrderReturnCreditSettlement,
+    OrderLineItemFulfillmentRequirements,
     OrderLineSubscriptionOfferSummary,
-    OrderPaymentAttemptPaymentMethodSave,
-    OrderTaxExemption
+    OrderPaymentAttemptPaymentMethodSave
 } from './types-37.js';
-import type { PricingAmounts, PendingPaymentAction, PaymentSourceSummary } from './types-43.js';
-import type { SettlementAmounts, SelectedProductOption, SubscribedLine, StripeClientSetup } from './types-53.js';
-import type { TicketedEvent, TextModifierRequest } from './types-57.js';
+import type { OrderReturnCreditSettlement, OrderTaxExemption } from './types-38.js';
+import type { PricingAmounts, PendingPaymentAction } from './types-44.js';
+import type { SettlementAmounts, SelectedProductOption } from './types-53.js';
+import type { TicketedEvent, TextModifierRequest } from './types-58.js';
 import type { Dimensions } from './types-20.js';
 import type { GiftCardPurchaseSnapshot } from './types-24.js';
-import type { LineItemInventorySnapshot } from './types-32.js';
-import type { PurchasedGiftCard, RefundLineItemAllocation } from './types-46.js';
-import type { Weight } from './types-61.js';
-import type { PaymentAttemptGiftCardRedemption, PaymentErrorSummary, PaymentFulfillmentHold } from './types-40.js';
-import type { TaxBreakdown } from './types-56.js';
-import type { ReturnResolutionLineItemRequest } from './types-50.js';
+import type { PurchasedGiftCard } from './types-46.js';
+import type { SubscribedLine, StripeClientSetup } from './types-54.js';
+import type { Weight } from './types-62.js';
+import type { PaymentAttemptGiftCardRedemption } from './types-40.js';
+import type { TaxBreakdown } from './types-57.js';
+import type { ReturnResolutionLineItemRequest } from './types-51.js';
+import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-41.js';
+import type { PaymentSourceSummary, PaymentRefund } from './types-43.js';
 import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary } from './types-21.js';
-import type { MetadataMap } from './types-34.js';
-import type { PaymentRefund } from './types-42.js';
-import type { RefundTaxBreakdownRefund, RefundTenderAllocation } from './types-47.js';
+import type { RefundLineItemAllocation, RefundTaxBreakdownRefund, RefundTenderAllocation } from './types-47.js';
 import type {
-    ReturnReasonSummary,
+    ReturnFinancialSummary,
+    ReturnEligibilitySelection,
     ReturnLineItemValue,
     ReturnLineItemDecisionProposal,
     ReturnPolicyAdjustmentProposal
 } from './types-49.js';
+import type { ReturnReasonSummary } from './types-50.js';
 /** A page of `BuyerFulfillment` objects. */
 export type BuyerFulfillmentListResponse = {
     /**  [] (Value): {@link BuyerFulfillment}. Work required to deliver an order's items. */

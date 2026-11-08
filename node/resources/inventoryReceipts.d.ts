@@ -1,15 +1,17 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { InventoryReceipt, InventoryReceiptListResponse, InventoryReceiptResponse } from '../declarations/types-26.js';
 import type {
+    InventoryReceipt,
+    InventoryReceiptListResponse,
+    InventoryReceiptResponse,
     InventoryReceiptResult,
     InventoryReceiptResultResponse,
     InventoryReceiptsCreateParams,
     InventoryReceiptsGetParams,
     InventoryReceiptsListParams
 } from '../declarations/types-27.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,31 +31,26 @@ export type {
     InventoryReceiptResult,
     InventoryReceiptResultResponse,
     InventoryReceiptsGetParams,
-    InventoryReceiptsListParams
-} from '../declarations/types-27.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type {
     InventoryReceipt,
     InventoryReceiptResponse,
+    InventoryReceiptsListParams,
     InventoryReceiptListResponse,
     InventoryReceiptLineRequestInput,
-    InventoryLevel,
-    InventoryItem,
     InventoryReceiptLine
-} from '../declarations/types-26.js';
+} from '../declarations/types-27.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-8.js';
 export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-28.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { MetadataMap } from '../declarations/types-34.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
+export type { InventoryLevel, InventoryItem } from '../declarations/types-26.js';
+export type { MetadataMap, NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export { makeCreateInventoryReceiptRequest } from '../declarations/types-64.js';
 export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export interface InventoryReceiptsResource {
     /**
  * Record a completed inventory receipt and disposition. This is a downstream stock effect, not the

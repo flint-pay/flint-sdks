@@ -2464,6 +2464,54 @@ final class Codec
             JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
         );
     }
+    /** Text of a validated scalar in query parameters and form-encoded bodies. */
+    public static function scalarText(mixed $value): string
+    {
+        return $value instanceof RawNumber
+            ? $value->value
+            : (is_bool($value)
+                ? ($value
+                    ? 'true'
+                    : 'false')
+                : (string) $value);
+    }
+    /**
+     * Encode a request-codec result as application/x-www-form-urlencoded. Fields use
+     * the exploded form style and percent-encoding of query parameters; the contract
+     * admits only flat objects of scalars, and undeclared open-object values are checked here.
+     */
+    public static function formEncode(mixed $value): string
+    {
+        if ($value instanceof Model) {
+            $value = $value->toInputValue();
+        }
+        if (
+            !(is_object($value) && !($value instanceof RawNumber)) &&
+            !(is_array($value) && (!$value || !array_is_list($value)))
+        ) {
+            self::typeError('input', 'an object', $value);
+        }
+        $pairs = [];
+        foreach ((array) $value as $name => $field) {
+            if (
+                !(
+                    is_string($field) ||
+                    is_bool($field) ||
+                    is_int($field) ||
+                    (is_float($field) && is_finite($field)) ||
+                    $field instanceof RawNumber
+                )
+            ) {
+                self::typeError(
+                    self::pathKey('input', $name),
+                    'a boolean, string or number',
+                    $field,
+                );
+            }
+            $pairs[] = rawurlencode((string) $name) . '=' . rawurlencode(self::scalarText($field));
+        }
+        return implode('&', $pairs);
+    }
     public static function redact(
         mixed $value,
         array $schema = [],

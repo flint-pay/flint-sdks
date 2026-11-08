@@ -123,6 +123,7 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks
 - [default-credentials](guides/default-credentials.md)
 - [pagination-and-retries](guides/pagination-and-retries.md)
+- [partner-oauth](guides/partner-oauth.md)
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 

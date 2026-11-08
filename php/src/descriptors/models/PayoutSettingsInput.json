@@ -1,1 +1,1 @@
-{"shared":"PayoutSettings","dependencies":["MoneyMovementBlockedReason","MoneyValue","NextAction","PayoutSettings","ReadinessMerchantAccountSession","SharedCodec3","SharedCodec852","SharedCodec853","SharedCodec876"]}
+{"shared":"PayoutSettings","dependencies":["MoneyMovementBlockedReason","MoneyValue","NextAction","PayoutSettings","ReadinessMerchantAccountSession","SharedCodec3","SharedCodec854","SharedCodec855","SharedCodec878"]}

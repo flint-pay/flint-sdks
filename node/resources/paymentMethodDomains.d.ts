@@ -8,9 +8,9 @@ import type {
     PaymentMethodDomainsGetParams,
     PaymentMethodDomainsListParams,
     PaymentMethodDomainsUpdateParams
-} from '../declarations/types-42.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+} from '../declarations/types-43.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,19 +34,18 @@ export type {
     PaymentMethodDomainListResponse,
     PaymentMethodDomainsUpdateParams,
     PaymentMethodDomainPaymentOptionStatus
-} from '../declarations/types-42.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+} from '../declarations/types-43.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-59.js';
-export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-74.js';
 export interface PaymentMethodDomainsResource {
     /**

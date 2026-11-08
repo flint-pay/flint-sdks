@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
 import type { DisconnectTaxConnectionResponse, DisconnectTaxConnectionResult } from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-47.js';
+import type { RequestOptions } from '../declarations/types-48.js';
 import type {
     TaxConnection,
     TaxConnectionConnectParams,
@@ -19,7 +19,7 @@ import type {
     TaxRegistrationListResponse,
     TaxRegistrationResponse
 } from '../declarations/types-57.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -52,28 +52,24 @@ export type {
     TaxConnectionSellerAttestation,
     TaxSettings,
     TaxIdentity,
-    TippingSettings,
     TaxDisclosureStatement
 } from '../declarations/types-57.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type {
     DisconnectTaxConnectionResult,
     DisconnectTaxConnectionResponse,
-    DisconnectTaxConnectionRequestInput,
-    DocumentTaxID
+    DisconnectTaxConnectionRequestInput
 } from '../declarations/types-20.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { ClientOptions, CheckoutSettings, CheckoutTaxConfig } from '../declarations/types-5.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { ClientOptions, CheckoutSettings, CheckoutRecoveryEmailSettings, CheckoutTaxConfig } from '../declarations/types-5.js';
 export type { ConnectTaxConnectionRequestInput } from '../declarations/types-6.js';
 export type { SellerTaxAttestationRequestInput, Settings, SellerTaxAttestationRequest } from '../declarations/types-53.js';
 export type { AuthMode, Address } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession, ReceiptSettings } from '../declarations/types-46.js';
+export type { NextAction, MoneyValue, MetadataMap } from '../declarations/types-35.js';
+export type { ReadinessMerchantAccountSession, PromotionSettings, ReceiptSettings } from '../declarations/types-46.js';
 export type { CreateTaxRegistrationRequestInput } from '../declarations/types-11.js';
 export type { BrandingSettings, BuyerCapabilities } from '../declarations/types-1.js';
-export type { CheckoutRecoveryEmailSettings } from '../declarations/types-4.js';
 export type {
     CustomerAccountSettings,
     CustomerAccountPresentation,
@@ -85,14 +81,14 @@ export type { BuyerSkipCapability } from '../declarations/types-3.js';
 export type { FulfillmentSettings } from '../declarations/types-22.js';
 export type { InventorySettings, InvoiceAutopayRetryPolicy } from '../declarations/types-28.js';
 export type { InventoryOriginPolicy } from '../declarations/types-26.js';
-export type { InvoiceSettings, InvoiceReminderPolicy, InvoiceReminderRule } from '../declarations/types-31.js';
+export type { InvoiceSettings, LegalSettings } from '../declarations/types-32.js';
 export type { InvoicePaymentPolicy, InvoicePaymentOptionLimit } from '../declarations/types-30.js';
-export type { LegalSettings } from '../declarations/types-32.js';
-export type { MetadataMap } from '../declarations/types-34.js';
+export type { InvoiceReminderPolicy, InvoiceReminderRule } from '../declarations/types-31.js';
 export type { PaymentLimitSettings } from '../declarations/types-41.js';
-export type { PromotionSettings } from '../declarations/types-45.js';
 export type { SubscriptionSettings } from '../declarations/types-56.js';
-export type { UpdateTaxRegistrationRequestInput } from '../declarations/types-60.js';
+export type { DocumentTaxID } from '../declarations/types-21.js';
+export type { TippingSettings } from '../declarations/types-58.js';
+export type { UpdateTaxRegistrationRequestInput } from '../declarations/types-61.js';
 export {
     makeBuyerCapabilities,
     makeBuyerPauseCapability,
@@ -100,7 +96,7 @@ export {
     makeBuyerSkipCapability
 } from '../declarations/types-62.js';
 export { makeConnectTaxConnectionRequest } from '../declarations/types-63.js';
-export { makeCreateTaxRegistrationRequest } from '../declarations/types-65.js';
+export { makeCreateTaxRegistrationRequest } from '../declarations/types-66.js';
 export { makeDisconnectTaxConnectionRequest } from '../declarations/types-67.js';
 export {
     makeInvoiceAutopayRetryPolicy,
@@ -108,10 +104,10 @@ export {
     makeInvoicePaymentPolicy,
     makeInvoiceReminderPolicy,
     makeInvoiceReminderRule
-} from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
-export { makeSellerTaxAttestationRequest } from '../declarations/types-72.js';
-export { makeUpdateTaxRegistrationRequest } from '../declarations/types-74.js';
+} from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeSellerTaxAttestationRequest } from '../declarations/types-73.js';
+export { makeUpdateTaxRegistrationRequest } from '../declarations/types-75.js';
 export interface TaxConnectionResource {
     /**
  * Records the seller's attestation and creates or completes the tax account from verified business

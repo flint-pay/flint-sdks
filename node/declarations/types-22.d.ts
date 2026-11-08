@@ -1,21 +1,412 @@
-import type { Fulfillment, ExpandedOrderSummary } from './types-21.js';
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-34.js';
+import type { FraudWarning, ExpandedOrderSummary, ExpandedPackageSummary, ExpandedShipmentSummary } from './types-21.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { ResponseMeta } from './types-48.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-35.js';
 import type { InputValue } from '../runtime.js';
+import type { DeliveryFulfillmentDetails } from './types-15.js';
+import type { DigitalFulfillmentDetails } from './types-20.js';
+import type { PickupFulfillmentDetails } from './types-44.js';
+import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-53.js';
+import type { ResponseMeta } from './types-48.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-9.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-38.js';
-import type { SinglePackageCreateRequest, SinglePackageCreateRequestInput } from './types-53.js';
+import type { PackageCreateRequest, PackageCreateRequestInput, PackageTransitionRequestMarkPacked } from './types-39.js';
+import type { SinglePackageCreateRequest, SinglePackageCreateRequestInput } from './types-54.js';
 import type { OrderLineItemModifier } from './types-37.js';
 import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
 import type {
+    FulfillmentTransitionRequestMarkPicked,
+    FulfillmentTransitionRequestMarkPreparing,
+    FulfillmentTransitionRequestMarkReady,
+    FulfillmentTransitionRequestReleaseHold,
     FulfillmentTransitionRequestSchedule,
     FulfillmentTransitionRequestStart,
+    FulfillmentTransitionRequestMarkNoShowInput,
+    FulfillmentTransitionRequestMarkPackedInput,
+    FulfillmentTransitionRequestMarkPickedInput,
+    FulfillmentTransitionRequestMarkPreparingInput,
+    FulfillmentTransitionRequestMarkReadyInput,
     FulfillmentTransitionRequestReleaseHoldInput,
     FulfillmentTransitionRequestScheduleInput,
     FulfillmentTransitionRequestStartInput
 } from './types-23.js';
-import type { PackageTransitionRequestMarkPacked } from './types-39.js';
+/**
+ * The `fraud_warning.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type FraudWarningUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link FraudWarning}. A notice that a payment may be fraudulent. */
+    "data"?: {
+        /** A notice that a payment may be fraudulent. */
+        "object": FraudWarning;
+    };
+    /** Value enum: "fraud_warning.updated". */
+    "event_type"?: "fraud_warning.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `fraud_warning.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FraudWarningUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link FraudWarning}. A notice that a payment may be fraudulent. */
+    "data"?: {
+        /** A notice that a payment may be fraudulent. */
+        "object": FraudWarning;
+    };
+    /** Value enum: "fraud_warning.updated". */
+    "event_type"?: "fraud_warning.updated";
+});
+export type FraudWarningsGetParams = {
+    /**
+     * Supported expansions: dispute, payment_intent. Expansion requires risk.read plus the read
+     * scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat
+     * expand, for example expand=dispute&expand=payment_intent, or pass one comma-separated value.
+     * [] enum: "dispute", "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string.
+     * Value enum: "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
+};
+export type FraudWarningsListParams = {
+    /** Filter by whether a proactive fraudulent refund can still prevent a dispute. */
+    "is_actionable"?: InputValue<boolean>;
+    /** Filter by Flint payment intent ID. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "payment_intent_id"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Supported expansions: dispute, payment_intent. Include the requested related resources using
+     * scoped batch reads for this page. Each relationship requires its existing target read
+     * scopes. Expansion changes the representation without changing pagination tokens. Limits: at
+     * most 10 unique expand paths per request. Repeat expand, for example
+     * expand=dispute&expand=payment_intent, or pass one comma-separated value. [] enum: "dispute",
+     * "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1] (Value): Array of
+     * string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string. Value enum:
+     * "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
+};
+/** Work required to deliver an order's items. */
+export type Fulfillment = {
+    /**
+     * Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with
+     * its reason, who placed it, and when it became active.
+     */
+    "active_hold"?: FulfillmentHold;
+    /**
+     * Order charges associated with this fulfillment. [] (Value): {@link FulfillmentChargeLink}.
+     * Links a fulfillment to an order charge by `order_charge_id`.
+     */
+    "charges"?: Array<FulfillmentChargeLink>;
+    /**
+     * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
+     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time.
+     */
+    "completed_at"?: string;
+    /** When the fulfillment was created, in RFC3339 format. Format: date-time. */
+    "created_at"?: string;
+    /** Customer receiving this fulfillment, when one is set. */
+    "customer_id"?: string;
+    /**
+     * Delivery choice group that created this fulfillment. Null for fulfillments created by the
+     * merchant or through checkout without a delivery quote.
+     */
+    "delivery_choice_group_id": string | null;
+    /**
+     * Execution leg of the selected delivery option that created this fulfillment. Null for
+     * fulfillments created by the merchant or through checkout without a delivery quote.
+     */
+    "delivery_execution_leg_id": string | null;
+    /**
+     * Delivery method chosen for this fulfillment. Null for fulfillments created by the merchant
+     * or through checkout without a delivery quote. Also null for fulfillments created before this
+     * field was added.
+     */
+    "delivery_method_id": string | null;
+    /**
+     * Delivery selection that created this fulfillment. Null for fulfillments created by the
+     * merchant or through checkout without a delivery quote.
+     */
+    "delivery_selection_id": string | null;
+    /** Device associated with the fulfillment, when one is recorded. */
+    "device_id"?: string;
+    /**
+     * Delivery URL and completion time for a digital fulfillment. Details of a digital
+     * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+     */
+    "digital_details"?: DigitalFulfillmentDetails;
+    /** First time this fulfillment reached dispatched. Format: date-time. */
+    "dispatched_at"?: string;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
+    /** Stable identifier of the fulfillment. */
+    "fulfillment_id": string;
+    /**
+     * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it.
+     */
+    "line_items": Array<FulfillmentLineItem>;
+    /**
+     * Courier, delivery window, and handoff details for a local delivery fulfillment. Details of a
+     * local delivery fulfillment: courier, timing window, instructions, and tracking. Some fields
+     * are omitted for credentials that don't act for the verified customer.
+     */
+    "local_delivery_details"?: DeliveryFulfillmentDetails;
+    /** Merchant location responsible for this fulfillment. */
+    "location_id"?: string;
+    /**
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** Order whose items this fulfillment delivers. */
+    "order_id": string;
+    /**
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number.
+     */
+    "order_number"?: string;
+    /**
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     */
+    "outcome"?: FulfillmentOutcome;
+    /**
+     * Packages associated with this fulfillment. [] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded.
+     */
+    "packages"?: Array<ExpandedPackageSummary>;
+    /** First time this fulfillment reached packed. Format: date-time. */
+    "packed_at"?: string;
+    /** First time this fulfillment reached picked. Format: date-time. */
+    "picked_at"?: string;
+    /**
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions.
+     */
+    "pickup_details"?: PickupFulfillmentDetails;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. The recipient of a fulfillment, with name, email, phone, address, and handling
+     * instructions.
+     */
+    "recipient"?: FulfillmentRecipient;
+    /**
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in
+     * the same direction. Format: date-time.
+     */
+    "scheduled_start_at": string | null;
+    /**
+     * Schedule and completion details for a service fulfillment. Details of a service fulfillment:
+     * the scheduled start and end, timezone, completion time, and notes.
+     */
+    "service_details"?: ServiceFulfillmentDetails;
+    /**
+     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+     * window, timezone, and when the shipment was handed to the carrier.
+     */
+    "shipment_details"?: ShipmentFulfillmentDetails;
+    /**
+     * Shipments associated with this fulfillment. [] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded.
+     */
+    "shipments"?: Array<ExpandedShipmentSummary>;
+    /**
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show".
+     */
+    "status": "pending"
+        | "accepted"
+        | "on_hold"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show"
+        | (string & {});
+    /**
+     * Read-only actions currently supported for this fulfillment. [] enum: "complete", "cancel",
+     * "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing",
+     * "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold". [] (Value):
+     * string. Value enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule",
+     * "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show",
+     * "release_hold".
+     */
+    "supported_actions": Array<"complete"
+        | "cancel"
+        | "hold"
+        | "start"
+        | "mark_ready"
+        | "fail"
+        | "schedule"
+        | "accept"
+        | "mark_preparing"
+        | "mark_picked"
+        | "mark_packed"
+        | "dispatch"
+        | "mark_no_show"
+        | "release_hold"
+        | (string & {})>;
+    /**
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time.
+     */
+    "terminal_at"?: string;
+    /**
+     * How the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
+     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {});
+    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time. */
+    "updated_at"?: string;
+    /** Monotonic fulfillment version for expected_version checks. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Fulfillment;
+    };
+    "event_type"?: "fulfillment.canceled";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Fulfillment;
+    };
+    "event_type"?: "fulfillment.canceled";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "fulfillment.canceled";
+});
+/**
+ * The `fulfillment.canceled` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Fulfillment}. Work required to deliver an order's items. */
+    "data"?: {
+        /** Work required to deliver an order's items. */
+        "object": Fulfillment;
+    };
+    /** Value enum: "fulfillment.canceled". */
+    "event_type"?: "fulfillment.canceled";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `fulfillment.canceled` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link Fulfillment}. Work required to deliver an order's items. */
+    "data"?: {
+        /** Work required to deliver an order's items. */
+        "object": Fulfillment;
+    };
+    /** Value enum: "fulfillment.canceled". */
+    "event_type"?: "fulfillment.canceled";
+});
+/** Links a fulfillment to an order charge by `order_charge_id`. */
+export type FulfillmentChargeLink = {
+    /** Order charge associated with this fulfillment. */
+    "order_charge_id": string;
+};
 export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -1759,126 +2150,6 @@ export type FulfillmentTransitionRequestMarkNoShow = {
         | "scheduling_error"
         | "other"
         | (string & {});
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_no_show` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkNoShowInput = {
-    /** Value enum: "mark_no_show". */
-    "action": "mark_no_show";
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Value enum: "customer_no_show", "provider_no_show", "location_unavailable",
-     * "scheduling_error", "other".
-     */
-    "reason": "customer_no_show" | "provider_no_show" | "location_unavailable" | "scheduling_error" | "other";
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_packed` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkPackedInput = {
-    /** Value enum: "mark_packed". */
-    "action": "mark_packed";
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_picked` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkPicked = {
-    /** Value enum: "mark_picked". */
-    "action": "mark_picked" | (string & {});
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_picked` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkPickedInput = {
-    /** Value enum: "mark_picked". */
-    "action": "mark_picked";
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_preparing` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkPreparing = {
-    /** Value enum: "mark_preparing". */
-    "action": "mark_preparing" | (string & {});
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_preparing` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkPreparingInput = {
-    /** Value enum: "mark_preparing". */
-    "action": "mark_preparing";
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_ready` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkReady = {
-    /** Value enum: "mark_ready". */
-    "action": "mark_ready" | (string & {});
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `mark_ready` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestMarkReadyInput = {
-    /** Value enum: "mark_ready". */
-    "action": "mark_ready";
-    /** Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The `release_hold` variant of `FulfillmentTransitionRequest`. */
-export type FulfillmentTransitionRequestReleaseHold = {
-    /** Value enum: "release_hold". */
-    "action": "release_hold" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
     /** Your note explaining this transition. minLength: 1. maxLength: 500. */
     "reason_message"?: string;
 };

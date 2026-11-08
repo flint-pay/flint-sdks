@@ -1,10 +1,1154 @@
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
-import type { Promotion } from './types-44.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MoneyValue, MoneyValueInput } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { ResponseMeta } from './types-48.js';
+import type { ProductVariant, ProductVariantRequestInput } from './types-44.js';
+import type { CreateProductRequestInput } from './types-10.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePromotionCodeRequestInput } from './types-10.js';
+import type { BundlesGetParams } from './types-1.js';
+import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from './types-60.js';
+import type {
+    PromotionRuleGroup,
+    PromotionSchedule,
+    PromotionRuleGroupRequest,
+    PromotionRecurrenceInput,
+    PromotionRuleGroupRequestInput,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating
+} from './types-46.js';
+import type { ResponseMeta } from './types-48.js';
+export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ProductVariant;
+    };
+    "event_type"?: "product_variant.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ProductVariant;
+    };
+    "event_type"?: "product_variant.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "product_variant.updated";
+});
+/**
+ * The `product_variant.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link ProductVariant}. A specific purchasable version of a product. */
+    "data"?: {
+        /** A specific purchasable version of a product. */
+        "object": ProductVariant;
+    };
+    /** Value enum: "product_variant.updated". */
+    "event_type"?: "product_variant.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `product_variant.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**  object (Required): {@link ProductVariant}. A specific purchasable version of a product. */
+    "data"?: {
+        /** A specific purchasable version of a product. */
+        "object": ProductVariant;
+    };
+    /** Value enum: "product_variant.updated". */
+    "event_type"?: "product_variant.updated";
+});
+export type ProductsCreateParams = (CreateProductRequestInput);
+export type ProductsCreateVariantParams = (InputValue<ProductVariantRequestInput>);
+export type ProductsDeleteParams = {
+    /** Optional product version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: InputValue<number>;
+};
+export type ProductsDeleteVariantParams = {
+    /** Optional product variant version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: InputValue<number>;
+};
+export type ProductsGetOptionParams = {};
+export type ProductsGetParams = BundlesGetParams;
+export type ProductsGetVariantParams = BundlesGetParams;
+export type ProductsListOptionsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active",
+     * "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
+     * "inactive", "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+};
+export type ProductsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by product type. Accepts repeated keys, comma-separated values, or mixtures. Values
+     * are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected.
+     * Values within this filter are ORed; separate filters are ANDed. [] enum: "physical",
+     * "service", "fee", "digital", "gift_card". Value enum: "physical", "service", "fee",
+     * "digital", "gift_card". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "physical",
+     * "service", "fee", "digital", "gift_card". anyOf[1][] (Value): string. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card". anyOf[2] (Value): string. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type"?: InputValue<("physical" | "service" | "fee" | "digital" | "gift_card")
+        | readonly ("physical" | "service" | "fee" | "digital" | "gift_card")[]>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active",
+     * "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
+     * "inactive", "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /** Filter by category handle. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$. */
+    "category_handle"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Full-value match on ProductVariant.sku, case- and accent-insensitive, with no trimming. All
+     * exact variant filters must match the same non-archived variant, including inactive variants.
+     * matched_variant is the first matching variant by position, then variant_id; exact predicates
+     * take precedence over query for this witness. minLength: 1. maxLength: 100.
+     */
+    "sku"?: InputValue<string>;
+    /**
+     * Byte-sensitive whole-value match on ProductVariant.external_reference_id, preserving
+     * whitespace, casing, and Unicode. All exact variant filters must match the same non-archived
+     * variant. matched_variant is one deterministic witness; page the nested variant list to
+     * enumerate all matches. minLength: 1. maxLength: 255.
+     */
+    "variant_external_reference_id"?: InputValue<string>;
+    /**
+     * Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory
+     * item; this does not match or synchronize the inventory item's SKU. On products, all exact
+     * variant filters must match the same non-archived variant. pattern:
+     * ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     */
+    "inventory_item_id"?: InputValue<string>;
+    /**
+     * Search across product ID, external reference ID, name, description, and SKU. Text fields
+     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
+     * match from the start and need the type prefix, such as prod_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter products with at least one non-deleted variant assigned to this delivery profile.
+     * Example: "dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     */
+    "delivery_profile_id"?: InputValue<string>;
+    /**
+     * Filter by aggregated delivery readiness across non-deleted variants. Accepts repeated keys,
+     * comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "configured", "action_required", "not_applicable". Value enum:
+     * "configured", "action_required", "not_applicable". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "configured", "action_required", "not_applicable". anyOf[1][] (Value):
+     * string. Value enum: "configured", "action_required", "not_applicable". anyOf[2] (Value):
+     * string. Value enum: "configured", "action_required", "not_applicable".
+     */
+    "delivery_configuration_status"?: InputValue<("configured" | "action_required" | "not_applicable")
+        | readonly ("configured" | "action_required" | "not_applicable")[]>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by product_id. Default:
+     * "created_at". Value enum: "name", "created_at", "updated_at".
+     */
+    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Supported expansions: modifier_set. Include the requested related resources using scoped
+     * batch reads for this page. Each relationship requires its existing target read scopes.
+     * Expansion changes the representation without changing pagination tokens. Limits: at most 10
+     * unique expand paths per request. Pass expand=modifier_set. [] enum: "modifier_set". Value
+     * enum: "modifier_set". anyOf[1] (Value): Array of string. [] enum: "modifier_set". anyOf[1][]
+     * (Value): string. Value enum: "modifier_set". anyOf[2] (Value): string. Value enum:
+     * "modifier_set".
+     */
+    "expand"?: InputValue<("modifier_set") | readonly ("modifier_set")[]>;
+};
+export type ProductsListVariantsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active",
+     * "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
+     * "inactive", "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Full-value match on ProductVariant.sku, case- and accent-insensitive, with no trimming. Does
+     * not search the inventory item's SKU. minLength: 1. maxLength: 100.
+     */
+    "sku"?: InputValue<string>;
+    /**
+     * Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory
+     * item; this does not match or synchronize the inventory item's SKU. On products, all exact
+     * variant filters must match the same non-archived variant. pattern:
+     * ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     */
+    "inventory_item_id"?: InputValue<string>;
+    /**
+     * Search across variant ID, external reference ID, name, SKU, and barcode. Text fields match
+     * any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from
+     * the start and need the type prefix, such as var_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to position; ties are broken by variant_id. Default: "position".
+     * Value enum: "position", "created_at", "updated_at", "unit_price_money".
+     */
+    "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price_money">;
+    /**
+     * Sort direction. Defaults to asc for position and desc for other sort fields. Default: "asc".
+     * Value enum: "asc", "desc".
+     */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Filter by assigned delivery profile ID. Example: "dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "delivery_profile_id"?: InputValue<string>;
+    /**
+     * Filter by delivery readiness. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "configured", "action_required", "not_applicable". Value enum: "configured",
+     * "action_required", "not_applicable". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "configured", "action_required", "not_applicable". anyOf[1][] (Value): string. Value
+     * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): string. Value
+     * enum: "configured", "action_required", "not_applicable".
+     */
+    "delivery_configuration_status"?: InputValue<("configured" | "action_required" | "not_applicable")
+        | readonly ("configured" | "action_required" | "not_applicable")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Supported expansions: modifier_set. Include the requested related resources using scoped
+     * batch reads for this page. Each relationship requires its existing target read scopes.
+     * Expansion changes the representation without changing pagination tokens. Limits: at most 10
+     * unique expand paths per request. Pass expand=modifier_set. [] enum: "modifier_set". Value
+     * enum: "modifier_set". anyOf[1] (Value): Array of string. [] enum: "modifier_set". anyOf[1][]
+     * (Value): string. Value enum: "modifier_set". anyOf[2] (Value): string. Value enum:
+     * "modifier_set".
+     */
+    "expand"?: InputValue<("modifier_set") | readonly ("modifier_set")[]>;
+};
+export type ProductsUpdateParams = (InputValue<UpdateProductRequestInput>);
+export type ProductsUpdateVariantParams = (InputValue<UpdateProductVariantRequestInput>);
+/**
+ * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored
+ * by combines_with. Frozen subscription-term promotions are admitted first and are exempt from
+ * exclusivity, combines_with, and the cap. Candidates include codes being applied, existing
+ * promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its
+ * highest-priority member, then the larger standalone discount, earlier created_at, and lower
+ * promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and
+ * lower promotion_id; each is admitted unless max_promotions_per_order is reached or both
+ * promotions do not allow each other's discount class. Admitted promotions price line item first,
+ * then order, then service charge. A zero-value promotion is dropped and selection runs again.
+ */
+export type Promotion = {
+    /**
+     * Discount effect and how it applies to eligible items or charges. A flat application method
+     * whose type selects its effect fields.
+     */
+    "application_method": PromotionApplicationMethod;
+    /**
+     * Whether the promotion can apply right now: it is active, inside its schedule, under its
+     * max_uses, and, when code-gated, has at least one redeemable code.
+     */
+    "available": boolean;
+    /**
+     * The codes this request created, in request order. Present only on the `POST /v1/promotions`
+     * response, where it is `[]` for a promotion created without codes. Read codes later with `GET
+     * /v1/promotion-codes?promotion_id=`. [] (Value): {@link PromotionCode}. A code a buyer enters
+     * to claim a promotion.
+     */
+    "codes"?: Array<PromotionCode>;
+    /**
+     * Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic
+     * promotions omit it. A count of a promotion's codes, including how many are redeemable now
+     * and the newest redeemable code.
+     */
+    "codes_summary"?: PromotionCodesSummary;
+    /**
+     * Which promotion discount classes this promotion may share an order with. Both promotions
+     * must allow each other's class. Manual discounts are ignored. See Promotion for the
+     * evaluation order. Which kinds of discounts a promotion can combine with: line item, order,
+     * and service charge discounts.
+     */
+    "combines_with": PromotionCombinesWith;
+    /** When the promotion was created, as an RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** Optional description of the promotion for your own records. */
+    "description"?: string;
+    /**
+     * Whether the promotion discounts the order, individual line items, or service charges. Value
+     * enum: "order", "line_item", "service_charge".
+     */
+    "discount_class": "order" | "line_item" | "service_charge" | (string & {});
+    /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
+    "display_name": string;
+    /**
+     * Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has
+     * no eligibility conditions. A rule group is an object with exactly one nonempty all (AND) or
+     * any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid.
+     * Omit the field for no rules, or send null where the field is clearable. Responses list rules
+     * before nested groups. Under any, a nested group containing only one rule reads back as that
+     * rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal
+     * scope. These deterministic normalizations stabilize after one round trip.
+     * matched_items.subtotal sums the line items matched by the line_item.* rules in the same all
+     * group, including its nested groups.
+     */
+    "eligibility_rules"?: PromotionRuleGroup;
+    /**
+     * Optional group and priority used to choose one promotion from competing promotions in the
+     * same group. See Promotion for the evaluation order. Only one promotion in an exclusivity
+     * group continues. See Promotion for the evaluation order.
+     */
+    "exclusivity"?: PromotionExclusivity;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
+    /**
+     * Maximum number of redemptions across all codes and automatic applications. Omitted when
+     * there is no redemption limit. Format: int64.
+     */
+    "max_uses"?: number;
+    /** Identifier of the merchant that owns the promotion. */
+    "merchant_id"?: string;
+    /**
+     * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Internal promotion name for dashboards, searching, and reporting. */
+    "name": string;
+    /** Unique identifier for the promotion. */
+    "promotion_id": string;
+    /**
+     * Whether the promotion applies automatically when its rules match or requires a promotion
+     * code. Value enum: "automatic", "code".
+     */
+    "redemption_type": "automatic" | "code" | (string & {});
+    /**
+     * Optional start and end times that limit when the promotion can apply. When a promotion is
+     * active, with a start time, an end time, and the time zone it was entered in.
+     */
+    "schedule"?: PromotionSchedule;
+    /**
+     * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
+     * promotion can still be unavailable: read available. Value enum: "active", "inactive",
+     * "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * Why available is false. Present only when available is false. Value enum: "inactive",
+     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+     */
+    "unavailable_reason"?: "inactive"
+        | "archived"
+        | "not_yet_started"
+        | "expired"
+        | "exhausted"
+        | "no_active_codes"
+        | (string & {});
+    /** When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /** Number of times the promotion has been redeemed. Format: int64. */
+    "uses_count": number;
+    /**
+     * Persisted owned-state version. Clock-based availability and expanded resources do not
+     * advance this counter. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** The `amount_off` variant of `PromotionApplicationMethod`. */
+export type PromotionAmountOffMethod = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money": MoneyValue;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValue>;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules"?: PromotionRuleGroup;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrence;
+    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
+    "type": "amount_off" | (string & {});
+};
+/** The `amount_off` variant of `PromotionApplicationMethodInput`. */
+export type PromotionAmountOffMethodRequest = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money": MoneyValue;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValue>;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules"?: PromotionRuleGroupRequest;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrence;
+    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
+    "type": "amount_off" | (string & {});
+};
+/** The `amount_off` variant of `PromotionApplicationMethodInput`. */
+export type PromotionAmountOffMethodRequestInput = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across";
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money": MoneyValueInput;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValueInput>;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules"?: PromotionRuleGroupRequestInput;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrenceInput;
+    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
+    "type": "amount_off";
+};
+/** A flat application method whose type selects its effect fields. */
+export type PromotionApplicationMethod = ((PromotionPercentOffMethod)
+    | (PromotionAmountOffMethod)
+    | (PromotionBuyXGetYMethod)
+    | (Record<string, unknown>));
+/**
+ * Send only application_method fields to change. Omitted fields keep their stored values. Sending
+ * a different type replaces the effect with the supplied effect fields; allocation,
+ * calculation_basis, recurrence, and discounted_item_rules are preserved unless sent, and
+ * discounted_item_rules: null clears the stored rules. Money, recurrence, currency_options, and
+ * each rule group are replaced whole when present. null clears only nullable fields.
+ * discounted_item_rules cannot be null for buy_x_get_y. minProperties: 1.
+ */
+export type PromotionApplicationMethodPatch = {
+    /**
+     * How the effect is allocated. Omitted allocation keeps its stored value; it defaults by
+     * discount_class only when no allocation is stored. Changing discount_class does not reset
+     * allocation. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money"?: MoneyValue;
+    /**
+     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "buy_min_quantity"?: number;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Send null to clear it.
+     * Value enum: "subtotal_pre_tax", "subtotal_post_tax", null.
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | null | (string & {}) | null;
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValue> | null;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. anyOf[1] (Value): {@link PromotionRuleGroupRequest}. A rule
+     * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
+     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
+     * send null where the field is clearable. Responses list rules before nested groups. Under
+     * any, a nested group containing only one rule reads back as that rule. Under all, nested
+     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
+     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
+     * matched by the line_item.* rules in the same all group, including its nested groups.
+     * anyOf[2] (Value): null.
+     */
+    "discounted_item_rules"?: ((PromotionRuleGroupRequest) | (null) | (unknown));
+    /**
+     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
+     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "get_percent_off"?: number;
+    /**
+     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "get_quantity"?: number;
+    /**
+     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
+     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
+     */
+    "max_applications_per_order"?: number | null;
+    /**
+     * Maximum matched units discounted, valid only for percent_off with allocation each. null
+     * clears the limit. Fields belonging to another effect return INVALID_REQUEST; send type to
+     * change effects. Format: int32. minimum: 1.
+     */
+    "max_discounted_quantity"?: number | null;
+    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
+    "percent_off"?: number;
+    /**
+     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
+     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
+     * rules, or send null where the field is clearable. Responses list rules before nested groups.
+     * Under any, a nested group containing only one rule reads back as that rule. Under all,
+     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
+     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
+     * line items matched by the line_item.* rules in the same all group, including its nested
+     * groups.
+     */
+    "qualifying_item_rules"?: PromotionRuleGroupRequest;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. anyOf[1] (Value): {@link PromotionRecurrence}. How
+     * often a promotion's discount repeats on a subscription: once, for a number of charged
+     * payments, or forever. anyOf[2] (Value): null.
+     */
+    "recurrence"?: ((PromotionRecurrence) | (null) | (unknown));
+    /**
+     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
+     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
+     * "highest_price", "first_added".
+     */
+    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
+    /**
+     * Discount effect: a percentage, a fixed amount, or a discount on reward items after
+     * qualifying purchases. Value enum: "percent_off", "amount_off", "buy_x_get_y".
+     */
+    "type"?: "percent_off" | "amount_off" | "buy_x_get_y" | (string & {});
+};
+/**
+ * Send only application_method fields to change. Omitted fields keep their stored values. Sending
+ * a different type replaces the effect with the supplied effect fields; allocation,
+ * calculation_basis, recurrence, and discounted_item_rules are preserved unless sent, and
+ * discounted_item_rules: null clears the stored rules. Money, recurrence, currency_options, and
+ * each rule group are replaced whole when present. null clears only nullable fields.
+ * discounted_item_rules cannot be null for buy_x_get_y. minProperties: 1.
+ */
+export type PromotionApplicationMethodPatchInput = {
+    /**
+     * How the effect is allocated. Omitted allocation keeps its stored value; it defaults by
+     * discount_class only when no allocation is stored. Changing discount_class does not reset
+     * allocation. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across";
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money"?: MoneyValueInput;
+    /**
+     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "buy_min_quantity"?: number;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Send null to clear it.
+     * Value enum: "subtotal_pre_tax", "subtotal_post_tax", null.
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | null;
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValueInput> | null;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. anyOf[1] (Value): {@link PromotionRuleGroupRequestInput}. A
+     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
+     * rules, or send null where the field is clearable. Responses list rules before nested groups.
+     * Under any, a nested group containing only one rule reads back as that rule. Under all,
+     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
+     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
+     * line items matched by the line_item.* rules in the same all group, including its nested
+     * groups. anyOf[2] (Value): null.
+     */
+    "discounted_item_rules"?: ((PromotionRuleGroupRequestInput) | (null));
+    /**
+     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
+     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "get_percent_off"?: number;
+    /**
+     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "get_quantity"?: number;
+    /**
+     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
+     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
+     */
+    "max_applications_per_order"?: number | null;
+    /**
+     * Maximum matched units discounted, valid only for percent_off with allocation each. null
+     * clears the limit. Fields belonging to another effect return INVALID_REQUEST; send type to
+     * change effects. Format: int32. minimum: 1.
+     */
+    "max_discounted_quantity"?: number | null;
+    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
+    "percent_off"?: number;
+    /**
+     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
+     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
+     * rules, or send null where the field is clearable. Responses list rules before nested groups.
+     * Under any, a nested group containing only one rule reads back as that rule. Under all,
+     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
+     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
+     * line items matched by the line_item.* rules in the same all group, including its nested
+     * groups.
+     */
+    "qualifying_item_rules"?: PromotionRuleGroupRequestInput;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. anyOf[1] (Value): {@link
+     * PromotionRecurrenceInput}. How often a promotion's discount repeats on a subscription: once,
+     * for a number of charged payments, or forever. anyOf[2] (Value): null.
+     */
+    "recurrence"?: ((PromotionRecurrenceInput) | (null));
+    /**
+     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
+     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
+     * "highest_price", "first_added".
+     */
+    "reward_selection"?: "cheapest" | "highest_price" | "first_added";
+    /**
+     * Discount effect: a percentage, a fixed amount, or a discount on reward items after
+     * qualifying purchases. Value enum: "percent_off", "amount_off", "buy_x_get_y".
+     */
+    "type"?: "percent_off" | "amount_off" | "buy_x_get_y";
+};
+/** A flat application method whose type selects its effect fields. */
+export type PromotionApplicationMethodRequest = ((PromotionPercentOffMethodRequest)
+    | (PromotionAmountOffMethodRequest)
+    | (PromotionBuyXGetYMethodRequest)
+    | (Record<string, unknown>));
+/** A flat application method whose type selects its effect fields. */
+export type PromotionApplicationMethodRequestInput = ((PromotionPercentOffMethodRequestInput)
+    | (PromotionAmountOffMethodRequestInput)
+    | (PromotionBuyXGetYMethodRequestInput));
+export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Promotion;
+    };
+    "event_type"?: "promotion.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Promotion;
+    };
+    "event_type"?: "promotion.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "promotion.archived";
+});
+/**
+ * The `promotion.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Promotion}. Promotion evaluation order: manual discounts stay, do
+     * not count toward the cap, and are ignored by combines_with. Frozen subscription-term
+     * promotions are admitted first and are exempt from exclusivity, combines_with, and the cap.
+     * Candidates include codes being applied, existing promotion discounts, and qualifying
+     * automatic promotions. Each exclusivity group keeps its highest-priority member, then the
+     * larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates
+     * rank by standalone discount, then earlier created_at and lower promotion_id; each is
+     * admitted unless max_promotions_per_order is reached or both promotions do not allow each
+     * other's discount class. Admitted promotions price line item first, then order, then service
+     * charge. A zero-value promotion is dropped and selection runs again.
+     */
+    "data"?: {
+        /**
+         * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are
+         * ignored by combines_with. Frozen subscription-term promotions are admitted first and are
+         * exempt from exclusivity, combines_with, and the cap. Candidates include codes being
+         * applied, existing promotion discounts, and qualifying automatic promotions. Each
+         * exclusivity group keeps its highest-priority member, then the larger standalone
+         * discount, earlier created_at, and lower promotion_id. Remaining candidates rank by
+         * standalone discount, then earlier created_at and lower promotion_id; each is admitted
+         * unless max_promotions_per_order is reached or both promotions do not allow each other's
+         * discount class. Admitted promotions price line item first, then order, then service
+         * charge. A zero-value promotion is dropped and selection runs again.
+         */
+        "object": Promotion;
+    };
+    /** Value enum: "promotion.archived". */
+    "event_type"?: "promotion.archived";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `promotion.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link Promotion}. Promotion evaluation order: manual discounts stay, do
+     * not count toward the cap, and are ignored by combines_with. Frozen subscription-term
+     * promotions are admitted first and are exempt from exclusivity, combines_with, and the cap.
+     * Candidates include codes being applied, existing promotion discounts, and qualifying
+     * automatic promotions. Each exclusivity group keeps its highest-priority member, then the
+     * larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates
+     * rank by standalone discount, then earlier created_at and lower promotion_id; each is
+     * admitted unless max_promotions_per_order is reached or both promotions do not allow each
+     * other's discount class. Admitted promotions price line item first, then order, then service
+     * charge. A zero-value promotion is dropped and selection runs again.
+     */
+    "data"?: {
+        /**
+         * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are
+         * ignored by combines_with. Frozen subscription-term promotions are admitted first and are
+         * exempt from exclusivity, combines_with, and the cap. Candidates include codes being
+         * applied, existing promotion discounts, and qualifying automatic promotions. Each
+         * exclusivity group keeps its highest-priority member, then the larger standalone
+         * discount, earlier created_at, and lower promotion_id. Remaining candidates rank by
+         * standalone discount, then earlier created_at and lower promotion_id; each is admitted
+         * unless max_promotions_per_order is reached or both promotions do not allow each other's
+         * discount class. Admitted promotions price line item first, then order, then service
+         * charge. A zero-value promotion is dropped and selection runs again.
+         */
+        "object": Promotion;
+    };
+    /** Value enum: "promotion.archived". */
+    "event_type"?: "promotion.archived";
+});
+/** The `buy_x_get_y` variant of `PromotionApplicationMethod`. */
+export type PromotionBuyXGetYMethod = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "buy_min_quantity": number;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules": PromotionRuleGroup;
+    /**
+     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
+     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "get_percent_off": number;
+    /**
+     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "get_quantity": number;
+    /**
+     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
+     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
+     */
+    "max_applications_per_order"?: number;
+    /**
+     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
+     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
+     * rules, or send null where the field is clearable. Responses list rules before nested groups.
+     * Under any, a nested group containing only one rule reads back as that rule. Under all,
+     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
+     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
+     * line items matched by the line_item.* rules in the same all group, including its nested
+     * groups.
+     */
+    "qualifying_item_rules": PromotionRuleGroup;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrence;
+    /**
+     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
+     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
+     * "highest_price", "first_added".
+     */
+    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
+    /**
+     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
+     */
+    "type": "buy_x_get_y" | (string & {});
+};
+/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
+export type PromotionBuyXGetYMethodRequest = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "buy_min_quantity": number;
+    /**
+     * Basis for merchandise promotion calculations. Omit for service_charge promotions because
+     * service-charge discounts are calculated from the targeted charges. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns
+     * DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules": PromotionRuleGroupRequest;
+    /**
+     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
+     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "get_percent_off": number;
+    /**
+     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     */
+    "get_quantity": number;
+    /**
+     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
+     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
+     */
+    "max_applications_per_order"?: number;
+    /**
+     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
+     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
+     * rules, or send null where the field is clearable. Responses list rules before nested groups.
+     * Under any, a nested group containing only one rule reads back as that rule. Under all,
+     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
+     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
+     * line items matched by the line_item.* rules in the same all group, including its nested
+     * groups.
+     */
+    "qualifying_item_rules": PromotionRuleGroupRequest;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrence;
+    /**
+     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
+     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
+     * "highest_price", "first_added".
+     */
+    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
+    /**
+     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
+     */
+    "type": "buy_x_get_y" | (string & {});
+};
 /** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
 export type PromotionBuyXGetYMethodRequestInput = {
     /**
@@ -1037,683 +2181,3 @@ export type PromotionRecurrenceForeverInput = ({
     & ({
     "period_count"?: never;
 }));
-/**
- * How often a promotion's discount repeats on a subscription: once, for a number of charged
- * payments, or forever.
- */
-export type PromotionRecurrenceInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once",
-     * "repeating", "forever".
-     */
-    "type": "once" | "repeating" | "forever";
-})
-    & ((Exclude<PromotionRecurrenceOnceInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceRepeatingInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceForeverInput & object, readonly unknown[]>));
-/** The `once` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceOnce = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once".
-     */
-    "type": "once" | (string & {});
-})
-    & (({
-    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
-    "type": unknown;
-}));
-/** The `once` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceOnceInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once".
-     */
-    "type": "once";
-})
-    & (({
-    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
-    "type": ("once") & ("once");
-})
-    & ({
-    "period_count"?: never;
-}));
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeating = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating" | (string & {});
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": unknown;
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeatingInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating";
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": ("repeating") & ("repeating");
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-/** The `Promotion code` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionCode = ({
-    /**
-     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_code": string;
-    /**
-     * Use `promotion_id` for server-side apply flows where you already know the promotion,
-     * including code-gated promotions, which then apply without a code and count only toward the
-     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_id"?: string;
-});
-/** The `Promotion code` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionCodeInput = ({
-    /**
-     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_code": string;
-    /**
-     * Use `promotion_id` for server-side apply flows where you already know the promotion,
-     * including code-gated promotions, which then apply without a code and count only toward the
-     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_id"?: string;
-})
-    & (({
-    "promotion_id"?: never;
-}));
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionID = ({
-    /**
-     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_code"?: string;
-    /**
-     * Use `promotion_id` for server-side apply flows where you already know the promotion,
-     * including code-gated promotions, which then apply without a code and count only toward the
-     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_id": string;
-});
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionIDInput = ({
-    /**
-     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_code"?: string;
-    /**
-     * Use `promotion_id` for server-side apply flows where you already know the promotion,
-     * including code-gated promotions, which then apply without a code and count only toward the
-     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_id": string;
-})
-    & (({
-    "promotion_code"?: never;
-}));
-/** Identifies the promotion to apply, by promotion code or by promotion ID. */
-export type PromotionRefRequest = ({
-    /**
-     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_code"?: string;
-    /**
-     * Use `promotion_id` for server-side apply flows where you already know the promotion,
-     * including code-gated promotions, which then apply without a code and count only toward the
-     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_id"?: string;
-})
-    & ((Exclude<PromotionRefInputPromotionID & object, readonly unknown[]>)
-    | (Exclude<PromotionRefInputPromotionCode & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Identifies the promotion to apply, by promotion code or by promotion ID. */
-export type PromotionRefRequestInput = ({
-    /**
-     * Human-entered promotion code. Use this when redeeming a campaign code. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_code"?: string;
-    /**
-     * Use `promotion_id` for server-side apply flows where you already know the promotion,
-     * including code-gated promotions, which then apply without a code and count only toward the
-     * promotion's `max_uses`. Checkout credentials must use `promotion_code`. Fixed promotion
-     * amounts applied to orders must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1.
-     */
-    "promotion_id"?: string;
-})
-    & ((Exclude<PromotionRefInputPromotionIDInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRefInputPromotionCodeInput & object, readonly unknown[]>));
-/** A response containing `Promotion` data. */
-export type PromotionResponse = {
-    /**
-     * The requested promotion. Promotion evaluation order: manual discounts stay, do not count
-     * toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are
-     * admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates
-     * include codes being applied, existing promotion discounts, and qualifying automatic
-     * promotions. Each exclusivity group keeps its highest-priority member, then the larger
-     * standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank
-     * by standalone discount, then earlier created_at and lower promotion_id; each is admitted
-     * unless max_promotions_per_order is reached or both promotions do not allow each other's
-     * discount class. Admitted promotions price line item first, then order, then service charge.
-     * A zero-value promotion is dropped and selection runs again.
-     */
-    "data": Promotion;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * One condition in a promotion rule group, which tests an attribute with an operator and values.
- */
-export type PromotionRule = {
-    /**
-     * Field the rule tests. The attribute fixes the value type and the operators that are legal
-     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
-     * only, and so on. The full attribute/type/operator matrix is machine-readable in
-     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
-     * metadata and accepts the string operators. A disallowed operator is rejected at create time
-     * with INVALID_OPERATOR, whose message names the operators allowed for the attribute.
-     */
-    "attribute": string;
-    /**
-     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
-     * must match its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "currency_options"?: Record<string, MoneyValue>;
-    /**
-     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
-     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
-     */
-    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined" | (string & {});
-    /**
-     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
-     * whether the attribute is present. [] (Value): {@link PromotionRuleValue}. Rule comparison
-     * value. Use a primitive string, number, boolean, or a money object.
-     */
-    "values"?: Array<PromotionRuleValue>;
-};
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroup = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
-     * or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}. One condition in
-     * a promotion rule group, which tests an attribute with an operator and values. [].oneOf[2]
-     * (Value): {@link PromotionRuleGroup}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRule} or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}.
-     * One condition in a promotion rule group, which tests an attribute with an operator and
-     * values. [].oneOf[2] (Value): {@link PromotionRuleGroup}. A rule group is an object with
-     * exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-     * groups, and a rules key are invalid. Omit the field for no rules, or send null where the
-     * field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
-})
-    | (Record<string, unknown>));
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroupRequest = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
-     * or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link PromotionRule}. One
-     * condition you set in a promotion rule group, which tests an attribute with an operator and
-     * values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule group is an object
-     * with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays,
-     * empty groups, and a rules key are invalid. Omit the field for no rules, or send null where
-     * the field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRule} or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link
-     * PromotionRule}. One condition you set in a promotion rule group, which tests an attribute
-     * with an operator and values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule
-     * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
-     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
-     * send null where the field is clearable. Responses list rules before nested groups. Under
-     * any, a nested group containing only one rule reads back as that rule. Under all, nested
-     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
-     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
-     * matched by the line_item.* rules in the same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
-})
-    | (Record<string, unknown>));
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroupRequestInput = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-}));
-/**
- * One condition you set in a promotion rule group, which tests an attribute with an operator and
- * values.
- */
-export type PromotionRuleRequestInput = {
-    /**
-     * Field the rule tests. The attribute fixes the value type and the operators that are legal
-     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
-     * only, and so on. The full attribute/type/operator matrix is machine-readable in
-     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
-     * metadata and accepts the string operators. A disallowed operator is rejected at create time
-     * with INVALID_OPERATOR, whose message names the operators allowed for the attribute.
-     * minLength: 1.
-     */
-    "attribute": string;
-    /**
-     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
-     * must match its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "currency_options"?: Record<string, MoneyValueInput>;
-    /**
-     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
-     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
-     */
-    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined";
-    /**
-     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
-     * whether the attribute is present. [] (Value): {@link PromotionRuleValueRequestInput}. Rule
-     * comparison value. Use a primitive string, number, boolean, or a money object.
-     */
-    "values"?: Array<PromotionRuleValueRequestInput>;
-};
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValue = ((string) | (number) | (boolean) | (MoneyValue) | (unknown));
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValueRequestInput = ((string) | (number) | (boolean) | (MoneyValueInput));
-/**
- * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
- */
-export type PromotionSchedule = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omitted when it has no end time. Format: date-time. minLength: 1.
-     */
-    "ends_at"?: string;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
-     * no start time. Format: date-time. minLength: 1.
-     */
-    "starts_at"?: string;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
-     * maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/**
- * Send only fields to change. Omitted fields keep their stored values. null clears nullable
- * subfields. An empty object is invalid. minProperties: 1.
- */
-export type PromotionSchedulePatch = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1.
-     */
-    "ends_at"?: string | null;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
-     * stored value; null clears it. Format: date-time. minLength: 1.
-     */
-    "starts_at"?: string | null;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
-     * it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * Send only fields to change. Omitted fields keep their stored values. null clears nullable
- * subfields. An empty object is invalid. minProperties: 1.
- */
-export type PromotionSchedulePatchInput = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1.
-     */
-    "ends_at"?: string | globalThis.Date | null;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
-     * stored value; null clears it. Format: date-time. minLength: 1.
-     */
-    "starts_at"?: string | globalThis.Date | null;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
-     * it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
- */
-export type PromotionScheduleRequestInput = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omitted when it has no end time. Format: date-time. minLength: 1.
-     */
-    "ends_at"?: string | globalThis.Date;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
-     * no start time. Format: date-time. minLength: 1.
-     */
-    "starts_at"?: string | globalThis.Date;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
-     * maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/**
- * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
- * promotions can apply to one order.
- */
-export type PromotionSettings = {
-    "automatic_enabled"?: boolean;
-    /**
-     * Merchant promotion code redemption policy. Explicit false rejects promotion-code application
-     * even when a checkout or payment link asks to show code entry.
-     */
-    "codes_enabled"?: boolean;
-    /**
-     * Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not
-     * count. See Promotion for the evaluation order. Format: int32. minimum: 1. maximum: 10.
-     * Default: 2.
-     */
-    "max_promotions_per_order"?: number;
-};
-/**
- * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
- * promotions can apply to one order.
- */
-export type PromotionSettingsRequestInput = PromotionSettings;
-export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Promotion;
-    };
-    "event_type"?: "promotion.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Promotion;
-    };
-    "event_type"?: "promotion.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "promotion.updated";
-});
-/**
- * The `promotion.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Promotion}. Promotion evaluation order: manual discounts stay, do
-     * not count toward the cap, and are ignored by combines_with. Frozen subscription-term
-     * promotions are admitted first and are exempt from exclusivity, combines_with, and the cap.
-     * Candidates include codes being applied, existing promotion discounts, and qualifying
-     * automatic promotions. Each exclusivity group keeps its highest-priority member, then the
-     * larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates
-     * rank by standalone discount, then earlier created_at and lower promotion_id; each is
-     * admitted unless max_promotions_per_order is reached or both promotions do not allow each
-     * other's discount class. Admitted promotions price line item first, then order, then service
-     * charge. A zero-value promotion is dropped and selection runs again.
-     */
-    "data"?: {
-        /**
-         * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are
-         * ignored by combines_with. Frozen subscription-term promotions are admitted first and are
-         * exempt from exclusivity, combines_with, and the cap. Candidates include codes being
-         * applied, existing promotion discounts, and qualifying automatic promotions. Each
-         * exclusivity group keeps its highest-priority member, then the larger standalone
-         * discount, earlier created_at, and lower promotion_id. Remaining candidates rank by
-         * standalone discount, then earlier created_at and lower promotion_id; each is admitted
-         * unless max_promotions_per_order is reached or both promotions do not allow each other's
-         * discount class. Admitted promotions price line item first, then order, then service
-         * charge. A zero-value promotion is dropped and selection runs again.
-         */
-        "object": Promotion;
-    };
-    /** Value enum: "promotion.updated". */
-    "event_type"?: "promotion.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `promotion.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link Promotion}. Promotion evaluation order: manual discounts stay, do
-     * not count toward the cap, and are ignored by combines_with. Frozen subscription-term
-     * promotions are admitted first and are exempt from exclusivity, combines_with, and the cap.
-     * Candidates include codes being applied, existing promotion discounts, and qualifying
-     * automatic promotions. Each exclusivity group keeps its highest-priority member, then the
-     * larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates
-     * rank by standalone discount, then earlier created_at and lower promotion_id; each is
-     * admitted unless max_promotions_per_order is reached or both promotions do not allow each
-     * other's discount class. Admitted promotions price line item first, then order, then service
-     * charge. A zero-value promotion is dropped and selection runs again.
-     */
-    "data"?: {
-        /**
-         * Promotion evaluation order: manual discounts stay, do not count toward the cap, and are
-         * ignored by combines_with. Frozen subscription-term promotions are admitted first and are
-         * exempt from exclusivity, combines_with, and the cap. Candidates include codes being
-         * applied, existing promotion discounts, and qualifying automatic promotions. Each
-         * exclusivity group keeps its highest-priority member, then the larger standalone
-         * discount, earlier created_at, and lower promotion_id. Remaining candidates rank by
-         * standalone discount, then earlier created_at and lower promotion_id; each is admitted
-         * unless max_promotions_per_order is reached or both promotions do not allow each other's
-         * discount class. Admitted promotions price line item first, then order, then service
-         * charge. A zero-value promotion is dropped and selection runs again.
-         */
-        "object": Promotion;
-    };
-    /** Value enum: "promotion.updated". */
-    "event_type"?: "promotion.updated";
-});
-export type PromotionsCreateCodeParams = (InputValue<CreatePromotionCodeRequestInput>);

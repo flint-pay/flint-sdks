@@ -12,8 +12,8 @@ import type {
     GiftCardRedemptionsGetParams,
     GiftCardRedemptionsListParams
 } from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,19 +38,16 @@ export type {
     GiftCardRedemption,
     GiftCardRedemptionResponse,
     GiftCardRedemptionsListParams,
-    GiftCardRedemptionListResponse,
-    GiftCardRestriction,
-    GiftCardTransaction
+    GiftCardRedemptionListResponse
 } from '../declarations/types-24.js';
-export type { RequestOptions, ResourceReference } from '../declarations/types-47.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
-export type { GiftCardVersionRequestInput, GiftCardVersionRequest } from '../declarations/types-25.js';
+export type { GiftCardVersionRequestInput, GiftCardRestriction, GiftCardTransaction, GiftCardVersionRequest } from '../declarations/types-25.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { GiftCard } from '../declarations/types-23.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-35.js';
-export type { ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type {
     CreateGiftCardRedemptionRequestInput,
@@ -61,9 +58,9 @@ export {
     makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual
-} from '../declarations/types-63.js';
-export { makeGiftCardVersionRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
+} from '../declarations/types-64.js';
+export { makeGiftCardVersionRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export interface GiftCardRedemptionsResource {
     /**
  * Releases an uncaptured standalone reservation without posting a debit or refund. Flint order

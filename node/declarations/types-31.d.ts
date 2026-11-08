@@ -1,23 +1,203 @@
-import type {
-    InvoicePaymentTerm,
-    InvoicePaymentTermCalculation,
-    InvoicePaymentPolicy,
-    InvoicePaymentPolicyInput
-} from './types-30.js';
+import type { InvoicePaymentTerm, InvoicePaymentTermCalculation } from './types-30.js';
 import type { ResponseMeta } from './types-48.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInvoicePaymentTermRequestInput } from './types-8.js';
-import type { InvoiceLateFeePolicy, InvoiceDiscount, InvoiceLineItem } from './types-29.js';
-import type { UpdateInvoicePaymentTermRequestInput } from './types-58.js';
-import type { Invoice, InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput } from './types-28.js';
-import type { MerchantWebhookEnvelope } from './types-34.js';
+import type { InvoiceLateFeePolicy } from './types-29.js';
+import type { UpdateInvoicePaymentTermRequestInput } from './types-59.js';
+import type { Invoice } from './types-28.js';
+import type { MerchantWebhookEnvelope, MoneyValue, MoneyValueInput } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
-import type { OrderCharge } from './types-36.js';
-import type { PricingAmounts } from './types-43.js';
-import type { TaxBreakdown } from './types-56.js';
-import type { TaxIdentity } from './types-57.js';
+/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfMonth = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month" | (string & {});
+})
+    & (({
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month" | (string & {});
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+}));
+/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfMonthInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month";
+})
+    & (({
+    /** Value enum: "day_of_month". */
+    "type": "day_of_month";
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+})
+    & ({
+    "days"?: never;
+}));
+/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfNextMonth = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month" | (string & {});
+})
+    & (({
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month" | (string & {});
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+}));
+/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfNextMonthInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month";
+})
+    & (({
+    /** Value enum: "day_of_next_month". */
+    "type": "day_of_next_month";
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+})
+    & ({
+    "days"?: never;
+}));
+/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end" | (string & {});
+})
+    & (({
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+}));
+/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDaysAfterMonthEndInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end";
+})
+    & (({
+    /** Value enum: "days_after_month_end". */
+    "type": "days_after_month_end";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+})
+    & ({
+    "day"?: never;
+}));
+/**
+ * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day
+ * of the month.
+ */
+export type InvoicePaymentTermCalculationInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days"?: number;
+    /**
+     * Value enum: "on_receipt", "net_days", "day_of_month", "day_of_next_month",
+     * "days_after_month_end".
+     */
+    "type": "on_receipt" | "net_days" | "day_of_month" | "day_of_next_month" | "days_after_month_end";
+})
+    & ((Exclude<InvoicePaymentTermCalculationOnReceiptInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationNetDaysInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEndInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfMonthInput & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonthInput & object, readonly unknown[]>));
+/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationNetDays = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "net_days". */
+    "type": "net_days" | (string & {});
+})
+    & (({
+    /** Value enum: "net_days". */
+    "type": "net_days" | (string & {});
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+}));
+/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationNetDaysInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+    /** Value enum: "net_days". */
+    "type": "net_days";
+})
+    & (({
+    /** Value enum: "net_days". */
+    "type": "net_days";
+    /** Format: int32. minimum: 0. maximum: 365. */
+    "days": number;
+})
+    & ({
+    "day"?: never;
+}));
 /** The `on_receipt` variant of `InvoicePaymentTermCalculation`. */
 export type InvoicePaymentTermCalculationOnReceipt = ({
     /**
@@ -1366,398 +1546,4 @@ export type InvoiceSentMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
     };
     /** Value enum: "invoice.sent". */
     "event_type"?: "invoice.sent";
-});
-/**
- * Merchant defaults for invoices, including numbering prefixes, default memo and footer,
- * collection mode, reminders, and autopay retries.
- */
-export type InvoiceSettings = {
-    /**
-     * Replaced as a whole: send every field you want to keep. When to retry a failed automatic
-     * invoice payment, as a list of day offsets.
-     */
-    "autopay_retry_policy"?: InvoiceAutopayRetryPolicy;
-    /**
-     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization.
-     * maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "credit_note_number_prefix"?: string;
-    /** Value enum: "buyer_initiated", "automatic", "external". */
-    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | (string & {});
-    /**
-     * Limited to 4096 characters (Unicode code points), counted before normalization. maxLength:
-     * 4096.
-     */
-    "default_footer"?: string;
-    /** pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "default_invoice_payment_term_id"?: string;
-    /**
-     * Limited to 4096 characters (Unicode code points), counted before normalization. maxLength:
-     * 4096.
-     */
-    "default_memo"?: string;
-    /**
-     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization.
-     * maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "invoice_number_prefix"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Which payment options an invoice
-     * accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-    /**
-     * Replaced as a whole: send every field you want to keep. Rules for automatic invoice
-     * reminders, each sent a set number of days before or after the due date.
-     */
-    "reminder_policy"?: InvoiceReminderPolicy;
-    /**
-     * Replaced as a whole: send every field you want to keep. A postal address. Every address has
-     * country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country.
-     */
-    "remit_to_address"?: Address;
-    /**
-     * Limited to 255 characters (Unicode code points), counted before normalization. Format:
-     * email. maxLength: 255.
-     */
-    "reply_to_email"?: string;
-    /**
-     * Limited to 255 characters (Unicode code points), counted before normalization. maxLength:
-     * 255.
-     */
-    "timezone"?: string;
-};
-/**
- * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
- * nullable field to clear it. minProperties: 1.
- */
-export type InvoiceSettingsPatch = {
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * InvoiceAutopayRetryPolicy}. When to retry a failed automatic invoice payment, as a list of
-     * day offsets. anyOf[2] (Value): null.
-     */
-    "autopay_retry_policy"?: ((InvoiceAutopayRetryPolicy) | (null));
-    /**
-     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
-     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "credit_note_number_prefix"?: string | null;
-    /** Value enum: "buyer_initiated", "automatic", "external", null. */
-    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null | (string & {}) | null;
-    /**
-     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. minLength: 1. maxLength: 4096.
-     */
-    "default_footer"?: string | null;
-    /** Send null to clear it. minLength: 1. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "default_invoice_payment_term_id"?: string | null;
-    /**
-     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. minLength: 1. maxLength: 4096.
-     */
-    "default_memo"?: string | null;
-    /**
-     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
-     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "invoice_number_prefix"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * InvoicePaymentPolicy}. Which payment options an invoice accepts, any per-option total
-     * limits, and whether to show a cost comparison. anyOf[2] (Value): null.
-     */
-    "payment_policy"?: ((InvoicePaymentPolicy) | (null));
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * InvoiceReminderPolicy}. Rules for automatic invoice reminders, each sent a set number of
-     * days before or after the due date. anyOf[2] (Value): null.
-     */
-    "reminder_policy"?: ((InvoiceReminderPolicy) | (null));
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * AddressRequest}. A complete postal address. State and postal_code are required for US
-     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
-     * when the address has none. anyOf[2] (Value): null.
-     */
-    "remit_to_address"?: ((AddressRequest) | (null));
-    /**
-     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. Format: email. minLength: 1. maxLength: 255.
-     */
-    "reply_to_email"?: string | null;
-    /**
-     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
- * nullable field to clear it. minProperties: 1.
- */
-export type InvoiceSettingsPatchInput = {
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * InvoiceAutopayRetryPolicyInput}. When to retry a failed automatic invoice payment, as a list
-     * of day offsets. anyOf[2] (Value): null.
-     */
-    "autopay_retry_policy"?: ((InvoiceAutopayRetryPolicyInput) | (null));
-    /**
-     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
-     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "credit_note_number_prefix"?: string | null;
-    /** Value enum: "buyer_initiated", "automatic", "external", null. */
-    "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null;
-    /**
-     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. minLength: 1. maxLength: 4096.
-     */
-    "default_footer"?: string | null;
-    /** Send null to clear it. minLength: 1. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "default_invoice_payment_term_id"?: string | null;
-    /**
-     * Limited to 4096 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. minLength: 1. maxLength: 4096.
-     */
-    "default_memo"?: string | null;
-    /**
-     * Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send
-     * null to clear it. minLength: 1. maxLength: 12. pattern: ^[A-Za-z0-9_-]*$.
-     */
-    "invoice_number_prefix"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * InvoicePaymentPolicyInput}. Which payment options an invoice accepts, any per-option total
-     * limits, and whether to show a cost comparison. anyOf[2] (Value): null.
-     */
-    "payment_policy"?: ((InvoicePaymentPolicyInput) | (null));
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * InvoiceReminderPolicyInput}. Rules for automatic invoice reminders, each sent a set number
-     * of days before or after the due date. anyOf[2] (Value): null.
-     */
-    "reminder_policy"?: ((InvoiceReminderPolicyInput) | (null));
-    /**
-     * Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@link
-     * AddressRequestInput}. A complete postal address. State and postal_code are required for US
-     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
-     * when the address has none. anyOf[2] (Value): null.
-     */
-    "remit_to_address"?: ((AddressRequestInput) | (null));
-    /**
-     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. Format: email. minLength: 1. maxLength: 255.
-     */
-    "reply_to_email"?: string | null;
-    /**
-     * Limited to 255 characters (Unicode code points), counted before normalization. Send null to
-     * clear it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * A frozen copy of an issued invoice's content, including line items, charges, discounts, tax
- * identities, and pricing amounts.
- */
-export type InvoiceSnapshot = {
-    /**
-     * Billing address captured on the invoice. Kept after the customer is deleted, because an
-     * issued invoice must keep it. A postal address. Every address has country. Addresses Flint
-     * checked as complete (customer and saved addresses, merchant, location, invoice, order
-     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
-     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
-     * buyer locations and postal-code tax locations hold only what was provided, such as
-     * postal_code and country.
-     */
-    "billing_address"?: Address;
-    /** The backing order's buyer note, captured on the invoice. */
-    "buyer_note"?: string;
-    /**
-     * Buyer tax identity captured on the invoice. Kept after the customer is deleted, because an
-     * issued invoice must keep it. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Does not verify IDs or change tax
-     * treatment. Tax IDs are an owned collection in display order; replacing the array requires
-     * the parent's expected_version. Existing entries retain their document_tax_id; omit an entry
-     * to remove it, or omit its ID to add one. anyOf[2] (Value): null.
-     */
-    "buyer_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * The backing order's service charges, frozen at issue. [] (Value): {@link OrderCharge}. An
-     * additional charge applied to an order.
-     */
-    "charges"?: Array<OrderCharge>;
-    /**
-     * Buyer name captured on the invoice. Kept after the customer is deleted, because an issued
-     * invoice must keep it.
-     */
-    "customer_display_name"?: string;
-    /** Buyer email captured on the invoice. */
-    "customer_email"?: string;
-    /**
-     * The discounts applied to the backing order, frozen at issue. [] (Value): {@link
-     * InvoiceDiscount}. A discount applied to an invoice, with its source, the discount amount,
-     * the amount actually applied, and any promotion.
-     */
-    "discounts"?: Array<InvoiceDiscount>;
-    /**
-     * The backing order's internal note, captured on the invoice. Merchant reads only; buyer reads
-     * leave it out.
-     */
-    "internal_note"?: string;
-    /**
-     * The billed line items, frozen at issue. A draft previews the backing order's lines. []
-     * (Value): {@link InvoiceLineItem}. A line item on an invoice, with its quantity, unit price,
-     * discount, tax, and totals, and the product, variant, or bundle it came from.
-     */
-    "line_items"?: Array<InvoiceLineItem>;
-    /**
-     * Your business name as shown on the invoice. A draft shows your current name; issue freezes
-     * it.
-     */
-    "merchant_display_name"?: string;
-    /**
-     * The invoice's pricing totals. Its total_money is the invoice total that the top-level
-     * total_money reports. The money totals for an order or invoice: subtotal, discounts, charges,
-     * tax, requested tip, and total.
-     */
-    "pricing_amounts": PricingAmounts;
-    /**
-     * The tip requested on the backing order, frozen at issue. Absent when none was requested. A
-     * tip requested on an invoice, set as a fixed amount or a percentage, with an optional name
-     * and description.
-     */
-    "requested_tip"?: InvoiceTip;
-    /**
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed
-     * on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. anyOf[2] (Value): null.
-     */
-    "seller_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows;
-     * issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax
-     * produces these rows. Automatic tax doesn't, so an automatic-tax invoice reports its tax in
-     * pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum
-     * to pricing_amounts.tax_money, and rows with price_mode inclusive sum to
-     * pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on
-     * InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows
-     * apply. Some older external-tax invoices have no frozen rows. [] (Value): {@link
-     * TaxBreakdown}. The tax calculated for one jurisdiction on an order, line item, or charge,
-     * with the taxable amount, rate or flat amount, and tax.
-     */
-    "tax_breakdowns": Array<TaxBreakdown>;
-};
-/**
- * A tip requested on an invoice, set as a fixed amount or a percentage, with an optional name and
- * description.
- */
-export type InvoiceTip = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValue;
-    "description"?: string;
-    "name"?: string;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
-};
-export type InvoiceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "invoice.updated";
-});
-/**
- * The `invoice.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type InvoiceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
-    "data"?: {
-        /** A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Value enum: "invoice.updated". */
-    "event_type"?: "invoice.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `invoice.updated` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type InvoiceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Invoice}. A bill issued to a customer. */
-    "data"?: {
-        /** A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Value enum: "invoice.updated". */
-    "event_type"?: "invoice.updated";
-});
-export type InvoiceVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.voided";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Invoice;
-    };
-    "event_type"?: "invoice.voided";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "invoice.voided";
 });

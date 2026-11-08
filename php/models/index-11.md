@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# GiftCardLoadUpdatedInstalledMerchantsEventInput to InventoryMovementInput
+# GiftCardListResponseInput to InventoryLevelListResponseInput
 
+- [GiftCardListResponseInput](GiftCardListResponseInput.md)
+- [GiftCardLoadInput](GiftCardLoadInput.md)
+- [GiftCardLoadCreatedInstalledMerchantsEventInput](GiftCardLoadCreatedInstalledMerchantsEventInput.md)
+- [GiftCardLoadCreatedMerchantEventInput](GiftCardLoadCreatedMerchantEventInput.md)
+- [GiftCardLoadListResponseInput](GiftCardLoadListResponseInput.md)
+- [GiftCardLoadResponseInput](GiftCardLoadResponseInput.md)
 - [GiftCardLoadUpdatedInstalledMerchantsEventInput](GiftCardLoadUpdatedInstalledMerchantsEventInput.md)
 - [GiftCardLoadUpdatedMerchantEventInput](GiftCardLoadUpdatedMerchantEventInput.md)
 - [GiftCardNotificationInput](GiftCardNotificationInput.md)
@@ -96,10 +102,4 @@
 - [InventoryItemResponseInput](InventoryItemResponseInput.md)
 - [InventoryLevelInput](InventoryLevelInput.md)
 - [InventoryLevelListResponseInput](InventoryLevelListResponseInput.md)
-- [InventoryLevelResponseInput](InventoryLevelResponseInput.md)
-- [InventoryLevelShortageDetectedInstalledMerchantsEventInput](InventoryLevelShortageDetectedInstalledMerchantsEventInput.md)
-- [InventoryLevelShortageDetectedMerchantEventInput](InventoryLevelShortageDetectedMerchantEventInput.md)
-- [InventoryLevelUpdatedInstalledMerchantsEventInput](InventoryLevelUpdatedInstalledMerchantsEventInput.md)
-- [InventoryLevelUpdatedMerchantEventInput](InventoryLevelUpdatedMerchantEventInput.md)
-- [InventoryMovementInput](InventoryMovementInput.md)
 

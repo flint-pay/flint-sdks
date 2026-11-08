@@ -1,39 +1,452 @@
 import type {
-    DeliveryCalculatedPricingStrategyRequestInput,
-    DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput,
     DeliveryCalculatedPricingStrategy,
     DeliveryCallbackPricingStrategyRequest,
-    DeliveryCallerSuppliedPricingStrategyRequest
+    DeliveryCallerSuppliedPricingStrategyRequest,
+    DeliveryCalculatedPricingStrategyRequestInput,
+    DeliveryCallbackPricingStrategyRequestInput,
+    DeliveryCallerSuppliedPricingStrategyRequestInput
 } from './types-14.js';
 import type {
-    DeliveryFixedPricingStrategyRequestInput,
     DeliveryFixedPricingStrategy,
+    DeliveryFixedPricingStrategyRequestInput,
     DeliveryExternalPricingStrategy
 } from './types-15.js';
 import type {
-    DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRateTablePricingStrategyCreateRequest,
+    DeliveryTieredPricingStrategy,
+    DeliveryRateTablePricingStrategyCreateRequestInput,
+    DeliveryTieredPricingStrategyRequestInput,
     DeliveryRateTablePricingStrategy,
     DeliveryRateTablePricingStrategyRequest,
     DeliveryRateTablePricingStrategyRequestInput
-} from './types-18.js';
-import type { DeliveryTieredPricingStrategyRequestInput, DeliveryTieredPricingStrategy } from './types-19.js';
-import type {
-    DeliveryPricingStrategyCreateInputCalculated,
-    DeliveryPricingStrategyCreateInputCallback,
-    DeliveryPricingStrategyCreateInputCallerSupplied,
-    DeliveryPricingStrategyCreateInputFixed,
-    DeliveryPricingStrategyCreateInputRateTable,
-    DeliveryPricingStrategyCreateInputCalculatedInput,
-    DeliveryPricingStrategyCreateInputCallbackInput,
-    DeliveryPricingStrategyCreateInputCallerSuppliedInput,
-    DeliveryPricingStrategyCreateInputFixedInput
-} from './types-16.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
+} from './types-19.js';
+import type { MoneyValue, MoneyValueInput, MetadataMap, MerchantWebhookEnvelope } from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { ResponseMeta } from './types-48.js';
+import type { DeliveryProfileOriginPolicyRequest, DeliveryProfileOriginPolicyRequestInput } from './types-18.js';
+/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCalculated = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "calculated". */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": unknown;
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCalculatedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "calculated". */
+    "type": "calculated";
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": ("calculated") & ("calculated");
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+})
+    & (({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallback = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "callback". */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": unknown;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+}));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallbackInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "callback". */
+    "type": "callback";
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": ("callback") & ("callback");
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallerSupplied = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied" | (string & {});
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": unknown;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+}));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallerSuppliedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied";
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": ("caller_supplied") & ("caller_supplied");
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `fixed` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputFixed = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": unknown;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+}));
+/** The `fixed` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputFixedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed". */
+    "type": "fixed";
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": ("fixed") & ("fixed");
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `rate_table` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputRateTable = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "rate_table". */
+    "type": "rate_table" | (string & {});
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": unknown;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequest;
+}));
 /** The `rate_table` variant of `DeliveryPricingStrategyCreateInput`. */
 export type DeliveryPricingStrategyCreateInputRateTableInput = ({
     /**
@@ -2149,153 +2562,4 @@ export type DeliveryProfileOriginPolicyInputFixedLocationInput = ({
     "type": "fixed_location";
     /** minLength: 1. */
     "location_id": string;
-});
-/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "inventory_routing". */
-    "type": "inventory_routing" | (string & {});
-})
-    & (({
-    /** Value enum: "inventory_routing". */
-    "type": unknown;
-}));
-/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    /** Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    "location_id"?: never;
-})));
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "method_origin". */
-    "type": "method_origin" | (string & {});
-})
-    & (({
-    /** Value enum: "method_origin". */
-    "type": unknown;
-}));
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    /** Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    "location_id"?: never;
-})));
-/**
- * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
- * routing, or the origin set on the delivery method.
- */
-export type DeliveryProfileOriginPolicyRequest = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
-    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
-})
-    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocation & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRouting & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputMethodOrigin & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
- * routing, or the origin set on the delivery method.
- */
-export type DeliveryProfileOriginPolicyRequestInput = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
-    "type": "fixed_location" | "inventory_routing" | "method_origin";
-})
-    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocationInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRoutingInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputMethodOriginInput & object, readonly unknown[]>));
-/** A response containing `DeliveryProfile` data. */
-export type DeliveryProfileResponse = {
-    /** Reusable delivery rules assigned to catalog items. */
-    "data": DeliveryProfile;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryProfile;
-    };
-    "event_type"?: "delivery_profile.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryProfile;
-    };
-    "event_type"?: "delivery_profile.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "delivery_profile.updated";
-});
-/**
- * The `delivery_profile.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
-     * items.
-     */
-    "data"?: {
-        /** Reusable delivery rules assigned to catalog items. */
-        "object": DeliveryProfile;
-    };
-    /** Value enum: "delivery_profile.updated". */
-    "event_type"?: "delivery_profile.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
 });

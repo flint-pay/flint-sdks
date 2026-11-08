@@ -1,46 +1,581 @@
-import type { MoneyValue } from './types-35.js';
-import type { PaymentCollection, PaymentErrorSummary, PartnerWebhookEnvelope } from './types-40.js';
-import type { BrandingSettings, BuyerAction } from './types-1.js';
-import type { CheckoutSettings, ConfigurationVersionRequestInput } from './types-5.js';
+import type { GiftCard } from './types-23.js';
+import type { GiftCardNotification } from './types-24.js';
+import type { ResponseMeta } from './types-48.js';
+import type { PartnerAppWithRotatedSecret, PartnerAppsListParams, PartnerWebhookEnvelope } from './types-40.js';
+import type { CreateDeveloperSandboxResult } from './types-7.js';
+import type { IssueSandboxAPIKeyRequestInput, InvoiceSettings, LegalSettings } from './types-32.js';
+import type { CreateSandboxRequestInput } from './types-11.js';
+import type { InputValue } from '../runtime.js';
+import type { PaymentMethodWithSetup } from './types-43.js';
+import type { MoneyValue, MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-35.js';
+import type { PaymentCollection, PaymentErrorSummary, PaymentLimitSettings } from './types-41.js';
+import type { BrandingSettings } from './types-1.js';
+import type { CheckoutSettings } from './types-5.js';
 import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-13.js';
 import type { FulfillmentSettings } from './types-22.js';
 import type { InventorySettings } from './types-28.js';
-import type { InvoiceSettings } from './types-31.js';
-import type { LegalSettings } from './types-32.js';
-import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-34.js';
-import type { PaymentLimitSettings } from './types-41.js';
-import type { PromotionSettings } from './types-45.js';
-import type { ReceiptSettings } from './types-46.js';
-import type {
-    SubscriptionSettings,
-    SubscriptionPromotion,
-    SubscriptionServiceLocation,
-    SubscriptionUpcomingDeliveryHold,
-    SubscriptionSnapshotMetrics,
-    SubscriptionWindowMetrics
-} from './types-56.js';
-import type { TaxIdentity, TaxSettings, TippingSettings } from './types-57.js';
-import type { ResponseMeta } from './types-48.js';
-import type { InputValue } from '../runtime.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-60.js';
-import type {
-    ExpandedOrderSummary,
-    ExpandedPackageSummary,
-    ExpandedCustomerSummary,
-    ExpandedPaymentMethodSummary,
-    ExpandedSubscriptionPlanSummary
-} from './types-21.js';
-import type { ReturnResolutionLineItemRequest } from './types-50.js';
-import type { PackageCreateRequestInput } from './types-38.js';
+import type { PromotionSettings, ReceiptSettings } from './types-46.js';
+import type { SubscriptionSettings } from './types-56.js';
+import type { TaxIdentity, TaxSettings } from './types-57.js';
+import type { TippingSettings } from './types-58.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-60.js';
+import type { ExpandedOrderSummary, ExpandedPackageSummary } from './types-21.js';
+import type { ReturnResolutionLineItemRequest } from './types-51.js';
+import type { PackageCreateRequestInput } from './types-39.js';
+import type { VoidShipmentRequestInput } from './types-61.js';
 import type { Dimensions, DimensionsInput } from './types-20.js';
-import type { Weight, WeightInput } from './types-61.js';
-import type {
-    SubscriptionCancellationDetails,
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold,
-    SubscriptionIntervalOption
-} from './types-54.js';
-import type { SubscriptionInventoryWait, SubscriptionLineItem } from './types-55.js';
+import type { Weight, WeightInput } from './types-62.js';
+/**
+ * The gift card after its code was rotated, with the new `code` while it can be recovered and the
+ * notification sent.
+ */
+export type RotateGiftCardCodeResult = {
+    /**
+     * The full current code. Omitted after the 24-hour recovery window or when this code has been
+     * replaced.
+     */
+    "code"?: string;
+    /**
+     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
+     * date-time.
+     */
+    "code_recovery_expires_at"?: string;
+    /**
+     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
+     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
+     * cards are independent resources and cannot be transferred across merchants or currencies.
+     */
+    "gift_card": GiftCard;
+    /** A message sent to a gift card recipient. */
+    "gift_card_notification"?: GiftCardNotification;
+};
+/** A response containing `RotateGiftCardCodeResult` data. */
+export type RotateGiftCardCodeResultResponse = {
+    /**
+     * The gift card after its code was rotated, with the new `code` while it can be recovered and
+     * the notification sent.
+     */
+    "data": RotateGiftCardCodeResult;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Rotate partner app secret. */
+export type RotatePartnerAppSecretRequestInput = {
+    /**
+     * Rotate only if this matches the app's current version. A mismatch returns HTTP 409
+     * VERSION_CONFLICT. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "expire_previous_secret_at"?: string | globalThis.Date;
+};
+/** A response containing `PartnerAppWithRotatedSecret` data. */
+export type RotatePartnerAppSecretResponse = {
+    /**
+     * A partner app returned with its newly issued client secret after rotation. An application
+     * that merchants can authorize to access their accounts.
+     */
+    "data": PartnerAppWithRotatedSecret;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Rotate webhook secret. */
+export type RotateWebhookSecretRequest = {
+    /** Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
+     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
+     * Format: date-time. minLength: 1.
+     */
+    "expire_previous_secret_at"?: string;
+};
+/** The request body for: Rotate webhook secret. */
+export type RotateWebhookSecretRequestInput = {
+    /** Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
+     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
+     * Format: date-time. minLength: 1.
+     */
+    "expire_previous_secret_at"?: string | globalThis.Date;
+};
+/** An isolated environment for testing an integration. */
+export type Sandbox = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    "is_default": boolean;
+    "name": string;
+    /**
+     * ID of the replacement created when this sandbox was reset and archived. Omitted when this
+     * sandbox has not been replaced by a reset.
+     */
+    "replaced_by_sandbox_id"?: string;
+    /**
+     * ID of the sandbox this sandbox replaced during a reset. Omitted when this sandbox was not
+     * created by a reset.
+     */
+    "replaces_sandbox_id"?: string;
+    "sandbox_id": string;
+    /** Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+};
+/** A page of `Sandbox` objects. */
+export type SandboxListResponse = {
+    /**  [] (Value): {@link Sandbox}. An isolated environment for testing an integration. */
+    "data": Array<Sandbox>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Sandbox` data. */
+export type SandboxResponse = {
+    /** An isolated environment for testing an integration. */
+    "data": Sandbox;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `CreateDeveloperSandboxResult` data. */
+export type SandboxWithAPIKeyResponse = {
+    /**
+     * The created sandbox is the primary resource, with the API key and one-time secret_key when
+     * issue_test_key is true.
+     */
+    "data": CreateDeveloperSandboxResult;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SandboxesCreateAPIKeyParams = (IssueSandboxAPIKeyRequestInput);
+export type SandboxesCreateParams = (CreateSandboxRequestInput);
+export type SandboxesDeleteParams = {};
+export type SandboxesGetParams = {};
+export type SandboxesListParams = PartnerAppsListParams;
+export type SandboxesResetParams = {};
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequest = ({
+    /** minLength: 1. */
+    "code"?: string;
+    /** Value enum: "code", "recipient_access". */
+    "credential_type": "code" | "recipient_access" | (string & {});
+    /** minLength: 1. */
+    "grant_id"?: string;
+    /** minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `code` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestCode = ({
+    /** minLength: 1. */
+    "code": string;
+    /** Value enum: "code". */
+    "credential_type": "code" | (string & {});
+    /** minLength: 1. */
+    "grant_id"?: string;
+    /** minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /** Value enum: "code". */
+    "credential_type": unknown;
+    /** minLength: 1. */
+    "code": string;
+}));
+/** The `code` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestCodeInput = ({
+    /** minLength: 1. */
+    "code": string;
+    /** Value enum: "code". */
+    "credential_type": "code";
+    /** minLength: 1. */
+    "grant_id"?: string;
+    /** minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /** Value enum: "code". */
+    "credential_type": ("code") & ("code");
+    /** minLength: 1. */
+    "code": string;
+})
+    & (({
+    "grant_id"?: never;
+}) & ({
+    "recipient_access_token"?: never;
+})));
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequestInput = ({
+    /** minLength: 1. */
+    "code"?: string;
+    /** Value enum: "code", "recipient_access". */
+    "credential_type": "code" | "recipient_access";
+    /** minLength: 1. */
+    "grant_id"?: string;
+    /** minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
+/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestRecipientAccess = ({
+    /** minLength: 1. */
+    "code"?: string;
+    /** Value enum: "recipient_access". */
+    "credential_type": "recipient_access" | (string & {});
+    /** minLength: 1. */
+    "grant_id": string;
+    /** minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /** Value enum: "recipient_access". */
+    "credential_type": unknown;
+    /** minLength: 1. */
+    "grant_id": string;
+    /** minLength: 1. */
+    "recipient_access_token": string;
+}));
+/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestRecipientAccessInput = ({
+    /** minLength: 1. */
+    "code"?: string;
+    /** Value enum: "recipient_access". */
+    "credential_type": "recipient_access";
+    /** minLength: 1. */
+    "grant_id": string;
+    /** minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /** Value enum: "recipient_access". */
+    "credential_type": ("recipient_access") & ("recipient_access");
+    /** minLength: 1. */
+    "grant_id": string;
+    /** minLength: 1. */
+    "recipient_access_token": string;
+})
+    & ({
+    "code"?: never;
+}));
+/** The request body for: Create a payment method for the current buyer. */
+export type SaveMePaymentMethodRequest = {
+    /** Value enum: "card". */
+    "type"?: "card" | (string & {});
+};
+/** The request body for: Create a payment method for the current buyer. */
+export type SaveMePaymentMethodRequestInput = {
+    /** Value enum: "card". */
+    "type"?: "card";
+};
+/** The request body for: Create a payment method. */
+export type SavePaymentMethodRequest = {
+    /** The customer to save the payment method for. minLength: 1. */
+    "customer_id": string;
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card" | (string & {});
+};
+/** The request body for: Create a payment method. */
+export type SavePaymentMethodRequestInput = {
+    /** The customer to save the payment method for. minLength: 1. */
+    "customer_id": string;
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card";
+};
+/** A response containing `PaymentMethodWithSetup` data. */
+export type SavePaymentMethodResponse = {
+    /**
+     * The saved payment method, with `client_setup` when the buyer must still complete processor
+     * setup before the payment method can be used. A customer's saved payment details.
+     */
+    "data": PaymentMethodWithSetup;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The scopes an authorization decision required and whether `all` or `any` of them were needed,
+ * returned in error details.
+ */
+export type ScopeRequirement = {
+    /**
+     * How the required scopes are evaluated. all requires every listed scope; any requires at
+     * least one listed scope. Example: "all". Value enum: "all", "any".
+     */
+    "mode": "all" | "any" | (string & {});
+    /**
+     * Canonical public scope names evaluated for this authorization decision. Example:
+     * ["developer.sandboxes.write","accounts.api_keys.write"]. [] (Value): string.
+     */
+    "scopes": Array<string>;
+};
+/** A resource the caller can select for a request field. */
+export type SelectableErrorResource = {
+    /**
+     * Amount for this choice when available. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Resource display name when available. */
+    "display_name"?: string;
+    /**
+     * Most recent payment failure when available. A summary of why a payment attempt failed, with
+     * a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Payment collection details when available. Client-side details for collecting payment from
+     * the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /** Public Flint ID to submit in the refused request field. */
+    "resource_id": string;
+    /**
+     * Stable public resource name for this choice. Value enum: "api_key", "api_request_log",
+     * "balance", "balance_transaction", "bundle", "bundle_component", "category",
+     * "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_connection", "tax_registration", "test_clock", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type": "api_key"
+        | "api_request_log"
+        | "balance"
+        | "balance_transaction"
+        | "bundle"
+        | "bundle_component"
+        | "category"
+        | "checkout_session"
+        | "checkout_session_customer_verification"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_address"
+        | "customer_deletion_request"
+        | "customer_email_preferences"
+        | "customer_session"
+        | "customer_verification"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_quote"
+        | "delivery_rate"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "demo_session"
+        | "device"
+        | "discount"
+        | "dispute"
+        | "email_change_request"
+        | "environment_grant"
+        | "feedback_report"
+        | "file"
+        | "flint_wallet"
+        | "flint_wallet_card"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "fulfillment_notification"
+        | "gift_card"
+        | "gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "image"
+        | "inventory_adjustment"
+        | "inventory_allocation_policy"
+        | "inventory_allocation_policy_revision"
+        | "inventory_count"
+        | "inventory_item"
+        | "inventory_level"
+        | "inventory_movement"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_reservation_line"
+        | "inventory_transfer"
+        | "inventory_transfer_line"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_late_fee"
+        | "invoice_line_item"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "invoice_payment_term"
+        | "location"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_entry"
+        | "merchant_billing_invoice"
+        | "modifier"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "order_charge"
+        | "order_line_item"
+        | "order_line_item_modifier"
+        | "order_payment_attempt"
+        | "organization"
+        | "package"
+        | "package_item"
+        | "partner_app"
+        | "partner_app_credential"
+        | "partner_app_install"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_link_custom_field"
+        | "payment_link_line_item"
+        | "payment_method"
+        | "payment_method_domain"
+        | "payment_review"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "product"
+        | "product_option"
+        | "product_option_value"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "purchase_refund_allocation"
+        | "refund"
+        | "refund_allocation"
+        | "refund_line_item_adjustment"
+        | "report"
+        | "report_download"
+        | "return"
+        | "return_activity"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_inspection_line_item"
+        | "return_line_item"
+        | "return_policy"
+        | "return_policy_revision"
+        | "return_reason"
+        | "return_receipt"
+        | "return_receipt_line_item"
+        | "return_resolution"
+        | "risk_list"
+        | "risk_list_item"
+        | "risk_rule"
+        | "sandbox"
+        | "settings"
+        | "shipment"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_line_item"
+        | "subscription_offer"
+        | "subscription_payment_retry"
+        | "subscription_plan"
+        | "subscription_plan_line_item"
+        | "tax_connection"
+        | "tax_registration"
+        | "test_clock"
+        | "user"
+        | "webhook_delivery"
+        | "webhook_endpoint"
+        | "webhook_event"
+        | "workload_identity"
+        | (string & {});
+    /** Current public status when available. */
+    "status"?: string;
+    /**
+     * Actions offered for this resource when the request was refused. An empty array means no
+     * action is offered; an omitted field means actions were not reported. [] (Value): string.
+     */
+    "supported_actions"?: Array<string>;
+    /**
+     * Tip for this choice when available. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+};
 /**
  * A payment intent on an order the caller can pick, with its amount, status, and last payment
  * error.
@@ -962,874 +1497,3 @@ export type SinglePackageCreateInputShipped = ({
      */
     "weight"?: Weight;
 });
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShippedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** minLength: 1. */
-    "carrier"?: string;
-    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
-    "dimensions"?: DimensionsInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped";
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** minLength: 1. */
-    "carrier"?: string;
-    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequestInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** minLength: 1. */
-    "carrier"?: string;
-    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`. */
-    "dimensions"?: DimensionsInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped";
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
-/** The request body for: Skip subscription cycle. */
-export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequest = {
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Flint's skip
-     * email to the buyer says the buyer skipped for buyer, and that the store skipped otherwise.
-     * Default: "merchant". Value enum: "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
-};
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequestInput = {
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Flint's skip
-     * email to the buyer says the buyer skipped for buyer, and that the store skipped otherwise.
-     * Default: "merchant". Value enum: "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
-};
-/**
- * One-time client authority for the named Stripe object. This payload always names the Stripe.js
- * call and carries its client secret.
- */
-export type StripeClientAuthority = {
-    /** Stripe client secret for the named PaymentIntent or SetupIntent. */
-    "client_secret": string;
-    /**
-     * Stripe.js operation to perform now. confirm_setup applies to client_setup. Standalone
-     * PaymentIntents use payment_collection plus server confirmation instead of initial
-     * confirm_payment authority. Value enum: "confirm_payment", "confirm_setup".
-     */
-    "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
-};
-/**
- * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
- * setup_collection is guidance instead and never carries a secret.
- */
-export type StripeClientSetup = {
-    /** Stripe.js initialization context and SetupIntent setup authority. */
-    "stripe"?: StripeClientSetupStripe;
-};
-/** Stripe.js initialization context and SetupIntent setup authority. */
-export type StripeClientSetupStripe = {
-    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. */
-    "account_id"?: string;
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js.
-     */
-    "publishable_key"?: string;
-    /**
-     * One-time client authority for the named Stripe object. This payload always names the
-     * Stripe.js call and carries its client secret.
-     */
-    "setup_intent"?: StripeClientAuthority;
-};
-/**
- * Stripe.js initialization context plus one flow-specific authority object. Exactly one of
- * payment_intent or setup_intent is present.
- */
-export type StripePaymentClientAction = {
-    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. */
-    "account_id": string;
-    /**
-     * PaymentIntent authority for an order payment authentication action. The client action for a
-     * Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "payment_intent"?: StripeSetupIntentClientAction;
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js.
-     */
-    "publishable_key": string;
-    /**
-     * SetupIntent authority for a saved-payment-method authentication action. The client action
-     * for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "setup_intent"?: StripeSetupIntentClientAction;
-};
-/**
- * The client action for a Stripe setup intent: the client secret to pass to Stripe.js
- * `handleNextAction`.
- */
-export type StripeSetupIntentClientAction = {
-    /** SetupIntent client secret to pass to Stripe.js handleNextAction. */
-    "client_secret": string;
-    /**
-     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
-     * "handle_next_action".
-     */
-    "stripe_js_call": "handle_next_action" | (string & {});
-};
-/**
- * The subscription offer and billing interval an order line was bought under, with the recurring
- * amount.
- */
-export type SubscribedLine = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Line amount for the first renewal, including modifiers and recurring discounts, before
-     * shipping and tax. Signup-only discounts are excluded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "recurring_amount_money"?: MoneyValue;
-    "subscription_offer_id": string;
-};
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequest = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count": number;
-    /** Active subscription offer for this catalog variant. minLength: 1. */
-    "subscription_offer_id": string;
-};
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequestInput = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
-    /** Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count": number;
-    /** Active subscription offer for this catalog variant. minLength: 1. */
-    "subscription_offer_id": string;
-};
-/** A customer's recurring purchase. */
-export type Subscription = {
-    /**
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date.
-     */
-    "awaiting_billing_schedule"?: boolean;
-    /**
-     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-     * schedules. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * How often the subscription bills now. Read with billing_interval_count: monthly with a count
-     * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
-     * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Number of billing_interval units between charges. Changes with billing_interval. Format:
-     * int32.
-     */
-    "billing_interval_count": number;
-    /**
-     * maxItems: 12. uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
-     * uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     */
-    "billing_schedule_owner": "flint" | "external" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "billing_schedule_waiting_started_at"?: string;
-    /**
-     * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-     * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-     * update_billing_interval, update_quantity, swap_items, then renew, under the store's buyer
-     * policy. The available cancel and pause actions carry the choices they accept. A buyer's read
-     * or change through a customer session on /v1/me, or in Flint's buyer account, lists all
-     * twelve every time; a merchant read gets an empty list. update_payment_method is required
-     * while a payment is past due, due by next_retry_at when a retry is scheduled, and when the
-     * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     */
-    "buyer_actions": Array<BuyerAction>;
-    /**
-     * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     */
-    "cancel_at_period_end": boolean;
-    /** RFC3339 timestamp. Format: date-time. */
-    "canceled_at"?: string;
-    /**
-     * Who asked to cancel, when, and why. Present once a cancellation is requested, whether it
-     * takes effect at the end of the billing period or right away. Omitted when no one asked, and
-     * removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and
-     * payment-related cancellations. The cancellation request behind a scheduled or completed
-     * cancellation.
-     */
-    "cancellation_details"?: SubscriptionCancellationDetails;
-    /**
-     * Why the subscription is canceled or scheduled to cancel. Uses
-     * cancellation_details.requested_by when recorded, payment_failed for a canceled subscription
-     * without a requester, and other for a scheduled cancellation without a requester. Omitted
-     * otherwise. Value enum: "buyer", "merchant", "payment_failed", "other".
-     */
-    "cancellation_reason"?: "buyer" | "merchant" | "payment_failed" | "other" | (string & {});
-    /** Format: uint64. minimum: 0. */
-    "completed_cycles": number;
-    /**
-     * When the recorded contract term ends. Does not move when the subscription pauses or changes
-     * plan. Flint does not stop the buyer from canceling earlier. Format: date-time.
-     */
-    "contract_end_at"?: string;
-    /**
-     * When the recorded contract term started. Does not move when the subscription pauses or
-     * changes plan. Format: date-time.
-     */
-    "contract_start_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "current_period_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "current_period_start_at"?: string;
-    /**
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
-     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    "customer_id": string;
-    /**
-     * Saved delivery preference with the current delivery method display. Write responses use the
-     * same display as GET: fixed shipping reflects the current method configuration, and quoted
-     * shipping shows the last paid shipping amount when available. A subscription's saved delivery
-     * preference: method, destination, recipient, shipping cost, and who last changed it.
-     */
-    "delivery"?: SubscriptionDelivery;
-    /**
-     * Current delivery issue that blocks collection. Mutually exclusive with
-     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
-     * destination no longer works, and who can fix it.
-     */
-    "delivery_hold"?: SubscriptionDeliveryHold;
-    /**
-     * The fee in the recorded contract terms. Present whenever those terms include a fee. It
-     * applies only to a cancellation before contract_end_at. Flint never charges it. Later plan
-     * changes do not change this fee. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started.
-     */
-    "inventory_wait"?: SubscriptionInventoryWait;
-    /**
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line
-     * takes that variant's current catalog price, which then stays until the line changes again.
-     * [] (Value): {@link SubscriptionLineItem}. An item included in a customer's recurring
-     * purchase.
-     */
-    "line_items": Array<SubscriptionLineItem>;
-    "merchant_id"?: string;
-    /**
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is
-     * past_due. Format: date-time.
-     */
-    "missed_billing_at"?: string;
-    /**
-     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
-     * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports awaiting_billing_schedule. Format: date-time.
-     */
-    "next_billing_at"?: string;
-    /**
-     * Recorded automatic payment retry time. Null when no retry time is available. Format:
-     * date-time.
-     */
-    "next_retry_at": string | null;
-    /**
-     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-     * delivery destination after preference changes and cancellation. Absent when no such renewal
-     * order exists. Only renewal orders count; the signup order is not included.
-     */
-    "open_renewal_order_id"?: string;
-    /**
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_money"?: MoneyValue;
-    /**
-     * Why the subscription is paused: merchant for a pause made with your API key or dashboard,
-     * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
-     * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
-     * settings pause the subscription. Omitted when the subscription is not paused. Value enum:
-     * "buyer", "delivery_action_required", "merchant", "payment_failed".
-     */
-    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "paused_at"?: string;
-    /**
-     * Present only when `expand` includes `payment_method`; `null` when expanded and there is no
-     * related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-     * method's summary fields, including type, status, and card details, returned when the payment
-     * method is expanded. anyOf[2] (Value): null.
-     */
-    "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-    /** The saved payment method renewals charge. Change it with PATCH. */
-    "payment_method_id": string;
-    /**
-     * Recurring promotions applying to the next charged cycle. Empty when none apply; signup-only
-     * and exhausted promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A
-     * recurring promotion applied to a subscription, including its recurrence and remaining
-     * discounted cycles.
-     */
-    "promotions": Array<SubscriptionPromotion>;
-    /**
-     * How many of each line the subscription bills each period, as a whole number; fractional
-     * quantities are not supported. A change applies from the next renewal that has not been paid.
-     * Format: int32.
-     */
-    "quantity": number;
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-    "quantity_options"?: Array<number>;
-    /**
-     * What one billing period's items cost before discounts, shipping, and tax: each line's price
-     * with modifiers, times quantity. It changes when items, quantity, or the plan change; editing
-     * the plan doesn't change it. For the next charge, use a subscription preview in next_renewal
-     * mode. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-     */
-    "recurring_subtotal_money": ((MoneyValue) | (null));
-    /**
-     * When Flint accepted a pending resume request. Set only while paused with a resume Flint has
-     * not applied yet. Clears when Flint resumes the subscription or refuses the request. Format:
-     * date-time.
-     */
-    "resume_requested_at": string | null;
-    /**
-     * When the scheduled cancellation takes effect: trial_end_at while trialing,
-     * current_period_end_at while active, or next_retry_at while past_due. Null when
-     * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-     */
-    "scheduled_cancel_at": string | null;
-    /**
-     * When a pause with a length (pause_duration_cycles) resumes on its own: that many billing
-     * intervals after paused_at. Null when the subscription is not paused or the pause has no
-     * length, such as a pause until you resume it or the pause Flint starts when a delivery hold
-     * runs out. Format: date-time.
-     */
-    "scheduled_resume_at": string | null;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. The address where a subscription's service is delivered, with the saved customer
-     * address it came from.
-     */
-    "service_location"?: SubscriptionServiceLocation;
-    /**
-     * When a scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time.
-     */
-    "starts_at"?: string;
-    /**
-     * Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-     * "scheduled".
-     */
-    "status": "trialing"
-        | "active"
-        | "paused"
-        | "past_due"
-        | "canceled"
-        | "incomplete"
-        | "scheduled"
-        | (string & {});
-    "subscription_id": string;
-    /**
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. anyOf[2] (Value): null.
-     */
-    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-    /** Subscription plan ID. Omitted when terms_type is subscription_offer. */
-    "subscription_plan_id"?: string;
-    /**
-     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
-     * action for a transient reason, such as a renewal already in progress, with its own error. []
-     * enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan". []
-     * (Value): string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-     * "retry_payment", "change_plan".
-     */
-    "supported_actions": Array<"cancel"
-        | "pause"
-        | "resume"
-        | "skip_cycle"
-        | "renew"
-        | "retry_payment"
-        | "change_plan"
-        | (string & {})>;
-    /**
-     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
-     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
-     * "subscription_offer".
-     */
-    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-    /**
-     * ID of the test clock the subscription's customer was created on. The subscription bills at
-     * the clock's time. Present only when the customer is on a test clock. Included only in
-     * merchant responses and omitted from buyer responses.
-     */
-    "test_clock_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "trial_end_at"?: string;
-    /**
-     * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-     * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
-     * subscription's delivery, and who can fix it.
-     */
-    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Format: uint64. minimum: 0. */
-    "version": number;
-};
-export type SubscriptionActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Subscription;
-    };
-    "event_type"?: "subscription.activated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Subscription;
-    };
-    "event_type"?: "subscription.activated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "subscription.activated";
-});
-/**
- * The `subscription.activated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Subscription}. A customer's recurring purchase. */
-    "data"?: {
-        /** A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Value enum: "subscription.activated". */
-    "event_type"?: "subscription.activated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `subscription.activated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Subscription}. A customer's recurring purchase. */
-    "data"?: {
-        /** A customer's recurring purchase. */
-        "object": Subscription;
-    };
-    /** Value enum: "subscription.activated". */
-    "event_type"?: "subscription.activated";
-});
-/**
- * The verification state of a subscription's delivery address: `verified`, `unverified`,
- * `needs_review`, or `unverifiable`.
- */
-export type SubscriptionAddressVerification = {
-    /** Value enum: "verified", "unverified", "needs_review", "unverifiable". */
-    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
-};
-/**
- * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
- * Amounts and payments_count use currency; customer and subscription counts span currencies.
- */
-export type SubscriptionAnalytics = {
-    /**
-     * Currencies of subscription payments selected by succeeded activity created_at in the period,
-     * plus current active and past_due billing snapshots, regardless of the currency filter. The
-     * half-open period [period_start_at, period_end_at) includes its start and excludes its end.
-     * Amounts and payments_count use currency; customer and subscription counts span currencies.
-     * [] (Value): string.
-     */
-    "currencies": Array<string>;
-    /**
-     * ISO 4217 currency for amounts and payment counts. Defaults to the merchant's default
-     * currency. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Exclusive resolved end instant. Omitted or future request ends resolve to the request time
-     * truncated to the second. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time.
-     */
-    "period_end_at": string;
-    /**
-     * Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time.
-     */
-    "period_start_at": string;
-    /**
-     * Current persisted subscription state at computation time, cached briefly. Independent of the
-     * requested period end. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. The half-open period [period_start_at, period_end_at)
-     * includes its start and excludes its end. Amounts and payments_count use currency; customer
-     * and subscription counts span currencies.
-     */
-    "snapshot_metrics": SubscriptionSnapshotMetrics;
-    /**
-     * Subscription creation, cancellation, and payment success metrics selected within the
-     * requested period. The half-open period [period_start_at, period_end_at) includes its start
-     * and excludes its end. Amounts and payments_count use currency; customer and subscription
-     * counts span currencies. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies.
-     */
-    "window_metrics": SubscriptionWindowMetrics;
-};
-/** A response containing `SubscriptionAnalytics` data. */
-export type SubscriptionAnalyticsResponse = {
-    /**
-     * The half-open period [period_start_at, period_end_at) includes its start and excludes its
-     * end. Amounts and payments_count use currency; customer and subscription counts span
-     * currencies.
-     */
-    "data": SubscriptionAnalytics;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The `external` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputExternal = {
-    /** Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/** The `external` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputExternalInput = {
-    /** Value enum: "external". */
-    "owner": "external";
-};
-/** The `flint` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputFlint = {
-    /** Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/** The `flint` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputFlintInput = {
-    /** Value enum: "flint". */
-    "owner": "flint";
-};
-/** Who owns the billing schedule when creating a subscription: Flint or an external system. */
-export type SubscriptionBillingScheduleRequest = ({
-    /** Value enum: "flint", "external". */
-    "owner": "flint" | "external" | (string & {});
-})
-    & ((Exclude<SubscriptionBillingScheduleInputFlint & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Who owns the billing schedule when creating a subscription: Flint or an external system. */
-export type SubscriptionBillingScheduleRequestInput = ({
-    /** Value enum: "flint", "external". */
-    "owner": "flint" | "external";
-})
-    & ((Exclude<SubscriptionBillingScheduleInputFlintInput & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternalInput & object, readonly unknown[]>));
-/** The `external` variant of `SubscriptionBillingScheduleUpdateInput`. */
-export type SubscriptionBillingScheduleUpdateInputExternal = {
-    /**
-     * Future date at which Flint attempts the next charge. Omit to preserve the date or send null
-     * to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | null;
-    /** Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/** The `external` variant of `SubscriptionBillingScheduleUpdateInput`. */
-export type SubscriptionBillingScheduleUpdateInputExternalInput = {
-    /**
-     * Future date at which Flint attempts the next charge. Omit to preserve the date or send null
-     * to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | globalThis.Date | null;
-    /** Value enum: "external". */
-    "owner": "external";
-};

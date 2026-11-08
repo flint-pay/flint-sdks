@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# CancelReturnResolutionRequestInput to ConnectTaxConnectionRequestInput
+# CancelReturnResolutionRequestInput to ConfirmPaymentIntentRequestStripeConfirmationTokenInput
 
 - [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
 - [CancelReturnResolutionResponseInput](CancelReturnResolutionResponseInput.md)
@@ -82,6 +82,11 @@
 - [CheckoutThemeInput](CheckoutThemeInput.md)
 - [CheckoutTipConfigInput](CheckoutTipConfigInput.md)
 - [CheckoutTipConfigRequestInput](CheckoutTipConfigRequestInput.md)
+- [CLIContextsRequestInput](CLIContextsRequestInput.md)
+- [CLIContextsResponseInput](CLIContextsResponseInput.md)
+- [CLIDeviceRequestInput](CLIDeviceRequestInput.md)
+- [CLIDeviceResponseInput](CLIDeviceResponseInput.md)
+- [CLIReauthorizeRequestInput](CLIReauthorizeRequestInput.md)
 - [CloseCheckoutSessionRequestInput](CloseCheckoutSessionRequestInput.md)
 - [CloseOrderRequestInput](CloseOrderRequestInput.md)
 - [CollectInvoiceRequestInput](CollectInvoiceRequestInput.md)
@@ -97,9 +102,4 @@
 - [ConfirmPaymentIntentRequestAttachedInput](ConfirmPaymentIntentRequestAttachedInput.md)
 - [ConfirmPaymentIntentRequestPaymentMethodInput](ConfirmPaymentIntentRequestPaymentMethodInput.md)
 - [ConfirmPaymentIntentRequestStripeConfirmationTokenInput](ConfirmPaymentIntentRequestStripeConfirmationTokenInput.md)
-- [ConfirmPaymentIntentRequestTokenInput](ConfirmPaymentIntentRequestTokenInput.md)
-- [ConfirmPaymentIntentResponseInput](ConfirmPaymentIntentResponseInput.md)
-- [ConfirmReturnResolutionRequestInput](ConfirmReturnResolutionRequestInput.md)
-- [ConfirmReturnResolutionResponseInput](ConfirmReturnResolutionResponseInput.md)
-- [ConnectTaxConnectionRequestInput](ConnectTaxConnectionRequestInput.md)
 
