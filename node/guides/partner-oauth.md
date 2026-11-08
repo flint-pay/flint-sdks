@@ -97,7 +97,9 @@ The exchange activates the install and returns a partner app token bound to that
 
 ## Call the API for installed merchants
 
-`partnerAppTokens` mints partner app tokens with `grant_type=client_credentials` and a fresh client assertion, one mode per instance. `forMerchant(merchantId)` returns a credential provider for one merchant. Pass it as a client's `token`: requests need no `Flint-Merchant-Id`, and the provider is reused for that merchant. It caches the token until 60 seconds before expiry (`refreshBeforeSeconds`), mints once for concurrent requests, and drops the token when a request gets a 401, which the SDK then retries once. Set `ambientCredentials: false` so a missing token fails instead of using your own `FLINT_API_KEY`.
+`partnerAppTokens` mints partner app tokens with `grant_type=client_credentials` and a fresh client assertion, one mode per instance. Each provider caches its token until 60 seconds before expiry (`refreshBeforeSeconds`) and mints once for concurrent requests. If a refresh fails while the token is still valid, it keeps serving that token and tries again 5 seconds later. When a replay-safe request gets a 401, the provider drops the token and the SDK retries once. Set `ambientCredentials: false` so a missing token fails instead of using your own `FLINT_API_KEY`.
+
+A backend that serves many merchants should cache one app-level token per mode per process: pass `app()` as the client's `token` and name the merchant in each call's `Flint-Merchant-Id` param. For a component that serves one merchant, such as a per-tenant worker, `forMerchant(merchantId)` returns a provider for a merchant-bound token, so calls need no `Flint-Merchant-Id`. Providers are kept for each merchant you pass. Each app can mint 600 tokens a minute, so don't create a merchant-bound provider per request or per merchant in a shared backend.
 
 Node:
 
@@ -105,8 +107,10 @@ Node:
 import { Client } from '@flintpay/node';
 import { partnerAppTokens } from '@flintpay/node/custom/partner-oauth.js';
 const tokens = partnerAppTokens(new Client({ ambientCredentials: false }), { clientAssertion, mode: 'live' });
-const merchant = new Client({ token: tokens.forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false });
-const orders = await merchant.orders.list();
+const client = new Client({ token: tokens.app(), ambientCredentials: false });
+const orders = await client.orders.list({ 'Flint-Merchant-Id': 'mer_01KEZF7C00KPYH1DDFPCCX3B6E' });
+// A single-merchant worker can bind its token instead:
+const worker = new Client({ token: tokens.forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false });
 ```
 
 PHP:
@@ -114,11 +118,11 @@ PHP:
 ```php
 use Flint\Partner\PartnerAppTokens;
 $tokens = new PartnerAppTokens(new \Flint\Client(new \Flint\ClientOptions(ambientCredentials: false)), $clientAssertion, 'live');
-$merchant = new \Flint\Client(new \Flint\ClientOptions(token: $tokens->forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false));
-$orders = $merchant->orders->list();
+$client = new \Flint\Client(new \Flint\ClientOptions(token: $tokens->app(), ambientCredentials: false));
+$orders = $client->orders->list(['Flint-Merchant-Id' => 'mer_01KEZF7C00KPYH1DDFPCCX3B6E']);
 ```
 
-`app()` returns one app-level token for every merchant instead. Each request with it must name the merchant in its `Flint-Merchant-Id` param. Each app can mint 600 tokens a minute, so reuse providers rather than creating one per request. Calling `getCredential()` yourself surfaces a failed mint's API error, such as `invalid_client`; inside a request, a failed mint is reported as `credential_provider_failed`.
+Calling `getCredential()` yourself surfaces a failed mint's API error, such as `invalid_client`. Inside a request, a failed mint is reported as `credential_provider_failed`.
 
 ## Other token requests
 

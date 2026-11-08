@@ -806,3 +806,65 @@ test("PHP partner app tokens mint per merchant, cache, expire and retry a 401 on
     { error: "InvalidInputError", code: "INVALID_REQUEST", param: "mode" },
   ]);
 });
+
+test("a failed refresh keeps serving the unexpired partner app token and backs off in Node and PHP", async (t) => {
+  const { privateKey } = keys.ES256();
+  const clientAssertion = privateKeyJwt({ clientId: "fpc_0123456789abcdef", privateKey, algorithm: "ES256" });
+  let status = 200;
+  let attempts = 0;
+  const client = new Client({
+    ambientCredentials: false,
+    transport: async () => {
+      attempts++;
+      return status === 200
+        ? new Response(JSON.stringify(minted(attempts, { merchant_id: MERCHANT })), { status, headers: { "content-type": "application/json" } })
+        : new Response(JSON.stringify({ error: "temporarily_unavailable", error_description: "Too many requests." }), {
+            status,
+            headers: { "content-type": "application/json", "retry-after": "1" },
+          });
+    },
+  });
+  const credentials = partnerAppTokens(client, { clientAssertion, mode: "live" }).forMerchant(MERCHANT);
+  t.mock.timers.enable({ apis: ["Date"], now: Date.parse("2026-11-08T12:00:00Z") });
+  assert.equal((await credentials.getCredential()).value, "fpat_minted_1");
+  // Inside the refresh window, a 429 refresh falls back to the unexpired token.
+  status = 429;
+  t.mock.timers.setTime(Date.parse("2026-11-08T12:14:30Z"));
+  assert.equal((await credentials.getCredential()).value, "fpat_minted_1");
+  assert.equal(attempts, 2);
+  // No mint is attempted for 5 seconds after the failure.
+  t.mock.timers.setTime(Date.parse("2026-11-08T12:14:34Z"));
+  assert.equal((await credentials.getCredential()).value, "fpat_minted_1");
+  assert.equal(attempts, 2);
+  // Then the next call mints again.
+  status = 200;
+  t.mock.timers.setTime(Date.parse("2026-11-08T12:14:36Z"));
+  assert.equal((await credentials.getCredential()).value, "fpat_minted_3");
+  // Once the token has expired, a failed mint surfaces its error.
+  status = 429;
+  t.mock.timers.setTime(Date.parse("2026-11-08T12:30:00Z"));
+  await assert.rejects(credentials.getCredential(), { status: 429, code: "temporarily_unavailable" });
+  const result = php(
+    `$status = 200;
+    $attempts = 0;
+    $merchantId = $argv[2];
+    $client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false, transport: function (array $request) use (&$status, &$attempts, $merchantId): array {
+        $attempts++;
+        return $status === 200
+            ? ['status' => 200, 'headers' => ['content-type' => 'application/json'], 'body' => json_encode(['access_token' => 'fpat_minted_' . $attempts, 'token_type' => 'Bearer', 'expires_in' => 4, 'mode' => 'live', 'partner_app_id' => 'papp_01KEZF7C00D8DXK5AXR7NPRJ0J', 'merchant_id' => $merchantId])]
+            : ['status' => 429, 'headers' => ['content-type' => 'application/json'], 'body' => '{"error":"temporarily_unavailable","error_description":"Too many requests."}'];
+    }));
+    // A 4-second token is fresh while more than 2 seconds remain (half its lifetime).
+    $credentials = (new \\Flint\\Partner\\PartnerAppTokens($client, new PrivateKeyJwt('fpc_0123456789abcdef', $argv[1], 'ES256'), 'live', 600))->forMerchant($argv[2]);
+    $first = $credentials->getCredential()->value;
+    usleep(2500000);
+    $status = 429;
+    $fallback = $credentials->getCredential()->value;
+    $afterFailure = $attempts;
+    $backoff = $credentials->getCredential()->value;
+    echo json_encode([$first, $fallback, $afterFailure, $backoff, $attempts]);`,
+    privateKey.export({ type: "pkcs8", format: "pem" }),
+    MERCHANT,
+  );
+  assert.deepEqual(result, ["fpat_minted_1", "fpat_minted_1", 2, "fpat_minted_1", 2]);
+});

@@ -391,6 +391,7 @@ export async function revokeToken(client, params, options) {
 }
 
 const MERCHANT_ID = /^mer_[0-9A-HJKMNP-TV-Z]{26}$/;
+const REFRESH_RETRY_MS = 5000;
 
 function partnerAppCredentials(client, { clientAssertion, mode, merchantId, refreshBeforeSeconds }) {
   let cached;
@@ -418,20 +419,33 @@ function partnerAppCredentials(client, { clientAssertion, mode, merchantId, refr
   const fresh = (token) =>
     token.expiresAt.getTime() - Date.now() >
     Math.min(refreshBeforeSeconds * 1000, token.lifetime / 2);
+  const unexpired = (token) => token.expiresAt.getTime() > Date.now();
+  // After a failed refresh, keep serving the unexpired token and wait before minting again.
+  let retryAt = 0;
+  const result = (token) => ({ value: token.value, expiresAt: token.expiresAt });
   const provider = {
     mode,
     ...(merchantId === undefined ? {} : { merchantId }),
     async getCredential() {
-      // One mint at a time: concurrent requests share the pending token.
-      const token =
-        cached && fresh(cached)
-          ? cached
-          : await (flight ??= mint()
-              .then((minted) => (cached = minted))
-              .finally(() => (flight = undefined)));
-      return { value: token.value, expiresAt: token.expiresAt };
+      if (cached && (fresh(cached) || (Date.now() < retryAt && unexpired(cached))))
+        return result(cached);
+      try {
+        // One mint at a time: concurrent requests share the pending token.
+        return result(
+          await (flight ??= mint()
+            .then((minted) => {
+              retryAt = 0;
+              return (cached = minted);
+            })
+            .finally(() => (flight = undefined))),
+        );
+      } catch (error) {
+        if (!cached || !unexpired(cached)) throw error;
+        retryAt = Date.now() + REFRESH_RETRY_MS;
+        return result(cached);
+      }
     },
-    /** Drop the cached token; the SDK calls this after a 401 and retries once. */
+    /** Drop the cached token; the SDK calls this after a 401 on a replay-safe request and retries once. */
     invalidate() {
       cached = undefined;
     },

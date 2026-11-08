@@ -20,7 +20,7 @@ What changed, most common first:
 `main` pins Flint `main` at `a29702bf` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).
 
 Partner apps:
-- Partner refresh tokens are gone. The code exchange returns a merchant-bound partner app token (900 seconds, no refresh token), and partner apps mint new tokens with `grant_type=client_credentials`. Mint them with `partnerAppTokens(client, { clientAssertion, mode }).forMerchant(merchantId)` (PHP `new Flint\Partner\PartnerAppTokens(...)`); see the [partner OAuth guide](node/guides/partner-oauth.md). `oauth.exchangeToken` with `grant_type=refresh_token` now returns `unauthorized_client` for partner clients; flint-cli keeps its refresh tokens.
+- Partner refresh tokens are gone. The code exchange returns a merchant-bound partner app token (900 seconds, no refresh token), and partner apps mint new tokens with `grant_type=client_credentials`. Mint them with `partnerAppTokens(client, { clientAssertion, mode })` (PHP `new Flint\Partner\PartnerAppTokens(...)`). A backend serving many merchants uses `app()` with each call's `Flint-Merchant-Id` param; see the [partner OAuth guide](node/guides/partner-oauth.md). `oauth.exchangeToken` with `grant_type=refresh_token` now returns `unauthorized_client` for partner clients; flint-cli keeps its refresh tokens.
 
 Removed methods:
 - `organizations.list`, `create`, `get`, `update`, `delete`, `listMemberships`, `grantMembership` and `removeMembership`: the API removed the public organizations routes.
@@ -31,6 +31,10 @@ Removed methods:
 Moved methods:
 - `giftCards.createLoad(giftCardId, params)` becomes `giftCardLoads.create(params)`, with `gift_card_id` in the body.
 - `promotions.createCode`, `getCode`, `updateCode` and `deleteCode` become `promotionCodes.create`, `get`, `update` and `delete`, addressed by the promotion code ID alone.
+- `me.listGiftCardTransactions(giftCardId, params)` becomes `me.listGiftCardTransactions({ gift_card_id, ... })`: the gift card ID is now a required query parameter.
+
+Idempotency keys:
+- `invoices.issue` and `orders.createFulfillment` now require your saved `idempotencyKey`. They no longer mint one, and a call without a key fails before sending. Save a key with the action before the first attempt and reuse it on every retry.
 
 ## Method and namespace names
 

@@ -123,7 +123,7 @@ export interface PartnerAppCredentials extends CredentialProvider {
   /** Set for merchant-bound tokens. */
   readonly merchantId?: string;
   getCredential(): Promise<{ value: string; expiresAt: Date }>;
-  /** Drops the cached token; the SDK calls this after a 401 and retries once. */
+  /** Drops the cached token; the SDK calls this after a 401 on a replay-safe request and retries once. */
   invalidate(): void;
 }
 export interface PartnerAppTokensOptions {
